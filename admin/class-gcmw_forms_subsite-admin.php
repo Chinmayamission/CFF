@@ -59,19 +59,6 @@ class GCMW_Forms_Subsite_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in GCMW_Forms_Subsite_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The GCMW_Forms_Subsite_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gcmw_forms_subsite-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -82,21 +69,23 @@ class GCMW_Forms_Subsite_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in GCMW_Forms_Subsite_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The GCMW_Forms_Subsite_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gcmw_forms_subsite-admin.js', array( 'jquery' ), $this->version, false );
+	}
 
+	public function form_management_page_add() {
+		add_submenu_page(
+			'tools.php',
+			'GCMW Form Manager', // Page title
+			'GCMW Form Manager', // Menu title
+			'manage_options', // Capability
+			'gcmw_form_management_page', // Menu slug
+			array($this, 'form_management_page_render') // Function
+		);
+	}
+	public function form_management_page_render() {
+		wp_enqueue_script( "gcmw-forms-edit-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' );
+		wp_enqueue_script( "gcmw-forms-edit-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js' );
+		include plugin_dir_path( __FILE__ ) . "partials/form-management.php";
 	}
 
 }
