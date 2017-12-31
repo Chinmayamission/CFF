@@ -1,4 +1,4 @@
-/// <reference path="./interfaces.d.ts"/>
+/// <reference path="../interfaces.d.ts"/>
 import * as React from 'react';
 
 import Form from 'react-jsonschema-form';

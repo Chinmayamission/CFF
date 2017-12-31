@@ -1,253 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 130:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(1);
-var payment_1 = __webpack_require__(131);
-var This;
-var FormConfirmationPage = (function (_super) {
-    __extends(FormConfirmationPage, _super);
-    function FormConfirmationPage(props) {
-        var _this = _super.call(this, props) || this;
-        This = _this;
-        _this.state = {
-            "paid": false,
-            "paymentTransactionInfo": "",
-        };
-        return _this;
-    }
-    FormConfirmationPage.prototype.onPaymentComplete = function (message) {
-        This.setState({
-            "paid": true,
-            "paymentTransactionInfo": JSON.stringify(message, null, 2),
-        });
-    };
-    FormConfirmationPage.prototype.onPaymentError = function (message) {
-        alert("There was an error. " + message);
-        console.log("error", message);
-    };
-    FormConfirmationPage.prototype.render = function () {
-        var _this = this;
-        return (React.createElement("div", { className: "App FormConfirmationPage" },
-            React.createElement("h1", null,
-                this.props.schema.title,
-                " - Confirmation Page"),
-            !this.state.paid && React.createElement("button", { className: "btn btn-primary", onClick: this.props.goBack }, "Back to form page"),
-            React.createElement("table", { className: "table table-striped" },
-                React.createElement("tbody", null, Object.keys(this.props.data).map(function (item, index) { return (React.createElement("tr", { key: index },
-                    React.createElement("th", null, item),
-                    React.createElement("td", null, _this.props.data[item]))); }))),
-            (this.state.paid) ?
-                React.createElement("div", null,
-                    React.createElement("h1", null, "Thanks for paying!"),
-                    React.createElement("p", null, "Please print this page for your confirmation."),
-                    React.createElement("pre", null, this.state.paymentTransactionInfo)) :
-                React.createElement(payment_1.default, { schema: this.props.schema, onPaymentComplete: this.onPaymentComplete, onPaymentError: this.onPaymentError }),
-            "}"));
-    };
-    return FormConfirmationPage;
-}(React.Component));
-exports.default = FormConfirmationPage;
-
-
-/***/ }),
-
-/***/ 131:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(1);
-var paypal_1 = __webpack_require__(132);
-var CCAvenue_1 = __webpack_require__(136);
-var Components = {
-    "paypal": paypal_1.default,
-    "ccavenue": CCAvenue_1.default
-};
-var Payment = (function (_super) {
-    __extends(Payment, _super);
-    function Payment() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Payment.prototype.render = function () {
-        var _this = this;
-        if (!this.props.schema.paymentMethods) {
-            return "";
-        }
-        var paymentMethods = Object.keys(this.props.schema.paymentMethods);
-        return paymentMethods.map(function (paymentMethod) {
-            var MyComponent = Components[paymentMethod];
-            console.log('option is', paymentMethod);
-            var props = {
-                "paymentInfo": _this.props.schema.paymentInfo,
-                "paymentMethodInfo": _this.props.schema.paymentMethods[paymentMethod],
-                "key": paymentMethod,
-                "onPaymentComplete": _this.props.onPaymentComplete,
-                "onPaymentError": _this.props.onPaymentError
-            };
-            return React.createElement(MyComponent, props);
-        });
-    };
-    return Payment;
-}(React.Component));
-exports.default = Payment;
-
-
-/***/ }),
-
-/***/ 132:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(1);
-var ReactDOM = __webpack_require__(14);
-var react_async_script_loader_1 = __webpack_require__(133);
-var This;
-var Paypal = (function (_super) {
-    __extends(Paypal, _super);
-    function Paypal(props) {
-        var _this = _super.call(this, props) || this;
-        This = _this;
-        return _this;
-    }
-    Paypal.prototype.payment = function (data, actions) {
-        return actions.payment.create({
-            payment: {
-                transactions: [
-                    {
-                        amount: { total: This.props.paymentInfo.total,
-                            currency: This.props.paymentInfo.currency }
-                    }
-                ]
-            }
-        });
-    };
-    Paypal.prototype.onAuthorize = function (data, actions) {
-        console.log('on authorize', data);
-        if (data.error === 'INSTRUMENT_DECLINED') {
-            actions.restart();
-        }
-        return actions.payment.execute().then(function (payment) {
-            console.log("Done!", payment);
-            This.props.onPaymentComplete(payment);
-        }).catch(function (e) {
-            console.log("Error", e);
-            This.props.onPaymentError(e);
-        });
-    };
-    ;
-    Paypal.prototype.onCancel = function (data, actions) {
-    };
-    Paypal.prototype.onError = function (err) {
-        This.props.onPaymentError(err);
-    };
-    Paypal.prototype.onClick = function () {
-    };
-    Paypal.prototype.render = function () {
-        if (this.props.isScriptLoaded && this.props.isScriptLoadSucceed) {
-            var PayPalButton = window.paypal.Button.driver('react', { React: React, ReactDOM: ReactDOM });
-            var client = this.props.paymentMethodInfo.client;
-            var env = this.props.paymentMethodInfo.env || "sandbox";
-            return (React.createElement(PayPalButton, { env: env, client: client, commit: true, payment: this.payment, onAuthorize: this.onAuthorize, onCancel: this.onCancel, onError: this.onError, onClick: this.onClick }));
-        }
-        else {
-            return (React.createElement("div", null, "PayPal loading..."));
-        }
-    };
-    Paypal.prototype.componentDidMount = function () {
-    };
-    return Paypal;
-}(React.Component));
-exports.default = react_async_script_loader_1.default(["https://www.paypalobjects.com/api/checkout.js"])(Paypal);
-
-
-/***/ }),
-
-/***/ 136:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(1);
-var CCAvenue = (function (_super) {
-    __extends(CCAvenue, _super);
-    function CCAvenue() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    CCAvenue.prototype.render = function () {
-        return React.createElement("div", null);
-    };
-    return CCAvenue;
-}(React.Component));
-exports.default = CCAvenue;
-
-
-/***/ }),
-
-/***/ 40:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(1);
-var ReactDOM = __webpack_require__(14);
-var FormPage_1 = __webpack_require__(51);
-var rootElement = document.getElementById('gcmw-cff-root');
-ReactDOM.render(React.createElement(FormPage_1.default, { formId: rootElement.getAttribute('data-form-id') }), rootElement);
-
-
-/***/ }),
-
-/***/ 51:
+/***/ 139:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -267,7 +20,7 @@ var React = __webpack_require__(1);
 var react_jsonschema_form_1 = __webpack_require__(25);
 var deref = __webpack_require__(30);
 var axios_1 = __webpack_require__(34);
-var FormConfirmationPage_1 = __webpack_require__(130);
+var FormConfirmationPage_1 = __webpack_require__(140);
 var STATUS_FORM_LOADING = 0;
 var STATUS_FORM_RENDERED = 2;
 var STATUS_FORM_SUBMITTED = 4;
@@ -444,6 +197,296 @@ var FormPage = (function (_super) {
     return FormPage;
 }(React.Component));
 exports.default = FormPage;
+
+
+/***/ }),
+
+/***/ 140:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(1);
+var payment_1 = __webpack_require__(141);
+var This;
+var FormConfirmationPage = (function (_super) {
+    __extends(FormConfirmationPage, _super);
+    function FormConfirmationPage(props) {
+        var _this = _super.call(this, props) || this;
+        This = _this;
+        _this.state = {
+            "paid": false,
+            "paymentTransactionInfo": "",
+        };
+        return _this;
+    }
+    FormConfirmationPage.prototype.onPaymentComplete = function (message) {
+        This.setState({
+            "paid": true,
+            "paymentTransactionInfo": JSON.stringify(message, null, 2),
+        });
+    };
+    FormConfirmationPage.prototype.onPaymentError = function (message) {
+        alert("There was an error. " + message);
+        console.log("error", message);
+    };
+    FormConfirmationPage.prototype.render = function () {
+        var _this = this;
+        return (React.createElement("div", { className: "App FormConfirmationPage" },
+            React.createElement("h1", null,
+                this.props.schema.title,
+                " - Confirmation Page"),
+            !this.state.paid && React.createElement("button", { className: "btn btn-primary", onClick: this.props.goBack }, "Back to form page"),
+            React.createElement("table", { className: "table table-striped" },
+                React.createElement("tbody", null, Object.keys(this.props.data).map(function (item, index) { return (React.createElement("tr", { key: index },
+                    React.createElement("th", null, item),
+                    React.createElement("td", null, _this.props.data[item]))); }))),
+            (this.state.paid) ?
+                React.createElement("div", null,
+                    React.createElement("h1", null, "Thanks for paying!"),
+                    React.createElement("p", null, "Please print this page for your confirmation."),
+                    React.createElement("pre", null, this.state.paymentTransactionInfo)) :
+                React.createElement(payment_1.default, { schema: this.props.schema, onPaymentComplete: this.onPaymentComplete, onPaymentError: this.onPaymentError }),
+            "}"));
+    };
+    return FormConfirmationPage;
+}(React.Component));
+exports.default = FormConfirmationPage;
+
+
+/***/ }),
+
+/***/ 141:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(1);
+var paypal_1 = __webpack_require__(142);
+var CCAvenue_1 = __webpack_require__(143);
+var Components = {
+    "paypal": paypal_1.default,
+    "ccavenue": CCAvenue_1.default
+};
+var Payment = (function (_super) {
+    __extends(Payment, _super);
+    function Payment() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Payment.prototype.render = function () {
+        var _this = this;
+        if (!this.props.schema.paymentMethods) {
+            return "";
+        }
+        var paymentMethods = Object.keys(this.props.schema.paymentMethods);
+        return paymentMethods.map(function (paymentMethod) {
+            var MyComponent = Components[paymentMethod];
+            console.log('option is', paymentMethod);
+            var props = {
+                "paymentInfo": _this.props.schema.paymentInfo,
+                "paymentMethodInfo": _this.props.schema.paymentMethods[paymentMethod],
+                "key": paymentMethod,
+                "onPaymentComplete": _this.props.onPaymentComplete,
+                "onPaymentError": _this.props.onPaymentError
+            };
+            return React.createElement(MyComponent, props);
+        });
+    };
+    return Payment;
+}(React.Component));
+exports.default = Payment;
+
+
+/***/ }),
+
+/***/ 142:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(1);
+var ReactDOM = __webpack_require__(14);
+var react_async_script_loader_1 = __webpack_require__(133);
+var This;
+var Paypal = (function (_super) {
+    __extends(Paypal, _super);
+    function Paypal(props) {
+        var _this = _super.call(this, props) || this;
+        This = _this;
+        return _this;
+    }
+    Paypal.prototype.payment = function (data, actions) {
+        return actions.payment.create({
+            payment: {
+                transactions: [
+                    {
+                        amount: { total: This.props.paymentInfo.total,
+                            currency: This.props.paymentInfo.currency }
+                    }
+                ]
+            }
+        });
+    };
+    Paypal.prototype.onAuthorize = function (data, actions) {
+        console.log('on authorize', data);
+        if (data.error === 'INSTRUMENT_DECLINED') {
+            actions.restart();
+        }
+        return actions.payment.execute().then(function (payment) {
+            console.log("Done!", payment);
+            This.props.onPaymentComplete(payment);
+        }).catch(function (e) {
+            console.log("Error", e);
+            This.props.onPaymentError(e);
+        });
+    };
+    ;
+    Paypal.prototype.onCancel = function (data, actions) {
+    };
+    Paypal.prototype.onError = function (err) {
+        This.props.onPaymentError(err);
+    };
+    Paypal.prototype.onClick = function () {
+    };
+    Paypal.prototype.render = function () {
+        if (this.props.isScriptLoaded && this.props.isScriptLoadSucceed) {
+            var PayPalButton = window.paypal.Button.driver('react', { React: React, ReactDOM: ReactDOM });
+            var client = this.props.paymentMethodInfo.client;
+            var env = this.props.paymentMethodInfo.env || "sandbox";
+            return (React.createElement(PayPalButton, { env: env, client: client, commit: true, payment: this.payment, onAuthorize: this.onAuthorize, onCancel: this.onCancel, onError: this.onError, onClick: this.onClick }));
+        }
+        else {
+            return (React.createElement("div", null, "PayPal loading..."));
+        }
+    };
+    Paypal.prototype.componentDidMount = function () {
+    };
+    return Paypal;
+}(React.Component));
+exports.default = react_async_script_loader_1.default(["https://www.paypalobjects.com/api/checkout.js"])(Paypal);
+
+
+/***/ }),
+
+/***/ 143:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(1);
+var CCAvenue = (function (_super) {
+    __extends(CCAvenue, _super);
+    function CCAvenue() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    CCAvenue.prototype.render = function () {
+        return React.createElement("div", null);
+    };
+    return CCAvenue;
+}(React.Component));
+exports.default = CCAvenue;
+
+
+/***/ }),
+
+/***/ 144:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(1);
+var This;
+var FormAdminPage = (function (_super) {
+    __extends(FormAdminPage, _super);
+    function FormAdminPage(props) {
+        var _this = _super.call(this, props) || this;
+        This = _this;
+        _this.state = {};
+        return _this;
+    }
+    FormAdminPage.prototype.render = function () {
+        return (React.createElement("div", { className: "App FormAdminPage" }, "Hi"));
+    };
+    return FormAdminPage;
+}(React.Component));
+exports.default = FormAdminPage;
+
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(1);
+var ReactDOM = __webpack_require__(14);
+var FormPage_1 = __webpack_require__(139);
+var FormAdminPage_1 = __webpack_require__(144);
+var formRenderElement = document.getElementById('gcmw-cff-render');
+if (formRenderElement) {
+    ReactDOM.render(React.createElement(FormPage_1.default, { formId: formRenderElement.getAttribute('data-form-id') }), formRenderElement);
+}
+var formAdminElement = document.getElementById('gcmw-cff-admin');
+if (formAdminElement) {
+    ReactDOM.render(React.createElement(FormAdminPage_1.default, null), formAdminElement);
+}
 
 
 /***/ })
