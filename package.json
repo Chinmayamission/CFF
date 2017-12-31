@@ -1,0 +1,20 @@
+{
+  "name": "wp_gcmw_forms_subsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bluebird": "^3.5.1",
+    "json-schema-deref-sync": "^0.4.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-jsonschema-form": "^1.0.0"
+  }
+}
