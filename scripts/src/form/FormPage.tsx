@@ -15,6 +15,8 @@ const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
 const STATUS_FORM_SUBMITTED = 4;
 
+const URL_API_ENDPOINT = "https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form";
+
 /* Custom object field template that allows for grid classes to be specified.
  * If no className is given in schema modifier, defaults to "col-12".
  */
@@ -62,40 +64,13 @@ const PhoneWidget = (props: any) => {
   );
 };
 
-const BaseInputWidget:any = (props: any) => {
-  const {options} = props;
-  const {visible, required} = options;
-  if (false && !visible) {
-    // return (null);
-  }
-  else {
-    return (
-      <input type="text"
-        className="custom"
-        value={props.value}
-        required={required}
-        onChange={(event) => props.onChange(event.target.value)} />
-    );
-  }
-};
-
-BaseInputWidget.defaultProps = {
-  options: {
-    visible: false,
-    required: false
-  }
-};
-
 
 const widgets = {
-  phoneWidget: PhoneWidget,
-  // BaseInput: BaseInputWidget
+  phoneWidget: PhoneWidget
 };
 
 const fields = {
-  // TitleField: CustomTitleField,
-  //DescriptionField: CustomDescriptionField
-  // SchemaField: CustomSchemaField
+
 };
 
 const schema = {};
@@ -114,10 +89,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     This = this;
     this.state ={
       status: STATUS_FORM_LOADING,
-      schema: {"title": "ABC", "type": "object"},
+      schema: {"title": "Loading...", "type": "object"},
       uiSchema: {"title": "status"},
       step: 0,
-      data: {}
+      data: {},
+      responseId: null
     };
   }
   unescapeJSON(json:{}) {
@@ -199,12 +175,14 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
   }
 
-  componentDidMount() {    
+  getFormUrl(action) {
     let formId = this.props.formId['$oid'];
-    let endpoint = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form';
-    let apiKey = 'test';
-    let formListUrl = endpoint + "?action=formRender" + "&id=" + formId;
-    axios.get(formListUrl, {"responseType": "json"})
+    return URL_API_ENDPOINT + "?action=" + action + "&id=" + formId;
+  }
+
+  componentDidMount() {    
+    
+    axios.get(this.getFormUrl("formRender"), {"responseType": "json"})
         .then(response => response.data.res[0])
         .then(this.unescapeJSON)
         .then((data) => {
@@ -230,18 +208,17 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
   onSubmit(data: {formData: {}}) {
     var formData = data.formData;
-    // (document.getElementById("inputData") as HTMLInputElement).value = JSON.stringify(formData);
-    // (document.getElementById("mainForm") as HTMLFormElement).submit();
-    var token = (document.getElementsByName("csrfmiddlewaretoken")[0] as HTMLInputElement).value;
     var instance = axios.create({
       headers: {
-        "X-CSRFToken": (document.getElementsByName("csrfmiddlewaretoken")[0] as HTMLInputElement).value,
         "Content-Type": "application/json"
       }
     });
-    instance.post("", formData).then((response) => {
-      console.log("success!", response);
-      This.setState({status: STATUS_FORM_SUBMITTED, data: formData});
+    instance.post(this.getFormUrl("formSubmit"), formData).then((response) => {
+      let res = response.data.res;
+      if (!(res.success == true && res.inserted_id["$oid"])) {
+        throw "Response not formatted correctly: " + JSON.stringify(res);
+      }
+      this.setState({status: STATUS_FORM_SUBMITTED, data: formData, responseId: res.inserted_id});
     }).catch((err) => {
       alert("Error. " + err);
     });
@@ -265,7 +242,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             ObjectFieldTemplate={ObjectFieldTemplate}
             transformErrors={transformErrors}
             onChange={() => log('changed')}
-            onSubmit={this.onSubmit}
+            onSubmit={(e) => this.onSubmit(e)}
             onError={() => log('errors')}
             />
         </div>
@@ -277,6 +254,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
               uiSchema={this.state.uiSchema}
               data={this.state.data}
               goBack={this.goBackToFormPage}
+              responseId={this.state.responseId}
               />);
     }
   }

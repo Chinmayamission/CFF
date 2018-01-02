@@ -21,18 +21,6 @@ class FormAdminPage extends React.Component<any, any> {
             status: STATUS_LOADING
         }
     }
-    getSchemas() {
-        var that = this;
-        let formListUrl = endpoint + '?action=formRender&id=59dbf12b734d1d18c05ebd21';
-        axios.get(formListUrl, {"responseType": "json"})
-        .then((response) => {
-            const resp = response.data.res[0];
-            console.log(formListUrl);
-            console.log(response.data);
-            console.log(resp["schema"]);
-            console.log(resp["schemaModifier"]);
-        });
-    }
     getFormList(url) {
         var that = this;
         axios.get(url, {"responseType": "json"})
@@ -63,7 +51,6 @@ class FormAdminPage extends React.Component<any, any> {
         return (
         <div className="App FormAdminPage">
             <h1>GCMW Form Admin - {this.state.center}</h1>
-            <button onClick = {() =>this.getSchemas()} >Render</button>
             {this.state.status == STATUS_FORM_LIST && <table>
                 <tbody>
                     {this.state.formList.map((form) =>

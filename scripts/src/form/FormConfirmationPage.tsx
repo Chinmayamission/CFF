@@ -33,6 +33,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
                 onClick={this.props.goBack}
             >Back to form page</button>}
             <table className="table table-striped"><tbody>
+            <tr key={this.props.responseId["$oid"]}><th>Response ID</th><td>{this.props.responseId["$oid"]}</td></tr>
             {Object.keys(this.props.data).map((item, index) => (
             <tr key={index}>
                 <th>{item}</th>

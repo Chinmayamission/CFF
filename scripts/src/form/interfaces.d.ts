@@ -40,7 +40,8 @@ interface IFormPageState {
     uiSchema: UiSchema,
     status: number,
     step: number,
-    data: Data
+    data: Data,
+    responseId: string
 }
 
 interface IFormPageProps {
@@ -51,6 +52,7 @@ interface IFormConfirmationPageProps {
     schema: Schema,
     uiSchema: UiSchema,
     data: Data,
+    responseId: string,
     goBack: () => void
 }
 
