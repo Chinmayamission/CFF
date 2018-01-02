@@ -2,6 +2,9 @@ import * as React from 'react';
 import axios from 'axios';
 import FormPage from "../form/FormPage";
 
+const endpoint = "https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form";
+const apiKey = 'test';
+
 class FormAdminPage extends React.Component<any, any> {
     constructor(props:any) {
         super(props);
@@ -11,12 +14,13 @@ class FormAdminPage extends React.Component<any, any> {
         this.state = {
             formList: [],
             center: "CMSJ",
-            formId: null
+            formId: null,
+            viewResp: false
         }
     }
     getSchemas() {
         var that = this;
-        let formListUrl = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form?action=formRender&id=59dbf12b734d1d18c05ebd21';
+        let formListUrl = endpoint + '?action=formRender&id=59dbf12b734d1d18c05ebd21';
         axios.get(formListUrl, {"responseType": "json"})
         .then((response) => {
             const resp = response.data.res[0];
@@ -36,12 +40,19 @@ class FormAdminPage extends React.Component<any, any> {
     }
 
     loadForm(id) {
-        this.setState({formId: id});
-        console.log("setting state", id);
+        this.setState({formId: id,
+                        viewForm: true,
+                        viewResp: false
+        });
+        //console.log("setting state", id);
+    }
+    viewResponses(id) {
+        this.setState({formId: id,
+                        viewForm: true,
+                        viewResp: true
+                    });
     }
     componentDidMount() {
-        let endpoint = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form';
-        let apiKey = 'test';
         let formListUrl = endpoint + "?action=formList&apiKey=" + apiKey;
         this.getFormList(formListUrl);
     }
@@ -63,7 +74,8 @@ class FormAdminPage extends React.Component<any, any> {
                     )}
                 </tbody>
             </table>
-            {this.state.formId != null && <FormPage formId = {{"$oid": this.state.formId}} />}
+            {this.state.viewForm && <FormPage formId = {{"$oid": this.state.formId}} />}
+            {/*this.state.viewResp && <ResponseTable formId = {{"oid": this.state.formId}}/>*/}
         </div>
         );
     }
