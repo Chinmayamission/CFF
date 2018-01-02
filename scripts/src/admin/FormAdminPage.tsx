@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import FormPage from "../form/FormPage";
+import ResponseTable from "./ResponseTable";
 import {
     Route,
     Link
@@ -40,7 +41,7 @@ class FormAdminPage extends React.Component<any, any> {
             status: STATUS_FORM_RENDER
         });
     }
-    viewResponses(id) {
+    loadResponses(id) {
         this.setState({
             formId: id,
             status: STATUS_FORM_RESPONSES
@@ -78,14 +79,14 @@ class FormAdminPage extends React.Component<any, any> {
                             <td>
                                 <button className="button button-primary" onClick = {() => this.loadForm(form["_id"])}>View</button>
                                 <button className="button">Edit</button>
-                                <button className="button">View Responses</button>
+                                <button className="button" onClick = {() => this.loadResponses(form["_id"])}>View Responses</button>
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>}
             {this.state.status == STATUS_FORM_RENDER && <FormPage formId = {this.state.formId} />}
-            {/*this.state.viewResp && <ResponseTable formId = {{"oid": this.state.formId}}/>*/}
+            {this.state.status == STATUS_FORM_RESPONSES && <ResponseTable formId = {{"oid": this.state.formId}}/>}
         <Route path="./id" component={FormPage} />
         </div>
         );
