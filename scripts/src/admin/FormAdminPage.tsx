@@ -1,6 +1,10 @@
 import * as React from 'react';
 import axios from 'axios';
 import FormPage from "../form/FormPage";
+import {
+    Route,
+    Link
+  } from 'react-router-dom'
 
 const endpoint = "https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form";
 const apiKey = 'test';
@@ -46,25 +50,43 @@ class FormAdminPage extends React.Component<any, any> {
         let formListUrl = endpoint + "?action=formList&apiKey=" + apiKey;
         this.getFormList(formListUrl);
     }
+    getPath(params) {
+        return window.location.pathname + "?" + window.location.href.split("?")[1] + "&" + params;
+    }
     render() {
         var that = this;
         return (
         <div className="App FormAdminPage">
             <h1>GCMW Form Admin - {this.state.center}</h1>
-            {this.state.status == STATUS_FORM_LIST && <table>
+            <ul>
+                <li><Link to={this.getPath("a=b")}>Home</Link></li>
+                <li><Link to="./about">About</Link></li>
+                <li><Link to="./topics">Topics</Link></li>
+            </ul>
+            {this.state.status == STATUS_FORM_LIST &&
+            <table className="wp-list-table widefat fixed">
+                <thead>
+                    <tr>
+                        <td>Form name</td>
+                        <td>Actions</td>
+                    </tr>
+                </thead>
                 <tbody>
                     {this.state.formList.map((form) =>
                         <tr key={form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
                             <td>{form["name"]}</td>
-                            <td><button onClick = {() => this.loadForm(form["_id"])}>View</button></td>
-                            <td><button>Edit</button></td>
-                            <td><button>View Responses</button></td>
+                            <td>
+                                <button className="button button-primary" onClick = {() => this.loadForm(form["_id"])}>View</button>
+                                <button className="button">Edit</button>
+                                <button className="button">View Responses</button>
+                            </td>
                         </tr>
                     )}
                 </tbody>
             </table>}
             {this.state.status == STATUS_FORM_RENDER && <FormPage formId = {this.state.formId} />}
             {/*this.state.viewResp && <ResponseTable formId = {{"oid": this.state.formId}}/>*/}
+        <Route path="./id" component={FormPage} />
         </div>
         );
     }

@@ -10,7 +10,7 @@ module.exports = {
 
   entry: {
     app: SRC_URL + '/index', // entry point of our app. assets/ts/index.tsx should require other js modules and dependencies it needs
-    vendor: ["react", "react-dom", "react-jsonschema-form", "bluebird", "axios", "json-schema-deref-sync"]
+    vendor: ["react", "react-dom", "react-router-dom", "react-jsonschema-form", "bluebird", "axios", "json-schema-deref-sync"]
   },
 
   output: {

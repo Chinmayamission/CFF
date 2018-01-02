@@ -49,6 +49,7 @@
     "webpack-bundle-tracker": "^0.2.0"
   },
   "dependencies": {
-    "bluebird": "^3.5.1"
+    "bluebird": "^3.5.1",
+    "react-router-dom": "^4.2.2"
   }
 }

@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 // import App from './App';
 import FormPage from './form/FormPage';
 import FormAdminPage from './admin/FormAdminPage';
+import { BrowserRouter } from 'react-router-dom';
 // import './index.css';
 
 let formRenderElement = document.getElementById('gcmw-cff-render') as HTMLElement;
@@ -16,7 +17,10 @@ if (formRenderElement) {
 let formAdminElement = document.getElementById('gcmw-cff-admin') as HTMLElement;
 if (formAdminElement) {
   ReactDOM.render(
-    <FormAdminPage />,
+    <BrowserRouter>
+      <FormAdminPage />
+    </BrowserRouter>
+    ,
     formAdminElement
   );
 }
