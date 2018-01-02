@@ -246,9 +246,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     //  This.setState({ uiSchema: uiSchema, schema: schema, status: STATUS_FORM_RENDERED });
     //  
     //});
-    let endpoint = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/dev/gcmw-cff-render-form';
+    let endpoint = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form';
     let apiKey = 'test';
-    let formListUrl = endpoint + "?action=renderForm" + "&id=" + formId;
+    let formListUrl = endpoint + "?action=formRender" + "&id=" + formId;
     axios.get(formListUrl, {"responseType": "json"})
         .then(response => response.data.res[0])
         .then(this.unescapeJSON)

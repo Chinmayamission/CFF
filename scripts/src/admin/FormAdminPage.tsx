@@ -10,12 +10,13 @@ class FormAdminPage extends React.Component<any, any> {
         this.getSchemas = this.getSchemas.bind(this);
         this.state = {
             formList: [],
-            center: "CMSJ"
+            center: "CMSJ",
+            formId: null
         }
     }
     getSchemas() {
         var that = this;
-        let formListUrl = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/dev/gcmw-cff-render-form?action=renderForm&id=59dbf12b734d1d18c05ebd21';
+        let formListUrl = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form?action=formRender&id=59dbf12b734d1d18c05ebd21';
         axios.get(formListUrl, {"responseType": "json"})
         .then((response) => {
             const resp = response.data.res[0];
@@ -33,8 +34,13 @@ class FormAdminPage extends React.Component<any, any> {
             that.setState({formList: response.data.res});
         });
     }
+
+    loadForm(id) {
+        this.setState({formId: id});
+        console.log("setting state", id);
+    }
     componentDidMount() {
-        let endpoint = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/dev/gcmw-cff-render-form';
+        let endpoint = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form';
         let apiKey = 'test';
         let formListUrl = endpoint + "?action=formList&apiKey=" + apiKey;
         this.getFormList(formListUrl);
@@ -48,15 +54,16 @@ class FormAdminPage extends React.Component<any, any> {
             <table>
                 <tbody>
                     {this.state.formList.map((form) =>
-                        <tr key = {form["id"]} style = {{outline: 'thin solid'}}>
+                        <tr key = {form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
                             <td>{form["name"]}</td>
-                            <td><button>View</button></td>
+                            <td><button onClick = {() => this.loadForm(form["_id"]["$oid"])}>View</button></td>
                             <td><button>Edit</button></td>
+                            <td><button>View Responses</button></td>
                         </tr>
                     )}
                 </tbody>
             </table>
-            <FormPage formId={{"$oid": "59dbf12b734d1d18c05ebd21"}} />
+            {this.state.formId != null && <FormPage formId = {{"$oid": this.state.formId}} />}
         </div>
         );
     }
