@@ -5,17 +5,20 @@ import FormPage from "../form/FormPage";
 const endpoint = "https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form";
 const apiKey = 'test';
 
+const STATUS_LOADING = 0;
+const STATUS_FORM_LIST = 1;
+const STATUS_FORM_RENDER = 2;
+const STATUS_FORM_RESPONSES = 3;
+
 class FormAdminPage extends React.Component<any, any> {
     constructor(props:any) {
         super(props);
         this.render = this.render.bind(this);
-        this.getFormList = this.getFormList.bind(this);
-        this.getSchemas = this.getSchemas.bind(this);
         this.state = {
             formList: [],
             center: "CMSJ",
             formId: null,
-            viewResp: false
+            status: STATUS_LOADING
         }
     }
     getSchemas() {
@@ -35,22 +38,21 @@ class FormAdminPage extends React.Component<any, any> {
         axios.get(url, {"responseType": "json"})
         .then((response) => {
             console.log(response.data);
-            that.setState({formList: response.data.res});
+            that.setState({formList: response.data.res, status: STATUS_FORM_LIST});
         });
     }
 
     loadForm(id) {
-        this.setState({formId: id,
-                        viewForm: true,
-                        viewResp: false
+        this.setState({
+            formId: id,
+            status: STATUS_FORM_RENDER
         });
-        //console.log("setting state", id);
     }
     viewResponses(id) {
-        this.setState({formId: id,
-                        viewForm: true,
-                        viewResp: true
-                    });
+        this.setState({
+            formId: id,
+            status: STATUS_FORM_RESPONSES
+        });
     }
     componentDidMount() {
         let formListUrl = endpoint + "?action=formList&apiKey=" + apiKey;
@@ -62,19 +64,19 @@ class FormAdminPage extends React.Component<any, any> {
         <div className="App FormAdminPage">
             <h1>GCMW Form Admin - {this.state.center}</h1>
             <button onClick = {() =>this.getSchemas()} >Render</button>
-            <table>
+            {this.state.status == STATUS_FORM_LIST && <table>
                 <tbody>
                     {this.state.formList.map((form) =>
-                        <tr key = {form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
+                        <tr key={form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
                             <td>{form["name"]}</td>
-                            <td><button onClick = {() => this.loadForm(form["_id"]["$oid"])}>View</button></td>
+                            <td><button onClick = {() => this.loadForm(form["_id"])}>View</button></td>
                             <td><button>Edit</button></td>
                             <td><button>View Responses</button></td>
                         </tr>
                     )}
                 </tbody>
-            </table>
-            {this.state.viewForm && <FormPage formId = {{"$oid": this.state.formId}} />}
+            </table>}
+            {this.state.status == STATUS_FORM_RENDER && <FormPage formId = {this.state.formId} />}
             {/*this.state.viewResp && <ResponseTable formId = {{"oid": this.state.formId}}/>*/}
         </div>
         );
