@@ -200,52 +200,75 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidMount() {    
-    let formId = this.props.formId;
-    let schemaModifiersUrl = "http://registration.chinmayamission.com/forms/" + formId + "/data/schemaWithModifiers";
-    schemaModifiersUrl = "http://www.chinmayamissionalpharetta.org/wp-json/";
-    axios.get(schemaModifiersUrl, {"responseType": "json"})
-    .then((response) => {
-      return {
-        "schema": {
-          "title": "My form!",
-          type: "object",
-          properties: {
-            bar: {type: "string"},
-            name: {
-              "type": "object",
-              "properties": {
-                "first": {"type": "string"},
-                "last": {"type": "string"}
-              }
-            }
-          }
-        },
-        "schemaModifiers": {
-          "name": {
-            "first": {
-              "ui:widget": "textarea"
-            }
-          },
-          "title": "Form 2"
-        }
-      }
-      // return response.data
-    })
-    .then(this.unescapeJSON)
-    .then((data) => {
-      var options = data["schemaModifiers"];
-      var uiSchema = options;
-      var schema = data["schema"];
-      console.log(schema);
-      schema = deref(schema);
-      console.log(schema);
-      this.populateSchemaWithOptions(schema["properties"], options);
-      this.filterUiSchema(uiSchema);
-      console.log(options, uiSchema, schema);
+    let formId = this.props.formId['$oid'];
+    //let schemaModifiersUrl = "http://registration.chinmayamission.com/forms/" + formId + "/data/schemaWithModifiers";
+    //schemaModifiersUrl = "http://www.chinmayamissionalpharetta.org/wp-json/";
+    //axios.get(schemaModifiersUrl, {"responseType": "json"})
+    //.then((response) => {
+    //  return {
+    //    "schema": {
+    //      "title": "My form!",
+    //      type: "object",
+    //      properties: {
+    //        bar: {type: "string"},
+    //        name: {
+    //          "type": "object",
+    //          "properties": {
+    //            "first": {"type": "string"},
+    //            "last": {"type": "string"}
+    //          }
+    //        }
+    //      }
+    //    },
+    //    "schemaModifiers": {
+    //      "name": {
+    //        "first": {
+    //          "ui:widget": "textarea"
+    //        }
+    //      },
+    //      "title": "Form 2"
+    //    }
+    //  }
+    //  // return response.data
+    //})
+    //.then(this.unescapeJSON)
+    //.then((data) => {
+    //  var options = data["schemaModifiers"];
+    //  var uiSchema = options;
+    //  var schema = data["schema"];
+    //  console.log(schema);
+    //  schema = deref(schema);
+    //  console.log(schema);
+    //  this.populateSchemaWithOptions(schema["properties"], options);
+    //  this.filterUiSchema(uiSchema);
+    //  console.log(options, uiSchema, schema);
+    //    
+    //  This.setState({ uiSchema: uiSchema, schema: schema, status: STATUS_FORM_RENDERED });
+    //  
+    //});
+    let endpoint = 'https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/dev/gcmw-cff-render-form';
+    let apiKey = 'test';
+    let formListUrl = endpoint + "?action=renderForm" + "&id=" + formId;
+    axios.get(formListUrl, {"responseType": "json"})
+        .then(response => response.data.res[0])
+        .then(this.unescapeJSON)
+        .then((data) => {
+          console.log("DATA:\n", data);
+          var options = data["schemaModifier"].value;
+          var uiSchema = options;
+          var schema = data["schema"].value;
+          console.log(schema);
+          schema = deref(schema);
+          console.log(schema);
+          this.populateSchemaWithOptions(schema["properties"], options);
+          this.filterUiSchema(uiSchema);
+          console.log(options, uiSchema, schema);
+            
+          This.setState({ uiSchema: uiSchema, schema: schema, status: STATUS_FORM_RENDERED });
+          
+        });
 
-      This.setState({ uiSchema: uiSchema, schema: schema, status: STATUS_FORM_RENDERED });
-      
-    });
+    
   }
   goBackToFormPage() {
     This.setState({status: STATUS_FORM_RENDERED});

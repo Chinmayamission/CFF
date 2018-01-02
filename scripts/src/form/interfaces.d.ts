@@ -44,7 +44,7 @@ interface IFormPageState {
 }
 
 interface IFormPageProps {
-    formId: string
+    formId: any
 }
 
 interface IFormConfirmationPageProps {
