@@ -73,7 +73,7 @@ class FormAdminPage extends React.Component<any, any> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.formList.map((form) =>
+                    {this.state.formList.map((form) => 
                         <tr key={form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
                             <td>{form["name"]}</td>
                             <td>
@@ -86,7 +86,7 @@ class FormAdminPage extends React.Component<any, any> {
                 </tbody>
             </table>}
             {this.state.status == STATUS_FORM_RENDER && <FormPage formId = {this.state.formId} />}
-            {this.state.status == STATUS_FORM_RESPONSES && <ResponseTable formId = {{"oid": this.state.formId}}/>}
+            {this.state.status == STATUS_FORM_RESPONSES && <ResponseTable formId = {this.state.formId}/>}
         <Route path="./id" component={FormPage} />
         </div>
         );
