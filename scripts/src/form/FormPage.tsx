@@ -15,8 +15,6 @@ const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
 const STATUS_FORM_SUBMITTED = 4;
 
-const URL_API_ENDPOINT = "https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form";
-
 /* Custom object field template that allows for grid classes to be specified.
  * If no className is given in schema modifier, defaults to "col-12".
  */
@@ -177,7 +175,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
 
   getFormUrl(action) {
     let formId = this.props.formId['$oid'];
-    return URL_API_ENDPOINT + "?action=" + action + "&id=" + formId;
+    return this.props.apiEndpoint + "?action=" + action + "&id=" + formId;
   }
 
   componentDidMount() {    
@@ -218,7 +216,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if (!(res.success == true && res.inserted_id["$oid"])) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
       }
-      this.setState({status: STATUS_FORM_SUBMITTED, data: formData, responseId: res.inserted_id});
+      this.setState({status: STATUS_FORM_SUBMITTED, data: formData, responseId: res.inserted_id["$oid"]});
     }).catch((err) => {
       alert("Error. " + err);
     });
@@ -230,7 +228,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           <div className='loading-state'>Loading...</div>
         </div>)
     } else if (this.state.status == STATUS_FORM_RENDERED) {
-      //if (!this.state.step) 
     return (  
         <div className="App">
             <Form

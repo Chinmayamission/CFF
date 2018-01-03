@@ -33,7 +33,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
                 onClick={this.props.goBack}
             >Back to form page</button>}
             <table className="table table-striped"><tbody>
-            <tr key={this.props.responseId["$oid"]}><th>Response ID</th><td>{this.props.responseId["$oid"]}</td></tr>
+            <tr key={this.props.responseId}><th>Response ID</th><td>{this.props.responseId}</td></tr>
             {Object.keys(this.props.data).map((item, index) => (
             <tr key={index}>
                 <th>{item}</th>
@@ -51,7 +51,8 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         </div> :
          <Payment schema={this.props.schema}
             onPaymentComplete={this.onPaymentComplete}
-            onPaymentError={this.onPaymentError}/>
+            onPaymentError={this.onPaymentError}
+            responseId={this.props.responseId}/>
         }
         }
         </div>

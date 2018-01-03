@@ -17,7 +17,8 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
                 transactions: [
                     {
                         amount: { total: This.props.paymentInfo.total,
-                            currency: This.props.paymentInfo.currency }
+                            currency: This.props.paymentInfo.currency },
+                        custom: this.props.responseId
                     }
                 ]
             }
@@ -85,11 +86,11 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
             env={env}
             client={client}
             commit={true}
-            payment={this.payment}
-            onAuthorize={this.onAuthorize}
-            onCancel={this.onCancel}
-            onError={this.onError}
-            onClick={this.onClick} />
+            payment={(a,b) => this.payment(a,b)}
+            onAuthorize={(a,b) => this.onAuthorize(a,b)}
+            onCancel={(a,b) => this.onCancel(a,b)}
+            onError={(a) => this.onError(a)}
+            onClick={() => this.onClick()} />
         );
     }
     else {

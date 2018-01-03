@@ -4,9 +4,6 @@ import axios from 'axios';
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
 
-const URL_API_ENDPOINT = "https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form";
-const apiKey = 'test';
-
 
 class ResponseTable extends React.Component<any, any> {
     constructor(props:any) {
@@ -34,7 +31,7 @@ class ResponseTable extends React.Component<any, any> {
 
     getFormUrl(action) {
         let formId = this.props.formId['$oid'];
-        return URL_API_ENDPOINT + '?action=' + action + '&apiKey=' + apiKey +  '&id=' + formId;
+        return this.props.apiEndpoint + '?action=' + action + '&apiKey=' + this.props.apiKey +  '&id=' + formId;
     }
 
     jsonify(data) {

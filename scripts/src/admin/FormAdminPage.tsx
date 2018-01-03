@@ -1,21 +1,21 @@
+/// <reference path="./admin.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
 import FormPage from "../form/FormPage";
+import FormList from "./FormList";
 import ResponseTable from "./ResponseTable";
 import {
     Route,
     Link
   } from 'react-router-dom'
 
-const endpoint = "https://ajd5vh06d8.execute-api.us-east-2.amazonaws.com/prod/gcmw-cff-render-form";
-const apiKey = 'test';
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
 const STATUS_FORM_RENDER = 2;
 const STATUS_FORM_RESPONSES = 3;
 
-class FormAdminPage extends React.Component<any, any> {
+class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
     constructor(props:any) {
         super(props);
         this.render = this.render.bind(this);
@@ -26,6 +26,7 @@ class FormAdminPage extends React.Component<any, any> {
             status: STATUS_LOADING
         }
     }
+
     getFormList(url) {
         var that = this;
         axios.get(url, {"responseType": "json"})
@@ -48,7 +49,7 @@ class FormAdminPage extends React.Component<any, any> {
         });
     }
     componentDidMount() {
-        let formListUrl = endpoint + "?action=formList&apiKey=" + apiKey;
+        let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.props.apiKey;
         this.getFormList(formListUrl);
     }
     getPath(params) {
@@ -59,35 +60,17 @@ class FormAdminPage extends React.Component<any, any> {
         return (
         <div className="App FormAdminPage">
             <h1>GCMW Form Admin - {this.state.center}</h1>
-            <ul>
-                <li><Link to={this.getPath("a=b")}>Home</Link></li>
-                <li><Link to="./about">About</Link></li>
-                <li><Link to="./topics">Topics</Link></li>
-            </ul>
             {this.state.status == STATUS_FORM_LIST &&
-            <table className="wp-list-table widefat fixed">
-                <thead>
-                    <tr>
-                        <td>Form name</td>
-                        <td>Actions</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.formList.map((form) => 
-                        <tr key={form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
-                            <td>{form["name"]}</td>
-                            <td>
-                                <button className="button button-primary" onClick = {() => this.loadForm(form["_id"])}>View</button>
-                                <button className="button">Edit</button>
-                                <button className="button" onClick = {() => this.loadResponses(form["_id"])}>View Responses</button>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>}
-            {this.state.status == STATUS_FORM_RENDER && <FormPage formId = {this.state.formId} />}
-            {this.state.status == STATUS_FORM_RESPONSES && <ResponseTable formId = {this.state.formId}/>}
-        <Route path="./id" component={FormPage} />
+                <FormList apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
+                    loadForm = {(e) => this.loadForm(e)} loadResponses= {(e) => this.loadResponses(e)} 
+                    formList = {this.state.formList} />
+            }
+            {this.state.status == STATUS_FORM_RENDER &&
+                <FormPage formId = {this.state.formId} apiEndpoint={this.props.apiEndpoint}/>
+            }
+            {this.state.status == STATUS_FORM_RESPONSES &&
+                <ResponseTable formId = {this.state.formId} apiKey={this.props.apiKey} apiEndpoint={this.props.apiEndpoint}/>
+            }
         </div>
         );
     }

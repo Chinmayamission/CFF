@@ -4,6 +4,7 @@ interface Window {
 }
 
 type schemaType = "object";
+type ObjectId = string;
 
 interface Schema {
     title: String,
@@ -41,18 +42,19 @@ interface IFormPageState {
     status: number,
     step: number,
     data: Data,
-    responseId: string
+    responseId: ObjectId
 }
 
 interface IFormPageProps {
-    formId: any
+    formId: any,
+    apiEndpoint: string
 }
 
 interface IFormConfirmationPageProps {
     schema: Schema,
     uiSchema: UiSchema,
     data: Data,
-    responseId: string,
+    responseId: ObjectId,
     goBack: () => void
 }
 
@@ -64,7 +66,8 @@ interface IFormConfirmationPageState {
 interface IPaymentProps {
     schema: Schema,
     onPaymentComplete: (message: any) => void,
-    onPaymentError: (message: any) => void
+    onPaymentError: (message: any) => void,
+    responseId: ObjectId
 }
 
 interface PaymentOptions {
@@ -83,7 +86,7 @@ interface IScriptLoaderProps {
     onScriptLoaded: any,
     onError: (error: any) => void
 }
-interface IPaypalProps { //extends IScriptLoaderProps {
+interface IPaypalProps extends IScriptLoaderProps {
     onPaymentComplete: IPaymentProps["onPaymentComplete"],
     onPaymentError: IPaymentProps["onPaymentError"],
     onAuthorize: (data: any, actions: any) => void,
@@ -92,8 +95,7 @@ interface IPaypalProps { //extends IScriptLoaderProps {
     onClick: () => void,
     paymentInfo: PaymentInfo,
     paymentMethodInfo: PaymentMethodPayPal,
-    isScriptLoaded: boolean,
-    isScriptLoadSucceed: boolean
+    responseId: ObjectId
 }
 interface IPaypalState {
 
