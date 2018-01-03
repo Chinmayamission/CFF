@@ -124,22 +124,8 @@ class ResponseTable extends React.Component<any, any> {
               );
           } else if (this.state.status == STATUS_RESPONSES_RENDERED) {
             return (
-                <div>
-                    
+                <div>  
                     {this.createTable(this.state.tableData)}
-                    <table>
-                        <tbody>
-                        {Object.keys(this.state.tableData).map( (key, i) => 
-                        <tr key = {i}>
-                            <td>{key}</td>
-                            {this.state.tableData[key].map(
-                                (value, i) => 
-                                <td key = {i}>{value}</td>
-                            )}
-                        </tr>
-                        )}
-                        </tbody>
-                    </table>
                 </div>
             );
           }
