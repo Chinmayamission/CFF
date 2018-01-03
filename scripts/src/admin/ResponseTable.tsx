@@ -14,21 +14,6 @@ class ResponseTable extends React.Component<any, any> {
         }
     }
 
-    createTable(tableData) {
-        return (
-            <table>
-            {Object.keys(tableData).map( (key) => 
-            <tr key = {key}>
-                <td>{key}</td>
-                {tableData[key].map(
-                    (value) => 
-                        <td key = {value}>{value}</td>
-                )}
-            </tr>)}
-            </table>
-        );
-    }
-
     getFormUrl(action) {
         let formId = this.props.formId['$oid'];
         return this.props.apiEndpoint + '?action=' + action + '&apiKey=' + this.props.apiKey +  '&id=' + formId;
@@ -92,12 +77,17 @@ class ResponseTable extends React.Component<any, any> {
                 <div>
                     <table>
                         <tbody>
-                            <tr>
-                                <td>"hi"</td>
-                            </tr>
+                        {Object.keys(this.state.tableData).map( (key, i) => 
+                        <tr key = {i}>
+                            <td>{key}</td>
+                            {this.state.tableData[key].map(
+                                (value, i) => 
+                                <td key = {i}>{value}</td>
+                            )}
+                        </tr>
+                        )}
                         </tbody>
                     </table>
-                    {this.createTable(this.state.tableData)}
                 </div>
             );
           }
