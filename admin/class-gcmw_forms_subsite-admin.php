@@ -70,6 +70,8 @@ class GCMW_Forms_Subsite_Admin {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gcmw_forms_subsite-admin.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( "gcmw-cff-edit-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' );
+		wp_register_script( "gcmw-cff-edit-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js', array('gcmw-cff-edit-vendor') );
 	}
 
 	public function form_management_page_add() {
@@ -83,8 +85,8 @@ class GCMW_Forms_Subsite_Admin {
 		);
 	}
 	public function form_management_page_render() {
-		wp_enqueue_script( "gcmw-forms-edit-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' );
-		wp_enqueue_script( "gcmw-forms-edit-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js' );
+		wp_enqueue_script("gcmw-cff-edit-vendor");
+		wp_enqueue_script("gcmw-cff-edit-app");
 		include plugin_dir_path( __FILE__ ) . "partials/form-management.php";
 	}
 

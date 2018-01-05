@@ -97,7 +97,25 @@ class GCMW_Forms_Subsite_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gcmw_forms_subsite-public.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( "gcmw-cff-render-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' );
+		wp_register_script( "gcmw-cff-render-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js', array('gcmw-cff-render-vendor') );
 
+	}
+	public function cff_shortcodes_init() {
+		/* Initializes the shortcode for rendering a form.
+		 */
+		function cff_shortcodes_render_form_fn( $atts ) {
+			$a = shortcode_atts( array(
+				'id' => '',
+				'apiKey' => '',
+			), $atts );
+			wp_enqueue_script("gcmw-cff-render-vendor");
+			wp_enqueue_script("gcmw-cff-render-app");
+			ob_start();
+			include plugin_dir_path( __FILE__ ) . "partials/gcmw-cff-form-render.php";
+			return ob_get_clean();
+		}
+		add_shortcode( 'gcmw-cff-render-form', 'cff_shortcodes_render_form_fn' );
 	}
 
 }
