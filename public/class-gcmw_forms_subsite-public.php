@@ -117,5 +117,4 @@ class CCMT_Forms_Subsite_Public {
 		}
 		add_shortcode( 'ccmt-cff-render-form', 'cff_shortcodes_render_form_fn' );
 	}
-
 }

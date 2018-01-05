@@ -1,1 +1,1 @@
-<div id="CCMT-cff-admin" data-api-key="test"></div>
+<div id="ccmt-cff-admin" data-api-key="test"></div>
