@@ -2,6 +2,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
+import Loading from "src/common/loading";
 
 var This;
 class Paypal extends React.Component<IPaypalProps, IPaypalState> {
@@ -95,7 +96,7 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
     }
     else {
         return (
-            <div>PayPal loading...</div>
+            <Loading />
         )
     }
  }

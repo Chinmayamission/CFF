@@ -10,7 +10,7 @@ module.exports = {
 // "react-router-dom", 
   entry: {
     app: SRC_URL + '/index', // entry point of our app. assets/ts/index.tsx should require other js modules and dependencies it needs
-    vendor: ["react", "react-dom", "react-table", "react-jsonschema-form", "react-loading",
+    vendor: ["react", "react-dom", "react-table", "react-jsonschema-form",
       "bluebird", "axios", "json-schema-deref-sync"]
   },
 
@@ -44,7 +44,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: ['node_modules', 'bower_components'],
+    modules: ['node_modules', 'scripts'],
     extensions: ['.ts', '.tsx', '.js']
   },
   node: {

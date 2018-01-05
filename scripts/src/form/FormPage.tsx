@@ -1,6 +1,5 @@
 /// <reference path="./interfaces.d.ts"/>
 import * as React from 'react';
-import Linkify from 'react-linkify';
 import Form from 'react-jsonschema-form'; 
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
@@ -11,6 +10,7 @@ import * as deref from "json-schema-deref-sync";
 import * as Promise from 'bluebird';
 import axios from 'axios';import "./form.css";
 import FormConfirmationPage from "./FormConfirmationPage";
+import Loading from "src/common/loading";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -127,7 +127,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     This = this;
     this.state ={
       status: STATUS_FORM_LOADING,
-      schema: {"title": "Loading...", "type": "object"},
+      schema: {"title": "None", "type": "object"},
       uiSchema: {"title": "status"},
       step: 0,
       data: {
@@ -278,9 +278,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   render() {
     if (this.state.status == STATUS_FORM_LOADING) {
       return ( 
-        <div className='my-nice-tab-container'>
-          <div className='loading-state'>Loading...</div>
-        </div>)
+        <Loading />
+      );
     } else if (this.state.status == STATUS_FORM_RENDERED) {
     return (  
         <div className="App">

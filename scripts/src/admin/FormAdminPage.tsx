@@ -8,7 +8,7 @@ import {
     Route,
     Link
   } from 'react-router-dom'
-
+import Loading from "src/common/loading";
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
@@ -58,16 +58,14 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     render() {
         var that = this;
         if (this.state.status == STATUS_LOADING) {
-            return <div>Loading...</div>;
+            return <Loading />;
         }
         return (
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center}</h1>
-            {/*this.state.status == STATUS_FORM_LIST*/ true &&
-                <FormList apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
-                    loadForm = {(e) => this.loadForm(e)} loadResponses= {(e) => this.loadResponses(e)} 
-                    formList = {this.state.status == STATUS_FORM_LIST ? this.state.formList : [this.state.selectedForm]} />
-            }
+            <FormList apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
+                loadForm = {(e) => this.loadForm(e)} loadResponses= {(e) => this.loadResponses(e)} 
+                formList = {this.state.status == STATUS_FORM_LIST ? this.state.formList : [this.state.selectedForm]} />
             {this.state.status == STATUS_FORM_RENDER &&
                 <FormPage formId = {this.state.selectedForm._id} apiEndpoint={this.props.apiEndpoint}/>
             }

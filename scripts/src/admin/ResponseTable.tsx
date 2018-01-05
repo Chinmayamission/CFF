@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import {flatten} from 'flat';
+import Loading from "src/common/loading";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -50,11 +51,7 @@ class ResponseTable extends React.Component<any, any> {
 
     render() {
         if (this.state.status == STATUS_RESPONSES_LOADING) {
-            return ( 
-            <div className='my-nice-tab-container'>
-                <div className='loading-state'>Loading...</div>
-            </div>
-            );
+            return <Loading />;
         }
 
         else if (this.state.status == STATUS_RESPONSES_RENDERED) {
