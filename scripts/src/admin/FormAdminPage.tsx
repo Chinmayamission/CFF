@@ -22,7 +22,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.state = {
             formList: [],
             center: "CMSJ",
-            formId: null,
+            selectedForm: null,
             status: STATUS_LOADING
         }
     }
@@ -36,15 +36,15 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         });
     }
 
-    loadForm(id) {
+    loadForm(form) {
         this.setState({
-            formId: id,
+            selectedForm: form,
             status: STATUS_FORM_RENDER
         });
     }
-    loadResponses(id) {
+    loadResponses(form) {
         this.setState({
-            formId: id,
+            selectedForm: form,
             status: STATUS_FORM_RESPONSES
         });
     }
@@ -57,19 +57,22 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
     render() {
         var that = this;
+        if (this.state.status == STATUS_LOADING) {
+            return <div>Loading...</div>;
+        }
         return (
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center}</h1>
-            {this.state.status == STATUS_FORM_LIST &&
+            {/*this.state.status == STATUS_FORM_LIST*/ true &&
                 <FormList apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
                     loadForm = {(e) => this.loadForm(e)} loadResponses= {(e) => this.loadResponses(e)} 
-                    formList = {this.state.formList} />
+                    formList = {this.state.status == STATUS_FORM_LIST ? this.state.formList : [this.state.selectedForm]} />
             }
             {this.state.status == STATUS_FORM_RENDER &&
-                <FormPage formId = {this.state.formId} apiEndpoint={this.props.apiEndpoint}/>
+                <FormPage formId = {this.state.selectedForm._id} apiEndpoint={this.props.apiEndpoint}/>
             }
             {this.state.status == STATUS_FORM_RESPONSES &&
-                <ResponseTable formId = {this.state.formId} apiKey={this.props.apiKey} apiEndpoint={this.props.apiEndpoint}/>
+                <ResponseTable formId = {this.state.selectedForm._id} apiKey={this.props.apiKey} apiEndpoint={this.props.apiEndpoint}/>
             }
         </div>
         );

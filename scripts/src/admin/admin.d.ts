@@ -5,8 +5,11 @@ interface IFormAdminPageProps {
 interface IFormAdminPageState {
     formList: any[],
     center: string,
-    formId: string,
+    selectedForm: any,
     status: Number
+}
+interface IFormListItem {
+    // name, _id.
 }
 interface IFormListProps extends IFormAdminPageProps {
     loadResponses: (e) => void,

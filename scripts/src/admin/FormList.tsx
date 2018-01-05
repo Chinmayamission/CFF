@@ -10,6 +10,9 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         this.state = {
         }
     }
+    showEmbedCode(formId) {
+        
+    }
     render() {
         return (
         <table className="wp-list-table widefat fixed">
@@ -24,9 +27,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 <tr key={form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
                     <td>{form["name"]}</td>
                     <td>
-                        <button className="button button-primary" onClick = {() => this.props.loadForm(form["_id"])}>View</button>
+                        <button className="button button-primary" onClick = {() => this.showEmbedCode(form)}>Embed</button>
+
                         <button className="button">Edit</button>
-                        <button className="button" onClick = {() => this.props.loadResponses(form["_id"])}>View Responses</button>
+                        <button className="button" onClick = {() => this.props.loadResponses(form)}>View Responses</button>
                     </td>
                 </tr>
             )}

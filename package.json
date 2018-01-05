@@ -54,6 +54,7 @@
     "dompurify": "^1.0.3",
     "flat": "^4.0.0",
     "react-linkify": "^0.2.2",
+    "react-loading": "^1.0.3",
     "react-router-dom": "^4.2.2",
     "react-table": "^6.7.6",
     "style-loader": "^0.19.1"
