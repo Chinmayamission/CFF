@@ -2,13 +2,13 @@
 import * as React from 'react';
 import Linkify from 'react-linkify';
 import Form from 'react-jsonschema-form'; 
-
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
+import * as DOMPurify from 'dompurify';
 import * as deref from "json-schema-deref-sync";
 import * as Promise from 'bluebird';
-import axios from 'axios';
+import axios from 'axios';import "./form.css";
 import FormConfirmationPage from "./FormConfirmationPage";
 
 const STATUS_FORM_LOADING = 0;
@@ -22,7 +22,7 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
   return (
     <div className="container-fluid p-0">
       <TitleField title={title} />
-      <div>{description}</div>
+      <div dangerouslySetInnerHTML={{"__html": DOMPurify.sanitize(description)}} />
       <div className="row">
         {properties.map(prop => {
           if (prop.content.props.uiSchema.classNames == "twoColumn") {
@@ -62,31 +62,43 @@ const PhoneWidget = (props: any) => {
   );
 };
 
-const Formatted = ({id, description}) => {
-  return <Linkify><div id={id}>{description + " AHU "}</div></Linkify>;
+const TCWidget = (props: any) => {
+  return (
+    <div>
+      <div>I agree to the <a target="_blank" href={props.link}>Terms and Conditions</a>.</div>
+      <input
+        type="checkbox"
+        value={props.value}
+        required={props.required}
+        onChange={(event) => props.onChange(event.target.value)}
+      />
+    </div>
+  );
 };
 
+
 const FormattedDescriptionField = ({id, description}) => {
-  return <div id={id}><Linkify props={{"target": "_blank"}}>
-    {description}
-  </Linkify></div>;
+  return <div id={id}>
+    <div dangerouslySetInnerHTML={{"__html": DOMPurify.sanitize(description)}} />
+  </div>;
 };
 
 const CustomTitleField = ({title, required}) => {
   const legend = required ? title + '*' : title;
   return <h2 className="ccmt-cff-form-title">
-    {legend.replace(/\b[a-z]/g, l => l.toUpperCase())}
+    {legend && legend.replace(/\b[a-z]/g, l => l.toUpperCase())}
   </h2>;
 };
 
 
 const widgets = {
-  phoneWidget: PhoneWidget
+  phone: PhoneWidget,
+  "tc": TCWidget
 };
 
 const fields = {
   DescriptionField: FormattedDescriptionField,
-  rawDescription: FormattedDescriptionField,
+  rawDescription: (e) => {console.log("A" + e)},
   TitleField: CustomTitleField
 };
 
@@ -116,6 +128,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   unescapeJSON(json:{}) {
     /* Un-escapes dollar signs in the json.
      */
+    let str = JSON.stringify(json);
     return JSON.parse(JSON.stringify(json).replace(/\\\\u0024/g,"$"));
   }
   /* Modifies the master schema based on the options specific to this form.
@@ -210,7 +223,15 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           console.log(schema);
           schema = deref(schema);
           console.log(schema);
-          this.populateSchemaWithOptions(schema["properties"], options);
+
+          // Allow for top level config (title, description, payment options, etc.)
+          for (let key in options) {
+            if (key != "properties" && typeof options[key] != "boolean") {
+              schema[key] = options[key];
+            }
+          }
+
+          this.populateSchemaWithOptions(schema.properties, options);
           this.filterUiSchema(uiSchema);
           console.log(options, uiSchema, schema);
             
