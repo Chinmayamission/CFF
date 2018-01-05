@@ -13,7 +13,7 @@ let config = {
 let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElement;
 if (formRenderElement) {
   ReactDOM.render(
-    <div className="bootstrap">
+    <div className="">
     <FormPage formId={{"$oid":formRenderElement.getAttribute('data-form-id')}} apiEndpoint={config.cff_api_endpoint} />
     </div>
     ,
@@ -24,8 +24,8 @@ if (formRenderElement) {
 let formAdminElement = document.getElementById('ccmt-cff-admin') as HTMLElement;
 if (formAdminElement) {
   ReactDOM.render(
-    <div className="bootstrap">
-      <FormAdminPage apiEndpoint={config.cff_api_endpoint} apiKey={"test" || formAdminElement.getAttribute('data-api-key')} />
+    <div className="">
+      <FormAdminPage apiEndpoint={config.cff_api_endpoint} apiKey={"5a2g9ecdf21d076gee1157b1" || formAdminElement.getAttribute('data-api-key')} />
     </div>
     ,
     formAdminElement

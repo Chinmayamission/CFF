@@ -16,7 +16,7 @@
  * Plugin Name:       CCMT Forms Subsite Plugin
  * Plugin URI:        
  * Description:       Allows Chinmaya Mission Subsites to access the CCMT forms api.
- * Version:           1.0.0
+ * Version:           1.0.2
  * Author:            CCMT
  * Author URI:        
  */
@@ -27,11 +27,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Currently pligin version.
+ * Currently plugin version.
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '1.0.0' );
+define( 'PLUGIN_NAME_VERSION', '1.0.2' );
 
 /**
  * The code that runs during plugin activation.

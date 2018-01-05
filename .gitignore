@@ -39,3 +39,4 @@ intermediate
 cache
 node_modules
 dist
+*.zip

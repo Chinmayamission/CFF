@@ -99,7 +99,7 @@ class CCMT_Forms_Subsite_Public {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/CCMT_forms_subsite-public.js', array( 'jquery' ), $this->version, false );
 		wp_register_script( "ccmt-cff-render-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' );
 		wp_register_script( "ccmt-cff-render-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js', array('ccmt-cff-render-vendor') );
-		wp_enqueue_style( "ccmt-cff-css-bootstrap",  plugin_dir_url( dirname( __FILE__ ) ) . 'public/css/iso_bootstrap4.0.0min.css');
+		wp_register_style( "ccmt-cff-form-css", 'https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
 	}
 	public function cff_shortcodes_init() {
 		/* Initializes the shortcode for rendering a form.
@@ -111,7 +111,7 @@ class CCMT_Forms_Subsite_Public {
 			), $atts );
 			wp_enqueue_script("ccmt-cff-render-vendor");
 			wp_enqueue_script("ccmt-cff-render-app");
-			wp_enqueue_style("ccmt-cff-css-bootstrap");
+			wp_enqueue_style("ccmt-cff-form-css");
 			ob_start();
 			include plugin_dir_path( __FILE__ ) . "partials/ccmt-cff-form-render.php";
 			return ob_get_clean();
