@@ -2,6 +2,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import FormPage from "../form/FormPage";
+import FormEmbed from "./FormEmbed";
 import FormList from "./FormList";
 import ResponseTable from "./ResponseTable";
 import {
@@ -14,6 +15,7 @@ const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
 const STATUS_FORM_RENDER = 2;
 const STATUS_FORM_RESPONSES = 3;
+const STATUS_FORM_EMBED = 4;
 
 class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
     constructor(props:any) {
@@ -36,12 +38,21 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         });
     }
 
-    loadForm(form) {
+    editForm(form) {
         this.setState({
             selectedForm: form,
             status: STATUS_FORM_RENDER
         });
     }
+
+    embedForm(form) {
+        this.setState({
+            selectedForm: form,
+            status: STATUS_FORM_EMBED
+        })
+    }
+
+
     loadResponses(form) {
         this.setState({
             selectedForm: form,
@@ -63,9 +74,16 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         return (
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center}</h1>
-            <FormList apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
-                loadForm = {(e) => this.loadForm(e)} loadResponses= {(e) => this.loadResponses(e)} 
+            <FormList
+                apiEndpoint={this.props.apiEndpoint}
+                apiKey={this.props.apiKey}
+                editForm = {(e) => this.editForm(e)}
+                embedForm = {(e) => this.embedForm(e)}
+                loadResponses= {(e) => this.loadResponses(e)} 
                 formList = {this.state.status == STATUS_FORM_LIST ? this.state.formList : [this.state.selectedForm]} />
+            {this.state.status == STATUS_FORM_EMBED && 
+                <FormEmbed form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} />
+            }
             {this.state.status == STATUS_FORM_RENDER &&
                 <FormPage formId = {this.state.selectedForm._id} apiEndpoint={this.props.apiEndpoint}/>
             }

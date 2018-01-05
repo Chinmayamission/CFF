@@ -1,19 +1,24 @@
+interface ObjectId {
+    "$oid": string
+}
 interface IFormAdminPageProps {
     apiEndpoint: string,
     apiKey: string
 }
 interface IFormAdminPageState {
-    formList: any[],
+    formList: IFormListItem[],
     center: string,
-    selectedForm: any,
+    selectedForm: IFormListItem,
     status: Number
 }
 interface IFormListItem {
-    // name, _id.
+    name: string,
+    _id: ObjectId
 }
 interface IFormListProps extends IFormAdminPageProps {
     loadResponses: (e) => void,
-    loadForm: (e) => void,
+    embedForm: (e) => void,
+    editForm: (e) => void,
     formList: any[]
 }
 
