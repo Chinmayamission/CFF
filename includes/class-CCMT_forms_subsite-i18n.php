@@ -9,8 +9,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    GCMW_Forms_Subsite
- * @subpackage GCMW_Forms_Subsite/includes
+ * @package    CCMT_Forms_Subsite
+ * @subpackage CCMT_Forms_Subsite/includes
  */
 
 /**
@@ -20,11 +20,11 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    GCMW_Forms_Subsite
- * @subpackage GCMW_Forms_Subsite/includes
+ * @package    CCMT_Forms_Subsite
+ * @subpackage CCMT_Forms_Subsite/includes
  * @author     Your Name <email@example.com>
  */
-class GCMW_Forms_Subsite_i18n {
+class CCMT_Forms_Subsite_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class GCMW_Forms_Subsite_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'gcmw_forms_subsite',
+			'CCMT_forms_subsite',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

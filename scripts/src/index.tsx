@@ -10,7 +10,7 @@ let config = {
   "cff_api_endpoint": 'https://l5nrf4co1g.execute-api.us-east-1.amazonaws.com/prod/forms'
 };
 
-let formRenderElement = document.getElementById('gcmw-cff-render') as HTMLElement;
+let formRenderElement = document.getElementById('CCMT-cff-render') as HTMLElement;
 if (formRenderElement) {
   ReactDOM.render(
     <FormPage formId={{"$oid":formRenderElement.getAttribute('data-form-id')}} apiEndpoint={config.cff_api_endpoint} />,
@@ -18,7 +18,7 @@ if (formRenderElement) {
   );
 }
 
-let formAdminElement = document.getElementById('gcmw-cff-admin') as HTMLElement;
+let formAdminElement = document.getElementById('CCMT-cff-admin') as HTMLElement;
 if (formAdminElement) {
   ReactDOM.render(
     <BrowserRouter>

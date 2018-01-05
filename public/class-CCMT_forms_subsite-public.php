@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    GCMW_Forms_Subsite
- * @subpackage GCMW_Forms_Subsite/public
+ * @package    CCMT_Forms_Subsite
+ * @subpackage CCMT_Forms_Subsite/public
  */
 
 /**
@@ -16,11 +16,11 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @package    GCMW_Forms_Subsite
- * @subpackage GCMW_Forms_Subsite/public
+ * @package    CCMT_Forms_Subsite
+ * @subpackage CCMT_Forms_Subsite/public
  * @author     Your Name <email@example.com>
  */
-class GCMW_Forms_Subsite_Public {
+class CCMT_Forms_Subsite_Public {
 
 	/**
 	 * The ID of this plugin.
@@ -65,15 +65,15 @@ class GCMW_Forms_Subsite_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in GCMW_Forms_Subsite_Loader as all of the hooks are defined
+		 * defined in CCMT_Forms_Subsite_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The GCMW_Forms_Subsite_Loader will then create the relationship
+		 * The CCMT_Forms_Subsite_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/gcmw_forms_subsite-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/CCMT_forms_subsite-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -88,17 +88,17 @@ class GCMW_Forms_Subsite_Public {
 		 * This function is provided for demonstration purposes only.
 		 *
 		 * An instance of this class should be passed to the run() function
-		 * defined in GCMW_Forms_Subsite_Loader as all of the hooks are defined
+		 * defined in CCMT_Forms_Subsite_Loader as all of the hooks are defined
 		 * in that particular class.
 		 *
-		 * The GCMW_Forms_Subsite_Loader will then create the relationship
+		 * The CCMT_Forms_Subsite_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/gcmw_forms_subsite-public.js', array( 'jquery' ), $this->version, false );
-		wp_register_script( "gcmw-cff-render-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' );
-		wp_register_script( "gcmw-cff-render-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js', array('gcmw-cff-render-vendor') );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/CCMT_forms_subsite-public.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( "CCMT-cff-render-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' );
+		wp_register_script( "CCMT-cff-render-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js', array('CCMT-cff-render-vendor') );
 
 	}
 	public function cff_shortcodes_init() {
@@ -109,13 +109,13 @@ class GCMW_Forms_Subsite_Public {
 				'id' => '',
 				'apiKey' => '',
 			), $atts );
-			wp_enqueue_script("gcmw-cff-render-vendor");
-			wp_enqueue_script("gcmw-cff-render-app");
+			wp_enqueue_script("CCMT-cff-render-vendor");
+			wp_enqueue_script("CCMT-cff-render-app");
 			ob_start();
-			include plugin_dir_path( __FILE__ ) . "partials/gcmw-cff-form-render.php";
+			include plugin_dir_path( __FILE__ ) . "partials/CCMT-cff-form-render.php";
 			return ob_get_clean();
 		}
-		add_shortcode( 'gcmw-cff-render-form', 'cff_shortcodes_render_form_fn' );
+		add_shortcode( 'CCMT-cff-render-form', 'cff_shortcodes_render_form_fn' );
 	}
 
 }

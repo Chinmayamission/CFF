@@ -8,8 +8,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    GCMW_Forms_Subsite
- * @subpackage GCMW_Forms_Subsite/admin/partials
+ * @package    CCMT_Forms_Subsite
+ * @subpackage CCMT_Forms_Subsite/admin/partials
  */
 ?>
 

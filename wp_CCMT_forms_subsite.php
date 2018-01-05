@@ -8,14 +8,14 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
+ * @link              http://chinmayamission.com
  * @since             1.0.0
- * @package           GCMW_Forms_Subsite
+ * @package           CCMT_Forms_Subsite
  *
  * @wordpress-plugin
- * Plugin Name:       GCMW Forms Subsite Plugin
+ * Plugin Name:       CCMT Forms Subsite Plugin
  * Plugin URI:        
- * Description:       Allows Chinmaya Mission Subsites to access the GCMW forms api.
+ * Description:       Allows Chinmaya Mission Subsites to access the CCMT forms api.
  * Version:           1.0.0
  * Author:            CCMT
  * Author URI:        
@@ -35,20 +35,20 @@ define( 'PLUGIN_NAME_VERSION', '1.0.0' );
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-gcmw_forms_subsite-activator.php
+ * This action is documented in includes/class-CCMT_forms_subsite-activator.php
  */
 function activate_plugin_name() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-gcmw_forms_subsite-activator.php';
-	GCMW_Forms_Subsite_Activator::activate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-CCMT_forms_subsite-activator.php';
+	CCMT_Forms_Subsite_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-gcmw_forms_subsite-deactivator.php
+ * This action is documented in includes/class-CCMT_forms_subsite-deactivator.php
  */
 function deactivate_plugin_name() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-gcmw_forms_subsite-deactivator.php';
-	GCMW_Forms_Subsite_Deactivator::deactivate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-CCMT_forms_subsite-deactivator.php';
+	CCMT_Forms_Subsite_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_plugin_name' );
@@ -58,7 +58,7 @@ register_deactivation_hook( __FILE__, 'deactivate_plugin_name' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-gcmw_forms_subsite.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-CCMT_forms_subsite.php';
 
 /**
  * Begins execution of the plugin.
@@ -71,7 +71,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-gcmw_forms_subsite.php';
  */
 function run_plugin_name() {
 
-	$plugin = new GCMW_Forms_Subsite();
+	$plugin = new CCMT_Forms_Subsite();
 	$plugin->run();
 
 }

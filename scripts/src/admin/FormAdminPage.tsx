@@ -59,7 +59,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         var that = this;
         return (
         <div className="App FormAdminPage">
-            <h1>GCMW Form Admin - {this.state.center}</h1>
+            <h1>CCMT Form Admin - {this.state.center}</h1>
             {this.state.status == STATUS_FORM_LIST &&
                 <FormList apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
                     loadForm = {(e) => this.loadForm(e)} loadResponses= {(e) => this.loadResponses(e)} 

@@ -22,7 +22,7 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    GCMW_Forms_Subsite
+ * @package    CCMT_Forms_Subsite
  */
 
 // If uninstall not called from WordPress, then exit.

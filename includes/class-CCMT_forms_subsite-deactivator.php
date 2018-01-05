@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    GCMW_Forms_Subsite
- * @subpackage GCMW_Forms_Subsite/includes
+ * @package    CCMT_Forms_Subsite
+ * @subpackage CCMT_Forms_Subsite/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    GCMW_Forms_Subsite
- * @subpackage GCMW_Forms_Subsite/includes
+ * @package    CCMT_Forms_Subsite
+ * @subpackage CCMT_Forms_Subsite/includes
  * @author     Your Name <email@example.com>
  */
-class GCMW_Forms_Subsite_Deactivator {
+class CCMT_Forms_Subsite_Deactivator {
 
 	/**
 	 * Short Description. (use period)
