@@ -59,7 +59,9 @@ interface IFormConfirmationPageProps {
 
 interface IFormConfirmationPageState {
     paid: boolean,
-    paymentTransactionInfo: string
+    paymentTransactionInfo: string,
+    tableData: any,
+    tableHeaders: any
 }
 
 interface IPaymentProps {

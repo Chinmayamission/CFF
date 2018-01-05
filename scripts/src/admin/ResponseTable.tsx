@@ -57,9 +57,9 @@ class ResponseTable extends React.Component<any, any> {
         else if (this.state.status == STATUS_RESPONSES_RENDERED) {
             return (
                 <div>
-                      <ReactTable
-                        data={this.state.tableData}
-                        columns={this.state.tableHeaders}
+                    <ReactTable
+                    data={this.state.tableData}
+                    columns={this.state.tableHeaders}
                     />
                 </div>
             );

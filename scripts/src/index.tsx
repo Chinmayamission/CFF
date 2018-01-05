@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import FormPage from './form/FormPage';
 import FormAdminPage from './admin/FormAdminPage';
 import { BrowserRouter } from 'react-router-dom';
+import "./common/main.css";
 
 
 let config = {

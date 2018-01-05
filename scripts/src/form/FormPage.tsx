@@ -8,7 +8,8 @@ import BooleanField from 'react-jsonschema-form';
 import * as DOMPurify from 'dompurify';
 import * as deref from "json-schema-deref-sync";
 import * as Promise from 'bluebird';
-import axios from 'axios';import "./form.css";
+import axios from 'axios';
+import "./form.css";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "src/common/loading";
 
@@ -131,6 +132,24 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       uiSchema: {"title": "status"},
       step: 0,
       data: {
+        "name": {
+          "first": "Ashwin",
+          "last": "Ramaswami"
+        },
+        "additionalParticipants": [
+          {
+            "name": {
+              "first": "Kalyani",
+              "last": "Sank"
+            }
+          },
+          {
+            "name": {
+              "first": "Arvind",
+              "last": "Ramaswami"
+            }
+          }
+        ],
         "email": "aramaswamis@gmail.com",
         "acceptTerms": true,
         "address": {"zipcode": "30022"},

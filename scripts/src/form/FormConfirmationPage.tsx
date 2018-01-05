@@ -2,22 +2,56 @@
 import * as React from 'react';
 import Payment from './components/payment';
 import {flatten} from 'flat';
+import ReactTable from 'react-table';
 
 var This;
 class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, IFormConfirmationPageState> {
     constructor(props:any) {
         super(props);
         This = this;
+        let tableHeaders = [
+            {
+                Header: "Field",
+                accessor: "field"
+                //id: "field",
+                //accessor: d => d.field
+            },
+            {
+                Header: "Value",
+                accessor: "value"
+            }
+        ];
+        /*for (let header in this.props.data) {
+            if (!~headers.indexOf(header)) {
+                headers.push(header);
+                headerObjs.push({
+                    Header: header,
+                    id: header,
+                    accessor: d=> JSON.stringify(d[header]) // String-based value accessors!
+                  });
+            }
+        }*/
+        let tableData = [];
+        let flattenedData = flatten(this.props.data);
+        for (let field in flattenedData) {
+            tableData.push({
+                "field": field,
+                "value": flattenedData[field]
+            })
+        };
+
         this.state = {
             "paid": false,
             "paymentTransactionInfo": "",
+            tableData,
+            tableHeaders
         }
     }
     onPaymentComplete(message) {
         /* Called by Payment's thing. */
         This.setState({
             "paid": true,
-            "paymentTransactionInfo": JSON.stringify(message, null, 2),
+            "paymentTransactionInfo": JSON.stringify(message, null, 2)
         });
     }
     onPaymentError(message) {
@@ -33,7 +67,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
             {!this.state.paid && <button className="btn btn-primary"
                 onClick={this.props.goBack}
             >Back to form page</button>}
-            <table className="table table-striped"><tbody>
+            {/*<table className="table table-striped"><tbody>
             <tr key={this.props.responseId}><th>Response ID</th><td>{this.props.responseId}</td></tr>
             {Object.keys(flatten(this.props.data)).map((item, index) => (
             <tr key={index}>
@@ -41,7 +75,14 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
                 <td>{this.props.data[item]}</td>
             </tr>
             ))}
-            </tbody></table>
+            </tbody></table>*/}
+            {
+                
+            }
+            <ReactTable
+                data={this.state.tableData}
+                columns={this.state.tableHeaders}
+            />
         {(this.state.paid) ? 
         <div>
             <h1>Thanks for paying!</h1>

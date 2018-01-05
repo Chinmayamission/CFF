@@ -2,6 +2,7 @@
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
 import FormPage from "src/form/FormPage";
+import "./admin.css";
 
 class FormEdit extends React.Component<any, any> {
     constructor(props:any) {
@@ -33,7 +34,7 @@ class FormEdit extends React.Component<any, any> {
                 [ccmt-cff-render-form id="{this.props.form._id.$oid}"]
                 </pre>
                 <button className="button button-primary" onClick={() => {this.onOpenModal()}}>Preview</button>
-                <Modal open={this.state.open} onClose={this.onCloseModal} style={{"height": 400, "overflow": "auto"}}>
+                <Modal open={this.state.open} onClose={this.onCloseModal}>
                     <FormPage formId = {this.props.form._id} apiEndpoint={this.props.apiEndpoint}/>
                 </Modal>
             </div>
