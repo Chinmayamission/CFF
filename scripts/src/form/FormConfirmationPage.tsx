@@ -1,6 +1,7 @@
 /// <reference path="./interfaces.d.ts"/>
 import * as React from 'react';
 import Payment from './components/payment';
+import {flatten} from 'flat';
 
 var This;
 class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, IFormConfirmationPageState> {
@@ -34,7 +35,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
             >Back to form page</button>}
             <table className="table table-striped"><tbody>
             <tr key={this.props.responseId}><th>Response ID</th><td>{this.props.responseId}</td></tr>
-            {Object.keys(this.props.data).map((item, index) => (
+            {Object.keys(flatten(this.props.data)).map((item, index) => (
             <tr key={index}>
                 <th>{item}</th>
                 <td>{this.props.data[item]}</td>

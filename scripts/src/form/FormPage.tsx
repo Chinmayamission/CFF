@@ -130,7 +130,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       schema: {"title": "Loading...", "type": "object"},
       uiSchema: {"title": "status"},
       step: 0,
-      data: {},
+      data: {
+        "email": "aramaswamis@gmail.com",
+        "acceptTerms": true,
+        "address": {"zipcode": "30022"},
+        "race": "10K"
+      },
       responseId: null
     };
   }

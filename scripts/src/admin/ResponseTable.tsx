@@ -2,6 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
+import {flatten} from 'flat';
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -27,7 +28,7 @@ class ResponseTable extends React.Component<any, any> {
         axios.get(responseUrl, {"responseType": "json"})
         .then(response => response.data.res[0].responses)
         .then(data => {
-            data = data.map((e) => e.value).filter((e) => e);
+            data = data.map((e) => flatten(e.value)).filter((e) => e);
             console.log(data);
             let headers = [];
             let headerObjs = [];
