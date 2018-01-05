@@ -13,9 +13,10 @@ import Loading from "src/common/loading";
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
-const STATUS_FORM_RENDER = 2;
+const STATUS_FORM_RENDER = 2; // Not used.
 const STATUS_FORM_RESPONSES = 3;
 const STATUS_FORM_EMBED = 4;
+const STATUS_FORM_EDIT = 5;
 
 class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
     constructor(props:any) {
@@ -41,7 +42,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     editForm(form) {
         this.setState({
             selectedForm: form,
-            status: STATUS_FORM_RENDER
+            status: STATUS_FORM_EDIT
         });
     }
 
@@ -83,9 +84,6 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 formList = {this.state.status == STATUS_FORM_LIST ? this.state.formList : [this.state.selectedForm]} />
             {this.state.status == STATUS_FORM_EMBED && 
                 <FormEmbed form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} />
-            }
-            {this.state.status == STATUS_FORM_RENDER &&
-                <FormPage formId = {this.state.selectedForm._id} apiEndpoint={this.props.apiEndpoint}/>
             }
             {this.state.status == STATUS_FORM_RESPONSES &&
                 <ResponseTable formId = {this.state.selectedForm._id} apiKey={this.props.apiKey} apiEndpoint={this.props.apiEndpoint}/>

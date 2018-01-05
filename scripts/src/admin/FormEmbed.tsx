@@ -1,20 +1,30 @@
 /// <reference path="./admin.d.ts"/>
 import * as React from 'react';
+import Modal from 'react-responsive-modal';
+import FormPage from "src/form/FormPage";
 
 class FormEdit extends React.Component<any, any> {
     constructor(props:any) {
         super(props);
         this.render = this.render.bind(this);
         this.state = {
-            
+            open: false
         }
     }
+    onOpenModal = () => {
+        this.setState({ open: true });
+      };
+     
+      onCloseModal = () => {
+        this.setState({ open: false });
+      };
 
     componentDidMount() {
-        
+
     }
     render() {
         console.log(this.props.form);
+        
         return (
             <div>
                 <h1>Embed form shortcode</h1>
@@ -22,6 +32,10 @@ class FormEdit extends React.Component<any, any> {
                 <pre>
                 [ccmt-cff-render-form id="{this.props.form._id.$oid}"]
                 </pre>
+                <button className="button button-primary" onClick={() => {this.onOpenModal()}}>Preview</button>
+                <Modal open={this.state.open} onClose={this.onCloseModal} style={{"height": 400, "overflow": "auto"}}>
+                    <FormPage formId = {this.props.form._id} apiEndpoint={this.props.apiEndpoint}/>
+                </Modal>
             </div>
         );
     }
