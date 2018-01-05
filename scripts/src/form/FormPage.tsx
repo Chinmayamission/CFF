@@ -1,7 +1,7 @@
 /// <reference path="./interfaces.d.ts"/>
 import * as React from 'react';
-
-import Form from 'react-jsonschema-form';
+import Linkify from 'react-linkify';
+import Form from 'react-jsonschema-form'; 
 
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
@@ -62,13 +62,32 @@ const PhoneWidget = (props: any) => {
   );
 };
 
+const Formatted = ({id, description}) => {
+  return <Linkify><div id={id}>{description + " AHU "}</div></Linkify>;
+};
+
+const FormattedDescriptionField = ({id, description}) => {
+  return <div id={id}><Linkify props={{"target": "_blank"}}>
+    {description}
+  </Linkify></div>;
+};
+
+const CustomTitleField = ({title, required}) => {
+  const legend = required ? title + '*' : title;
+  return <h2 className="ccmt-cff-form-title">
+    {legend.replace(/\b[a-z]/g, l => l.toUpperCase())}
+  </h2>;
+};
+
 
 const widgets = {
   phoneWidget: PhoneWidget
 };
 
 const fields = {
-
+  DescriptionField: FormattedDescriptionField,
+  rawDescription: FormattedDescriptionField,
+  TitleField: CustomTitleField
 };
 
 const schema = {};
