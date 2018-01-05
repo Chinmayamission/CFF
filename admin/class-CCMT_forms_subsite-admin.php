@@ -87,6 +87,7 @@ class CCMT_Forms_Subsite_Admin {
 	public function form_management_page_render() {
 		wp_enqueue_script("ccmt-cff-edit-vendor");
 		wp_enqueue_script("ccmt-cff-edit-app");
+		wp_enqueue_style("ccmt-cff-css-bootstrap");
 		include plugin_dir_path( __FILE__ ) . "partials/form-management.php";
 	}
 

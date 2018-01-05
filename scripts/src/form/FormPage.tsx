@@ -5,6 +5,7 @@ import Form from 'react-jsonschema-form';
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
+import BooleanField from 'react-jsonschema-form';
 import * as DOMPurify from 'dompurify';
 import * as deref from "json-schema-deref-sync";
 import * as Promise from 'bluebird';
@@ -82,6 +83,14 @@ const FormattedDescriptionField = ({id, description}) => {
     <div dangerouslySetInnerHTML={{"__html": DOMPurify.sanitize(description)}} />
   </div>;
 };
+
+const CustomBooleanField = (props => {
+  console.log("p", props);
+  return (<div>
+    <FormattedDescriptionField id={props.description} description={props.description} />
+    <BooleanField {...props} />
+  </div>);
+})
 
 const CustomTitleField = ({title, required}) => {
   const legend = required ? title + '*' : title;
