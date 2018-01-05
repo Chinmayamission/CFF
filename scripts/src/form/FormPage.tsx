@@ -128,6 +128,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     This = this;
     this.state ={
       status: STATUS_FORM_LOADING,
+      schemaMetadata: {},
       schema: {"title": "None", "type": "object"},
       uiSchema: {"title": "status"},
       step: 0,
@@ -257,18 +258,32 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           schema = deref(schema);
           console.log(schema);
 
-          // Allow for top level config (title, description, payment options, etc.)
+          // Allow for top level config (title, description, etc.)
           for (let key in options) {
             if (key != "properties" && typeof options[key] != "boolean") {
+              console.log("doing for key " + key);
               schema[key] = options[key];
             }
           }
+
+          // Config of payment options in schemaMetadata:
+          let schemaMetadata = [];
+          let POSSIBLE_METADATA_FIELDS = ["confirmationEmailInfo", "paymentInfo", "paymentMethods"];
+          for (let key in data.schema) {
+            if (~POSSIBLE_METADATA_FIELDS.indexOf(key))
+              schemaMetadata[key] = data.schema[key];
+          }
+          for (let key in data.schemaModifier) {
+            if (~POSSIBLE_METADATA_FIELDS.indexOf(key) && typeof data.schemaModifier[key] != "boolean")
+              schemaMetadata[key] = data.schemaModifier[key];
+          }
+
 
           this.populateSchemaWithOptions(schema.properties, options);
           this.filterUiSchema(uiSchema);
           console.log(options, uiSchema, schema);
             
-          This.setState({ uiSchema: uiSchema, schema: schema, status: STATUS_FORM_RENDERED });
+          This.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
           
         });
 
@@ -289,7 +304,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if (!(res.success == true && res.inserted_id["$oid"])) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
       }
-      this.setState({status: STATUS_FORM_SUBMITTED, data: formData, responseId: res.inserted_id["$oid"]});
+      this.setState({status: STATUS_FORM_SUBMITTED, data: formData, responseId: res.inserted_id });
     }).catch((err) => {
       alert("Error. " + err);
     });
@@ -320,6 +335,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     else if (this.state.status == STATUS_FORM_SUBMITTED) {
       return (<FormConfirmationPage
               schema={this.state.schema}
+              schemaMetadata={this.state.schemaMetadata}
               uiSchema={this.state.uiSchema}
               data={this.state.data}
               goBack={this.goBackToFormPage}
