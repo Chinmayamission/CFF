@@ -5,6 +5,7 @@ import {flatten} from 'flat';
 import ReactTable from 'react-table';
 import {get} from "lodash-es";
 import {queryString} from 'query-string'; 
+import SchemaUtil from "src/common/util/SchemaUtil.tsx";
 
 var This;
 class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, IFormConfirmationPageState> {
@@ -22,19 +23,14 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
                 accessor: "value"
             }
         ];
-        function getLastDotNotation(path) {
-            let arr = path.split('.');
-            return arr[arr.length - 1];
-        }
 
         let tableData = [];
         let flattenedData = flatten(this.props.data);
         for (let fieldPath in flattenedData) {
-            // replaces "a.0.b.c" => "a.0.properties.b.properties.c" => "a.items.properties.b.properties.c" to properly retrieve the name from the schema
-            let schemaItem = get(this.props.schema.properties, fieldPath.replace(/\.([^\d])/g,".properties.$1").replace(/\.\d*\./g, ".items."));
+            let schemaItem = get(this.props.schema.properties, SchemaUtil.objToSchemaPath(fieldPath));
             if (!schemaItem) schemaItem = fieldPath;
             tableData.push({
-                "field": schemaItem.title || getLastDotNotation(fieldPath) || fieldPath,
+                "field": schemaItem.title || SchemaUtil.getLastDotNotation(fieldPath) || fieldPath,
                 "value": flattenedData[fieldPath]
             });
         };

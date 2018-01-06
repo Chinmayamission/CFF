@@ -1,6 +1,9 @@
 /// <reference path="./common.d.ts"/>
 import axios from 'axios';
 import * as deref from "json-schema-deref-sync";
+import {flatten} from 'flat';
+import SchemaUtil from "src/common/util/SchemaUtil.tsx";
+import {set, unset, merge, pick, filter} from 'lodash-es';
 
 function unescapeJSON(json: {}) {
     /* Un-escapes dollar signs in the json.
@@ -9,78 +12,13 @@ function unescapeJSON(json: {}) {
     return JSON.parse(JSON.stringify(json).replace(/\\\\u0024/g, "$"));
 }
 
-/* Modifies the master schema based on the schemaModifier specific to this form.
- */
-function populateSchemaWithOptions(schema, schemaModifier) {
-    for (let key in schema) {
-        let schemaItem = schema[key];
-        // Delete fields & sub-fields of the schema that aren't included in schemaModifiers.
-        if (!schemaModifier.hasOwnProperty(key)) {
-            if (!~["type", "properties"].indexOf(key)) {
-                //console.log("Deleting key " + key);
-                delete schema[key];
-            }
-            continue;
-        }
-        // Recursively call this function on objects (with properties).
-        if (isObject(schemaItem)) {
-            if (schemaModifier[key] === Object(schemaModifier[key])) {
-                if (schemaItem["properties"])
-                    populateSchemaWithOptions(schemaItem["properties"], schemaModifier[key]);
-                else // for an object without properties, such as {type: "string", title: "Last Name"}, or {enum: [1,2,3]}
-                    overwriteFlatJSON(schemaItem, schemaModifier[key])
-            }
-        }
-        // For everything else (strings, something with an "enum" property)
-        else {
-            schema[key] = schemaModifier[key];
-            //console.log("Replacing for key " + key + ", value " + schemaItem + " => " + schemaModifier[key]);
-        }
-    }
+let isUiSchemaKey = (attr) => {
+    let searchString = "ui:";
+    return attr && (attr.substr(0, searchString.length) === searchString || attr == "classNames");
+};
 
-}
-
-function isObject(obj) {
-    return Object(obj) === obj && !Array.isArray(obj)
-}
-
-/* Removes keys based on a test function.
- */
-function removeKeysBasedOnTest(obj, testFn) {
-    for (let i in obj) {
-        if (!obj.hasOwnProperty(i)) continue;
-        if (testFn(i)) {
-            //console.log("Not deleting " + i);
-            continue;
-        }
-        else if (isObject(obj[i])) {
-            //console.log("checking to filter for object: ", obj, i, obj[i]);
-            removeKeysBasedOnTest(obj[i], testFn);
-        }
-        else {
-            delete obj[i];
-            //console.log("Deleting " + i);
-        }
-    }
-    return obj;
-}
-
-/* Takes old json and replaces its properties with new's properties whenever possible.
-*/
-function overwriteFlatJSON(oldObj, newObj) {
-    for (let i in newObj) {
-        oldObj[i] = newObj[i];
-    }
-}
-
-/* Starting with a schemaModifier,
- * removes all non-"ui:..." keys (and className) from a given uiSchema.
- */
-function filterUiSchema(obj) {
-    return removeKeysBasedOnTest(obj, (attr) => {
-        let searchString = "ui:";
-        return attr && (attr.substr(0, searchString.length) === searchString || attr == "classNames");
-    });
+let isUiSchemaPath = (path) => {
+    return path && (~path.indexOf("ui:") || ~path.indexOf("classNames"));
 }
 
 class FormLoader {
@@ -94,18 +32,10 @@ class FormLoader {
     getFormAndCreateSchemas(apiEndpoint, formId) {
         return this.getForm(apiEndpoint, formId).then(data => {
             var schemaModifier = data["schemaModifier"].value;
-            var uiSchema = schemaModifier;
-            var schema = data["schema"].value;
+            // var uiSchema = schemaModifier;
+            let schema = data["schema"].value;
             schema = deref(schema);
             schemaModifier = deref(schemaModifier);
-
-            // Allow for top level config (title, description, etc.)
-            for (let key in schemaModifier) {
-                if (key != "properties" && typeof schemaModifier[key] != "boolean") {
-                    console.log("doing for key " + key);
-                    schema[key] = schemaModifier[key];
-                }
-            }
 
             // Config of payment schemaModifier in schemaMetadata:
             let schemaMetadata = {};
@@ -119,9 +49,51 @@ class FormLoader {
                     schemaMetadata[key] = data.schemaModifier[key];
             }
 
-            populateSchemaWithOptions(schema.properties, schemaModifier);
-            filterUiSchema(uiSchema);
-            console.log(schemaModifier, uiSchema, schema);
+            console.log('orig schema', schema);
+            let uiSchema = {};
+            
+            // Populate uiSchema with uiSchema options specified in the schema,
+            // and remove uiSchema.
+            let flattenedSchema = flatten(schema);
+            let flattenedSchemaModifier = flatten(schemaModifier);
+            for (let fieldPath in flattenedSchema) {
+                let fieldValue = flattenedSchema[fieldPath];
+                let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(fieldPath);
+                console.log(flattenedSchemaModifier, schemaModifierFieldPath, flattenedSchemaModifier[schemaModifierFieldPath]);
+                if (isUiSchemaPath(fieldPath)) {
+                    unset(schema, fieldPath);
+                    set(uiSchema, schemaModifierFieldPath, fieldValue);
+                }
+            }
+            
+            // Applies schema modifier attributes to uiSchema and schema.
+            for (let fieldPath in flattenedSchemaModifier) {
+                let fieldValue = flattenedSchemaModifier[fieldPath];
+                let schemaFieldPath = SchemaUtil.objToSchemaPath(fieldPath);
+                if (~["title", "description"].indexOf(fieldPath)) {
+                    // Top-level modifications.
+                    schema[fieldPath] = fieldValue;
+                }
+                else if (isUiSchemaPath(fieldPath)) {
+                    set(uiSchema, fieldPath, fieldValue);
+                }
+                else if (!fieldValue) {
+                    unset(schema.properties, schemaFieldPath);
+                }
+                else if (typeof fieldValue == "boolean") {
+                }
+                else {
+                    console.log(fieldPath, schemaFieldPath);
+                    set(schema.properties, schemaFieldPath, fieldValue);
+                }
+            }
+
+            /*schema = merge({}, schemaModifier, schema);
+            let flattenedKeys = Object.keys(flatten(schema)).filter(k => !isUiSchemaKey(k));
+            schema = pick(schema, flattenedKeys);*/
+            
+            // filterUiSchema(uiSchema);
+            console.log("new schema", schema);
             return { schemaMetadata, uiSchema, schema };
         });
     }
