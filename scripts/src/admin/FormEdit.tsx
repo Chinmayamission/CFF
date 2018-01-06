@@ -1,29 +1,45 @@
 /// <reference path="./admin.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
+import JSONEditor from "./components/JSONEditor"
+import FormLoader from "src/common/FormLoader";
+import Loading from "src/common/loading";
 
-const STATUS_LOADING = 0;
-const STATUS_FORM_LIST = 1;
-const STATUS_FORM_RENDER = 2;
-const STATUS_FORM_RESPONSES = 3;
-
-class FormEdit extends React.Component<any, any> {
-    constructor(props:any) {
+class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
+    constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);
         this.state = {
-            status: STATUS_LOADING
+            loading: true,
+            schemaModifier: null,
+            schema: null
         }
     }
 
     componentDidMount() {
-        
+        let formLoader = new FormLoader();
+        formLoader.getForm(this.props.apiEndpoint, this.props.form._id['$oid']).then(({ schemaModifier, schema }) => {
+            this.setState({
+                schemaModifier,
+                schema,
+                loading: false
+            });
+        });
     }
     getPath(params) {
 
     }
     render() {
-        return null;
+        if (this.state.loading) {
+            return <Loading />;
+        }
+        return <div className="ccmt-cff-page-FormEdit">
+            {this.props.form.name} - {this.props.form._id.$oid}
+            <div style={{ "display": "flex" }}>
+                <JSONEditor data={this.state.schemaModifier} />
+                <JSONEditor data={this.state.schema} />
+            </div>
+        </div>;
     }
 }
 

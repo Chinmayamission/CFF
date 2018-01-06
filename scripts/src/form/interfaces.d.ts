@@ -12,6 +12,9 @@ interface Schema {
     
     [propName: string]: any;
 }
+interface SchemaModifier {
+    
+}
 interface SchemaMetadata {
     paymentInfo?: PaymentInfo,
     paymentMethods?: PaymentMethods

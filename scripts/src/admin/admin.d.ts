@@ -24,3 +24,22 @@ interface IFormListProps extends IFormAdminPageProps {
 
 interface IFormListState {
 }
+
+interface IFormEditProps {
+    apiKey: string,
+    apiEndpoint: string,
+    form: IFormListItem
+}
+
+interface IFormEditState {
+    schema: ISchemaDBEntry,
+    schemaModifier: ISchemaModifierDBEntry,
+    loading: boolean
+}
+
+interface ISchemaDBEntry {
+
+}
+interface ISchemaModifierDBEntry {
+    
+}
