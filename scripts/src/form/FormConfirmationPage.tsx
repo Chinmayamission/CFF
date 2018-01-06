@@ -64,7 +64,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
             <h1>
                 {this.props.schema.title} - Confirmation Page
             </h1>
-            {!this.state.paid && <button className="btn btn-primary"
+            {!this.state.paid && <button className="button button-primary"
                 onClick={this.props.goBack}
             >Back to form page</button>}
             <ReactTable
