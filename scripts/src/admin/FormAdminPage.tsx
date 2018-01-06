@@ -1,18 +1,15 @@
 /// <reference path="./admin.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
+import {flatten} from 'flat';
 import * as queryString from "query-string";
 import {pick, get, set} from "lodash-es";
 import FormPage from "../form/FormPage";
 import FormEmbed from "./FormEmbed";
 import FormList from "./FormList";
+import FormEdit from "./FormEdit";
 import ResponseTable from "./ResponseTable";
-import {
-    Route,
-    Link
-  } from 'react-router-dom'
 import Loading from "src/common/loading";
-import {flatten} from 'flat';
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
@@ -104,8 +101,11 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             {this.state.status == STATUS_FORM_EMBED && 
                 <FormEmbed form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} />
             }
+            {this.state.status == STATUS_FORM_EDIT && 
+                <FormEdit form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
+            }
             {this.state.status == STATUS_FORM_RESPONSES &&
-                <ResponseTable formId = {this.state.selectedForm._id} apiKey={this.props.apiKey} apiEndpoint={this.props.apiEndpoint}/>
+                <ResponseTable formId = {this.state.selectedForm._id} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
             }
         </div>
         );
