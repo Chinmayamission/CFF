@@ -8,7 +8,7 @@ import BooleanField from 'react-jsonschema-form';
 import * as DOMPurify from 'dompurify';
 import * as Promise from 'bluebird';
 import axios from 'axios';
-import "./form.css";
+import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "src/common/loading";
 import FormLoader from "src/common/FormLoader";
@@ -199,7 +199,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       );
     } else if (this.state.status == STATUS_FORM_RENDERED) {
       return (
-        <div className="App">
+        <div className="ccmt-cff-Page-FormPage">
           <Form
             schema={this.state.schema}
             uiSchema={this.state.uiSchema}

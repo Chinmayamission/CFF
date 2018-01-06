@@ -38,8 +38,8 @@ module.exports = {
             loader: 'ts-loader'
         }, // to transform TSX into JS
         {
-          test: /\.css$/,
-          use: [ 'style-loader', 'css-loader' ]
+          test: /\.s?css$/,
+          use: [ 'style-loader', 'css-loader', 'sass-loader' ]
         },
         {
           test: /\.svg$/,
