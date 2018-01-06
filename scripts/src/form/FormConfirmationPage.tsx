@@ -66,27 +66,15 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
             {!this.state.paid && <button className="btn btn-primary"
                 onClick={this.props.goBack}
             >Back to form page</button>}
-            {/*<table className="table table-striped"><tbody>
-            <tr key={this.props.responseId}><th>Response ID</th><td>{this.props.responseId}</td></tr>
-            {Object.keys(flatten(this.props.data)).map((item, index) => (
-            <tr key={index}>
-                <th>{item}</th>
-                <td>{this.props.data[item]}</td>
-            </tr>
-            ))}
-            </tbody></table>*/}
-            {
-                
-            }
             <ReactTable
-                data={this.state.tableData}
+                data={[this.state.tableData]}
                 columns={this.state.tableHeaders}
                 showPagination={false}
             />
         {(this.state.paid) ? 
             <div>
-                <h1>Thanks for paying!</h1>
-                <p>Please print this page for your confirmation.</p>
+                <h1>Payment processing</h1>
+                <p>You will receive a confirmation email within 24 hours after the payment has been verified. Please print this page for your verification.</p>
                 <pre>
                     {this.state.paymentTransactionInfo}
                 </pre>
