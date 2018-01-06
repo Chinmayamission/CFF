@@ -11,6 +11,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
     constructor(props:any) {
         super(props);
         This = this;
+        console.log("Data is " , this.props.data);
         let tableHeaders = [
             {
                 Header: "Field",
@@ -31,14 +32,13 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         for (let fieldPath in flattenedData) {
             // replaces "a.0.b.c" => "a.0.properties.b.properties.c" => "a.items.properties.b.properties.c" to properly retrieve the name from the schema
             let schemaItem = get(this.props.schema.properties, fieldPath.replace(/\.([^\d])/g,".properties.$1").replace(/\.\d*\./g, ".items."));
-            console.log(fieldPath, schemaItem);
             if (!schemaItem) schemaItem = fieldPath;
             tableData.push({
-                "field": schemaItem.title || getLastDotNotation(fieldPath),
+                "field": schemaItem.title || getLastDotNotation(fieldPath) || fieldPath,
                 "value": flattenedData[fieldPath]
-            })
+            });
         };
-        
+        console.log("table data is ", tableData, tableHeaders);
 
         this.state = {
             "paid": false,
@@ -68,9 +68,10 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
                 onClick={this.props.goBack}
             >Back to form page</button>}
             <ReactTable
-                data={[this.state.tableData]}
+                data={this.state.tableData}
                 columns={this.state.tableHeaders}
                 showPagination={false}
+                minRows={0}
             />
         {(this.state.paid) ? 
             <div>
