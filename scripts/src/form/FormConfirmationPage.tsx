@@ -3,7 +3,8 @@ import * as React from 'react';
 import Payment from './components/payment';
 import {flatten} from 'flat';
 import ReactTable from 'react-table';
-import * as get from 'lodash/get';
+import {get} from "lodash-es";
+import {queryString} from 'query-string'; 
 
 var This;
 class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, IFormConfirmationPageState> {

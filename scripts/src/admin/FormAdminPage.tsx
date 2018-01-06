@@ -1,6 +1,8 @@
 /// <reference path="./admin.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
+import * as queryString from "query-string";
+import {pick, get, set} from "lodash-es";
 import FormPage from "../form/FormPage";
 import FormEmbed from "./FormEmbed";
 import FormList from "./FormList";
@@ -10,6 +12,7 @@ import {
     Link
   } from 'react-router-dom'
 import Loading from "src/common/loading";
+import {flatten} from 'flat';
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
@@ -31,11 +34,10 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
 
     getFormList(url) {
-        var that = this;
-        axios.get(url, {"responseType": "json"})
+        return axios.get(url, {"responseType": "json"})
         .then((response) => {
             console.log(response.data);
-            that.setState({formList: response.data.res, status: STATUS_FORM_LIST});
+            this.setState({formList: response.data.res, status: STATUS_FORM_LIST});
         });
     }
 
@@ -53,6 +55,15 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         })
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        let propsToEncode = ["selectedForm", "status"];
+        if (pick(this.state, propsToEncode) != pick(prevState, propsToEncode)) {
+            let encodedState = flatten(pick(this.state, ["selectedForm", "status"]));
+            let newQS = queryString.stringify(encodedState);
+            window.location.hash = newQS;//queryString.stringify(encodedState);   
+        }
+    }
+
 
     loadResponses(form) {
         this.setState({
@@ -61,8 +72,16 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         });
     }
     componentDidMount() {
+        let queryObjFlat = queryString.parse(location.hash);
+
         let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.props.apiKey;
-        this.getFormList(formListUrl);
+        this.getFormList(formListUrl).then((e) =>{
+            let queryObjNested = {};
+            for (let path in queryObjFlat) {
+                set(queryObjNested, path, queryObjFlat[path]);
+            }
+            this.setState(queryObjNested);
+        });
     }
     getPath(params) {
         return window.location.pathname + "?" + window.location.href.split("?")[1] + "&" + params;
