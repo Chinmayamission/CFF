@@ -34,10 +34,13 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             return <Loading />;
         }
         return <div className="ccmt-cff-page-FormEdit">
-            {this.props.form.name} - {this.props.form._id.$oid}
+            <div>
+                {this.props.form.name} - {this.props.form._id.$oid}<br />
+                <strong>Note: This is <em>view-only</em>; your changes will not be saved. That functionality is coming soon.</strong>
+            </div><br/>
             <div style={{ "display": "flex" }}>
-                <JSONEditor data={this.state.schemaModifier} />
-                <JSONEditor data={this.state.schema} />
+                <JSONEditor title={"Schema Modifier"} data={this.state.schemaModifier} />
+                <JSONEditor title={"Schema"} data={this.state.schema} />
             </div>
         </div>;
     }
