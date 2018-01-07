@@ -40,3 +40,10 @@
         margin-top: 15px;
     }
 }
+.ccmt-cff-Page-FormConfirmationPage {
+    .ReactTable {
+        .rt-td:first-child {
+            text-transform: capitalize;
+        }
+    }
+}

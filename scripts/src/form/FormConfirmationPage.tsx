@@ -56,7 +56,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
     }
     render() {
         return (
-        <div className="App FormConfirmationPage">
+        <div className="ccmt-cff-Page-FormConfirmationPage">
             <h1>
                 {this.props.schema.title} - Confirmation Page
             </h1>

@@ -148,9 +148,10 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     {/*<button className="button" onClick={() => this.showUnwindTable()}>
                     Unwind data
                         </button>*/}
-                    <TreeTable
+                    <ReactTable
                     data={this.state.tableDataDisplayed}
                     columns={this.state.tableHeadersDisplayed}
+                    minRows={0}
                     //pivotBy={this.state.pivotCols}
                     /*SubComponent={({original, row}) => {
                         return (
