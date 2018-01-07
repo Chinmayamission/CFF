@@ -1,7 +1,7 @@
 @import 'bootstrap-grid.min.scss';
 .ccmt-cff-Page-FormPage {
     // padding: 0px 10px;
-    label.control-label, legend {
+    label.control-label, legend, h2.ccmt-cff-form-title {
         text-transform: capitalize;
     }
     legend {

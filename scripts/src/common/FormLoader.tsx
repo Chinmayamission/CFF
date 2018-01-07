@@ -22,10 +22,8 @@ let isUiSchemaPath = (path) => {
     return path && (~path.indexOf("ui:") || ~path.indexOf("classNames"));
 }
 
-class FormLoader {
-    constructor() {
-    }
-    getForm(apiEndpoint, formId) {
+export module FormLoader {
+    export function getForm(apiEndpoint, formId) {
         return  axios.get(apiEndpoint + "?action=" + "formRender" + "&id=" + formId, { "responseType": "json" })
         .catch(e => {
             if ((window as any).CCMT_CFF_DEVMODE===true) {
@@ -36,7 +34,7 @@ class FormLoader {
         .then(response => response.data.res[0])
         .then(unescapeJSON);
     }
-    getFormAndCreateSchemas(apiEndpoint, formId) {
+    export function getFormAndCreateSchemas(apiEndpoint, formId) {
         return this.getForm(apiEndpoint, formId).then(data => {
             var schemaModifier = data["schemaModifier"].value;
             // var uiSchema = schemaModifier;

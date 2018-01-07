@@ -17,8 +17,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
 
     componentDidMount() {
-        let formLoader = new FormLoader();
-        formLoader.getForm(this.props.apiEndpoint, this.props.form._id['$oid']).then(({ schemaModifier, schema }) => {
+        FormLoader.getForm(this.props.apiEndpoint, this.props.form._id['$oid']).then(({ schemaModifier, schema }) => {
             this.setState({
                 schemaModifier,
                 schema,

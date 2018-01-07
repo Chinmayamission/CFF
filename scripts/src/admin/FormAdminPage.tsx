@@ -119,7 +119,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 <FormEdit form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
             }
             {this.state.status == STATUS_FORM_RESPONSES &&
-                <ResponseTable formId = {this.state.selectedForm._id} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
+                <ResponseTable form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
             }
         </div>
         );

@@ -184,8 +184,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidMount() {
-    let formLoader = new FormLoader();
-    formLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId['$oid']).then(({ schemaMetadata, uiSchema, schema }) => {
+    FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId['$oid']).then(({ schemaMetadata, uiSchema, schema }) => {
       this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
     });
 
