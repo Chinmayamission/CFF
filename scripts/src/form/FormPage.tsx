@@ -4,7 +4,6 @@ import Form from 'react-jsonschema-form';
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
-import BooleanField from 'react-jsonschema-form';
 import * as DOMPurify from 'dompurify';
 import axios from 'axios';
 import "./form.scss";
@@ -73,6 +72,8 @@ const TCWidget = (props: any) => {
   if (props.uiSchema && props.uiSchema["ui:description"]) {
     description = props.uiSchema["ui:description"];
   }
+  console.log("TC", props);
+  // todo: fix this -- error comes because it's set to a string, not a bool.
   return (
     <div style={{"float":"left"}}>
       <input
@@ -148,28 +149,27 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       uiSchema: { "title": "status" },
       step: 0,
       data: {
-        "name": {
-          "first": "Ashwin",
-          "last": "Ramaswami"
-        },
-        "additionalParticipants": [
+        "email": "aramaswamis@gmail.com",
+        "participants": [
           {
             "name": {
               "first": "Kalyani",
               "last": "Sank"
-            }
+            },
+            "age": 5,
+            "race": "10K"
           },
           {
             "name": {
               "first": "Arvind",
               "last": "Ramaswami"
-            }
+            },
+            "age": 40,
+            "race": "10K"
           }
         ],
-        "email": "aramaswamis@gmail.com",
         "acceptTerms": true,
         "address": { "address1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" },
-        "race": "10K"
       },
       responseId: null
     };

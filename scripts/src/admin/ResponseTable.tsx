@@ -67,6 +67,13 @@ class ResponseTable extends React.Component<any, any> {
                     <ReactTable
                     data={this.state.tableData}
                     columns={this.state.tableHeaders}
+                    //pivotBy={['email']}
+                   /* SubComponent={(row) => {
+                        return (
+                          <div>
+                            You can put any component you want here, even another React Table! You even have access to the row-level data if you need!  Spark-charts, drill-throughs, infographics... the possibilities are endless!
+                          </div>
+                        )} }*/
                     />
                 </div>
             );

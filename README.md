@@ -17,4 +17,4 @@ Todo:
 - implement scroll to top to show errorlist
 - download updated typings for react-jsonschema-form
 - change to bootstrap 3, and not just the grid.
-- 
+- fix form checkbox changing error (strs vs bools) formpage.tsx.
