@@ -94,6 +94,13 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
             onClick={() => this.onClick()} />
         );
     }
+    else if (this.props.isScriptLoaded && !this.props.isScriptLoadSucceed) {
+        return (
+            <div style={{"color": "red", "fontWeight": "bold"}}>
+                Sorry! PayPal is unavailable at this time. Please contact the event organizers to report this issue.
+            </div>
+        )
+    }
     else {
         return (
             <Loading />
