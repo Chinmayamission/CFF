@@ -223,6 +223,19 @@ let MockData = {
                 }
             ]
         }
+    },
+    newResponse: () => {
+        return {
+            "status": "success",
+            "data": {
+                "res": {
+                    "success": true,
+                    "inserted_id": {
+                        "$oid": Math.random()
+                    }
+                }
+            }
+        }
     }
 }
 export default MockData;

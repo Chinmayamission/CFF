@@ -10,6 +10,7 @@ import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "src/common/loading";
 import FormLoader from "src/common/FormLoader";
+import MockData from "src/common/util/MockData";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -180,7 +181,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         "Content-Type": "application/json"
       }
     });
-    instance.post(this.getFormUrl("formSubmit"), formData).then((response) => {
+    instance.post(this.getFormUrl("formSubmit"), formData).catch(e => {
+      if ((window as any).CCMT_CFF_DEVMODE===true) {
+          return MockData.newResponse();
+      }
+      alert("Error loading the form list. " + e);
+  }).then((response) => {
       let res = response.data.res;
       if (!(res.success == true && res.inserted_id["$oid"])) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
