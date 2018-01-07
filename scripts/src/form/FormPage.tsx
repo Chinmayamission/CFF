@@ -100,6 +100,22 @@ const CustomTitleField = ({ title, required }) => {
   </h2>;
 };
 
+function ErrorListTemplate(props) {
+  const {errors} = props;
+  return (
+    <div>
+      <b>Errors:</b>
+      {errors.map((error, i) => {
+        return (
+          <li key={i}>
+            {error.stack}
+          </li>
+        );
+      })}
+    </div>
+  );
+};
+
 
 const widgets = {
   phone: PhoneWidget,
@@ -113,7 +129,6 @@ const fields = {
 };
 
 const schema = {};
-
 
 const uiSchema = {};
 
@@ -164,6 +179,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let formId = this.props.formId['$oid'];
     return this.props.apiEndpoint + "?action=" + action + "&id=" + formId;
   }
+  scrollToTop() {
+    // todo: scroll to top.
+  }
 
   componentDidMount() {
     let formLoader = new FormLoader();
@@ -210,7 +228,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             transformErrors={transformErrors}
             onChange={() => log('changed')}
             onSubmit={(e) => this.onSubmit(e)}
-            onError={() => log('errors')}
+            onError={(e) => this.scrollToTop()}
+            showErrorList={true}
+            ErrorList={ErrorListTemplate}
           />
         </div>
       );
