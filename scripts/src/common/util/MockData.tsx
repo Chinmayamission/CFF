@@ -9,6 +9,7 @@ let defaultSchema = {
     "value": {
         "definitions": {
             "name": {
+                "title": "",
                 "type": "object",
                 "properties": {
                     "first": {
@@ -88,7 +89,8 @@ let defaultSchema = {
             "acceptTerms": {
                 "type": "boolean",
                 "title": "Terms and Conditions",
-                "required": true
+                "required": true,
+                "ui:widget": "tc"
             }
         },
         "type": "object",
@@ -126,7 +128,7 @@ let defaultSchemaModifier = {
             }
         },
         "acceptTerms": {
-            "description": "I accept the Terms and Conditions: https://goo.gl/DXGqy8"
+            "description": "I agree to the <a target=_blank href=https://goo.gl/DXGqy8>Terms and Conditions.</a>"
         },
         "email": true,
         "title": "2018 Om Run Training Registration"

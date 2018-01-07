@@ -69,15 +69,19 @@ const PhoneWidget = (props: any) => {
 };
 
 const TCWidget = (props: any) => {
+  let description =  props.schema.description;
+  if (props.uiSchema && props.uiSchema["ui:description"]) {
+    description = props.uiSchema["ui:description"];
+  }
   return (
-    <div>
-      <div>I agree to the <a target="_blank" href={props.link}>Terms and Conditions</a>.</div>
+    <div style={{"float":"left"}}>
       <input
         type="checkbox"
+        className="form-control"
         value={props.value}
         required={props.required}
         onChange={(event) => props.onChange(event.target.value)}
-      />
+      /> I agree.
     </div>
   );
 };
@@ -89,18 +93,10 @@ const FormattedDescriptionField = ({ id, description }) => {
   </div>;
 };
 
-const CustomBooleanField = (props => {
-  console.log("p", props);
-  return (<div>
-    <FormattedDescriptionField id={props.description} description={props.description} />
-    <BooleanField {...props} />
-  </div>);
-})
-
 const CustomTitleField = ({ title, required }) => {
   const legend = required ? title + '*' : title;
   return <h2 className="ccmt-cff-form-title">
-    {legend && legend.replace(/\b[a-z]/g, l => l.toUpperCase())}
+    {legend}
   </h2>;
 };
 
@@ -112,7 +108,7 @@ const widgets = {
 
 const fields = {
   DescriptionField: FormattedDescriptionField,
-  rawDescription: (e) => { console.log("A" + e) },
+  rawDescription: (e) => { console.warn("A" + e) },
   TitleField: CustomTitleField
 };
 
