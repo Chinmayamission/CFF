@@ -5,7 +5,7 @@ import {flatten} from 'flat';
 import ReactTable from 'react-table';
 import {get} from "lodash-es";
 import {queryString} from 'query-string'; 
-import SchemaUtil from "src/common/util/SchemaUtil.tsx";
+import SchemaUtil from "src/common/util/SchemaUtil";
 
 var This;
 class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, IFormConfirmationPageState> {

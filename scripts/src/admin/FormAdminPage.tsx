@@ -10,6 +10,7 @@ import FormList from "./FormList";
 import FormEdit from "./FormEdit";
 import ResponseTable from "./ResponseTable";
 import Loading from "src/common/loading";
+import MockData from "src/common/util/MockData";
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
@@ -32,10 +33,17 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
 
     getFormList(url) {
         return axios.get(url, {"responseType": "json"})
+        .catch(e => {
+            if ((window as any).CCMT_CFF_DEVMODE===true) {
+                console.log(MockData.formList);
+                return MockData.formList;
+            }
+            alert("Error loading the form list. " + e);
+        })
         .then((response) => {
             console.log(response.data);
             this.setState({formList: response.data.res, status: STATUS_FORM_LIST});
-        });
+        })
     }
 
     editForm(form) {
@@ -72,13 +80,19 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         let queryObjFlat = queryString.parse(location.hash);
 
         let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.props.apiKey;
-        this.getFormList(formListUrl).then((e) =>{
-            let queryObjNested = {};
-            for (let path in queryObjFlat) {
-                set(queryObjNested, path, queryObjFlat[path]);
-            }
+        //this.getFormList(formListUrl).then((e) =>{
+        let queryObjNested : any = {};
+        for (let path in queryObjFlat) {
+            set(queryObjNested, path, queryObjFlat[path]);
+        }
+        if (!queryObjNested.status || queryObjNested.status == STATUS_FORM_LIST) {
+            this.getFormList(formListUrl).then(e => {
+                this.setState(queryObjNested);
+            });
+        }
+        else {
             this.setState(queryObjNested);
-        });
+        }
     }
     getPath(params) {
         return window.location.pathname + "?" + window.location.href.split("?")[1] + "&" + params;

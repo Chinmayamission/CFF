@@ -156,6 +156,13 @@ let defaultSchemaModifier = {
         "showModifyLink": true
     }
 };
+let responsesList = [
+    {
+        "value": {
+            "a": "b"
+        }
+    }
+];
 let MockData = {
     formRender: {
         "data": {
@@ -163,6 +170,25 @@ let MockData = {
                 {
                     schema: defaultSchema,
                     schemaModifier: defaultSchemaModifier
+                }
+            ]
+        }
+    },
+    formList: {
+        "data": {
+            "res": [
+                {"_id": {"$oid": "59dbf12b734d1d18c05ebd21"}, "name": "2018 OM RUN FORM (MOCK DATA)"},
+                {"_id": {"$oid": "59dbf12b734d1d18c05ebd21"}, "name": "2017 OM RUN FORM (MOCK DATA)"},
+                {"_id": {"$oid": "59dbf12b734d1d18c05ebd21"}, "name": "2016 OM RUN FORM (MOCK DATA)"}
+            ]
+        }
+        
+    },
+    formResponses: {
+        "data": {
+            "res": [
+                {
+                    "responses": responsesList
                 }
             ]
         }

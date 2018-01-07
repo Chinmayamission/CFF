@@ -4,6 +4,7 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import {flatten} from 'flat';
 import Loading from "src/common/loading";
+import MockData from "src/common/util/MockData";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -27,6 +28,12 @@ class ResponseTable extends React.Component<any, any> {
         const responseUrl = this.getFormUrl('formResponses');
         console.log(responseUrl);
         axios.get(responseUrl, {"responseType": "json"})
+        .catch(e => {
+            if ((window as any).CCMT_CFF_DEVMODE===true) {
+                return MockData.formResponses;
+            }
+            alert("Error loading the form responses. " + e);
+        })
         .then(response => response.data.res[0].responses)
         .then(data => {
             data = data.map((e) => flatten(e.value)).filter((e) => e);

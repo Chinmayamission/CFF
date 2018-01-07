@@ -2,8 +2,8 @@
 import axios from 'axios';
 import * as deref from "json-schema-deref-sync";
 import {flatten} from 'flat';
-import SchemaUtil from "src/common/util/SchemaUtil.tsx";
-import MockData from "src/common/util/MockData.tsx";
+import SchemaUtil from "src/common/util/SchemaUtil";
+import MockData from "src/common/util/MockData";
 import {set, unset, merge, pick, filter} from 'lodash-es';
 
 function unescapeJSON(json: {}) {
