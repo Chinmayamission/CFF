@@ -67,26 +67,6 @@ const PhoneWidget = (props: any) => {
   );
 };
 
-const TCWidget = (props: any) => {
-  let description =  props.schema.description;
-  if (props.uiSchema && props.uiSchema["ui:description"]) {
-    description = props.uiSchema["ui:description"];
-  }
-  console.log("TC", props);
-  // todo: fix this -- error comes because it's set to a string, not a bool.
-  return (
-    <div style={{"float":"left"}}>
-      <input
-        type="checkbox"
-        className="form-control"
-        value={props.value}
-        required={props.required}
-        onChange={(event) => props.onChange(event.target.value)}
-      /> I agree.
-    </div>
-  );
-};
-
 
 const FormattedDescriptionField = ({ id, description }) => {
   return <div id={id}>
@@ -119,8 +99,7 @@ function ErrorListTemplate(props) {
 
 
 const widgets = {
-  phone: PhoneWidget,
-  "tc": TCWidget
+  phone: PhoneWidget
 };
 
 const fields = {
@@ -168,8 +147,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             "race": "10K"
           }
         ],
-        "acceptTerms": true,
-        "address": { "address1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" },
+        "acceptTerms": {
+          "accept": true
+        },
+        "address": { "line1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" },
       },
       responseId: null
     };

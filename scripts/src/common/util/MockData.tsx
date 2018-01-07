@@ -87,10 +87,16 @@ let defaultSchema = {
                 }
             },
             "acceptTerms": {
-                "type": "boolean",
-                "title": "Terms and Conditions",
+                "type": "object",
+                "title": "Accept Terms and Conditions",
+                "description": "I accept the terms and conditions.",
                 "required": true,
-                "ui:widget": "tc"
+                "properties": {
+                    "accept": {
+                        "type": "boolean",
+                        "title": "I accept."
+                    }
+                }
             }
         },
         "type": "object",
@@ -181,12 +187,12 @@ let responsesList = [
             "race": "10K"
           }
         ],
-        "acceptTerms": true,
-        "address": { "address1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" }
+        "acceptTerms": {"accept": true},
+        "address": { "line1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" }
         }
     },
-    {"_id":{"$oid":"idtest123"},"value":{"email":"asda2@b.com","participants":[{"name":{"first":"Kalyani","last":"Sank"},"age":5,"race":"10K"},{"name":{"first":"Arvind","last":"Ramaswami"},"age":40,"race":"10K"}],"acceptTerms":true,"address":{"address1":"123ABCLane","city":"JohnsCreek","state":"GA","zipcode":"30022"}}},
-    {"_id":{"$oid":"anotherid"},"value":{"email":"afsgfds3@b.com","participants":[{"name":{"first":"Kalyani","last":"Sank"},"age":5,"race":"10K"},{"name":{"first":"Arvind","last":"Ramaswami"},"age":40,"race":"10K"}],"acceptTerms":true,"address":{"address1":"123ABCLane","city":"JohnsCreek","state":"GA","zipcode":"30022"}}}
+    {"_id":{"$oid":"idtest123"},"value":{"email":"asda2@b.com","participants":[{"name":{"first":"Kalyani","last":"Sank"},"age":5,"race":"10K"},{"name":{"first":"Arvind","last":"Ramaswami"},"age":40,"race":"10K"}],"acceptTerms": {"accept": true},"address":{"line1":"123ABCLane","city":"JohnsCreek","state":"GA","zipcode":"30022"}}},
+    {"_id":{"$oid":"anotherid"},"value":{"email":"afsgfds3@b.com","participants":[{"name":{"first":"Kalyani","last":"Sank"},"age":5,"race":"10K"},{"name":{"first":"Arvind","last":"Ramaswami"},"age":40,"race":"10K"}],"acceptTerms": {"accept": true},"address":{"line1":"123ABCLane","city":"JohnsCreek","state":"GA","zipcode":"30022"}}}
 ];
 let MockData = {
     formRender: {

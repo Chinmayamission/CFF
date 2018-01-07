@@ -136,11 +136,11 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         else if (this.state.status == STATUS_RESPONSES_RENDERED) {
             return (
                 <div>
-                    <button className="button" onClick={() => this.showResponsesTable()}>View responses</button>
+                    <button className="button" onClick={() => this.showResponsesTable()}>View all responses</button>
                     &emsp;Or unwind by:
                         <select value={this.state.rowToUnwind}
                             onChange={(e) => this.showUnwindTable(e.target.value)}>
-                            <option key="null" value="" disabled>Select</option>
+                            <option key="null" value="" disabled>Select column</option>
                             {this.state.possibleFieldsToUnwind.map((e) => 
                                 <option key={e}>{e}</option>
                             )}
