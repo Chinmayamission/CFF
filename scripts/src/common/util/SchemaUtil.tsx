@@ -10,12 +10,12 @@ export module SchemaUtil {
             .replace(/\.properties\.(enum|enumValues|title|description)/g, ".$1") // don't add "properties" before certain predefined keys of schema, as they aren't custom object properties.
     }
     export function objToSchemaModifierPath(fieldPath) {
-        /* Converts a schema path to a schemaModifier path by removing ".properties." from it,
-            and converting "a.items" => "a.0"
+        /* Converts a schema path to a schemaModifier / uiSchema path by removing ".properties." from it,
+            and keeping "a.items" => "a.0"
          */
         return fieldPath
-            .replace(/properties\./g, "")
-            .replace(/\.items/g, ".0");
+            .replace(/properties\./g, "");
+            //.replace(/\.items/g, ".0");
     }
     export function getLastDotNotation(path) {
         let arr = path.split('.');

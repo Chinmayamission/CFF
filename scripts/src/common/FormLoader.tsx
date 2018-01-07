@@ -67,7 +67,7 @@ class FormLoader {
                 let fieldValue = flattenedSchema[fieldPath];
                 let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(fieldPath);
                 if (isUiSchemaPath(fieldPath)) {
-                    console.log(fieldPath + " is a uischema path");
+                    console.log(fieldPath, schemaModifierFieldPath, " is a uischema path");
                     unset(schema, fieldPath);
                     set(uiSchema, schemaModifierFieldPath, fieldValue);
                 }

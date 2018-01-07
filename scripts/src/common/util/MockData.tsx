@@ -98,19 +98,21 @@ let defaultSchemaModifier = {
     "value": {
         "description": "<b>IMPORTANT NOTE:<\/b><br>This is Registration for Training only.<br>For Full Marathon, please register with Napa Valley Marathon.<br>For Half Marathon, 10K and 5K, OmRun Registration will begin in February/March.<br><br>Registration Amount: $25",
         "address": true,
-        "participants": [{
-            "race": {
-                "enum": [
-                    "Full Marathon",
-                    "Half Marathon",
-                    "10K",
-                    "5K"
-                ],
-                "required": true,
-                "title": "Select the race you would like to train for:",
-                "description": "Note: Full Marathon training has already begun. Training for Half Marathon, 10K and 5K will begin on January 27, 2018."
+        "participants": {
+            "items": {
+                "race": {
+                    "enum": [
+                        "Full Marathon",
+                        "Half Marathon",
+                        "10K",
+                        "5K"
+                    ],
+                    "required": true,
+                    "title": "Select the race you would like to train for:",
+                    "description": "Note: Full Marathon training has already begun. Training for Half Marathon, 10K and 5K will begin on January 27, 2018."
+                }
             }
-        }],
+        },
         "acceptTerms": {
             "description": "I accept the Terms and Conditions: https://goo.gl/DXGqy8"
         },
