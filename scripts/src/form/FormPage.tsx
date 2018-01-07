@@ -6,7 +6,6 @@ import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
 import BooleanField from 'react-jsonschema-form';
 import * as DOMPurify from 'dompurify';
-import * as Promise from 'bluebird';
 import axios from 'axios';
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";

@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as deref from "json-schema-deref-sync";
 import {flatten} from 'flat';
 import SchemaUtil from "src/common/util/SchemaUtil.tsx";
+import MockData from "src/common/util/MockData.tsx";
 import {set, unset, merge, pick, filter} from 'lodash-es';
 
 function unescapeJSON(json: {}) {
@@ -25,7 +26,13 @@ class FormLoader {
     constructor() {
     }
     getForm(apiEndpoint, formId) {
-        return axios.get(apiEndpoint + "?action=" + "formRender" + "&id=" + formId, { "responseType": "json" })
+        return  axios.get(apiEndpoint + "?action=" + "formRender" + "&id=" + formId, { "responseType": "json" })
+        .catch(e => {
+            if ((window as any).CCMT_CFF_DEVMODE===true) {
+                return MockData.formRender;
+            }
+            alert("Error loading the form. " + e);
+        })
         .then(response => response.data.res[0])
         .then(unescapeJSON);
     }
@@ -59,8 +66,8 @@ class FormLoader {
             for (let fieldPath in flattenedSchema) {
                 let fieldValue = flattenedSchema[fieldPath];
                 let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(fieldPath);
-                console.log(flattenedSchemaModifier, schemaModifierFieldPath, flattenedSchemaModifier[schemaModifierFieldPath]);
                 if (isUiSchemaPath(fieldPath)) {
+                    console.log(fieldPath + " is a uischema path");
                     unset(schema, fieldPath);
                     set(uiSchema, schemaModifierFieldPath, fieldValue);
                 }
@@ -83,17 +90,17 @@ class FormLoader {
                 else if (typeof fieldValue == "boolean") {
                 }
                 else {
-                    console.log(fieldPath, schemaFieldPath);
                     set(schema.properties, schemaFieldPath, fieldValue);
                 }
             }
 
+            // allows attrs like "type" to be shown
             /*schema = merge({}, schemaModifier, schema);
-            let flattenedKeys = Object.keys(flatten(schema)).filter(k => !isUiSchemaKey(k));
+            let flattenedKeys = Object.keys(flatten(schema)).filter(k => !isUiSchemaPath(k));
             schema = pick(schema, flattenedKeys);*/
             
             // filterUiSchema(uiSchema);
-            console.log("new schema", schema);
+            console.log("new schema", schema, "uischema", uiSchema);
             return { schemaMetadata, uiSchema, schema };
         });
     }

@@ -11,6 +11,8 @@ let config = {
   "cff_api_endpoint": 'https://l5nrf4co1g.execute-api.us-east-1.amazonaws.com/prod/forms'
 };
 
+(window as any).CCMT_CFF_DEVMODE = true;
+
 let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElement;
 if (formRenderElement) {
   ReactDOM.render(

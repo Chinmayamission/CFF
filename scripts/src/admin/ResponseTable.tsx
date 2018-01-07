@@ -40,7 +40,7 @@ class ResponseTable extends React.Component<any, any> {
                         headerObjs.push({
                             Header: header,
                             id: header,
-                            accessor: d=> JSON.stringify(d[header]) // String-based value accessors!
+                            accessor: d=> typeof d[header] === 'string' ? d[header] : JSON.stringify(d[header])//d=> JSON.stringify(d[header]) // String-based value accessors!
                           });
                     }
                 }
