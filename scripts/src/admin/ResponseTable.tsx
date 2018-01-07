@@ -4,6 +4,7 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import treeTableHOC from 'react-table/lib/hoc/treeTable'
 import {flatten} from 'flat';
+import {filter} from 'lodash-es';
 import Loading from "src/common/loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
@@ -12,7 +13,7 @@ const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
 const TreeTable = treeTableHOC(ReactTable);
 
-class ResponseTable extends React.Component<any, any> {
+class ResponseTable extends React.Component<any, IResponseTableState> {
     constructor(props:any) {
         super(props);
         this.state = {
@@ -23,7 +24,9 @@ class ResponseTable extends React.Component<any, any> {
             tableHeadersDisplayed: null,
             tableHeaders: null,
             pivotCols: [],
-            schema: null
+            schema: null,
+            possibleFieldsToUnwind: null,
+            rowToUnwind: ""
         }
     }
 
@@ -50,17 +53,30 @@ class ResponseTable extends React.Component<any, any> {
         .then(data => {
             data = data.map((e) => {
                 e.value.id = e._id.$oid;
-                //return e.value;
                 this.setState({tableDataOrigObject: data});
                 return flatten(e.value);
-            }).filter((e) => e);
+            });//.filter((e) => e);
             console.log(data);
             let headers = ["id"];
             let headerObjs : any = [{"Header": "id", "accessor": "id"}];
             this.makeHeaders(data, headers, headerObjs);
+
+            // Set possible rows to unwind, equal to top-level array items.
+            let possibleFieldsToUnwind = [];
+            for (let fieldName in this.state.schema.properties) {
+                let fieldValue = this.state.schema.properties[fieldName];
+                if (fieldValue.type == "array") {
+                    possibleFieldsToUnwind.push(fieldName);
+                }
+            }
+            console.log("possibleFieldsToUnwind", possibleFieldsToUnwind);
+
             this.setState({
                 tableHeaders: headerObjs, tableHeadersDisplayed: headerObjs,
-                tableData: data, tableDataDisplayed: data, status: STATUS_RESPONSES_RENDERED});
+                tableData: data, tableDataDisplayed: data,
+                status: STATUS_RESPONSES_RENDERED,
+                possibleFieldsToUnwind
+            });
         });
     }
 
@@ -79,11 +95,15 @@ class ResponseTable extends React.Component<any, any> {
         }
     }
 
-    showUnwindTable() {
-        let rowToUnwind = 'participants';
+    showUnwindTable(rowToUnwind) {
+        if (rowToUnwind) {
+            // If select box was changed.
+            this.setState({"rowToUnwind": rowToUnwind});
+        }
+        else {
+            rowToUnwind = this.state.rowToUnwind;
+        }
         let headerObjs = [];
-        //let keys = Object.keys(this.state.tableData).filter(k => k.match(arraySelected+".")); //todo: pickall instead.
-        //console.log(keys);
         let origData = this.state.tableDataOrigObject.map(e => e.value);
         let data = [];
         for (let item of origData) {
@@ -94,13 +114,14 @@ class ResponseTable extends React.Component<any, any> {
         }
         this.makeHeaders(data, [], headerObjs);
         this.setState({
-            //pivotCols,
             tableDataDisplayed: data,
             tableHeadersDisplayed: headerObjs
         });
     }
 
     showResponsesTable() {
+        // Show "regular" response table, one row per response.
+        this.setState({"rowToUnwind": ""});
         this.setState({
             tableHeadersDisplayed: this.state.tableHeaders,
             tableDataDisplayed: this.state.tableData
@@ -116,12 +137,17 @@ class ResponseTable extends React.Component<any, any> {
             return (
                 <div>
                     <button className="button" onClick={() => this.showResponsesTable()}>View responses</button>
-                    {<button className="button" onClick={() => this.showUnwindTable()}>
-                        Unwind by: 
-                        <select>
-                            <option>participants</option>
+                    &emsp;Or unwind by:
+                        <select value={this.state.rowToUnwind}
+                            onChange={(e) => this.showUnwindTable(e.target.value)}>
+                            <option key="null" value="" disabled>Select</option>
+                            {this.state.possibleFieldsToUnwind.map((e) => 
+                                <option key={e}>{e}</option>
+                            )}
                         </select>
-                    </button>}
+                    {/*<button className="button" onClick={() => this.showUnwindTable()}>
+                    Unwind data
+                        </button>*/}
                     <TreeTable
                     data={this.state.tableDataDisplayed}
                     columns={this.state.tableHeadersDisplayed}

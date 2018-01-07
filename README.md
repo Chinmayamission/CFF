@@ -18,3 +18,7 @@ Todo:
 - download updated typings for react-jsonschema-form
 - change to bootstrap 3, and not just the grid.
 - fix form checkbox changing error (strs vs bools) formpage.tsx.
+- change possibleRowsToUnwind.
+
+Future:
+- allow unwinding of nested array rows.

@@ -1,0 +1,9 @@
+.App.FormAdminPage {
+    .Modal-overlay-0-1-1 {
+        z-index: 10000!important;
+        /* for wordpress admin */
+    }
+    .ReactTable .rt-thead {
+        text-transform: capitalize;
+    }
+}

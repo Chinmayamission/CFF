@@ -11,6 +11,7 @@ import FormEdit from "./FormEdit";
 import ResponseTable from "./ResponseTable";
 import Loading from "src/common/loading";
 import MockData from "src/common/util/MockData";
+import "./admin.scss";
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;

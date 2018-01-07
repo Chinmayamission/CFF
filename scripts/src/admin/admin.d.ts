@@ -43,3 +43,15 @@ interface ISchemaDBEntry {
 interface ISchemaModifierDBEntry {
     
 }
+interface IResponseTableState {
+    status: number,
+    tableData: any[],
+    tableHeaders: any[],
+    tableDataOrigObject: any,
+    tableDataDisplayed: any[],
+    tableHeadersDisplayed: any[],
+    pivotCols: any[],
+    schema: Schema,
+    possibleFieldsToUnwind: string[],
+    rowToUnwind: string
+}

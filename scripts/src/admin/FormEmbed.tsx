@@ -2,7 +2,6 @@
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
 import FormPage from "src/form/FormPage";
-import "./admin.css";
 
 class FormEdit extends React.Component<any, any> {
     constructor(props:any) {
