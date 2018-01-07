@@ -1,7 +1,12 @@
 @import 'bootstrap-grid.min.scss';
 .ccmt-cff-Page-FormPage {
+    // padding: 0px 10px;
     label.control-label {
         text-transform: capitalize;
+    }
+    .form-group {
+        padding: 0px 10px;
+        //padding: 0;
     }
     
     i.glyphicon { display: none; }
@@ -9,4 +14,10 @@
     .array-item-move-up::after { content: 'Move Up'; }
     .array-item-move-down::after { content: 'Move Down'; }
     .array-item-remove::after { content: 'Remove'; }
+    .array-item-remove {
+
+    }
+    .array-item-add {
+        
+    }
 }

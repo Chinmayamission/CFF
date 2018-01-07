@@ -67,7 +67,7 @@ class FormLoader {
                 let fieldValue = flattenedSchema[fieldPath];
                 let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(fieldPath);
                 if (isUiSchemaPath(fieldPath)) {
-                    console.log(fieldPath, schemaModifierFieldPath, " is a uischema path");
+                    // console.log(fieldPath, schemaModifierFieldPath, " is a uischema path");
                     unset(schema, fieldPath);
                     set(uiSchema, schemaModifierFieldPath, fieldValue);
                 }
@@ -90,6 +90,7 @@ class FormLoader {
                 else if (typeof fieldValue == "boolean") {
                 }
                 else {
+                    console.log("setting ", fieldPath, schemaFieldPath);
                     set(schema.properties, schemaFieldPath, fieldValue);
                 }
             }

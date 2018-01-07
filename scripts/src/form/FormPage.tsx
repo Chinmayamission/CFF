@@ -26,11 +26,16 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
       <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
       <div className="row">
         {properties.map(prop => {
-          if (prop.content.props.uiSchema.classNames == "twoColumn") {
-            prop.content.props.uiSchema.classNames = "col-12 col-sm-6";
-          }
+          let customClasses = {
+            "half": "col-12 col-sm-6",
+            "flex": "col",
+            "full": "col-12"
+          };
           if (!prop.content.props.uiSchema.classNames) {
             prop.content.props.uiSchema.classNames = "col-12";
+          }
+          for (let customClass in customClasses) {
+            prop.content.props.uiSchema.classNames = prop.content.props.uiSchema.classNames.replace(customClass, customClasses[customClass]);
           }
           return (prop.content);
         })}
@@ -152,7 +157,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         ],
         "email": "aramaswamis@gmail.com",
         "acceptTerms": true,
-        "address": { "zipcode": "30022" },
+        "address": { "address1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" },
         "race": "10K"
       },
       responseId: null

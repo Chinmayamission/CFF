@@ -13,43 +13,51 @@ let defaultSchema = {
                 "properties": {
                     "first": {
                         "type": "string",
-                        "title": "First Name"
+                        "title": "First Name",
+                        "classNames": "flex"
                     },
                     "last": {
                         "type": "string",
-                        "title": "Last Name"
+                        "title": "Last Name",
+                        "classNames": "flex"
                     }
-                },
-                "classNames": "twoColumn"
+                }
             }
         },
         "properties": {
+            "email": {
+                "type": "string",
+                "format": "email",
+                "required": true
+            },
             "address": {
                 "type": "object",
                 "properties": {
                     "line1": {
                         "type": "string",
-                        "title": "Address Line 1"
+                        "title": "Address Line 1",
+                        "required": true
                     },
                     "line2": {
                         "type": "string",
                         "title": "Address Line 2"
                     },
                     "city": {
-                        "type": "string"
+                        "type": "string",
+                        "classNames": "flex",
+                        "required": true
                     },
                     "state": {
-                        "type": "string"
+                        "type": "string",
+                        "classNames": "flex",
+                        "required": true
                     },
                     "zipcode": {
                         "type": "string",
+                        "classNames": "flex",
                         "required": true
                     }
                 }
-            },
-            "email": {
-                "type": "string",
-                "format": "email"
             },
             "participants": {
                 "title": "Participants",
@@ -58,6 +66,8 @@ let defaultSchema = {
                     "orderable": false
                 },
                 "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
                 "items": {
                     "type": "object",
                     "properties": {
@@ -65,10 +75,12 @@ let defaultSchema = {
                             "\\u0024ref": "#/definitions/name"
                         },
                         "age": {
-                            "type": "number"
+                            "type": "number",
+                            "classNames": "half"
                         },
                         "race": {
-                            "type": "string"
+                            "type": "string",
+                            "classNames": "full"
                         }
                     }
                 }
