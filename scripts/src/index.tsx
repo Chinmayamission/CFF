@@ -8,10 +8,10 @@ import "./common/main.css";
 
 
 let config = {
-  "cff_api_endpoint": 'https://l5nrf4co1g.execute-api.us-east-1.amazonaws.com/prod/forms'
+  "cff_api_endpoint": 'https://l5nrf4co1g.execute-api.us-east-1.amazonaws.com/dev/forms'
 };
 
-(window as any).CCMT_CFF_DEVMODE = true;
+(window as any).CCMT_CFF_DEVMODE = false;
 
 let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElement;
 if (formRenderElement) {

@@ -159,7 +159,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
 
   getFormUrl(action) {
     let formId = this.props.formId['$oid'];
-    return this.props.apiEndpoint + "?action=" + action + "&id=" + formId;
+    let formUrl = this.props.apiEndpoint + "?action=" + action + "&id=" + formId + "&modifyLink=" + window.location.href;
+    return encodeURI(formUrl);
   }
   scrollToTop() {
     // todo: scroll to top.
