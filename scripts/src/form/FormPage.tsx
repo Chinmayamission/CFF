@@ -223,6 +223,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     else if (this.state.status == STATUS_FORM_SUBMITTED) {
       return (<FormConfirmationPage
+        apiEndpoint={this.props.apiEndpoint}
         schema={this.state.schema}
         schemaMetadata={this.state.schemaMetadata}
         uiSchema={this.state.uiSchema}

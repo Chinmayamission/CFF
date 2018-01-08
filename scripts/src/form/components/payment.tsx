@@ -19,7 +19,8 @@ class Payment extends React.Component<IPaymentProps, any> {
            "key": paymentMethod,    // must be unique.
            "onPaymentComplete": this.props.onPaymentComplete,
            "onPaymentError": this.props.onPaymentError,
-           "responseId": this.props.responseId
+           "responseId": this.props.responseId,
+           "apiEndpoint": this.props.apiEndpoint
            // todo: get user's entered data.
        }
        return React.createElement(MyComponent, props);

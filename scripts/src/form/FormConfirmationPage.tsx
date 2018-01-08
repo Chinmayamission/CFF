@@ -29,9 +29,12 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         for (let fieldPath in flattenedData) {
             let schemaItem = get(this.props.schema.properties, SchemaUtil.objToSchemaPath(fieldPath));
             if (!schemaItem) schemaItem = fieldPath;
+            let fieldValue : any = flattenedData[fieldPath];
+            if (typeof fieldValue == "boolean")
+                fieldValue = (fieldValue ? "Yes": "No");
             tableData.push({
-                "field": schemaItem.title || SchemaUtil.getLastDotNotation(fieldPath) || fieldPath,
-                "value": flattenedData[fieldPath]
+                "field": SchemaUtil.readableDotNotation(fieldPath, schemaItem.title),
+                "value": fieldValue
             });
         };
         console.log("table data is ", tableData, tableHeaders);
@@ -77,7 +80,9 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
                     {this.state.paymentTransactionInfo}
                 </pre>
             </div> :
-            <Payment schemaMetadata={this.props.schemaMetadata}
+            <Payment
+                apiEndpoint={this.props.apiEndpoint}
+                schemaMetadata={this.props.schemaMetadata}
                 onPaymentComplete={this.onPaymentComplete}
                 onPaymentError={this.onPaymentError}
                 responseId={this.props.responseId}/>

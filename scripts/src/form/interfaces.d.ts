@@ -54,7 +54,9 @@ interface IFormPageState {
 
 interface IFormPageProps {
     formId: any,
-    apiEndpoint: string
+    apiEndpoint: string,
+    initialFormData?: any,
+    readonly?: boolean
 }
 
 interface IFormConfirmationPageProps {
@@ -63,6 +65,7 @@ interface IFormConfirmationPageProps {
     uiSchema: UiSchema,
     data: Data,
     responseId: ObjectId,
+    apiEndpoint: string,
     goBack: () => void
 }
 
@@ -77,7 +80,8 @@ interface IPaymentProps {
     schemaMetadata: SchemaMetadata,
     onPaymentComplete: (message: any) => void,
     onPaymentError: (message: any) => void,
-    responseId: ObjectId
+    responseId: ObjectId,
+    apiEndpoint: string
 }
 
 interface PaymentOptions {
@@ -88,7 +92,7 @@ interface PaymentMethodPayPal {
         sandbox?: String,
         production: String
     },
-    env: "client" | "production";
+    env: "client" | "production"
 }
 interface IScriptLoaderProps {
     isScriptLoaded: boolean,
@@ -107,6 +111,7 @@ interface IPaypalProps extends IScriptLoaderProps {
     paymentMethodInfo: PaymentMethodPayPal,
     confirmationEmailInfo: ConfirmationEmailInfo
     responseId: ObjectId,
+    apiEndpoint: string
 }
 interface ConfirmationEmailInfo {
     from: string,

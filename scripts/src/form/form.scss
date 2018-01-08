@@ -40,6 +40,23 @@
         margin-top: 15px;
     }
 }
+
+.ccmt-cff-readonly-FormPage.ccmt-cff-Page-FormPage {
+    input, select {
+        border: none;
+        padding: 0;
+        margin: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: none;
+        cursor: text;
+    }
+    button {
+        display: none;
+    }
+}
 .ccmt-cff-Page-FormConfirmationPage {
     .ReactTable {
         .rt-td:first-child {

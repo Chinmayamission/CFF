@@ -22,6 +22,24 @@ export module SchemaUtil {
         let arr = path.split('.');
         return arr[arr.length - 1];
     }
+    export function readableDotNotation(pathStr, itemName) {
+        if (!itemName) {
+            itemName = SchemaUtil.getLastDotNotation(pathStr);
+        }
+        let path = pathStr.split('.');
+        let last = path.pop();
+        path.map(e => {
+            /*if (e[e.length-1] == "s") {
+                return e.substring(0, e.length-1);
+            }*/
+            if (!isNaN(e)) {
+                console.log("NAN");
+                return parseInt(e.trim()) + 1 + "";
+            }
+            return e;
+        })
+        return path.join(" ") + ": " + last;
+    }
 }
 
 export default SchemaUtil;
