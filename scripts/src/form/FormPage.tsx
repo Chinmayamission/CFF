@@ -27,12 +27,12 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
       <div className="row">
         {properties.map(prop => {
           let customClasses = {
-            "half": "col-12 col-sm-6",
-            "flex": "col",
-            "full": "col-12"
+            "half": "col-xs-12 col-sm-6",
+            "flex": "col-xs-6",
+            "full": "col-xs-12"
           };
           if (!prop.content.props.uiSchema.classNames) {
-            prop.content.props.uiSchema.classNames = "col-12";
+            prop.content.props.uiSchema.classNames = "col-xs-12";
           }
           for (let customClass in customClasses) {
             prop.content.props.uiSchema.classNames = prop.content.props.uiSchema.classNames.replace(customClass, customClasses[customClass]);
