@@ -28,7 +28,7 @@ let formAdminElement = document.getElementById('ccmt-cff-admin') as HTMLElement;
 if (formAdminElement) {
   ReactDOM.render(
     <div className="">
-      <FormAdminPage apiEndpoint={config.cff_api_endpoint} apiKey={"5a2g9ecdf21d076gee1157b1" || formAdminElement.getAttribute('data-api-key')} />
+      <FormAdminPage apiEndpoint={config.cff_api_endpoint} apiKey={formAdminElement.getAttribute('data-api-key')} />
     </div>
     ,
     formAdminElement

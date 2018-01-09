@@ -74,21 +74,73 @@ class CCMT_Forms_Subsite_Admin {
 		wp_register_script( "ccmt-cff-edit-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js', array('ccmt-cff-edit-vendor') );
 	}
 
-	public function form_management_page_add() {
+	public function ccmt_cff_add_form_management_page() {
 		add_submenu_page(
 			'tools.php',
-			'CCMT Form Manager', // Page title
-			'CCMT Form Manager', // Menu title
+			'CCMT CFF Manager', // Page title
+			'CCMT CFF Manager', // Menu title
 			'manage_options', // Capability
-			'CCMT_form_management_page', // Menu slug
-			array($this, 'form_management_page_render') // Function
+			'ccmt_cff_form_manager', // Menu slug
+			array($this, 'ccmt_cff_render_form_management_page') // Function
 		);
 	}
-	public function form_management_page_render() {
+	public function ccmt_cff_render_form_management_page() {
 		wp_enqueue_script("ccmt-cff-edit-vendor");
 		wp_enqueue_script("ccmt-cff-edit-app");
 		wp_enqueue_style("ccmt-cff-form-css");
 		include plugin_dir_path( __FILE__ ) . "partials/form-management.php";
 	}
 
+	public function ccmt_cff_add_form_options_page() {
+		add_options_page(
+			'CCMT CFF Options',
+			'CCMT CFF Options',
+			'manage_options',
+			'ccmt_cff_form_options',
+			array($this, 'ccmt_cff_options_page')
+		);
+	}
+
+	public function ccmt_cff_init_form_settings(  ) { 
+		
+		register_setting( 'pluginPage', 'ccmt_cff_settings' );
+	
+		add_settings_section(
+			'ccmt_cff_pluginPage_section', 
+			__( 'Forms Framework Setup', 'ccmt-cff' ), 
+			array($this, 'ccmt_cff_settings_section_callback'), 
+			'pluginPage'
+		);
+	
+		add_settings_field( 
+			'ccmt_cff_api_key', 
+			__( 'API Key', 'ccmt-cff' ), 
+			array($this, 'ccmt_cff_api_key_render'), 
+			'pluginPage', 
+			'ccmt_cff_pluginPage_section' 
+		);
+		
+	}
+	public function ccmt_cff_api_key_render(  ) { 
+		
+			$options = get_option( 'ccmt_cff_settings' );
+			?>
+			<input type='text' name='ccmt_cff_settings[ccmt_cff_api_key]' value='<?php echo $options['ccmt_cff_api_key']; ?>'>
+			<?php
+		
+		}
+	
+	
+	public function ccmt_cff_settings_section_callback(  ) { 	
+		echo __( 'API key that uniquely identifies your center. (Do not share!)<br>Contact <a href="mailto:itsupport@chinmayamission.in">itsupport@chinmayamission.in</a> to request an API key.', 'ccmt-cff' );
+	}
+	
+	
+	public function ccmt_cff_options_page(  ) { 
+		include plugin_dir_path( __FILE__ ) . "partials/CCMT_forms_options-page.php";
+	}
+
 }
+
+
+?>
