@@ -1,11 +1,13 @@
 /// <reference path="./interfaces.d.ts"/>
+import axios from 'axios';
 import * as React from 'react';
 import Form from 'react-jsonschema-form';
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
 import * as DOMPurify from 'dompurify';
-import axios from 'axios';
+import * as queryString from "query-string";
+import {pick} from "lodash-es";
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "src/common/loading";
@@ -129,7 +131,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       uiSchema: { "title": "status" },
       step: 0,
       data: {
-        "email": "aramaswamis@gmail.com",
+        "email": "aramaswamis+1@gmail.com",
         "participants": [
           {
             "name": {
@@ -166,10 +168,27 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     // todo: scroll to top.
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    let stateKeysToEncode = ["status"];
+    if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
+        let encodedState = pick(this.state, stateKeysToEncode);
+        let newQS = queryString.stringify(encodedState);
+        window.location.hash = newQS;//queryString.stringify(encodedState);   
+    }
+}
+
   componentDidMount() {
-    FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId['$oid']).then(({ schemaMetadata, uiSchema, schema }) => {
-      this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
-    });
+    let queryObjFlat = queryString.parse(location.hash);
+    if (queryObjFlat["resid"]) {
+      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, queryObjFlat["resid"]).then(({ schemaMetadata, uiSchema, schema, formData }) => {
+        this.setState({ schemaMetadata, uiSchema, schema, data: formData.value, status: STATUS_FORM_RENDERED });
+      });
+    }
+    else {
+      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId['$oid']).then(({ schemaMetadata, uiSchema, schema }) => {
+        this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
+      });
+    }
 
   }
   goBackToFormPage() {

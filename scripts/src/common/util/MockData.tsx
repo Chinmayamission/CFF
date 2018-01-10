@@ -108,7 +108,7 @@ let defaultSchemaModifier = {
     "_id": {
         "$oid": "59f3a9be6fd1dd1a98ac48e3"
     },
-    "schemaModiferId": {
+    "schemaModifierId": {
         "$oid": "59dbf12b734d5d28c12dbd21"
     },
     "version": 1,

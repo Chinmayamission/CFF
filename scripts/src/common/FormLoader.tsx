@@ -22,6 +22,81 @@ let isUiSchemaPath = (path) => {
     return path && (~path.indexOf("ui:") || ~path.indexOf("classNames"));
 }
 
+let createSchemas = data => {
+    var schemaModifier = data["schemaModifier"].value;
+    // var uiSchema = schemaModifier;
+    let schema = data["schema"].value;
+    schema = deref(schema);
+    schemaModifier = deref(schemaModifier);
+
+    // Config of payment schemaModifier in schemaMetadata:
+    let schemaMetadata = {};
+    let POSSIBLE_METADATA_FIELDS = ["confirmationEmailInfo", "paymentInfo", "paymentMethods"];
+    for (let key in data.schema) {
+        if (~POSSIBLE_METADATA_FIELDS.indexOf(key))
+            schemaMetadata[key] = data.schema[key];
+    }
+    for (let key in data.schemaModifier) {
+        if (~POSSIBLE_METADATA_FIELDS.indexOf(key) && typeof data.schemaModifier[key] != "boolean")
+            schemaMetadata[key] = data.schemaModifier[key];
+    }
+
+    console.log('orig schema', schema);
+    let uiSchema = {};
+    
+    // Populate uiSchema with uiSchema options specified in the schema,
+    // and remove uiSchema.
+    let flattenedSchema = flatten(schema);
+    let flattenedSchemaModifier = flatten(schemaModifier);
+    for (let fieldPath in flattenedSchema) {
+        let fieldValue = flattenedSchema[fieldPath];
+        let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(fieldPath);
+        if (isUiSchemaPath(fieldPath)) {
+            // console.log(fieldPath, schemaModifierFieldPath, " is a uischema path");
+            unset(schema, fieldPath);
+            set(uiSchema, schemaModifierFieldPath, fieldValue);
+        }
+    }
+    
+    // Applies schema modifier attributes to uiSchema and schema.
+    for (let fieldPath in flattenedSchemaModifier) {
+        let fieldValue = flattenedSchemaModifier[fieldPath];
+        let schemaFieldPath = SchemaUtil.objToSchemaPath(fieldPath);
+        if (~["title", "description"].indexOf(fieldPath)) {
+            // Top-level modifications.
+            schema[fieldPath] = fieldValue;
+        }
+        else if (isUiSchemaPath(fieldPath)) {
+            set(uiSchema, fieldPath, fieldValue);
+        }
+        else if (!fieldValue) {
+            unset(schema.properties, schemaFieldPath);
+        }
+        else if (typeof fieldValue == "boolean") {
+        }
+        else {
+            console.log("setting ", fieldPath, schemaFieldPath);
+            set(schema.properties, schemaFieldPath, fieldValue);
+        }
+    }
+
+    // allows attrs like "type" to be shown
+    /*schema = merge({}, schemaModifier, schema);
+    let flattenedKeys = Object.keys(flatten(schema)).filter(k => !isUiSchemaPath(k));
+    schema = pick(schema, flattenedKeys);*/
+    
+    // filterUiSchema(uiSchema);
+    console.log("new schema", schema, "uischema", uiSchema);
+    if (data["formData"]) {
+        // When editing responses
+        return { formData: data.formData, schemaMetadata, uiSchema, schema };
+    }
+    else {
+        // When just editing a form
+        return { schemaMetadata, uiSchema, schema };
+    }
+}
+
 export module FormLoader {
     export function getForm(apiEndpoint, formId) {
         return  axios.get(apiEndpoint + "?action=" + "formRender" + "&id=" + formId, { "responseType": "json" })
@@ -35,73 +110,17 @@ export module FormLoader {
         .then(unescapeJSON);
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId) {
-        return this.getForm(apiEndpoint, formId).then(data => {
-            var schemaModifier = data["schemaModifier"].value;
-            // var uiSchema = schemaModifier;
-            let schema = data["schema"].value;
-            schema = deref(schema);
-            schemaModifier = deref(schemaModifier);
-
-            // Config of payment schemaModifier in schemaMetadata:
-            let schemaMetadata = {};
-            let POSSIBLE_METADATA_FIELDS = ["confirmationEmailInfo", "paymentInfo", "paymentMethods"];
-            for (let key in data.schema) {
-                if (~POSSIBLE_METADATA_FIELDS.indexOf(key))
-                    schemaMetadata[key] = data.schema[key];
-            }
-            for (let key in data.schemaModifier) {
-                if (~POSSIBLE_METADATA_FIELDS.indexOf(key) && typeof data.schemaModifier[key] != "boolean")
-                    schemaMetadata[key] = data.schemaModifier[key];
-            }
-
-            console.log('orig schema', schema);
-            let uiSchema = {};
-            
-            // Populate uiSchema with uiSchema options specified in the schema,
-            // and remove uiSchema.
-            let flattenedSchema = flatten(schema);
-            let flattenedSchemaModifier = flatten(schemaModifier);
-            for (let fieldPath in flattenedSchema) {
-                let fieldValue = flattenedSchema[fieldPath];
-                let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(fieldPath);
-                if (isUiSchemaPath(fieldPath)) {
-                    // console.log(fieldPath, schemaModifierFieldPath, " is a uischema path");
-                    unset(schema, fieldPath);
-                    set(uiSchema, schemaModifierFieldPath, fieldValue);
-                }
-            }
-            
-            // Applies schema modifier attributes to uiSchema and schema.
-            for (let fieldPath in flattenedSchemaModifier) {
-                let fieldValue = flattenedSchemaModifier[fieldPath];
-                let schemaFieldPath = SchemaUtil.objToSchemaPath(fieldPath);
-                if (~["title", "description"].indexOf(fieldPath)) {
-                    // Top-level modifications.
-                    schema[fieldPath] = fieldValue;
-                }
-                else if (isUiSchemaPath(fieldPath)) {
-                    set(uiSchema, fieldPath, fieldValue);
-                }
-                else if (!fieldValue) {
-                    unset(schema.properties, schemaFieldPath);
-                }
-                else if (typeof fieldValue == "boolean") {
-                }
-                else {
-                    console.log("setting ", fieldPath, schemaFieldPath);
-                    set(schema.properties, schemaFieldPath, fieldValue);
-                }
-            }
-
-            // allows attrs like "type" to be shown
-            /*schema = merge({}, schemaModifier, schema);
-            let flattenedKeys = Object.keys(flatten(schema)).filter(k => !isUiSchemaPath(k));
-            schema = pick(schema, flattenedKeys);*/
-            
-            // filterUiSchema(uiSchema);
-            console.log("new schema", schema, "uischema", uiSchema);
-            return { schemaMetadata, uiSchema, schema };
-        });
+        return this.getForm(apiEndpoint, formId).then(createSchemas);
+    }
+    export function getResponseAndSchemas(apiEndpoint, responseId) {
+        /* Get form response data, and original schemas.
+        */
+        return  axios.get(apiEndpoint + "?action=" + "getResponseAndSchemas" + "&id=" + responseId, { "responseType": "json" })
+        .then(response => response.data.res[0])
+        .then(unescapeJSON);
+    }
+    export function loadResponseAndCreateSchemas(apiEndpoint, responseId) {
+        return this.getResponseAndSchemas(apiEndpoint, responseId).then(createSchemas);
     }
 
 }

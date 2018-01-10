@@ -62,9 +62,9 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let propsToEncode = ["selectedForm", "status"];
-        if (pick(this.state, propsToEncode) != pick(prevState, propsToEncode)) {
-            let encodedState = flatten(pick(this.state, ["selectedForm", "status"]));
+        let stateKeysToEncode = ["selectedForm", "status"];
+        if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
+            let encodedState = flatten(pick(this.state, stateKeysToEncode));
             let newQS = queryString.stringify(encodedState);
             window.location.hash = newQS;//queryString.stringify(encodedState);   
         }
@@ -78,7 +78,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         });
     }
     componentDidMount() {
-        let queryObjFlat = queryString.parse(location.hash);
+        let queryObjFlat = queryString.parse(window.location.hash);
 
         let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.props.apiKey;
         //this.getFormList(formListUrl).then((e) =>{
