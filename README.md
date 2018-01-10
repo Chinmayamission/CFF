@@ -19,6 +19,7 @@ Todo for Training:
 - implement modify registration logic.
 - in IPN verification, also make sure the amounts match. allow admins to view unsuccessful/incomplete IPN responses.
 - set up proper from-email-name.
+- cache buster!
 
 - implement scroll to top to show errorlist
 - download updated typings for react-jsonschema-form

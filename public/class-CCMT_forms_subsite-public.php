@@ -108,10 +108,16 @@ class CCMT_Forms_Subsite_Public {
 			$a = shortcode_atts( array(
 				'id' => '',
 				'apiKey' => '',
+				'apiEndpoint' => ''
 			), $atts );
+			if ($a['apiEndpoint'] == '') {
+				$ccmt_cff_options = get_option( 'ccmt_cff_settings' );
+				if (isset($ccmt_cff_options['ccmt_cff_api_endpoint'])) {
+					$a['apiEndpoint'] = $ccmt_cff_options['ccmt_cff_api_endpoint'];
+				}
+			}
 			wp_enqueue_script("ccmt-cff-render-vendor");
 			wp_enqueue_script("ccmt-cff-render-app");
-			wp_enqueue_style("ccmt-cff-form-css");
 			ob_start();
 			include plugin_dir_path( __FILE__ ) . "partials/ccmt-cff-form-render.php";
 			return ob_get_clean();

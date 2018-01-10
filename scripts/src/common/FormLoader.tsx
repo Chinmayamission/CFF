@@ -99,7 +99,7 @@ let createSchemas = data => {
 
 export module FormLoader {
     export function getForm(apiEndpoint, formId) {
-        return  axios.get(apiEndpoint + "?action=" + "formRender" + "&iad=" + formId, { "responseType": "json" })
+        return  axios.get(apiEndpoint + "?action=" + "formRender" + "&id=" + formId, { "responseType": "json" })
         .catch(e => {
             if ((window as any).CCMT_CFF_DEVMODE===true) {
                 return MockData.formRender;

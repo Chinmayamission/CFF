@@ -30,7 +30,8 @@ class CCMT_Forms_Subsite_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
+		add_option('ccmt_cff_api_key', '');
+		add_option('ccmt_cff_api_endpoint', '');
 	}
 
 }
