@@ -28,7 +28,8 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             formList: [],
             center: "CMSJ",
             selectedForm: null,
-            status: STATUS_LOADING
+            status: STATUS_LOADING,
+            hasError: false
         }
     }
 
@@ -95,13 +96,13 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             this.setState(queryObjNested);
         }
     }
-    getPath(params) {
-        return window.location.pathname + "?" + window.location.href.split("?")[1] + "&" + params;
+    handleError(e) {
+        this.setState({"hasError": true});
     }
     render() {
         var that = this;
         if (this.state.status == STATUS_LOADING) {
-            return <Loading />;
+            return <Loading hasError={this.state.hasError} />;
         }
         return (
         <div className="App FormAdminPage">
@@ -120,7 +121,8 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 <FormEdit form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
             }
             {this.state.status == STATUS_FORM_RESPONSES &&
-                <ResponseTable form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
+                <ResponseTable form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
+                    handleError={(e) => this.handleError(e)} />
             }
         </div>
         );

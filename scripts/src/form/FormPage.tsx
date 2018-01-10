@@ -8,7 +8,7 @@ import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
-import {pick} from "lodash-es";
+import { pick } from "lodash-es";
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "src/common/loading";
@@ -87,7 +87,7 @@ const CustomTitleField = ({ title, required }) => {
 };
 
 function ErrorListTemplate(props) {
-  const {errors} = props;
+  const { errors } = props;
   return (
     <div>
       <b>Errors:</b>
@@ -128,6 +128,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     This = this;
     this.state = {
       status: STATUS_FORM_LOADING,
+      hasError: false,
       schemaMetadata: {},
       schema: { "title": "None", "type": "object" },
       uiSchema: { "title": "status" },
@@ -161,34 +162,45 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     };
   }
 
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    console.log("caught");
+    console.error(error, info);
+  }
+
   getFormUrl(action) {
     let formId = this.props.formId['$oid'];
     let formUrl = this.props.apiEndpoint + "?action=" + action + "&id=" + formId + "&modifyLink=" + window.location.href;
     return encodeURI(formUrl);
   }
   scrollToTop() {
-    // todo: scroll to top.
+    ReactDOM.findDOMNode(this).scrollIntoView();
   }
 
   componentDidUpdate(prevProps, prevState) {
     let stateKeysToEncode = ["status"];
     if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
-        let encodedState = pick(this.state, stateKeysToEncode);
-        let newQS = queryString.stringify(encodedState);
-        window.location.hash = newQS;//queryString.stringify(encodedState);  
-        ReactDOM.findDOMNode(this).scrollIntoView(); 
+      let encodedState = pick(this.state, stateKeysToEncode);
+      let newQS = queryString.stringify(encodedState);
+      window.location.hash = newQS;//queryString.stringify(encodedState);  
+      this.scrollToTop();
     }
-}
+  }
+  handleError(e) {
+    this.setState({"hasError": true});
+  }
 
   componentDidMount() {
     let queryObjFlat = queryString.parse(location.hash);
     if (queryObjFlat["resid"]) {
-      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, queryObjFlat["resid"]).then(({ schemaMetadata, uiSchema, schema, formData }) => {
+      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, queryObjFlat["resid"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, formData }) => {
         this.setState({ schemaMetadata, uiSchema, schema, data: formData.value, status: STATUS_FORM_RENDERED });
       });
     }
     else {
-      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId['$oid']).then(({ schemaMetadata, uiSchema, schema }) => {
+      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId['$oid'], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema }) => {
         this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
       });
     }
@@ -210,11 +222,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       }
     });
     instance.post(this.getFormUrl("formSubmit"), formData).catch(e => {
-      if ((window as any).CCMT_CFF_DEVMODE===true) {
-          return MockData.newResponse();
+      if ((window as any).CCMT_CFF_DEVMODE === true) {
+        return MockData.newResponse();
       }
       alert("Error loading the form list. " + e);
-  }).then((response) => {
+    }).then((response) => {
       let res = response.data.res;
       if (!(res.success == true && res.inserted_id["$oid"])) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
@@ -227,55 +239,55 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   render() {
     if (this.state.status == STATUS_FORM_PAYMENT_COMPLETE) {
       return (<div>
-          <h1>Payment processing</h1>
-          <p>Thank you for your payment! You will receive a confirmation email within 24 hours after the payment has been verified.</p>
+        <h1>Payment processing</h1>
+        <p>Thank you for your payment! You will receive a confirmation email within 24 hours after the payment has been verified.</p>
       </div>);
     }
     if (this.state.status == STATUS_FORM_LOADING) {
       return (
-        <Loading />
+        <Loading hasError={this.state.hasError} />
       );
     } // else if (this.state.status == STATUS_FORM_RENDERED) {
-      let formToReturn = (
-        <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "": "ccmt-cff-Page-FormPage-readonly")} >
-          <Form
-            schema={this.state.schema}
-            uiSchema={this.state.uiSchema}
-            formData={this.state.data}
-            widgets={widgets}
-            fields={fields}
-            ObjectFieldTemplate={ObjectFieldTemplate}
-            transformErrors={transformErrors}
-            onChange={() => log('changed')}
-            onSubmit={(e) => this.onSubmit(e)}
-            onError={(e) => this.scrollToTop()}
-            showErrorList={true}
-            ErrorList={ErrorListTemplate}
-          />
-        </div>
-      );
-    if (this.state.status == STATUS_FORM_CONFIRMATION) {
-      formToReturn = 
-      (<div>
-        <h1>Confirmation Page</h1>
-        <button className="button button-primary"
-                onClick={this.goBackToFormPage}
-            >Go back and edit form response</button>
-        {formToReturn}
-        <button className="button button-primary"
-                onClick={this.goBackToFormPage}
-            >Go back and edit form response</button>
-        <FormConfirmationPage
-          apiEndpoint={this.props.apiEndpoint}
+    let formToReturn = (
+      <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
+        <Form
           schema={this.state.schema}
-          schemaMetadata={this.state.schemaMetadata}
           uiSchema={this.state.uiSchema}
-          data={this.state.data}
-          goBack={this.goBackToFormPage}
-          responseId={this.state.responseId}
-          onPaymentComplete={(e) => this.onPaymentComplete(e)}
+          formData={this.state.data}
+          widgets={widgets}
+          fields={fields}
+          ObjectFieldTemplate={ObjectFieldTemplate}
+          transformErrors={transformErrors}
+          onChange={() => log('changed')}
+          onSubmit={(e) => this.onSubmit(e)}
+          onError={(e) => this.scrollToTop()}
+          showErrorList={true}
+          ErrorList={ErrorListTemplate}
         />
-      </div>);
+      </div>
+    );
+    if (this.state.status == STATUS_FORM_CONFIRMATION) {
+      formToReturn =
+        (<div>
+          <h1>Confirmation Page</h1>
+          <button className="button button-primary"
+            onClick={this.goBackToFormPage}
+          >Go back and edit form response</button>
+          {formToReturn}
+          <button className="button button-primary"
+            onClick={this.goBackToFormPage}
+          >Go back and edit form response</button>
+          <FormConfirmationPage
+            apiEndpoint={this.props.apiEndpoint}
+            schema={this.state.schema}
+            schemaMetadata={this.state.schemaMetadata}
+            uiSchema={this.state.uiSchema}
+            data={this.state.data}
+            goBack={this.goBackToFormPage}
+            responseId={this.state.responseId}
+            onPaymentComplete={(e) => this.onPaymentComplete(e)}
+          />
+        </div>);
     }
     return formToReturn;
   }

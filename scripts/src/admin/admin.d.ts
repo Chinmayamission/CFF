@@ -9,7 +9,8 @@ interface IFormAdminPageState {
     formList: IFormListItem[],
     center: string,
     selectedForm: IFormListItem,
-    status: Number
+    status: Number,
+    hasError: boolean
 }
 interface IFormListItem {
     name: string,

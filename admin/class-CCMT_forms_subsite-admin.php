@@ -119,16 +119,28 @@ class CCMT_Forms_Subsite_Admin {
 			'pluginPage', 
 			'ccmt_cff_pluginPage_section' 
 		);
+
+		add_settings_field( 
+			'ccmt_cff_api_endpoint', 
+			__( 'API Endpoint', 'ccmt-cff' ), 
+			array($this, 'ccmt_cff_api_endpoint_render'), 
+			'pluginPage', 
+			'ccmt_cff_pluginPage_section' 
+		);
 		
 	}
-	public function ccmt_cff_api_key_render(  ) { 
-		
-			$options = get_option( 'ccmt_cff_settings' );
-			?>
-			<input type='text' name='ccmt_cff_settings[ccmt_cff_api_key]' value='<?php echo $options['ccmt_cff_api_key']; ?>'>
-			<?php
-		
-		}
+	public function ccmt_cff_api_key_render(  ) { 	
+		$options = get_option( 'ccmt_cff_settings' );
+		?>
+		<input type='text' name='ccmt_cff_settings[ccmt_cff_api_key]' value='<?php echo $options['ccmt_cff_api_key']; ?>'>
+		<?php
+	}
+	public function ccmt_cff_api_endpoint_render(  ) { 	
+		$options = get_option( 'ccmt_cff_settings' );
+		?>
+		<input type='text' name='ccmt_cff_settings[ccmt_cff_api_endpoint]' value='<?php echo $options['ccmt_cff_api_endpoint']; ?>'>
+		<?php
+	}
 	
 	
 	public function ccmt_cff_settings_section_callback(  ) { 	
@@ -141,6 +153,3 @@ class CCMT_Forms_Subsite_Admin {
 	}
 
 }
-
-
-?>

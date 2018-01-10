@@ -36,7 +36,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
     }
 
     componentDidMount() {
-        FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form._id['$oid']).then(({ schema }) => {
+        FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form._id['$oid'], (e) => this.props.handleError(e)).then(({ schema }) => {
             this.setState({
                 schema
             });

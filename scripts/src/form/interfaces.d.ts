@@ -49,7 +49,8 @@ interface IFormPageState {
     status: number,
     step: number,
     data: Data,
-    responseId: ObjectId
+    responseId: ObjectId,
+    hasError: boolean
 }
 
 interface IFormPageProps {
