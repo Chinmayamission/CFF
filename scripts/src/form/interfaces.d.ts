@@ -66,7 +66,8 @@ interface IFormConfirmationPageProps {
     data: Data,
     responseId: ObjectId,
     apiEndpoint: string,
-    goBack: () => void
+    goBack: () => void,
+    onPaymentComplete: (message: any) => void
 }
 
 interface IFormConfirmationPageState {

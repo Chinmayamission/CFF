@@ -1,6 +1,7 @@
 /// <reference path="./interfaces.d.ts"/>
 import axios from 'axios';
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import Form from 'react-jsonschema-form';
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
@@ -16,7 +17,8 @@ import MockData from "src/common/util/MockData";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
-const STATUS_FORM_SUBMITTED = 4;
+const STATUS_FORM_CONFIRMATION = 4;
+const STATUS_FORM_PAYMENT_COMPLETE = 6;
 
 /* Custom object field template that allows for grid classes to be specified.
  * If no className is given in schema modifier, defaults to "col-12".
@@ -173,7 +175,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
         let encodedState = pick(this.state, stateKeysToEncode);
         let newQS = queryString.stringify(encodedState);
-        window.location.hash = newQS;//queryString.stringify(encodedState);   
+        window.location.hash = newQS;//queryString.stringify(encodedState);  
+        ReactDOM.findDOMNode(this).scrollIntoView(); 
     }
 }
 
@@ -194,6 +197,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   goBackToFormPage() {
     This.setState({ status: STATUS_FORM_RENDERED });
   }
+  onPaymentComplete(e) {
+    this.setState({
+      "status": STATUS_FORM_PAYMENT_COMPLETE
+    });
+  }
   onSubmit(data: { formData: {} }) {
     var formData = data.formData;
     var instance = axios.create({
@@ -211,19 +219,25 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if (!(res.success == true && res.inserted_id["$oid"])) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
       }
-      this.setState({ status: STATUS_FORM_SUBMITTED, data: formData, responseId: res.inserted_id });
+      this.setState({ status: STATUS_FORM_CONFIRMATION, data: formData, responseId: res.inserted_id });
     }).catch((err) => {
       alert("Error. " + err);
     });
   }
   render() {
+    if (this.state.status == STATUS_FORM_PAYMENT_COMPLETE) {
+      return (<div>
+          <h1>Payment processing</h1>
+          <p>Thank you for your payment! You will receive a confirmation email within 24 hours after the payment has been verified.</p>
+      </div>);
+    }
     if (this.state.status == STATUS_FORM_LOADING) {
       return (
         <Loading />
       );
-    } else if (this.state.status == STATUS_FORM_RENDERED) {
-      return (
-        <div className="ccmt-cff-Page-FormPage">
+    } // else if (this.state.status == STATUS_FORM_RENDERED) {
+      let formToReturn = (
+        <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "": "ccmt-cff-Page-FormPage-readonly")} >
           <Form
             schema={this.state.schema}
             uiSchema={this.state.uiSchema}
@@ -240,18 +254,30 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           />
         </div>
       );
+    if (this.state.status == STATUS_FORM_CONFIRMATION) {
+      formToReturn = 
+      (<div>
+        <h1>Confirmation Page</h1>
+        <button className="button button-primary"
+                onClick={this.goBackToFormPage}
+            >Go back and edit form response</button>
+        {formToReturn}
+        <button className="button button-primary"
+                onClick={this.goBackToFormPage}
+            >Go back and edit form response</button>
+        <FormConfirmationPage
+          apiEndpoint={this.props.apiEndpoint}
+          schema={this.state.schema}
+          schemaMetadata={this.state.schemaMetadata}
+          uiSchema={this.state.uiSchema}
+          data={this.state.data}
+          goBack={this.goBackToFormPage}
+          responseId={this.state.responseId}
+          onPaymentComplete={(e) => this.onPaymentComplete(e)}
+        />
+      </div>);
     }
-    else if (this.state.status == STATUS_FORM_SUBMITTED) {
-      return (<FormConfirmationPage
-        apiEndpoint={this.props.apiEndpoint}
-        schema={this.state.schema}
-        schemaMetadata={this.state.schemaMetadata}
-        uiSchema={this.state.uiSchema}
-        data={this.state.data}
-        goBack={this.goBackToFormPage}
-        responseId={this.state.responseId}
-      />);
-    }
+    return formToReturn;
   }
 }
 

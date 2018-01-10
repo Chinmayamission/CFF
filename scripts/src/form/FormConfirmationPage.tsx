@@ -59,34 +59,13 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
     }
     render() {
         return (
-        <div className="ccmt-cff-Page-FormConfirmationPage">
-            <h1>
-                {this.props.schema.title} - Confirmation Page
-            </h1>
-            {!this.state.paid && <button className="button button-primary"
-                onClick={this.props.goBack}
-            >Back to form page</button>}
-            <ReactTable
-                data={this.state.tableData}
-                columns={this.state.tableHeaders}
-                showPagination={false}
-                minRows={0}
-            />
-        {(this.state.paid) ? 
-            <div>
-                <h1>Payment processing</h1>
-                <p>You will receive a confirmation email within 24 hours after the payment has been verified. Please print this page for your verification.</p>
-                <pre>
-                    {this.state.paymentTransactionInfo}
-                </pre>
-            </div> :
-            <Payment
-                apiEndpoint={this.props.apiEndpoint}
-                schemaMetadata={this.props.schemaMetadata}
-                onPaymentComplete={this.onPaymentComplete}
-                onPaymentError={this.onPaymentError}
-                responseId={this.props.responseId}/>
-        }
+        <div className="ccmt-cff-Page-FormConfirmationPage">        
+        <Payment
+            apiEndpoint={this.props.apiEndpoint}
+            schemaMetadata={this.props.schemaMetadata}
+            onPaymentComplete={this.props.onPaymentComplete}
+            onPaymentError={this.onPaymentError}
+            responseId={this.props.responseId}/>
         </div>
         )
     }
