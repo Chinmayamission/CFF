@@ -16,7 +16,7 @@ let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElemen
 if (formRenderElement) {
   ReactDOM.render(
     <div className="">
-    <FormPage formId={{"$oid":formRenderElement.getAttribute('data-ccmt-cff-form-id')}} apiEndpoint={formRenderElement.getAttribute('data-ccmt-cff-api-endpoint')} />
+    <FormPage formId={formRenderElement.getAttribute('data-ccmt-cff-form-id')} apiEndpoint={formRenderElement.getAttribute('data-ccmt-cff-api-endpoint')} />
     </div>
     ,
     formRenderElement

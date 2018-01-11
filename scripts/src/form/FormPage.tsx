@@ -171,8 +171,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   getFormUrl(action) {
-    let formId = this.props.formId['$oid'];
-    let formUrl = this.props.apiEndpoint + "?action=" + action + "&id=" + formId + "&modifyLink=" + window.location.href;
+    let formId = this.props.formId;
+    let formUrl = this.props.apiEndpoint + "?action=" + action + "&formVersion=1&formId=" + formId + "&modifyLink=" + window.location.href;
     return encodeURI(formUrl);
   }
   scrollToTop() {
@@ -189,18 +189,19 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
   }
   handleError(e) {
+    console.error("ERROR", e);
     this.setState({"hasError": true});
   }
 
   componentDidMount() {
     let queryObjFlat = queryString.parse(location.hash);
     if (queryObjFlat["resid"]) {
-      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, queryObjFlat["resid"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, formData }) => {
+      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["resid"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, formData }) => {
         this.setState({ schemaMetadata, uiSchema, schema, data: formData.value, status: STATUS_FORM_RENDERED });
       });
     }
     else {
-      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId['$oid'], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema }) => {
+      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema }) => {
         this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
       });
     }
@@ -228,7 +229,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       alert("Error loading the form list. " + e);
     }).then((response) => {
       let res = response.data.res;
-      if (!(res.success == true && res.inserted_id["$oid"])) {
+      if (!(res.success == true && res.inserted_id)) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
       }
       this.setState({ status: STATUS_FORM_CONFIRMATION, data: formData, responseId: res.inserted_id });

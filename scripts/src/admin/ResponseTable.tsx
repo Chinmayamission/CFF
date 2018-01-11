@@ -31,12 +31,12 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
     }
 
     getFormUrl(action) {
-        let formId = this.props.form._id['$oid'];
+        let formId = this.props.form.id;
         return this.props.apiEndpoint + '?action=' + action + '&apiKey=' + this.props.apiKey +  '&id=' + formId;
     }
 
     componentDidMount() {
-        FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form._id['$oid'], (e) => this.props.handleError(e)).then(({ schema }) => {
+        FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form.id, (e) => this.props.handleError(e)).then(({ schema }) => {
             this.setState({
                 schema
             });
@@ -52,7 +52,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         .then(response => response.data.res[0].responses)
         .then(data => {
             data = data.map((e) => {
-                e.value.id = e._id.$oid;
+                e.value.id = e.id;
                 this.setState({tableDataOrigObject: data});
                 return flatten(e.value);
             });//.filter((e) => e);

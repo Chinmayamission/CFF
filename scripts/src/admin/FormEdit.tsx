@@ -17,7 +17,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
 
     componentDidMount() {
-        FormLoader.getForm(this.props.apiEndpoint, this.props.form._id['$oid']).then(({ schemaModifier, schema }) => {
+        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id).then(({ schemaModifier, schema }) => {
             this.setState({
                 schemaModifier,
                 schema,
@@ -34,7 +34,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         }
         return <div className="ccmt-cff-page-FormEdit">
             <div>
-                {this.props.form.name} - {this.props.form._id.$oid}<br />
+                {this.props.form.name} - {this.props.form.id}<br />
                 <strong>Note: This is <em>view-only</em>; your changes will not be saved. That functionality is coming soon.</strong>
             </div><br/>
             <div style={{ "display": "flex" }}>

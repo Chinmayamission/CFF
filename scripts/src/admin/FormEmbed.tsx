@@ -30,11 +30,11 @@ class FormEdit extends React.Component<any, any> {
                 <h1>Embed form shortcode</h1>
                 <h2>{this.props.form.name}</h2>
                 <pre>
-                [ccmt-cff-render-form id="{this.props.form._id.$oid}"]
+                [ccmt-cff-render-form id="{this.props.form.id}"]
                 </pre>
                 <button className="button button-primary" onClick={() => {this.onOpenModal()}}>Preview</button>
                 <Modal open={this.state.open} onClose={this.onCloseModal}>
-                    <FormPage formId = {this.props.form._id} apiEndpoint={this.props.apiEndpoint}/>
+                    <FormPage formId = {this.props.form.id} apiEndpoint={this.props.apiEndpoint}/>
                 </Modal>
             </div>
         );

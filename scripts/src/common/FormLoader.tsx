@@ -99,28 +99,28 @@ let createSchemas = data => {
 
 export module FormLoader {
     export function getForm(apiEndpoint, formId) {
-        return  axios.get(apiEndpoint + "?action=" + "formRender" + "&id=" + formId, { "responseType": "json" })
+        return  axios.get(apiEndpoint + "?action=" + "formRender" + "&version=1&id=" + formId, { "responseType": "json" })
         .catch(e => {
             if ((window as any).CCMT_CFF_DEVMODE===true) {
                 return MockData.formRender;
             }
             throw ("Error loading the form. " + e);
         })
-        .then(response => response.data.res[0])
+        .then(response => response.data.res)
         .then(unescapeJSON);
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, handleError) {
         return this.getForm(apiEndpoint, formId).then(createSchemas).catch(handleError);
     }
-    export function getResponseAndSchemas(apiEndpoint, responseId, handleError) {
+    export function getResponseAndSchemas(apiEndpoint, formId, responseId, handleError) {
         /* Get form response data, and original schemas.
         */
-        return  axios.get(apiEndpoint + "?action=" + "getResponseAndSchemas" + "&id=" + responseId, { "responseType": "json" })
+        return  axios.get(apiEndpoint + "?action=" + "getResponseAndSchemas" + "&formId=" + formId + "&responseId=" + responseId, { "responseType": "json" })
         .then(response => response.data.res[0])
         .then(unescapeJSON);
     }
-    export function loadResponseAndCreateSchemas(apiEndpoint, responseId, handleError) {
-        return this.getResponseAndSchemas(apiEndpoint, responseId).then(createSchemas).catch(handleError);
+    export function loadResponseAndCreateSchemas(apiEndpoint, formId, responseId, handleError) {
+        return this.getResponseAndSchemas(apiEndpoint, formId, responseId).then(createSchemas).catch(handleError);
     }
 
 }

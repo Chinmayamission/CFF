@@ -1,6 +1,3 @@
-interface ObjectId {
-    "$oid": string
-}
 interface IFormAdminPageProps {
     apiEndpoint: string,
     apiKey: string
@@ -14,7 +11,7 @@ interface IFormAdminPageState {
 }
 interface IFormListItem {
     name: string,
-    _id: ObjectId
+    id: string
 }
 interface IFormListProps extends IFormAdminPageProps {
     loadResponses: (e) => void,

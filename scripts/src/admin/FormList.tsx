@@ -24,7 +24,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         </thead>
         <tbody>
             {this.props.formList.map((form) => 
-                <tr key={form["_id"]["$oid"]} style = {{outline: 'thin solid'}}>
+                <tr key={form["id"]} style = {{outline: 'thin solid'}}>
                     <td>{form["name"]}</td>
                     <td>
                         <button className="button button-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>

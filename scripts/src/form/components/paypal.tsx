@@ -19,7 +19,7 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
                     {
                         amount: { total: This.props.paymentInfo.total,
                             currency: This.props.paymentInfo.currency },
-                        custom: this.props.responseId.$oid,
+                        custom: this.props.responseId,
                         notify_url: this.props.apiEndpoint + "?action=ipn"
                     }
                 ]
