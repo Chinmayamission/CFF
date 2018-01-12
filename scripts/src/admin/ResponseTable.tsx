@@ -5,6 +5,7 @@ import ReactTable from 'react-table';
 import treeTableHOC from 'react-table/lib/hoc/treeTable'
 import {flatten} from 'flat';
 import {filter} from 'lodash-es';
+import {CSVLink} from 'react-csv';
 import Loading from "src/common/loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
@@ -88,7 +89,11 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     headerObjs.push({
                         Header: header,
                         id: header,
-                        accessor: d=> typeof d[header] === 'string' ? d[header] : JSON.stringify(d[header])//d=> JSON.stringify(d[header]) // String-based value accessors!
+                        accessor: d=> typeof d[header] === 'string' ? d[header] : JSON.stringify(d[header]),
+                        // For react csv export:
+                        label: header,
+                        key: header
+                        //d=> JSON.stringify(d[header]) // String-based value accessors!
                       });
                 }
             }
@@ -145,6 +150,11 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                                 <option key={e}>{e}</option>
                             )}
                         </select>
+                        <CSVLink
+                            data={this.state.tableDataDisplayed}
+                            headers={this.state.tableHeadersDisplayed}>
+                        Download CSV
+                        </CSVLink>
                     {/*<button className="button" onClick={() => this.showUnwindTable()}>
                     Unwind data
                         </button>*/}
