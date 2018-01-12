@@ -96,7 +96,7 @@ const CustomTitleField = ({ title, required }) => {
 function ErrorListTemplate(props) {
   const { errors } = props;
   return (
-    <div>
+    <div className="ccmt-cff-errorList">
       <b>Errors:</b>
       {errors.map((error, i) => {
         return (
@@ -145,18 +145,20 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         "participants": [
           {
             "name": {
-              "first": "Kalyani",
-              "last": "Sank"
+              "first": "Blah",
+              "last": "Man"
             },
             "age": 5,
+            "gender": "M",
             "race": "10K"
           },
           {
             "name": {
-              "first": "Arvind",
-              "last": "Ramaswami"
+              "first": "Some",
+              "last": "Other"
             },
             "age": 40,
+            "gender": "F",
             "race": "10K"
           }
         ],
