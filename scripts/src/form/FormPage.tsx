@@ -31,7 +31,11 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
       <div className="row">
         {properties.map(prop => {
           let customClasses = {
-            "half": "col-xs-12 col-sm-6",
+            "twoColumn": "col-xs-12 col-sm-6",
+            "threeColumn": "col-xs-12 col-sm-4",
+            "fourColumn": "col-xs-6 col-sm-3",
+            "fiveColumn": "col-xs-6 col-sm-2",
+            "sixColumn": "col-xs-6 col-sm-2",
             "flex": "col-xs-6",
             "full": "col-xs-12"
           };
@@ -80,6 +84,9 @@ const FormattedDescriptionField = ({ id, description }) => {
 };
 
 const CustomTitleField = ({ title, required }) => {
+  if (!title || !title.trim()) {
+    return <span />;
+  }
   const legend = required ? title + '*' : title;
   return <h2 className="ccmt-cff-form-title">
     {legend}
