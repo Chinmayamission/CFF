@@ -32,7 +32,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
 
     getFormUrl(action) {
         let formId = this.props.form.id;
-        return this.props.apiEndpoint + '?action=' + action + '&apiKey=' + this.props.apiKey +  '&id=' + formId;
+        return this.props.apiEndpoint + '?action=' + action + '&apiKey=' + this.props.apiKey +  '&version=1&id=' + formId;
     }
 
     componentDidMount() {
@@ -49,7 +49,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 alert("Error loading the form responses. " + e);
             });
         })
-        .then(response => response.data.res[0].responses)
+        .then(response => response.data.res)
         .then(data => {
             data = data.map((e) => {
                 e.value.id = e.id;

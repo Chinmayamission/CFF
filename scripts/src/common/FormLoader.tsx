@@ -116,7 +116,7 @@ export module FormLoader {
         /* Get form response data, and original schemas.
         */
         return  axios.get(apiEndpoint + "?action=" + "getResponseAndSchemas" + "&formId=" + formId + "&responseId=" + responseId, { "responseType": "json" })
-        .then(response => response.data.res[0])
+        .then(response => response.data.res)
         .then(unescapeJSON);
     }
     export function loadResponseAndCreateSchemas(apiEndpoint, formId, responseId, handleError) {
