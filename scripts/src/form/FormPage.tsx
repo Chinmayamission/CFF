@@ -295,6 +295,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             data={this.state.data}
             goBack={this.goBackToFormPage}
             responseId={this.state.responseId}
+            formId={this.props.formId}
             onPaymentComplete={(e) => this.onPaymentComplete(e)}
           />
         </div>);

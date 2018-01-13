@@ -12,6 +12,9 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
     }
 
     payment(data, actions) {
+        if (!this.props.formId || !this.props.responseId) {
+            throw "An error occurred, formId or responseId do not exist. Please try again.";
+        }
         // Set up the payment here, when the buyer clicks on the button
         return actions.payment.create({
             payment: {
@@ -19,7 +22,7 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
                     {
                         amount: { total: This.props.paymentInfo.total,
                             currency: This.props.paymentInfo.currency },
-                        custom: this.props.responseId,
+                        custom: this.props.formId + "/" + this.props.responseId,
                         notify_url: this.props.apiEndpoint + "?action=ipn"
                     }
                 ]

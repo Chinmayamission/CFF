@@ -65,7 +65,9 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
             schemaMetadata={this.props.schemaMetadata}
             onPaymentComplete={this.props.onPaymentComplete}
             onPaymentError={this.onPaymentError}
-            responseId={this.props.responseId}/>
+            responseId={this.props.responseId}
+            formId={this.props.formId}
+            />
         </div>
         )
     }

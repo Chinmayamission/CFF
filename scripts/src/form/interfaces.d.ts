@@ -67,6 +67,7 @@ interface IFormConfirmationPageProps {
     data: Data,
     responseId: string,
     apiEndpoint: string,
+    formId: string,
     goBack: () => void,
     onPaymentComplete: (message: any) => void
 }
@@ -83,6 +84,7 @@ interface IPaymentProps {
     onPaymentComplete: (message: any) => void,
     onPaymentError: (message: any) => void,
     responseId: string,
+    formId: string,
     apiEndpoint: string
 }
 
@@ -113,7 +115,8 @@ interface IPaypalProps extends IScriptLoaderProps {
     paymentMethodInfo: PaymentMethodPayPal,
     confirmationEmailInfo: ConfirmationEmailInfo
     responseId: string,
-    apiEndpoint: string
+    apiEndpoint: string,
+    formId: string
 }
 interface ConfirmationEmailInfo {
     from: string,
