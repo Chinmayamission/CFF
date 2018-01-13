@@ -62,11 +62,13 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         <div className="ccmt-cff-Page-FormConfirmationPage">        
         <Payment
             apiEndpoint={this.props.apiEndpoint}
-            schemaMetadata={this.props.schemaMetadata}
+            paymentInfo={this.props.paymentInfo}
+            paymentMethods={this.props.schemaMetadata.paymentMethods}
             onPaymentComplete={this.props.onPaymentComplete}
             onPaymentError={this.onPaymentError}
             responseId={this.props.responseId}
             formId={this.props.formId}
+
             />
         </div>
         )

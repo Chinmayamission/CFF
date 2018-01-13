@@ -16,12 +16,12 @@ interface SchemaModifier {
     
 }
 interface SchemaMetadata {
-    paymentInfo?: PaymentInfo,
+    paymentInfo?: IPaymentInfo,
     paymentMethods?: PaymentMethods
     confirmationEmailInfo?: any
 }
 
-interface PaymentInfo {
+interface IPaymentInfo {
     total: string,
     currency: string
 }
@@ -50,7 +50,8 @@ interface IFormPageState {
     step: number,
     data: Data,
     responseId: string,
-    hasError: boolean
+    hasError: boolean,
+    paymentInfo: IPaymentInfo
 }
 
 interface IFormPageProps {
@@ -68,6 +69,7 @@ interface IFormConfirmationPageProps {
     responseId: string,
     apiEndpoint: string,
     formId: string,
+    paymentInfo: IPaymentInfo,
     goBack: () => void,
     onPaymentComplete: (message: any) => void
 }
@@ -80,7 +82,8 @@ interface IFormConfirmationPageState {
 }
 
 interface IPaymentProps {
-    schemaMetadata: SchemaMetadata,
+    paymentInfo: IPaymentInfo,
+    paymentMethods: IPaymentMethods
     onPaymentComplete: (message: any) => void,
     onPaymentError: (message: any) => void,
     responseId: string,
@@ -89,6 +92,9 @@ interface IPaymentProps {
 }
 
 interface PaymentOptions {
+
+}
+interface IPaymentMethods { // list.
 
 }
 interface PaymentMethodPayPal {
@@ -111,7 +117,7 @@ interface IPaypalProps extends IScriptLoaderProps {
     onCancel: (data: any, actions: any) => void,
     onError: (err: any) => void,
     onClick: () => void,
-    paymentInfo: PaymentInfo,
+    paymentInfo: IPaymentInfo,
     paymentMethodInfo: PaymentMethodPayPal,
     confirmationEmailInfo: ConfirmationEmailInfo
     responseId: string,

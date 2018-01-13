@@ -140,6 +140,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       schema: { "title": "None", "type": "object" },
       uiSchema: { "title": "status" },
       step: 0,
+      paymentInfo: null,
       data: {
         "email": "aramaswamis+1@gmail.com",
         "participants": [
@@ -241,7 +242,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if (!(res.success == true && res.inserted_id)) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
       }
-      this.setState({ status: STATUS_FORM_CONFIRMATION, data: formData, responseId: res.inserted_id });
+      this.setState({
+        status: STATUS_FORM_CONFIRMATION,
+        data: formData,
+        responseId: res.inserted_id,
+        paymentInfo: res.paymentInfo
+      });
     }).catch((err) => {
       alert("Error. " + err);
     });
@@ -273,24 +279,27 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           onError={(e) => this.scrollToTop()}
           showErrorList={true}
           ErrorList={ErrorListTemplate}
-        />
+        >
+          <button className="btn btn-primary btn-lg" type="submit">Submit</button>
+        </Form>
       </div>
     );
     if (this.state.status == STATUS_FORM_CONFIRMATION) {
       formToReturn =
         (<div>
           <h1>Confirmation Page</h1>
-          <button className="button button-primary"
+          <button className="btn btn-primary"
             onClick={this.goBackToFormPage}
           >Go back and edit form response</button>
           {formToReturn}
-          <button className="button button-primary"
+          <button className="btn btn-primary"
             onClick={this.goBackToFormPage}
           >Go back and edit form response</button>
           <FormConfirmationPage
             apiEndpoint={this.props.apiEndpoint}
             schema={this.state.schema}
             schemaMetadata={this.state.schemaMetadata}
+            paymentInfo={this.state.paymentInfo}
             uiSchema={this.state.uiSchema}
             data={this.state.data}
             goBack={this.goBackToFormPage}

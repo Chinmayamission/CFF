@@ -4,11 +4,9 @@ import * as ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
 import Loading from "src/common/loading";
 
-var This;
 class Paypal extends React.Component<IPaypalProps, IPaypalState> {
     constructor(props:any) {
         super(props);
-        This = this;
     }
 
     payment(data, actions) {
@@ -20,8 +18,8 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
             payment: {
                 transactions: [
                     {
-                        amount: { total: This.props.paymentInfo.total,
-                            currency: This.props.paymentInfo.currency },
+                        amount: { total: this.props.paymentInfo.total,
+                            currency: this.props.paymentInfo.currency },
                         custom: this.props.formId + "/" + this.props.responseId,
                         notify_url: this.props.apiEndpoint + "?action=ipn"
                     }
@@ -55,12 +53,12 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
         }
         return actions.payment.execute().then((payment) => {
             console.log("Done!", payment);
-            This.props.onPaymentComplete(payment);
+            this.props.onPaymentComplete(payment);
             // The payment is complete!
             // You can now show a confirmation message to the customer
         }).catch((e) => {
             console.log("Error", e);
-            This.props.onPaymentError(e);
+            this.props.onPaymentError(e);
         });
     };
     onCancel(data, actions) {
@@ -70,7 +68,7 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
     }
     
     onError(err) {
-        This.props.onPaymentError(err);
+        this.props.onPaymentError(err);
         /* 
             * An error occurred during the transaction 
             */

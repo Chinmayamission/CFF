@@ -9,13 +9,13 @@ let Components = {
 };
 class Payment extends React.Component<IPaymentProps, any> {
     getPaymentMethods() {
-        let paymentMethods = Object.keys(this.props.schemaMetadata.paymentMethods);
+        let paymentMethods = Object.keys(this.props.paymentMethods);
         return paymentMethods.map((paymentMethod) => {
             var MyComponent = Components[paymentMethod];
             console.log('option is', paymentMethod);
             let props = {
-                "paymentInfo": this.props.schemaMetadata.paymentInfo,
-                "paymentMethodInfo": this.props.schemaMetadata.paymentMethods[paymentMethod],
+                "paymentInfo": this.props.paymentInfo,
+                "paymentMethodInfo": this.props.paymentMethods[paymentMethod],
                 "key": paymentMethod,    // must be unique.
                 "onPaymentComplete": this.props.onPaymentComplete,
                 "onPaymentError": this.props.onPaymentError,
@@ -36,13 +36,13 @@ class Payment extends React.Component<IPaymentProps, any> {
         }
     }
     render() {
-        if (!this.props.schemaMetadata.paymentMethods) {
+        if (!this.props.paymentMethods) {
             return "";
         }
         return <div><br />
             <h1>Pay Now</h1>
             <p>
-            <b>Total Amount: {this.formatPayment(this.props.schemaMetadata.paymentInfo.currency, this.props.schemaMetadata.paymentInfo.total)}</b>
+            <b>Total Amount: {this.formatPayment(this.props.paymentInfo.currency, this.props.paymentInfo.total)}</b>
             </p>
             <p>Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.</p><br />
             <div style={{ "textAlign": "center" }}>
