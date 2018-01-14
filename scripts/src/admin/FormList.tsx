@@ -15,7 +15,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
     render() {
         return (
-        <table className="wp-list-table widefat fixed">
+        <table className="table">
         <thead>
             <tr>
                 <td>Form name</td>
@@ -27,9 +27,9 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 <tr key={form["id"]} style = {{outline: 'thin solid'}}>
                     <td>{form["name"]}</td>
                     <td>
-                        <button className="button button-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
-                        <button className="button" onClick = {() => this.props.editForm(form)}>Edit</button>
-                        <button className="button" onClick = {() => this.props.loadResponses(form)}>View Responses</button>
+                        <button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
+                        <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>
+                        <button className="btn" onClick = {() => this.props.loadResponses(form)}>View Responses</button>
                     </td>
                 </tr>
             )}

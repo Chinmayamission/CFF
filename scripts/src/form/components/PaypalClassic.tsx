@@ -88,9 +88,10 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             <input type="hidden" name="night_phone_b" value={this.state.night_phone_b} />
             <input type="hidden" name="night_phone_c" value={this.state.night_phone_c} />
             <input type="hidden" name="email" value={this.state.email} />
-            <input type="image" name="submit"
+            {/*<input type="image" name="submit"
             src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
-            alt="PayPal - The safer, easier way to pay online"/>
+    alt="PayPal - The safer, easier way to pay online"/>*/}
+            <input type="submit" className="btn btn-primary" value="Pay Now with PayPal" />
         </form>
     );
     } 

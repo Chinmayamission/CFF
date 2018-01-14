@@ -16,7 +16,7 @@ import "./common/main.css";
 let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElement;
 if (formRenderElement) {
   ReactDOM.render(
-    <div className="">
+    <div className="ccmt-cff-Wrapper-Bootstrap">
     <FormPage formId={formRenderElement.getAttribute('data-ccmt-cff-form-id')} apiEndpoint={formRenderElement.getAttribute('data-ccmt-cff-api-endpoint')} />
     </div>
     ,
@@ -27,7 +27,7 @@ if (formRenderElement) {
 let formAdminElement = document.getElementById('ccmt-cff-admin') as HTMLElement;
 if (formAdminElement) {
   ReactDOM.render(
-    <div className="">
+    <div className="ccmt-cff-Wrapper-Bootstrap">
       <FormAdminPage apiEndpoint={formAdminElement.getAttribute('data-ccmt-cff-api-endpoint')} apiKey={formAdminElement.getAttribute('data-ccmt-cff-api-key')} />
     </div>
     ,

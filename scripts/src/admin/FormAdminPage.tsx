@@ -79,8 +79,10 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         });
     }
     componentDidMount() {
+        this.loadFormList();
+    }
+    loadFormList() {
         let queryObjFlat = queryString.parse(window.location.hash);
-
         let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.props.apiKey;
         //this.getFormList(formListUrl).then((e) =>{
         let queryObjNested : any = {};
@@ -107,6 +109,9 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         return (
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center}</h1>
+            {this.state.status != STATUS_FORM_LIST && 
+                <a onClick={() => {window.location.hash=""; this.loadFormList(); } }>Back to form list</a>
+            }
             <FormList
                 apiEndpoint={this.props.apiEndpoint}
                 apiKey={this.props.apiKey}
