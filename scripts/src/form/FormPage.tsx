@@ -141,6 +141,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       uiSchema: { "title": "status" },
       step: 0,
       paymentInfo: null,
+      paymentInfo_old: null,
       data: null,
       responseId: null,
       responseLoaded: null
@@ -155,9 +156,14 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     console.error(error, info);
   }
 
-  getFormUrl(action) {
+  getFormSubmitUrl() {
     let formId = this.props.formId;
-    let formUrl = this.props.apiEndpoint + "?action=" + action + "&formVersion=1&formId=" + formId + "&modifyLink=" + window.location.href;
+    let formUrl = this.props.apiEndpoint + "?action=" + "formSubmit" + "&formVersion=1&formId=" + formId;
+    if (this.state.responseId) {
+      console.log("yes");
+      formUrl += "&resid=" + this.state.responseId;
+    }
+    formUrl += "&modifyLink=" + window.location.href;
     return encodeURI(formUrl);
   }
   scrollToTop() {
@@ -165,7 +171,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let stateKeysToEncode = ["status"];
+    let stateKeysToEncode = ["status", "responseId"];
     if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
       let encodedState = pick(this.state, stateKeysToEncode);
       let newQS = queryString.stringify(encodedState);
@@ -180,19 +186,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
 
   componentDidMount() {
     let queryObjFlat = queryString.parse(location.hash);
-    if (queryObjFlat["resid"]) {
-      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["resid"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, responseLoaded }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, responseLoaded: responseLoaded, data: responseLoaded.value, status: STATUS_FORM_RENDERED });
+    if (queryObjFlat["responseId"]) {
+      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, responseLoaded }) => {
+        this.setState({ schemaMetadata, uiSchema, schema, responseId: responseLoaded["responseId"], responseLoaded: responseLoaded, data: responseLoaded ? responseLoaded.value : null, status: STATUS_FORM_RENDERED });
       });
     }
     else {
+      if ((window as any).CCMT_CFF_DEVMODE_AUTOFILL == true) {
+        this.setState({data: MockData.sampleData});
+      }
       FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema }) => {
         this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
       });
-      if (queryObjFlat["dev"]) {
-        // Load mock data.
-        this.setState({data: MockData.sampleData});
-      }
     }
 
   }
@@ -211,21 +216,22 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         "Content-Type": "application/json"
       }
     });
-    instance.post(this.getFormUrl("formSubmit"), formData).catch(e => {
+    instance.post(this.getFormSubmitUrl(), formData).catch(e => {
       if ((window as any).CCMT_CFF_DEVMODE === true) {
         return MockData.newResponse();
       }
       alert("Error loading the form list. " + e);
     }).then((response) => {
       let res = response.data.res;
-      if (!(res.success == true && res.inserted_id)) {
+      if (!(res.success == true && res.id)) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
       }
       this.setState({
         status: STATUS_FORM_CONFIRMATION,
         data: formData,
-        responseId: res.inserted_id,
-        paymentInfo: res.paymentInfo
+        responseId: res.id,
+        paymentInfo: res.paymentInfo,
+        paymentInfo_old: res.paymentInfo_old
       });
     }).catch((err) => {
       alert("Error. " + err);
@@ -279,6 +285,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             schema={this.state.schema}
             schemaMetadata={this.state.schemaMetadata}
             paymentInfo={this.state.paymentInfo}
+            paymentInfo_old={this.state.paymentInfo_old}
             uiSchema={this.state.uiSchema}
             data={this.state.data}
             goBack={this.goBackToFormPage}

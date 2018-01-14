@@ -11,6 +11,7 @@ import "./common/main.css";
 // dev apiKey test
 
 (window as any).CCMT_CFF_DEVMODE = false;
+(window as any).CCMT_CFF_DEVMODE_AUTOFILL = true
 
 let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElement;
 if (formRenderElement) {

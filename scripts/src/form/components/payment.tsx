@@ -2,12 +2,24 @@
 import * as React from 'react';
 import Paypal from "./paypal";
 import CCAvenue from "./CCAvenue";
+import {clone} from "lodash-es";
 
 let Components = {
     "paypal": Paypal,
     "ccavenue": CCAvenue
 };
 class Payment extends React.Component<IPaymentProps, any> {
+    constructor(props: any) {
+        super(props);
+        let paymentInfo_owed : any = clone(props.paymentInfo);
+        if (this.props.paymentInfo_old) {
+            paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - parseFloat(this.props.paymentInfo_old.total);
+        }
+        this.state = {
+          paymentInfo_owed: paymentInfo_owed
+        };
+      }
+
     getPaymentMethods() {
         let paymentMethods = Object.keys(this.props.paymentMethods);
         return paymentMethods.map((paymentMethod) => {
@@ -35,15 +47,24 @@ class Payment extends React.Component<IPaymentProps, any> {
             return currency + " " + total;
         }
     }
+    formatPaymentInfo(paymentInfo : IPaymentInfo) {
+        return this.formatPayment(paymentInfo.currency, paymentInfo.total);
+    }
     render() {
         if (!this.props.paymentMethods) {
             return "";
         }
         return <div><br />
             <h1>Pay Now</h1>
-            <p>
-            <b>Total Amount: {this.formatPayment(this.props.paymentInfo.currency, this.props.paymentInfo.total)}</b>
-            </p>
+            <div>
+            {this.props.paymentInfo_old && 
+                <div>
+                    <div>Previous Amount: {this.formatPaymentInfo(this.props.paymentInfo_old)}</div>
+                    <div>New Amount: {this.formatPaymentInfo(this.props.paymentInfo)}</div>
+                </div>
+            }
+            <div><b>Amount Owed: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b></div>
+            </div>
             <p>Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.</p><br />
             <div style={{ "textAlign": "center" }}>
                 {this.getPaymentMethods()}
