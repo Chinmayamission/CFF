@@ -99,7 +99,8 @@ interface IPaymentProps {
     onPaymentError: (message: any) => void,
     responseId: string,
     formId: string,
-    apiEndpoint: string
+    apiEndpoint: string,
+    formData: Data
 }
 
 interface PaymentOptions {
@@ -121,19 +122,22 @@ interface IScriptLoaderProps {
     onScriptLoaded: any,
     onError: (error: any) => void
 }
-interface IPaypalProps extends IScriptLoaderProps {
+interface IPaypalProps extends IScriptLoaderProps, IPaymentMethodProps {
     onPaymentComplete: IPaymentProps["onPaymentComplete"],
     onPaymentError: IPaymentProps["onPaymentError"],
     onAuthorize: (data: any, actions: any) => void,
     onCancel: (data: any, actions: any) => void,
     onError: (err: any) => void,
     onClick: () => void,
+    paymentMethodInfo: PaymentMethodPayPal
+}
+interface IPaymentMethodProps {
     paymentInfo: IPaymentInfo,
-    paymentMethodInfo: PaymentMethodPayPal,
-    confirmationEmailInfo: ConfirmationEmailInfo
+    confirmationEmailInfo: ConfirmationEmailInfo,
     responseId: string,
     apiEndpoint: string,
-    formId: string
+    formId: string,
+    formData: Data
 }
 interface ConfirmationEmailInfo {
     from: string,
@@ -146,4 +150,36 @@ interface ConfirmationEmailInfo {
 }
 interface IPaypalState {
 
+}
+interface IPaypalClassicProps extends IPaymentMethodProps {
+    paymentMethodInfo: IPaymentMethodInfoPaypalClassic
+}
+interface PaypalClassicSharedAttrs {
+    "cmd": string,
+    "business": string,
+    "item_name": string,
+    "item_number": string,
+    "first_name": string,
+    "last_name": string,
+    "address1": string,
+    "address2": string,
+    "city": string,
+    "state": string,
+    "zip": string,
+    "night_phone_a": string,
+    "night_phone_b": string,
+    "night_phone_c": string,
+    "email": string
+}
+interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs {
+    "sandbox": boolean
+}
+interface IPaypalClassicState extends PaypalClassicSharedAttrs {
+    "form_url": string,
+    "amount": string,
+    "currency_code": string,
+    "return": string,
+    "cancel_return": string,
+    "notify_url": string,
+    "custom": string
 }

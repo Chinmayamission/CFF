@@ -1,11 +1,13 @@
 /// <reference path="../interfaces.d.ts"/>
 import * as React from 'react';
 import Paypal from "./paypal";
+import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import {clone} from "lodash-es";
 
 let Components = {
-    "paypal": Paypal,
+    "paypal_rest": Paypal,
+    "paypal_classic": PaypalClassic,
     "ccavenue": CCAvenue
 };
 class Payment extends React.Component<IPaymentProps, any> {
@@ -24,6 +26,7 @@ class Payment extends React.Component<IPaymentProps, any> {
         let paymentMethods = Object.keys(this.props.paymentMethods);
         return paymentMethods.map((paymentMethod) => {
             var MyComponent = Components[paymentMethod];
+            if (!MyComponent) return;
             console.log('option is', paymentMethod);
             let props = {
                 "paymentInfo": this.props.paymentInfo,
@@ -33,7 +36,8 @@ class Payment extends React.Component<IPaymentProps, any> {
                 "onPaymentError": this.props.onPaymentError,
                 "responseId": this.props.responseId,
                 "formId": this.props.formId,
-                "apiEndpoint": this.props.apiEndpoint
+                "apiEndpoint": this.props.apiEndpoint,
+                "formData": this.props.formData
                 // todo: get user's entered data.
             }
             return React.createElement(MyComponent, props);

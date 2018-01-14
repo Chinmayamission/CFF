@@ -4,6 +4,10 @@ import * as ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
 import Loading from "src/common/loading";
 
+/*
+ * 
+ */
+
 class Paypal extends React.Component<IPaypalProps, IPaypalState> {
     constructor(props:any) {
         super(props);

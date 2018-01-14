@@ -69,6 +69,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
             onPaymentError={this.onPaymentError}
             responseId={this.props.responseId}
             formId={this.props.formId}
+            formData={this.props.data}
 
             />
         </div>
