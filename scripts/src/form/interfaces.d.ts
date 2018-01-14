@@ -42,6 +42,13 @@ interface Data {
     [propName: string]: any;
 }
 
+interface IResponse {
+    value: any;
+    formId: string;
+    resId: string;
+    [propName: string]: any;
+}
+
 interface IFormPageState {
     schema: Schema,
     schemaMetadata: SchemaMetadata,
@@ -50,6 +57,7 @@ interface IFormPageState {
     step: number,
     data: Data,
     responseId: string,
+    responseLoaded: IResponse,
     hasError: boolean,
     paymentInfo: IPaymentInfo
 }

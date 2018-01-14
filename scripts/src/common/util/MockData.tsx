@@ -236,6 +236,33 @@ let MockData = {
                 }
             }
         }
-    }
+    },
+    sampleData: {
+        "email": "aramaswamis+1@gmail.com",
+        "participants": [
+          {
+            "name": {
+              "first": "Blah",
+              "last": "Man"
+            },
+            "age": 5,
+            "gender": "M",
+            "race": "10K"
+          },
+          {
+            "name": {
+              "first": "Some",
+              "last": "Other"
+            },
+            "age": 40,
+            "gender": "F",
+            "race": "10K"
+          }
+        ],
+        "acceptTerms": {
+          "accept": true
+        },
+        "address": { "line1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" },
+      }
 }
 export default MockData;

@@ -87,9 +87,9 @@ let createSchemas = data => {
     
     // filterUiSchema(uiSchema);
     console.log("new schema", schema, "uischema", uiSchema);
-    if (data["formData"]) {
+    if (data["responseLoaded"]) {
         // When editing responses
-        return { formData: data.formData, schemaMetadata, uiSchema, schema };
+        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema };
     }
     else {
         // When just editing a form
@@ -98,8 +98,12 @@ let createSchemas = data => {
 }
 
 export module FormLoader {
-    export function getForm(apiEndpoint, formId) {
-        return  axios.get(apiEndpoint + "?action=" + "formRender" + "&version=1&id=" + formId, { "responseType": "json" })
+    export function getForm(apiEndpoint, formId, responseId=null) {
+        let url = apiEndpoint + "?action=" + "formRender" + "&version=1&id=" + formId;
+        if (responseId) {
+            url += "&resid=" + responseId;
+        }
+        return  axios.get(url, { "responseType": "json" })
         .catch(e => {
             if ((window as any).CCMT_CFF_DEVMODE===true) {
                 return MockData.formRender;
@@ -112,15 +116,8 @@ export module FormLoader {
     export function getFormAndCreateSchemas(apiEndpoint, formId, handleError) {
         return this.getForm(apiEndpoint, formId).then(createSchemas).catch(handleError);
     }
-    export function getResponseAndSchemas(apiEndpoint, formId, responseId, handleError) {
-        /* Get form response data, and original schemas.
-        */
-        return  axios.get(apiEndpoint + "?action=" + "getResponseAndSchemas" + "&formId=" + formId + "&responseId=" + responseId, { "responseType": "json" })
-        .then(response => response.data.res)
-        .then(unescapeJSON);
-    }
     export function loadResponseAndCreateSchemas(apiEndpoint, formId, responseId, handleError) {
-        return this.getResponseAndSchemas(apiEndpoint, formId, responseId).then(createSchemas).catch(handleError);
+        return this.getForm(apiEndpoint, formId, responseId).then(createSchemas).catch(handleError);
     }
 
 }

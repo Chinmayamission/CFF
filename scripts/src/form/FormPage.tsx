@@ -141,34 +141,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       uiSchema: { "title": "status" },
       step: 0,
       paymentInfo: null,
-      data: {
-        "email": "aramaswamis+1@gmail.com",
-        "participants": [
-          {
-            "name": {
-              "first": "Blah",
-              "last": "Man"
-            },
-            "age": 5,
-            "gender": "M",
-            "race": "10K"
-          },
-          {
-            "name": {
-              "first": "Some",
-              "last": "Other"
-            },
-            "age": 40,
-            "gender": "F",
-            "race": "10K"
-          }
-        ],
-        "acceptTerms": {
-          "accept": true
-        },
-        "address": { "line1": "123 ABC Lane", "city": "Johns Creek", "state": "GA", "zipcode": "30022" },
-      },
-      responseId: null
+      data: null,
+      responseId: null,
+      responseLoaded: null
     };
   }
 
@@ -206,14 +181,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   componentDidMount() {
     let queryObjFlat = queryString.parse(location.hash);
     if (queryObjFlat["resid"]) {
-      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["resid"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, formData }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, data: formData.value, status: STATUS_FORM_RENDERED });
+      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["resid"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, responseLoaded }) => {
+        this.setState({ schemaMetadata, uiSchema, schema, responseLoaded: responseLoaded, data: responseLoaded.value, status: STATUS_FORM_RENDERED });
       });
     }
     else {
       FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema }) => {
         this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
       });
+      if (queryObjFlat["dev"]) {
+        // Load mock data.
+        this.setState({data: MockData.sampleData});
+      }
     }
 
   }
