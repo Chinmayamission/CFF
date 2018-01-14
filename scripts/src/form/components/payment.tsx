@@ -12,8 +12,8 @@ class Payment extends React.Component<IPaymentProps, any> {
     constructor(props: any) {
         super(props);
         let paymentInfo_owed : any = clone(props.paymentInfo);
-        if (this.props.paymentInfo_old) {
-            paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - parseFloat(this.props.paymentInfo_old.total);
+        if (this.props.paymentInfo_received) {
+            paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - parseFloat(this.props.paymentInfo_received.total);
         }
         this.state = {
           paymentInfo_owed: paymentInfo_owed
@@ -57,10 +57,10 @@ class Payment extends React.Component<IPaymentProps, any> {
         return <div><br />
             <h1>Pay Now</h1>
             <div>
-            {this.props.paymentInfo_old && 
+            {this.props.paymentInfo_received && 
                 <div>
-                    <div>Previous Amount: {this.formatPaymentInfo(this.props.paymentInfo_old)}</div>
-                    <div>New Amount: {this.formatPaymentInfo(this.props.paymentInfo)}</div>
+                    <div>Total Amount: {this.formatPaymentInfo(this.props.paymentInfo)}</div>
+                    <div>Amount Already Paid: {this.formatPaymentInfo(this.props.paymentInfo_received)}</div>
                 </div>
             }
             <div><b>Amount Owed: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b></div>

@@ -63,7 +63,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         <Payment
             apiEndpoint={this.props.apiEndpoint}
             paymentInfo={this.props.paymentInfo}
-            paymentInfo_old={this.props.paymentInfo_old}
+            paymentInfo_received={this.props.paymentInfo_received}
             paymentMethods={this.props.schemaMetadata.paymentMethods}
             onPaymentComplete={this.props.onPaymentComplete}
             onPaymentError={this.onPaymentError}

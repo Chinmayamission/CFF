@@ -60,7 +60,7 @@ interface IFormPageState {
     responseLoaded: IResponse,
     hasError: boolean,
     paymentInfo: IPaymentInfo,
-    paymentInfo_old: IPaymentInfo
+    paymentInfo_received: IPaymentInfo
 }
 
 interface IFormPageProps {
@@ -79,7 +79,7 @@ interface IFormConfirmationPageProps {
     apiEndpoint: string,
     formId: string,
     paymentInfo: IPaymentInfo,
-    paymentInfo_old: IPaymentInfo,
+    paymentInfo_received: IPaymentInfo,
     goBack: () => void,
     onPaymentComplete: (message: any) => void
 }
@@ -93,7 +93,7 @@ interface IFormConfirmationPageState {
 
 interface IPaymentProps {
     paymentInfo: IPaymentInfo,
-    paymentInfo_old: IPaymentInfo,
+    paymentInfo_received: IPaymentInfo,
     paymentMethods: IPaymentMethods
     onPaymentComplete: (message: any) => void,
     onPaymentError: (message: any) => void,

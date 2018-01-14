@@ -141,7 +141,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       uiSchema: { "title": "status" },
       step: 0,
       paymentInfo: null,
-      paymentInfo_old: null,
+      paymentInfo_received: null,
       data: null,
       responseId: null,
       responseLoaded: null
@@ -231,7 +231,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         data: formData,
         responseId: res.id,
         paymentInfo: res.paymentInfo,
-        paymentInfo_old: res.paymentInfo_old
+        paymentInfo_received: {"currency": "USD", "total": res.total_amt_received }
+        // todo: don't hardcode currency.
       });
     }).catch((err) => {
       alert("Error. " + err);
@@ -259,7 +260,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           fields={fields}
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}
-          onChange={() => log('changed')}
+          onChange={() => {null}}
           onSubmit={(e) => this.onSubmit(e)}
           onError={(e) => this.scrollToTop()}
           showErrorList={true}
@@ -285,7 +286,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             schema={this.state.schema}
             schemaMetadata={this.state.schemaMetadata}
             paymentInfo={this.state.paymentInfo}
-            paymentInfo_old={this.state.paymentInfo_old}
+            paymentInfo_received={this.state.paymentInfo_received}
             uiSchema={this.state.uiSchema}
             data={this.state.data}
             goBack={this.goBackToFormPage}
