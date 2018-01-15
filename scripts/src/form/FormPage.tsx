@@ -226,12 +226,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if (!(res.success == true && res.id)) {
         throw "Response not formatted correctly: " + JSON.stringify(res);
       }
+      let newResponse = res.action == "insert";
       this.setState({
         status: STATUS_FORM_CONFIRMATION,
         data: formData,
         responseId: res.id,
         paymentInfo: res.paymentInfo,
-        paymentInfo_received: {"currency": "USD", "total": res.total_amt_received }
+        paymentInfo_received: newResponse ? null : {"currency": "USD", "total": res.total_amt_received }
         // todo: don't hardcode currency.
       });
     }).catch((err) => {

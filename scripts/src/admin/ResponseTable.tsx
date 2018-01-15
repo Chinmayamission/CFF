@@ -62,18 +62,46 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "IPN_HISTORY": e.IPN_HISTORY,
                     "DATE_CREATED": e.date_created,
-                    "DATE_LAST_MODIFIED": e.date_last_modified
+                    "DATE_LAST_MODIFIED": e.date_last_modified,
+                    "PAYMENT_INFO": e.paymentInfo,
+                    "CONFIRMATION_EMAIL_INFO": e.confirmationEmailInfo
                 });
                 this.setState({tableDataOrigObject: data});
+                if (e.paid) {console.log("PAID!", e.paid)}
                 return e.value;
                 //return flatten(e.value);
             });
             
             console.log(data);
+            let paidHeader = makeHeaderObjsFromKeys(["PAID"]);
+            assign(paidHeader[0],
+                {
+                    "filterMethod": (filter, row) => {
+                        if (filter.value === "all") {
+                        return true;
+                        }
+                        if (filter.value === "paid") {
+                        return row[filter.id] == true;
+                        }
+                        return !row[filter.id]; // || row[filter.id] == false;
+                    },
+                    "Filter": ({ filter, onChange }) =>
+                        (<select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: "100%" }}
+                        value={filter ? filter.value : "all"}
+                        >
+                            <option value="paid">Paid</option>
+                            <option value="notpaid">Not Paid</option>
+                            <option value="all">Show All</option>
+                        </select>)
+                }
+            );
             let headerObjs : any = concat(
+                paidHeader,
                 makeHeaderObjsFromKeys(["ID"]),
                 this.makeHeaders(this.state.schema.properties),
-                makeHeaderObjsFromKeys(["PAID", "DATE_CREATED", "DATE_LAST_MODIFIED"])
+                makeHeaderObjsFromKeys(["DATE_CREATED", "DATE_LAST_MODIFIED"])
             );
             
             // Set possible rows to unwind, equal to top-level array items.
@@ -197,8 +225,10 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     data={this.state.tableDataDisplayed}
                     columns={this.state.tableHeadersDisplayed}
                     minRows={0}
+                    filterable
                     //pivotBy={this.state.pivotCols}
-                    SubComponent={ DetailView }
+                    defaultFiltered= { this.state.rowToUnwind ? [] : [{"id": "PAID", "value": "paid"}] }
+                    SubComponent={ this.state.rowToUnwind ? null : DetailView }
                     />
                 </div>
             );
