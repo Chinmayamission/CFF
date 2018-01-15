@@ -1,5 +1,6 @@
 var path = require("path")
 var webpack = require('webpack')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
 const SRC_URL = FORMBUILDER_URL + "/src";
@@ -9,8 +10,10 @@ module.exports = {
   context: __dirname,
 // "react-router-dom", 
   entry: {
-    app: SRC_URL + '/index' // entry point of our app. assets/ts/index.tsx should require other js modules and dependencies it needs
-  },
+    app: SRC_URL + '/index', // entry point of our app. assets/ts/index.tsx should require other js modules and dependencies it needs
+ /*vendor: ["react", "react-dom", "react-table", "react-csv", "react-jsonschema-form", "react-responsive-modal", 
+            "lodash", "query-string",  "axios", "json-schema-deref-sync"]    
+  */},
 
   output: {
       path: path.resolve(DEST_URL),
@@ -37,6 +40,9 @@ module.exports = {
         {
           test: /\.s?css$/,
           use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+          /*use: ExtractTextPlugin.extract({
+            use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+          })*/
         },
         {
           test: /\.svg$/,
@@ -44,6 +50,10 @@ module.exports = {
         }
     ]
   },
+
+  /*plugins: [
+    new ExtractTextPlugin(DEST_URL + "/main.css"),
+  ],*/
 
   resolve: {
     modules: ['node_modules', 'scripts'],
