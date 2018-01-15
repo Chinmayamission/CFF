@@ -29,7 +29,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             if (!MyComponent) return;
             console.log('option is', paymentMethod);
             let props = {
-                "paymentInfo": this.props.paymentInfo,
+                "paymentInfo": this.state.paymentInfo_owed,
                 "paymentMethodInfo": this.props.paymentMethods[paymentMethod],
                 "key": paymentMethod,    // must be unique.
                 "onPaymentComplete": this.props.onPaymentComplete,
@@ -67,18 +67,25 @@ class Payment extends React.Component<IPaymentProps, any> {
                     <div>Amount Already Paid: {this.formatPaymentInfo(this.props.paymentInfo_received)}</div>
                 </div>
             }
-            {this.state.paymentInfo_owed.total > 0 && <div><b>Amount Owed: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b></div>
-            }
             {this.state.paymentInfo_owed.total > 0 &&
+                <div><b>Amount Owed: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b></div>
+            }
+            {this.state.paymentInfo_owed.total < 0 &&
                 <div>
                     <b>Amount Overpaid: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b>
                     <p>Please contact us if you would like a refund, or otherwise, this money will serve as a donation.</p>
                 </div>
             }
             </div>
-            <p>Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.</p><br />
             <div style={{ "textAlign": "center" }}>
-                {this.getPaymentMethods()}
+                {this.state.paymentInfo_owed.total > 0 && 
+                    <div>
+                        <p>Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.</p><br />
+                        {this.getPaymentMethods()}
+                    </div>
+                }
+                {this.state.paymentInfo_owed.total == 0 && 
+                    <div>We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.</div> }
             </div>
         </div>;
 

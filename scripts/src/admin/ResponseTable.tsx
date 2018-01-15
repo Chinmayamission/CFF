@@ -53,12 +53,13 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             });
         })
         .then(response => response.data.res)
+        .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
-            console.time();
+
             data = data.map((e) => {
                 assign(e.value, {
                     "ID": e.responseId,
-                    "PAID": e.paid,
+                    "PAID": e.PAID,
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "IPN_HISTORY": e.IPN_HISTORY,
                     "DATE_CREATED": e.date_created,
@@ -120,7 +121,6 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 status: STATUS_RESPONSES_RENDERED,
                 possibleFieldsToUnwind
             });
-            console.timeEnd();
         });
     }
 
@@ -214,7 +214,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                             )}
                         </select>
                         <CSVLink
-                            data={this.state.tableDataDisplayed.map(e=>flatten(e))}
+                            data={this.state.tableDataDisplayed.filter(e=>e).map(e=>(e))}
                             headers={this.state.tableHeadersDisplayed}>
                         Download CSV
                         </CSVLink>
