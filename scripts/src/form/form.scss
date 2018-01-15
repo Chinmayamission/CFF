@@ -1,4 +1,4 @@
-@import 'bootstrap-3.min.scss';
+@import 'bootstrap-4.min.scss';
 .ccmt-cff-Page-FormPage {
     // padding: 0px 10px;
     label.control-label, legend, h2.ccmt-cff-form-title {
@@ -31,7 +31,7 @@
         // transform: scale(1.0001);
         //border: 1px dotted grey;
     }
-    i.glyphicon { display: none; }
+    /*i.glyphicon { display: none; }
     .btn-add::after { content: 'Add'; }
     .array-item-move-up::after { content: 'Move Up'; }
     .array-item-move-down::after { content: 'Move Down'; }
@@ -41,14 +41,14 @@
     }
     .array-item-add {
 
-    }
+    }*/
     button[type=submit] {
         margin-top: 15px;
     }
     margin: 10px 0px;
 
     .field-array .array-item:first-child .array-item-remove {
-        display: none;
+        // display: none;
     }
 }
 

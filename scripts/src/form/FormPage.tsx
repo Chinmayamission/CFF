@@ -3,9 +3,7 @@ import axios from 'axios';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Form from 'react-jsonschema-form';
-import SchemaField from "react-jsonschema-form";
-import TitleField from "react-jsonschema-form";
-import DescriptionField from "react-jsonschema-form";
+import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
 import { pick } from "lodash-es";
@@ -31,16 +29,16 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
       <div className="row">
         {properties.map(prop => {
           let customClasses = {
-            "twoColumn": "col-xs-12 col-sm-6",
-            "threeColumn": "col-xs-12 col-sm-4",
-            "fourColumn": "col-xs-6 col-sm-3",
-            "fiveColumn": "col-xs-6 col-sm-2",
-            "sixColumn": "col-xs-6 col-sm-2",
-            "flex": "col-xs-6",
-            "full": "col-xs-12"
+            "twoColumn": "col-12 col-sm-6",
+            "threeColumn": "col-12 col-sm-4",
+            "fourColumn": "col-6 col-sm-3",
+            "fiveColumn": "col-2",
+            "sixColumn": "col-6 col-sm-2",
+            "flex": "col",
+            "full": "col-12"
           };
           if (!prop.content.props.uiSchema.classNames) {
-            prop.content.props.uiSchema.classNames = "col-xs-12";
+            prop.content.props.uiSchema.classNames = "col-12";
           }
           for (let customClass in customClasses) {
             prop.content.props.uiSchema.classNames = prop.content.props.uiSchema.classNames.replace(customClass, customClasses[customClass]);
@@ -48,15 +46,6 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
           return (prop.content);
         })}
       </div>
-    </div>
-  );
-}
-
-function ArrayFieldTemplate(props) {
-  return (
-    <div>
-      {props.items.map(element => element.children)}
-      {props.canAdd && <button type="button" className="btn btn-info" onClick={props.onAddClick}></button>}
     </div>
   );
 }
@@ -287,7 +276,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           widgets={widgets}
           fields={fields}
           // FieldTemplate={CustomFieldTemplate}
-          // ArrayFieldTemplate={ArrayFieldTemplate}
+          ArrayFieldTemplate={ArrayFieldTemplate}
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}
           onChange={() => {null}}
