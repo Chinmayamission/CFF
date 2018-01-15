@@ -14,17 +14,8 @@ find . -type f -exec rename 's/gcmw/CCMT/' '{}' \;
 ```
 
 Todo for Training:
-- send modify link in confirmation email; make confirmation email look better with a table.
-- remove all the payment details at the end; instead, redirect to a new confirmation page.
-- implement modify registration logic.
-- in IPN verification, also make sure the amounts match. allow admins to view unsuccessful/incomplete IPN responses.
-- set up proper from-email-name.
-- cache buster!
+- allow admins to view unsuccessful/incomplete IPN responses.
 
-- implement scroll to top to show errorlist
-- download updated typings for react-jsonschema-form
-- change to bootstrap 3, and not just the grid.
-- reacttable export to csv, etc.; fix error in unwinding.
 
 OM RUN Refunds:
 - if you owe money, charge difference immediately
@@ -51,3 +42,14 @@ Future:
 
 Done:
 - fix form checkbox changing error (strs vs bools) formpage.tsx.
+
+
+# modifications to schema
+schemaModifier: allows classNames, ui:... props.
+schema: allows classNames, ui:... props.
+
+## New prop: `ui:defaultValue`
+ui:defaultValue -- default value when form first loads.
+ui:emptyValue -- default value after form is submitted & this field is empty; included in rjf library.
+
+classNames -- custom bs classes added for fiveColumn, fourColumn, flex, etc.

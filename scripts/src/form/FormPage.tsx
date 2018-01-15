@@ -171,8 +171,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if ((window as any).CCMT_CFF_DEVMODE_AUTOFILL == true) {
         this.setState({data: MockData.sampleData});
       }
-      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED });
+      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, defaultFormData }) => {
+        this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED, data: defaultFormData });
       });
     }
 

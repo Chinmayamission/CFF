@@ -6,7 +6,7 @@ import * as DOMPurify from 'dompurify';
  */
 function ObjectFieldTemplate({ TitleField, properties, title, description }) {
     return (
-        <div className="container-fluid p-0">
+        <div className="container-fluid">
             <TitleField title={title} />
             <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
             <div className="row">

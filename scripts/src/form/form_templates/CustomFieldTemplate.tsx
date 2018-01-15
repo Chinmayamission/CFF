@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as DOMPurify from 'dompurify';
 
 function CustomFieldTemplate(props) {
-    {console.log(props.required)}
-    const {id, classNames, label, help, required, description, errors, children, schema} = props;
+    const {id, classNames, label, help, required, description, errors, children, schema, uiSchema} = props;
     return (
       <div className={classNames}>
         {schema.type != "object" && schema.type != "array" && 

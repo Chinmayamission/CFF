@@ -4,7 +4,7 @@ import * as deref from "json-schema-deref-sync";
 import {flatten} from 'flat';
 import SchemaUtil from "src/common/util/SchemaUtil";
 import MockData from "src/common/util/MockData";
-import {set, unset, merge, pick, filter} from 'lodash-es';
+import {set, unset, pick, filter} from 'lodash-es';
 
 function unescapeJSON(json: {}) {
     /* Un-escapes dollar signs in the json.
@@ -58,6 +58,8 @@ let createSchemas = data => {
         }
     }
     
+    let defaultFormData = {};
+
     // Applies schema modifier attributes to uiSchema and schema.
     for (let fieldPath in flattenedSchemaModifier) {
         let fieldValue = flattenedSchemaModifier[fieldPath];
@@ -68,6 +70,10 @@ let createSchemas = data => {
         }
         else if (isUiSchemaPath(fieldPath)) {
             set(uiSchema, fieldPath, fieldValue);
+            if (~fieldPath.indexOf(".ui:defaultValue")) {
+                // lets defaultFormData be filled out by the "ui:defaultValue" attribute
+                set(defaultFormData, fieldPath.substring(0, fieldPath.indexOf(".ui:defaultValue")), fieldValue);
+            }
         }
         else if (!fieldValue) {
             unset(schema.properties, schemaFieldPath);
@@ -92,8 +98,8 @@ let createSchemas = data => {
         return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema };
     }
     else {
-        // When just editing a form
-        return { schemaMetadata, uiSchema, schema };
+        // When making a brand new response.
+        return { schemaMetadata, uiSchema, schema, defaultFormData };
     }
 }
 
