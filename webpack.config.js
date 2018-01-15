@@ -9,9 +9,7 @@ module.exports = {
   context: __dirname,
 // "react-router-dom", 
   entry: {
-    app: SRC_URL + '/index', // entry point of our app. assets/ts/index.tsx should require other js modules and dependencies it needs
-    vendor: ["react", "react-dom", "react-table", "react-csv", "react-jsonschema-form", "react-responsive-modal", 
-    "lodash", "query-string",  "axios", "json-schema-deref-sync"]
+    app: SRC_URL + '/index' // entry point of our app. assets/ts/index.tsx should require other js modules and dependencies it needs
   },
 
   output: {

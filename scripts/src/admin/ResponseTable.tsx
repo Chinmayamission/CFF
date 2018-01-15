@@ -2,17 +2,18 @@ import * as React from 'react';
 import axios from 'axios';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
-import treeTableHOC from 'react-table/lib/hoc/treeTable'
+//import treeTableHOC from 'react-table/lib/hoc/treeTable'
 import {flatten} from 'flat';
 import {assign, concat} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import Loading from "src/common/loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
+import ReactJson from 'react-json-view';
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
-const TreeTable = treeTableHOC(ReactTable);
+//const TreeTable = treeTableHOC(ReactTable);
 
 class ResponseTable extends React.Component<any, IResponseTableState> {
     constructor(props:any) {
@@ -70,9 +71,9 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             
             console.log(data);
             let headerObjs : any = concat(
-                this.makeHeaderObjsFromMetadataKeys(["ID"]),
+                makeHeaderObjsFromKeys(["ID"]),
                 this.makeHeaders(this.state.schema.properties),
-                this.makeHeaderObjsFromMetadataKeys(["PAID", "DATE_CREATED", "DATE_LAST_MODIFIED"])
+                makeHeaderObjsFromKeys(["PAID", "DATE_CREATED", "DATE_LAST_MODIFIED"])
             );
             
             // Set possible rows to unwind, equal to top-level array items.
@@ -95,27 +96,6 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         });
     }
 
-    makeHeaderObjsFromMetadataKeys(keys) {
-        // Add a specified list of headers.
-        let headerObjs = [];
-        for (let header of keys) {
-            headerObjs.push(this.makeHeaderObj(header));
-        }
-        return headerObjs;
-    }
-    makeHeaderObj(header) {
-        // Makes a single header object.
-        return {
-            // For react table js:
-            Header: header,
-            id: header,
-            accessor: header,
-            // For csv export:
-            label: header,
-            key: header
-        };
-    }
-
     makeHeaders(schemaProperties, headerObjs=[]) {
         this.makeHeadersHelper(schemaProperties, headerObjs);
         return headerObjs;
@@ -131,7 +111,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             }
             // header = header.replace("properties.", "").replace(".items.", ".0.");
             header = prefix ? prefix + "." + header : header;
-            headerObjs.push(this.makeHeaderObj(header));
+            headerObjs.push(makeHeaderObj(header));
         }
     }
 
@@ -218,12 +198,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     columns={this.state.tableHeadersDisplayed}
                     minRows={0}
                     //pivotBy={this.state.pivotCols}
-                    /*SubComponent={({original, row}) => {
-                        return (
-                          <div>
-                            You can put any component you want here, even another React Table! You even have access to the row-level data if you need!  Spark-charts, drill-throughs, infographics... the possibilities are endless!
-                          </div>
-                        )} }*/
+                    SubComponent={ DetailView }
                     />
                 </div>
             );
@@ -233,3 +208,39 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
 }
 
 export default ResponseTable;
+
+function makeHeaderObjsFromKeys(keys) {
+    // Add a specified list of headers.
+    let headerObjs = [];
+    for (let header of keys) {
+        headerObjs.push(makeHeaderObj(header));
+    }
+    return headerObjs;
+}
+
+function makeHeaderObj(header) {
+    // Makes a single header object.
+    return {
+        // For react table js:
+        Header: header.replace(/^([a-z])/, t => t.toUpperCase()),
+        id: header,
+        accessor: header,
+        // For csv export:
+        label: header.replace(/^([a-z])/, t => t.toUpperCase()),
+        key: header
+    };
+}
+
+function DetailView({original, row}) {
+    return (
+        <ReactJson src={original}
+        displayObjectSize={false}
+        displayDataTypes={false}
+        onEdit={false}
+        onAdd={false}
+        onDelete={false}
+        collapsed={1}
+        style={{"fontFamily": "Arial, sans-serif", "marginLeft": "30px"}}
+        />
+    )
+} 

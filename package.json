@@ -61,6 +61,7 @@
     "node-sass": "^4.7.2",
     "query-string": "^5.0.1",
     "react-csv": "^1.0.10",
+    "react-json-view": "^1.15.2",
     "react-linkify": "^0.2.2",
     "react-loading": "^1.0.3",
     "react-responsive-modal": "^2.0.0",
