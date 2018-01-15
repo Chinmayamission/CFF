@@ -45,10 +45,10 @@ class Payment extends React.Component<IPaymentProps, any> {
     }
     formatPayment(currency, total) {
         if (currency == "USD") {
-            return "$" + total;
+            return "$" + Math.abs(total);
         }
         else {
-            return currency + " " + total;
+            return currency + " " + Math.abs(total);
         }
     }
     formatPaymentInfo(paymentInfo : IPaymentInfo) {
@@ -67,7 +67,14 @@ class Payment extends React.Component<IPaymentProps, any> {
                     <div>Amount Already Paid: {this.formatPaymentInfo(this.props.paymentInfo_received)}</div>
                 </div>
             }
-            <div><b>Amount Owed: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b></div>
+            {this.state.paymentInfo_owed.total > 0 && <div><b>Amount Owed: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b></div>
+            }
+            {this.state.paymentInfo_owed.total > 0 &&
+                <div>
+                    <b>Amount Overpaid: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b>
+                    <p>Please contact us if you would like a refund, or otherwise, this money will serve as a donation.</p>
+                </div>
+            }
             </div>
             <p>Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.</p><br />
             <div style={{ "textAlign": "center" }}>
