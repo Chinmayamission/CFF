@@ -46,6 +46,10 @@
         margin-top: 15px;
     }
     margin: 10px 0px;
+
+    .field-array .array-item:first-child .array-item-remove {
+        display: none;
+    }
 }
 
 .ccmt-cff-Page-FormPage-readonly.ccmt-cff-Page-FormPage {

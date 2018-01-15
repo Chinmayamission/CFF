@@ -52,6 +52,29 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
   );
 }
 
+function ArrayFieldTemplate(props) {
+  return (
+    <div>
+      {props.items.map(element => element.children)}
+      {props.canAdd && <button type="button" className="btn btn-info" onClick={props.onAddClick}></button>}
+    </div>
+  );
+}
+
+function CustomFieldTemplate(props) {
+  const {id, classNames, label, help, required, description, errors, children} = props;
+  return (
+    <div className={classNames}>
+      <label htmlFor={id}>{label}{required ? "*" : null}</label>
+      {description}
+      {children}
+      {errors}
+      {help}
+    </div>
+  );
+}
+
+
 /* Adds a custom error message for regex validation (especially for phone numbers).
  */
 function transformErrors(errors) {
@@ -95,7 +118,8 @@ const CustomTitleField = ({ title, required }) => {
 
 function ErrorListTemplate(props) {
   const { errors } = props;
-  return (
+  return null;
+  /*return (
     <div className="ccmt-cff-errorList">
       <b>Errors:</b>
       {errors.map((error, i) => {
@@ -106,7 +130,7 @@ function ErrorListTemplate(props) {
         );
       })}
     </div>
-  );
+  );*/
 };
 
 
@@ -262,6 +286,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           formData={this.state.data}
           widgets={widgets}
           fields={fields}
+          // FieldTemplate={CustomFieldTemplate}
+          // ArrayFieldTemplate={ArrayFieldTemplate}
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}
           onChange={() => {null}}

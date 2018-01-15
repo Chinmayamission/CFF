@@ -1,6 +1,6 @@
 /// <reference path="./interfaces.d.ts"/>
 import * as React from 'react';
-import Payment from './components/payment';
+import Payment from './confirmation/payment';
 import {flatten} from 'flat';
 import ReactTable from 'react-table';
 import {get} from "lodash-es";
