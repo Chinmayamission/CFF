@@ -227,6 +227,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     minRows={0}
                     filterable
                     //pivotBy={this.state.pivotCols}
+                    defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
                     defaultFiltered= { this.state.rowToUnwind ? [] : [{"id": "PAID", "value": "paid"}] }
                     SubComponent={ this.state.rowToUnwind ? null : DetailView }
                     />
