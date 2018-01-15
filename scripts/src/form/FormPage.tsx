@@ -48,7 +48,7 @@ const PhoneWidget = (props: any) => {
 
 
 const FormattedDescriptionField = ({ id, description }) => {
-  return <div id={id}>
+  return <div id={id} className="my-2">
     <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
   </div>;
 };
@@ -89,7 +89,6 @@ const widgets = {
 
 const fields = {
   DescriptionField: FormattedDescriptionField,
-  rawDescription: (e) => { console.warn("A" + e) },
   TitleField: CustomTitleField
 };
 
