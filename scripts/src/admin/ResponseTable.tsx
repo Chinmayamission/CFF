@@ -2,18 +2,17 @@ import * as React from 'react';
 import axios from 'axios';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
-//import treeTableHOC from 'react-table/lib/hoc/treeTable'
+import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
 import {assign, concat} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import Loading from "src/common/loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
-import ReactJson from 'react-json-view';
+import Headers from "src/admin/util/Headers";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
-//const TreeTable = treeTableHOC(ReactTable);
 
 class ResponseTable extends React.Component<any, IResponseTableState> {
     constructor(props:any) {
@@ -59,7 +58,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             data = data.map((e) => {
                 assign(e.value, {
                     "ID": e.responseId,
-                    "PAID": e.PAID,
+                    "PAID": e.PAID ? "YES": "NO",
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "IPN_HISTORY": e.IPN_HISTORY,
                     "DATE_CREATED": e.date_created,
@@ -74,35 +73,12 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             });
             
             console.log(data);
-            let paidHeader = makeHeaderObjsFromKeys(["PAID"]);
-            assign(paidHeader[0],
-                {
-                    "filterMethod": (filter, row) => {
-                        if (filter.value === "all") {
-                        return true;
-                        }
-                        if (filter.value === "paid") {
-                        return row[filter.id] == true;
-                        }
-                        return !row[filter.id]; // || row[filter.id] == false;
-                    },
-                    "Filter": ({ filter, onChange }) =>
-                        (<select
-                        onChange={event => onChange(event.target.value)}
-                        style={{ width: "100%" }}
-                        value={filter ? filter.value : "all"}
-                        >
-                            <option value="paid">Paid</option>
-                            <option value="notpaid">Not Paid</option>
-                            <option value="all">Show All</option>
-                        </select>)
-                }
-            );
+            let paidHeader = Headers.makeHeaderObjsFromKeys(["PAID"]);
             let headerObjs : any = concat(
                 paidHeader,
-                makeHeaderObjsFromKeys(["ID"]),
-                this.makeHeaders(this.state.schema.properties),
-                makeHeaderObjsFromKeys(["DATE_CREATED", "DATE_LAST_MODIFIED"])
+                Headers.makeHeaderObjsFromKeys(["ID"]),
+                Headers.makeHeaders(this.state.schema.properties),
+                Headers.makeHeaderObjsFromKeys(["DATE_CREATED", "DATE_LAST_MODIFIED"])
             );
             
             // Set possible rows to unwind, equal to top-level array items.
@@ -124,46 +100,6 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         });
     }
 
-    makeHeaders(schemaProperties, headerObjs=[]) {
-        this.makeHeadersHelper(schemaProperties, headerObjs);
-        return headerObjs;
-    }
-    makeHeadersHelper(schemaProperties, headerObjs, prefix="") {
-        for (let header in schemaProperties) {
-            if (schemaProperties[header]["type"] == "object") {
-                this.makeHeadersHelper(schemaProperties[header]["properties"], headerObjs, header);
-                continue;
-            }
-            else if (schemaProperties[header]["type"] == "array") {
-                continue;
-            }
-            // header = header.replace("properties.", "").replace(".items.", ".0.");
-            header = prefix ? prefix + "." + header : header;
-            headerObjs.push(makeHeaderObj(header));
-        }
-    }
-
-    makeHeadersOld(data, headers=[], headerObjs=[]) {
-        /* Makes headers based on looping through all the data and making sure it got something. (very inefficient, not used anymore)
-        */
-        for (let response of data) {
-            for (let header in response) {
-                if (!~headers.indexOf(header)) {
-                    headers.push(header);
-                    headerObjs.push({
-                        Header: header,
-                        id: header,
-                        accessor: d=> typeof d[header] === 'string' ? d[header] : "", //JSON.stringify(d[header]),
-                        // For react csv export:
-                        label: header,
-                        key: header
-                        //d=> JSON.stringify(d[header]) // String-based value accessors!
-                      });
-                }
-            }
-        }
-    }
-
     showUnwindTable(rowToUnwind) {
         if (rowToUnwind) {
             // If select box was changed.
@@ -177,10 +113,14 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         for (let item of origData) {
             if (!item[rowToUnwind]) continue;
             for (let unwoundItem of item[rowToUnwind]) {
+                unwoundItem.PAID = item.PAID;
                 data.push(unwoundItem);
             }
         }
-        let headerObjs = this.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties);
+        let headerObjs = concat(
+            Headers.makeHeaderObjsFromKeys(["PAID"]),
+            Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties)
+        );
         this.setState({
             tableDataDisplayed: data,
             tableHeadersDisplayed: headerObjs
@@ -228,7 +168,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     filterable
                     //pivotBy={this.state.pivotCols}
                     defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
-                    defaultFiltered= { this.state.rowToUnwind ? [] : [{"id": "PAID", "value": "paid"}] }
+                    defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
                     SubComponent={ this.state.rowToUnwind ? null : DetailView }
                     />
                 </div>
@@ -240,30 +180,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
 
 export default ResponseTable;
 
-function makeHeaderObjsFromKeys(keys) {
-    // Add a specified list of headers.
-    let headerObjs = [];
-    for (let header of keys) {
-        headerObjs.push(makeHeaderObj(header));
-    }
-    return headerObjs;
-}
-
-function makeHeaderObj(header) {
-    // Makes a single header object.
-    return {
-        // For react table js:
-        Header: header.replace(/^([a-z])/, t => t.toUpperCase()),
-        id: header,
-        accessor: header,
-        // For csv export:
-        label: header.replace(/^([a-z])/, t => t.toUpperCase()),
-        key: header
-    };
-}
-
 function DetailView({original, row}) {
-    return (
+    let old = (
         <ReactJson src={original}
         displayObjectSize={false}
         displayDataTypes={false}
@@ -274,4 +192,5 @@ function DetailView({original, row}) {
         style={{"fontFamily": "Arial, sans-serif", "marginLeft": "30px"}}
         />
     )
+    return <ReactTable data={original} />
 } 
