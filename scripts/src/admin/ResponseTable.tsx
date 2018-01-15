@@ -4,7 +4,7 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import treeTableHOC from 'react-table/lib/hoc/treeTable'
 import {flatten} from 'flat';
-import {filter} from 'lodash-es';
+import {assign, concat} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import Loading from "src/common/loading";
 import FormLoader from "src/common/FormLoader";
@@ -37,6 +37,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
     }
 
     componentDidMount() {
+        
         FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form.id, (e) => this.props.handleError(e)).then(({ schema }) => {
             this.setState({
                 schema
@@ -52,16 +53,28 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         })
         .then(response => response.data.res)
         .then(data => {
+            console.time();
             data = data.map((e) => {
-                e.value.id = e.id;
+                assign(e.value, {
+                    "ID": e.responseId,
+                    "PAID": e.paid,
+                    "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
+                    "IPN_HISTORY": e.IPN_HISTORY,
+                    "DATE_CREATED": e.date_created,
+                    "DATE_LAST_MODIFIED": e.date_last_modified
+                });
                 this.setState({tableDataOrigObject: data});
-                return flatten(e.value);
-            });//.filter((e) => e);
+                return e.value;
+                //return flatten(e.value);
+            });
+            
             console.log(data);
-            let headers = ["id"];
-            let headerObjs : any = [{"Header": "id", "accessor": "id"}];
-            this.makeHeaders(data, headers, headerObjs);
-
+            let headerObjs : any = concat(
+                this.makeHeaderObjsFromMetadataKeys(["ID"]),
+                this.makeHeaders(this.state.schema.properties),
+                this.makeHeaderObjsFromMetadataKeys(["PAID", "DATE_CREATED", "DATE_LAST_MODIFIED"])
+            );
+            
             // Set possible rows to unwind, equal to top-level array items.
             let possibleFieldsToUnwind = [];
             for (let fieldName in this.state.schema.properties) {
@@ -71,17 +84,60 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 }
             }
             console.log("possibleFieldsToUnwind", possibleFieldsToUnwind);
-
+            
             this.setState({
                 tableHeaders: headerObjs, tableHeadersDisplayed: headerObjs,
                 tableData: data, tableDataDisplayed: data,
                 status: STATUS_RESPONSES_RENDERED,
                 possibleFieldsToUnwind
             });
+            console.timeEnd();
         });
     }
 
-    makeHeaders(data, headers=[], headerObjs=[]) {
+    makeHeaderObjsFromMetadataKeys(keys) {
+        // Add a specified list of headers.
+        let headerObjs = [];
+        for (let header of keys) {
+            headerObjs.push(this.makeHeaderObj(header));
+        }
+        return headerObjs;
+    }
+    makeHeaderObj(header) {
+        // Makes a single header object.
+        return {
+            // For react table js:
+            Header: header,
+            id: header,
+            accessor: header,
+            // For csv export:
+            label: header,
+            key: header
+        };
+    }
+
+    makeHeaders(schemaProperties, headerObjs=[]) {
+        this.makeHeadersHelper(schemaProperties, headerObjs);
+        return headerObjs;
+    }
+    makeHeadersHelper(schemaProperties, headerObjs, prefix="") {
+        for (let header in schemaProperties) {
+            if (schemaProperties[header]["type"] == "object") {
+                this.makeHeadersHelper(schemaProperties[header]["properties"], headerObjs, header);
+                continue;
+            }
+            else if (schemaProperties[header]["type"] == "array") {
+                continue;
+            }
+            // header = header.replace("properties.", "").replace(".items.", ".0.");
+            header = prefix ? prefix + "." + header : header;
+            headerObjs.push(this.makeHeaderObj(header));
+        }
+    }
+
+    makeHeadersOld(data, headers=[], headerObjs=[]) {
+        /* Makes headers based on looping through all the data and making sure it got something. (very inefficient, not used anymore)
+        */
         for (let response of data) {
             for (let header in response) {
                 if (!~headers.indexOf(header)) {
@@ -89,7 +145,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     headerObjs.push({
                         Header: header,
                         id: header,
-                        accessor: d=> typeof d[header] === 'string' ? d[header] : JSON.stringify(d[header]),
+                        accessor: d=> typeof d[header] === 'string' ? d[header] : "", //JSON.stringify(d[header]),
                         // For react csv export:
                         label: header,
                         key: header
@@ -108,16 +164,15 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         else {
             rowToUnwind = this.state.rowToUnwind;
         }
-        let headerObjs = [];
         let origData = this.state.tableDataOrigObject.map(e => e.value);
         let data = [];
         for (let item of origData) {
             if (!item[rowToUnwind]) continue;
             for (let unwoundItem of item[rowToUnwind]) {
-                data.push(flatten(unwoundItem));
+                data.push(unwoundItem);
             }
         }
-        this.makeHeaders(data, [], headerObjs);
+        let headerObjs = this.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties);
         this.setState({
             tableDataDisplayed: data,
             tableHeadersDisplayed: headerObjs
@@ -141,7 +196,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         else if (this.state.status == STATUS_RESPONSES_RENDERED) {
             return (
                 <div>
-                    <button className="button" onClick={() => this.showResponsesTable()}>View all responses</button>
+                    <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
                     &emsp;Or unwind by:
                         <select value={this.state.rowToUnwind}
                             onChange={(e) => this.showUnwindTable(e.target.value)}>
@@ -151,11 +206,11 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                             )}
                         </select>
                         <CSVLink
-                            data={this.state.tableDataDisplayed}
+                            data={this.state.tableDataDisplayed.map(e=>flatten(e))}
                             headers={this.state.tableHeadersDisplayed}>
                         Download CSV
                         </CSVLink>
-                    {/*<button className="button" onClick={() => this.showUnwindTable()}>
+                    {/*<button className="btn" onClick={() => this.showUnwindTable()}>
                     Unwind data
                         </button>*/}
                     <ReactTable
