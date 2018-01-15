@@ -18,7 +18,7 @@ import MockData from "src/common/util/MockData";
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
 const STATUS_FORM_CONFIRMATION = 4;
-const STATUS_FORM_PAYMENT_COMPLETE = 6;
+const STATUS_FORM_PAYMENT_SUCCESS = 6;
 
 /* Custom object field template that allows for grid classes to be specified.
  * If no className is given in schema modifier, defaults to "col-12".
@@ -186,7 +186,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
 
   componentDidMount() {
     let queryObjFlat = queryString.parse(location.hash);
-    if (queryObjFlat["responseId"]) {
+    if (queryObjFlat["payment_success"] == "1") {
+      this.setState({"status": STATUS_FORM_PAYMENT_SUCCESS});
+    }
+    else if (queryObjFlat["responseId"]) {
       FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, responseLoaded }) => {
         this.setState({ schemaMetadata, uiSchema, schema, responseId: responseLoaded["responseId"], responseLoaded: responseLoaded, data: responseLoaded ? responseLoaded.value : null, status: STATUS_FORM_RENDERED });
       });
@@ -206,7 +209,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
   onPaymentComplete(e) {
     this.setState({
-      "status": STATUS_FORM_PAYMENT_COMPLETE
+      "status": STATUS_FORM_PAYMENT_SUCCESS
     });
   }
   onSubmit(data: { formData: {} }) {
@@ -240,7 +243,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
   }
   render() {
-    if (this.state.status == STATUS_FORM_PAYMENT_COMPLETE) {
+    if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
         <h1>Payment processing</h1>
         <p>Thank you for your payment! You will receive a confirmation email within 24 hours after the payment has been verified.</p>
