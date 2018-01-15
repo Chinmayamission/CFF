@@ -278,11 +278,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       formToReturn =
         (<div>
           <h1>Confirmation Page</h1>
-          <button className="btn"
+          <button className="btn btn-default"
             onClick={this.goBackToFormPage}
           >Go back and edit form response</button>
           {formToReturn}
-          <button className="btn"
+          <button className="btn btn-default"
             onClick={this.goBackToFormPage}
           >Go back and edit form response</button>
           <FormConfirmationPage
