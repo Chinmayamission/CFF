@@ -1,6 +1,18 @@
 @import 'bootstrap-4.min.scss';
+
+.ccmt-cff-Wrapper-Bootstrap {
+    .form-group.has-error {
+        input, select {
+            @extend .is-invalid;
+        }
+    }
+}
+
 .ccmt-cff-Page-FormPage {
     // padding: 0px 10px;
+    input {
+        max-width: 200px;
+    }
     label.control-label, legend, h2.ccmt-cff-form-title {
         text-transform: capitalize;
     }
@@ -16,7 +28,7 @@
         text-transform: uppercase;
     }
     .ccmt-cff-form-title {
-        //margin: 0;
+        @extend .mb-3;
     }
     .field {
         //margin-top: 10px;

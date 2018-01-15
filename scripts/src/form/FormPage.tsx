@@ -6,6 +6,7 @@ import Form from 'react-jsonschema-form';
 import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
 import CustomFieldTemplate from "./form_templates/CustomFieldTemplate.tsx";
+import CheckboxWidget from "./form_widgets/CheckboxWidget.tsx";
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
 import { pick } from "lodash-es";
@@ -80,8 +81,10 @@ function ErrorListTemplate(props) {
 };
 
 
+
 const widgets = {
-  phone: PhoneWidget
+  phone: PhoneWidget,
+  CheckboxWidget: CheckboxWidget
 };
 
 const fields = {

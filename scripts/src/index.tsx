@@ -5,6 +5,7 @@ import FormPage from './form/FormPage';
 import FormAdminPage from './admin/FormAdminPage';
 import { BrowserRouter } from 'react-router-dom';
 import "./common/main.css";
+import * as DOMPurify from 'dompurify';
 
 
 // dev apiEndpoint https://l5nrf4co1g.execute-api.us-east-1.amazonaws.com/dev/forms
@@ -12,6 +13,15 @@ import "./common/main.css";
 
 (window as any).CCMT_CFF_DEVMODE = false;
 (window as any).CCMT_CFF_DEVMODE_AUTOFILL = false;
+
+
+// Make all external links in form open in a new tab.
+DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+  // set all elements owning target to target=_blank
+  if ('target' in node) {
+      node.setAttribute('target','_blank');
+  }
+});
 
 let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElement;
 if (formRenderElement) {
