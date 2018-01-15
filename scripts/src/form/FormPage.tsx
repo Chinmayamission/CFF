@@ -4,6 +4,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Form from 'react-jsonschema-form';
 import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
+import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
+import CustomFieldTemplate from "./form_templates/CustomFieldTemplate.tsx";
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
 import { pick } from "lodash-es";
@@ -17,51 +19,6 @@ const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
 const STATUS_FORM_CONFIRMATION = 4;
 const STATUS_FORM_PAYMENT_SUCCESS = 6;
-
-/* Custom object field template that allows for grid classes to be specified.
- * If no className is given in schema modifier, defaults to "col-12".
- */
-function ObjectFieldTemplate({ TitleField, properties, title, description }) {
-  return (
-    <div className="container-fluid p-0">
-      <TitleField title={title} />
-      <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
-      <div className="row">
-        {properties.map(prop => {
-          let customClasses = {
-            "twoColumn": "col-12 col-sm-6",
-            "threeColumn": "col-12 col-sm-4",
-            "fourColumn": "col-6 col-sm-3",
-            "fiveColumn": "col-2",
-            "sixColumn": "col-6 col-sm-2",
-            "flex": "col",
-            "full": "col-12"
-          };
-          if (!prop.content.props.uiSchema.classNames) {
-            prop.content.props.uiSchema.classNames = "col-12";
-          }
-          for (let customClass in customClasses) {
-            prop.content.props.uiSchema.classNames = prop.content.props.uiSchema.classNames.replace(customClass, customClasses[customClass]);
-          }
-          return (prop.content);
-        })}
-      </div>
-    </div>
-  );
-}
-
-function CustomFieldTemplate(props) {
-  const {id, classNames, label, help, required, description, errors, children} = props;
-  return (
-    <div className={classNames}>
-      <label htmlFor={id}>{label}{required ? "*" : null}</label>
-      {description}
-      {children}
-      {errors}
-      {help}
-    </div>
-  );
-}
 
 
 /* Adds a custom error message for regex validation (especially for phone numbers).
@@ -275,7 +232,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           formData={this.state.data}
           widgets={widgets}
           fields={fields}
-          // FieldTemplate={CustomFieldTemplate}
+          FieldTemplate={CustomFieldTemplate}
           ArrayFieldTemplate={ArrayFieldTemplate}
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}

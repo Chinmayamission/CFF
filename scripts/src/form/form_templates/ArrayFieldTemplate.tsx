@@ -45,26 +45,21 @@ function ArrayFieldTemplate(props) {
         className="row array-item-list"
         key={`array-item-list-${props.idSchema.$id}`}>
         {props.items.map((element, i) =>
-          <div className="" key={i}>
+          <div className="row" key={i}>
             <div className="col-9">
               {element.children}
             </div>
+            <div className="col-3">
             {element.hasRemove && i >= (props.schema.minItems || 0) &&
-              <div className="col-3">
-                  <button type="button" className="btn btn-danger col-12" onClick={element.onDropIndexClick}>Remove</button>
-              </div>
+              <button type="button" className="btn btn-danger col-12" onClick={element.onDropIndexClick(element.index)}>Remove</button>
             }
+            {props.canAdd && i == props.items.length - 1 && 
+              <button type="button" className="btn btn-info col-12 mt-3" onClick={props.onAddClick}>Add</button>
+            }
+            </div>
           </div>
         )}
-      </div>
-
-      {props.canAdd &&
-        <div className="">
-          <div className="col-3 offset-9">
-            {<button type="button" className="btn btn-info col-12" onClick={props.onAddClick}>Add</button>}
-          </div>
         </div>
-      }
       </fieldset>
     
   );
