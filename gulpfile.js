@@ -11,9 +11,6 @@ const inputFiles = FORMBUILDER_URL + '/assets/ts/**/*.tsx';
 gulp.task('FormPage-js', shell.task([
         'webpack --watch'
     ]));
-    gulp.task('archive', shell.task([
-        'git archive --format=zip HEAD -o 1.0.9.zip'
-    ]));
 
 gulp.task('FormPage-js-build', function() {
     return null;
