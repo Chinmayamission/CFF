@@ -15,7 +15,7 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
                         "twoColumn": "col-12 col-sm-6",
                         "threeColumn": "col-12 col-sm-4",
                         "fourColumn": "col-6 col-sm-3",
-                        "fiveColumn": "col-2",
+                        "fiveColumn": "col-6 col-sm-2",
                         "sixColumn": "col-6 col-sm-2",
                         "flex": "col",
                         "full": "col-12"
