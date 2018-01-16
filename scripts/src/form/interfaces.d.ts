@@ -23,7 +23,15 @@ interface SchemaMetadata {
 
 interface IPaymentInfo {
     total: string,
-    currency: string
+    currency: string,
+    items?: [IPaymentInfoItem]
+}
+
+interface IPaymentInfoItem {
+    amount: any,
+    name: string,
+    description: string,
+    quantity: any
 }
 
 interface PaymentMethod {
@@ -157,10 +165,10 @@ interface IPaypalClassicProps extends IPaymentMethodProps {
 interface PaypalClassicSharedAttrs {
     "cmd": string,
     "business": string,
-    "item_name": string,
-    "item_number": string,
+    items?: [IPaymentInfoItem],
     "first_name": string,
     "last_name": string,
+    "image_url": string,
     "address1": string,
     "address2": string,
     "city": string,

@@ -47,7 +47,8 @@ function ArrayFieldTemplate(props) {
         {props.items.map((element, i) =>
             <div className="row" key={i}>
               <div className="col-9">
-                <div className="ccmt-cff-array-row-number">{i + 1}.</div>{element.children}
+                {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
+                {element.children}
               </div>
               <div className="col-3">
                 {element.hasRemove && i >= (props.schema.minItems || 0) &&

@@ -2,7 +2,6 @@
 import * as React from 'react';
 import Payment from './confirmation/payment';
 import {flatten} from 'flat';
-import ReactTable from 'react-table';
 import {get} from "lodash-es";
 import {queryString} from 'query-string'; 
 import SchemaUtil from "src/common/util/SchemaUtil";
@@ -25,7 +24,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         ];
 
         let tableData = [];
-        let flattenedData = flatten(this.props.data);
+        /*let flattenedData = flatten(this.props.data);
         for (let fieldPath in flattenedData) {
             let schemaItem = get(this.props.schema.properties, SchemaUtil.objToSchemaPath(fieldPath));
             if (!schemaItem) schemaItem = fieldPath;
@@ -37,7 +36,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
                 "value": fieldValue
             });
         };
-        console.log("table data is ", tableData, tableHeaders);
+        console.log("table data is ", tableData, tableHeaders);*/
 
         this.state = {
             "paid": false,

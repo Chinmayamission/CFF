@@ -4,6 +4,7 @@ import Paypal from "./paypal";
 import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import {clone} from "lodash-es";
+import ReactTable from 'react-table';
 
 let Components = {
     "paypal_rest": Paypal,
@@ -43,7 +44,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             return React.createElement(MyComponent, props);
         });
     }
-    formatPayment(currency, total) {
+    formatPayment(total, currency="USD") {
         if (currency == "USD") {
             return "$" + Math.abs(total);
         }
@@ -52,18 +53,47 @@ class Payment extends React.Component<IPaymentProps, any> {
         }
     }
     formatPaymentInfo(paymentInfo : IPaymentInfo) {
-        return this.formatPayment(paymentInfo.currency, paymentInfo.total);
+        return this.formatPayment(paymentInfo.total, paymentInfo.currency);
     }
     render() {
         if (!this.props.paymentMethods) {
             return "";
         }
+        let tableHeaders = [
+            {
+                Header: "Name",
+                accessor: "name"
+            },
+            {
+                Header: "Description",
+                accessor: "description"
+            },
+            {
+                Header: "Amount",
+                id: "amount",
+                accessor: d=>this.formatPayment(d.amount)
+            },
+            {
+                Header: "Quantity",
+                id: "quantity",
+                accessor: d=>this.formatPayment(d.amount)
+            }
+        ];
+        let tableData = this.props.paymentInfo.items;
         return <div><br />
             <h1>Pay Now</h1>
             <div>
+            {this.props.paymentInfo &&
+                <div className="mb-2">
+                    <ReactTable columns={tableHeaders} data={tableData}
+                        minRows={0}
+                        showPagination={false}
+                        className="my-4" />
+                    Total Amount: {this.formatPaymentInfo(this.props.paymentInfo)}
+                </div>
+            }
             {this.props.paymentInfo_received && 
                 <div>
-                    <div>Total Amount: {this.formatPaymentInfo(this.props.paymentInfo)}</div>
                     <div>Amount Already Paid: {this.formatPaymentInfo(this.props.paymentInfo_received)}</div>
                 </div>
             }

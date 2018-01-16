@@ -9,8 +9,6 @@ import {get} from "lodash-es";
       "sandbox": true,
       "business": "aramaswamis-facilitator@gmail.com",
       "cmd": "_cart",
-      "item_name": "$title",
-      "item_number": "1",
       "first_name": "$participants[0].name.first",
       "last_name": "$participants[0].name.last",
       "address1": "$address.line1",
@@ -26,18 +24,19 @@ import {get} from "lodash-es";
 class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicState> {
     constructor(props:any) {
         super(props);
+        let items = this.props.paymentInfo.items;
         let state = {
             "form_url": (this.props.paymentMethodInfo.sandbox) ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
             "custom": this.props.formId + "/" + this.props.responseId,
-            "cmd": "_xclick",
+            "cmd": "_cart",
             "business": this.props.paymentMethodInfo.business,
             "currency_code": this.props.paymentInfo.currency || "USD",
             "notify_url": this.props.apiEndpoint + "?action=ipn",
             "return": window.location.href.split("#")[0] + "#payment_success=1",
             "cancel_return": window.location.href.split("#")[0] + "#payment_success=0",
-            "item_name": this.props.paymentMethodInfo.item_name,
-            "item_number": this.props.paymentMethodInfo.item_number,
+            "items": items,
             "amount": this.props.paymentInfo.total,
+            "image_url": this.props.paymentMethodInfo.image_url,
             "first_name": this.props.paymentMethodInfo.first_name,
             "last_name": this.props.paymentMethodInfo.last_name,
             "address1": this.props.paymentMethodInfo.address1,
@@ -68,15 +67,22 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
         <form action={this.state.form_url} method="post">
             <input type="hidden" name="cmd" value={this.state.cmd}/>
             <input type="hidden" name="custom" value={this.state.custom} />
+            <input type="hidden" name="charset" value="utf-8" />
+            <input type="hidden" name="upload" value="1" />
             <input type="hidden" name="business" value={this.state.business} />
             <input type="hidden" name="currency_code" value={this.state.currency_code} />
             <input type="hidden" name="notify_url" value={this.state.notify_url} />
             <input type="hidden" name="return" value={this.state.return} />
             <input type="hidden" name="cancel_return" value={this.state.cancel_return} />
-            <input type="hidden" name="item_name" value={this.state.item_name} />
-            <input type="hidden" name="item_number" value={this.state.item_number} />
-            <input type="hidden" name="amount" value={this.state.amount} />
-            <input type="hidden" name="quantity" value="1" />
+            {this.state.items.map((item, i) =>
+                <div key={i}>
+                    <input type="hidden" name={"item_name_" + (i+1)} value={item.name} />
+                    <input type="hidden" name={"item_number_" + (i+1)} value={item.description} />
+                    <input type="hidden" name={"quantity_" + (i+1)} value={item.quantity} />
+                    <input type="hidden" name={"amount_" + (i+1)} value={item.amount} />
+                </div>
+            )}
+            <input type="hidden" name="image_url" value={this.state.image_url} />
             <input type="hidden" name="first_name" value={this.state.first_name} />
             <input type="hidden" name="last_name" value={this.state.last_name} />
             <input type="hidden" name="address1" value={this.state.address1} />

@@ -191,6 +191,7 @@ function DetailView({original, row}) {
         collapsed={1}
         style={{"fontFamily": "Arial, sans-serif", "marginLeft": "30px"}}
         />
-    )
-    return <ReactTable data={original} />
+    );
+    return old;
+    //return <ReactTable data={original} />
 } 
