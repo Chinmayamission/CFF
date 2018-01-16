@@ -114,11 +114,12 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             if (!item[rowToUnwind]) continue;
             for (let unwoundItem of item[rowToUnwind]) {
                 unwoundItem.PAID = item.PAID;
+                unwoundItem.ID = item.ID;
                 data.push(unwoundItem);
             }
         }
         let headerObjs = concat(
-            Headers.makeHeaderObjsFromKeys(["PAID"]),
+            Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
             Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties)
         );
         this.setState({

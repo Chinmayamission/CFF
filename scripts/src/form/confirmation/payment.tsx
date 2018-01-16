@@ -14,13 +14,6 @@ let Components = {
 class Payment extends React.Component<IPaymentProps, any> {
     constructor(props: any) {
         super(props);
-        let paymentInfo_owed : any = clone(props.paymentInfo);
-        if (this.props.paymentInfo_received) {
-            paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - parseFloat(this.props.paymentInfo_received.total);
-        }
-        this.state = {
-          paymentInfo_owed: paymentInfo_owed
-        };
       }
 
     getPaymentMethods() {
@@ -30,7 +23,8 @@ class Payment extends React.Component<IPaymentProps, any> {
             if (!MyComponent) return;
             console.log('option is', paymentMethod);
             let props = {
-                "paymentInfo": this.state.paymentInfo_owed,
+                "paymentInfo_owed": this.props.paymentInfo_owed,
+                "paymentInfo": this.props.paymentInfo,
                 "paymentMethodInfo": this.props.paymentMethods[paymentMethod],
                 "key": paymentMethod,    // must be unique.
                 "onPaymentComplete": this.props.onPaymentComplete,
@@ -78,6 +72,7 @@ class Payment extends React.Component<IPaymentProps, any> {
                 accessor: "quantity"
             }
         ];
+        console.log("PROPS", this.props);
         let tableData = this.props.paymentInfo.items;
         return <div><br />
             <h1>Pay Now</h1>
@@ -96,24 +91,24 @@ class Payment extends React.Component<IPaymentProps, any> {
                     <div>Amount Already Paid: {this.formatPaymentInfo(this.props.paymentInfo_received)}</div>
                 </div>
             }
-            {this.state.paymentInfo_owed.total > 0 &&
-                <div><b>Amount Owed: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b></div>
+            {this.props.paymentInfo_owed.total > 0 &&
+                <div><b>Amount Owed: {this.formatPaymentInfo(this.props.paymentInfo_owed)} </b></div>
             }
-            {this.state.paymentInfo_owed.total < 0 &&
+            {this.props.paymentInfo_owed.total < 0 &&
                 <div>
-                    <b>Amount Overpaid: {this.formatPaymentInfo(this.state.paymentInfo_owed)} </b>
+                    <b>Amount Overpaid: {this.formatPaymentInfo(this.props.paymentInfo_owed)} </b>
                     <p>Please contact us if you would like a refund, or otherwise, this money will serve as a donation.</p>
                 </div>
             }
             </div>
             <div style={{ "textAlign": "center" }}>
-                {this.state.paymentInfo_owed.total > 0 && 
+                {this.props.paymentInfo_owed.total > 0 && 
                     <div>
                         <p>Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.</p><br />
                         {this.getPaymentMethods()}
                     </div>
                 }
-                {this.state.paymentInfo_owed.total == 0 && 
+                {this.props.paymentInfo_owed.total == 0 && 
                     <div>We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.</div> }
             </div>
         </div>;

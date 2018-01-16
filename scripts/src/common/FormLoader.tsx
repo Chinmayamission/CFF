@@ -23,6 +23,7 @@ let isUiSchemaPath = (path) => {
 }
 
 let createSchemas = data => {
+    let isEditingResponse = !!data["responseLoaded"];
     var schemaModifier = data["schemaModifier"].value;
     // var uiSchema = schemaModifier;
     let schema = data["schema"].value;
@@ -69,7 +70,14 @@ let createSchemas = data => {
             schema[fieldPath] = fieldValue;
         }
         else if (isUiSchemaPath(fieldPath)) {
-            set(uiSchema, fieldPath, fieldValue);
+            if (isEditingResponse && ~fieldPath.indexOf(".ui:nonModifiable")) {
+                // Set nonModifiable fields to readonly when editing an existing response.
+                console.log("Yes");
+                set(uiSchema, fieldPath.replace(".ui:nonModifiable", ".ui:readonly"), fieldValue);
+            }
+            else {
+                set(uiSchema, fieldPath, fieldValue);
+            }
             if (~fieldPath.indexOf(".ui:defaultValue")) {
                 // lets defaultFormData be filled out by the "ui:defaultValue" attribute
                 set(defaultFormData, fieldPath.substring(0, fieldPath.indexOf(".ui:defaultValue")), fieldValue);
@@ -93,7 +101,7 @@ let createSchemas = data => {
     
     // filterUiSchema(uiSchema);
     console.log("new schema", schema, "uischema", uiSchema);
-    if (data["responseLoaded"]) {
+    if (isEditingResponse) {
         // When editing responses
         return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema };
     }

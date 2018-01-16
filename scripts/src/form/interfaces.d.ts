@@ -22,7 +22,7 @@ interface SchemaMetadata {
 }
 
 interface IPaymentInfo {
-    total: string,
+    total: any,
     currency: string,
     redirectUrl?: string,
     items?: [IPaymentInfoItem]
@@ -97,11 +97,13 @@ interface IFormConfirmationPageState {
     paid: boolean,
     paymentTransactionInfo: string,
     tableData: any,
-    tableHeaders: any
+    tableHeaders: any,
+    paymentInfo_owed: IPaymentInfo
 }
 
 interface IPaymentProps {
     paymentInfo: IPaymentInfo,
+    paymentInfo_owed: IPaymentInfo,
     paymentInfo_received: IPaymentInfo,
     paymentMethods: IPaymentMethods
     onPaymentComplete: (message: any) => void,
@@ -161,7 +163,8 @@ interface IPaypalState {
 
 }
 interface IPaypalClassicProps extends IPaymentMethodProps {
-    paymentMethodInfo: IPaymentMethodInfoPaypalClassic
+    paymentMethodInfo: IPaymentMethodInfoPaypalClassic,
+    paymentInfo_owed: IPaymentInfo
 }
 interface PaypalClassicSharedAttrs {
     "cmd": string,

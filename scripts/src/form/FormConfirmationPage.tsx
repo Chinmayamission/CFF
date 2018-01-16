@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Payment from './confirmation/payment';
 import {flatten} from 'flat';
-import {get} from "lodash-es";
+import {get, cloneDeep} from "lodash-es";
 import {queryString} from 'query-string'; 
 import SchemaUtil from "src/common/util/SchemaUtil";
 
@@ -38,12 +38,27 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         };
         console.log("table data is ", tableData, tableHeaders);*/
 
-        this.state = {
-            "paid": false,
-            "paymentTransactionInfo": "",
-            tableData,
-            tableHeaders
+        /*this.state = {
+
+        };*/
+
+        let paymentInfo_owed : any = cloneDeep(props.paymentInfo);
+        if (this.props.paymentInfo_received) {
+            paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - parseFloat(this.props.paymentInfo_received.total);
+            // Just make it one item for now.
+            paymentInfo_owed.items[0].amount = paymentInfo_owed.total;
+            paymentInfo_owed.items[0].quantity = 1;
+            paymentInfo_owed.items[0].description = "Extra amount owed on update";
+            paymentInfo_owed.items = [paymentInfo_owed.items[0]];
         }
+        console.log(paymentInfo_owed);
+        this.state = {
+          paymentInfo_owed: paymentInfo_owed,
+          "paid": false,
+          "paymentTransactionInfo": "",
+          tableData,
+          tableHeaders
+        };
     }
     onPaymentComplete(message) {
         /* Called by Payment's thing. */
@@ -62,6 +77,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         <Payment
             apiEndpoint={this.props.apiEndpoint}
             paymentInfo={this.props.paymentInfo}
+            paymentInfo_owed={this.state.paymentInfo_owed}
             paymentInfo_received={this.props.paymentInfo_received}
             paymentMethods={this.props.schemaMetadata.paymentMethods}
             onPaymentComplete={this.props.onPaymentComplete}
