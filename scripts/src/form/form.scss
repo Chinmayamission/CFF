@@ -66,13 +66,33 @@
         color: red;
         font-weight: bold;
     }
+    .form-group {
+        margin-bottom: 10px;
+    }
+    .field-array-of-object > .array-item-list > .row {
+        .form-group {
+            margin-bottom: 0px;
+        }
+        .ccmt-cff-array-row-number {
+            position: absolute;
+            top: 50px;
+            left: -10px;
+        }
+        &:not(:first-child) {
+            .control-label {
+                display: none;
+            }
+            .ccmt-cff-array-row-number {
+                top: 15px;
+            }
+        }
+    }
 }
 
 .ccmt-cff-Page-FormPage-readonly.ccmt-cff-Page-FormPage {
     input, select {
         border: none;
         padding: 0;
-        margin: 0;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
