@@ -75,8 +75,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             },
             {
                 Header: "Quantity",
-                id: "quantity",
-                accessor: d=>this.formatPayment(d.amount)
+                accessor: "quantity"
             }
         ];
         let tableData = this.props.paymentInfo.items;

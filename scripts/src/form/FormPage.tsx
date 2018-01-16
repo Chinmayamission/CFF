@@ -163,7 +163,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     else if (queryObjFlat["responseId"]) {
       FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, responseLoaded }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, responseId: responseLoaded["responseId"], responseLoaded: responseLoaded, data: responseLoaded ? responseLoaded.value : null, status: STATUS_FORM_RENDERED });
+        this.setState({ schemaMetadata, uiSchema, schema, responseId: responseLoaded["responseId"], responseLoaded: responseLoaded, data: responseLoaded ? responseLoaded.value : null, status: STATUS_FORM_RENDERED },
+          this.scrollToTop);
       });
     }
     else {
@@ -171,7 +172,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         this.setState({data: MockData.sampleData});
       }
       FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, defaultFormData }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED, data: defaultFormData });
+        this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED, data: defaultFormData },
+          this.scrollToTop);
       });
     }
 

@@ -24,6 +24,7 @@ interface SchemaMetadata {
 interface IPaymentInfo {
     total: string,
     currency: string,
+    redirectUrl?: string,
     items?: [IPaymentInfoItem]
 }
 

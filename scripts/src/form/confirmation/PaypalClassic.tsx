@@ -26,13 +26,13 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
         super(props);
         let items = this.props.paymentInfo.items;
         let state = {
-            "form_url": (this.props.paymentMethodInfo.sandbox) ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
+            "form_url": (true || this.props.paymentMethodInfo.sandbox) ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
             "custom": this.props.formId + "/" + this.props.responseId,
             "cmd": "_cart",
             "business": this.props.paymentMethodInfo.business,
             "currency_code": this.props.paymentInfo.currency || "USD",
             "notify_url": this.props.apiEndpoint + "?action=ipn",
-            "return": window.location.href.split("#")[0] + "#payment_success=1",
+            "return": this.props.paymentInfo.redirectUrl || window.location.href.split("#")[0] + "#payment_success=1",
             "cancel_return": window.location.href.split("#")[0] + "#payment_success=0",
             "items": items,
             "amount": this.props.paymentInfo.total,
