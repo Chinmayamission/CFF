@@ -155,7 +155,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                             )}
                         </select>
                         <CSVLink
-                            data={this.state.tableDataDisplayed.filter(e=>e).map(e=>(e))}
+                            data={this.state.tableDataDisplayed.filter(e=>e).map(e=>flatten(e))}
                             headers={this.state.tableHeadersDisplayed}>
                         Download CSV
                         </CSVLink>

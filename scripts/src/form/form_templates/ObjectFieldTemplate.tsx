@@ -12,11 +12,11 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
             <div className="row">
                 {properties.map(prop => {
                     let customClasses = {
-                        "twoColumn": "col-12 col-sm-6",
-                        "threeColumn": "col-12 col-sm-4",
-                        "fourColumn": "col-6 col-sm-3",
-                        "fiveColumn": "col-6 col-sm-2",
-                        "sixColumn": "col-6 col-sm-2",
+                        "twoColumn": "col-12 col-sm-12 col-md-6",
+                        "threeColumn": "col-12 col-sm-6 col-md-4",
+                        "fourColumn": "col-6 col-sm-6 col-md-3",
+                        "fiveColumn": "col-6 col-sm-4 col-md-2",
+                        "sixColumn": "col-6 col-sm-4 col-md-2",
                         "flex": "col",
                         "full": "col-12"
                     };
