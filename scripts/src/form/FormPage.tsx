@@ -139,7 +139,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     return encodeURI(formUrl);
   }
   scrollToTop() {
-    ReactDOM.findDOMNode(this).scrollIntoView();
+    //ReactDOM.findDOMNode(this).scrollIntoView();
+    window.scrollTo(0, 0);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -148,7 +149,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       let encodedState = pick(this.state, stateKeysToEncode);
       let newQS = queryString.stringify(encodedState);
       window.location.hash = newQS;//queryString.stringify(encodedState);  
-      this.scrollToTop();
+      if (this.state.status != prevState.status) {
+        this.scrollToTop();
+      }
     }
   }
   handleError(e) {
@@ -214,6 +217,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       alert("Error. " + err);
     });
   }
+  onChange(e) {
+    this.setState({"data": e.formData})
+  }
   render() {
     if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
@@ -238,7 +244,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           ArrayFieldTemplate={ArrayFieldTemplate}
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}
-          onChange={() => {null}}
+          onChange={(e) => {this.onChange(e)}}
           onSubmit={(e) => this.onSubmit(e)}
           onError={(e) => this.scrollToTop()}
           showErrorList={true}
