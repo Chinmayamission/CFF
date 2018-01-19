@@ -1,6 +1,6 @@
 /// <reference path="../admin.d.ts"/>
 import * as React from 'react';
-import {assign} from "lodash-es";
+import {assign, get} from "lodash-es";
 
 export module Headers {
 
@@ -17,9 +17,10 @@ export module Headers {
             else if (schemaProperties[header]["type"] == "array") {
                 continue;
             }
-            // header = header.replace("properties.", "").replace(".items.", ".0.");
+            // Label according to schema's title.
+            let headerLabel = get(schemaProperties, header).title || header;
             header = prefix ? prefix + "." + header : header;
-            headerObjs.push(Headers.makeHeaderObj(header));
+            headerObjs.push(Headers.makeHeaderObj(header, headerLabel));
         }
     }
 
