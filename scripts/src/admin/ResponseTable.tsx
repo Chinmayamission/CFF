@@ -144,35 +144,39 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
 
         else if (this.state.status == STATUS_RESPONSES_RENDERED) {
             return (
-                <div>
-                    <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
-                    &emsp;Or unwind by:
-                        <select value={this.state.rowToUnwind}
-                            onChange={(e) => this.showUnwindTable(e.target.value)}>
-                            <option key="null" value="" disabled>Select column</option>
-                            {this.state.possibleFieldsToUnwind.map((e) => 
-                                <option key={e}>{e}</option>
-                            )}
-                        </select>
-                        <CSVLink
-                            data={this.state.tableDataDisplayed.filter(e=>e).map(e=>flatten(e))}
-                            headers={this.state.tableHeadersDisplayed}>
-                        Download CSV
-                        </CSVLink>
-                    {/*<button className="btn" onClick={() => this.showUnwindTable()}>
-                    Unwind data
-                        </button>*/}
-                    <ReactTable
-                    data={this.state.tableDataDisplayed}
-                    columns={this.state.tableHeadersDisplayed}
-                    minRows={0}
-                    filterable
-                    //pivotBy={this.state.pivotCols}
-                    defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
-                    defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
-                    SubComponent={ this.state.rowToUnwind ? null : DetailView }
-                    />
-                </div>
+                <ReactTable
+                data={this.state.tableDataDisplayed}
+                columns={this.state.tableHeadersDisplayed}
+                minRows={0}
+                filterable
+                //pivotBy={this.state.pivotCols}
+                defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
+                defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
+                SubComponent={ this.state.rowToUnwind ? null : DetailView }
+                >
+                {(state, makeTable, instance) => {
+                    // console.log(state, instance);
+                    return (
+                        <div>
+                            <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
+                            &emsp;Or unwind by:
+                            <select value={this.state.rowToUnwind}
+                                onChange={(e) => this.showUnwindTable(e.target.value)}>
+                                <option key="null" value="" disabled>Select column</option>
+                                {this.state.possibleFieldsToUnwind.map((e) => 
+                                    <option key={e}>{e}</option>
+                                )}
+                            </select>
+                            <CSVLink
+                                data={state.sortedData.map(e=>flatten(e))}
+                                headers={this.state.tableHeadersDisplayed}>
+                            Download CSV
+                            </CSVLink>
+                            {makeTable()}
+                        </div>
+                    )
+                }}
+                </ReactTable>
             );
         }
 
