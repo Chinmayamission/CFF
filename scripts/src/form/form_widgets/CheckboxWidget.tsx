@@ -22,7 +22,7 @@ function CheckboxWidget(props) {
           id={id}
           className="form-check-input"
           checked={typeof value === "undefined" ? false : value}
-          required={required}
+          required={schema.required}
           disabled={disabled || readonly}
           autoFocus={autofocus}
           onChange={event => onChange(event.target.checked)}
