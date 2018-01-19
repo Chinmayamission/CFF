@@ -89,7 +89,7 @@ let createSchemas = data => {
         else if (typeof fieldValue == "boolean") {
         }
         else {
-            console.log("setting ", fieldPath, schemaFieldPath);
+            // console.log("setting ", fieldPath, schemaFieldPath);
             set(schema.properties, schemaFieldPath, fieldValue);
         }
     }
