@@ -113,14 +113,15 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         for (let item of origData) {
             if (!item[rowToUnwind]) continue;
             for (let unwoundItem of item[rowToUnwind]) {
-                unwoundItem.PAID = item.PAID;
-                unwoundItem.ID = item.ID;
+                // Gives all data of original rows to the unwound item.
+                unwoundItem = assign(item, unwoundItem);
                 data.push(unwoundItem);
             }
         }
         let headerObjs = concat(
-            Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
-            Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties)
+            // Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
+            Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties),
+            this.state.tableHeaders // concat original table headers with this.
         );
         this.setState({
             tableDataDisplayed: data,
