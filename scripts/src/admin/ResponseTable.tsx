@@ -114,7 +114,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             if (!item[rowToUnwind]) continue;
             for (let unwoundItem of item[rowToUnwind]) {
                 // Gives all data of original rows to the unwound item.
-                unwoundItem = assign(item, unwoundItem);
+                unwoundItem = assign({}, item, unwoundItem);
                 data.push(unwoundItem);
             }
         }
