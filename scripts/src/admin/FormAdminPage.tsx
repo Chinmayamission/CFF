@@ -7,7 +7,7 @@ import {pick, get, set} from "lodash-es";
 import FormPage from "../form/FormPage";
 import FormEmbed from "./FormEmbed";
 import FormList from "./FormList";
-import FormEdit from "./FormEdit";
+import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable";
 import Loading from "src/common/loading";
 import MockData from "src/common/util/MockData";
@@ -110,7 +110,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center}</h1>
             {this.state.status != STATUS_FORM_LIST && 
-                <a onClick={() => {window.location.hash=""; this.loadFormList(); } }>Back to form list</a>
+                <a href="#" onClick={() => {window.location.hash=""; this.loadFormList(); } }>Back to form list</a>
             }
             <FormList
                 apiEndpoint={this.props.apiEndpoint}
