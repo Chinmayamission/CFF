@@ -10,7 +10,9 @@ interface IFormEditProps {
 interface IFormEditState {
     schema: ISchemaDBEntry,
     schemaModifier: ISchemaModifierDBEntry,
-    loading: boolean
+    ajaxLoading: boolean,
+    dataLoaded: boolean,
+    formName: string
 }
 
 interface IResponseDBEntry extends IDBEntry {

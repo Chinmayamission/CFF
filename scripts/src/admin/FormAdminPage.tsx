@@ -63,7 +63,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let stateKeysToEncode = ["selectedForm", "status"];
+        let stateKeysToEncode = ["selectedForm.name", "selectedForm.center", "selectedForm.id", "status"];
         if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
             let encodedState = flatten(pick(this.state, stateKeysToEncode));
             let newQS = queryString.stringify(encodedState);

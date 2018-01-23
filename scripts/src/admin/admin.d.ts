@@ -11,7 +11,10 @@ interface IFormAdminPageState {
 }
 interface IFormListItem {
     name: string,
-    id: string
+    id: string,
+    version: Number,
+    schema: any,
+    schemaModifier: any
 }
 interface IFormListProps extends IFormAdminPageProps {
     loadResponses: (e) => void,
