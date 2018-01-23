@@ -69,7 +69,8 @@ interface IFormPageState {
     responseLoaded: IResponse,
     hasError: boolean,
     paymentInfo: IPaymentInfo,
-    paymentInfo_received: IPaymentInfo
+    paymentInfo_received: IPaymentInfo,
+    ajaxLoading: boolean
 }
 
 interface IFormPageProps {

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import FormLoader from "src/common/FormLoader";
-import Loading from "src/common/loading";
+import Loading from "src/common/Loading/Loading";
 import JSONEditor from "./JSONEditor"
 import VersionSelect from "./VersionSelect";
 import {get, set, assign, isObject} from "lodash-es";
@@ -39,6 +39,9 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             alert("Error: " + path + " not found or not an object in state.");
         }
     }
+    saveForm() {
+        // this.state
+    }
     onVersionSelect(path, version) {
 
     }
@@ -65,7 +68,8 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                     />
                 </div>
                 <div className="col-6 col-sm-3 p-4">
-                    <button className="btn btn-lg btn-primary">Save Form</button>
+                    <button className="btn btn-lg btn-primary"
+                        onClick={(e) => this.saveForm()} >Save Form</button>
                 </div>
             </div>
             <div className="row">

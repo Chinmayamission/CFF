@@ -12,7 +12,7 @@ import * as queryString from "query-string";
 import { pick } from "lodash-es";
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
-import Loading from "src/common/loading";
+import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
 
@@ -116,8 +116,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentInfo_received: null,
       data: null,
       responseId: null,
-      responseLoaded: null
+      responseLoaded: null,
+      ajaxLoading: false
     };
+    
   }
 
   componentDidCatch(error, info) {
@@ -194,10 +196,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         "Content-Type": "application/json"
       }
     });
+
+    this.setState({ajaxLoading: true});
     instance.post(this.getFormSubmitUrl(), formData).catch(e => {
       if ((window as any).CCMT_CFF_DEVMODE === true) {
         return MockData.newResponse();
       }
+      this.setState({ajaxLoading: false});
       alert("Error loading the form list. " + e);
     }).then((response) => {
       let res = response.data.res;
@@ -206,6 +211,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       }
       let newResponse = res.action == "insert";
       this.setState({
+        ajaxLoading: false,
         status: STATUS_FORM_CONFIRMATION,
         data: formData,
         responseId: res.id,
@@ -252,6 +258,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         >
           <button className="btn btn-primary btn-lg" type="submit">Submit</button>
         </Form>
+        {this.state.ajaxLoading && <Loading hasError={this.state.hasError} />}
       </div>
     );
     if (this.state.status == STATUS_FORM_CONFIRMATION) {

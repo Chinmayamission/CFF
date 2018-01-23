@@ -53,7 +53,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             if (typeof state[i] === 'string' && state[i][0] == "$") {
                 let key = state[i].substring(1);
                 state[i] = get(this.props.formData, key) || "";
-                console.log(this.props.formData, key, state[i]);
+                // console.log(this.props.formData, key, state[i]);
             }
         }
         this.state = state;

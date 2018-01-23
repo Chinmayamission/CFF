@@ -2,7 +2,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
-import Loading from "src/common/loading";
+import Loading from "src/common/Loading/Loading";
 
 /*
  * 

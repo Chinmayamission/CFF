@@ -6,7 +6,7 @@ import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
 import {assign, concat} from 'lodash-es';
 import {CSVLink} from 'react-csv';
-import Loading from "src/common/loading";
+import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
@@ -89,7 +89,6 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     possibleFieldsToUnwind.push(fieldName);
                 }
             }
-            console.log("possibleFieldsToUnwind", possibleFieldsToUnwind);
             
             this.setState({
                 tableHeaders: headerObjs, tableHeadersDisplayed: headerObjs,

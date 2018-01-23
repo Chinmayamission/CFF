@@ -1,0 +1,17 @@
+.ccmt-cff-error-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+.ccmt-cff-loading-container {
+    min-height: 400px;
+    .ccmt-cff-loading {
+        fill: rgb(0, 0, 221);
+        height: 100px;
+        width: 100px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+    }
+}

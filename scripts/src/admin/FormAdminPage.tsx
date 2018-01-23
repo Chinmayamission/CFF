@@ -9,7 +9,7 @@ import FormEmbed from "./FormEmbed";
 import FormList from "./FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable";
-import Loading from "src/common/loading";
+import Loading from "src/common/Loading/Loading";
 import MockData from "src/common/util/MockData";
 import "./admin.scss";
 

@@ -1,18 +1,19 @@
 import * as React from 'react';
+import "./loading.scss";
 // import ReactLoading from 'react-loading';
 
 function Loading(props) {
     if (props.hasError===true) {
         return (
-            <div style={{"position": "absolute", "top": "50%", "left": "40%"}}>
+            <div className="ccmt-cff-error-container">
             <h1 style={{"color":"red"}}>Error</h1>
             <br /><p>Sorry, there was an error loading the form. Please try again later.</p>
             </div>
         )
     }
     return (
-        <div style={{"minHeight": "400px"}}>
-            <div style={{"fill": "rgb(0, 0, 221)", "height": "100px", "width": "100px", "position": "absolute", "top": "0", "left": "40%"}}>
+        <div className="ccmt-cff-loading-container">
+            <div className="ccmt-cff-loading">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                     <path opacity=".25" d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"></path>
                     <path d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z" transform="rotate(152.678 16 16)">
