@@ -50,6 +50,11 @@ schema: allows classNames, ui:... props.
 
 ## New prop: `ui:defaultValue`
 ui:defaultValue -- default value when form first loads.
+
+ui:defaultValue --> ui:cff-defaultValue
+
+
+
 ui:emptyValue -- default value after form is submitted & this field is empty; included in rjf library.
 ui:copyValueOption -- gives "Same as X" which lets you 
   ui:copyValueOption : "$contact_name"

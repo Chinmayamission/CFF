@@ -112,11 +112,16 @@ let createSchemas = data => {
 }
 
 export module FormLoader {
-    export function getForm(apiEndpoint, formId, responseId=null) {
-        // todo: maybe allow different versions?
+    export function getForm(apiEndpoint, formId, opts) {
+        // todo: maybe allow to get different versions?
         let url = apiEndpoint + "?action=" + "formRender" + "&version=1&id=" + formId;
-        if (responseId) {
-            url += "&resid=" + responseId;
+        if (opts) {
+            if (opts.responseId) {
+                url += "&resid=" + opts.responseId;
+            }
+            if (opts.include_s_sm_versions) {
+                url += "&include_s_sm_versions=" + opts.include_s_sm_versions;
+            }
         }
         return  axios.get(url, { "responseType": "json" })
         .catch(e => {
@@ -132,7 +137,7 @@ export module FormLoader {
         return this.getForm(apiEndpoint, formId).then(createSchemas).catch(handleError);
     }
     export function loadResponseAndCreateSchemas(apiEndpoint, formId, responseId, handleError) {
-        return this.getForm(apiEndpoint, formId, responseId).then(createSchemas).catch(handleError);
+        return this.getForm(apiEndpoint, formId, {"responseId": responseId}).then(createSchemas).catch(handleError);
     }
 
 }

@@ -16,15 +16,20 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             schemaModifier: null,
             schema: null,
             dataLoaded: false,
-            formName: null
+            formName: null,
+            schema_versions: null,
+            schemaModifier_versions: null,
         }
     }
 
     componentDidMount() {
-        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id).then(({ name, center, schemaModifier, schema }) => {
+        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, {"include_s_sm_versions": true})
+        .then(({ name, center, schemaModifier, schema, schema_versions, schemaModifier_versions }) => {
             this.setState({
                 schemaModifier,
                 schema,
+                schema_versions: schema_versions,
+                schemaModifier_versions: schemaModifier_versions,
                 ajaxLoading: false,
                 dataLoaded: true,
                 formName: name
@@ -49,22 +54,21 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             "schema": this.state.schema,
             "name": this.state.formName
         };
-        var instance = axios.create({
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
 
         this.setState({ ajaxLoading: true });
-        instance.post(this.props.apiEndpoint + "?action=formEdit&id="+this.props.form.id+"&version=1&apiKey=" + this.props.apiKey, dataToSend).then((response) => {
+        axios.post(this.props.apiEndpoint + "?action=formEdit&id="+this.props.form.id+"&version=1&apiKey=" + this.props.apiKey, dataToSend).then((response) => {
             let res = response.data.res;
             if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
-            let newResponse = res.action == "insert";
-            console.log("res is ", res.updated_values);
-            this.setState({ ajaxLoading: false });
-            // this.setState(res.updatedValues);
+            this.setState({
+                ajaxLoading: false,
+                formName: res.updated_values.form.name || this.state.formName,
+                schema: res.updated_values.schema || this.state.schema,
+                schemaModifier: res.updated_values.schemaModifier || this.state.schemaModifier,
+                schema_versions: res.updated_values.schema_versions || this.state.schema_versions,
+                schemaModifier_versions: res.updated_values.schemaModifier_versions || this.state.schemaModifier_versions
+            });
         }).catch(e => {
             this.setState({ ajaxLoading: false });
             console.error(e);
@@ -72,8 +76,35 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         })
 
     }
-    onVersionSelect(path, version) {
-
+    onVersionSelect(path, version) { // path can be either "schema" or "schemaModifier"
+        if (version == "NEW") {
+            let updated = this.state[path];
+            updated.version = "NEW";
+            this.setState({
+                [path]: updated
+            });
+            return;
+        }
+        this.setState({ ajaxLoading: true });
+        let action = path + "Get"; // schemaGet or schemaModifierGet
+        axios.get(
+            this.props.apiEndpoint + "?action=" + action +
+            "&id=" + this.state[path].id + 
+            "&version=" + version
+            ).then((response) => {
+            let res = response.data.res;
+            if (!res) {
+                throw "Response not formatted correctly: " + JSON.stringify(res);
+            }
+            this.setState({
+                ajaxLoading: false,
+                [path]: res
+            });
+        }).catch(e => {
+            this.setState({ ajaxLoading: false });
+            console.error(e);
+            alert("Error, " + e);
+        });
     }
     render() {
         return (
@@ -91,11 +122,13 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             <VersionSelect
                                 title={"Schema Modifier"}
                                 value={this.state.schemaModifier.version}
+                                versions={this.state.schemaModifier_versions}
                                 onChange={(e) => this.onVersionSelect("schemaModifier", e.target.value)}
                             />
                             <VersionSelect
                                 title={"Schema"}
                                 value={this.state.schema.version}
+                                versions={this.state.schema_versions}
                                 onChange={(e) => this.onVersionSelect("schema", e.target.value)}
                             />
                         </div>

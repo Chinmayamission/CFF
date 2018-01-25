@@ -12,7 +12,14 @@ interface IFormEditState {
     schemaModifier: ISchemaModifierDBEntry,
     ajaxLoading: boolean,
     dataLoaded: boolean,
-    formName: string
+    formName: string,
+    schema_versions: [IVersion],
+    schemaModifier_versions: [IVersion]
+}
+interface IVersion {
+    version: number,
+    date_created: string,
+    date_last_modified: string
 }
 
 interface IResponseDBEntry extends IDBEntry {
@@ -41,7 +48,8 @@ interface IDBEntry {
 
 interface ISchemaDBEntry extends IDBEntry {
     value: Schema,
-    version: Number
+    version: Number,
+    id: string
 }
 interface ISchemaModifierDBEntry extends IDBEntry {
     value: SchemaModifier,
@@ -49,5 +57,6 @@ interface ISchemaModifierDBEntry extends IDBEntry {
     confirmationEmailInfo: ConfirmationEmailInfo,
     extraOptions: any,
     paymentInfo: IPaymentInfo,
-    version: Number
+    version: Number,
+    id: string
 }
