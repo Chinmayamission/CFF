@@ -1,5 +1,9 @@
 # Changelog
 ## 1.0.15
+1/26/2018
+Show numeric id for each respondent.
+Allow for editing.
+Better loading animations, etc.
 
 ## 1.0.14
 1/19/2018

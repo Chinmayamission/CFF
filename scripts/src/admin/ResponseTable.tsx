@@ -54,7 +54,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         .then(response => response.data.res)
         .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
-            data = data.sort((a,b) => a.value.date_created - b.value.date_created);
+            data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
+            console.log("SORTED", data.map(e => e.date_created));
             data = data.map((e, index) => {
                 assign(e.value, {
                     "ID": e.responseId,
