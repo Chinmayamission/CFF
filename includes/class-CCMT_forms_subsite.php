@@ -159,7 +159,6 @@ class CCMT_Forms_Subsite {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ccmt_cff_add_form_management_page');
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ccmt_cff_add_form_options_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'ccmt_cff_init_form_settings' );
-
 	}
 
 	/**

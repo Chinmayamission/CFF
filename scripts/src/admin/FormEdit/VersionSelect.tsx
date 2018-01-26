@@ -3,11 +3,11 @@ function VersionSelect(props) {
     return (
         <div className="col-12">
             {props.title} - Version:
-            <select className="form-control" value={props.value} onChange={props.onChange}>
+            <select className="form-control form-control-sm" value={props.value} onChange={props.onChange}>
                 <option value="NEW">Create new version</option>
                 {props.versions.map(item => 
                     <option key={item.version} value={item.version}>
-                        {item.version} {formatDate(item.date_last_modified, "M: ")} {formatDate(item.date_created, "C: ")}
+                        Version {item.version} ({formatDate(item.date_last_modified, "M: ")} {formatDate(item.date_created, "C: ")})
                     </option>    
                 )}
                 // todo: date modified, etc.
