@@ -54,20 +54,20 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         .then(response => response.data.res)
         .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
-
-            data = data.map((e) => {
+            data = data.sort((a,b) => a.value.date_created - b.value.date_created);
+            data = data.map((e, index) => {
                 assign(e.value, {
                     "ID": e.responseId,
                     "PAID": e.PAID ? "YES": "NO",
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "IPN_HISTORY": e.IPN_HISTORY,
                     "DATE_CREATED": e.date_created,
+                    "NUMERIC_ID": index + 1,
                     "DATE_LAST_MODIFIED": e.date_last_modified,
                     "PAYMENT_INFO": e.paymentInfo,
                     "CONFIRMATION_EMAIL_INFO": e.confirmationEmailInfo
                 });
                 this.setState({tableDataOrigObject: data});
-                if (e.paid) {console.log("PAID!", e.paid)}
                 return e.value;
                 //return flatten(e.value);
             });
@@ -111,14 +111,17 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         let data = [];
         for (let item of origData) {
             if (!item[rowToUnwind]) continue;
-            for (let unwoundItem of item[rowToUnwind]) {
+            for (let i in item[rowToUnwind]) {
                 // Gives all data of original rows to the unwound item.
+                let unwoundItem = item[rowToUnwind][i];
                 unwoundItem = assign({}, item, unwoundItem);
+                unwoundItem["NUMERIC_ID"] = unwoundItem["NUMERIC_ID"] + "." + (parseInt(i) + 1);
                 data.push(unwoundItem);
             }
         }
         let headerObjs = concat(
             // Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
+            Headers.makeHeaderObjsFromKeys(["NUMERIC_ID"]),
             Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties),
             this.state.tableHeaders // concat original table headers with this.
         );
