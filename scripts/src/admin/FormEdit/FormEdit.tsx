@@ -160,12 +160,14 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             title={"Schema Modifier Value"}
                             data={this.state.schemaModifier.value}
                             disabled={false}
+                            large={true}
                             onChange={(e) => this.onChange("schemaModifier.value", e)}
                         />
                         <JSONEditor
                             title={"Schema Value"}
                             data={this.state.schema.value}
-                            disabled={true}
+                            disabled={false}
+                            large={true}
                             onChange={(e) => this.onChange("schema.value", e)}
                         />
                     </div>
