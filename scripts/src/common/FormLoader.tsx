@@ -11,6 +11,7 @@ function removeUiOrder (schemaModifierFieldPath, uiSchema, propertyName) {
     paths.pop();
     paths.push("ui:order");
     let uiOrder = get(uiSchema, paths.join("."));
+    // console.log("uiorder", uiOrder, propertyName, paths.join("."));
     if (uiOrder && uiOrder.length) {
         let index = uiOrder.indexOf(propertyName);
         if (index > -1) {
@@ -78,6 +79,7 @@ let createSchemas = data => {
         let paths = schemaFieldSubPath.split(".");
         let propertyName = paths.pop();
         if (propertyName != "type") continue;
+        let fieldName = paths[paths.length - 1];
         let schemaFieldPath = paths.join(".");
         let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(schemaFieldPath);
         // Don't include field in schema (and uiSchema) if it's not in the schemaModifier.
@@ -85,7 +87,7 @@ let createSchemas = data => {
             console.warn("Removing schema property for", schemaFieldPath, schemaModifierFieldPath);
             unset(schema, schemaFieldPath);
             unset(uiSchema, schemaModifierFieldPath);
-            removeUiOrder(schemaModifierFieldPath, uiSchema, propertyName);
+            removeUiOrder(schemaModifierFieldPath, uiSchema, fieldName);
         }
         // Remove from ui-order if exists.
           
