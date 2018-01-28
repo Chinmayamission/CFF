@@ -6,6 +6,21 @@ import SchemaUtil from "src/common/util/SchemaUtil";
 import MockData from "src/common/util/MockData";
 import {set, unset, pick, filter, get} from 'lodash-es';
 
+function removeUiOrder (schemaModifierFieldPath, uiSchema, propertyName) {
+    let paths = schemaModifierFieldPath.split(".");
+    paths.pop();
+    paths.push("ui:order");
+    let uiOrder = get(uiSchema, paths.join("."));
+    if (uiOrder && uiOrder.length) {
+        let index = uiOrder.indexOf(propertyName);
+        if (index > -1) {
+            console.warn("Removing ui:order property for", propertyName);
+            uiOrder.splice(index, 1);
+        }
+        //
+    }
+}
+
 function unescapeJSON(json: {}) {
     /* Un-escapes dollar signs in the json.
      */
@@ -42,21 +57,38 @@ let createSchemas = data => {
             schemaMetadata[key] = data.schemaModifier[key];
     }
 
-    console.log('orig schema', schema);
+    console.log('orig schema', schema, 'orig schemamodifier', schemaModifier);
     let uiSchema = {};
     
     // Populate uiSchema with uiSchema options specified in the schema,
-    // and remove uiSchema.
-    let flattenedSchema = flatten(schema);
-    let flattenedSchemaModifier = flatten(schemaModifier);
+    // and remove uiSchema attributes in the schema.
+    let flattenedSchema = flatten(schema, {safe: true}); // safe: true preserves arrays.
+    let flattenedSchemaModifier = flatten(schemaModifier, {safe: true});
     for (let fieldPath in flattenedSchema) {
         let fieldValue = flattenedSchema[fieldPath];
         let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(fieldPath);
         if (isUiSchemaPath(fieldPath)) {
-            // console.log(fieldPath, schemaModifierFieldPath, " is a uischema path");
+            // Set the appropriate ui schema paths specified in the original schema.
             unset(schema, fieldPath);
             set(uiSchema, schemaModifierFieldPath, fieldValue);
         }
+    }
+    // Don't include field in schema (and uiSchema) if it's not in the schemaModifier.
+    for (let schemaFieldSubPath in flattenedSchema) {
+        let paths = schemaFieldSubPath.split(".");
+        let propertyName = paths.pop();
+        if (propertyName != "type") continue;
+        let schemaFieldPath = paths.join(".");
+        let schemaModifierFieldPath = SchemaUtil.objToSchemaModifierPath(schemaFieldPath);
+        // Don't include field in schema (and uiSchema) if it's not in the schemaModifier.
+        if (!get(schemaModifier, schemaModifierFieldPath)) {
+            console.warn("Removing schema property for", schemaFieldPath, schemaModifierFieldPath);
+            unset(schema, schemaFieldPath);
+            unset(uiSchema, schemaModifierFieldPath);
+            removeUiOrder(schemaModifierFieldPath, uiSchema, propertyName);
+        }
+        // Remove from ui-order if exists.
+          
     }
     
     let defaultFormData = {};
@@ -85,22 +117,11 @@ let createSchemas = data => {
             }
         }
         else if (!fieldValue) {
-            // Don't include field in schema since it's not in the schemaModifier.
-            console.warn("Removing schema property for", schemaFieldPath);
-            unset(schema.properties, schemaFieldPath);
-            // Remove from ui-order if exists.
-            let paths = fieldPath.split(".");
-            let propertyName = paths.pop();
-            paths.push("ui:order");
-            let uiOrder = get(uiSchema, paths.join("."));
-            if (uiOrder && uiOrder.length) {
-                let index = uiOrder.indexOf(propertyName);
-                if (index > -1) {
-                    console.warn("Removing ui:order property for", propertyName);
-                    uiOrder.splice(index, 1);
-                }
-                //
-            }
+            // Should not be called.
+            // Removes any config that might have been copied over to uiSchema.
+            // unset(uiSchema, fieldPath);
+            console.error("Schema property for this is undefined: ", schemaFieldPath, fieldValue);
+            // unset(schema.properties, schemaFieldPath);
             //set(uiSchema, fieldPath, ui-order)
         }
         else if (typeof fieldValue == "boolean") {
