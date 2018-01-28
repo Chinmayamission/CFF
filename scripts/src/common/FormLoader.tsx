@@ -113,7 +113,7 @@ let createSchemas = data => {
             else {
                 set(uiSchema, fieldPath, fieldValue);
             }
-            if (~fieldPath.indexOf(".ui:defaultValue")) {
+            if (~fieldPath.indexOf(".ui:cff:defaultValue")) {
                 // lets defaultFormData be filled out by the "ui:defaultValue" attribute
                 set(defaultFormData, fieldPath.substring(0, fieldPath.indexOf(".ui:cff:defaultValue")), fieldValue);
             }
