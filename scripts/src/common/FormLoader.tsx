@@ -4,7 +4,7 @@ import * as deref from "json-schema-deref-sync";
 import {flatten} from 'flat';
 import SchemaUtil from "src/common/util/SchemaUtil";
 import MockData from "src/common/util/MockData";
-import {set, unset, pick, filter} from 'lodash-es';
+import {set, unset, pick, filter, get} from 'lodash-es';
 
 function unescapeJSON(json: {}) {
     /* Un-escapes dollar signs in the json.
@@ -64,6 +64,7 @@ let createSchemas = data => {
     // Applies schema modifier attributes to uiSchema and schema.
     for (let fieldPath in flattenedSchemaModifier) {
         let fieldValue = flattenedSchemaModifier[fieldPath];
+        // console.log("fp", fieldPath, fieldValue);
         let schemaFieldPath = SchemaUtil.objToSchemaPath(fieldPath);
         if (~["title", "description"].indexOf(fieldPath)) {
             // Top-level modifications.
@@ -71,8 +72,8 @@ let createSchemas = data => {
         }
         else if (isUiSchemaPath(fieldPath)) {
             if (isEditingResponse && ~fieldPath.indexOf(".ui:nonModifiable")) {
-                // Set nonModifiable fields to readonly when editing an existing response.
-                console.log("Yes");
+                // todo - not working? test. - Set nonModifiable fields to readonly when editing an existing response.
+                // console.log("Yes");
                 set(uiSchema, fieldPath.replace(".ui:nonModifiable", ".ui:readonly"), fieldValue);
             }
             else {
@@ -84,7 +85,23 @@ let createSchemas = data => {
             }
         }
         else if (!fieldValue) {
+            // Don't include field in schema since it's not in the schemaModifier.
+            console.warn("Removing schema property for", schemaFieldPath);
             unset(schema.properties, schemaFieldPath);
+            // Remove from ui-order if exists.
+            let paths = fieldPath.split(".");
+            let propertyName = paths.pop();
+            paths.push("ui:order");
+            let uiOrder = get(uiSchema, paths.join("."));
+            if (uiOrder && uiOrder.length) {
+                let index = uiOrder.indexOf(propertyName);
+                if (index > -1) {
+                    console.warn("Removing ui:order property for", propertyName);
+                    uiOrder.splice(index, 1);
+                }
+                //
+            }
+            //set(uiSchema, fieldPath, ui-order)
         }
         else if (typeof fieldValue == "boolean") {
         }

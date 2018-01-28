@@ -1,4 +1,8 @@
 # Changelog
+## 1.0.16
+1/26/2018
+fix date created unique id assignment
+
 ## 1.0.15
 1/26/2018
 Show numeric id for each respondent.
