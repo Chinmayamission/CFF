@@ -1,4 +1,8 @@
 # Changelog
+
+better schema / schema modifier generation by allowing fields to be EXCLUDED by default.
+use cff prefixes for custom ui schema attributes
+
 ## 1.0.16
 1/26/2018
 fix date created unique id assignment

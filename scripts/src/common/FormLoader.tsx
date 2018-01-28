@@ -103,17 +103,17 @@ let createSchemas = data => {
             schema[fieldPath] = fieldValue;
         }
         else if (isUiSchemaPath(fieldPath)) {
-            if (isEditingResponse && ~fieldPath.indexOf(".ui:nonModifiable")) {
+            if (isEditingResponse && ~fieldPath.indexOf(".ui:cff:nonModifiable")) {
                 // todo - not working? test. - Set nonModifiable fields to readonly when editing an existing response.
                 // console.log("Yes");
-                set(uiSchema, fieldPath.replace(".ui:nonModifiable", ".ui:readonly"), fieldValue);
+                set(uiSchema, fieldPath.replace(".ui:cff:nonModifiable", ".ui:cff:readonly"), fieldValue);
             }
             else {
                 set(uiSchema, fieldPath, fieldValue);
             }
             if (~fieldPath.indexOf(".ui:defaultValue")) {
                 // lets defaultFormData be filled out by the "ui:defaultValue" attribute
-                set(defaultFormData, fieldPath.substring(0, fieldPath.indexOf(".ui:defaultValue")), fieldValue);
+                set(defaultFormData, fieldPath.substring(0, fieldPath.indexOf(".ui:cff:defaultValue")), fieldValue);
             }
         }
         else if (!fieldValue) {
