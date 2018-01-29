@@ -23,18 +23,18 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
 
     componentDidMount() {
-        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, {"include_s_sm_versions": true})
-        .then(({ name, center, schemaModifier, schema, schema_versions, schemaModifier_versions }) => {
-            this.setState({
-                schemaModifier,
-                schema,
-                schema_versions: schema_versions,
-                schemaModifier_versions: schemaModifier_versions,
-                ajaxLoading: false,
-                dataLoaded: true,
-                formName: name
+        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, { "include_s_sm_versions": true })
+            .then(({ name, center, schemaModifier, schema, schema_versions, schemaModifier_versions }) => {
+                this.setState({
+                    schemaModifier,
+                    schema,
+                    schema_versions: schema_versions,
+                    schemaModifier_versions: schemaModifier_versions,
+                    ajaxLoading: false,
+                    dataLoaded: true,
+                    formName: name
+                });
             });
-        });
 
     }
     getPath(params) {
@@ -56,7 +56,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         };
 
         this.setState({ ajaxLoading: true });
-        axios.post(this.props.apiEndpoint + "?action=formEdit&id="+this.props.form.id+"&version=1&apiKey=" + this.props.apiKey, dataToSend).then((response) => {
+        axios.post(this.props.apiEndpoint + "?action=formEdit&id=" + this.props.form.id + "&version=1&apiKey=" + this.props.apiKey, dataToSend).then((response) => {
             let res = response.data.res;
             if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
@@ -89,9 +89,9 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         let action = path + "Get"; // schemaGet or schemaModifierGet
         axios.get(
             this.props.apiEndpoint + "?action=" + action +
-            "&id=" + this.state[path].id + 
+            "&id=" + this.state[path].id +
             "&version=" + version
-            ).then((response) => {
+        ).then((response) => {
             let res = response.data.res;
             if (!res) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
@@ -106,37 +106,45 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             alert("Error, " + e);
         });
     }
+    changeFormName(newName) {
+        this.setState({ formName: newName });
+    }
+    renderTopPane() {
+        return (
+            <div className="row">
+                <div className="col-12 col-sm-6">
+                    <label>Form Name</label>
+                    <input className="form-control" value={this.state.formName}
+                        onChange={(e) => this.changeFormName(e.target.value)} />
+                    <label>Form Id</label><input className="form-control" disabled value={this.props.form.id} />
+                </div>
+                <div className="col-6 col-sm-3">
+                    <VersionSelect
+                        title={"Schema Modifier"}
+                        value={this.state.schemaModifier.version}
+                        versions={this.state.schemaModifier_versions}
+                        onChange={(e) => this.onVersionSelect("schemaModifier", e.target.value)}
+                    />
+                    <VersionSelect
+                        title={"Schema"}
+                        value={this.state.schema.version}
+                        versions={this.state.schema_versions}
+                        onChange={(e) => this.onVersionSelect("schema", e.target.value)}
+                    />
+                </div>
+                <div className="col-6 col-sm-3 p-4">
+                    <button className="btn btn-lg btn-primary"
+                        onClick={(e) => this.saveForm()} >Save Form</button>
+                </div>
+            </div>
+        );
+    }
     render() {
         return (
             <div className="ccmt-cff-page-FormEdit">
                 {this.state.ajaxLoading && <Loading />}
                 {this.state.dataLoaded && <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-12 col-sm-6">
-                            <label>Form Name</label>
-                            <input className="form-control" value={this.state.formName}
-                                onChange={(e) => this.setState({formName: e.target.value})} />
-                            <label>Form Id</label><input className="form-control" disabled value={this.props.form.id} />
-                        </div>
-                        <div className="col-6 col-sm-3">
-                            <VersionSelect
-                                title={"Schema Modifier"}
-                                value={this.state.schemaModifier.version}
-                                versions={this.state.schemaModifier_versions}
-                                onChange={(e) => this.onVersionSelect("schemaModifier", e.target.value)}
-                            />
-                            <VersionSelect
-                                title={"Schema"}
-                                value={this.state.schema.version}
-                                versions={this.state.schema_versions}
-                                onChange={(e) => this.onVersionSelect("schema", e.target.value)}
-                            />
-                        </div>
-                        <div className="col-6 col-sm-3 p-4">
-                            <button className="btn btn-lg btn-primary"
-                                onClick={(e) => this.saveForm()} >Save Form</button>
-                        </div>
-                    </div>
+                    {this.renderTopPane()}
                     <div className="row">
                         <JSONEditor
                             title={"Payment Info"}
@@ -171,8 +179,9 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             onChange={(e) => this.onChange("schema.value", e)}
                         />
                     </div>
+                    {this.renderTopPane()}
                 </div>}
-        </div>);
+            </div>);
     }
 }
 
