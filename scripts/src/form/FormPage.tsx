@@ -7,6 +7,7 @@ import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
 import CustomFieldTemplate from "./form_templates/CustomFieldTemplate.tsx";
 import CheckboxWidget from "./form_widgets/CheckboxWidget.tsx";
+import PhoneWidget from "./form_widgets/PhoneWidget.tsx";
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
 import { pick } from "lodash-es";
@@ -32,19 +33,6 @@ function transformErrors(errors) {
     return error;
   });
 }
-
-
-const PhoneWidget = (props: any) => {
-  return (
-    <input
-      type="tel"
-      className="inputPhone"
-      value={props.value}
-      required={props.required}
-      onChange={(event) => props.onChange(event.target.value)}
-    />
-  );
-};
 
 
 const FormattedDescriptionField = ({ id, description }) => {
