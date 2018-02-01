@@ -1,4 +1,14 @@
-interface IFormAdminPageProps {
+interface IWithAuthenticatorProps {
+    authState: string,
+    authData: {
+        id: string,
+        name: string
+    }
+}
+interface IFormAdminPageProps extends IWithAuthenticatorProps {
+    apiEndpoint: string
+}
+interface ISharedAdminProps {
     apiEndpoint: string,
     apiKey: string
 }
@@ -7,7 +17,8 @@ interface IFormAdminPageState {
     center: string,
     selectedForm: IFormListItem,
     status: Number,
-    hasError: boolean
+    hasError: boolean,
+    apiKey: string
 }
 interface IFormListItem {
     name: string,
@@ -16,7 +27,7 @@ interface IFormListItem {
     schema: any,
     schemaModifier: any
 }
-interface IFormListProps extends IFormAdminPageProps {
+interface IFormListProps extends ISharedAdminProps {
     loadResponses: (e) => void,
     embedForm: (e) => void,
     editForm: (e) => void,

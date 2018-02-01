@@ -50,6 +50,8 @@
     "webpack-bundle-tracker": "^0.2.0"
   },
   "dependencies": {
+    "aws-amplify": "^0.2.2",
+    "aws-amplify-react": "^0.1.32",
     "bluebird": "^3.5.1",
     "css-loader": "^0.28.7",
     "diff": "^3.4.0",

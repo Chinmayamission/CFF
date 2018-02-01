@@ -12,6 +12,8 @@ import ResponseTable from "./ResponseTable";
 import Loading from "src/common/Loading/Loading";
 import MockData from "src/common/util/MockData";
 import "./admin.scss";
+import { withAuthenticator } from 'aws-amplify-react';
+import { Auth } from 'aws-amplify';
 
 const STATUS_LOADING = 0;
 const STATUS_FORM_LIST = 1;
@@ -29,7 +31,8 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             center: "CMSJ",
             selectedForm: null,
             status: STATUS_LOADING,
-            hasError: false
+            hasError: false,
+            apiKey: this.props.authData.id
         }
     }
 
@@ -80,10 +83,11 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
     componentDidMount() {
         this.loadFormList();
+        console.log(this.props.authState, this.props.authData);
     }
     loadFormList() {
         let queryObjFlat = queryString.parse(window.location.hash);
-        let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.props.apiKey;
+        let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.state.apiKey;
         //this.getFormList(formListUrl).then((e) =>{
         let queryObjNested : any = {};
         for (let path in queryObjFlat) {
@@ -114,7 +118,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             }
             <FormList
                 apiEndpoint={this.props.apiEndpoint}
-                apiKey={this.props.apiKey}
+                apiKey={this.state.apiKey}
                 editForm = {(e) => this.editForm(e)}
                 embedForm = {(e) => this.embedForm(e)}
                 loadResponses= {(e) => this.loadResponses(e)} 
@@ -123,10 +127,10 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 <FormEmbed form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} />
             }
             {this.state.status == STATUS_FORM_EDIT && 
-                <FormEdit form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey} />
+                <FormEdit form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.state.apiKey} />
             }
             {this.state.status == STATUS_FORM_RESPONSES &&
-                <ResponseTable form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.props.apiKey}
+                <ResponseTable form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.state.apiKey}
                     handleError={(e) => this.handleError(e)} />
             }
         </div>
@@ -134,4 +138,4 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
 }
 
-export default FormAdminPage;
+export default withAuthenticator(FormAdminPage, { includeGreetings: true });

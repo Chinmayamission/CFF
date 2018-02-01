@@ -5,10 +5,15 @@ Todo:
 
 Done:
 
+- Authentication with cognito
 - Better schema / schema modifier generation by allowing fields to be EXCLUDED by default.
 - Use cff prefixes for custom ui schema attributes
 - Render form top pane twice in editing view
 - Add phone number widget.
+
+Lambda functions:
+- Show only items with a net cost in confirmation page.
+- Authentication with cognito
 
 ## 1.0.16
 1/26/2018

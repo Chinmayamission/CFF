@@ -17,7 +17,6 @@ find . -type f -exec rename 's/gcmw/CCMT/' '{}' \;
 ```
 function setVal(input, theValue, elemType=window.HTMLInputElement) { var nativeInputValueSetter = Object.getOwnPropertyDescriptor(elemType.prototype, "value").set;
 nativeInputValueSetter.call(input, theValue);
-
 var ev2 = new Event('input', { bubbles: true});
 input.dispatchEvent(ev2);
 }
