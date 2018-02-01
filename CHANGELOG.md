@@ -1,5 +1,10 @@
 # Changelog
 
+Todo:
+"An attribute value cannot contain an empty string."
+
+Done:
+
 - Better schema / schema modifier generation by allowing fields to be EXCLUDED by default.
 - Use cff prefixes for custom ui schema attributes
 - Render form top pane twice in editing view

@@ -52,6 +52,8 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "css-loader": "^0.28.7",
+    "diff": "^3.4.0",
+    "difflet": "^1.0.1",
     "dompurify": "^1.0.3",
     "expr-eval": "^1.2.1",
     "flat": "^4.0.0",

@@ -10,11 +10,15 @@ interface IFormEditProps {
 interface IFormEditState {
     schema: ISchemaDBEntry,
     schemaModifier: ISchemaModifierDBEntry,
+    schema_orig: ISchemaDBEntry,
+    schemaModifier_orig: ISchemaModifierDBEntry,
     ajaxLoading: boolean,
     dataLoaded: boolean,
     formName: string,
     schema_versions: [IVersion],
-    schemaModifier_versions: [IVersion]
+    schemaModifier_versions: [IVersion],
+    openModal: boolean,
+    [x: string]: any
 }
 interface IVersion {
     version: number,

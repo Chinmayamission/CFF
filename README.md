@@ -13,6 +13,18 @@ gulp
 find . -type f -exec rename 's/gcmw/CCMT/' '{}' \;
 ```
 
+# quick form test code
+```
+function setVal(input, theValue, elemType=window.HTMLInputElement) { var nativeInputValueSetter = Object.getOwnPropertyDescriptor(elemType.prototype, "value").set;
+nativeInputValueSetter.call(input, theValue);
+
+var ev2 = new Event('input', { bubbles: true});
+input.dispatchEvent(ev2);
+}
+for (let i of document.getElementsByTagName("input")) { if (i.type == "email") setVal(i, "aramaswamis+12@gmail.com"); else if (i.type=="tel") setVal(i, "7708182022"); else if (i.type == "checkbox") setVal(i, true); else if (i.label=="age") setVal(i, 15); else setVal(i, "test"); }
+for (let i of document.getElementsByTagName("select")) {setVal(i, i.children[1].value, window.HTMLSelectElement);}
+```
+
 Todo for Training:
 - allow admins to view unsuccessful/incomplete IPN responses.
 

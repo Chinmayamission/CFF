@@ -2,10 +2,13 @@
 import * as React from 'react';
 import axios from 'axios';
 import FormLoader from "src/common/FormLoader";
+// import FormPage from "src/form/FormPage";
 import Loading from "src/common/Loading/Loading";
+// import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor"
 import VersionSelect from "./VersionSelect";
-import { get, set, assign, isObject } from "lodash-es";
+import { cloneDeep, get, set, assign, isObject } from "lodash-es";
+import Modal from 'react-responsive-modal';
 
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
@@ -13,12 +16,15 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         this.render = this.render.bind(this);
         this.state = {
             ajaxLoading: true,
+            schema_orig: null,
+            schemaModifier_orig: null,
             schemaModifier: null,
             schema: null,
             dataLoaded: false,
             formName: null,
             schema_versions: null,
             schemaModifier_versions: null,
+            openModal: false
         }
     }
 
@@ -28,6 +34,8 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 this.setState({
                     schemaModifier,
                     schema,
+                    schema_orig: cloneDeep(schema),
+                    schemaModifier_orig: cloneDeep(schemaModifier),
                     schema_versions: schema_versions,
                     schemaModifier_versions: schemaModifier_versions,
                     ajaxLoading: false,
@@ -61,11 +69,15 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
+            let schemaModifier = res.updated_values.schemaModifier || this.state.schemaModifier;
+            let schema = res.updated_values.schema || this.state.schema;
             this.setState({
                 ajaxLoading: false,
                 formName: res.updated_values.form.name || this.state.formName,
-                schema: res.updated_values.schema || this.state.schema,
-                schemaModifier: res.updated_values.schemaModifier || this.state.schemaModifier,
+                schema: schema,
+                schemaModifier: schemaModifier,
+                schema_orig: cloneDeep(schema),
+                schemaModifier_orig: cloneDeep(schemaModifier),
                 schema_versions: res.updated_values.schema_versions || this.state.schema_versions,
                 schemaModifier_versions: res.updated_values.schemaModifier_versions || this.state.schemaModifier_versions
             });
@@ -96,9 +108,11 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             if (!res) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
+            let path_orig = path + "_orig";
             this.setState({
                 ajaxLoading: false,
-                [path]: res
+                [path]: res,
+                [path_orig]: res
             });
         }).catch(e => {
             this.setState({ ajaxLoading: false });
@@ -139,9 +153,24 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             </div>
         );
     }
+    openModal() {
+        /*this.setState({
+            "openModal": true
+        });*/
+    }
+    closeModal() {
+        this.setState({
+            "openModal": false
+        });
+    }
     render() {
         return (
             <div className="ccmt-cff-page-FormEdit">
+                <Modal className="ccmt-cff-page-FormEdit" open={this.state.openModal} onClose={() => this.closeModal()}>
+                    Are you sure you want to save?<br />
+                    <button className="btn btn-lg btn-primary"
+                        onClick={this.saveForm} >Submit</button>
+                </Modal>
                 {this.state.ajaxLoading && <Loading />}
                 {this.state.dataLoaded && <div className="container-fluid">
                     {this.renderTopPane()}
@@ -180,6 +209,9 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                         />
                     </div>
                     {this.renderTopPane()}
+                    {/*<div className="row">
+                        <FormPage apiEndpoint={this.props.apiEndpoint} formId={this.props.form.id} />
+        </div>*/}
                 </div>}
             </div>);
     }
