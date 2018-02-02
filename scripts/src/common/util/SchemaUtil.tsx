@@ -8,7 +8,7 @@ export module SchemaUtil {
         return fieldPath
             .replace(/\.([^\d])/g,".properties.$1")
             .replace(/\.\d*\./g, ".items.")
-            .replace(/\.properties\.(enum|enumValues|title|description|items)/g, ".$1") // don't add "properties" before certain predefined keys of schema, as they aren't custom object properties.
+            .replace(/\.properties\.(enum|enumValues|title|description|items|dependencies)/g, ".$1") // don't add "properties" before certain predefined keys of schema, as they aren't custom object properties.
     }
     export function objToSchemaModifierPath(fieldPath) {
         /* Converts a schema path to a schemaModifier / uiSchema path by removing ".properties." from it,
