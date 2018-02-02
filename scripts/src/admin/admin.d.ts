@@ -6,7 +6,9 @@ interface IWithAuthenticatorProps {
     }
 }
 interface IFormAdminPageProps extends IWithAuthenticatorProps {
-    apiEndpoint: string
+    apiEndpoint: string,
+    apiKey: string,
+    federated: any
 }
 interface ISharedAdminProps {
     apiEndpoint: string,

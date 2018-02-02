@@ -138,4 +138,4 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
 }
 
-export default withAuthenticator(FormAdminPage, { includeGreetings: true });
+export default FormAdminPage; //withAuthenticator(FormAdminPage, { includeGreetings: true });

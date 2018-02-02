@@ -57,6 +57,8 @@ if (formAdminElement) {
       <FormAdminPage
         apiEndpoint={formAdminElement.getAttribute('data-ccmt-cff-api-endpoint')}
         apiKey={formAdminElement.getAttribute('data-ccmt-cff-api-key')}
+        authState={"auth"}
+        authData={{"id": formAdminElement.getAttribute('data-ccmt-cff-api-key'), "name": "Ashwin"}}
         federated={federated}
         />
     </div>,

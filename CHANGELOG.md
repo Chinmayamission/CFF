@@ -3,17 +3,23 @@
 Todo:
 "An attribute value cannot contain an empty string."
 
-Done:
+Roadmap
+# 2.x
+- Authentication with facebook and cognito.
 
-- Authentication with cognito
+# 1.1.0
+
+
+## 1.0.17
+
+- Began authentication integration with cognito (not enabled yet).
 - Better schema / schema modifier generation by allowing fields to be EXCLUDED by default.
 - Use cff prefixes for custom ui schema attributes
-- Render form top pane twice in editing view
+- Render form info pane twice in editing view
 - Add phone number widget.
 
 Lambda functions:
 - Show only items with a net cost in confirmation page.
-- Authentication with cognito
 
 ## 1.0.16
 1/26/2018
