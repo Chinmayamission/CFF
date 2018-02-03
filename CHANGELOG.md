@@ -7,11 +7,9 @@ Roadmap
 # 2.x
 - Authentication with facebook and cognito.
 
-# 1.1.0
 
-
-## 1.0.17
-
+## 1.1.0
+- (Lambda) no longer store confirmationEmailInfo in response; several checks for ipns (wrong emails, duplicate txn ids); payment_history array now stores all payments
 - Began authentication integration with cognito (not enabled yet).
 - Better schema / schema modifier generation by allowing fields to be EXCLUDED by default.
 - Use cff prefixes for custom ui schema attributes

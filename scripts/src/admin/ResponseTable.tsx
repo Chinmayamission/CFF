@@ -61,6 +61,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     "ID": e.responseId,
                     "PAID": e.PAID ? "YES": "NO",
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
+                    "PAYMENT_HISTORY": e.PAYMENT_HISTORY,
                     "IPN_HISTORY": e.IPN_HISTORY,
                     "DATE_CREATED": e.date_created,
                     "NUMERIC_ID": index + 1,
