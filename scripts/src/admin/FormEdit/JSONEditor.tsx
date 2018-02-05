@@ -25,7 +25,12 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
            alert("This editor is disabled; its contents are read-only.");
            return;
        }
-       this.props.onChange(this.editor.get());
+       try {
+        this.props.onChange(this.editor.get());
+       }
+       catch (e) {
+           console.error(e);
+       }
     }
 
     componentDidMount() {

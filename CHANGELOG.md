@@ -6,9 +6,30 @@ Todo:
 Roadmap
 # 2.x
 - Authentication with facebook and cognito.
+- Show total amount in javascript front end ui as well.
+- On updates, allow for donation.
 
+## 1.1.1
+Feb 4 2018
+- Add round off widget.
+- Allow for use of $total in payment formulas.
+```
+    "roundOff": {
+      "title": "Round off",
+      "type": "number",
+      "ui:widget": "cff:roundOff",
+      "required": false
+    },
+    "additionalDonation": {
+      "type": "number",
+      "required": false,
+      "title": "Or enter amount for additional donation.",
+      "description": "All Donations are Tax-Deductible."
+    }
+```
 
 ## 1.1.0
+Feb 2 2018
 - (Lambda) no longer store confirmationEmailInfo in response; several checks for ipns (wrong emails, duplicate txn ids); payment_history array now stores all payments
 - Began authentication integration with cognito (not enabled yet).
 - Better schema / schema modifier generation by allowing fields to be EXCLUDED by default.

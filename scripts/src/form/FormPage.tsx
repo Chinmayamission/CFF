@@ -8,6 +8,7 @@ import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
 import CustomFieldTemplate from "./form_templates/CustomFieldTemplate.tsx";
 import CheckboxWidget from "./form_widgets/CheckboxWidget.tsx";
 import PhoneWidget from "./form_widgets/PhoneWidget.tsx";
+import RoundOffWidget from "./form_widgets/RoundOffWidget.tsx";
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
 import { pick } from "lodash-es";
@@ -72,7 +73,8 @@ function ErrorListTemplate(props) {
 
 const widgets = {
   phone: PhoneWidget,
-  CheckboxWidget: CheckboxWidget
+  CheckboxWidget: CheckboxWidget,
+  "cff:roundOff": RoundOffWidget
 };
 
 const fields = {
