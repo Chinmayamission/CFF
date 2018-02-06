@@ -3,17 +3,20 @@ import axios from 'axios';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Form from 'react-jsonschema-form';
+
 import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
 import CustomFieldTemplate from "./form_templates/CustomFieldTemplate.tsx";
 import CheckboxWidget from "./form_widgets/CheckboxWidget.tsx";
 import PhoneWidget from "./form_widgets/PhoneWidget.tsx";
 import RoundOffWidget from "./form_widgets/RoundOffWidget.tsx";
+
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
 import { pick } from "lodash-es";
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
+import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
@@ -104,6 +107,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       step: 0,
       paymentInfo: null,
       paymentInfo_received: null,
+      paymentCalcInfo: null,
       data: null,
       responseId: null,
       responseLoaded: null,
@@ -157,16 +161,28 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       this.setState({"status": STATUS_FORM_PAYMENT_SUCCESS});
     }
     else if (queryObjFlat["responseId"]) {
-      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, responseLoaded }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, responseId: responseLoaded["responseId"], responseLoaded: responseLoaded, data: responseLoaded ? responseLoaded.value : null, status: STATUS_FORM_RENDERED });
+      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e))
+      .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo }) => {
+        this.setState({ schemaMetadata, uiSchema, schema,
+          responseId: responseLoaded["responseId"],
+          responseLoaded: responseLoaded,
+          data: responseLoaded ? responseLoaded.value : null,
+          status: STATUS_FORM_RENDERED,
+          paymentCalcInfo
+        });
       });
     }
     else {
       if ((window as any).CCMT_CFF_DEVMODE_AUTOFILL == true) {
         this.setState({data: MockData.sampleData});
       }
-      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e)).then(({ schemaMetadata, uiSchema, schema, defaultFormData }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, status: STATUS_FORM_RENDERED, data: defaultFormData });
+      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e))
+      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo }) => {
+        this.setState({ schemaMetadata, uiSchema, schema,
+          status: STATUS_FORM_RENDERED,
+          data: defaultFormData,
+          paymentCalcInfo
+        });
       });
     }
 
@@ -193,7 +209,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         return MockData.newResponse();
       }
       this.setState({ajaxLoading: false});
-      alert("Error loading the form list. " + e);
+      alert("Error submitting the form. " + e);
     }).then((response) => {
       let res = response.data.res;
       if (!(res.success == true && res.id)) {
@@ -246,14 +262,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           showErrorList={true}
           ErrorList={ErrorListTemplate}
         >
-          <button className="btn btn-primary btn-lg" type="submit">Submit</button>
+          {this.state.status == STATUS_FORM_RENDERED &&
+            <div>
+              <PaymentCalcTable formData={this.state.data} paymentCalcInfo={this.state.paymentCalcInfo} />
+              <button className="btn btn-primary btn-lg" type="submit">Submit</button>
+            </div>
+          }
         </Form>
         {this.state.ajaxLoading && <Loading hasError={this.state.hasError} />}
       </div>
     );
     if (this.state.status == STATUS_FORM_CONFIRMATION) {
-      formToReturn =
-        (<div>
+      return (<div>
           <h1>Confirmation Page</h1>
           <button className="btn btn-default"
             onClick={this.goBackToFormPage}

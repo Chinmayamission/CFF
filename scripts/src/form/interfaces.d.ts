@@ -29,10 +29,10 @@ interface IPaymentInfo {
 }
 
 interface IPaymentInfoItem {
-    amount: any,
-    name: string,
-    description: string,
-    quantity: any
+    amount?: any,
+    name?: string,
+    description?: string,
+    quantity?: any
 }
 
 interface PaymentMethod {
@@ -70,6 +70,7 @@ interface IFormPageState {
     hasError: boolean,
     paymentInfo: IPaymentInfo,
     paymentInfo_received: IPaymentInfo,
+    paymentCalcInfo: IPaymentCalcInfo,
     ajaxLoading: boolean
 }
 

@@ -1,5 +1,6 @@
 /// <reference path="../interfaces.d.ts"/>
 import * as React from 'react';
+import PaymentTable from "./PaymentTable";
 import Paypal from "./paypal";
 import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
@@ -53,38 +54,11 @@ class Payment extends React.Component<IPaymentProps, any> {
         if (!this.props.paymentMethods) {
             return "";
         }
-        let tableHeaders = [
-            {
-                Header: "Name",
-                accessor: "name"
-            },
-            {
-                Header: "Description",
-                accessor: "description"
-            },
-            {
-                Header: "Amount",
-                id: "amount",
-                accessor: d=>this.formatPayment(d.amount)
-            },
-            {
-                Header: "Quantity",
-                accessor: "quantity"
-            }
-        ];
-        console.log("PROPS", this.props);
-        let tableData = this.props.paymentInfo.items;
         return <div><br />
             <h1>Pay Now</h1>
             <div>
             {this.props.paymentInfo &&
-                <div className="mb-2">
-                    <ReactTable columns={tableHeaders} data={tableData}
-                        minRows={0}
-                        showPagination={false}
-                        className="my-4" />
-                    Total Amount: {this.formatPaymentInfo(this.props.paymentInfo)}
-                </div>
+                <PaymentTable paymentInfo={this.props.paymentInfo} />
             }
             {this.props.paymentInfo_received && 
                 <div>

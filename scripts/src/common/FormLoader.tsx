@@ -40,6 +40,7 @@ let isUiSchemaPath = (path) => {
 
 let createSchemas = data => {
     let isEditingResponse = !!data["responseLoaded"];
+    let paymentCalcInfo = data['schemaModifier'].paymentInfo; // Information about payment for purposes of calculation.
     var schemaModifier = data["schemaModifier"].value;
     // var uiSchema = schemaModifier;
     let schema = data["schema"].value;
@@ -141,13 +142,14 @@ let createSchemas = data => {
     
     // filterUiSchema(uiSchema);
     console.log("new schema", schema, "uischema", uiSchema);
+    console.log("paymentCalcInfo", paymentCalcInfo);
     if (isEditingResponse) {
         // When editing responses
-        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema };
+        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema, paymentCalcInfo };
     }
     else {
         // When making a brand new response.
-        return { schemaMetadata, uiSchema, schema, defaultFormData };
+        return { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo };
     }
 }
 

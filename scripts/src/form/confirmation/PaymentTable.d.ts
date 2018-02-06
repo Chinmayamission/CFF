@@ -1,0 +1,3 @@
+interface IPaymentTableProps {
+    paymentInfo: IPaymentInfo
+}
