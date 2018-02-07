@@ -9,6 +9,10 @@ Roadmap
 - Show total amount in javascript front end ui as well.
 - On updates, allow for donation.
 
+## 1.1.2
+Feb 6 2018
+- Formula calculation on client side -- live refresh when user updates the form.
+
 ## 1.1.1
 Feb 4 2018
 - Add round off widget.
