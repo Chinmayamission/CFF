@@ -2,6 +2,7 @@ import * as React from 'react';
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
+import "./ArrayFieldTemplate.scss";
 
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
   if (!title) {
@@ -50,12 +51,14 @@ function ArrayFieldTemplate(props) {
                 {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
                 {element.children}
               </div>
-              <div className="col-3">
-                {element.hasRemove && i >= (props.schema.minItems || 0) &&
-                  <button type="button" className="btn btn-danger col-12 mt-2" onClick={element.onDropIndexClick(element.index)}>Remove</button>
+              <div className="col-3 ccmt-cff-array-button-container">
+                {(element.hasRemove && i >= (props.schema.minItems || 0)) ?
+                  <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" onClick={element.onDropIndexClick(element.index)}>Remove</button>
+                :
+                <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" style={{"visibility":"hidden"}}>Remove</button>
                 }
                 {props.canAdd && i == props.items.length - 1 && 
-                  <button type="button" className="btn btn-info col-12 mt-2" onClick={props.onAddClick}>Add</button>
+                  <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={props.onAddClick}>Add</button>
                 }
               </div>
           </div>
