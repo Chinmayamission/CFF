@@ -13,7 +13,7 @@ import RoundOffWidget from "./form_widgets/RoundOffWidget.tsx";
 
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
-import { pick } from "lodash-es";
+import { pick, set } from "lodash-es";
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
 import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
@@ -213,7 +213,20 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }).then((response) => {
       let res = response.data.res;
       if (!(res.success == true && res.id)) {
-        throw "Response not formatted correctly: " + JSON.stringify(res);
+        this.setState({ajaxLoading: false});
+        if (res.success == false && res.message) {
+          if (res.fields_to_clear && res.fields_to_clear.length) {
+            let formDataNew = formData;
+            for (let field of res.fields_to_clear) {
+              set(formDataNew, field, "");
+            }
+            this.setState({data: formDataNew})
+          }
+          throw "Error submitting the form: " + res.message;
+        }
+        else {
+          throw "Response not formatted correctly: " + JSON.stringify(res);
+        }
       }
       let newResponse = res.action == "insert";
       this.setState({
