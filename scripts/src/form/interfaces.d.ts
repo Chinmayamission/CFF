@@ -166,12 +166,13 @@ interface IPaypalState {
 }
 interface IPaypalClassicProps extends IPaymentMethodProps {
     paymentMethodInfo: IPaymentMethodInfoPaypalClassic,
-    paymentInfo_owed: IPaymentInfo
+    paymentInfo_owed: IPaymentInfo,
+    paymentInfo_received: IPaymentInfo
 }
 interface PaypalClassicSharedAttrs {
     "cmd": string,
     "business": string,
-    items?: [IPaymentInfoItem],
+    items?: IPaymentInfoItem[],
     "first_name": string,
     "last_name": string,
     "image_url": string,
@@ -195,5 +196,6 @@ interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "return": string,
     "cancel_return": string,
     "notify_url": string,
-    "custom": string
+    "custom": string,
+    "discount_amount_cart": number
 }

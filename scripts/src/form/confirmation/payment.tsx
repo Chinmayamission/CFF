@@ -25,6 +25,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             console.log('option is', paymentMethod);
             let props = {
                 "paymentInfo_owed": this.props.paymentInfo_owed,
+                "paymentInfo_received": this.props.paymentInfo_received,
                 "paymentInfo": this.props.paymentInfo,
                 "paymentMethodInfo": this.props.paymentMethods[paymentMethod],
                 "key": paymentMethod,    // must be unique.
@@ -40,6 +41,7 @@ class Payment extends React.Component<IPaymentProps, any> {
         });
     }
     formatPayment(total, currency="USD") {
+        total = Math.round(100*total)/100;
         if (currency == "USD") {
             return "$" + Math.abs(total);
         }
@@ -71,7 +73,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             {this.props.paymentInfo_owed.total < 0 &&
                 <div>
                     <b>Amount Overpaid: {this.formatPaymentInfo(this.props.paymentInfo_owed)} </b>
-                    <p>Please contact us if you would like a refund, or otherwise, this money will serve as a donation.</p>
+                    <p>Please contact us if you would like a refund, or, otherwise, this money will serve as a donation.</p>
                 </div>
             }
             </div>

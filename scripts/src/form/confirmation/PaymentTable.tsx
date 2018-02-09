@@ -9,11 +9,19 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
     }
 
     formatPayment(total, currency = "USD") {
+        let formatTxt = "";
+        total = Math.round(100*total)/100;
         if (currency == "USD") {
-            return "$" + Math.abs(total);
+            formatTxt = "$" + Math.abs(total);
         }
         else {
-            return currency + " " + Math.abs(total);
+            formatTxt = currency + " " + Math.abs(total);
+        }
+        if (total > 0) {
+            return formatTxt;
+        }
+        else {
+            return <div>-{formatTxt}</div>;
         }
     }
     formatPaymentInfo(paymentInfo: IPaymentInfo) {

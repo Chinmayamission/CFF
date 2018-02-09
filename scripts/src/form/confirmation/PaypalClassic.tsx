@@ -1,6 +1,6 @@
 /// <reference path="../interfaces.d.ts" />
 import * as React from 'react';
-import {get} from "lodash-es";
+import {get, sumBy} from "lodash-es";
 
 /* Example Usage:
 
@@ -24,7 +24,8 @@ import {get} from "lodash-es";
 class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicState> {
     constructor(props:any) {
         super(props);
-        let items = this.props.paymentInfo_owed.items;
+        console.log("paymentinfo", this.props);
+        let items = this.props.paymentInfo.items;
         let state = {
             "form_url": (this.props.paymentMethodInfo.sandbox) ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
             "custom": this.props.formId + "/" + this.props.responseId,
@@ -34,8 +35,8 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "notify_url": this.props.apiEndpoint + "?action=ipn",
             "return": this.props.paymentInfo_owed.redirectUrl || window.location.href.split("#")[0] + "#payment_success=1",
             "cancel_return": window.location.href.split("#")[0] + "#payment_success=0",
-            "items": items,
-            "amount": this.props.paymentInfo_owed.total,
+            "items": items.filter(e => e.amount > 0),
+            "amount": this.props.paymentInfo_owed.total, // not used.
             "image_url": this.props.paymentMethodInfo.image_url,
             "first_name": this.props.paymentMethodInfo.first_name,
             "last_name": this.props.paymentMethodInfo.last_name,
@@ -48,14 +49,15 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "night_phone_b": this.props.paymentMethodInfo.night_phone_b,
             "night_phone_c": this.props.paymentMethodInfo.night_phone_c,
             "email": this.props.paymentMethodInfo.email,
+            "discount_amount_cart": Math.abs(sumBy(items, e => e.amount < 0 ? e.amount : 0)) + this.props.paymentInfo_received.total
         }
-        for (let i in state) {
+        /*for (let i in state) {
             if (typeof state[i] === 'string' && state[i][0] == "$") {
                 let key = state[i].substring(1);
                 state[i] = get(this.props.formData, key) || "";
                 // console.log(this.props.formData, key, state[i]);
             }
-        }
+        }*/
         this.state = state;
     }
     componentDidMount() {
@@ -82,6 +84,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
                     <input type="hidden" name={"amount_" + (i+1)} value={item.amount} />
                 </div>
             )}
+            <input type="hidden" name="discount_amount_cart" value={this.state.discount_amount_cart} />
             <input type="hidden" name="image_url" value={this.state.image_url} />
             <input type="hidden" name="first_name" value={this.state.first_name} />
             <input type="hidden" name="last_name" value={this.state.last_name} />
