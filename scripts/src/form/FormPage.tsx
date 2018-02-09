@@ -8,8 +8,10 @@ import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
 import CustomFieldTemplate from "./form_templates/CustomFieldTemplate.tsx";
 import CheckboxWidget from "./form_widgets/CheckboxWidget.tsx";
-import PhoneWidget from "./form_widgets/PhoneWidget.tsx";
-import RoundOffWidget from "./form_widgets/RoundOffWidget.tsx";
+import PhoneWidget from "./form_widgets/PhoneWidget";
+import RoundOffWidget from "./form_widgets/RoundOffWidget";
+import MoneyWidget from "./form_widgets/MoneyWidget"
+import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
 
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
@@ -77,7 +79,9 @@ function ErrorListTemplate(props) {
 const widgets = {
   phone: PhoneWidget,
   CheckboxWidget: CheckboxWidget,
-  "cff:roundOff": RoundOffWidget
+  "cff:roundOff": RoundOffWidget,
+  "cff:money": MoneyWidget,
+  "cff:couponCode": CouponCodeWidget
 };
 
 const fields = {
