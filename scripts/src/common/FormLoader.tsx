@@ -156,13 +156,13 @@ let createSchemas = data => {
 export module FormLoader {
     export function getForm(apiEndpoint, formId, opts) {
         // todo: maybe allow to get different versions?
-        let url = apiEndpoint + "?action=" + "formRender" + "&version=1&id=" + formId;
+        let url = apiEndpoint + "?action=" + (opts && opts.apiKey ? "formRenderAdmin": "formRender") + "&version=1&id=" + formId;
         if (opts) {
             if (opts.responseId) {
                 url += "&resid=" + opts.responseId;
             }
-            if (opts.include_s_sm_versions) {
-                url += "&include_s_sm_versions=" + opts.include_s_sm_versions;
+            if (opts.apiKey) {
+                url += "&apiKey=" + opts.apiKey;
             }
         }
         return  axios.get(url, { "responseType": "json" })
@@ -172,8 +172,8 @@ export module FormLoader {
             }
             throw ("Error loading the form. " + e);
         })
-        .then(response => response.data.res)
-        .then(unescapeJSON);
+        .then(response => response.data.res);
+        // .then(unescapeJSON);
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, handleError) {
         return this.getForm(apiEndpoint, formId).then(createSchemas).catch(handleError);

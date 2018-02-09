@@ -15,10 +15,16 @@ interface IFormEditState {
     ajaxLoading: boolean,
     dataLoaded: boolean,
     formName: string,
-    schema_versions: [IVersion],
-    schemaModifier_versions: [IVersion],
+    schema_versions: IVersion[],
+    schemaModifier_versions: IVersion[],
     openModal: boolean,
-    [x: string]: any
+    couponCodes: ICouponCode[]
+}
+interface ICouponCode {
+    amount: string,
+    max: number,
+    responses: string[],
+    responsesPending: string[]
 }
 interface IVersion {
     version: number,

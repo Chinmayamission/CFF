@@ -19,6 +19,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             schema_orig: null,
             schemaModifier_orig: null,
             schemaModifier: null,
+            couponCodes: null,
             schema: null,
             dataLoaded: false,
             formName: null,
@@ -29,11 +30,12 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
 
     componentDidMount() {
-        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, { "include_s_sm_versions": true })
-            .then(({ name, center, schemaModifier, schema, schema_versions, schemaModifier_versions }) => {
+        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, { "include_s_sm_versions": true, "apiKey": this.props.apiKey })
+            .then(({ name, center, schemaModifier, couponCodes, schema, schema_versions, schemaModifier_versions }) => {
                 this.setState({
                     schemaModifier,
                     schema,
+                    couponCodes: couponCodes || {},
                     schema_orig: cloneDeep(schema),
                     schemaModifier_orig: cloneDeep(schemaModifier),
                     schema_versions: schema_versions,
@@ -60,8 +62,10 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         let dataToSend = {
             "schemaModifier": this.state.schemaModifier,
             "schema": this.state.schema,
-            "name": this.state.formName
+            "name": this.state.formName,
+            "couponCodes": this.state.couponCodes
         };
+        console.log("data to send", dataToSend, this.state.couponCodes);
 
         this.setState({ ajaxLoading: true });
         axios.post(this.props.apiEndpoint + "?action=formEdit&id=" + this.props.form.id + "&version=1&apiKey=" + this.props.apiKey, dataToSend).then((response) => {
@@ -75,6 +79,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 ajaxLoading: false,
                 formName: res.updated_values.form.name || this.state.formName,
                 schema: schema,
+                couponCodes: res.updated_values.couponCodes,
                 schemaModifier: schemaModifier,
                 schema_orig: cloneDeep(schema),
                 schemaModifier_orig: cloneDeep(schemaModifier),
@@ -109,11 +114,20 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
             let path_orig = path + "_orig";
-            this.setState({
-                ajaxLoading: false,
-                [path]: res,
-                [path_orig]: res
-            });
+            if (path == "schema") {
+                this.setState({
+                    ajaxLoading: false,
+                    "schema": res,
+                    "schema_orig": res
+                });
+            }
+            else if (path == "schemaModifier") {
+                this.setState({
+                    ajaxLoading: false,
+                    "schemaModifier": res,
+                    "schemaModifier_orig": res
+                });
+            }
         }).catch(e => {
             this.setState({ ajaxLoading: false });
             console.error(e);
@@ -192,6 +206,12 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             data={this.state.schemaModifier.confirmationEmailInfo}
                             disabled={false}
                             onChange={(e) => this.onChange("schemaModifier.confirmationEmailInfo", e)}
+                        />
+                        <JSONEditor
+                            title={"Coupon Codes"}
+                            data={this.state.couponCodes}
+                            disabled={false}
+                            onChange={(e) => this.onChange("couponCodes", e)}
                         />
                         <JSONEditor
                             title={"Schema Modifier Value"}
