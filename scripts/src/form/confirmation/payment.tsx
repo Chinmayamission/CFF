@@ -41,12 +41,11 @@ class Payment extends React.Component<IPaymentProps, any> {
         });
     }
     formatPayment(total, currency="USD") {
-        total = Math.round(100*total)/100;
-        if (currency == "USD") {
-            return "$" + Math.abs(total);
+        if (Intl && Intl.NumberFormat) {
+            return Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(total);
         }
         else {
-            return currency + " " + Math.abs(total);
+            return total + " " + currency;
         }
     }
     formatPaymentInfo(paymentInfo : IPaymentInfo) {
