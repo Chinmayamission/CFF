@@ -42,7 +42,7 @@ export module ExpressionParser {
         }
         return val
     }
-    function parse_number_formula(data, variable) {
+    function parse_number_formula(data, variable, numeric=true) {
         variable = variable.replace(new RegExp(SPACE_VALUE, 'g'), " ");
         let key_value_eq = null;
         // console.log(variable);
@@ -51,35 +51,33 @@ export module ExpressionParser {
             [variable, key_value_eq] = variable.split(DELIM_VALUE);
         }
         let value = null;
-        // deep value list:
-        // if (key_value_eq) {
-        //     // console.log("doing it!", key_value_eq, value);
-        //     let arrayPath = variable.substring(0, variable.lastIndexOf("."));
-        //     let key =
-        //     value = value.filter(e => e == key_value_eq).length;
-        // }
-        // else {
-        //     value = get(data, variable.trim());
-        // }
         value = deep_access_list(data, variable.trim().split("."), key_value_eq);
-        if (!value) { // not entered yet.
-            return 0;
-        }
-        if (value && value.length) { // If value is a length, make it numeric.
-            value = value.length;
-        }
-        if (typeof value == "boolean") {
-            value = value ? 1 : 0;
-        }
-        if (isNaN(value)) {
-            throw "Key " + variable + " is not numeric";
+        if (numeric) {
+            if (!value) { // not entered yet.
+                return 0;
+            }
+            if (value && typeof value == "object" && value.length) { // If value is an array, make it numeric.
+                value = value.length;
+            }
+            if (typeof value === "string" && key_value_eq) { // check for equality of strings.
+                value = (value.trim() == key_value_eq.trim());
+            }
+            if (typeof value == "boolean") {
+                value = value ? 1 : 0;
+            }
+            if (isNaN(value)) {
+                throw "Key " + variable + " is not numeric";
+            }
+            else {
+                value = parseFloat(value);
+            }
+            return Math.round(value * 100) / 100;
         }
         else {
-            value = parseFloat(value);
+            return value;
         }
-        return Math.round(value * 100) / 100;
     }
-    export function calculate_price(expressionString, data) {
+    export function calculate_price(expressionString, data, numeric=true) {
         // Analogous to the python calculate_price lambda function; parses the expression here.
         // For example, "participants.age * 12"
         // "participants * 12" will use participants' length if it is an array.
@@ -100,7 +98,7 @@ export module ExpressionParser {
         let expr = parser.parse(expressionString);
         let context = {};
         for (let variable of expr.variables({withMembers: true})) {
-            context[variable] = parse_number_formula(data, variable);
+            context[variable] = parse_number_formula(data, variable, numeric);
         }
         context = unflatten(context);
         // console.warn("context", expressionString, context);

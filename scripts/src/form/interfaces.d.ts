@@ -71,7 +71,8 @@ interface IFormPageState {
     paymentInfo: IPaymentInfo,
     paymentInfo_received: IPaymentInfo,
     paymentCalcInfo: IPaymentCalcInfo,
-    ajaxLoading: boolean
+    ajaxLoading: boolean,
+    validationInfo: {[key:string] : {ifExpr: string, message: string} }
 }
 
 interface IFormPageProps {

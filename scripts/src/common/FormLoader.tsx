@@ -39,6 +39,7 @@ let isUiSchemaPath = (path) => {
 }
 
 let createSchemas = data => {
+    let validationInfo = {};
     let isEditingResponse = !!data["responseLoaded"];
     let paymentCalcInfo = data['schemaModifier'].paymentInfo; // Information about payment for purposes of calculation.
     var schemaModifier = data["schemaModifier"].value;
@@ -106,17 +107,23 @@ let createSchemas = data => {
             schema[fieldPath] = fieldValue;
         }
         else if (isUiSchemaPath(fieldPath)) {
+            //console.log(fieldPath);
             if (isEditingResponse && ~fieldPath.indexOf(".ui:cff:nonModifiable")) {
                 // todo - not working? test. - Set nonModifiable fields to readonly when editing an existing response.
                 // console.log("Yes");
                 set(uiSchema, fieldPath.replace(".ui:cff:nonModifiable", ".ui:cff:readonly"), fieldValue);
             }
-            else {
-                set(uiSchema, fieldPath, fieldValue);
-            }
-            if (~fieldPath.indexOf(".ui:cff:defaultValue")) {
+            else if (~fieldPath.indexOf(".ui:cff:defaultValue")) {
                 // lets defaultFormData be filled out by the "ui:defaultValue" attribute
                 set(defaultFormData, fieldPath.substring(0, fieldPath.indexOf(".ui:cff:defaultValue")), fieldValue);
+            }
+            else if (~fieldPath.indexOf(".ui:cff:validate:if")) {
+                let ifExpr = fieldValue;
+                let message = get(schemaModifier, fieldPath.replace(".ui:cff:validate:if", ".ui:cff:validate:message"));
+                validationInfo[fieldPath.replace(".ui:cff:validate:if", "")] = { ifExpr, message };
+            }
+            else if (!~fieldPath.indexOf(".ui:cff")) {
+                set(uiSchema, fieldPath, fieldValue);
             }
         }
         else if (!fieldValue) {
@@ -145,11 +152,11 @@ let createSchemas = data => {
     console.log("paymentCalcInfo", paymentCalcInfo);
     if (isEditingResponse) {
         // When editing responses
-        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema, paymentCalcInfo };
+        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema, paymentCalcInfo, validationInfo };
     }
     else {
         // When making a brand new response.
-        return { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo };
+        return { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo };
     }
 }
 

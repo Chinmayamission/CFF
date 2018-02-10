@@ -12,10 +12,11 @@ import PhoneWidget from "./form_widgets/PhoneWidget";
 import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
+import ExpressionParser from "src/common/util/ExpressionParser";
 
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
-import { pick, set } from "lodash-es";
+import { get, pick, set } from "lodash-es";
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
 import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
@@ -115,7 +116,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       data: null,
       responseId: null,
       responseLoaded: null,
-      ajaxLoading: false
+      ajaxLoading: false,
+      validationInfo: null
     };
     
   }
@@ -166,8 +168,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     else if (queryObjFlat["responseId"]) {
       FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo }) => {
-        this.setState({ schemaMetadata, uiSchema, schema,
+      .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo, validationInfo }) => {
+        this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
           responseId: responseLoaded["responseId"],
           responseLoaded: responseLoaded,
           data: responseLoaded ? responseLoaded.value : null,
@@ -181,8 +183,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         this.setState({data: MockData.sampleData});
       }
       FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo }) => {
-        this.setState({ schemaMetadata, uiSchema, schema,
+      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo }) => {
+        this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
           status: STATUS_FORM_RENDERED,
           data: defaultFormData,
           paymentCalcInfo
@@ -249,6 +251,35 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   onChange(e) {
     this.setState({"data": e.formData})
   }
+  /*invalidItem(item, ) {
+
+  }*/
+  validate(formData, errors) {
+    if (this.state.validationInfo) {
+      for (let path in this.state.validationInfo) {
+        let info = this.state.validationInfo[path];
+        path = path.replace(/\.items/g, "");
+        let value = get(formData, path);
+        if (value && value.length) {
+          // array validation.
+          for (let item of value) {
+            try {
+              let result = ExpressionParser.calculate_price(info.ifExpr, item);
+              if (result) {
+                get(errors, path).addError(info.message);
+                break;
+              }
+            }
+            catch (e) {
+              get(errors, path).addError(e);
+              break;
+            }
+          }
+        }
+      }
+    }
+    return errors;
+  }
   render() {
     if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
@@ -278,6 +309,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           onError={(e) => this.scrollToTop()}
           showErrorList={true}
           ErrorList={ErrorListTemplate}
+          validate={(a, b) => this.validate(a, b)}
         >
           {this.state.status == STATUS_FORM_RENDERED &&
             <div>

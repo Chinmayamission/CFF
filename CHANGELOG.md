@@ -9,13 +9,14 @@ Roadmap
 - Show total amount in javascript front end ui as well.
 - On updates, allow for donation.
 
-## 1.1.3 (DEV)
+## 1.1.3
 - Show discount amount in paypal cart to account for coupon codes, etc.
 - Paypal cart now shows all the items on update, as opposed to just "amount owed on update".
 - Proper currency format using Intl.NumberFormat in javascript
-- Coupon codes
+- Implement coupon codes -- count towards maximum when user submits, not necessarily pays.
 - Add coupon code widget (cff:couponCode) and money widget (cff:money)
-
+- Expression parser (both js and python) allows to check for equality of strings (i.e., if race is a string, "race:5K==1" returns if race is 5K) -- before this would only work with arrays.
+- 
 
 ## 1.1.2
 Feb 6 2018
