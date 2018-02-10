@@ -66,7 +66,8 @@ export module ExpressionParser {
                 value = value ? 1 : 0;
             }
             if (isNaN(value)) {
-                throw "Key " + variable + " is not numeric";
+                value = 0;
+                // throw "Key " + variable + " is not numeric";
             }
             else {
                 value = parseFloat(value);
