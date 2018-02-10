@@ -134,10 +134,14 @@ let createSchemas = data => {
             // unset(schema.properties, schemaFieldPath);
             //set(uiSchema, fieldPath, ui-order)
         }
-        else if (typeof fieldValue == "boolean") {
+        else if (~fieldPath.indexOf("required") && typeof fieldValue === "boolean") { // overriding required.
+            // console.log("setting ", fieldPath, schemaFieldPath);
+            set(schema.properties, schemaFieldPath, fieldValue);
+        }
+        else if (typeof fieldValue == "boolean") { // including or excluding a field.
         }
         else {
-            // console.log("setting ", fieldPath, schemaFieldPath);
+            //console.log("setting ", fieldPath, schemaFieldPath);
             set(schema.properties, schemaFieldPath, fieldValue);
         }
     }

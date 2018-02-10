@@ -23,6 +23,16 @@ Roadmap
 - Add coupon code widget (cff:couponCode) and money widget (cff:money)
 - Expression parser (both js and python) allows to check for equality of strings (i.e., if race is a string, "race:5K==1" returns if race is 5K) -- before this would only work with arrays.
 - properly compare ipn amount if updating to an amount *less* than before
+- Allow simple conditional validation as follows (in schemaModifier):
+```
+{
+  "age": ...,
+  "race": ...
+  "ui:cff:validate:if":"age < 13 and race:'Half Marathon'==1 "
+  "ui:cff:validate:message": "Participants under 13 cannot register for Half Marathon."
+}
+```
+- Fix "required" override in schemaModifier
 
 ## 1.1.2
 Feb 6 2018
