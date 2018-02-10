@@ -18,7 +18,8 @@ interface IFormEditState {
     schema_versions: IVersion[],
     schemaModifier_versions: IVersion[],
     openModal: boolean,
-    couponCodes: ICouponCode[]
+    couponCodes: ICouponCode[],
+    couponCodes_used: string[] 
 }
 interface ICouponCode {
     amount: string,

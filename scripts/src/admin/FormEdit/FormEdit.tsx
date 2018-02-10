@@ -7,7 +7,7 @@ import Loading from "src/common/Loading/Loading";
 // import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor"
 import VersionSelect from "./VersionSelect";
-import { cloneDeep, get, set, assign, isObject } from "lodash-es";
+import { cloneDeep, get, set, assign, isObject, forOwn } from "lodash-es";
 import Modal from 'react-responsive-modal';
 
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
@@ -20,6 +20,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             schemaModifier_orig: null,
             schemaModifier: null,
             couponCodes: null,
+            couponCodes_used: null,
             schema: null,
             dataLoaded: false,
             formName: null,
@@ -31,11 +32,18 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
 
     componentDidMount() {
         FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, { "include_s_sm_versions": true, "apiKey": this.props.apiKey })
-            .then(({ name, center, schemaModifier, couponCodes, schema, schema_versions, schemaModifier_versions }) => {
+            .then(({ name, center, schemaModifier, couponCodes, couponCodes_used, schema, schema_versions, schemaModifier_versions }) => {
+                if (couponCodes_used) {
+                    // forOwn(couponCodes_used, (e, v) => assign(v, "numberUsed", v.responses ? v.responses.length : 0));
+                }
+                else {
+                    couponCodes_used = {};
+                }
                 this.setState({
                     schemaModifier,
                     schema,
                     couponCodes: couponCodes || {},
+                    couponCodes_used: couponCodes_used,
                     schema_orig: cloneDeep(schema),
                     schemaModifier_orig: cloneDeep(schemaModifier),
                     schema_versions: schema_versions,
@@ -214,10 +222,15 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             onChange={(e) => this.onChange("couponCodes", e)}
                         />
                         <JSONEditor
+                            title={"Coupon Codes Used"}
+                            data={this.state.couponCodes_used}
+                            disabled={true}
+                            onChange={(e) => this.onChange("couponCodes", e)}
+                        />
+                        <JSONEditor
                             title={"Schema Modifier Value"}
                             data={this.state.schemaModifier.value}
                             disabled={false}
-                            large={true}
                             onChange={(e) => this.onChange("schemaModifier.value", e)}
                         />
                         <JSONEditor

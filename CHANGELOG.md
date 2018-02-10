@@ -9,6 +9,14 @@ Roadmap
 - Show total amount in javascript front end ui as well.
 - On updates, allow for donation.
 
+## 1.1.3 (DEV)
+- Show discount amount in paypal cart to account for coupon codes, etc.
+- Paypal cart now shows all the items on update, as opposed to just "amount owed on update".
+- Proper currency format using Intl.NumberFormat in javascript
+- Coupon codes
+- Add coupon code widget (cff:couponCode) and money widget (cff:money)
+
+
 ## 1.1.2
 Feb 6 2018
 - Formula calculation on client side -- live refresh when user updates the form.
