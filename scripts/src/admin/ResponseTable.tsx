@@ -173,7 +173,14 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                                 )}
                             </select>
                             <CSVLink
-                                data={state.sortedData.map(e=>flatten(e))}
+                                data={state.sortedData.map(e=> {
+                                    for (let header of this.state.tableHeadersDisplayed) {
+                                        if (typeof e[header.key] == 'undefined') {
+                                            e[header.key] = "";
+                                        }
+                                    }
+                                    return e;
+                                })}
                                 headers={this.state.tableHeadersDisplayed}>
                             Download CSV
                             </CSVLink>
