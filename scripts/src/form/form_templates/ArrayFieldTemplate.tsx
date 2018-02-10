@@ -46,7 +46,7 @@ function ArrayFieldTemplate(props) {
         className="array-item-list"
         key={`array-item-list-${props.idSchema.$id}`}>
         {props.items.map((element, i) =>
-            <div className="row" key={i}>
+            <div className="row mb-4" key={i}>
               <div className="col-9">
                 {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
                 {element.children}
