@@ -35,7 +35,7 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
 
     componentDidMount() {
         var options = {
-            "modes": this.props.disabled ? ["view"] : ["form", "code"],
+            "modes": this.props.disabled ? ["view"] : ["form", "tree", "code"],
             "onChange": () => this.onChange()
             //"modes": ['tree', 'view', 'form', 'code', 'text']
             //"onEditable": d=>false
