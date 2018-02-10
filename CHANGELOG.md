@@ -9,13 +9,20 @@ Roadmap
 - Show total amount in javascript front end ui as well.
 - On updates, allow for donation.
 
+## 1.1.4
+Feb 10 2018
+Small fixes:
+- Change default modes on JSON editor
+- Graceful error handling when entering a non-numeric additional donation.
+
 ## 1.1.3
+Feb 10 2018
 ### UI
 - Show discount amount in paypal cart to account for coupon codes, etc.
 - Paypal cart now shows all the items on update, as opposed to just "amount owed on update".
 - Proper currency format using Intl.NumberFormat in javascript
-- format currency with two decimal places in email
-- email table formatting fixed
+- Format currency with two decimal places in email
+- Email table formatting fixed
 - Show empty string instead of "undefined" when exporting responses as CSV
 
 ### Functionality
