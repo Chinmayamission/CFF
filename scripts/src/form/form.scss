@@ -16,6 +16,9 @@
     label.control-label, legend, h2.ccmt-cff-form-title {
         text-transform: capitalize;
     }
+    .control-label {
+        font-weight:bold; margin-top: 10px;
+    }
     legend {
         font-size: 120%;
         text-decoration: underline;
@@ -43,6 +46,7 @@
         // transform: scale(1.0001);
         //border: 1px dotted grey;
     }
+    .ccmt-cff-btn-array-remove {margin-top: 10px;}
     /*i.glyphicon { display: none; }
     .btn-add::after { content: 'Add'; }
     .array-item-move-up::after { content: 'Move Up'; }
@@ -94,13 +98,14 @@
 .ccmt-cff-Page-FormPage-readonly.ccmt-cff-Page-FormPage {
     input, select {
         border: none;
-        padding: 0;
+        //padding: 0;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
         pointer-events: none;
         cursor: text;
+        background: rgba(0,0,0,.1);
     }
     button {
         display: none;
