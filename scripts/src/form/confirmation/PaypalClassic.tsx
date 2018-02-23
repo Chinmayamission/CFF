@@ -49,6 +49,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "night_phone_b": this.props.paymentMethodInfo.night_phone_b,
             "night_phone_c": this.props.paymentMethodInfo.night_phone_c,
             "email": this.props.paymentMethodInfo.email,
+            "payButtonText": this.props.paymentMethodInfo.payButtonText || "Pay Now with Paypal",
             "discount_amount_cart": Math.abs(sumBy(items, e => e.amount < 0 ? e.amount : 0)) +
                 (this.props.paymentInfo_received ? this.props.paymentInfo_received.total : 0)
         }
@@ -101,7 +102,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             {/*<input type="image" name="submit"
             src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
     alt="PayPal - The safer, easier way to pay online"/>*/}
-            <input type="submit" className="btn btn-primary" value="Pay Now with PayPal" />
+            <input type="submit" className="btn btn-primary" value={this.state.payButtonText} />
         </form>
     );
     } 

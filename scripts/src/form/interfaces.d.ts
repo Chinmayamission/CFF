@@ -191,7 +191,8 @@ interface PaypalClassicSharedAttrs {
     "email": string
 }
 interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs {
-    "sandbox": boolean
+    "sandbox": boolean,
+    "payButtonText": string
 }
 interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "form_url": string,
@@ -201,5 +202,6 @@ interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "cancel_return": string,
     "notify_url": string,
     "custom": string,
-    "discount_amount_cart": number
+    "discount_amount_cart": number,
+    "payButtonText": string
 }
