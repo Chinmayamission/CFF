@@ -4,7 +4,7 @@ import * as deref from "json-schema-deref-sync";
 import {flatten} from 'flat';
 import SchemaUtil from "src/common/util/SchemaUtil";
 import MockData from "src/common/util/MockData";
-import {set, unset, pick, filter, get} from 'lodash-es';
+import {set, unset, pick, filter, get, isArray} from 'lodash-es';
 
 function removeUiOrder (schemaModifierFieldPath, uiSchema, propertyName) {
     let paths = schemaModifierFieldPath.split(".");
@@ -39,7 +39,7 @@ let isUiSchemaPath = (path) => {
 }
 
 let createSchemas = data => {
-    let validationInfo = {};
+    let validationInfo = [];
     let isEditingResponse = !!data["responseLoaded"];
     let paymentCalcInfo = data['schemaModifier'].paymentInfo; // Information about payment for purposes of calculation.
     var schemaModifier = data["schemaModifier"].value;
@@ -120,7 +120,18 @@ let createSchemas = data => {
             else if (~fieldPath.indexOf(".ui:cff:validate:if")) {
                 let ifExpr = fieldValue;
                 let message = get(schemaModifier, fieldPath.replace(".ui:cff:validate:if", ".ui:cff:validate:message"));
-                validationInfo[fieldPath.replace(".ui:cff:validate:if", "")] = { ifExpr, message };
+                ifExpr = ifExpr && isArray(ifExpr) ? ifExpr : [ifExpr];
+                message = message && isArray(message) ? message: [message || "Error"];
+                for (let i = 0; i < ifExpr.length; i++) {
+                    let index = i;
+                    if (i >= message.length)
+                        index = message.length - 1;
+                    validationInfo.push({
+                        fieldPath: fieldPath.replace(".ui:cff:validate:if", ""),
+                        ifExpr: ifExpr[i],
+                        message: message[index]
+                    });
+                }
             }
             else if (!~fieldPath.indexOf(".ui:cff")) {
                 set(uiSchema, fieldPath, fieldValue);

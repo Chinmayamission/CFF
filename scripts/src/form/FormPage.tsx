@@ -256,8 +256,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }*/
   validate(formData, errors) {
     if (this.state.validationInfo) {
-      for (let path in this.state.validationInfo) {
-        let info = this.state.validationInfo[path];
+      for (let info of this.state.validationInfo) {
+        let path = info["fieldPath"];
         path = path.replace(/\.items/g, "");
         let value = get(formData, path);
         if (value && value.length) {

@@ -9,6 +9,15 @@ Roadmap
 - Show total amount in javascript front end ui as well.
 - On updates, allow for donation.
 
+## 1.1.5
+Feb 22 2018
+Allow for an array to be specified for validation:
+```
+  "ui:cff:validate:if":["age < 13 and race:'Half Marathon'==1 ", "a=b"]
+  "ui:cff:validate:message": ["Participants under 13 cannot register for Half Marathon.", "message2"]
+```
+
+
 ## 1.1.4
 Feb 10 2018
 Small fixes:
