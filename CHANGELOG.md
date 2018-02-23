@@ -9,18 +9,16 @@ Roadmap
 - Show total amount in javascript front end ui as well.
 - On updates, allow for donation.
 
-## 1.1.5
-Feb 22 2018
-
-
+## 1.1.5 (client plugin only -- no updates on server lambda)
+Feb 23 2018
 - Allow multiple validations on a single path to be specified by an array.
 ```
   "ui:cff:validate:if":["age < 13 and race:'Half Marathon'==1 ", "a=b"]
   "ui:cff:validate:message": ["Participants under 13 cannot register for Half Marathon.", "message2"]
 ```
-- add part of the framework for focusUpdateInfo
-- Form css changes (bolded labels, margin)
-- Allow customization of "pay with" button in paymentMethodInfo:
+- add part of the framework for focusUpdateInfo (not functional yet)
+- Form css changes (color, padding, bolded labels)
+- Allow customization of "pay with paypal" button in paymentMethodInfo:
 ```
 {
   "payButtonText": "Pay Now"
