@@ -39,7 +39,8 @@ let isUiSchemaPath = (path) => {
 }
 
 let createSchemas = data => {
-    let validationInfo = [];
+    let validationInfo: IValidationInfoItem[] = [];
+    let focusUpdateInfo: IFocusUpdateInfoItem[] = [];
     let isEditingResponse = !!data["responseLoaded"];
     let paymentCalcInfo = data['schemaModifier'].paymentInfo; // Information about payment for purposes of calculation.
     var schemaModifier = data["schemaModifier"].value;
@@ -133,6 +134,27 @@ let createSchemas = data => {
                     });
                 }
             }
+            else if (~fieldPath.indexOf(".ui:cff:copyValueTo")) {
+                focusUpdateInfo.push({
+                    type: "copy",
+                    from: fieldPath.replace(".ui:cff:copyValueTo", ""),
+                    to: fieldValue
+                })
+               /* let ifExpr = ;
+                let message = get(schemaModifier, fieldValue);
+                ifExpr = ifExpr && isArray(ifExpr) ? ifExpr : [ifExpr];
+                message = message && isArray(message) ? message: [message || "Error"];
+                for (let i = 0; i < ifExpr.length; i++) {
+                    let index = i;
+                    if (i >= message.length)
+                        index = message.length - 1;
+                    validationInfo.push({
+                        fieldPath: fieldPath.replace(".ui:cff:validate:if", ""),
+                        ifExpr: ifExpr[i],
+                        message: message[index]
+                    });
+                }*/
+            }
             else if (!~fieldPath.indexOf(".ui:cff")) {
                 set(uiSchema, fieldPath, fieldValue);
             }
@@ -167,11 +189,11 @@ let createSchemas = data => {
     console.log("paymentCalcInfo", paymentCalcInfo);
     if (isEditingResponse) {
         // When editing responses
-        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema, paymentCalcInfo, validationInfo };
+        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema, paymentCalcInfo, validationInfo, focusUpdateInfo };
     }
     else {
         // When making a brand new response.
-        return { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo };
+        return { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo };
     }
 }
 

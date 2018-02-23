@@ -40,6 +40,12 @@ export module SchemaUtil {
         })
         return path.join(" ") + ": " + last;
     }
+    export function rootPathToSchemaModifierPath(fieldPath) {
+        // remove root_ from beginning of path; remove underscores.
+        // rootPathToSchemaModifierPath("root_participants_0_name_last")
+        // > participants.0.name.last
+        return fieldPath.replace("root_", "").replace(/_/g,"."); 
+    }
 }
 
 export default SchemaUtil;

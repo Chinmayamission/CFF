@@ -23,50 +23,63 @@ function ArrayFieldDescription({ DescriptionField, idSchema, description }) {
 }
 
 
-function ArrayFieldTemplate(props) {
-  return (
-    <fieldset className={props.className}>
-      <ArrayFieldTitle
-        key={`array-field-title-${props.idSchema.$id}`}
-        TitleField={props.TitleField}
-        idSchema={props.idSchema}
-        title={props.uiSchema["ui:title"] || props.title}
-        required={props.required}
-      />
+class ArrayFieldTemplate extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      paymentInfo: null
+    }
+  }
+  componentWillReceiveProps(newProps) {
+    console.log("newProps", newProps);
+    //this.setState({name: newProps.name});
+  }
+  render() {
+    return (
+      <fieldset className={this.props.className}>
+        <ArrayFieldTitle
+          key={`array-field-title-${this.props.idSchema.$id}`}
+          TitleField={this.props.TitleField}
+          idSchema={this.props.idSchema}
+          title={this.props.uiSchema["ui:title"] || this.props.title}
+          required={this.props.required}
+        />
 
-      {(props.uiSchema["ui:description"] || props.schema.description) && (
+        {(this.props.uiSchema["ui:description"] || this.props.schema.description) && (
+          <div
+            className="field-description"
+            key={`field-description-${this.props.idSchema.$id}`}>
+            {this.props.uiSchema["ui:description"] || this.props.schema.description}
+          </div>
+        )}
+
         <div
-          className="field-description"
-          key={`field-description-${props.idSchema.$id}`}>
-          {props.uiSchema["ui:description"] || props.schema.description}
-        </div>
-      )}
-
-      <div
-        className="array-item-list"
-        key={`array-item-list-${props.idSchema.$id}`}>
-        {props.items.map((element, i) =>
+          className="array-item-list"
+          key={`array-item-list-${this.props.idSchema.$id}`}>
+          {console.error(this.props.items)}
+          {this.props.items.map((element, i) =>
             <div className="row mb-4" key={i}>
               <div className="col-9">
                 {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
                 {element.children}
               </div>
               <div className="col-3 ccmt-cff-array-button-container">
-                {(element.hasRemove && i >= (props.schema.minItems || 0)) ?
+                {(element.hasRemove && i >= (this.props.schema.minItems || 0)) ?
                   <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" onClick={element.onDropIndexClick(element.index)}>Remove</button>
-                :
-                <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" style={{"visibility":"hidden"}}>Remove</button>
+                  :
+                  <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" style={{ "visibility": "hidden" }}>Remove</button>
                 }
-                {props.canAdd && i == props.items.length - 1 && 
-                  <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={props.onAddClick}>Add</button>
+                {this.props.canAdd && i == this.props.items.length - 1 &&
+                  <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>Add</button>
                 }
               </div>
-          </div>
-        )}
+            </div>
+          )}
         </div>
       </fieldset>
-    
-  );
+
+    );
+  }
 }
 
 export default ArrayFieldTemplate;

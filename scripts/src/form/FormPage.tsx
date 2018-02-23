@@ -23,6 +23,7 @@ import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
+import SchemaUtil from "src/common/util/SchemaUtil";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -117,7 +118,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       responseId: null,
       responseLoaded: null,
       ajaxLoading: false,
-      validationInfo: null
+      validationInfo: null,
+      focusUpdateInfo: null
     };
     
   }
@@ -168,13 +170,14 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     else if (queryObjFlat["responseId"]) {
       FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo, validationInfo }) => {
+      .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
         this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
           responseId: responseLoaded["responseId"],
           responseLoaded: responseLoaded,
           data: responseLoaded ? responseLoaded.value : null,
           status: STATUS_FORM_RENDERED,
-          paymentCalcInfo
+          paymentCalcInfo,
+          focusUpdateInfo
         });
       });
     }
@@ -183,11 +186,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         this.setState({data: MockData.sampleData});
       }
       FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo }) => {
+      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
         this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
           status: STATUS_FORM_RENDERED,
           data: defaultFormData,
-          paymentCalcInfo
+          paymentCalcInfo,
+          focusUpdateInfo
         });
       });
     }
@@ -249,12 +253,32 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
   }
   onChange(e) {
-    this.setState({"data": e.formData})
+    this.setState({"data": e.formData});
+  }
+  onFocus(rootPath, value) {
+    //let toPath = "email";
+    let toPath = SchemaUtil.rootPathToSchemaModifierPath(rootPath);
+    let formData = this.state.data;
+    /*if (true) {
+      for (let focusUpdateInfoItem of this.state.focusUpdateInfo) {
+        if (focusUpdateInfoItem.type == "copy") { // && get(this.state.data, focusUpdateInfoItem.to) == get(this.state.data, toPath)) {
+          let fromValue = get(this.state.data, focusUpdateInfoItem.from);
+          //console.log(focusUpdateInfoItem, fromValue);
+          if (fromValue) {
+            set(formData, focusUpdateInfoItem.to, fromValue);
+            console.log(JSON.stringify(formData));
+            this.setState({"data": formData});
+            //this.forceUpdate();
+          }
+        }
+      }
+    }*/
   }
   /*invalidItem(item, ) {
 
   }*/
   validate(formData, errors) {
+    console.log("errs are", errors);
     if (this.state.validationInfo) {
       for (let info of this.state.validationInfo) {
         let path = info["fieldPath"];
@@ -305,6 +329,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}
           onChange={(e) => {this.onChange(e)}}
+          onFocus={(e, v) => {this.onFocus(e, v)}}
           onSubmit={(e) => this.onSubmit(e)}
           onError={(e) => this.scrollToTop()}
           showErrorList={true}

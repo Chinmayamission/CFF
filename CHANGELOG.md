@@ -11,11 +11,16 @@ Roadmap
 
 ## 1.1.5
 Feb 22 2018
-Allow for an array to be specified for validation:
+
+
+- Allow multiple validations on a single path to be specified by an array.
 ```
   "ui:cff:validate:if":["age < 13 and race:'Half Marathon'==1 ", "a=b"]
   "ui:cff:validate:message": ["Participants under 13 cannot register for Half Marathon.", "message2"]
 ```
+- add part of the framework for focusUpdateInfo
+- Form css changes (bolded labels, margin)
+- Allow customization of "pay with" button with:
 
 
 ## 1.1.4
