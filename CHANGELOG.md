@@ -6,8 +6,15 @@ Todo:
 Roadmap
 # 2.x
 - Authentication with facebook and cognito.
-- Show total amount in javascript front end ui as well.
-- On updates, allow for donation.
+- Show total counts.
+- Emails: sanitize HTML
+- Emails: restrict fromEmail to only a few.
+
+## 1.1.6 (server-side lambda only)
+- Bugfix: allow coupon codes with arbitrary names
+- Allow maximum of coupon codes to be negative (no maximum)
+- Bugfix: mark new response with 100% off coupon code as PAID
+- allow contentHeader and contentFooter option in emails
 
 ## 1.1.5 (client plugin only -- no updates on server lambda)
 Feb 23 2018
