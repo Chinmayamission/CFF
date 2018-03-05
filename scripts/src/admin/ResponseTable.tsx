@@ -4,7 +4,7 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
-import {assign, concat} from 'lodash-es';
+import {assign, concat, groupBy, map, keys} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
@@ -27,7 +27,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             pivotCols: [],
             schema: null,
             possibleFieldsToUnwind: null,
-            rowToUnwind: ""
+            rowToUnwind: "",
+            colsToAggregate: []
         }
     }
 
@@ -130,7 +131,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         );
         this.setState({
             tableDataDisplayed: data,
-            tableHeadersDisplayed: headerObjs
+            tableHeadersDisplayed: headerObjs,
+            colsToAggregate: ["race", "shirt_size"]
         });
     }
 
@@ -186,6 +188,18 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                             Download CSV
                             </CSVLink>
                             {makeTable()}
+                            <div><b>Aggregate:</b>
+                            {
+                                this.state.colsToAggregate.map(col => {
+                                    let headers = Headers.makeHeaderObjsFromKeys(["Value", "Count"]);
+                                    let data = groupBy(state.sortedData, e=>e[col]);
+                                    data = map(keys(data), k=>({"Value": k, "Count": data[k].length}));
+                                    if (data && data.length == 1 && data[0] && data[0].Value == 'undefined') return null;
+                                    console.log(data);
+                                    return data ? <ReactTable key={col} data={data} columns={headers} minRows={0} /> : null;
+                                })
+                            }
+                            </div>
                         </div>
                     )
                 }}

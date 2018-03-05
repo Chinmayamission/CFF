@@ -49,5 +49,6 @@ interface IResponseTableState {
     pivotCols: any[],
     schema: Schema,
     possibleFieldsToUnwind: string[],
-    rowToUnwind: string
+    rowToUnwind: string,
+    colsToAggregate: any[]
 }
