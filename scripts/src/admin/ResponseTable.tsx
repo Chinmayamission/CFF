@@ -66,7 +66,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     "DATE_CREATED": e.date_created,
                     "NUMERIC_ID": index + 1,
                     "DATE_LAST_MODIFIED": e.date_last_modified,
-                    "PAYMENT_INFO": e.paymentInfo,
+                    "PAYMENT_INFO_TOTAL": e.paymentInfo.total,
+                    //"PAYMENT_INFO_ITEMS": '"' + JSON.stringify(e.paymentInfo.items) + '"',
                     "CONFIRMATION_EMAIL_INFO": e.confirmationEmailInfo
                 });
                 this.setState({tableDataOrigObject: data});
@@ -80,7 +81,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 paidHeader,
                 Headers.makeHeaderObjsFromKeys(["ID"]),
                 Headers.makeHeaders(this.state.schema.properties),
-                Headers.makeHeaderObjsFromKeys(["DATE_CREATED", "DATE_LAST_MODIFIED"])
+                Headers.makeHeaderObjsFromKeys(["PAYMENT_INFO_TOTAL", "DATE_CREATED", "DATE_LAST_MODIFIED"])
             );
             
             // Set possible rows to unwind, equal to top-level array items.

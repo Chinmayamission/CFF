@@ -9,6 +9,11 @@ Roadmap
 - Show total counts.
 - Emails: sanitize HTML
 - Emails: restrict fromEmail to only a few.
+- Download CSV server-side, not client-side.
+- Customize columns to come in download CSV (include paymentInfo here)
+
+## 1.1.7 (client plugin only)
+- Show payment info total as part of response table (to be exported as CSV)
 
 ## 1.1.6 (server-side lambda only)
 - Bugfix: allow coupon codes with arbitrary names
