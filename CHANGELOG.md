@@ -14,6 +14,8 @@ Roadmap
 
 ## 1.1.7 (client plugin only)
 - Show payment info total as part of response table (to be exported as CSV)
+- Row aggregations / summaries.
+- Let dataOptions specify displayed and aggregated rows.
 
 ## 1.1.6 (server-side lambda only)
 - Bugfix: allow coupon codes with arbitrary names
