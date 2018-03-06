@@ -44,6 +44,7 @@ let createSchemas = data => {
     let isEditingResponse = !!data["responseLoaded"];
     let paymentCalcInfo = data['schemaModifier'].paymentInfo; // Information about payment for purposes of calculation.
     var schemaModifier = data["schemaModifier"].value;
+    let dataOptions = data['schemaModifier'].dataOptions;
     // var uiSchema = schemaModifier;
     let schema = data["schema"].value;
     schema = deref(schema);
@@ -51,7 +52,7 @@ let createSchemas = data => {
 
     // Config of payment schemaModifier in schemaMetadata:
     let schemaMetadata = {};
-    let POSSIBLE_METADATA_FIELDS = ["confirmationEmailInfo", "paymentInfo", "paymentMethods"];
+    let POSSIBLE_METADATA_FIELDS = ["confirmationEmailInfo", "paymentInfo", "paymentMethods", "dataOptions"];
     for (let key in data.schema) {
         if (~POSSIBLE_METADATA_FIELDS.indexOf(key))
             schemaMetadata[key] = data.schema[key];
@@ -189,11 +190,11 @@ let createSchemas = data => {
     console.log("paymentCalcInfo", paymentCalcInfo);
     if (isEditingResponse) {
         // When editing responses
-        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema, paymentCalcInfo, validationInfo, focusUpdateInfo };
+        return { responseLoaded: data.responseLoaded, schemaMetadata, uiSchema, schema, paymentCalcInfo, validationInfo, focusUpdateInfo, dataOptions };
     }
     else {
         // When making a brand new response.
-        return { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo };
+        return { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo, dataOptions };
     }
 }
 

@@ -41,7 +41,7 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
             //"onEditable": d=>false
         };
         this.editor = new jsoneditor(this.editorElement, options);
-        this.editor.set(this.props.data);
+        this.editor.set(this.props.data || {});
     }
 
     render() {

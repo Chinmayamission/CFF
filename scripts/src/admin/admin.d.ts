@@ -48,6 +48,7 @@ interface IResponseTableState {
     tableHeadersDisplayed: any[],
     pivotCols: any[],
     schema: Schema,
+    dataOptions: IDataOptions,
     possibleFieldsToUnwind: string[],
     rowToUnwind: string,
     colsToAggregate: any[]

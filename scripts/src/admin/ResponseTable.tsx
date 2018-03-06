@@ -4,7 +4,7 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
-import {assign, concat, groupBy, map, keys} from 'lodash-es';
+import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
@@ -28,7 +28,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             schema: null,
             possibleFieldsToUnwind: null,
             rowToUnwind: "",
-            colsToAggregate: []
+            colsToAggregate: [],
+            dataOptions: null
         }
     }
 
@@ -39,9 +40,9 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
 
     componentDidMount() {
         
-        FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form.id, (e) => this.props.handleError(e)).then(({ schema }) => {
+        FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form.id, (e) => this.props.handleError(e)).then(({ schema, dataOptions }) => {
             this.setState({
-                schema
+                schema, dataOptions
             });
         }).then(() => {
             let responseUrl = this.getFormUrl('formResponses');
@@ -84,13 +85,24 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 Headers.makeHeaders(this.state.schema.properties),
                 Headers.makeHeaderObjsFromKeys(["PAYMENT_INFO_TOTAL", "DATE_CREATED", "DATE_LAST_MODIFIED"])
             );
+            let dataOptions = this.state.dataOptions;
+            if (dataOptions && dataOptions.mainTable) {
+                headerObjs = this.filterHeaderObjs(headerObjs, dataOptions.mainTable);
+            }
+            let colsToAggregate = this.getColsToAggregate(dataOptions.mainTable);
             
             // Set possible rows to unwind, equal to top-level array items.
             let possibleFieldsToUnwind = [];
-            for (let fieldName in this.state.schema.properties) {
-                let fieldValue = this.state.schema.properties[fieldName];
-                if (fieldValue.type == "array") {
-                    possibleFieldsToUnwind.push(fieldName);
+            if (dataOptions.unwindTables) {
+                possibleFieldsToUnwind = Object.keys(dataOptions.unwindTables);
+            }
+            else {
+                for (let fieldName in this.state.schema.properties) {
+                    let fieldValue = this.state.schema.properties[fieldName];
+                    if (fieldValue.type == "array") {
+                        possibleFieldsToUnwind.push(fieldName);
+                        dataOptions[fieldName] = {};
+                    }
                 }
             }
             
@@ -98,7 +110,9 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 tableHeaders: headerObjs, tableHeadersDisplayed: headerObjs,
                 tableData: data, tableDataDisplayed: data,
                 status: STATUS_RESPONSES_RENDERED,
-                possibleFieldsToUnwind
+                possibleFieldsToUnwind,
+                dataOptions,
+                colsToAggregate
             });
         });
     }
@@ -129,11 +143,32 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties),
             this.state.tableHeaders // concat original table headers with this.
         );
+        let dataOptions = this.state.dataOptions;
+        if (dataOptions && dataOptions.unwindTables[rowToUnwind]) {
+            headerObjs = this.filterHeaderObjs(headerObjs, dataOptions.unwindTables[rowToUnwind]);
+        }
+        let colsToAggregate = this.getColsToAggregate(dataOptions.unwindTables[rowToUnwind]);
         this.setState({
             tableDataDisplayed: data,
             tableHeadersDisplayed: headerObjs,
-            colsToAggregate: ["race", "shirt_size"]
+            colsToAggregate
         });
+    }
+    filterHeaderObjs(headerObjs, dataOption) {
+        let filtered = [];
+        if (dataOption && dataOption.columnOrder && dataOption.columnOrder.length && isArray(dataOption.columnOrder)) {
+            filtered = intersectionWith(headerObjs, dataOption.columnOrder, (header, order) => header.id == order);
+        }
+        if (filtered.length == 0) { // Don't return empty header objs.
+            return headerObjs;
+        }
+        return filtered;
+    }
+    getColsToAggregate(dataOption) {
+        if (dataOption && dataOption.aggregateCols && dataOption.aggregateCols.length && isArray(dataOption.aggregateCols)) {
+            return dataOption.aggregateCols;
+        }
+        return [];
     }
 
     showResponsesTable() {
@@ -188,15 +223,19 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                             Download CSV
                             </CSVLink>
                             {makeTable()}
-                            <div><b>Aggregate:</b>
+                            <div className="row"><h2 className="col-12 text-center my-4">Aggregated data</h2>
                             {
                                 this.state.colsToAggregate.map(col => {
                                     let headers = Headers.makeHeaderObjsFromKeys(["Value", "Count"]);
-                                    let data = groupBy(state.sortedData, e=>e[col]);
+                                    let data = groupBy(state.sortedData, e=>get(e._original, col));
                                     data = map(keys(data), k=>({"Value": k, "Count": data[k].length}));
+                                    console.warn(col, data);
                                     if (data && data.length == 1 && data[0] && data[0].Value == 'undefined') return null;
-                                    console.log(data);
-                                    return data ? <ReactTable key={col} data={data} columns={headers} minRows={0} /> : null;
+                                    
+                                    return data ? <div key={col} className="col-12 col-sm-6 col-md-3">
+                                        <b>Aggregated by {col}:</b>
+                                        <ReactTable data={data} columns={headers} minRows={0} showPagination={false} />
+                                    </div> : null;
                                 })
                             }
                             </div>

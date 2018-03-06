@@ -66,8 +66,22 @@ interface ISchemaModifierDBEntry extends IDBEntry {
     value: SchemaModifier,
     paymentMethods: IPaymentMethods,
     confirmationEmailInfo: ConfirmationEmailInfo,
+    dataOptions: IDataOptions,
     extraOptions: any,
     paymentInfo: IPaymentInfo,
     version: Number,
     id: string
+}
+interface IDataOptions {
+    exportRows?: string[],
+    mainTable?: {
+        columnOrder?: string[],
+        aggregateCols?: string[]
+    },
+    unwindTables?: {
+        [columnName:string]: {
+            columnOrder?: string[],
+            aggregateCols?: string[]
+        }
+    }[]
 }

@@ -59,12 +59,13 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
 
     }
     onChange(path, data) {
-        if (isObject(get(this.state, path))) {
+        //console.log(path, data);
+        //if (isObject(get(this.state, path))) {
             this.setState(set(assign({}, this.state), path, data));
-        }
-        else {
-            alert("Error: " + path + " not found or not an object in state.");
-        }
+        //}
+        //else {
+        //    alert("Error: " + path + " not found or not an object in state.");
+        //}
     }
     saveForm() {
         let dataToSend = {
@@ -239,6 +240,13 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             disabled={false}
                             large={true}
                             onChange={(e) => this.onChange("schema.value", e)}
+                        />
+                        <JSONEditor
+                            title={"Data Options"}
+                            data={this.state.schemaModifier.dataOptions}
+                            disabled={false}
+                            large={true}
+                            onChange={(e) => this.onChange("schemaModifier.dataOptions", e)}
                         />
                     </div>
                     {this.renderTopPane()}
