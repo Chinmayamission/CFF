@@ -44,7 +44,7 @@ let createSchemas = data => {
     let isEditingResponse = !!data["responseLoaded"];
     let paymentCalcInfo = data['schemaModifier'].paymentInfo; // Information about payment for purposes of calculation.
     var schemaModifier = data["schemaModifier"].value;
-    let dataOptions = data['schemaModifier'].dataOptions;
+    let dataOptions = data['schemaModifier'].dataOptions || {};
     // var uiSchema = schemaModifier;
     let schema = data["schema"].value;
     schema = deref(schema);

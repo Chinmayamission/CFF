@@ -86,10 +86,11 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 Headers.makeHeaderObjsFromKeys(["PAYMENT_INFO_TOTAL", "DATE_CREATED", "DATE_LAST_MODIFIED"])
             );
             let dataOptions = this.state.dataOptions;
-            if (dataOptions && dataOptions.mainTable) {
+            let colsToAggregate = [];
+            if (dataOptions.mainTable) {
                 headerObjs = this.filterHeaderObjs(headerObjs, dataOptions.mainTable);
+                colsToAggregate = this.getColsToAggregate(dataOptions.mainTable);
             }
-            let colsToAggregate = this.getColsToAggregate(dataOptions.mainTable);
             
             // Set possible rows to unwind, equal to top-level array items.
             let possibleFieldsToUnwind = [];
@@ -144,10 +145,12 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             this.state.tableHeaders // concat original table headers with this.
         );
         let dataOptions = this.state.dataOptions;
-        if (dataOptions && dataOptions.unwindTables[rowToUnwind]) {
+        let colsToAggregate = [];
+        if (dataOptions.unwindTables && dataOptions.unwindTables[rowToUnwind]) {
             headerObjs = this.filterHeaderObjs(headerObjs, dataOptions.unwindTables[rowToUnwind]);
+            colsToAggregate = this.getColsToAggregate(dataOptions.unwindTables[rowToUnwind]);
         }
-        let colsToAggregate = this.getColsToAggregate(dataOptions.unwindTables[rowToUnwind]);
+        
         this.setState({
             tableDataDisplayed: data,
             tableHeadersDisplayed: headerObjs,
