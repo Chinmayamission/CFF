@@ -28,7 +28,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.render = this.render.bind(this);
         this.state = {
             formList: [],
-            center: "CMSJ",
+            center: "",
             selectedForm: null,
             status: STATUS_LOADING,
             hasError: false,
