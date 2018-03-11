@@ -1,8 +1,18 @@
 var gulp = require('gulp');
 var shell = require('gulp-shell');
 var typescript = require('gulp-tsc');
+var connect = require('gulp-connect');
+
+gulp.task('serve', ['default', 'webserver']);
 
 gulp.task('default', ['FormPage-js']);
+
+gulp.task('webserver', function() {
+    connect.server({
+        port: 8000,
+        root: "."
+    });
+});
 
 const DJANGO_ROOT_URL = "./htdocs/cff";
 const FORMBUILDER_URL = "./htdocs/cff/gcmw/forms/formBuilder";

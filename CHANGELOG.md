@@ -11,6 +11,35 @@ Roadmap
 - Emails: restrict fromEmail to only a few.
 - Download CSV server-side, not client-side.
 - Customize columns to come in download CSV (include paymentInfo here)
+- Allow duplication of forms and schemaModifiers.
+
+todo:
+- allow for aggregates to be publicly shared.
+- allow people to select "paid by check" instead of paypal.
+- contact_name: true should work, not contact_name: {first: true, last: true}
+- bug: (todo): email conf not sent when "you have already paid" (amt owed changes by nil)
+- (todo): add ui-widget called "cff:checkShow":
+```
+{
+  "ui:widget": "cff:checkShow",
+  "ui:cff:check:title": "...",
+  "ui:cff:check:description": "...",
+  "ui:cff:check:className": "..."
+}
+```
+
+Current versions:
+clients:
+omrun -- 1.1.7, cmatej - 1.1.7 
+lambdas:
+prod: 1.1.8
+dev: 1.1.8
+
+## 1.1.9 (??)
+- allow "gulp serve" option for devs to make it self-contained
+
+## 1.1.8 (server-side lambda only)
+- Disallow editing of schema 
 
 ## 1.1.7 (client plugin only)
 - Show payment info total as part of response table (to be exported as CSV)
