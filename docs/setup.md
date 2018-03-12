@@ -18,11 +18,19 @@ Then go to
 ```notepad ~/.ssh/config```
 Add the following lines to that file: (Replace APKAEIBAERJR2EXAMPLE with the SSH key ID)
 ```
-Host git-codecommit.*.amazonaws.com
-  User APKAEIBAERJR2EXAMPLE
+Host ccmt
+  Hostname git-codecommit.us-east-1.amazonaws.com
+  User KASLJDKLASDKLASJDLK
   IdentityFile ~/.ssh/id_rsa
 ```
-Then do ```git clone ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/ccmt-cff-wp-plugin```
+Then do ```git clone ssh://ccmt/v1/repos/ccmt-cff-wp-plugin```
+
+# Dev setup
+```
+npm install -g webpack gulp
+npm install
+gulp serve
+```
 
 # Dev run
 Run:
