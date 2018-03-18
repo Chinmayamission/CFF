@@ -1,4 +1,4 @@
-from chalice import Chalice
+from chalice import Chalice, AuthResponse
 from chalicelib.models import Form
 import json
 
@@ -8,7 +8,7 @@ app.debug = True
 @app.authorizer()
 def basic_auth(auth_request):
     token = auth_request.token
-    app.log.debug("TOKEN IS {}".format(json.dumps(auth_request)))
+    #app.log.debug("TOKEN IS {}".format(json.dumps(auth_request)))
     # This is just for demo purposes as shown in the API Gateway docs.
     # Normally you'd call an oauth provider, validate the
     # jwt token, etc.
@@ -21,8 +21,17 @@ def basic_auth(auth_request):
         # we're saying this user is not authorized
         # for any URLs, which will result in an
         # Unauthorized response.
-        return AuthResponse(routes=[], principal_id='user')
+        return AuthResponse(routes=[''], principal_id='user')
 
+"""
+# Home page
+http http://localhost:8000/forms/ "Authorization: allow"
+
+# Get form
+http http://localhost:8000/forms/e4548443-99da-4340-b825-3f09921b4bc5 "Authorization: allow"
+
+http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authorization: allow"
+"""
 @app.route('/forms')
 def index():
     app.log.debug("forms called")

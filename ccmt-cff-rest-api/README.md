@@ -1,3 +1,11 @@
+# CCMT CFF REST API
+Built using AWS Chalice.
+
+## Run locally
+npm start
+
+## Deploy
+npm run deploy
 
 vim ~/.aws/config
 vim ~/.aws/credentials
