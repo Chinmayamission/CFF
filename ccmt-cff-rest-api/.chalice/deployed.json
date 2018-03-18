@@ -2,7 +2,12 @@
   "dev": {
     "api_handler_name": "ccmt-cff-api-dev",
     "api_handler_arn": "arn:aws:lambda:us-east-1:131049698002:function:ccmt-cff-api-dev",
-    "lambda_functions": {},
+    "lambda_functions": {
+      "ccmt-cff-api-dev-basic_auth": {
+        "arn": "arn:aws:lambda:us-east-1:131049698002:function:ccmt-cff-api-dev-basic_auth",
+        "type": "authorizer"
+      }
+    },
     "backend": "api",
     "chalice_version": "1.1.1",
     "rest_api_id": "ewnywds4u7",

@@ -9,8 +9,16 @@ region = us-east-1
 output = JSON
 region = us-east-1
 
+set profile=ashwin-cff-lambda
+
+npm start
+npm run logs
+
 chalice deploy --profile ashwin-cff-lambda --stage dev
+chalice deploy --profile ashwin-cff-lambda --stage beta
 chalice deploy --profile ashwin-cff-lambda --stage prod
+
+chalice logs --profile ashwin-cff-lambda --stage dev
 
 Dev: https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/
 Beta: https://jl6kpo0pd3.execute-api.us-east-1.amazonaws.com/api/

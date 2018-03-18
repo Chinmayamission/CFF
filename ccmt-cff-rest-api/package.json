@@ -1,0 +1,17 @@
+{
+  "name": "ccmt-cff-rest-api",
+  "version": "1.0.0",
+  "description": "vim ~/.aws/config\r vim ~/.aws/credentials",
+  "main": "index.js",
+  "scripts": {
+    "logs": "chalice logs --profile ashwin-cff-lambda --stage dev",
+    "start": "cross-env TABLE_PREFIX=cff_dev AWS_PROFILE=ashwin-cff-lambda chalice local --stage dev",
+    "deploy": "chalice deploy --profile ashwin-cff-lambda --stage dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^5.1.4"
+  }
+}
