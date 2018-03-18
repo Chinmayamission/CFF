@@ -17,6 +17,8 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
+          data: props.data,
+          isEditting: {}
         }
     }
 
@@ -45,7 +47,10 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
     }
 
     render() {
+      // console.log('hello')
+        // console.log(this.props.data)
         //this.editor && this.editor.set(this.props.data);
+        // <div></div>
         return (
             <div className={this.props.large ? "col-12 col-sm-6 col-md-6 p-0 m-0": "col-12 col-sm-6 col-md-4 p-0 m-0"} style={{ "float": "left", "height": "auto" }}>
                 <h2>{this.props.title}</h2>
