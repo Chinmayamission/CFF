@@ -5,8 +5,8 @@
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "start": "gulp serve",
+    "build": "gulp build"
   },
   "keywords": [],
   "author": "",
@@ -45,14 +45,14 @@
     "react-jsonschema-form": "^0.51.0",
     "react-paypal-express-checkout": "^1.0.3",
     "through2": "^2.0.3",
-    "ts-loader": "^3.1.0",
+    "ts-loader": "^4.1.0",
     "tsify": "^3.0.4",
     "typescript": "^2.5.3",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0",
-    "webpack": "^3.10.0",
+    "webpack": "^4.1.1",
     "webpack-bundle-tracker": "^0.2.0",
     "webpack-dev-server": "^2.0.0",
     "webpack-merge": "^4.1.2"

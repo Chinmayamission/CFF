@@ -40,3 +40,4 @@ cache
 node_modules
 dist
 *.zip
+prod
