@@ -35,6 +35,9 @@ prod: 1.1.10
 dev: 1.1.10
 beta: 1.1.10
 
+## 1.1.11
+- Serve scripts in wordpress plugin from cloudfront; wp plugin is separate from the actual js.
+- Use minified, production-build scripts
 - allow "gulp serve" option for devs to make it self-contained (client)
 
 ## 1.1.10 (server only)

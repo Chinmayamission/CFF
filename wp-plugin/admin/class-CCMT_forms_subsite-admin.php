@@ -70,8 +70,8 @@ class CCMT_Forms_Subsite_Admin {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/CCMT_forms_subsite-admin.js', array( 'jquery' ), $this->version, false );
-		wp_register_script( "ccmt-cff-edit-vendor", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js', false, filemtime( plugin_dir_path( dirname( __FILE__ ) ) . 'scripts/dist/vendor.bundle.js' ));
-		wp_register_script( "ccmt-cff-edit-app", plugin_dir_url( dirname( __FILE__ ) ) . 'scripts/dist/app.js', array('ccmt-cff-edit-vendor'), filemtime( plugin_dir_path( dirname( __FILE__ ) ) . 'scripts/dist/app.js' ) );
+		wp_register_script( "ccmt-cff-edit-vendor", 'https://gcmw-media.s3.amazonaws.com/CFF/app.js');
+		wp_register_script( "ccmt-cff-edit-app", 'https://gcmw-media.s3.amazonaws.com/CFF/vendor.bundle.js');
 	}
 
 	public function ccmt_cff_add_form_management_page() {
