@@ -6,18 +6,17 @@ Todo:
 Roadmap
 # 2.x
 - Authentication with facebook and cognito.
-- Show total counts.
 - Emails: sanitize HTML
-- Emails: restrict fromEmail to only a few.
+- Emails: restrict fromEmail to only a few, with a custom IAM policy.
 - Download CSV server-side, not client-side.
 - Customize columns to come in download CSV (include paymentInfo here)
 - Allow duplication of forms and schemaModifiers.
+- Email open and click tracking https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html
+- 
 
 todo:
-- allow for aggregates to be publicly shared.
 - allow people to select "paid by check" instead of paypal.
 - contact_name: true should work, not contact_name: {first: true, last: true}
-- bug: (todo): email conf not sent when "you have already paid" (amt owed changes by nil)
 - (todo): add ui-widget called "cff:checkShow":
 ```
 {
@@ -32,11 +31,21 @@ Current versions:
 clients:
 omrun -- 1.1.7, cmatej - 1.1.7 
 lambdas:
-prod: 1.1.8
-dev: 1.1.8
+prod: 1.1.10
+dev: 1.1.10
+beta: 1.1.10
 
-## 1.1.9 (??)
-- allow "gulp serve" option for devs to make it self-contained
+- allow "gulp serve" option for devs to make it self-contained (client)
+
+## 1.1.10 (server only)
+- add logging for emails sent and 
+- bcc and cc support for emails (in confirmationEmailInfo)
+- use send_email instead of send_raw_email for emails
+- allow email "toField" to be deep (with dot notation to access value)
+- fix bug: email confirmation not sent when using a coupon code on new response
+
+## 1.1.9 (server only)
+- add formSummary option (publicly accessible) from responses.
 
 ## 1.1.8 (server-side lambda only)
 - Disallow editing of schema 
