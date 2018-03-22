@@ -4,13 +4,12 @@
 
 # Run
 ```npm install
-npm install -g webpack gulp
-gulp
+npm install -g webpack webpack-cli gulp
+gulp serve
 ```
-# Setup
-```cd "/mnt/c/Users/arama/Documents/My Web Sites/WordPress/wp-content/plugins/CFF"
-
-find . -type f -exec rename 's/gcmw/CCMT/' '{}' \;
+# Deploy to production
+```
+gulp build
 ```
 
 # quick form test code

@@ -28,14 +28,28 @@ todo:
 ```
 
 Current versions:
-clients:
-omrun -- 1.1.7, cmatej - 1.1.7 
+clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.11
 lambdas:
 prod: 1.1.10
 dev: 1.1.10
 beta: 1.1.10
 
-## 1.1.11
+## 1.1.12 -- (client side only) (JS v 1.1.12)
+- Fix css rendering of button height.
+- Allow add button and remove button text to be modified in the schemaModifier:
+```json
+"participants": {
+  "type": "array",
+  "items": [...],
+  "ui:cff:addButtonText": "Add the person",
+  "ui:cff:removeButtonText": "Remove! Custom text!",
+}
+```
+- Add an http://localhost:8000/index-prod.html page for development to test production versions of js
+- Reference dist folder of json-deref so that backticks don't show up (problem in IE)
+- Add babel-polyfill and transpiling to allow it to work in IE 10+.
+
+## 1.1.11 (client side only) (JS v1.1.11, WP PLUGIN v1.1.11)
 - Serve scripts in wordpress plugin from cloudfront; wp plugin is separate from the actual js.
 - Use minified, production-build scripts
 - allow "gulp serve" option for devs to make it self-contained (client)
