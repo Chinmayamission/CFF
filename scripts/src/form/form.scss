@@ -10,6 +10,9 @@
 
 .ccmt-cff-Page-FormPage {
     // padding: 0px 10px;
+    input, button {
+        height: auto;
+    }
     input {
         //max-width: 400px;
     }
