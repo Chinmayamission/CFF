@@ -7,7 +7,7 @@ const DEST_URL = FORMBUILDER_URL + "/dist";
 
 module.exports = {
   entry: {
-    app: SRC_URL + '/index'
+    app: ["babel-polyfill", SRC_URL + '/index']
   },
   optimization: {
     splitChunks: {
@@ -29,7 +29,25 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'ts-loader'
+        use:
+          [
+            {
+              'loader': 'babel-loader',
+              options: {
+                "cacheDirectory": true,
+                "presets": [
+                  ["env", {
+                    "targets": {
+                      "browsers": "> 5%"
+                    }
+                  }]
+                ]
+              }
+            },
+            {
+              'loader': 'ts-loader'
+            }
+          ]
       },
       {
         test: /\.s?css$/,
