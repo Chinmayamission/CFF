@@ -56,7 +56,6 @@ class ArrayFieldTemplate extends React.Component<any, any> {
         <div
           className="array-item-list"
           key={`array-item-list-${this.props.idSchema.$id}`}>
-          {console.error(this.props.items)}
           {this.props.items.map((element, i) =>
             <div className="row mb-4" key={i}>
               <div className="col-9">
@@ -67,10 +66,10 @@ class ArrayFieldTemplate extends React.Component<any, any> {
                 {(element.hasRemove && i >= (this.props.schema.minItems || 0)) ?
                   <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" onClick={element.onDropIndexClick(element.index)}>Remove</button>
                   :
-                  <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" style={{ "visibility": "hidden" }}>Remove</button>
+                  <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" style={{ "visibility": "hidden" }}>{this.props.uiSchema["ui:cff:removeButtonText"] || "Remove"}</button>
                 }
                 {this.props.canAdd && i == this.props.items.length - 1 &&
-                  <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>Add</button>
+                  <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>{this.props.uiSchema["ui:cff:addButtonText"] || "Add"}</button>
                 }
               </div>
             </div>

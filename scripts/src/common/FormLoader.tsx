@@ -1,6 +1,6 @@
 /// <reference path="./common.d.ts"/>
 import axios from 'axios';
-import * as deref from "json-schema-deref-sync";
+import * as deref from "json-schema-deref-sync/dist";
 import {flatten} from 'flat';
 import SchemaUtil from "src/common/util/SchemaUtil";
 import MockData from "src/common/util/MockData";
@@ -156,7 +156,10 @@ let createSchemas = data => {
                     });
                 }*/
             }
-            else if (!~fieldPath.indexOf(".ui:cff")) {
+            else {
+                if (~fieldPath.indexOf(".ui:cff")) {
+                    console.error("Adding a CFF UI attribute into schema which hasn't been handled: ", fieldPath);
+                }
                 set(uiSchema, fieldPath, fieldValue);
             }
         }
