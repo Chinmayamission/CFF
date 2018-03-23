@@ -12,6 +12,10 @@ gulp serve
 gulp build
 ```
 
+# Notes
+## Compatibility
+IE 10+, Chrome ??, Firefox ?? (export data doesn't work here).
+
 # quick form test code
 ```
 function setVal(input, theValue, elemType=window.HTMLInputElement) { var nativeInputValueSetter = Object.getOwnPropertyDescriptor(elemType.prototype, "value").set;
