@@ -4,7 +4,7 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
-import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith} from 'lodash-es';
+import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith, find, union, filter} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
@@ -37,6 +37,19 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         let formId = this.props.form.id;
         return this.props.apiEndpoint + '?action=' + action + '&apiKey=' + this.props.apiKey +  '&version=1&id=' + formId;
     }
+    formatPayment(total, currency="USD") {
+        if (Intl && Intl.NumberFormat) {
+            return Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(total);
+        }
+        else {
+            return total + " " + currency;
+        }
+    }
+    setRow(row, value, valueToAssign, headerNamesToShow) {
+        valueToAssign[row] = value;
+        if (!~headerNamesToShow.indexOf(row))
+            headerNamesToShow.push(row);
+    }
 
     componentDidMount() {
         
@@ -58,8 +71,9 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         .then(data => {
             data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
             console.log("SORTED", data.map(e => e.date_created));
+            let headerNamesToShow = ["PAID", "IPN_TOTAL_AMOUNT", "DATE_LAST_MODIFIED", "DATE_CREATED", "NUMERIC_ID", "PAYMENT_INFO_TOTAL"];
             data = data.map((e, index) => {
-                assign(e.value, {
+                let valueToAssign = {
                     "ID": e.responseId,
                     "PAID": e.PAID ? "YES": "NO",
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
@@ -68,10 +82,26 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                     "DATE_CREATED": e.date_created,
                     "NUMERIC_ID": index + 1,
                     "DATE_LAST_MODIFIED": e.date_last_modified,
-                    "PAYMENT_INFO_TOTAL": e.paymentInfo.total,
+                    "PAYMENT_INFO_TOTAL": this.formatPayment(e.paymentInfo.total),
+                    "UPDATE_HISTORY": e.UPDATE_HISTORY,
                     //"PAYMENT_INFO_ITEMS": '"' + JSON.stringify(e.paymentInfo.items) + '"',
                     "CONFIRMATION_EMAIL_INFO": e.confirmationEmailInfo
-                });
+                };
+                // todo: what to do when donationAmount and roundOff are specified as different?
+                let donationItem = find(e.paymentInfo.items, i => ~i.name.toLowerCase().indexOf("donation") || ~i.name.toLowerCase().indexOf("donation"));
+                let hasRoundOff = e.value.roundOff == true;
+                console.log(e.value.roundOff, hasRoundOff);
+                if (donationItem) {
+                    let roundOffAmount = 0;
+                    if (hasRoundOff && e.value.additionalDonation) {
+                        // Set round off item equal to the total donation amount minus the "aditional donation"
+                        roundOffAmount = donationItem.amount - e.value.additionalDonation;
+                        this.setRow("PAYMENT_INFO_ROUNDOFF", this.formatPayment(roundOffAmount), valueToAssign, headerNamesToShow);
+                    }
+                    this.setRow("PAYMENT_INFO_DONATION", this.formatPayment(donationItem.amount), valueToAssign, headerNamesToShow);
+                    this.setRow("PAYMENT_INFO_NON_DONATION", this.formatPayment(e.paymentInfo.total - donationItem.amount - roundOffAmount), valueToAssign, headerNamesToShow);
+                }
+                assign(e.value, valueToAssign);
                 this.setState({tableDataOrigObject: data});
                 return e.value;
                 //return flatten(e.value);
@@ -83,7 +113,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 paidHeader,
                 Headers.makeHeaderObjsFromKeys(["ID"]),
                 Headers.makeHeaders(this.state.schema.properties),
-                Headers.makeHeaderObjsFromKeys(["PAYMENT_INFO_TOTAL", "DATE_CREATED", "DATE_LAST_MODIFIED"])
+                Headers.makeHeaderObjsFromKeys(headerNamesToShow)
+                // Headers.makeHeaderObjsFromKeys(["PAYMENT_INFO_TOTAL", "DATE_CREATED", "DATE_LAST_MODIFIED"])
             );
             let dataOptions = this.state.dataOptions;
             let colsToAggregate = [];
