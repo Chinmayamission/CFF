@@ -31,11 +31,14 @@ BUGS:
 - ui:cff:removeButtonText not working.
 
 Current versions:
-clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.11
+clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.13
 lambdas:
 prod: 1.1.10
 dev: 1.1.10
 beta: 1.1.10
+
+## 1.1.13 -- (client side only) (JS v 1.1.3 - JS uploaded Mar 23, 2018 5:40 PM PST)
+- Show round off, donation, and other columns in response table.
 
 ## 1.1.12 -- (client side only) (JS v 1.1.12 - JS uploaded 3/21/18 6:20 PM)
 - Fix css rendering of button height.
