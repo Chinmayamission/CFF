@@ -32,3 +32,11 @@ Sample value:
   }
 }
 ```
+
+
+## Custom aggregation of cols:
+```
+  "shirt_size",
+  {"title": "Cotton shirt sizes", "colName": "shirt_size", "filter": {"key": "race", "value": "Mela"}},
+  {"title": "Tek shirt sizes", "colName": "shirt_size", "filter": {"key": "race", "value": ["5K", "10K", "Half Marathon"]}},
+```

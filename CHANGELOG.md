@@ -32,12 +32,11 @@ BUGS:
 
 Current versions:
 clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.13
-lambdas:
-prod: 1.1.10
-dev: 1.1.10
-beta: 1.1.10
 
-## 1.1.13 -- (client side only) (JS v 1.1.3 - JS uploaded Mar 23, 2018 5:40 PM PST)
+## 1.1.14 (JS uploaded)
+- Fix "$contact_name" etc. showing up in paypal screen; get the proper values pre-filled on guest checkout.
+
+## 1.1.13 -- (client side only) (JS v 1.1.13 - JS uploaded Mar 23, 2018 5:40 PM PST)
 - Show round off, donation, and other columns in response table.
 
 ## 1.1.12 -- (client side only) (JS v 1.1.12 - JS uploaded 3/21/18 6:20 PM)
