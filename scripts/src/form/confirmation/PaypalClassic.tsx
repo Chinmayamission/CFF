@@ -53,13 +53,14 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "discount_amount_cart": Math.abs(sumBy(items, e => e.amount < 0 ? e.amount : 0)) +
                 (this.props.paymentInfo_received ? this.props.paymentInfo_received.total : 0)
         }
-        /*for (let i in state) {
+        // Replace $'s with actual values from the data.
+        for (let i in state) {
             if (typeof state[i] === 'string' && state[i][0] == "$") {
                 let key = state[i].substring(1);
                 state[i] = get(this.props.formData, key) || "";
                 // console.log(this.props.formData, key, state[i]);
             }
-        }*/
+        }
         this.state = state;
     }
     componentDidMount() {
