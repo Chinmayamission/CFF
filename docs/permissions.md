@@ -4,7 +4,7 @@
 This renders:
 ```
 <div data-cff-form-id="formId"
-  data-ccmt-cff-form-endpoint="endpoint"
+  data-ccmt-cff-api-endpoint="endpoint"
   data-ccmt-cff-auth-key="authKey"
   data-ccmt-cff-specified-show-fields="couponCode, manualPayment">
 ```

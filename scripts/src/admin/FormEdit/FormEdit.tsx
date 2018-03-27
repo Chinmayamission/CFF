@@ -77,6 +77,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         console.log("data to send", dataToSend, this.state.couponCodes);
 
         this.setState({ ajaxLoading: true });
+        let url = "";
         axios.post(this.props.apiEndpoint + "?action=formEdit&id=" + this.props.form.id + "&version=1&apiKey=" + this.props.apiKey, dataToSend).then((response) => {
             let res = response.data.res;
             if (!(res.success == true && res.updated_values)) {

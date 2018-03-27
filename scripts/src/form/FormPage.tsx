@@ -138,6 +138,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       console.log("yes");
       formUrl += "&resid=" + this.state.responseId;
     }
+    if (this.props.authKey) {
+      formUrl += "&authKey=" + this.props.authKey;
+    }
     formUrl += "&modifyLink=" + window.location.href;
     return encodeURI(formUrl);
   }
@@ -238,14 +241,22 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         }
       }
       let newResponse = res.action == "insert";
+      let paymentInfo_received = null;
+      if (!newResponse) {
+        // Todo: get paymentInfo_received from server, too, even if it's a new response.
+        // todo: don't hardcode currency.
+        paymentInfo_received = {"currency": "USD", "total": res.total_amt_received };
+      }
+      if (res.paid) {
+        paymentInfo_received = res.paymentInfo
+      }
       this.setState({
         ajaxLoading: false,
         status: STATUS_FORM_CONFIRMATION,
         data: formData,
         responseId: res.id,
         paymentInfo: res.paymentInfo,
-        paymentInfo_received: newResponse ? null : {"currency": "USD", "total": res.total_amt_received }
-        // todo: don't hardcode currency.
+        paymentInfo_received: paymentInfo_received
       });
     }).catch((err) => {
       alert("Error. " + err);

@@ -19,3 +19,6 @@
   "message": "Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018."
 }
 ```
+
+`modifyLink`: overrides default modify link (which is the page url)
+Use case: you have an admin form (with manualEntry), but you want people when they submit and then edit from confirmation email, the link should link back to the regular form.

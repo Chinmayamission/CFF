@@ -38,9 +38,10 @@ Todo:
 
 ## 1.1.16
 - Server version: 1.1.18
+- WP Plugin version: 1.1.12
 - Hide label when ui:hidden widget is used (to make ui:cff:display:if:qs work properly).
 - Allow authKey and specifiedShowFields to be specified in the form div (see documentation/permissions.md for more details)
-- Change ui:cff:display:if:qs to ui:cff:display:if:specified.
+- Change ui:cff:display:if:qs to ui:cff:display:if:specified (these fields are only shown whenever they're included within specifiedShowFields).
 - Show schema and schemaModifier IDs in form edit page
 
 ## 1.1.15 (JS uploaded March 26, 2018)
