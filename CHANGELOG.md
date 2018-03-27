@@ -9,7 +9,6 @@ Roadmap
 - Emails: sanitize HTML
 - Emails: restrict fromEmail to only a few, with a custom IAM policy.
 - Download CSV server-side, not client-side.
-- Customize columns to come in download CSV (include paymentInfo here)
 - Allow duplication of forms and schemaModifiers.
 - Email open and click tracking https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html
 - 
@@ -31,9 +30,26 @@ BUGS:
 - ui:cff:removeButtonText not working.
 
 Current versions:
-clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.13
+clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 
-## 1.1.14 (JS uploaded)
+Todo:
+- hide title "Payment" in form loading
+- see if res.paid == True when displaying the payment method options.
+
+## 1.1.15 (JS uploaded March 26, 2018)
+- Server version: 
+- Implement ui:cff:display:if:qs.
+- This allows conditional visibility of manualEntry:
+```
+{
+  "title": "Method of Payment",
+  "enum": ["Cash", "Check", "Square"],
+  "ui:cff:display:if:qs": "manualEntry"
+}
+- And of couponCodes.
+```
+
+## 1.1.14 (JS uploaded March 26, 2018 8:04 AM PST)
 - Fix "$contact_name" etc. showing up in paypal screen; get the proper values pre-filled on guest checkout.
 
 ## 1.1.13 -- (client side only) (JS v 1.1.13 - JS uploaded Mar 23, 2018 5:40 PM PST)
