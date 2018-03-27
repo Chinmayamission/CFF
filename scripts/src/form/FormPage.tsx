@@ -100,7 +100,6 @@ var This;
 const log = console.log;
 
 class FormPage extends React.Component<IFormPageProps, IFormPageState> {
-
   constructor(props: any) {
     super(props);
     This = this;
@@ -169,7 +168,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       this.setState({"status": STATUS_FORM_PAYMENT_SUCCESS});
     }
     else if (queryObjFlat["responseId"]) {
-      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, queryObjFlat["responseId"], (e) => this.handleError(e))
+      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, queryObjFlat["responseId"], (e) => this.handleError(e))
       .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
         this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
           responseId: responseLoaded["responseId"],
@@ -185,7 +184,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if ((window as any).CCMT_CFF_DEVMODE_AUTOFILL == true) {
         this.setState({data: MockData.sampleData});
       }
-      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, (e) => this.handleError(e))
+      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, (e) => this.handleError(e))
       .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
         this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
           status: STATUS_FORM_RENDERED,

@@ -36,8 +36,15 @@ Todo:
 - hide title "Payment" in form loading
 - see if res.paid == True when displaying the payment method options.
 
+## 1.1.16
+- Server version: 1.1.18
+- Hide label when ui:hidden widget is used (to make ui:cff:display:if:qs work properly).
+- Allow authKey and specifiedShowFields to be specified in the form div (see documentation/permissions.md for more details)
+- Change ui:cff:display:if:qs to ui:cff:display:if:specified.
+- Show schema and schemaModifier IDs in form edit page
+
 ## 1.1.15 (JS uploaded March 26, 2018)
-- Server version: 
+- Server version: 1.1.17
 - Implement ui:cff:display:if:qs.
 - This allows conditional visibility of manualEntry:
 ```

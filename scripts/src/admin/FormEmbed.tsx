@@ -34,7 +34,9 @@ class FormEdit extends React.Component<any, any> {
                 </pre>
                 <button className="btn btn-primary" onClick={() => {this.onOpenModal()}}>Preview</button>
                 <Modal open={this.state.open} onClose={this.onCloseModal}>
-                    <FormPage formId = {this.props.form.id} apiEndpoint={this.props.apiEndpoint}/>
+                    <FormPage formId = {this.props.form.id} apiEndpoint={this.props.apiEndpoint}
+                        authKey="" specifiedShowFields={[""]} />
+                    {/* todo: make default props, etc. toggle-able. */}
                 </Modal>
             </div>
         );

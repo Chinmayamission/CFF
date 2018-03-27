@@ -43,7 +43,10 @@ let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElemen
 if (formRenderElement) {
   ReactDOM.render(
     <div className="ccmt-cff-Wrapper-Bootstrap">
-      <FormPage formId={formRenderElement.getAttribute('data-ccmt-cff-form-id')} apiEndpoint={formRenderElement.getAttribute('data-ccmt-cff-api-endpoint')} />
+      <FormPage formId={formRenderElement.getAttribute('data-ccmt-cff-form-id')}
+        authKey={formRenderElement.getAttribute('data-ccmt-cff-auth-key')}
+        specifiedShowFields={(formRenderElement.getAttribute('data-ccmt-cff-specified-show-fields') || "").split(",")}
+        apiEndpoint={formRenderElement.getAttribute('data-ccmt-cff-api-endpoint')} />
     </div>
     ,
     formRenderElement

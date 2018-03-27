@@ -38,7 +38,7 @@ let isUiSchemaPath = (path) => {
     return path && (~path.indexOf("ui:") || ~path.indexOf("classNames"));
 }
 
-let createSchemas = data => {
+let createSchemas = (data, specifiedShowFields) => {
     let validationInfo: IValidationInfoItem[] = [];
     let focusUpdateInfo: IFocusUpdateInfoItem[] = [];
     let isEditingResponse = !!data["responseLoaded"];
@@ -157,14 +157,13 @@ let createSchemas = data => {
                     });
                 }*/
             }
-            else if (~fieldPath.indexOf(".ui:cff:display:if:qs")) {
-                // Show field only if query string contains text in "ui:cff:display:if:qs".
-                let url = new URL(window.location.href);
-                if (typeof(url.searchParams.get(fieldValue)) == undefined || url.searchParams.get(fieldValue) == null) {
-                    toSetAtEnd.push(() => set(uiSchema, fieldPath.replace("ui:cff:display:if:qs", "ui:widget"), "hidden"));
+            else if (~fieldPath.indexOf(".ui:cff:display:if:specified")) {
+                // Show field only if it's in the specified show fields attribute.
+                if (~specifiedShowFields.indexOf(fieldPath.replace(".ui:cff:display:if:specified",""))) {
+                    set(uiSchema, fieldPath, fieldValue);
                 }
                 else {
-                    set(uiSchema, fieldPath, fieldValue);
+                    toSetAtEnd.push(() => set(uiSchema, fieldPath.replace("ui:cff:display:if:specified", "ui:widget"), "hidden"));
                 }
             }
             else {
@@ -225,6 +224,9 @@ export module FormLoader {
             if (opts.apiKey) {
                 url += "&apiKey=" + opts.apiKey;
             }
+            if (opts.authKey) {
+                url += "&authKey=" + opts.authKey;
+            }
         }
         return  axios.get(url, { "responseType": "json" })
         .catch(e => {
@@ -236,11 +238,13 @@ export module FormLoader {
         .then(response => response.data.res);
         // .then(unescapeJSON);
     }
-    export function getFormAndCreateSchemas(apiEndpoint, formId, handleError) {
-        return this.getForm(apiEndpoint, formId).then(createSchemas).catch(handleError);
+    export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {
+        return this.getForm(apiEndpoint, formId, {"authKey": authKey})
+            .then(e => createSchemas(e, specifiedShowFields)).catch(handleError);
     }
-    export function loadResponseAndCreateSchemas(apiEndpoint, formId, responseId, handleError) {
-        return this.getForm(apiEndpoint, formId, {"responseId": responseId}).then(createSchemas).catch(handleError);
+    export function loadResponseAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, responseId, handleError) {
+        return this.getForm(apiEndpoint, formId, {"authKey": authKey, "responseId": responseId})
+            .then(e => createSchemas(e, specifiedShowFields)).catch(handleError);
     }
 
 }

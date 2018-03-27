@@ -82,7 +82,9 @@ interface IFormPageProps {
     formId: any,
     apiEndpoint: string,
     initialFormData?: any,
-    readonly?: boolean
+    readonly?: boolean,
+    authKey?: string,
+    specifiedShowFields?: string[]
 }
 
 interface IFormConfirmationPageProps {
