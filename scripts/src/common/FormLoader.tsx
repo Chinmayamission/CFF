@@ -98,6 +98,7 @@ let createSchemas = data => {
     }
     
     let defaultFormData = {};
+    let toSetAtEnd = [];
 
     // Applies schema modifier attributes to uiSchema and schema.
     for (let fieldPath in flattenedSchemaModifier) {
@@ -156,6 +157,16 @@ let createSchemas = data => {
                     });
                 }*/
             }
+            else if (~fieldPath.indexOf(".ui:cff:display:if:qs")) {
+                // Show field only if query string contains text in "ui:cff:display:if:qs".
+                let url = new URL(window.location.href);
+                if (typeof(url.searchParams.get(fieldValue)) == undefined || url.searchParams.get(fieldValue) == null) {
+                    toSetAtEnd.push(() => set(uiSchema, fieldPath.replace("ui:cff:display:if:qs", "ui:widget"), "hidden"));
+                }
+                else {
+                    set(uiSchema, fieldPath, fieldValue);
+                }
+            }
             else {
                 if (~fieldPath.indexOf(".ui:cff")) {
                     console.error("Adding a CFF UI attribute into schema which hasn't been handled: ", fieldPath);
@@ -182,6 +193,8 @@ let createSchemas = data => {
             set(schema.properties, schemaFieldPath, fieldValue);
         }
     }
+    for (let fn of toSetAtEnd)
+        fn();
 
     // allows attrs like "type" to be shown
     /*schema = merge({}, schemaModifier, schema);
