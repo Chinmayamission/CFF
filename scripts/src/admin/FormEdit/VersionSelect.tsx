@@ -2,7 +2,7 @@ import * as React from 'react';
 function VersionSelect(props) {
     return (
         <div className="col-12">
-            {props.title} - Version:
+            {props.title} - {props.id} - Version:
             <select className="form-control form-control-sm" value={props.value} onChange={props.onChange}>
                 <option value="NEW">Create new version</option>
                 {props.versions.map(item => 

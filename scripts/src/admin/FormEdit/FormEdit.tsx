@@ -159,12 +159,14 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                     <VersionSelect
                         title={"Schema Modifier"}
                         value={this.state.schemaModifier.version}
+                        id={this.state.schemaModifier.id}
                         versions={this.state.schemaModifier_versions}
                         onChange={(e) => this.onVersionSelect("schemaModifier", e.target.value)}
                     />
                     <VersionSelect
                         title={"Schema"}
                         value={this.state.schema.version}
+                        id={this.state.schema.id}
                         versions={this.state.schema_versions}
                         onChange={(e) => this.onVersionSelect("schema", e.target.value)}
                     />
