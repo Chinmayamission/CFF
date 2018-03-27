@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as DOMPurify from 'dompurify';
 
 function CustomFieldTemplate(props) {
-    const {id, classNames, label, help, required, description, errors, children, schema, uiSchema} = props;
+    const {id, classNames, label, help, required, hidden, description, errors, children, schema, uiSchema} = props;
     return (
       <div className={classNames}>
-        {schema.type != "object" && schema.type != "array" && 
+        {!hidden && schema.type != "object" && schema.type != "array" && 
             (<div>
               <label htmlFor={id} className="control-label">
                 <span dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(label) }} />
