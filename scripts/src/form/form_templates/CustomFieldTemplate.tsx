@@ -15,7 +15,7 @@ function CustomFieldTemplate(props) {
               {/*todo: conditional requiring? */}
             </div>
           )}
-          {schema.type != "object" && schema.type != "array" && schema.type != "boolean" && description}
+        {!hidden && schema.type != "object" && schema.type != "array" && schema.type != "boolean" && description}
         {children}
         {errors}
         {help}

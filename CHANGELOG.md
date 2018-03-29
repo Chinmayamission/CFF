@@ -36,13 +36,18 @@ Todo:
 - hide title "Payment" in form loading
 - see if res.paid == True when displaying the payment method options.
 
-## 1.1.16
+## 1.1.17 (JS uploaded March 27, 2018 2:26 PM PST)
+- Hide description for hidden fields (hidden by ui:cff:display:if:specified)
+
+## 1.1.16 (JS uploaded March 27, 2018 11:39 AM PST)
 - Server version: 1.1.18
 - WP Plugin version: 1.1.12
+- *Main features*: manual entry, conditional display with ui:cff:display:if:specified
 - Hide label when ui:hidden widget is used (to make ui:cff:display:if:qs work properly).
 - Allow authKey and specifiedShowFields to be specified in the form div (see documentation/permissions.md for more details)
 - Change ui:cff:display:if:qs to ui:cff:display:if:specified (these fields are only shown whenever they're included within specifiedShowFields).
 - Show schema and schemaModifier IDs in form edit page
+- Fix issues with paymentInfo_received shown in table, so manual entry works.
 
 ## 1.1.15 (JS uploaded March 26, 2018)
 - Server version: 1.1.17
