@@ -15,7 +15,8 @@ class PaymentInfoItemSchema(Schema):
     quantity = fields.String()
 
 class PaymentInfoSchema(Schema):
+    # total = fields.String()
+    redirectUrl = fields.URL()
     currency = fields.String() # todo: use fields.UUID once data has been cleaned up (from cma and om run)
-    items = fields.Nested(PaymentInfoItemSchema)
-    version = fields.Integer(required=True)
+    items = fields.Nested(PaymentInfoItemSchema, many=True)
     manualEntry = fields.Nested(ManualEntrySchema)

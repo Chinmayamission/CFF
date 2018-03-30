@@ -2,6 +2,37 @@ from .common import get_table_name
 from dynamorm import DynaModel, GlobalIndex, ProjectInclude
 from marshmallow import Schema, fields
 from .schemas import PaymentInfoSchema, ObjectReferenceSchema
+from dynamorm.relationships import OneToOne, ManyToOne, OneToMany
+
+
+class FormSchemaModifier(DynaModel):
+    class Table:
+        name = get_table_name("schemaModifiers")
+        hash_key = "id"
+        range_key = "version"
+
+    class Schema:
+        id = fields.String(required=True)
+        version = fields.Integer(required=True)
+        value = fields.Raw()
+        paymentInfo = fields.Nested(PaymentInfoSchema)
+        paymentMethods = fields.Dict()  # todo
+        confirmationEmailInfo = fields.Dict()  # todo
+        date_last_modified = fields.DateTime()
+        date_created = fields.DateTime()
+
+class FormSchema(DynaModel):
+    class Table:
+        name = get_table_name("schemas")
+        hash_key = "id"
+        range_key = "version"
+
+    class Schema:
+        id = fields.String(required=True)
+        version = fields.Integer(required=True)
+        value = fields.Raw()
+        date_last_modified = fields.DateTime()
+        date_created = fields.DateTime()
 
 
 class CouponCodeItem(Schema):
@@ -11,7 +42,7 @@ class CouponCodeItem(Schema):
 
 class CouponCodeUsedItem(Schema):
     responses = fields.List(fields.Dict(
-        keys=fields.UUID(), values=fields.Integer()))
+        keys=fields.String(), values=fields.Integer())) # todo change UUID to string.
 
 
 class Form(DynaModel):
@@ -29,7 +60,7 @@ class Form(DynaModel):
         read = 1
         write = 1
         projection = ProjectInclude(
-            'name', 'id', 'version', 'schema', 'schemaModifier') # doesn't work.
+            'name', 'id', 'version', 'schema', 'schemaModifier')  # doesn't work.
 
     class Schema:
         # todo: use fields.UUID once data has been cleaned up (from cma and om run)
@@ -46,15 +77,3 @@ class FormAdmin(Form):
         couponCodes = fields.Dict(keys=fields.String(), values=CouponCodeItem)
         couponCodes_used = fields.Dict(
             keys=fields.String(), values=CouponCodeUsedItem)
-
-class FormSchema(DynaModel):
-    class Table:
-        name = get_table_name("schemas")
-        hash_key = "id"
-        range_key = "version"
-    class Schema:
-        id = fields.String(required=True)
-        version = fields.Integer(required=True)
-        paymentInfo = fields.Nested(PaymentInfoSchema)
-        paymentMethods = fields.Dict() # todo
-        confirmationEmailInfo = fields.Dict() # todo

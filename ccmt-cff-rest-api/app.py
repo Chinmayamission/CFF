@@ -1,10 +1,11 @@
 from chalice import Chalice, AuthResponse
-from chalicelib.models import Form, Response
+from chalicelib.models import Form, FormSchema, FormSchemaModifier, Response
 import json
 from chalice import CognitoUserPoolAuthorizer
 from boto3 import session
 from chalice import IAMAuthorizer
 from chalice import UnauthorizedError
+
 
 # class CustomChalice(Chalice):
 #     def __call__(self, event, context):
@@ -83,7 +84,6 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 def form_list(centerId):
     # app.check_permissions('forms', 'ListForms')
     forms = [form.to_dict() for form in Form.ByCenter.query(center=int(centerId))]
-    # app.current_request.to_dict()
     return {"res": forms}
     # forms = Form.get(id="e4548443-99da-4340-b825-3f09921b4bc5", version=1).to_dict()
     # return {'current_request': app.current_request.to_dict(), "forms": forms}
@@ -91,8 +91,11 @@ def form_list(centerId):
 @app.route('/forms/{formId}/render', cors=True, authorizer=iamAuthorizer)
 def form_render(formId):
     """Renders schema and schemaModifier. Todo"""
-    form = Form.get(id=formId, version=1).to_dict()
-    return {'res': form }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
+    form = Form.get(id=formId, version=1)
+    renderedForm = form.to_dict()
+    renderedForm["schema"] = FormSchema.get(**form.schema).to_dict()
+    renderedForm["schemaModifier"] = FormSchemaModifier.get(**form.schemaModifier).to_dict()
+    return {'res': renderedForm }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
 
 @app.route('/forms/{formId}/responses', cors=True, authorizer=iamAuthorizer)
 def form_response_list(formId):
