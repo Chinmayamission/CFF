@@ -1,5 +1,5 @@
 from chalice import Chalice, AuthResponse
-from chalicelib.models import Form
+from chalicelib.models import Form, Response
 import json
 from chalice import CognitoUserPoolAuthorizer
 from boto3 import session
@@ -80,7 +80,7 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 
 
 @app.route('/centers/{centerId}', cors=True, authorizer=iamAuthorizer)
-def index(centerId):
+def form_list(centerId):
     # app.check_permissions('forms', 'ListForms')
     forms = [form.to_dict() for form in Form.ByCenter.query(center=int(centerId))]
     # app.current_request.to_dict()
@@ -88,13 +88,61 @@ def index(centerId):
     # forms = Form.get(id="e4548443-99da-4340-b825-3f09921b4bc5", version=1).to_dict()
     # return {'current_request': app.current_request.to_dict(), "forms": forms}
 
-@app.route('/forms/{formId}', cors=True, authorizer=iamAuthorizer)
-def render_form(formId):
-    opts = {
-        "ProjectionExpression": "id"
-    }
-    form = Form.get(id=formId, version=1, dynamo_kwargs=opts).to_dict()
+@app.route('/forms/{formId}/render', cors=True, authorizer=iamAuthorizer)
+def form_render(formId):
+    """Renders schema and schemaModifier. Todo"""
+    form = Form.get(id=formId, version=1).to_dict()
     return {'res': form }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
+
+@app.route('/forms/{formId}/responses', cors=True, authorizer=iamAuthorizer)
+def form_response_list(formId):
+    """Show all responses for a particular form."""
+    responses = [r.to_dict() for r in Response.query(formId=formId)]
+    return {'res': responses }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
+
+@app.route('/forms/{formId}/summary', cors=True, authorizer=iamAuthorizer)
+def form_response_summary(formId):
+    """Show response agg. summary"""
+    formVersion = 1
+    """
+    def aggregate(data, options):
+        finalData = {}
+        if "aggregateCols" in options and type(options["aggregateCols"]) is list:
+            for aggregateCol in options["aggregateCols"]:
+                if (type(aggregateCol) is str):
+                    aggregateColName, aggregateColDisplayName = aggregateCol, aggregateCol
+                    filterFunc = lambda x: len(x)
+                elif "colName" in aggregateCol and "filter" in aggregateCol:
+                    filterKey, filterValues = "", ""
+                    filterItem = aggregateCol["filter"]
+                    if "key" in filterItem and "value" in filterItem:
+                        filterKey, filterValues = filterItem["key"], filterItem["value"]
+                        if type(filterValues) is not list:
+                            filterValues = [filterValues]
+                    aggregateColName = aggregateCol["colName"]
+                    aggregateColDisplayName = aggregateCol.get("title", "") or "{}-{}-{}".format(aggregateCol["colName"], filterKey, filterValues)
+                    filterFunc = lambda x: sum(1 if get(xi, filterKey) in filterValues else 0 for xi in x)
+                else:
+                    continue
+                finalData[aggregateColDisplayName] = {str(k): filterFunc(v) for k, v in group_by(data, aggregateColName).items()}
+                finalData[aggregateColDisplayName]["TOTAL"] = sum(finalData[aggregateColDisplayName].values())
+        return finalData
+    form = self.forms.get_item(Key={"id": formId, "version": int(formVersion)}, ProjectionExpression="schemaModifier")["Item"]
+    # todo: add a check here for security.
+    dataOptions = self.schemaModifiers.get_item(Key=form["schemaModifier"], ProjectionExpression="dataOptions")["Item"]["dataOptions"]
+    responses = self.responses.query(
+        KeyConditionExpression=Key('formId').eq(formId)
+    )["Items"]
+    responses = [response for response in responses if response["PAID"] == True]
+    if "mainTable" in dataOptions and dataOptions["mainTable"]:
+        dataOptions["mainTable"] = aggregate(responses, dataOptions["mainTable"])
+    if "unwindTables" in dataOptions:
+        for unwindCol in dataOptions["unwindTables"]:
+            unwoundRes = [get(response["value"], unwindCol) for response in responses]
+            unwoundRes = compact(flatten(unwoundRes))
+            dataOptions["unwindTables"][unwindCol] = aggregate(unwoundRes, dataOptions["unwindTables"][unwindCol])
+    return dataOptions
+    """
 
 # The view function above will return {"hello": "world"}
 # whenever you make an HTTP GET request to '/'.

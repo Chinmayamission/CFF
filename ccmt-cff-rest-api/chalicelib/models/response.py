@@ -21,9 +21,12 @@ class Response(DynaModel):
         date_created = fields.DateTime()
         form = fields.Nested(ObjectReferenceSchema)
         modifyLink = fields.String()
-
-        schema = fields.Nested(ObjectReferenceSchema)
-        schemaModifier = fields.Nested(ObjectReferenceSchema)
-        couponCodes = fields.Dict(keys=fields.String(), values=CouponCodeItem)
-        couponCodes_used = fields.Dict(
-            keys=fields.String(), values=CouponCodeUsedItem)
+        paymentInfo = fields.Raw() # todo: fix all Raw's
+        confirmationEmailInfo = fields.Raw()
+        value = fields.Raw()
+        IPN_HISTORY = fields.Raw()
+        IPN_STATUS = fields.String() # INVALID, etc. todo
+        PAYMENT_HISTORY = fields.Raw()
+        PAYPAL_TXN_IDS = fields.List(fields.String())
+        PENDING_UPDATE = fields.Raw() # has paymentInfo, value, modifyLink.
+        # paymentInfo = fields.Nested(PaymentInfoSchema)
