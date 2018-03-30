@@ -1,5 +1,6 @@
 # Credential-based permissions
-[form formId="formId" apiEndpoint="endpoint" authKey="authKey" specifiedShowFields="couponCode, manualPayment"]
+[form id="formId" apiEndpoint="endpoint" authKey="authKey" specifiedShowFields="couponCode, manualPayment"]
+
 
 This renders:
 ```
@@ -11,9 +12,17 @@ This renders:
 
 ## ui:cff:display:if:specified
 Displays the item only if the path is included within specifiedShowFields. Useful for something such as couponCode or manualPayment, which you don't want to display by default; only want to display it on special admin forms.
+Schema:
+```
+"manualEntry": {
+    "title": "Method of Payment",
+    "type": "string"
+}
+```
 SchemaModifier:
 ```{
     "manualEntry": {
+        "enum": ["Cash", "Check", "Other"],
         "ui:cff:display:if:specified": true
     }
 }```
@@ -39,3 +48,7 @@ To let anyone do manual entry, do:
         ]
     }
 }```
+
+## Other use cases / examples
+- Show additionalDonation and manualPayment:
+[ccmt-cff-render-form id="5c243e61-5407-402b-a89b-5190c46d0d05" specifiedShowFields="additionalDonation, manualPayment"]

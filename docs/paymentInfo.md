@@ -6,12 +6,18 @@ In paymentInfo, add:
 
 In schema, add:
 ```
-{
-  "title": "Method of Payment",
-  "enum": ["Cash", "Check", "Square"],
-  "ui:cff:display:if:qs": "manualEntry"
+"manualEntry": {
+  "type": "string"
 }
 ```
+In schemaModifier, add:
+"manualEntry": {
+  title": "Method of Payment",
+  "enum": ["Cash", "Check", "Square"],
+  "ui:cff:display:if:specified": true
+}
+
+See **permissions.md** to see how to protect this with an auth key.
 
 
 total - not used
