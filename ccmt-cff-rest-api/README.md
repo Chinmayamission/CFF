@@ -2,11 +2,30 @@
 Built using AWS Chalice.
 
 ## Run locally
-npm start
+```npm start```
+Run cmd as administrator
+vim c:\Windows\System32\Drivers\etc\hosts
+Add: `127.0.0.1       cff.framework`
 
 ## Deploy
-npm run deploy
+```npm run deploy```
 
+## Debug
+View logs:
+```npm run logs```
+
+# Oauth
+http://localhost:8000 and http://cff.chinmayamission.com
+Authorized redirect: https://chinmayamission.auth.us-east-1.amazoncognito.com/oauth2/idpresponse
+
+
+# Authentication
+READ THIS: https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html
+
+Cognito user pool vs identity pool:
+https://serverless-stack.com/chapters/cognito-user-pool-vs-identity-pool.html
+
+```
 vim ~/.aws/config
 vim ~/.aws/credentials
 
@@ -27,6 +46,7 @@ chalice deploy --profile ashwin-cff-lambda --stage beta
 chalice deploy --profile ashwin-cff-lambda --stage prod
 
 chalice logs --profile ashwin-cff-lambda --stage dev
+```
 
 Dev: https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/
 Beta: https://jl6kpo0pd3.execute-api.us-east-1.amazonaws.com/api/
@@ -94,7 +114,7 @@ Dev:```
         }
     ]
 }```
-Beta:```
+Prod:```
 {
     "Version": "2012-10-17",
     "Statement": [

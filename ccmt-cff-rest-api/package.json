@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "logs": "chalice logs --profile ashwin-cff-lambda --stage dev",
-    "start": "cross-env TABLE_PREFIX=cff_dev AWS_PROFILE=ashwin-cff-lambda chalice local --stage dev",
+    "start": "cross-env TABLE_PREFIX=cff_dev AWS_PROFILE=ashwin-cff-lambda chalice local --stage dev --port=8001",
     "deploy": "chalice deploy --profile ashwin-cff-lambda --stage dev"
   },
   "keywords": [],
