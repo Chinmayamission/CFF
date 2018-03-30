@@ -10,7 +10,11 @@ dynamorm==0.7.6
 idna==2.6
 jmespath==0.9.3
 marshmallow==2.15.0
+numpy==1.14.2
+pandas==0.22.0
+pydash==4.5.0
 python-dateutil==2.6.1
+pytz==2018.3
 requests==2.18.4
 s3transfer==0.1.13
 six==1.11.0

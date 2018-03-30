@@ -1,11 +1,8 @@
-from chalice import Chalice, AuthResponse
-from chalicelib.models import Form, FormSchema, FormSchemaModifier, Response
-import json
-from chalice import CognitoUserPoolAuthorizer
 from boto3 import session
-from chalice import IAMAuthorizer
-from chalice import UnauthorizedError
-
+from chalice import Chalice, AuthResponse, CognitoUserPoolAuthorizer, IAMAuthorizer, UnauthorizedError
+from chalicelib.models import Form, FormSchema, FormSchemaModifier, Response
+from chalicelib.aggregate import aggregate_data
+import json
 
 # class CustomChalice(Chalice):
 #     def __call__(self, event, context):
@@ -106,63 +103,8 @@ def form_response_list(formId):
 @app.route('/forms/{formId}/summary', cors=True, authorizer=iamAuthorizer)
 def form_response_summary(formId):
     """Show response agg. summary"""
-    formVersion = 1
-    """
-    def aggregate(data, options):
-        finalData = {}
-        if "aggregateCols" in options and type(options["aggregateCols"]) is list:
-            for aggregateCol in options["aggregateCols"]:
-                if (type(aggregateCol) is str):
-                    aggregateColName, aggregateColDisplayName = aggregateCol, aggregateCol
-                    filterFunc = lambda x: len(x)
-                elif "colName" in aggregateCol and "filter" in aggregateCol:
-                    filterKey, filterValues = "", ""
-                    filterItem = aggregateCol["filter"]
-                    if "key" in filterItem and "value" in filterItem:
-                        filterKey, filterValues = filterItem["key"], filterItem["value"]
-                        if type(filterValues) is not list:
-                            filterValues = [filterValues]
-                    aggregateColName = aggregateCol["colName"]
-                    aggregateColDisplayName = aggregateCol.get("title", "") or "{}-{}-{}".format(aggregateCol["colName"], filterKey, filterValues)
-                    filterFunc = lambda x: sum(1 if get(xi, filterKey) in filterValues else 0 for xi in x)
-                else:
-                    continue
-                finalData[aggregateColDisplayName] = {str(k): filterFunc(v) for k, v in group_by(data, aggregateColName).items()}
-                finalData[aggregateColDisplayName]["TOTAL"] = sum(finalData[aggregateColDisplayName].values())
-        return finalData
-    form = self.forms.get_item(Key={"id": formId, "version": int(formVersion)}, ProjectionExpression="schemaModifier")["Item"]
-    # todo: add a check here for security.
-    dataOptions = self.schemaModifiers.get_item(Key=form["schemaModifier"], ProjectionExpression="dataOptions")["Item"]["dataOptions"]
-    responses = self.responses.query(
-        KeyConditionExpression=Key('formId').eq(formId)
-    )["Items"]
-    responses = [response for response in responses if response["PAID"] == True]
-    if "mainTable" in dataOptions and dataOptions["mainTable"]:
-        dataOptions["mainTable"] = aggregate(responses, dataOptions["mainTable"])
-    if "unwindTables" in dataOptions:
-        for unwindCol in dataOptions["unwindTables"]:
-            unwoundRes = [get(response["value"], unwindCol) for response in responses]
-            unwoundRes = compact(flatten(unwoundRes))
-            dataOptions["unwindTables"][unwindCol] = aggregate(unwoundRes, dataOptions["unwindTables"][unwindCol])
-    return dataOptions
-    """
-
-# The view function above will return {"hello": "world"}
-# whenever you make an HTTP GET request to '/'.
-#
-# Here are a few more examples:
-#
-# @app.route('/hello/{name}')
-# def hello_name(name):
-#    # '/hello/james' -> {"hello": "james"}
-#    return {'hello': name}
-#
-# @app.route('/users', methods=['POST'])
-# def create_user():
-#     # This is the JSON body the user sent in their POST request.
-#     user_as_json = app.current_request.json_body
-#     # We'll echo the json body back to the user in a 'user' key.
-#     return {'user': user_as_json}
-#
-# See the README documentation for more examples.
-#
+    form = Form.get(id=formId, version=1)
+    dataOptions = FormSchemaModifier.get(**form.schemaModifier).dataOptions
+    responses = [r.to_dict() for r in Response.query(formId=formId) if r.PAID == True]
+    result = aggregate_data(dataOptions, responses)
+    return {"res": result}

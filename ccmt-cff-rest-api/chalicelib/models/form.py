@@ -1,7 +1,7 @@
 from .common import get_table_name
 from dynamorm import DynaModel, GlobalIndex, ProjectInclude
 from marshmallow import Schema, fields
-from .schemas import PaymentInfoSchema, ObjectReferenceSchema
+from .schemas import PaymentInfoSchema, ObjectReferenceSchema, DataOptionsSchema
 from dynamorm.relationships import OneToOne, ManyToOne, OneToMany
 
 
@@ -18,6 +18,7 @@ class FormSchemaModifier(DynaModel):
         paymentInfo = fields.Nested(PaymentInfoSchema)
         paymentMethods = fields.Dict()  # todo
         confirmationEmailInfo = fields.Dict()  # todo
+        dataOptions = fields.Nested(DataOptionsSchema)
         date_last_modified = fields.DateTime()
         date_created = fields.DateTime()
 

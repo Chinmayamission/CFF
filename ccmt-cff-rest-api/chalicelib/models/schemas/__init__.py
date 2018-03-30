@@ -20,3 +20,11 @@ class PaymentInfoSchema(Schema):
     currency = fields.String() # todo: use fields.UUID once data has been cleaned up (from cma and om run)
     items = fields.Nested(PaymentInfoItemSchema, many=True)
     manualEntry = fields.Nested(ManualEntrySchema)
+
+class DataOptionsItemSchema(Schema):
+    columnOrder = fields.List(fields.String())
+    aggregateCols = fields.List(fields.String())
+
+class DataOptionsSchema(Schema):
+    mainTable = fields.Nested(DataOptionsItemSchema)
+    unwindTables = fields.Dict(keys=fields.String(), values=fields.Nested(DataOptionsItemSchema))
