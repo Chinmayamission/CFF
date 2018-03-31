@@ -9,33 +9,6 @@
         "logs:PutLogEvents"
       ],
       "Resource": "arn:aws:logs:*:*:*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "DynamoDB:*"
-      ],
-      "Resource": [
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.forms",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.user_permissions",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.schemas",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.schemaModifiers",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.responses",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.user_permissions",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.centers",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_prod.forms/index/center-index"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "ses:SendEmail",
-        "ses:SendRawEmail"
-      ],
-      "Resource": "*"
     }
   ]
 }

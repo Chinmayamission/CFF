@@ -2,6 +2,7 @@ from .common import get_table_name
 from dynamorm import DynaModel, GlobalIndex, ProjectInclude
 from marshmallow import Schema, fields
 from .schemas import PaymentInfoSchema, ObjectReferenceSchema, DataOptionsSchema
+from .schemas.permissions import PermissionsSchema
 from dynamorm.relationships import OneToOne, ManyToOne, OneToMany
 
 
@@ -72,6 +73,7 @@ class Form(DynaModel):
         date_created = fields.DateTime()
         schema = fields.Nested(ObjectReferenceSchema)
         schemaModifier = fields.Nested(ObjectReferenceSchema)
+        cff_permissions = fields.Nested(PermissionsSchema)
 
 class FormAdmin(Form):
     class Schema:
