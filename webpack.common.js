@@ -22,6 +22,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(DEST_URL),
+    publicPath: '/',
     filename: "[name].[chunkhash].js"
   },
   module: {

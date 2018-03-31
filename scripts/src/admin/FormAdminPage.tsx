@@ -5,16 +5,15 @@ import * as queryString from "query-string";
 import {pick, get, set, find} from "lodash-es";
 import FormPage from "../form/FormPage";
 import FormEmbed from "./FormEmbed";
+import CenterList from "./CenterList";
 import FormList from "./FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable";
 import Loading from "src/common/Loading/Loading";
-import MockData from "src/common/util/MockData";
 import "./admin.scss";
 import { withAuthenticator } from 'aws-amplify-react';
-import { Auth, Hub, Logger, API } from 'aws-amplify';
-import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
-const logger = new Logger('MyClass');
+import { Auth, API } from 'aws-amplify';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const STATUS_LOADING = 0;
 const STATUS_ERROR = 11;
@@ -39,32 +38,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             status: STATUS_LOADING,
             hasError: false,
             userId: this.props.authData.id,
-            apiKey: document.getElementById('ccmt-cff-admin').getAttribute('data-ccmt-cff-api-key')
-        }
-        Hub.listen('auth', this, 'MyListener');
-    }
-
-    onHubCapsule(capsule) {
-        const { channel, payload } = capsule;
-        console.log(capsule);
-        if (channel === 'auth') { this.onAuthEvent(payload); }
-    }
-
-    onAuthEvent(payload) {
-        const { event, data } = payload;
-        switch (event) {
-            case 'signIn':
-                logger.debug('user signed in');
-                break;
-            case 'signUp':
-                logger.debug('user signed up');
-                break;
-            case 'signOut':
-                logger.debug('user signed out');
-                break;
-            case 'signIn_failure':
-                logger.debug('user sign in failed');
-                break;
+            apiKey: null
         }
     }
 
@@ -83,12 +57,12 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let stateKeysToEncode = ["selectedForm.name", "selectedForm.center", "selectedForm.id", "center", "status"];
+        /*let stateKeysToEncode = ["selectedForm.name", "selectedForm.center", "selectedForm.id", "center", "status"];
         if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
             let encodedState = flatten(pick(this.state, stateKeysToEncode));
             let newQS = queryString.stringify(encodedState);
             window.location.hash = newQS;//queryString.stringify(encodedState);   
-        }
+        }*/
     }
 
 
@@ -118,33 +92,36 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                     Auth.signOut();
                     return;
                 }
-                this.setState({"userId": e.params.IdentityId}, this.loadForms);
+                this.setState({"userId": e.params.IdentityId}, this.loadCenters);
             });
         }
         else {
-            this.loadForms();
+            this.loadCenters();
         }
     }
-    loadForms() {
-        return API.get("CFF", "centers", {}).then(e => {
-            this.setState({"centerList": e.res, "center": e.res[0]});
-            return this.loadFormList();
-        }).catch(e => {
-            this.setState({status: STATUS_ACCESS_DENIED});
-        });
-    }
-    loadFormList() {
-        return API.get("CFF", "centers/" + this.state.center.id + "/forms", {}).then(e => {
-            this.setState({"formList": e.res, "status": STATUS_FORM_LIST});
-        }).catch(e => {
-            this.setState({hasError: true});
-        });
+    loadCenters() {
+        this.setState({"status": STATUS_CENTER_LIST});
     }
     handleError(e) {
         this.setState({"hasError": true});
     }
     render() {
-        var that = this;
+    if (this.state.status == STATUS_LOADING) {
+        return <Loading hasError={this.state.hasError} />;
+    }
+    return (<Router>
+        <div>
+          <Route path="/" component={CenterList} />
+          <Route path="/:centerSlug/:centerId" render={props => <FormList key={props.match.params.centerSlug} {...props} /> }/>
+          <Route path="/:centerSlug/:centerId/:formId/responses" render={props => <ResponseTable key={props.match.params.formId} {...props} /> }/>
+        </div>
+      </Router>);
+
+    }
+}
+/*
+class Other {
+    render2() {
         if (this.state.status == STATUS_LOADING) {
             return <Loading hasError={this.state.hasError} />;
         }
@@ -191,6 +168,6 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         );
     }
 }
+*/
 
-let FormAdminPage2 = () => <div>Done!</div>;
 export default withAuthenticator(FormAdminPage, { includeGreetings: true });

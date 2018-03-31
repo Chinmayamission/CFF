@@ -33,11 +33,6 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             dataOptions: null
         }
     }
-
-    getFormUrl(action) {
-        let formId = this.props.form.id;
-        return this.props.apiEndpoint + '?action=' + action + '&apiKey=' + this.props.apiKey +  '&version=1&id=' + formId;
-    }
     formatPayment(total, currency="USD") {
         if (Intl && Intl.NumberFormat) {
             return Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(total);
@@ -54,12 +49,12 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
 
     componentDidMount() {
         
-        FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.form.id, "", [""], (e) => this.props.handleError(e)).then(({ schema, dataOptions }) => {
+        FormLoader.getFormAndCreateSchemas("", this.props.match.params.formId, "", [""], (e) => console.error(e)).then(({ schema, dataOptions }) => {
             this.setState({
                 schema, dataOptions
             });
         })
-        .then(() => API.get("CFF", "forms/" + this.props.form.id + "/responses", {}))
+        .then(() => API.get("CFF", "forms/" + this.props.match.params.formId + "/responses", {}))
         .then(e => {console.warn("RES", e); return e.res})
         .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {

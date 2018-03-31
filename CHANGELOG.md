@@ -36,8 +36,12 @@ Todo:
 - hide title "Payment" in form loading
 - see if res.paid == True when displaying the payment method options.
 
+## 1.2.2 (tbd)
+- React router
+
 ## 1.2.1 (3/31/2018)
 - Fixed bug -- shows access denied screen properly.
+- Add hashes to prod HTML page and js files.
 
 ## 1.2 (March 31, 2018)
 - This is now split into a standalone site, which uses chalice backend ("standalone" branch).

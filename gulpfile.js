@@ -10,7 +10,9 @@ gulp.task('dev', ['FormPage-js']);
 gulp.task('webserver', function() {
     connect.server({
         port: 8000,
-        root: "./scripts/dist"
+        root: "./scripts/dist",
+        livereload: true,
+        fallback: "./scripts/dist/index.html"
     });
 });
 

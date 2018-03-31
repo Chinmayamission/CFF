@@ -32,14 +32,17 @@ interface IFormListItem {
     schemaModifier: any
 }
 interface IFormListProps extends ISharedAdminProps {
-    loadResponses: (e) => void,
-    loadResponseSummary: (e) => void,
-    embedForm: (e) => void,
-    editForm: (e) => void,
-    formList: any[]
+    match: {
+        url: string,
+        params: {
+            centerName: string,
+            centerId: Number
+        }
+    }
 }
 
 interface IFormListState {
+    formList: IFormListItem[]
 }
 
 interface IResponseTableState {

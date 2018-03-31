@@ -82,6 +82,7 @@
     "react-linkify": "^0.2.2",
     "react-loading": "^1.0.3",
     "react-responsive-modal": "^2.0.0",
+    "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-table": "^6.7.6",
     "sass-loader": "^6.0.6",
