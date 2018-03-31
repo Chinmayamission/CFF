@@ -30,7 +30,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                         {/*<button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
                         <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>*/}
                         <button className="btn" onClick = {() => this.props.loadResponses(form)}>Responses</button>
-                        <button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>
+                        {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
                     </td>
                 </tr>
             )}

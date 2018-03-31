@@ -36,6 +36,13 @@ Todo:
 - hide title "Payment" in form loading
 - see if res.paid == True when displaying the payment method options.
 
+## 1.2.1 (3/31/2018)
+- Fixed bug -- shows access denied screen properly.
+
+## 1.2 (March 31, 2018)
+- This is now split into a standalone site, which uses chalice backend ("standalone" branch).
+- Permissions: ViewResponses
+
 ## 1.1.17 (JS uploaded March 27, 2018 2:26 PM PST)
 - Hide description for hidden fields (hidden by ui:cff:display:if:specified)
 

@@ -148,17 +148,24 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         if (this.state.status == STATUS_LOADING) {
             return <Loading hasError={this.state.hasError} />;
         }
+        if (this.state.status == STATUS_ACCESS_DENIED) {
+            return (<div>
+                <h4><b>Access denied</b></h4>
+                    <p>To finish setting up your account, please contact an administrator and give them your id:</p>
+                    <pre className="cff-copy-box">{this.state.userId}</pre>
+            </div>);
+        }
         return (
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center && this.state.center.name}</h1>
             <p>User id: {this.state.userId}</p>
-        Change center:
-        <select className="form-control" value={this.state.center.id} onChange={(e) => {
-            let selectedCenter = find(this.state.centerList, {"id": parseInt(e.target.value)});
-            this.setState({center: selectedCenter, status: STATUS_LOADING}, this.loadFormList);
-        }}>
+            Change center:
+            <select className="form-control" value={this.state.center.id} onChange={(e) => {
+                let selectedCenter = find(this.state.centerList, {"id": parseInt(e.target.value)});
+                this.setState({center: selectedCenter, status: STATUS_LOADING}, this.loadFormList);
+            }}>
             {this.state.centerList.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
-        </select>
+            </select>
             {this.state.status != STATUS_FORM_LIST && 
                 <a href="#" onClick={() => {window.location.hash=""; this.loadFormList(); } }>Back to form list</a>
             }
@@ -179,14 +186,6 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             {this.state.status == STATUS_FORM_RESPONSES &&
                 <ResponseTable form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} apiKey={this.state.apiKey}
                     handleError={(e) => this.handleError(e)} />
-            }
-            {this.state.status == STATUS_ACCESS_DENIED &&
-                <div>
-                    <h4><b>Access denied</b></h4>
-                        <p>To finish setting up your account, please contact an administrator and give them your id:
-                        <pre className="cff-copy-box">{this.state.userId}</pre>
-                    </p>
-                </div>
             }
         </div>
         );
