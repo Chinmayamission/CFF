@@ -1,16 +1,33 @@
-from boto3 import session
+import boto3
+from boto3.dynamodb.conditions import Key
 from chalice import Chalice, AuthResponse, CognitoUserPoolAuthorizer, IAMAuthorizer, UnauthorizedError
-from chalicelib.models import Form, FormSchema, FormSchemaModifier, Response, User, Center
 from chalicelib.aggregate import aggregate_data
 import datetime
 import json
+import os
+
+def get_table_name(name):
+    if name in ["responses", "schemaModifiers", "schemas", "forms", "centers", "centres", "users"]:
+        return "{}.{}".format(os.getenv("TABLE_PREFIX"), name)
+    else:
+        return name
+
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+class TABLES_CLASS:
+    responses = dynamodb.Table(get_table_name("responses"))
+    forms = dynamodb.Table(get_table_name("forms"))
+    schemas = dynamodb.Table(get_table_name("schemas"))
+    schemaModifiers = dynamodb.Table(get_table_name("schemaModifiers"))
+    centers = dynamodb.Table(get_table_name("centres"))
+    users = dynamodb.Table(get_table_name("users"))
+TABLES = TABLES_CLASS()
 
 class CustomChalice(Chalice):
     def get_current_user_id(self):
         return "cff:cognitoIdentityId:{}".format(self.current_request.context['identity']['cognitoIdentityId'])
     def check_permissions(self, model, action):
         id = self.get_current_user_id()
-        cff_permissions = getattr(model, "cff_permissions", {})
+        cff_permissions = model.get("cff_permissions", {})
         if id in cff_permissions.get(action, []) or id in cff_permissions.get("owner", []):
             return True
         else:
@@ -35,20 +52,29 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 @app.route('/centers', cors=True, authorizer=iamAuthorizer)
 def center_list():
     userId = app.get_current_user_id()
-    user = User.get(id=userId)
+    # user = User.get(id=userId)
+    user = TABLES.users.get_item(
+        Key=dict(id=userId)
+    )["Item"]
     if not user:
         # User(id=userId, date_created = datetime.datetime.now()).save() todo: this doesn't work with datetime.
-        User(id=userId).save()
+        TABLES.users.put_item(
+			Item=dict(id=userId)
+		)
+        # User(id=userId).save()
         raise UnauthorizedError("User is not set up yet.")
-    if not user.centers:
+    if not user['centers']:
         raise UnauthorizedError("No centers found for this user.")
-    centers = Center.get_batch(keys=[{"id": id} for id in user.centers])
-    return {"res": [c.to_dict() for c in centers]}
+    centers = [TABLES.centers.get_item(Key=dict(id=centerId))["Item"] for centerId in user['centers']]
+    return {"res": centers}
 
 @app.route('/centers/{centerId}/forms', cors=True, authorizer=iamAuthorizer)
 def form_list(centerId):
     # app.check_permissions('forms', 'ListForms')
-    forms = [form.to_dict() for form in Form.ByCenter.query(center=int(centerId))]
+    forms = TABLES.forms.query(
+        IndexName='center-index',
+        KeyConditionExpression=Key('center').eq(int(centerId))
+    )["Items"]
     return {"res": forms}
     # forms = Form.get(id="e4548443-99da-4340-b825-3f09921b4bc5", version=1).to_dict()
     # return {'current_request': app.current_request.to_dict(), "forms": forms}
@@ -56,25 +82,38 @@ def form_list(centerId):
 @app.route('/forms/{formId}/render', cors=True, authorizer=iamAuthorizer)
 def form_render(formId):
     """Renders schema and schemaModifier. Todo: also modify schema server-side and return just schema & uiSchema."""
-    form = Form.get(id=formId, version=1)
-    renderedForm = form.to_dict()
-    renderedForm["schema"] = FormSchema.get(**form.schema).to_dict()
-    renderedForm["schemaModifier"] = FormSchemaModifier.get(**form.schemaModifier).to_dict()
-    return {'res': renderedForm }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
+    form = TABLES.forms.get_item(
+        Key=dict(id=formId, version=1),
+        ProjectionExpression="#name, id, version, date_created, date_last_modified, #schema, schemaModifier",
+        ExpressionAttributeNames={"#name": "name", "#schema": "schema"}
+    )["Item"]
+    form["schema"] = TABLES.schemas.get_item(
+        Key=form["schema"]
+    )["Item"]
+    form["schemaModifier"] = TABLES.schemaModifiers.get_item(
+        Key=form["schemaModifier"]
+    )["Item"]
+    return {'res': form }
 
 @app.route('/forms/{formId}/responses', cors=True, authorizer=iamAuthorizer)
 def form_response_list(formId):
     """Show all responses for a particular form."""
-    app.check_permissions(Form.get(id=formId, version=1), "ViewResponses")
-    responses = [r.to_dict() for r in Response.query(formId=formId)]
+    form = TABLES.forms.get_item(
+        Key=dict(id=formId, version=1)
+    )["Item"]
+    app.check_permissions(form, "ViewResponses")
+    responses = TABLES.responses.query(
+        KeyConditionExpression=Key('formId').eq(formId)
+    )["Items"]
+    # responses = [r.to_dict() for r in Response.query(formId=formId)]
     return {'res': responses }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
 
 @app.route('/forms/{formId}/summary', cors=True, authorizer=iamAuthorizer)
 def form_response_summary(formId):
     """Show response agg. summary"""
-    form = Form.get(id=formId, version=1)
-    app.check_permissions(form, "ViewResponseSummary")
-    dataOptions = FormSchemaModifier.get(**form.schemaModifier).dataOptions
-    responses = [r.to_dict() for r in Response.query(formId=formId) if r.PAID == True]
-    result = aggregate_data(dataOptions, responses)
-    return {"res": result}
+    # form = Form.get(id=formId, version=1)
+    # app.check_permissions(form, "ViewResponseSummary")
+    # dataOptions = FormSchemaModifier.get(**form.schemaModifier).dataOptions
+    # responses = [r.to_dict() for r in Response.query(formId=formId) if r.PAID == True]
+    # result = aggregate_data(dataOptions, responses)
+    # return {"res": result}
