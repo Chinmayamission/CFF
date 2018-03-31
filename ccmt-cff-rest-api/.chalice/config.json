@@ -8,6 +8,20 @@
       "environment_variables": {
         "TABLE_PREFIX": "cff_dev"
       }
+    },
+    "beta": {
+      "autogen_policy": false,
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "TABLE_PREFIX": "cff_beta"
+      }
+    },
+    "prod": {
+      "autogen_policy": false,
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "TABLE_PREFIX": "cff_prod"
+      }
     }
   }
 }

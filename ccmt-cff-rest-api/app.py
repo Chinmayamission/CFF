@@ -1,12 +1,13 @@
 from boto3 import session
 from chalice import Chalice, AuthResponse, CognitoUserPoolAuthorizer, IAMAuthorizer, UnauthorizedError
-from chalicelib.models import Form, FormSchema, FormSchemaModifier, Response, User
+from chalicelib.models import Form, FormSchema, FormSchemaModifier, Response, User, Center
 from chalicelib.aggregate import aggregate_data
+import datetime
 import json
 
 class CustomChalice(Chalice):
     def get_current_user_id(self):
-        return "cff:cognitoIdentityId:{}".format(self.current_request.context.identity.cognitoIdentityId)
+        return "cff:cognitoIdentityId:{}".format(self.current_request.context['identity']['cognitoIdentityId'])
     def check_permissions(self, model, action):
         id = self.get_current_user_id()
         cff_permissions = getattr(model, "cff_permissions", {})
@@ -32,9 +33,16 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 """
 
 @app.route('/centers', cors=True, authorizer=iamAuthorizer)
-def form_list(centerId):
-    user = User.get(id=app.get_current_user_id())
-    centers = Center.get_batch(keys=({"id": id for i in user.centers}))
+def center_list():
+    userId = app.get_current_user_id()
+    user = User.get(id=userId)
+    if not user:
+        # User(id=userId, date_created = datetime.datetime.now()).save() todo: this doesn't work with datetime.
+        User(id=userId).save()
+        raise UnauthorizedError("User is not set up yet.")
+    if not user.centers:
+        raise UnauthorizedError("No centers found for this user.")
+    centers = Center.get_batch(keys=[{"id": id} for id in user.centers])
     return {"res": [c.to_dict() for c in centers]}
 
 @app.route('/centers/{centerId}/forms', cors=True, authorizer=iamAuthorizer)

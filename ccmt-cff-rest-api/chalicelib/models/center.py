@@ -11,5 +11,5 @@ class Center(DynaModel):
         hash_key = "id"
 
     class Schema:
-        id = fields.String(required=True)
+        id = fields.Integer(required=True)
         name = fields.String()

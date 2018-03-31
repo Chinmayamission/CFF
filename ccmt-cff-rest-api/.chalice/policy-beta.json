@@ -9,6 +9,32 @@
         "logs:PutLogEvents"
       ],
       "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "DynamoDB:*"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_beta.forms",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_beta.schemas",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_beta.schemaModifiers",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_beta.responses",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_beta.users",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_beta.centres",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_beta.forms/index/center-index"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": "*"
     }
   ]
 }

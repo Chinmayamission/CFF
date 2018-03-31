@@ -17,4 +17,7 @@ class User(DynaModel):
         first_name = fields.String()
         last_name = fields.String()
         email = fields.Email()
-        centers = fields.List(fields.String())
+        date_last_modified = fields.DateTime()
+        date_created = fields.DateTime()
+        centers = fields.List(fields.Integer())
+        auth_type = fields.String()

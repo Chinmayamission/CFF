@@ -17,12 +17,11 @@
       ],
       "Resource": [
         "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.forms",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.user_permissions",
         "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.schemas",
         "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.schemaModifiers",
         "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.responses",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.user_permissions",
-        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.centers",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.users",
+        "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.centres",
         "arn:aws:dynamodb:us-east-1:131049698002:table/cff_dev.forms/index/center-index"
       ]
     },
