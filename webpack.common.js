@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(DEST_URL),
-    filename: "[name].js"
+    filename: "[name].[chunkhash].js"
   },
   module: {
     rules: [

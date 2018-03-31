@@ -12,12 +12,12 @@ const MODE = "prod";
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    path: path.resolve(DEST_URL),
-    filename: "[name].js"
+    path: path.resolve(DEST_URL)
   },
   plugins: [
      new CleanWebpackPlugin([DEST_URL]),
      new HtmlWebpackPlugin({
+       filename: 'index.[hash].html',
        title: 'Chinmaya Forms Framework - ' + MODE,
        template: './scripts/src/index.html',
      }),
