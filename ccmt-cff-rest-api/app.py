@@ -11,7 +11,7 @@ class CustomChalice(Chalice):
     def check_permissions(self, model, action):
         id = self.get_current_user_id()
         cff_permissions = getattr(model, "cff_permissions", {})
-        if id in getattr(cff_permissions, action, []) or id in getattr(cff_permissions, "owner", []):
+        if id in cff_permissions.get(action, []) or id in cff_permissions.get("owner", []):
             return True
         else:
             raise UnauthorizedError("User {} is not authorized to perform action {}".format(id, action))

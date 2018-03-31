@@ -74,7 +74,7 @@ class Form(DynaModel):
         date_created = fields.DateTime()
         schema = fields.Nested(ObjectReferenceSchema)
         schemaModifier = fields.Nested(ObjectReferenceSchema)
-        cff_permissions = fields.Nested(PermissionsSchema, attribute="cff:permissions")
+        cff_permissions = fields.Nested(PermissionsSchema)
 
 class FormAdmin(Form):
     class Schema:
