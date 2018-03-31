@@ -69,6 +69,7 @@ class Form(DynaModel):
         id = fields.String(required=True)
         version = fields.Integer(required=True)
         center = fields.Integer()
+        name = fields.String()
         date_last_modified = fields.DateTime()
         date_created = fields.DateTime()
         schema = fields.Nested(ObjectReferenceSchema)
