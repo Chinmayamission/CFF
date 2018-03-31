@@ -55,14 +55,14 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0",
-    "webpack": "^4.1.1",
     "webpack-bundle-tracker": "^0.2.0",
     "webpack-dev-server": "^2.0.0",
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "aws-amplify": "^0.2.2",
+    "aws-amplify": "^0.2.9",
     "aws-amplify-react": "^0.1.32",
+    "aws-sdk": "^2.211.0",
     "bluebird": "^3.5.1",
     "css-loader": "^0.28.7",
     "diff": "^3.4.0",
@@ -87,6 +87,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "svg-url-loader": "^2.3.1",
-    "webpack-cli": "^2.0.12"
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13"
   }
 }

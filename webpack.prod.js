@@ -8,6 +8,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FORMBUILDER_URL = "./scripts";
 const DEST_URL = FORMBUILDER_URL + "/prod";
 
+const MODE = "prod";
 module.exports = merge(common, {
   mode: 'production',
   output: {
@@ -17,9 +18,12 @@ module.exports = merge(common, {
   plugins: [
      new CleanWebpackPlugin([DEST_URL]),
      new HtmlWebpackPlugin({
-       title: 'Production',
-       // template: './scripts/src/index.html',
-     })
+       title: 'Chinmaya Forms Framework - ' + MODE,
+       template: './scripts/src/index.html',
+     }),
+    new webpack.DefinePlugin({
+      MODE: '"' + MODE + '"'
+    })
   ]
 });
 

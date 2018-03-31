@@ -8,18 +8,44 @@ import * as DOMPurify from 'dompurify';
 import Amplify from 'aws-amplify';
 import FormAdminPage from './admin/FormAdminPage';
 
+declare var MODE: string;
 
+let ENDPOINT_URL = "";
+switch (MODE) {
+  case "dev":
+    ENDPOINT_URL = "https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/";
+    break;
+  case "beta":
+    ENDPOINT_URL = "https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/api/";
+    break;
+  case "prod":
+  default:
+    ENDPOINT_URL = "https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com/api/";
+    break;
+}
+
+// (window as any).LOG_LEVEL = 'DEBUG'
 Amplify.configure({
   Auth: {
     identityPoolId: 'us-east-1:1ed8f7a7-74f9-4263-8791-88d88bbce0c9', //REQUIRED - Amazon Cognito Identity Pool ID
     region: 'us-east-1', // REQUIRED - Amazon Cognito Region
-    //userPoolId: 'us-east-1_Whs9pJeeC', //OPTIONAL - Amazon Cognito User Pool ID
-    //userPoolWebClientId: '22c1i8353eo9qvfdpo352r7el7', //OPTIONAL - Amazon Cognito Web Client ID
+    userPoolId: 'us-east-1_Whs9pJeeC', //OPTIONAL - Amazon Cognito User Pool ID
+    userPoolWebClientId: '37pr7blrgb8ec5lvj8pac1jlot', //OPTIONAL - Amazon Cognito Web Client ID
+    mandatorySignIn: false
+  },
+  API: {
+    endpoints: [
+      {
+        name: "CFF",
+        endpoint: ENDPOINT_URL
+      }
+    ]
   }
 });
+(window as any).LOG_LEVEL = 'DEBUG';
 const federated = {
-  google_client_id: '',
-  facebook_app_id: 144255189598716,
+  google_client_id: '766882331202-ccnggd9cf0h54h9k5nn6ouqhgmeesrju.apps.googleusercontent.com',
+  facebook_app_id: '',
   amazon_client_id: ''
 };
 
@@ -60,8 +86,8 @@ if (formAdminElement) {
       <FormAdminPage
         apiEndpoint={formAdminElement.getAttribute('data-ccmt-cff-api-endpoint')}
         apiKey={formAdminElement.getAttribute('data-ccmt-cff-api-key')}
-        authState={"auth"}
-        authData={{"id": formAdminElement.getAttribute('data-ccmt-cff-api-key'), "name": "Ashwin"}}
+        //authState={"auth"}
+        //authData={{"id": formAdminElement.getAttribute('data-ccmt-cff-api-key'), "name": "Ashwin"}}
         federated={federated}
         />
     </div>,

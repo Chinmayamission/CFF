@@ -16,11 +16,13 @@ interface ISharedAdminProps {
 }
 interface IFormAdminPageState {
     formList: IFormListItem[],
-    center: string,
+    centerList: {id: number, name: string}[],
+    center: {id: number, name: string},
     selectedForm: IFormListItem,
     status: Number,
     hasError: boolean,
-    apiKey: string
+    apiKey: string,
+    userId: string
 }
 interface IFormListItem {
     name: string,
