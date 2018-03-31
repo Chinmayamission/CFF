@@ -10,6 +10,7 @@ import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
+import {API} from "aws-amplify";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -57,16 +58,9 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             this.setState({
                 schema, dataOptions
             });
-        }).then(() => {
-            let responseUrl = this.getFormUrl('formResponses');
-            return axios.get(responseUrl, {"responseType": "json"}).catch(e => {
-                if ((window as any).CCMT_CFF_DEVMODE===true) {
-                    return MockData.formResponses;
-                }
-                alert("Error loading the form responses. " + e);
-            });
         })
-        .then(response => response.data.res)
+        .then(() => API.get("CFF", "forms/" + this.props.form.id + "/responses", {}))
+        .then(e => {console.warn("RES", e); return e.res})
         .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
             data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
@@ -146,6 +140,10 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 dataOptions,
                 colsToAggregate
             });
+        })
+        .catch(err => {
+            console.warn(err);
+            alert(err);
         });
     }
 

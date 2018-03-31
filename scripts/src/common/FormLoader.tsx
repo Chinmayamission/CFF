@@ -5,6 +5,7 @@ import {flatten} from 'flat';
 import SchemaUtil from "src/common/util/SchemaUtil";
 import MockData from "src/common/util/MockData";
 import {set, unset, pick, filter, get, isArray} from 'lodash-es';
+import {API} from "aws-amplify";
 
 function removeUiOrder (schemaModifierFieldPath, uiSchema, propertyName) {
     let paths = schemaModifierFieldPath.split(".");
@@ -228,14 +229,17 @@ export module FormLoader {
                 url += "&authKey=" + opts.authKey;
             }
         }
-        return  axios.get(url, { "responseType": "json" })
-        .catch(e => {
-            if ((window as any).CCMT_CFF_DEVMODE===true) {
-                return MockData.formRender;
-            }
-            throw ("Error loading the form. " + e);
-        })
-        .then(response => response.data.res);
+        // todo: allow response editing here, too.
+        return API.get("CFF", "forms/" + formId + "/render", {})
+                .then(response => response.res);
+        // return  axios.get(url, { "responseType": "json" })
+        // .catch(e => {
+        //     if ((window as any).CCMT_CFF_DEVMODE===true) {
+        //         return MockData.formRender;
+        //     }
+        //     throw ("Error loading the form. " + e);
+        // })
+        // .then(response => response.data.res);
         // .then(unescapeJSON);
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {

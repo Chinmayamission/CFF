@@ -33,6 +33,7 @@ interface IFormListItem {
 }
 interface IFormListProps extends ISharedAdminProps {
     loadResponses: (e) => void,
+    loadResponseSummary: (e) => void,
     embedForm: (e) => void,
     editForm: (e) => void,
     formList: any[]

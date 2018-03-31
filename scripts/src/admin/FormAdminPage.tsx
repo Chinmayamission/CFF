@@ -1,9 +1,8 @@
 /// <reference path="./admin.d.ts"/>
 import * as React from 'react';
-import axios from 'axios';
 import {flatten} from 'flat';
 import * as queryString from "query-string";
-import {pick, get, set} from "lodash-es";
+import {pick, get, set, find} from "lodash-es";
 import FormPage from "../form/FormPage";
 import FormEmbed from "./FormEmbed";
 import FormList from "./FormList";
@@ -18,14 +17,15 @@ import * as CognitoIdentity from 'aws-sdk/clients/cognitoidentity';
 const logger = new Logger('MyClass');
 
 const STATUS_LOADING = 0;
-const STATUS_ERROR = 9;
-const STATUS_ACCESS_DENIED = 10;
-const STATUS_CENTER_LIST = 11;
-const STATUS_FORM_LIST = 12;
-const STATUS_FORM_RENDER = 13; // Not used.
-const STATUS_FORM_RESPONSES = 14;
-const STATUS_FORM_EMBED = 15;
-const STATUS_FORM_EDIT = 16;
+const STATUS_ERROR = 11;
+const STATUS_ACCESS_DENIED = 21;
+const STATUS_CENTER_LIST = 31;
+const STATUS_FORM_LIST = 41;
+const STATUS_FORM_RENDER = 51; // Not used.
+const STATUS_FORM_RESPONSES = 61;
+const STATUS_FORM_RESPONSE_SUMMARY = 62;
+const STATUS_FORM_EMBED = 71;
+const STATUS_FORM_EDIT = 81;
 
 class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
     constructor(props:any) {
@@ -68,21 +68,6 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
     }
 
-    getFormList(url) {
-        return axios.get(url, {"responseType": "json"})
-        .catch(e => {
-            if ((window as any).CCMT_CFF_DEVMODE===true) {
-                console.log(MockData.formList);
-                return MockData.formList;
-            }
-            alert("Error loading the form list. " + e);
-        })
-        .then((response) => {
-            console.log(response.data);
-            this.setState({formList: response.data.res, status: STATUS_FORM_LIST});
-        })
-    }
-
     editForm(form) {
         this.setState({
             selectedForm: form,
@@ -112,6 +97,12 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             selectedForm: form,
             status: STATUS_FORM_RESPONSES
         });
+    }
+    loadResponseSummary(form) {
+        this.setState({
+            selectedForm: form,
+            status: STATUS_FORM_RESPONSE_SUMMARY
+        })
     }
     componentWillReceiveProps(nextProps) {
         console.log(nextProps, nextProps.authState);
@@ -149,23 +140,6 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             this.setState({hasError: true});
         });
     }
-    loadFormListOld() {
-        let queryObjFlat = queryString.parse(window.location.hash);
-        let formListUrl = this.props.apiEndpoint + "?action=formList&apiKey=" + this.state.apiKey;
-        //this.getFormList(formListUrl).then((e) =>{
-        let queryObjNested : any = {};
-        for (let path in queryObjFlat) {
-            set(queryObjNested, path, queryObjFlat[path]);
-        }
-        if (!queryObjNested.status || queryObjNested.status == STATUS_FORM_LIST) {
-            this.getFormList(formListUrl).then(e => {
-                this.setState(queryObjNested);
-            });
-        }
-        else {
-            this.setState(queryObjNested);
-        }
-    }
     handleError(e) {
         this.setState({"hasError": true});
     }
@@ -177,6 +151,14 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         return (
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center && this.state.center.name}</h1>
+            <p>User id: {this.state.userId}</p>
+        Change center:
+        <select className="form-control" value={this.state.center.id} onChange={(e) => {
+            let selectedCenter = find(this.state.centerList, {"id": parseInt(e.target.value)});
+            this.setState({center: selectedCenter, status: STATUS_LOADING}, this.loadFormList);
+        }}>
+            {this.state.centerList.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+        </select>
             {this.state.status != STATUS_FORM_LIST && 
                 <a href="#" onClick={() => {window.location.hash=""; this.loadFormList(); } }>Back to form list</a>
             }
@@ -186,6 +168,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 editForm = {(e) => this.editForm(e)}
                 embedForm = {(e) => this.embedForm(e)}
                 loadResponses= {(e) => this.loadResponses(e)} 
+                loadResponseSummary = {(e) => this.loadResponseSummary(e)}
                 formList = {this.state.status == STATUS_FORM_LIST ? this.state.formList : [this.state.selectedForm]} />}
             {this.state.status == STATUS_FORM_EMBED && 
                 <FormEmbed form={this.state.selectedForm} apiEndpoint={this.props.apiEndpoint} />
