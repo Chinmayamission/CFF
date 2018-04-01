@@ -24,27 +24,6 @@ interface IFormAdminPageState {
     apiKey: string,
     userId: string
 }
-interface IFormListItem {
-    name: string,
-    id: string,
-    version: Number,
-    schema: any,
-    schemaModifier: any
-}
-interface IFormListProps extends ISharedAdminProps {
-    match: {
-        url: string,
-        params: {
-            centerName: string,
-            centerId: Number
-        }
-    }
-}
-
-interface IFormListState {
-    formList: IFormListItem[]
-}
-
 interface IResponseTableState {
     status: number,
     tableData: any[],

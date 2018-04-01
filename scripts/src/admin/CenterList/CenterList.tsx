@@ -1,11 +1,11 @@
-/// <reference path="./admin.d.ts"/>
+/// <reference path="./CenterList.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
-import FormPage from "../form/FormPage";
 import { API } from 'aws-amplify';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import "./CenterList.scss";
 
-class CenterList extends React.Component<any, any> {
+class CenterList extends React.Component<ICenterListProps, ICenterListState> {
     constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);
@@ -14,8 +14,8 @@ class CenterList extends React.Component<any, any> {
         }
     }
     loadCenterList() {
-        return API.get("CFF", "centers", {}).then(e => {
-            this.setState({"centerList": e.res, "center": e.res[0]});
+        return API.get("CFF", "centers", {"a":"b"}).then(e => {
+            this.setState({"centerList": e.res});
         }).catch(e => {
             // this.setState({status: STATUS_ACCESS_DENIED});
         });
@@ -26,10 +26,13 @@ class CenterList extends React.Component<any, any> {
     render() {
         return (
             <div>
-                Centers:
-                <ul>
+                <ul className="nav nav-pills">
                     {this.state.centerList && this.state.centerList.map(e => 
-                        <li key={e.id}><Link to={`/${e.name}/${e.id}`}>{e.name}</Link></li>
+                        <li className="nav-item" key={e.id}>
+                            <NavLink className="nav-link" to={`/${e.name}/${e.id}`}>
+                                {e.name}
+                            </NavLink>
+                        </li>
                     )}
                 </ul>
             </div>

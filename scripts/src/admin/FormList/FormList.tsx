@@ -1,9 +1,9 @@
-/// <reference path="./admin.d.ts"/>
+/// <reference path="./FormList.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
-import FormPage from "../form/FormPage";
 import { API } from 'aws-amplify';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import "./FormList.scss";
 
 class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
@@ -29,11 +29,11 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
     render() {
         return (
-            <table className="table">
+            <table className="table table-hover table-sm table-responsive-sm">
                 <thead>
                     <tr>
-                        <td>Form name</td>
-                        <td>Actions</td>
+                        <th>Form name</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,10 +41,12 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                         <tr key={form["id"]} style={{ outline: 'thin solid' }}>
                             <td>{form["name"]}</td>
                             <td>
-                                {/*<button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
-                        <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>*/}
-                                <Link to={`${this.props.match.url}/${form.id}/responses`}><button className="btn">Responses</button></Link>
-                                {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
+                                <div className="btn-group btn-group-lg">
+                                    {/*<button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
+                                    <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>*/}
+                                    <Link to={`${this.props.match.url}/${form.id}/responses`}><button className="btn">Responses</button></Link>
+                                    {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
+                                </div>
                             </td>
                         </tr>
                     )}
