@@ -55,8 +55,13 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.svg$/,
-        loader: 'svg-url-loader'
+        test: /\.(svg|woff|eot|ttf)$/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 50000,
+          },
+        },
       }
     ]
   },

@@ -38,13 +38,27 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 </thead>
                 <tbody>
                     {this.state.formList && this.state.formList.map((form) =>
-                        <tr key={form["id"]} style={{ outline: 'thin solid' }}>
+                        <tr key={form["id"]}>
                             <td>{form["name"]}</td>
                             <td>
-                                <div className="btn-group btn-group-lg">
+                                <div className="btn-group btn-group-sm">
+                                    <a>
+                                        <button className="btn" disabled>
+                                            <span className="oi oi-pencil"></span> Edit
+                                        </button>
+                                    </a>
                                     {/*<button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
                                     <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>*/}
-                                    <Link to={`${this.props.match.url}/${form.id}/responses`}><button className="btn">Responses</button></Link>
+                                    <Link to={`${this.props.match.url}/${form.id}/responses`}>
+                                        <button className="btn">
+                                            <span className="oi oi-sort-descending"></span> Responses
+                                        </button>
+                                    </Link>
+                                    <Link to={`${this.props.match.url}/${form.id}/summary`}>
+                                        <button className="btn">
+                                            <span className="oi oi-list"></span> Summary
+                                        </button>
+                                    </Link>
                                     {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
                                 </div>
                             </td>

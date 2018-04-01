@@ -11,6 +11,7 @@ import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable";
 import Loading from "src/common/Loading/Loading";
 import "./admin.scss";
+import "open-iconic/font/css/open-iconic-bootstrap.scss";
 import { withAuthenticator } from 'aws-amplify-react';
 import { Auth, API } from 'aws-amplify';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
