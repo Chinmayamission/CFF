@@ -18,7 +18,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
             this.setState({"formList": e.res});
         }).catch(e => this.props.onError(e));
     }
-    componentWillMount() {
+    componentDidMount() {
         this.loadFormList();
     }
     showEmbedCode(formId) {

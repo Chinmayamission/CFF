@@ -23,5 +23,6 @@ interface IFormAdminPageState {
     hasError: boolean,
     apiKey: string,
     userId: string,
-    loading: boolean
+    loading: boolean,
+    accessDenied: boolean
 }

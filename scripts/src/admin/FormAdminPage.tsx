@@ -41,7 +41,8 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             hasError: false,
             userId: this.props.authData.id,
             apiKey: null,
-            loading: false
+            loading: false,
+            accessDenied: false
         }
     }
 
@@ -120,8 +121,11 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
         // throw error;
     }
-    onError(error) {
-        console.error("OH NO!", error);
+    onError(error, accessDenied=false) {
+        if (accessDenied) {
+            this.setState({accessDenied: true});
+            return;
+        }
         this.onLoadEnd();
         this.setState({hasError: true});
         alert(error);
@@ -133,18 +137,16 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.setState({"loading": false});
     }
     render() {
+        if (this.state.status == STATUS_ACCESS_DENIED) {
+            return <AccessDenied userId={this.state.userId} />;
+        }
         if (this.state.hasError) {
             return <Loading hasError={true} />;
         }
         return (<Router>
             <div>
-            {this.state.status != STATUS_ACCESS_DENIED && 
-                <Route path="/" render={(props) => <CenterList {...props} onError={e => this.onUnauth(e)} />} />
-            }
-            {this.state.status == STATUS_ACCESS_DENIED &&
-                <Route path="/" render={(props) => <AccessDenied userId={this.state.userId} />} />
-            }
-            <Route path="/:centerSlug/:centerId" render={props => <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} {...props} /> }/>
+            <Route path="/" render={(props) => <CenterList {...props} onError={e => this.onUnauth(e)} />} />
+            <Route path="/:centerSlug/:centerId" render={props => <FormList key={props.match.params.centerSlug} onError={e => this.onError(e, true)} {...props} /> }/>
             <Route path="/:centerSlug/:centerId/:formId/responses" render={props => <ResponseTable key={props.match.params.formId} onError={e => this.onError(e)} {...props} /> }/>
             <Route path="/:centerSlug/:centerId/:formId/summary" render={props => <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} /> }/>
             </div>

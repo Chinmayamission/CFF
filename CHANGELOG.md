@@ -36,6 +36,7 @@ Todo:
 - hide title "Payment" in form loading
 
 ## 1.2.3 (TBD)
+- Refactor loading, proper error handling for responses page
 - Better error handling
 - Remove aggregate info from responses table
 
