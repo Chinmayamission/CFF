@@ -22,19 +22,6 @@ interface IFormAdminPageState {
     status: Number,
     hasError: boolean,
     apiKey: string,
-    userId: string
-}
-interface IResponseTableState {
-    status: number,
-    tableData: any[],
-    tableHeaders: any[],
-    tableDataOrigObject: any,
-    tableDataDisplayed: any[],
-    tableHeadersDisplayed: any[],
-    pivotCols: any[],
-    schema: Schema,
-    dataOptions: IDataOptions,
-    possibleFieldsToUnwind: string[],
-    rowToUnwind: string,
-    colsToAggregate: any[]
+    userId: string,
+    loading: boolean
 }

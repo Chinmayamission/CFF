@@ -1,21 +1,21 @@
+/// <reference path="./ResponseTable.d.ts"/>
 import * as React from 'react';
-import axios from 'axios';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
 import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith, find, union, filter} from 'lodash-es';
 import {CSVLink} from 'react-csv';
-import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
 import {API} from "aws-amplify";
+import Loading from "src/common/Loading/Loading";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
 
-class ResponseTable extends React.Component<any, IResponseTableState> {
+class ResponseTable extends React.Component<IResponseTableProps, IResponseTableState> {
     constructor(props:any) {
         super(props);
         this.state = {
@@ -30,7 +30,9 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             possibleFieldsToUnwind: null,
             rowToUnwind: "",
             colsToAggregate: [],
-            dataOptions: null
+            dataOptions: null,
+            loading: false,
+            hasError: false
         }
     }
     formatPayment(total, currency="USD") {
@@ -46,10 +48,19 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
         if (!~headerNamesToShow.indexOf(row))
             headerNamesToShow.push(row);
     }
+    onLoadStart() {
+        this.setState({"loading": true});
+    }
+    onLoadEnd() {
+        this.setState({"loading": false});
+    }
+    onError(e) {
+        this.setState({hasError: true});
+    }
 
     componentWillMount() {
-        
-        FormLoader.getFormAndCreateSchemas("", this.props.match.params.formId, "", [""], e => this.props.onError(e)).then(({ schema, dataOptions }) => {
+        this.onLoadStart();
+        FormLoader.getFormAndCreateSchemas("", this.props.match.params.formId, "", [""], e => this.onError(e)).then(({ schema, dataOptions }) => {
             this.setState({
                 schema, dataOptions
             });
@@ -94,7 +105,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 this.setState({tableDataOrigObject: data});
                 return e.value;
                 //return flatten(e.value);
-            }).catch(e => this.props.onError(e));
+            });
             
             console.log(data);
             let paidHeader = Headers.makeHeaderObjsFromKeys(["PAID"]);
@@ -135,7 +146,8 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 dataOptions,
                 colsToAggregate
             });
-        });
+            this.onLoadEnd();
+        }).catch(e => this.onError(e));
     }
 
     showUnwindTable(rowToUnwind) {
@@ -204,54 +216,48 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
     }
 
     render() {
-        if (this.state.status == STATUS_RESPONSES_LOADING) {
-            return <Loading />;
-        }
-
-        else if (this.state.status == STATUS_RESPONSES_RENDERED) {
-            return (
-                <ReactTable
-                data={this.state.tableDataDisplayed}
-                columns={this.state.tableHeadersDisplayed}
-                minRows={0}
-                filterable
-                //pivotBy={this.state.pivotCols}
-                defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
-                defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
-                SubComponent={ this.state.rowToUnwind ? null : DetailView }
-                >
-                {(state, makeTable, instance) => {
-                    // console.log(state, instance);
-                    return (
-                        <div>
-                            <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
-                            &emsp;Or unwind by:
-                            <select value={this.state.rowToUnwind}
-                                onChange={(e) => this.showUnwindTable(e.target.value)}>
-                                <option key="null" value="" disabled>Select column</option>
-                                {this.state.possibleFieldsToUnwind.map((e) => 
-                                    <option key={e}>{e}</option>
-                                )}
-                            </select>
-                            <CSVLink
-                                data={state.sortedData.map(e=> {
-                                    for (let header of this.state.tableHeadersDisplayed) {
-                                        if (typeof e[header.key] == 'undefined') {
-                                            e[header.key] = "";
-                                        }
+        return this.state.loading ? <Loading hasError={this.state.hasError} /> : (
+            <ReactTable
+            data={this.state.tableDataDisplayed}
+            columns={this.state.tableHeadersDisplayed}
+            minRows={0}
+            filterable
+            //pivotBy={this.state.pivotCols}
+            defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
+            defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
+            SubComponent={ this.state.rowToUnwind ? null : DetailView }
+            >
+            {(state, makeTable, instance) => {
+                // console.log(state, instance);
+                return (
+                    <div>
+                        <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
+                        &emsp;Or unwind by:
+                        <select value={this.state.rowToUnwind}
+                            onChange={(e) => this.showUnwindTable(e.target.value)}>
+                            <option key="null" value="" disabled>Select column</option>
+                            {this.state.possibleFieldsToUnwind.map((e) => 
+                                <option key={e}>{e}</option>
+                            )}
+                        </select>
+                        <CSVLink
+                            data={state.sortedData.map(e=> {
+                                for (let header of this.state.tableHeadersDisplayed) {
+                                    if (typeof e[header.key] == 'undefined') {
+                                        e[header.key] = "";
                                     }
-                                    return e;
-                                })}
-                                headers={this.state.tableHeadersDisplayed}>
-                            Download CSV
-                            </CSVLink>
-                            {makeTable()}
-                        </div>
-                    )
-                }}
-                </ReactTable>
-            );
-        }
+                                }
+                                return e;
+                            })}
+                            headers={this.state.tableHeadersDisplayed}>
+                        Download CSV
+                        </CSVLink>
+                        {makeTable()}
+                    </div>
+                )
+            }}
+            </ReactTable>
+        );
 
     }
 }

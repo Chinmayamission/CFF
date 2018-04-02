@@ -8,7 +8,7 @@ import FormEmbed from "./FormEmbed";
 import CenterList from "./CenterList/CenterList";
 import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
-import ResponseTable from "./ResponseTable";
+import ResponseTable from "./ResponseTable/ResponseTable";
 import ResponseSummary from "./ResponseSummary/ResponseSummary"
 import Loading from "src/common/Loading/Loading";
 import "./admin.scss";
@@ -40,7 +40,8 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             status: STATUS_LOADING,
             hasError: false,
             userId: this.props.authData.id,
-            apiKey: null
+            apiKey: null,
+            loading: false
         }
     }
 
@@ -120,12 +121,20 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         // throw error;
     }
     onError(error) {
-        console.error(error);
+        console.error("OH NO!", error);
+        this.onLoadEnd();
+        this.setState({hasError: true});
         alert(error);
     }
+    onLoadStart(e=null) {
+        this.setState({"loading": true});
+    }
+    onLoadEnd(e=null) {
+        this.setState({"loading": false});
+    }
     render() {
-        if (this.state.status == STATUS_LOADING) {
-            return <Loading hasError={this.state.hasError} />;
+        if (this.state.hasError) {
+            return <Loading hasError={true} />;
         }
         return (<Router>
             <div>
