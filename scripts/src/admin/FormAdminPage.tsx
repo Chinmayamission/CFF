@@ -9,6 +9,7 @@ import CenterList from "./CenterList/CenterList";
 import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable";
+import ResponseSummary from "./ResponseSummary/ResponseSummary"
 import Loading from "src/common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
@@ -115,6 +116,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
           <Route path="/" component={CenterList} />
           <Route path="/:centerSlug/:centerId" render={props => <FormList key={props.match.params.centerSlug} {...props} /> }/>
           <Route path="/:centerSlug/:centerId/:formId/responses" render={props => <ResponseTable key={props.match.params.formId} {...props} /> }/>
+          <Route path="/:centerSlug/:centerId/:formId/summary" render={props => <ResponseSummary key={props.match.params.formId} {...props} /> }/>
         </div>
       </Router>);
 
