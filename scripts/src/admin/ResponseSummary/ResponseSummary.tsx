@@ -102,7 +102,7 @@ class ResponseSummary extends React.Component<any, any> {
                 dataOptions,
                 colsToAggregate
             });*/
-        });
+        }).catch(e => this.props.onError(e));
     }
 
     render() {
@@ -111,6 +111,7 @@ class ResponseSummary extends React.Component<any, any> {
                 <div>
                     <h4 className="mt-2">{tbl.title}</h4>
                     <ReactTable
+                    key={tbl.title}
                     data={tbl.data}
                     columns={tbl.headers}
                     minRows={0}

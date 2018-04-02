@@ -19,5 +19,6 @@ interface IFormListProps extends ISharedAdminProps {
             centerName: string,
             centerId: Number
         }
-    }
+    },
+    onError: (any) => void
 }

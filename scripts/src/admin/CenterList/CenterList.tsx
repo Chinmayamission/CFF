@@ -14,13 +14,11 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
         }
     }
     loadCenterList() {
-        return API.get("CFF", "centers", {"a":"b"}).then(e => {
+        return API.get("CFF", "centers", {}).then(e => {
             this.setState({"centerList": e.res});
-        }).catch(e => {
-            // this.setState({status: STATUS_ACCESS_DENIED});
-        });
+        }).catch(e => this.props.onError(e));
     }
-    componentDidMount() {
+    componentWillMount() {
         this.loadCenterList();
     }
     render() {

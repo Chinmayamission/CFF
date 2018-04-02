@@ -47,9 +47,9 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
             headerNamesToShow.push(row);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         
-        FormLoader.getFormAndCreateSchemas("", this.props.match.params.formId, "", [""], (e) => console.error(e)).then(({ schema, dataOptions }) => {
+        FormLoader.getFormAndCreateSchemas("", this.props.match.params.formId, "", [""], e => this.props.onError(e)).then(({ schema, dataOptions }) => {
             this.setState({
                 schema, dataOptions
             });
@@ -94,7 +94,7 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 this.setState({tableDataOrigObject: data});
                 return e.value;
                 //return flatten(e.value);
-            });
+            }).catch(e => this.props.onError(e));
             
             console.log(data);
             let paidHeader = Headers.makeHeaderObjsFromKeys(["PAID"]);
@@ -135,10 +135,6 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                 dataOptions,
                 colsToAggregate
             });
-        })
-        .catch(err => {
-            console.warn(err);
-            alert(err);
         });
     }
 
@@ -250,22 +246,6 @@ class ResponseTable extends React.Component<any, IResponseTableState> {
                             Download CSV
                             </CSVLink>
                             {makeTable()}
-                            <div className="row"><h2 className="col-12 text-center my-4">Aggregated data</h2>
-                            {
-                                this.state.colsToAggregate.map(col => {
-                                    let headers = Headers.makeHeaderObjsFromKeys(["Value", "Count"]);
-                                    let data = groupBy(state.sortedData, e=>get(e._original, col));
-                                    data = map(keys(data), k=>({"Value": k, "Count": data[k].length}));
-                                    console.warn(col, data);
-                                    if (data && data.length == 1 && data[0] && data[0].Value == 'undefined') return null;
-                                    
-                                    return data ? <div key={col} className="col-12 col-sm-6 col-md-3">
-                                        <b>Aggregated by {col}:</b>
-                                        <ReactTable data={data} columns={headers} minRows={0} showPagination={false} />
-                                    </div> : null;
-                                })
-                            }
-                            </div>
                         </div>
                     )
                 }}

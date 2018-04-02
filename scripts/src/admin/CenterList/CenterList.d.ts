@@ -6,5 +6,5 @@ interface ICenterListState {
 }
 
 interface ICenterListProps {
-
+    onError: (any) => void
 }

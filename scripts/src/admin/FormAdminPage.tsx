@@ -107,20 +107,48 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     handleError(e) {
         this.setState({"hasError": true});
     }
+    componentDidCatch(error, info) {
+        // Display fallback UI
+        console.error("ERROR", error);
+        this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
+        // You can also log the error to an error reporting service
+        // logErrorToMyService(error, info);
+    }
+    onUnauth(error) {
+        console.warn(error);
+        this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
+        // throw error;
+    }
+    onError(error) {
+        console.error(error);
+        alert(error);
+    }
     render() {
-    if (this.state.status == STATUS_LOADING) {
-        return <Loading hasError={this.state.hasError} />;
-    }
-    return (<Router>
-        <div>
-          <Route path="/" component={CenterList} />
-          <Route path="/:centerSlug/:centerId" render={props => <FormList key={props.match.params.centerSlug} {...props} /> }/>
-          <Route path="/:centerSlug/:centerId/:formId/responses" render={props => <ResponseTable key={props.match.params.formId} {...props} /> }/>
-          <Route path="/:centerSlug/:centerId/:formId/summary" render={props => <ResponseSummary key={props.match.params.formId} {...props} /> }/>
-        </div>
-      </Router>);
+        if (this.state.status == STATUS_LOADING) {
+            return <Loading hasError={this.state.hasError} />;
+        }
+        return (<Router>
+            <div>
+            {this.state.status != STATUS_ACCESS_DENIED && 
+                <Route path="/" render={(props) => <CenterList {...props} onError={e => this.onUnauth(e)} />} />
+            }
+            {this.state.status == STATUS_ACCESS_DENIED &&
+                <Route path="/" render={(props) => <AccessDenied userId={this.state.userId} />} />
+            }
+            <Route path="/:centerSlug/:centerId" render={props => <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} {...props} /> }/>
+            <Route path="/:centerSlug/:centerId/:formId/responses" render={props => <ResponseTable key={props.match.params.formId} onError={e => this.onError(e)} {...props} /> }/>
+            <Route path="/:centerSlug/:centerId/:formId/summary" render={props => <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} /> }/>
+            </div>
+        </Router>);
 
-    }
+        }
+}
+function AccessDenied(props) {
+    return (<div>
+        <h4><b>Access denied</b></h4>
+            <p>To finish setting up your account, please contact an administrator and give them your id:</p>
+            <pre className="cff-copy-box">{props.userId}</pre>
+    </div>);
 }
 /*
 class Other {
@@ -128,13 +156,7 @@ class Other {
         if (this.state.status == STATUS_LOADING) {
             return <Loading hasError={this.state.hasError} />;
         }
-        if (this.state.status == STATUS_ACCESS_DENIED) {
-            return (<div>
-                <h4><b>Access denied</b></h4>
-                    <p>To finish setting up your account, please contact an administrator and give them your id:</p>
-                    <pre className="cff-copy-box">{this.state.userId}</pre>
-            </div>);
-        }
+
         return (
         <div className="App FormAdminPage">
             <h1>CCMT Form Admin - {this.state.center && this.state.center.name}</h1>

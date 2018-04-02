@@ -30,7 +30,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, { "include_s_sm_versions": true, "apiKey": this.props.apiKey })
             .then(({ name, center, schemaModifier, couponCodes, couponCodes_used, schema, schema_versions, schemaModifier_versions }) => {
                 if (couponCodes_used) {

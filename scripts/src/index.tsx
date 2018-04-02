@@ -43,7 +43,7 @@ Amplify.configure({
     ]
   }
 });
-(window as any).LOG_LEVEL = 'DEBUG';
+
 const federated = {
   google_client_id: '766882331202-ccnggd9cf0h54h9k5nn6ouqhgmeesrju.apps.googleusercontent.com',
   facebook_app_id: '',

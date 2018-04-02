@@ -34,10 +34,16 @@ clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 
 Todo:
 - hide title "Payment" in form loading
-- see if res.paid == True when displaying the payment method options.
 
-## 1.2.2 (tbd)
+## 1.2.3 (TBD)
+- Better error handling
+- Remove aggregate info from responses table
+
+
+## 1.2.2 (4/1/2018)
 - React router
+- Response summary page
+- Better styling changes of admin page, with bootstrap!
 
 ## 1.2.1 (3/31/2018)
 - Fixed bug -- shows access denied screen properly.
