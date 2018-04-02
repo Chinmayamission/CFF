@@ -65,6 +65,7 @@ def center_list():
         raise UnauthorizedError("User is not set up yet.")
     if not user['centers']:
         raise UnauthorizedError("No centers found for this user.")
+    # todo: change this to a batch get.
     centers = [TABLES.centers.get_item(Key=dict(id=centerId))["Item"] for centerId in user['centers']]
     return {"res": centers}
 
@@ -112,8 +113,18 @@ def form_response_list(formId):
 def form_response_summary(formId):
     """Show response agg. summary"""
     # form = Form.get(id=formId, version=1)
-    # app.check_permissions(form, "ViewResponseSummary")
-    # dataOptions = FormSchemaModifier.get(**form.schemaModifier).dataOptions
-    # responses = [r.to_dict() for r in Response.query(formId=formId) if r.PAID == True]
-    # result = aggregate_data(dataOptions, responses)
-    # return {"res": result}
+    form = TABLES.forms.get_item(
+        Key=dict(id=formId, version=1),
+        ProjectionExpression="schemaModifier, cff_permissions"
+    )["Item"]
+    app.check_permissions(form, "ViewResponseSummary")
+    dataOptions = TABLES.schemaModifiers.get_item(
+        Key=form["schemaModifier"],
+        ProjectionExpression="dataOptions"
+    )["Item"].get("dataOptions", {})
+    responses = TABLES.responses.query(
+        KeyConditionExpression=Key('formId').eq(formId),
+        FilterExpression=Key('PAID').eq(True)
+    )["Items"]
+    result = aggregate_data(dataOptions, responses)
+    return {"res": result}
