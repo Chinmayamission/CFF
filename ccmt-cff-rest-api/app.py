@@ -55,15 +55,16 @@ def center_list():
     # user = User.get(id=userId)
     user = TABLES.users.get_item(
         Key=dict(id=userId)
-    )["Item"]
-    if not user:
+    )
+    if not "Item" in user:
         # User(id=userId, date_created = datetime.datetime.now()).save() todo: this doesn't work with datetime.
         TABLES.users.put_item(
 			Item=dict(id=userId)
 		)
         # User(id=userId).save()
         raise UnauthorizedError("User is not set up yet.")
-    if not user['centers']:
+    user = user["Item"]
+    if not 'centers' in user or not user['centers']:
         raise UnauthorizedError("No centers found for this user.")
     # todo: change this to a batch get.
     centers = [TABLES.centers.get_item(Key=dict(id=centerId))["Item"] for centerId in user['centers']]
