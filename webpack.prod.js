@@ -4,6 +4,7 @@ const common = require('./webpack.common.js');
 const path = require('path')
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
 const DEST_URL = FORMBUILDER_URL + "/prod";
@@ -13,6 +14,11 @@ module.exports = merge(common, {
   mode: 'production',
   output: {
     path: path.resolve(DEST_URL)
+  },
+  optimization: {
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   plugins: [
      new CleanWebpackPlugin([DEST_URL]),

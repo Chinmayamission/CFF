@@ -2,7 +2,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { API } from 'aws-amplify';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import "./FormList.scss";
 
 class FormList extends React.Component<IFormListProps, IFormListState> {
@@ -26,7 +26,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
     render() {
         return (
-            <table className="table table-hover table-sm table-responsive-sm">
+            <table className="ccmt-cff-form-list table table-hover table-sm table-responsive-sm">
                 <thead>
                     <tr>
                         <th>Form name</th>
@@ -46,16 +46,16 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     </a>
                                     {/*<button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
                                     <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>*/}
-                                    <Link to={`${this.props.match.url}/${form.id}/responses`}>
-                                        <button className="btn">
+                                    <NavLink to={`${this.props.match.url}/${form.id}/responses`}>
+                                        <button className="btn ccmt-cff-btn-action">
                                             <span className="oi oi-sort-descending"></span> Responses
                                         </button>
-                                    </Link>
-                                    <Link to={`${this.props.match.url}/${form.id}/summary`}>
-                                        <button className="btn">
+                                    </NavLink>
+                                    <NavLink to={`${this.props.match.url}/${form.id}/summary`}>
+                                        <button className="btn ccmt-cff-btn-action">
                                             <span className="oi oi-list"></span> Summary
                                         </button>
-                                    </Link>
+                                    </NavLink>
                                     {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
                                 </div>
                             </td>

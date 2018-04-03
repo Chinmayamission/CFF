@@ -7,7 +7,6 @@ import "./common/main.scss";
 import * as DOMPurify from 'dompurify';
 import Amplify from 'aws-amplify';
 import FormAdminPage from './admin/FormAdminPage';
-import "./form/bootstrap-4.min.scss";
 
 declare var MODE: string;
 

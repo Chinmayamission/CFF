@@ -5,7 +5,7 @@ var webpack = require('webpack')
 
 const MODE = "beta";
 module.exports = merge(common, {
- devtool: 'inline-source-map',
+ devtool: 'source-map',
  mode: 'development',
  plugins: [
     new webpack.DefinePlugin({

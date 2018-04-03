@@ -1,5 +1,6 @@
 const path = require('path');
 var webpack = require('webpack')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const FORMBUILDER_URL = "./scripts";
 const SRC_URL = FORMBUILDER_URL + "/src";
@@ -25,6 +26,11 @@ module.exports = {
     publicPath: '/',
     filename: "[name].[chunkhash].js"
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css"
+    }),
+  ],
   module: {
     rules: [
       {
@@ -52,7 +58,7 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] //['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.(svg|woff|eot|ttf)$/,
