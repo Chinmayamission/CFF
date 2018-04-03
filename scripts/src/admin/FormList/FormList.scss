@@ -1,8 +1,9 @@
+@import "../../form/bootstrap-4.min.scss";
 .ccmt-cff-form-list {
     .ccmt-cff-btn-action {
-        
+        @extend .btn-outline-primary;
     }
-    .active .ccmt-cff-btn-action {
-        
+    a.active > .ccmt-cff-btn-action {
+        @extend .btn-primary;
     }
 }

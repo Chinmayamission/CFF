@@ -35,6 +35,10 @@ clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 Todo:
 - hide title "Payment" in form loading
 
+## 1.2.4 (TBD)
+- webpack minify css and put in a separate file
+- Highlight responses / summary buttons so you know what page you're on.
+
 ## 1.2.3 (4/2/2018)
 - Refactor loading, proper error handling for responses page
 - Better error handling
