@@ -17,7 +17,7 @@ module.exports = merge(common, {
   plugins: [
      new CleanWebpackPlugin([DEST_URL]),
      new HtmlWebpackPlugin({
-       filename: 'index.[hash].html',
+       filename: 'index.[chunkhash].html',
        title: 'Chinmaya Forms Framework - ' + MODE,
        template: './scripts/src/index.html',
      }),

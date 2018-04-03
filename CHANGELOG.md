@@ -35,7 +35,7 @@ clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 Todo:
 - hide title "Payment" in form loading
 
-## 1.2.3 (TBD)
+## 1.2.3 (4/2/2018)
 - Refactor loading, proper error handling for responses page
 - Better error handling
 - Remove aggregate info from responses table
