@@ -3,7 +3,8 @@ interface IFormListItem {
     id: string,
     version: Number,
     schema: any,
-    schemaModifier: any
+    schemaModifier: any,
+    cff_permissions: {[x: string]: string[]}
 }
 
 
@@ -20,5 +21,6 @@ interface IFormListProps extends ISharedAdminProps {
             centerId: Number
         }
     },
-    onError: (any) => void
+    onError: (any) => void,
+    userId: string
 }

@@ -15,7 +15,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
     loadFormList() {
         return API.get("CFF", "centers/" + this.props.match.params.centerId + "/forms", {}).then(e => {
-            this.setState({"formList": e.res});
+            this.setState({ "formList": e.res });
         }).catch(e => this.props.onError(e));
     }
     componentDidMount() {
@@ -40,22 +40,24 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             <td>
                                 <div className="btn-group btn-group-sm">
                                     <a>
-                                        <button className="btn" disabled>
+                                        <button className="ccmt-cff-btn-action" disabled>
                                             <span className="oi oi-pencil"></span> Edit
                                         </button>
                                     </a>
                                     {/*<button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
                                     <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>*/}
-                                    <NavLink to={`${this.props.match.url}/${form.id}/responses`}>
-                                        <button className="btn ccmt-cff-btn-action">
-                                            <span className="oi oi-sort-descending"></span> Responses
-                                        </button>
-                                    </NavLink>
-                                    <NavLink to={`${this.props.match.url}/${form.id}/summary`}>
-                                        <button className="btn ccmt-cff-btn-action">
-                                            <span className="oi oi-list"></span> Summary
-                                        </button>
-                                    </NavLink>
+                                    <ActionButton permissions={form.cff_permissions}
+                                        permissionName="ViewResponses"
+                                        url={`${this.props.match.url}/${form.id}/responses`}
+                                        icon="oi-sort-ascending"
+                                        text="Responses"
+                                        userId={this.props.userId} />
+                                    <ActionButton permissions={form.cff_permissions}
+                                        permissionName="ViewResponseSummary"
+                                        url={`${this.props.match.url}/${form.id}/summary`}
+                                        icon="oi-list"
+                                        text="Summary"
+                                        userId={this.props.userId} />
                                     {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
                                 </div>
                             </td>
@@ -65,5 +67,24 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
             </table>
         )
     }
+}
+function ActionButton(props) {
+    return (<NavLink to={`${props.url}`}>
+        <button className="ccmt-cff-btn-action" disabled={!hasPermission(props.permissions, props.permissionName, props.userId)}>
+            <span className={`oi ${props.icon}`}></span> {props.text}
+        </button>
+    </NavLink>);
+}
+function hasPermission(permissions, permissionName, userId) {
+    console.log(arguments);
+    if (permissions) {
+        if (permissions[permissionName] && ~permissions[permissionName].indexOf(userId)) {
+            return true;
+        }
+        else if (permissions["owner"] && ~permissions["owner"].indexOf(userId)) {
+            return true;
+        }
+    }
+    return false;
 }
 export default FormList;
