@@ -36,16 +36,24 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 <tbody>
                     {this.state.formList && this.state.formList.map((form) =>
                         <tr key={form["id"]}>
-                            <td>{form["name"]}</td>
+                            <td>{form["name"]}<br /><small><code>{form["id"]}</code></small> </td>
                             <td>
                                 <div className="btn-group btn-group-sm">
-                                    <a>
-                                        <button className="ccmt-cff-btn-action" disabled>
-                                            <span className="oi oi-pencil"></span> Edit
-                                        </button>
-                                    </a>
-                                    {/*<button className="btn btn-primary" onClick = {() => this.props.embedForm(form)}>Embed</button>
-                                    <button className="btn" onClick = {() => this.props.editForm(form)}>Edit</button>*/}
+                                    <ActionButton permissions={form.cff_permissions}
+                                        permissionName="FormEmbed"
+                                        url={`${this.props.match.url}/${form.id}/embed`}
+                                        icon="oi-document"
+                                        text="Embed"
+                                        userId={this.props.userId}
+                                        disabled={true}
+                                        />
+                                    <ActionButton permissions={form.cff_permissions}
+                                        permissionName="FormEdit"
+                                        url={`${this.props.match.url}/${form.id}/edit`}
+                                        icon="oi-pencil"
+                                        text="Edit"
+                                        userId={this.props.userId}
+                                        disabled={true} />
                                     <ActionButton permissions={form.cff_permissions}
                                         permissionName="ViewResponses"
                                         url={`${this.props.match.url}/${form.id}/responses`}
@@ -57,6 +65,12 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         url={`${this.props.match.url}/${form.id}/summary`}
                                         icon="oi-list"
                                         text="Summary"
+                                        userId={this.props.userId} />
+                                    <ActionButton permissions={form.cff_permissions}
+                                        permissionName="FormShare"
+                                        url={`${this.props.match.url}/${form.id}/share`}
+                                        icon="oi-share-boxed"
+                                        text="Share"
                                         userId={this.props.userId} />
                                     {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
                                 </div>
@@ -70,7 +84,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 }
 function ActionButton(props) {
     return (<NavLink to={`${props.url}`}>
-        <button className="ccmt-cff-btn-action" disabled={!hasPermission(props.permissions, props.permissionName, props.userId)}>
+        <button className="ccmt-cff-btn-action" disabled={props.disabled || !hasPermission(props.permissions, props.permissionName, props.userId)}>
             <span className={`oi ${props.icon}`}></span> {props.text}
         </button>
     </NavLink>);

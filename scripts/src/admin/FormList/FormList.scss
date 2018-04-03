@@ -1,7 +1,7 @@
 @import "../../form/bootstrap-4.min.scss";
 .ccmt-cff-Wrapper-Bootstrap .ccmt-cff-form-list {
     .ccmt-cff-btn-action {
-        @extend .btn;
+        @extend .btn, .btn-sm;
         &:not([disabled]) {
             @extend .btn-outline-primary;
         }
