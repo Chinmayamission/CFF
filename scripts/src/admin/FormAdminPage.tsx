@@ -39,7 +39,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             selectedForm: null,
             status: STATUS_LOADING,
             hasError: false,
-            userId: "cff:cognitoIdentityId:" + this.props.authData.id,
+            userId: null,
             apiKey: null,
             loading: false
         }
@@ -94,7 +94,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 Auth.signOut();
                 return;
             }
-            this.setState({"userId": e.params.IdentityId}); // , this.loadCenters);
+            this.setState({"userId": "cff:cognitoIdentityId:" + e.params.IdentityId}); // , this.loadCenters);
         });
     }
     componentDidMount() {
