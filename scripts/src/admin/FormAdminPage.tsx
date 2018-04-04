@@ -41,8 +41,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             hasError: false,
             userId: "cff:cognitoIdentityId:" + this.props.authData.id,
             apiKey: null,
-            loading: false,
-            accessDenied: false
+            loading: false
         }
     }
 
@@ -88,20 +87,18 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
 
         }
     }
+    componentWillMount() {
+        Auth.currentCredentials().then(e => {
+            console.warn(e);
+            if (!e) {
+                Auth.signOut();
+                return;
+            }
+            this.setState({"userId": e.params.IdentityId}); // , this.loadCenters);
+        });
+    }
     componentDidMount() {
-        if (!this.state.userId) {
-            Auth.currentCredentials().then(e => {
-                console.warn(e);
-                if (!e) {
-                    Auth.signOut();
-                    return;
-                }
-                this.setState({"userId": e.params.IdentityId}, this.loadCenters);
-            });
-        }
-        else {
-            this.loadCenters();
-        }
+        this.loadCenters();
     }
     loadCenters() {
         this.setState({"status": STATUS_CENTER_LIST});
@@ -121,13 +118,12 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
         // throw error;
     }
-    onError(error, accessDenied=false) {
-        if (accessDenied) {
-            this.setState({accessDenied: true});
-            return;
-        }
+    onError(error) {
         this.onLoadEnd();
         this.setState({hasError: true});
+        // if (error == "No credentials") {
+
+        // }
         alert(error);
     }
     onLoadStart(e=null) {
@@ -149,7 +145,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 <CenterList {...props} onError={e => this.onUnauth(e)} />}
             />
             <Route path="/:centerSlug/:centerId" render={props =>
-                <FormList key={props.match.params.centerSlug} onError={e => this.onError(e, true)} userId={this.state.userId} {...props} />
+                <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.userId} {...props} />
             }/>
             <Route path="/:centerSlug/:centerId/:formId/responses" render={props =>
                 <ResponseTable key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
