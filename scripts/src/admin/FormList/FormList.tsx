@@ -26,7 +26,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
     render() {
         return (
-            <table className="ccmt-cff-form-list table table-hover table-sm table-responsive-sm">
+            <table className="ccmt-cff-form-list table table-sm table-responsive-sm">
                 <thead>
                     <tr>
                         <th>Form name</th>
@@ -72,7 +72,6 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         icon="oi-share-boxed"
                                         text="Share"
                                         userId={this.props.userId} />
-                                    {/*<button className="btn" onClick = {() => this.props.loadResponseSummary(form)}>Response Summary</button>*/}
                                 </div>
                             </td>
                         </tr>

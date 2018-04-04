@@ -39,6 +39,8 @@ Todo:
 - webpack minify css and put in a separate file
 - Highlight responses / summary buttons so you know what page you're on, and grey out buttons you have no permissions to.
 - show cff:cognitoIdentityId: before id
+- graceful error handling on session expire
+- Generic data loading HOC for all views (DataLoadingView)
 
 ## 1.2.3 (4/2/2018)
 - Refactor loading, proper error handling for responses page

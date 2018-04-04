@@ -11,6 +11,7 @@ import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
 import {API} from "aws-amplify";
+import dataLoadingView from "../util/DataLoadingView";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -19,7 +20,9 @@ class ResponseSummary extends React.Component<any, any> {
     constructor(props:any) {
         super(props);
         this.state = {
-            tables: null
+            tables: null,
+            hasError: false,
+            loading: true
         }
     }
     formatPayment(total, currency="USD") {
@@ -63,45 +66,6 @@ class ResponseSummary extends React.Component<any, any> {
                 }
                 
                 this.setState({tables: tables});
-            /*
-            let paidHeader = Headers.makeHeaderObjsFromKeys(["PAID"]);
-            let headerObjs : any = concat(
-                paidHeader,
-                Headers.makeHeaderObjsFromKeys(["ID"]),
-                Headers.makeHeaders(this.state.schema.properties),
-                Headers.makeHeaderObjsFromKeys(headerNamesToShow)
-                // Headers.makeHeaderObjsFromKeys(["PAYMENT_INFO_TOTAL", "DATE_CREATED", "DATE_LAST_MODIFIED"])
-            );
-            let dataOptions = this.state.dataOptions;
-            let colsToAggregate = [];
-            if (dataOptions.mainTable) {
-                headerObjs = this.filterHeaderObjs(headerObjs, dataOptions.mainTable);
-                colsToAggregate = this.getColsToAggregate(dataOptions.mainTable);
-            }
-            
-            // Set possible rows to unwind, equal to top-level array items.
-            let possibleFieldsToUnwind = [];
-            if (dataOptions.unwindTables) {
-                possibleFieldsToUnwind = Object.keys(dataOptions.unwindTables);
-            }
-            else {
-                for (let fieldName in this.state.schema.properties) {
-                    let fieldValue = this.state.schema.properties[fieldName];
-                    if (fieldValue.type == "array") {
-                        possibleFieldsToUnwind.push(fieldName);
-                        dataOptions[fieldName] = {};
-                    }
-                }
-            }
-            
-            this.setState({
-                tableHeaders: headerObjs, tableHeadersDisplayed: headerObjs,
-                tableData: data, tableDataDisplayed: data,
-                status: STATUS_RESPONSES_RENDERED,
-                possibleFieldsToUnwind,
-                dataOptions,
-                colsToAggregate
-            });*/
         }).catch(e => this.props.onError(e));
     }
 
@@ -119,26 +83,9 @@ class ResponseSummary extends React.Component<any, any> {
                 </div>
             )}
         </div>);
-        /*if (this.state.status == STATUS_RESPONSES_LOADING) {
-            return <Loading />;
-        }
-
-        else if (this.state.status == STATUS_RESPONSES_RENDERED) {
-            return (
-                <ReactTable
-                data={this.state.tableDataDisplayed}
-                columns={this.state.tableHeadersDisplayed}
-                minRows={0}
-                filterable
-                //pivotBy={this.state.pivotCols}
-                defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
-                defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
-                SubComponent={ this.state.rowToUnwind ? null : DetailView }
-                />
-            );
-        }*/
-
     }
 }
 
-export default ResponseSummary;
+export default dataLoadingView(ResponseSummary, (props) => {
+    return API.get("CFF", "forms/" + props.match.params.formId + "/summary", {});
+});
