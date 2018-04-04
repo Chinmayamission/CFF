@@ -71,7 +71,9 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         url={`${this.props.match.url}/${form.id}/share`}
                                         icon="oi-share-boxed"
                                         text="Share"
-                                        userId={this.props.userId} />
+                                        userId={this.props.userId}
+                                        disabled={true}
+                                    />
                                 </div>
                             </td>
                         </tr>
