@@ -76,6 +76,13 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         userId={this.props.userId}
                                         disabled={true}
                                     />
+                                    <ActionButton permissions={form.cff_permissions}
+                                        permissionName="ResponsesCheckin"
+                                        url={`${this.props.match.url}/${form.id}/lookup`}
+                                        icon="oi-magnifying-glass"
+                                        text="Lookup / Check in"
+                                        userId={this.props.userId}
+                                    />
                                 </div>
                             </td>
                         </tr>
