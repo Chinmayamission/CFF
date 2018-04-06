@@ -35,7 +35,7 @@ clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 Todo:
 - hide title "Payment" in form loading
 
-## 1.2.4 (TBD)
+## 1.2.4 (TBD not yet)
 - webpack minify css and put in a separate file
 - Highlight responses / summary buttons so you know what page you're on, and grey out buttons you have no permissions to.
 - show cff:cognitoIdentityId: before id

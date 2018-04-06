@@ -36,7 +36,9 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 <tbody>
                     {this.state.formList && this.state.formList.map((form) =>
                         <tr key={form["id"]}>
-                            <td>{form["name"]}<br /><small><code>{form["id"]}</code></small> </td>
+                            <td>{form["name"]}<br />
+                                <small title={`s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}`}><code>{form["id"]}</code></small>
+                            </td>
                             <td>
                                 <div className="btn-group btn-group-sm">
                                     <ActionButton permissions={form.cff_permissions}
