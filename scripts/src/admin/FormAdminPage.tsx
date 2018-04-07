@@ -148,7 +148,10 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.userId} {...props} />
             }/>
             <Route path="/:centerSlug/:centerId/:formId/responses" render={props =>
-                <ResponseTable key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
+                <ResponseTable key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
+            }/>
+            <Route path="/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
+                <ResponseTable key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
             }/>
             <Route path="/:centerSlug/:centerId/:formId/summary" render={props =>
                 <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />

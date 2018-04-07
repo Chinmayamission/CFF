@@ -41,6 +41,8 @@ Todo:
 - show cff:cognitoIdentityId: before id
 - graceful error handling on session expire
 - Generic data loading HOC for all views (DataLoadingView)
+- Responses search is case insensitive.
+- Responses edit page -- allows things such as bib assignment from admin. Users of this must have the `ResponsesEdit` permission.
 
 ## 1.2.3 (4/2/2018)
 - Refactor loading, proper error handling for responses page

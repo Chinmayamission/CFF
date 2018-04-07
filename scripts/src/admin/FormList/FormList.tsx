@@ -77,11 +77,19 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         disabled={true}
                                     />
                                     <ActionButton permissions={form.cff_permissions}
+                                        permissionName="ResponsesEdit"
+                                        url={`${this.props.match.url}/${form.id}/responsesEdit`}
+                                        icon="oi-pencil"
+                                        text="Edit Responses"
+                                        userId={this.props.userId}
+                                    />
+                                    <ActionButton permissions={form.cff_permissions}
                                         permissionName="ResponsesCheckin"
                                         url={`${this.props.match.url}/${form.id}/lookup`}
                                         icon="oi-magnifying-glass"
-                                        text="Lookup / Check in"
+                                        text="Check in"
                                         userId={this.props.userId}
+                                        disabled={true}
                                     />
                                 </div>
                             </td>
@@ -100,7 +108,6 @@ function ActionButton(props) {
     </NavLink>);
 }
 function hasPermission(permissions, permissionName, userId) {
-    console.log(arguments);
     if (permissions) {
         if (permissions[permissionName] && ~permissions[permissionName].indexOf(userId)) {
             return true;

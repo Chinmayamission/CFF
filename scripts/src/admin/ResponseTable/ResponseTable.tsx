@@ -4,13 +4,15 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
-import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith, find, union, filter} from 'lodash-es';
+import {assign, concat, groupBy, get, map, keys,
+    isArray, intersectionWith, find, union, filter, set} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
 import {API} from "aws-amplify";
 import Loading from "src/common/Loading/Loading";
+import InlineEdit from "react-edit-inline";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -175,13 +177,14 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 // Gives all data of original rows to the unwound item.
                 let unwoundItem = item[rowToUnwind][i];
                 unwoundItem = assign({}, item, unwoundItem);
-                unwoundItem["NUMERIC_ID"] = unwoundItem["NUMERIC_ID"] + "." + (parseInt(i) + 1);
+                unwoundItem["CFF_UNWIND_PATH"] = `${rowToUnwind}.${i}`;
+                // unwoundItem["NUMERIC_ID"] = unwoundItem["NUMERIC_ID"] + "." + (parseInt(i) + 1);
                 data.push(unwoundItem);
             }
         }
         let headerObjs = concat(
             // Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
-            Headers.makeHeaderObjsFromKeys(["NUMERIC_ID"]),
+            // Headers.makeHeaderObjsFromKeys(["NUMERIC_ID"]),
             Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties),
             this.state.tableHeaders // concat original table headers with this.
         );
@@ -221,14 +224,54 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         this.setState({
             tableHeadersDisplayed: this.state.tableHeaders,
             tableDataDisplayed: this.state.tableData
+        });
+    }
+    onResponseEdit(elementAccessor, value, {index, original}) {
+        let path = `${original.CFF_UNWIND_PATH || ""}.${elementAccessor}`;
+        let responseId = original.ID;
+
+        let tableDataDisplayed = this.state.tableDataDisplayed;
+        let selectedRow = tableDataDisplayed[index];
+        if (selectedRow) {
+            selectedRow["CFF_REACT_TABLE_STATUS"] = "updating";
+            this.setState({tableDataDisplayed});
+        }
+
+        console.log(`Setting ${responseId}'s ${path} to ${value}.`);
+        API.post("CFF", `forms/${this.props.match.params.formId}/responses/${responseId}/edit`, {
+            "body":
+            {
+                "path": `value.${path}`,
+                "value": value
+            }
+        }).then(e => {
+            console.log("Response update succeeded", e);
+            selectedRow["CFF_REACT_TABLE_STATUS"] = "";
+            let tableDataOrigObject = this.state.tableDataOrigObject;
+            let tableData = this.state.tableData;
+            let tableDataDisplayed = this.state.tableDataDisplayed;
+            set(find(tableDataOrigObject, {"responseId": responseId}), `value.${path}`, value);
+            set(find(tableData, {"responseId": responseId}), path, value);
+            set(selectedRow, elementAccessor, value);
+            // Todo: use index for faster.
+            this.setState({tableDataOrigObject, tableData, tableDataDisplayed});
+        }).catch(e => {
+            alert(`Response update failed: ${e}`);
         })
+        // console.log(value, path, row, this.state.tableDataOrigObject);
+    }
+    makeHeaderEditable(header) {
+        header.Cell = row => (<div>
+            <InlineEdit text={"" + (row.value || "None") } paramName="value" change={({value}) => this.onResponseEdit(header.accessor, value, row)} />
+        </div>);
+        return header;
     }
 
     render() {
         return this.state.loading ? <Loading hasError={this.state.hasError} /> : (
             <ReactTable
             data={this.state.tableDataDisplayed}
-            columns={this.state.tableHeadersDisplayed}
+            columns={this.state.tableHeadersDisplayed.map(e => this.props.editMode ? this.makeHeaderEditable(e): e)}
             minRows={0}
             filterable
             //pivotBy={this.state.pivotCols}
@@ -236,6 +279,13 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
             defaultFilterMethod={filterCaseInsensitive}
             SubComponent={ this.state.rowToUnwind ? null : DetailView }
+            getTrProps={(state, rowInfo, column) => {
+                return {
+                  style: {
+                    color: rowInfo.row["CFF_REACT_TABLE_STATUS"] == "updating" ? 'grey' : 'black'
+                  }
+                }
+              }}
             >
             {(state, makeTable, instance) => {
                 // console.log(state, instance);

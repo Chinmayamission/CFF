@@ -4,7 +4,8 @@ interface IResponseTableProps {
             formId: string
         }
     },
-    onError: (any) => void
+    onError: (any) => void,
+    editMode: boolean
 }
 
 interface IResponseTableState {
