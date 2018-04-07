@@ -146,8 +146,6 @@ def edit_response(formId, responseId):
     # Todo: make sure path is not one of the reserved keywords, by using expressionattributenames.
     # Todo: replace spaces in path, only letters & dots allowed.
     path = path.replace(" ", "")
-    # Converts a.2.3.asd.dsgdf.34.6 to a[2][3].asd.dsgdf[34][6]
-    path = re.sub(r'\.(\d+)', lambda x: "[{}]".format(x.group(1)), path)
     pathNames = path.split(".")
     expressionAttributeNames = {}
     escapedPath = ""
@@ -156,9 +154,14 @@ def edit_response(formId, responseId):
             continue
         if escapedPath != "":
             escapedPath += "."
-        pathName_escaped = "#cff{}".format(pathName)
-        escapedPath += pathName_escaped
-        expressionAttributeNames[pathName_escaped] = pathName
+        if pathName.isdigit():
+            escapedPath += pathName
+        else:
+            pathName_escaped = "#cff{}".format(pathName)
+            expressionAttributeNames[pathName_escaped] = pathName
+            escapedPath += pathName_escaped
+    # Converts a.2.3.asd.dsgdf.34.6 to a[2][3].asd.dsgdf[34][6]
+    escapedPath = re.sub(r'\.(\d+)', lambda x: "[{}]".format(x.group(1)), escapedPath)
     # raise Exception("{}, {}".format(path, expressionAttributeNames))
     return TABLES.responses.update_item(
         Key=dict(formId=formId, responseId=responseId),

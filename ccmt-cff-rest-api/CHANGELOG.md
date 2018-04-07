@@ -1,6 +1,6 @@
 
-# 1.0.4 (tbd)
-- Response editing view by admin
+# 1.0.4 (4/6/18) (frontend 1.2.4)
+- Response editing view by admin (requires `ResponsesEdit` permission)
 
 # 1.0.3 (4/2/18)
 - Fix bug: don't break on new user login
