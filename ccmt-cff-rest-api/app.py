@@ -163,7 +163,7 @@ def edit_response(formId, responseId):
     # Converts a.2.3.asd.dsgdf.34.6 to a[2][3].asd.dsgdf[34][6]
     escapedPath = re.sub(r'\.(\d+)', lambda x: "[{}]".format(x.group(1)), escapedPath)
     # raise Exception("{}, {}".format(path, expressionAttributeNames))
-    return TABLES.responses.update_item(
+    result = TABLES.responses.update_item(
         Key=dict(formId=formId, responseId=responseId),
         UpdateExpression= "SET {} = :value,"
             "UPDATE_HISTORY = list_append(if_not_exists(UPDATE_HISTORY, :empty_list), :updateHistory),"
@@ -183,4 +183,19 @@ def edit_response(formId, responseId):
         ExpressionAttributeNames=expressionAttributeNames,
         ReturnValues="UPDATED_NEW"
     )["Attributes"]
-                    
+    return {"res": result, "success": True, "action": "update"}
+    # todo: return a better, more uniform response.
+
+@app.route('/forms/{formId}/responses/{responseId}/view', cors=True, authorizer=iamAuthorizer)
+def view_response(formId, responseId):
+    """View an individual response from the admin dashboard (for search functionality).
+    """
+    form = TABLES.forms.get_item(
+        Key=dict(id=formId, version=1),
+        ProjectionExpression="cff_permissions"
+    )["Item"]
+    app.check_permissions(form, "ResponsesView")
+    response = TABLES.responses.get_item(
+        Key=dict(formId=formId, responseId=responseId)
+    )["Item"]
+    return {"success": True, "res": response}
