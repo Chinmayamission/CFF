@@ -39,34 +39,32 @@ class ResponseSummary extends React.Component<any, any> {
             headerNamesToShow.push(row);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         
-        API.get("CFF", "forms/" + this.props.match.params.formId + "/summary", {})
-            .then(data => {
-                let tables = [];
-                for (let tableName in data.res.mainTable) {
-                    let tbl = data.res.mainTable;
-                    let tableData = Object.keys(tbl[tableName]).map(e => ({"Value": e, "Count": tbl[tableName][e]}));
-                    tables.push({
-                        title: `Aggregated by ${tableName}`,
-                        headers: Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
-                        data: tableData
-                    });
-                }
-                for (let unwindName in data.res.unwindTables) {
-                    for (let tableName in data.res.unwindTables[unwindName]) {
-                        let tbl = data.res.unwindTables[unwindName];
-                        let tableData = Object.keys(tbl[tableName]).map(e => ({"Value": e, "Count": tbl[tableName][e]}));
-                        tables.push({
-                            title: `${unwindName} aggregated by ${tableName}`,
-                            headers: Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
-                            data: tableData
-                        });
-                    }
-                }
-                
-                this.setState({tables: tables});
-        }).catch(e => this.props.onError(e));
+        let data = this.props.data;
+        let tables = [];
+        for (let tableName in data.res.mainTable) {
+            let tbl = data.res.mainTable;
+            let tableData = Object.keys(tbl[tableName]).map(e => ({"Value": e, "Count": tbl[tableName][e]}));
+            tables.push({
+                title: `Aggregated by ${tableName}`,
+                headers: Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
+                data: tableData
+            });
+        }
+        for (let unwindName in data.res.unwindTables) {
+            for (let tableName in data.res.unwindTables[unwindName]) {
+                let tbl = data.res.unwindTables[unwindName];
+                let tableData = Object.keys(tbl[tableName]).map(e => ({"Value": e, "Count": tbl[tableName][e]}));
+                tables.push({
+                    title: `${unwindName} aggregated by ${tableName}`,
+                    headers: Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
+                    data: tableData
+                });
+            }
+        }
+        
+        this.setState({tables});
     }
 
     render() {
