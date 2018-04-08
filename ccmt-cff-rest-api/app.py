@@ -26,14 +26,21 @@ TABLES = TABLES_CLASS()
 
 class CustomChalice(Chalice):
     def get_current_user_id(self):
-        return "cff:cognitoIdentityId:{}".format(self.current_request.context['identity']['cognitoIdentityId'])
+        id = None
+        try:
+            id = self.current_request.context['identity']['cognitoIdentityId']
+        except KeyError:
+            # This hack allows for integration testing.
+            id = os.getenv("DEV_COGNITO_IDENTITY_ID") or None
+            if not id: raise
+        return "cff:cognitoIdentityId:{}".format(id)
     def check_permissions(self, model, action):
         id = self.get_current_user_id()
         cff_permissions = model.get("cff_permissions", {})
         if id in cff_permissions.get(action, []) or id in cff_permissions.get("owner", []):
             return True
         else:
-            raise UnauthorizedError("User {} is not authorized to perform action {}".format(id, action))
+            raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, action))
 
 app = CustomChalice(app_name='ccmt-cff-rest-api')
 # app = Chalice(app_name='ccmt-cff-rest-api')
@@ -194,7 +201,7 @@ def view_response(formId, responseId):
         Key=dict(id=formId, version=1),
         ProjectionExpression="cff_permissions"
     )["Item"]
-    app.check_permissions(form, "ResponsesView")
+    app.check_permissions(form, "ViewResponses")
     response = TABLES.responses.get_item(
         Key=dict(formId=formId, responseId=responseId)
     )["Item"]

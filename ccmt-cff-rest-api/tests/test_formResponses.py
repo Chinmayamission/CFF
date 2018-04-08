@@ -7,8 +7,9 @@ AWS_PROFILE_NAME = "ashwin-cff-lambda"
 dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
 boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
 from app import app
+import os
+from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE
 
-CENTER_ID = 1
 class FormResponses(unittest.TestCase):
     def setUp(self):
         with open(".chalice/config.json") as file:
@@ -22,6 +23,13 @@ class FormResponses(unittest.TestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertTrue(len(body['res']) > 0, "No forms returned!")
+    def test_view_response(self):
+        """View response"""
+        response = self.lg.handle_request(method='GET', headers={}, body='',
+                                          path='/forms/{}/responses/{}/view'.format(FORM_ID, RESPONSE_ID))
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertEqual(body, EXPECTED_RES_VALUE)
     # def test_render_form(self):
     #     """Render form."""
     #     response = self.api_get("/forms/{}/render".format(self.FORM_ID))["res"]
