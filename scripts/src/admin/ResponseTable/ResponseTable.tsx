@@ -2,8 +2,6 @@
 import * as React from 'react';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
-import ReactJson from 'react-json-view';
-import {flatten} from 'flat';
 import {assign, concat, groupBy, get, map, keys,
     isArray, intersectionWith, find, union, filter, set} from 'lodash-es';
 import {CSVLink} from 'react-csv';
@@ -12,6 +10,7 @@ import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
 import {API} from "aws-amplify";
 import Loading from "src/common/Loading/Loading";
+import ResponseDetail from "./ResponseDetail";
 import InlineEdit from "react-edit-inline";
 
 const STATUS_RESPONSES_LOADING = 0;
@@ -115,7 +114,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 assign(e.value, valueToAssign);
                 this.setState({tableDataOrigObject: data});
                 return e.value;
-                //return flatten(e.value);
             });
             
             let paidHeader = Headers.makeHeaderObjsFromKeys(["PAID"]);
@@ -277,7 +275,8 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
             defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
             defaultFilterMethod={filterCaseInsensitive}
-            SubComponent={ this.state.rowToUnwind ? null : DetailView }
+            freezeWhenExpanded={true}
+            SubComponent={ this.state.rowToUnwind ? null : ({original}) => <ResponseDetail responseId={original.ID} formId={this.props.match.params.formId} /> }
             getTrProps={(state, rowInfo, column) => {
                 return {
                   style: {
@@ -285,56 +284,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                   }
                 }
               }}
-            >
-            {(state, makeTable, instance) => {
-                // console.log(state, instance);
-                return (
-                    <div>
-                        <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
-                        &emsp;Or unwind by:
-                        <select value={this.state.rowToUnwind}
-                            onChange={(e) => this.showUnwindTable(e.target.value)}>
-                            <option key="null" value="" disabled>Select column</option>
-                            {this.state.possibleFieldsToUnwind.map((e) => 
-                                <option key={e}>{e}</option>
-                            )}
-                        </select>
-                        <CSVLink
-                            data={state.sortedData.map(e=> {
-                                for (let header of this.state.tableHeadersDisplayed) {
-                                    if (typeof e[header.key] == 'undefined') {
-                                        e[header.key] = "";
-                                    }
-                                }
-                                return e;
-                            })}
-                            headers={this.state.tableHeadersDisplayed}>
-                        Download CSV
-                        </CSVLink>
-                        {makeTable()}
-                    </div>
-                )
-            }}
-            </ReactTable>
+            />
         );
 
     }
 }
 
 export default ResponseTable;
-
-function DetailView({original, row}) {
-    let old = (
-        <ReactJson src={original}
-        displayObjectSize={false}
-        displayDataTypes={false}
-        onEdit={false}
-        onAdd={false}
-        onDelete={false}
-        collapsed={1}
-        style={{"fontFamily": "Arial, sans-serif", "marginLeft": "30px"}}
-        />
-    );
-    return old;
-    //return <ReactTable data={original} />
-} 
