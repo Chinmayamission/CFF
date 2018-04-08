@@ -40,7 +40,6 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                 <small title={`s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}`}><code>{form["id"]}</code></small>
                             </td>
                             <td>
-                                <div className="btn-group btn-group-sm">
                                     <ActionButton permissions={form.cff_permissions}
                                         permissionName="FormEmbed"
                                         url={`${this.props.match.url}/${form.id}/embed`}
@@ -83,15 +82,14 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         text="Edit Responses"
                                         userId={this.props.userId}
                                     />
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="ResponsesCheckin"
+                                    {/*<ActionButton permissions={form.cff_permissions}
+                                        permissionName="ResponsesView"
                                         url={`${this.props.match.url}/${form.id}/lookup`}
                                         icon="oi-magnifying-glass"
                                         text="Check in"
                                         userId={this.props.userId}
-                                        disabled={true}
-                                    />
-                                </div>
+                                        disabled={false}
+                                    />*/}
                             </td>
                         </tr>
                     )}
