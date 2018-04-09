@@ -276,7 +276,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
             defaultFilterMethod={filterCaseInsensitive}
             freezeWhenExpanded={true}
-            SubComponent={ this.state.rowToUnwind ? null : ({original}) => <ResponseDetail responseId={original.ID} formId={this.props.match.params.formId} /> }
+            SubComponent={ ({row}) => <ResponseDetail responseId={row.ID} formId={this.props.match.params.formId} /> }
             getTrProps={(state, rowInfo, column) => {
                 return {
                   style: {
@@ -284,7 +284,37 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                   }
                 }
               }}
-            />
+            >
+            {(state, makeTable, instance) => {
+                // console.log(state, instance);
+                return (
+                    <div>
+                        <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
+                        &emsp;Or unwind by:
+                        <select value={this.state.rowToUnwind}
+                            onChange={(e) => this.showUnwindTable(e.target.value)}>
+                            <option key="null" value="" disabled>Select column</option>
+                            {this.state.possibleFieldsToUnwind.map((e) => 
+                                <option key={e}>{e}</option>
+                            )}
+                        </select>
+                        <CSVLink
+                            data={state.sortedData.map(e=> {
+                                for (let header of this.state.tableHeadersDisplayed) {
+                                    if (typeof e[header.key] == 'undefined') {
+                                        e[header.key] = "";
+                                    }
+                                }
+                                return e;
+                            })}
+                            headers={this.state.tableHeadersDisplayed}>
+                        Download CSV
+                        </CSVLink>
+                        {makeTable()}
+                    </div>
+                )
+            }}
+            </ReactTable>
         );
 
     }
