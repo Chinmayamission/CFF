@@ -20,7 +20,7 @@ class ResponseDetail extends React.Component<{data: any, responseId: any}, any> 
                             <div className="form-check">
                                 <input className="form-check-input" type="checkbox" value="" id={`defaultCheck_${this.props.responseId}`} />
                                 <label className="form-check-label" htmlFor={`defaultCheck_${this.props.responseId}`} >
-                                    Picked up bib
+                                    Picked up bib (Not implemented yet!)
                                 </label>
                             </div>
                     </div>
