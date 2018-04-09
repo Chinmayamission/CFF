@@ -106,6 +106,17 @@ def form_render(formId):
     )["Item"]
     return {'res': form }
 
+def get_all_responses(**kwargs):
+    queryResults = TABLES.responses.query(**kwargs)
+    responses = queryResults["Items"]
+    while "LastEvaluatedKey" in queryResults:
+        queryResults = TABLES.responses.query(
+            ExclusiveStartKey=queryResults["LastEvaluatedKey"],
+            **kwargs
+        )
+        responses += queryResults["Items"]
+    return responses
+
 @app.route('/forms/{formId}/responses', cors=True, authorizer=iamAuthorizer)
 def form_response_list(formId):
     """Show all responses for a particular form."""
@@ -113,9 +124,7 @@ def form_response_list(formId):
         Key=dict(id=formId, version=1)
     )["Item"]
     app.check_permissions(form, "ViewResponses")
-    responses = TABLES.responses.query(
-        KeyConditionExpression=Key('formId').eq(formId)
-    )["Items"]
+    responses = get_all_responses(KeyConditionExpression=Key('formId').eq(formId))
     # responses = [r.to_dict() for r in Response.query(formId=formId)]
     return {'res': responses }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
 
@@ -132,10 +141,7 @@ def form_response_summary(formId):
         Key=form["schemaModifier"],
         ProjectionExpression="dataOptions"
     )["Item"].get("dataOptions", {})
-    responses = TABLES.responses.query(
-        KeyConditionExpression=Key('formId').eq(formId),
-        FilterExpression=Key('PAID').eq(True)
-    )["Items"]
+    responses = get_all_responses(KeyConditionExpression=Key('formId').eq(formId), FilterExpression=Key('PAID').eq(True))
     result = aggregate_data(dataOptions, responses)
     return {"res": result}
 

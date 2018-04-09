@@ -1,4 +1,7 @@
 
+# 1.0.5 (4/9/18)
+- View ALL responses through pagination and multiple queries if necessary (before it was limiting to ~400)
+
 # 1.0.4 (4/6/18) (frontend 1.2.4)
 - Response editing view by admin (requires `ResponsesEdit` permission)
 
