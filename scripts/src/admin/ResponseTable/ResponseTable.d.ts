@@ -1,8 +1,10 @@
 interface IResponseTableProps {
     match: {
         params: {
-            formId: string
-        }
+            formId: string,
+            tableViewName: string
+        },
+        url: string
     },
     onError: (any) => void,
     editMode: boolean

@@ -12,6 +12,7 @@ import {API} from "aws-amplify";
 import Loading from "src/common/Loading/Loading";
 import ResponseDetail from "./ResponseDetail";
 import InlineEdit from "react-edit-inline";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -41,7 +42,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             pivotCols: [],
             schema: null,
             possibleFieldsToUnwind: null,
-            rowToUnwind: "",
+            rowToUnwind: null,
             colsToAggregate: [],
             dataOptions: null,
             loading: false,
@@ -153,6 +154,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 possibleFieldsToUnwind,
                 dataOptions,
                 colsToAggregate
+            }, () => {
+                if (this.props.match.params.tableViewName && this.props.match.params.tableViewName != "all" && this.state.rowToUnwind != this.props.match.params.tableViewName) {
+                    this.showUnwindTable(this.props.match.params.tableViewName);
+                }
             });
             this.onLoadEnd();
         }).catch(e => this.onError(e));
@@ -289,7 +294,22 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 // console.log(state, instance);
                 return (
                     <div>
-                        <button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
+                        <ul className="nav nav-pills">
+                            <li onClick={() => this.showResponsesTable()} className="nav-item">
+                                <NavLink className="nav-link" to={`all`}>
+                                    All Responses
+                                </NavLink>
+                            </li>
+                            {this.state.possibleFieldsToUnwind.map(e => 
+                                <li className="nav-item" key={e} onClick={() => this.showUnwindTable(e)}>
+                                    <NavLink className="nav-link" to={`participants`}>
+                                        Unwind by {e}
+                                    </NavLink>
+                                    
+                                </li>
+                            )}
+                        </ul>
+                        {/*<button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
                         &emsp;Or unwind by:
                         <select value={this.state.rowToUnwind}
                             onChange={(e) => this.showUnwindTable(e.target.value)}>
@@ -297,7 +317,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                             {this.state.possibleFieldsToUnwind.map((e) => 
                                 <option key={e}>{e}</option>
                             )}
-                        </select>
+                        </select>*/}
                         <CSVLink
                             data={state.sortedData.map(e=> {
                                 for (let header of this.state.tableHeadersDisplayed) {
@@ -308,7 +328,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                                 return e;
                             })}
                             headers={this.state.tableHeadersDisplayed}>
-                        Download CSV
+                        <button className="btn btn-outline-primary">Download CSV</button>
                         </CSVLink>
                         {makeTable()}
                     </div>

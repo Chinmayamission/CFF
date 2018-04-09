@@ -34,8 +34,15 @@ clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 
 Todo:
 - hide title "Payment" in form loading
+- Minify vendor bundle js file.
+- Create [version#] instead of [chunkhash] webpack gen. files.
 
-## 1.2.4 (TBD not yet)
+## 1.2.5 (TBD not yet)
+- fix duplicate data call in ResponseSummary
+- Remove temporary "numeric id" that was being generated.
+- show unwind tables using react router
+
+## 1.2.4 (4/6/2018) (chalice backend 1.0.4)
 - webpack minify css and put in a separate file
 - Highlight responses / summary buttons so you know what page you're on, and grey out buttons you have no permissions to.
 - show cff:cognitoIdentityId: before id

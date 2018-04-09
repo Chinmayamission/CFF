@@ -15,7 +15,7 @@ import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
 import { withAuthenticator } from 'aws-amplify-react';
 import { Auth, API } from 'aws-amplify';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 const STATUS_LOADING = 0;
 const STATUS_ERROR = 11;
@@ -147,19 +147,25 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             <Route path="/:centerSlug/:centerId" render={props =>
                 <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.userId} {...props} />
             }/>
-            <Route path="/:centerSlug/:centerId/:formId/responses" render={props =>
-                <ResponseTable key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
-            }/>
-            <Route path="/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
-                <ResponseTable key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
-            }/>
-            <Route path="/:centerSlug/:centerId/:formId/summary" render={props =>
-                <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-            }/>
+            <Route path="/:centerSlug/:centerId/:formId" component={FormPages} />
             </div>
         </Router>);
 
         }
+}
+function FormPages() {
+    return (<Switch>
+        <Route path='/:centerSlug/:centerId/:formId/responses' exact render={({match}) => <Redirect to={`/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responses/all`} />} />
+        <Route path="/:centerSlug/:centerId/:formId/responses/:tableViewName" render={props =>
+            <ResponseTable key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
+        }/>
+        <Route path="/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
+            <ResponseTable key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
+        }/>
+        <Route path="/:centerSlug/:centerId/:formId/summary" render={props =>
+            <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
+        }/>
+    </Switch>);
 }
 function AccessDenied(props) {
     return (<div>
