@@ -37,10 +37,11 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
-## 1.2.5 (TBD not yet)
+## 1.2.5 (4/9/2018)
 - fix duplicate data call in ResponseSummary
 - Remove temporary "numeric id" that was being generated.
 - show unwind tables using react router
+- dynamically load each response, add a mock checkbox to "check in".
 
 ## 1.2.4 (4/6/2018) (chalice backend 1.0.4)
 - webpack minify css and put in a separate file
