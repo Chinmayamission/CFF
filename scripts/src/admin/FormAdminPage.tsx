@@ -156,6 +156,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
 function FormPages() {
     return (<Switch>
         <Route path='/:centerSlug/:centerId/:formId/responses' exact render={({match}) => <Redirect to={`/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responses/all`} />} />
+        <Route path='/:centerSlug/:centerId/:formId/responsesEdit' exact render={({match}) => <Redirect to={`/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responsesEdit/all`} />} />
         <Route path="/:centerSlug/:centerId/:formId/responses/:tableViewName" render={props =>
             <ResponseTable key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
         }/>
