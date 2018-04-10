@@ -37,6 +37,12 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
+## 1.2.6 (tbd -- 4/10/2018)
+- Make responseEdit button go to proper page.
+- Re-add numeric id.
+- Code to auto-assign bib numbers (commented out for now.)
+- Fix filter bug with numbers.
+
 ## 1.2.5 (4/9/2018)
 - fix duplicate data call in ResponseSummary
 - Remove temporary "numeric id" that was being generated.

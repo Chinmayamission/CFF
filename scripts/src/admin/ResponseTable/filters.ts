@@ -3,7 +3,7 @@ const filterCaseInsensitive = (filter, row) => {
     if (row[id] !== null){
         return (
             row[id] !== undefined ?
-                String(row[id].toLowerCase()).startsWith(filter.value.toLowerCase())
+                String(row[id]).toLowerCase().startsWith(filter.value.toLowerCase())
                 :
                 true
         );

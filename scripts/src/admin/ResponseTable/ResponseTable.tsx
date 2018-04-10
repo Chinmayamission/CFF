@@ -22,7 +22,7 @@ const filterCaseInsensitive = (filter, row) => {
     if (row[id] !== null){
         return (
             row[id] !== undefined ?
-                String(row[id].toLowerCase()).startsWith(filter.value.toLowerCase())
+                String(row[id]).toLowerCase().startsWith(filter.value.toLowerCase())
                 :
                 true
         );
@@ -84,7 +84,8 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         // .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
             // data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
-            let headerNamesToShow = ["PAID", "IPN_TOTAL_AMOUNT", "DATE_LAST_MODIFIED", "DATE_CREATED", "PAYMENT_INFO_TOTAL"];
+            let headerNamesToShow = ["PAID", "IPN_TOTAL_AMOUNT", "DATE_LAST_MODIFIED", "DATE_CREATED", "NUMERIC_ID", "PAYMENT_INFO_TOTAL"];
+            data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
             data = data.map((e, index) => {
                 let valueToAssign = {
                     "ID": e.responseId,
@@ -93,6 +94,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                     "PAYMENT_HISTORY": e.PAYMENT_HISTORY,
                     "IPN_HISTORY": e.IPN_HISTORY,
                     "DATE_CREATED": e.date_created,
+                    "NUMERIC_ID": index + 1,
                     "DATE_LAST_MODIFIED": e.date_last_modified,
                     "PAYMENT_INFO_TOTAL": this.formatPayment(e.paymentInfo.total),
                     "UPDATE_HISTORY": e.UPDATE_HISTORY,
@@ -180,16 +182,37 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 let unwoundItem = item[rowToUnwind][i];
                 unwoundItem = assign({}, item, unwoundItem);
                 unwoundItem["CFF_UNWIND_PATH"] = `${rowToUnwind}.${i}`;
-                // unwoundItem["NUMERIC_ID"] = unwoundItem["NUMERIC_ID"] + "." + (parseInt(i) + 1);
+                unwoundItem["NUMERIC_ID"] = unwoundItem["NUMERIC_ID"] + "." + (parseInt(i) + 1);
                 data.push(unwoundItem);
             }
         }
         let headerObjs = concat(
-            // Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
-            // Headers.makeHeaderObjsFromKeys(["NUMERIC_ID"]),
+            Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
+            Headers.makeHeaderObjsFromKeys(["NUMERIC_ID"]),
             Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties),
             this.state.tableHeaders // concat original table headers with this.
         );
+        // let i = 0;
+        // let fivek = 0;
+        // let tenk = 0;
+        // for (let unwoundItem of data) {
+        //     // console.log(unwoundItem, unwoundItem.CFF_UNWIND_PATH, headerObjs);
+        //     if (get(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.race`) == "5K") {
+        //         // set(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.bib_number`, fivek + 5000);
+        //         // fivek++;
+        //         let j = fivek;
+        //         fivek++;
+        //         setTimeout(() => {this.onResponseEdit(`bib_number`, j + 5000, {original: unwoundItem, index: j})}, i*1000);
+        //     }
+        //     else if (get(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.race`) == "10K") {
+        //         // set(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.bib_number`, tenk + 5000);
+        //         // tenk++;
+        //         let j = tenk;
+        //         tenk++;
+        //         setTimeout(() => {this.onResponseEdit(`bib_number`, j + 10000, {original: unwoundItem, index: j})}, i*1000);
+        //     }
+        //     i++;
+        // }
         let dataOptions = this.state.dataOptions;
         let colsToAggregate = [];
         if (dataOptions.unwindTables && dataOptions.unwindTables[rowToUnwind]) {
@@ -248,7 +271,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             }
         }).then(e => {
             console.log("Response update succeeded", e);
-            selectedRow["CFF_REACT_TABLE_STATUS"] = "";
+            selectedRow && (selectedRow["CFF_REACT_TABLE_STATUS"] = "");
             let tableDataOrigObject = this.state.tableDataOrigObject;
             let tableData = this.state.tableData;
             let tableDataDisplayed = this.state.tableDataDisplayed;
