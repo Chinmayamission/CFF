@@ -8,7 +8,7 @@
     "start": "cross-env TABLE_PREFIX=cff_dev AWS_PROFILE=ashwin-cff-lambda chalice local --stage dev --port=8001",
     "deploy": "chalice deploy --profile ashwin-cff-lambda --stage beta",
     "deploy-prod": "chalice deploy --profile ashwin-cff-lambda --stage prod",
-    "test": "set TABLE_PREFIX=cff_beta&&set DEV_COGNITO_IDENTITY_ID=us-east-1:1e3aa7b7-b042-4834-98f1-7915985c39a5&& python -m unittest"
+    "test": "set TABLE_PREFIX=cff_beta&&set DEV_COGNITO_IDENTITY_ID=us-east-1:1e3aa7b7-b042-4834-98f1-7915985c39a5&&set AWS_PROFILE=ashwin-cff-lambda&& python -m unittest"
   },
   "keywords": [],
   "author": "",

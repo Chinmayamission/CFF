@@ -1,4 +1,7 @@
 
+# 1.0.6 (tbd)
+- Reorganization of app.py into multiple files.
+
 # 1.0.5 (4/9/18)
 - View ALL responses through pagination and multiple queries if necessary (before it was limiting to ~400)
 

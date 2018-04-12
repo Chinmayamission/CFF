@@ -1,4 +1,12 @@
+import boto3
 import json
+import os
+AWS_PROFILE_NAME = "ashwin-cff-lambda"
+dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
+boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
+os.putenv("AWS_PROFILE", AWS_PROFILE_NAME)
+
+
 CENTER_ID = 1
 FORM_ID = "e4548443-99da-4340-b825-3f09921b4df5"
 RESPONSE_ID = "d6fee278-158f-4a8d-8e8f-e5f367837166"
