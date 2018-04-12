@@ -3,7 +3,7 @@ from chalice.config import Config
 from chalice.local import LocalGateway
 import json
 from app import app
-from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE
+from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID
 
 SCHEMA_ID = "5e258c2c-9b85-40ad-b764-979fc9df1740"
 SCHEMA_VERSION = 3
@@ -35,4 +35,8 @@ class FormAdmin(unittest.TestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertIn('form', body['res'])
+        self.assertIn('id', body['res']['form'])
+        self.assertIn('name', body['res']['form'])
+        self.assertIn(COGNITO_IDENTITY_ID, body['res']['form']['cff_permissions']['owner'])
+        self.assertEqual(body['res']['form']['version'], 1)
         self.assertEqual(body['res']['form']['schema'], TEST_SCHEMA)

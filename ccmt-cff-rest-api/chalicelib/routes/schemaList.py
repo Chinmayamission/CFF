@@ -5,7 +5,7 @@ def schema_list(centerId):
     """
     # app.check_permissions('forms', 'ListForms')
     schemas = TABLES.schemas.scan(
-        ProjectionExpression = "id, version, #value.title",
+        ProjectionExpression = "id, version, #value.title, cff_permissions",
         ExpressionAttributeNames = {"#value": "value"}
     )["Items"]
     return {"res": schemas}

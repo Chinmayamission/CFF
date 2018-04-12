@@ -27,6 +27,8 @@ class FormResponses(unittest.TestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertTrue(len(body['res']) > 0, "No forms returned!")
+        self.assertIn("id", body['res'][0])
+        self.assertIn("version", body['res'][0])
     def test_form_responses_list(self):
         """View the entire response list."""
         response = self.lg.handle_request(method='GET', headers={}, body='',

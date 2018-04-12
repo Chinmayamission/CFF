@@ -5,7 +5,9 @@ def form_list(centerId):
     # app.check_permissions('forms', 'ListForms')
     forms = TABLES.forms.query(
         IndexName='center-index',
-        KeyConditionExpression=Key('center').eq(int(centerId))
+        KeyConditionExpression=Key('center').eq(int(centerId)),
+        ProjectionExpression = "id, version, #name, date_last_modified, date_created, cff_permissions, #schema, schemaModifier",
+        ExpressionAttributeNames = {"#name": "name", "#schema": "schema"}
     )["Items"]
     return {"res": forms}
     # forms = Form.get(id="e4548443-99da-4340-b825-3f09921b4bc5", version=1).to_dict()
