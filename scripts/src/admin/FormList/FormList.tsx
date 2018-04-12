@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API } from 'aws-amplify';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import "./FormList.scss";
+import FormNew from "../FormNew/FormNew";
 
 class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
@@ -31,6 +32,9 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                     <tr>
                         <th>Form name</th>
                         <th>Actions</th>
+                        <th>
+                            <FormNew centerId={this.props.match.params.centerId} onError={this.props.onError} />
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

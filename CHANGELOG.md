@@ -37,7 +37,10 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
-## 1.2.6 (tbd -- 4/10/2018)
+## 1.2.7 (tbd)
+- Create new form button (from existing schema)
+
+## 1.2.6 (4/10/2018)
 - Make responseEdit button go to proper page.
 - Re-add numeric id.
 - Code to auto-assign bib numbers (commented out for now.)

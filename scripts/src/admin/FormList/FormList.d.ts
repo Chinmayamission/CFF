@@ -4,7 +4,9 @@ interface IFormListItem {
     version: Number,
     schema: any,
     schemaModifier: any,
-    cff_permissions: {[x: string]: string[]}
+    cff_permissions: {[x: string]: string[]},
+    date_last_modified: string,
+    date_created: string
 }
 
 
