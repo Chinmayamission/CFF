@@ -88,20 +88,21 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
     }
     componentWillMount() {
-        Auth.currentUserInfo().then(e => {
-            console.error(e);
-        });
-        // Auth.currentCredentials().then(e => {
+        Auth.currentCredentials().then(creds => {
             Auth.currentUserInfo().then(e => {
-            console.warn(e);
-            if (!e) {
-                Auth.signOut();
-                return;
-            }
-            let currentUser = pick(e, ["id", "name", "email"]);
-            currentUser.id = "cff:cognitoIdentityId:" + currentUser.id;
-            this.setState({user: currentUser}); // , this.loadCenters);
-            console.log(currentUser);
+                console.warn(e);
+                if (!e) {
+                    Auth.signOut();
+                    return;
+                }
+                let currentUser = pick(e, ["id", "name", "email"]);
+                if (!currentUser.id) {
+                    currentUser.id = creds.params.IdentityId;
+                }
+                currentUser.id = "cff:cognitoIdentityId:" + currentUser.id;
+                this.setState({user: currentUser}); // , this.loadCenters);
+                console.log(currentUser);
+            });
         });
     }
     componentDidMount() {
