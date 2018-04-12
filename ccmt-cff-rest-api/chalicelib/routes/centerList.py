@@ -1,5 +1,7 @@
 from chalice import UnauthorizedError
 from boto3.dynamodb.conditions import Key
+from pydash.objects import pick
+import datetime
 
 def center_list():
     from ..main import app, TABLES
@@ -9,12 +11,17 @@ def center_list():
         Key=dict(id=userId)
     )
     if not "Item" in user:
-        # User(id=userId, date_created = datetime.datetime.now()).save() todo: this doesn't work with datetime.
-      TABLES.users.put_item(
-        Item=dict(id=userId)
-      )
-      # User(id=userId).save()
-      raise UnauthorizedError("User is not set up yet.")
+        if app.current_request.json_body:
+            userItem = pick(app.current_request.json_body, "name", "email")
+            userItem["id"] = userId
+        else:
+            userItem = dict(id=userId)
+        userItem["date_created"] = datetime.datetime.now().isoformat()
+        userItem["date_last_modified"] = datetime.datetime.now().isoformat()
+        TABLES.users.put_item(
+            Item=userItem
+        )
+        raise UnauthorizedError("User is not set up yet.")
     user = user["Item"]
     if not 'centers' in user or not user['centers']:
         raise UnauthorizedError("No centers found for this user.")

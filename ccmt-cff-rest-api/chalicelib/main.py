@@ -59,7 +59,7 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 """
 
 from chalicelib import routes
-app.route('/centers', cors=True, authorizer=iamAuthorizer)(routes.center_list)
+app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.center_list)
 app.route('/centers/{centerId}/forms', cors=True, authorizer=iamAuthorizer)(routes.form_list)
 app.route('/centers/{centerId}/schemas', cors=True, authorizer=iamAuthorizer)(routes.schema_list)
 app.route('/centers/{centerId}/forms/new', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_create)
