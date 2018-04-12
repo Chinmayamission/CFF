@@ -11,7 +11,7 @@ interface IFormNewState {
 }
 
 
-interface IFormNewProps extends ISharedAdminProps {
-    centerId: string,
+interface IFormNewProps {
+    centerId: number,
     onError: (any) => void
 }

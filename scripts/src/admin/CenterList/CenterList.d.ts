@@ -6,5 +6,11 @@ interface ICenterListState {
 }
 
 interface ICenterListProps {
-    onError: (any) => void
+    onError: (any) => void,
+    user: IUserItem
+}
+interface IUserItem {
+    id: string,
+    name: string,
+    email: string
 }

@@ -19,9 +19,9 @@ interface IFormAdminPageState {
     centerList: {id: number, name: string}[],
     center: {id: number, name: string},
     selectedForm: IFormListItem,
-    status: Number,
+    status: number,
     hasError: boolean,
     apiKey: string,
-    userId: string,
+    user: IUserItem,
     loading: boolean
 }

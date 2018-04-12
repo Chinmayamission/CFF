@@ -39,7 +39,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             selectedForm: null,
             status: STATUS_LOADING,
             hasError: false,
-            userId: null,
+            user: {id: "", name: "", email: ""},
             apiKey: null,
             loading: false
         }
@@ -88,13 +88,20 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
     }
     componentWillMount() {
-        Auth.currentCredentials().then(e => {
+        Auth.currentUserInfo().then(e => {
+            console.error(e);
+        });
+        // Auth.currentCredentials().then(e => {
+            Auth.currentUserInfo().then(e => {
             console.warn(e);
             if (!e) {
                 Auth.signOut();
                 return;
             }
-            this.setState({"userId": "cff:cognitoIdentityId:" + e.params.IdentityId}); // , this.loadCenters);
+            let currentUser = pick(e, ["id", "name", "email"]);
+            currentUser.id = "cff:cognitoIdentityId:" + currentUser.id;
+            this.setState({user: currentUser}); // , this.loadCenters);
+            console.log(currentUser);
         });
     }
     componentDidMount() {
@@ -134,7 +141,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
     render() {
         if (this.state.status == STATUS_ACCESS_DENIED) {
-            return <AccessDenied userId={this.state.userId} />;
+            return <AccessDenied userId={this.state.user.id} />;
         }
         if (this.state.hasError) {
             return <Loading hasError={true} />;
@@ -142,10 +149,13 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         return (<Router>
             <div>
             <Route path="/" render={(props) =>
-                <CenterList {...props} onError={e => this.onUnauth(e)} />}
+                {return this.state.user.id ? 
+                    <CenterList {...props} user={this.state.user} onError={e => this.onUnauth(e)} /> : null
+                }
+            }
             />
             <Route path="/:centerSlug/:centerId" render={props =>
-                <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.userId} {...props} />
+                <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
             }/>
             <Route path="/:centerSlug/:centerId/:formId" component={FormPages} />
             </div>

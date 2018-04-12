@@ -37,7 +37,7 @@ interface IResponseDBEntry extends IDBEntry {
     value: IResponse,
     form : {
         id: string,
-        version: Number
+        version: number
     },
     paymentInfo: IPaymentInfo,
     confirmationEmailInfo: ConfirmationEmailInfo,
@@ -47,7 +47,7 @@ interface IResponseDBEntry extends IDBEntry {
         value: any
     }],
     IPN_STATUS?: string,
-    IPN_TOTAL_AMOUNT?: Number,
+    IPN_TOTAL_AMOUNT?: number,
     modifyLink?: string,
     PAID: boolean
 }
@@ -59,7 +59,7 @@ interface IDBEntry {
 
 interface ISchemaDBEntry extends IDBEntry {
     value: Schema,
-    version: Number,
+    version: number,
     id: string
 }
 interface ISchemaModifierDBEntry extends IDBEntry {
@@ -69,7 +69,7 @@ interface ISchemaModifierDBEntry extends IDBEntry {
     dataOptions: IDataOptions,
     extraOptions: any,
     paymentInfo: IPaymentInfo,
-    version: Number,
+    version: number,
     id: string
 }
 interface IDataOptions {
