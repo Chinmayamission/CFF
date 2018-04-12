@@ -37,8 +37,9 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
-## 1.2.7 (tbd)
+## 1.2.7 (4/12/2018)
 - Create new form button (from existing schema)
+- Create user entry in database with info on new login.
 
 ## 1.2.6 (4/10/2018)
 - Make responseEdit button go to proper page.
