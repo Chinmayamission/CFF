@@ -28,9 +28,9 @@ def form_create(centerId):
         center=int(centerId),
         cff_permissions=form_permissions,
         schema=schemaRef,
-        schemaModifier=dict(id=schemaModifier["id"], version=schemaModifier["version"],
+        schemaModifier=dict(id=schemaModifier["id"], version=schemaModifier["version"]),
         date_last_modified=datetime.datetime.now().isoformat(),
-        date_created=datetime.datetime.now().isoformat())
+        date_created=datetime.datetime.now().isoformat()
     )
     # Todo: use a batch write item.
     TABLES.schemaModifiers.put_item(

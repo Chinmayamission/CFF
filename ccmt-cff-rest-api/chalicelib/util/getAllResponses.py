@@ -1,5 +1,5 @@
 def get_all_responses(**kwargs):
-    """Gets _all_ responses, paging through all results if necessary.
+    """Gets *all* responses, paging through all results if necessary.
     """
     from ..main import app, TABLES
     queryResults = TABLES.responses.query(**kwargs)
