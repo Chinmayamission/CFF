@@ -5,6 +5,10 @@ import json
 from app import app
 from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE
 
+SCHEMA_ID = "5e258c2c-9b85-40ad-b764-979fc9df1740"
+SCHEMA_VERSION = 3
+TEST_SCHEMA = {"id": SCHEMA_ID, "version": SCHEMA_VERSION}
+
 class FormAdmin(unittest.TestCase):
     def setUp(self):
         with open(".chalice/config.json") as file:
@@ -18,3 +22,17 @@ class FormAdmin(unittest.TestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertTrue(len(body['res']) > 0, "No forms returned!")
+        # Do schemas have at least an id and value?
+        self.assertIn("version", body['res'][0])
+        self.assertIn("id", body['res'][0])
+    def test_create_form(self):
+        """Create form."""
+        body = dict(schema=TEST_SCHEMA)
+        response = self.lg.handle_request(method='POST',
+                                          path='/centers/{}/forms/new'.format(CENTER_ID),
+                                          headers={"Content-Type": "application/json"},
+                                          body=json.dumps(body))
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertIn('form', body['res'])
+        self.assertEqual(body['res']['form']['schema'], TEST_SCHEMA)
