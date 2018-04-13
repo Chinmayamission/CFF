@@ -1,5 +1,6 @@
 from ..util import get_all_responses
 from ..util.responsesAggregate import aggregate_data
+from boto3.dynamodb.conditions import Key
 
 def form_response_summary(formId):
     """Show response agg. summary"""
