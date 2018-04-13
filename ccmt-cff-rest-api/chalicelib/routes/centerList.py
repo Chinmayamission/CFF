@@ -11,6 +11,7 @@ def center_list():
         Key=dict(id=userId)
     )
     if not "Item" in user:
+        userItem = {}
         if app.current_request.json_body:
             userItem = pick(app.current_request.json_body, "name", "email")
             userItem["id"] = userId
