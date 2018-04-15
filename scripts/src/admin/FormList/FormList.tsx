@@ -45,7 +45,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             </td>
                             <td>
                                     <ActionButton permissions={form.cff_permissions}
-                                        permissionName="FormEmbed"
+                                        permissionName="Forms_Embed"
                                         url={`${this.props.match.url}/${form.id}/embed`}
                                         icon="oi-document"
                                         text="Embed"
@@ -53,41 +53,40 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         disabled={true}
                                         />
                                     <ActionButton permissions={form.cff_permissions}
-                                        permissionName="FormEdit"
+                                        permissionName="Forms_Edit"
                                         url={`${this.props.match.url}/${form.id}/edit`}
                                         icon="oi-pencil"
                                         text="Edit"
                                         userId={this.props.userId}
                                         disabled={true} />
                                     <ActionButton permissions={form.cff_permissions}
-                                        permissionName="ViewResponses"
+                                        permissionName="Responses_View"
                                         url={`${this.props.match.url}/${form.id}/responses`}
                                         icon="oi-sort-ascending"
                                         text="Responses"
                                         userId={this.props.userId} />
                                     <ActionButton permissions={form.cff_permissions}
-                                        permissionName="ViewResponseSummary"
+                                        permissionName="Responses_ViewSummary"
                                         url={`${this.props.match.url}/${form.id}/summary`}
                                         icon="oi-list"
                                         text="Summary"
                                         userId={this.props.userId} />
                                     <ActionButton permissions={form.cff_permissions}
-                                        permissionName="FormShare"
+                                        permissionName="Forms_PermissionsView"
                                         url={`${this.props.match.url}/${form.id}/share`}
                                         icon="oi-share-boxed"
                                         text="Share"
                                         userId={this.props.userId}
-                                        disabled={true}
                                     />
                                     <ActionButton permissions={form.cff_permissions}
-                                        permissionName="ResponsesEdit"
+                                        permissionName="Responses_Edit"
                                         url={`${this.props.match.url}/${form.id}/responsesEdit`}
                                         icon="oi-pencil"
                                         text="Edit Responses"
                                         userId={this.props.userId}
                                     />
                                     {/*<ActionButton permissions={form.cff_permissions}
-                                        permissionName="ResponsesView"
+                                        permissionName="Responses_View"
                                         url={`${this.props.match.url}/${form.id}/lookup`}
                                         icon="oi-magnifying-glass"
                                         text="Check in"
