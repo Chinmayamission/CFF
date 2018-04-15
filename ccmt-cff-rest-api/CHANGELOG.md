@@ -1,3 +1,9 @@
+# todo
+- add modify_permissions.
+
+# 1.0.7 (tbd)
+- add view permissions endpoint.
+- return all new from edit response endpoint
 
 # 1.0.6 (4/12/18)
 - Reorganization of app.py into multiple files.

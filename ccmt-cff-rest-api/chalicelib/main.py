@@ -60,17 +60,24 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 
 from chalicelib import routes
 app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.center_list)
-app.route('/centers/{centerId}/forms', cors=True, authorizer=iamAuthorizer)(routes.form_list)
-app.route('/centers/{centerId}/schemas', cors=True, authorizer=iamAuthorizer)(routes.schema_list)
+app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
+app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
 app.route('/centers/{centerId}/forms/new', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_create)
-app.route('/forms/{formId}/render', cors=True, authorizer=iamAuthorizer)(routes.form_render)
-app.route('/forms/{formId}/responses', cors=True, authorizer=iamAuthorizer)(routes.form_response_list)
-app.route('/forms/{formId}/summary', cors=True, authorizer=iamAuthorizer)(routes.form_response_summary)
+app.route('/forms/{formId}/render', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_render)
+app.route('/forms/{formId}/responses', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_list)
+app.route('/forms/{formId}/summary', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_summary)
 app.route('/forms/{formId}/responses/{responseId}/edit', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.edit_response)
+app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_get_permissions)
+app.route('/forms/{formId}/permissions/edit', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
+# get schema and schemaModifier versions
+# edit form
+# get form permissions
+# edit form permissions
 
 @app.route('/forms/{formId}/responses/{responseId}/view', cors=True, authorizer=iamAuthorizer)
 def view_response(formId, responseId):
     """View an individual response from the admin dashboard (for search functionality).
+        Currently, this isn't used.
     """
     form = TABLES.forms.get_item(
         Key=dict(id=formId, version=1),

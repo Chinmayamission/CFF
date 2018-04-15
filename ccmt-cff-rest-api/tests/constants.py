@@ -7,6 +7,8 @@ boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
 os.putenv("AWS_PROFILE", AWS_PROFILE_NAME)
 
 COGNITO_IDENTITY_ID = "cff:cognitoIdentityId:us-east-1:1e3aa7b7-b042-4834-98f1-7915985c39a5"
+COGNITO_IDENTITY_ID_NO_PERMISSIONS = "cff:cognitoIdentityId:us-east-1:no-permissions"
+COGNITO_IDENTITY_ID_OWNER = "cff:cognitoIdentityId:us-east-1:owner"
 
 CENTER_ID = 1
 FORM_ID = "e4548443-99da-4340-b825-3f09921b4df5"

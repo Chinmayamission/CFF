@@ -6,3 +6,4 @@ from .formRender import form_render
 from .formResponseList import form_response_list
 from .formResponseSummary import form_response_summary
 from .editResponse import edit_response
+from .formPermissions import form_get_permissions, form_edit_permissions

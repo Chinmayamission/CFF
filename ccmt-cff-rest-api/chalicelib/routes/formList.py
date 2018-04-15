@@ -2,7 +2,7 @@ from boto3.dynamodb.conditions import Key
 
 def form_list(centerId):
     from ..main import app, TABLES
-    # app.check_permissions('forms', 'ListForms')
+    # app.check_permissions('forms', 'FormsList')
     forms = TABLES.forms.query(
         IndexName='center-index',
         KeyConditionExpression=Key('center').eq(int(centerId)),
