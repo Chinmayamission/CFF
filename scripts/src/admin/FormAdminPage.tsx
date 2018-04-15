@@ -10,6 +10,7 @@ import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable/ResponseTable";
 import ResponseSummary from "./ResponseSummary/ResponseSummary"
+import FormShare from "./FormShare/FormShare"
 import Loading from "src/common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
@@ -176,6 +177,9 @@ function FormPages() {
         }/>
         <Route path="/:centerSlug/:centerId/:formId/summary" render={props =>
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
+        }/>
+        <Route path="/:centerSlug/:centerId/:formId/share" render={props =>
+            <FormShare key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>
     </Switch>);
 }

@@ -1,4 +1,25 @@
-# Credential-based permissions
+# New, chalice-based permissions
+On a form:
+
+owner
+ViewResponses
+EditResponses
+
+Responses_View
+Responses_Edit
+Responses_ViewSummary
+Forms_PermissionsView
+
+todo:
+Permissions_Get
+Permissions_Edit
+Forms_List
+Schemas_List
+Forms_Edit
+SchemaModifiers_Edit == Forms_Edit?
+
+
+# Old, Credential-based permissions
 [form id="formId" apiEndpoint="endpoint" authKey="authKey" specifiedShowFields="couponCode, manualPayment"]
 
 

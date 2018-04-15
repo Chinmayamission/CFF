@@ -37,6 +37,13 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
+## 1.2.9 (tbd)
+- Add "share" page with view / modify permissions functionality.
+- Permissions renamed to be more consistent: ex ResponsesEdit --> Responses_Edit
+
+## 1.2.8 (4/12/2018)
+- Fix login issue -- login works without having to refresh now.
+
 ## 1.2.7 (4/12/2018)
 - Create new form button (from existing schema)
 - Create user entry in database with info on new login.
