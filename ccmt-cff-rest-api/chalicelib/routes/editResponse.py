@@ -50,7 +50,7 @@ def edit_response(formId, responseId):
             ":empty_list": []
         },
         ExpressionAttributeNames=expressionAttributeNames,
-        ReturnValues="UPDATED_NEW"
+        ReturnValues="ALL_NEW"
     )["Attributes"]
     return {"res": result, "success": True, "action": "update"}
     # todo: return a better, more uniform response.
