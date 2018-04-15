@@ -15,7 +15,15 @@ class FormResponses(unittest.TestCase):
                                           path='/forms/{}/responses/'.format(FORM_ID))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        self.assertTrue(len(body['res']) > 0, "Response list is empty: {}".format(body))
+        self.assertTrue(len(body['res']) > 0, "Response list is empty.")
+    def test_response_summary(self):
+        """Test aggregate summary of data."""
+        response = self.lg.handle_request(method='GET', headers={}, body='',
+                                          path='/forms/{}/summary'.format(FORM_ID))
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertIn('unwindTables', body['res'])
+        self.assertIn('mainTable', body['res'])
     # def test_view_response(self):
     #     """View response"""
     #     response = self.lg.handle_request(method='GET', headers={}, body='',
@@ -33,6 +41,3 @@ class FormResponses(unittest.TestCase):
     # def test_load_responses(self):
     #     response = self.api_get("/forms/{}/responses".format(self.FORM_ID))
     #     self.assertTrue(len(response['res']) > 0, 'No responses found!')
-    # def test_response_summary(self):
-    #     """Test aggregate summary of data."""
-    #     pass
