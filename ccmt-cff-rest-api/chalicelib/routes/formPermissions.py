@@ -24,9 +24,13 @@ def form_get_permissions(formId):
       "ConsistentRead": True
     }
   })["Responses"][get_table_name("users")]
-  userLookup = {user["id"]: user for user in users}
-  resolved_permissions = {permName: [userLookup[userId] for userId in permUserIds] for permName, permUserIds in form['cff_permissions'].items()}
-  return {"res": resolved_permissions}
+  user_lookup = {user["id"]: user for user in users}
+  user_resolved_permissions = {}
+  for permName, permUserIds in form['cff_permissions'].items():
+    for permUserId in permUserIds:
+      user_resolved_permissions[permUserId] = user_resolved_permissions.get(permUserId, []) + [permName]
+  # resolved_permissions = {permName: [userLookup[userId] for userId in permUserIds] for permName, permUserIds in form['cff_permissions'].items()}
+  return {"res": {"permissions": user_resolved_permissions, "userLookup": user_lookup}}
 
 def form_edit_permissions(formId):
   """Set form permissions of a particular user to an array.

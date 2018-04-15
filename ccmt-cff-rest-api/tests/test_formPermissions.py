@@ -22,11 +22,18 @@ class FormPermissions(unittest.TestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         # Do permissions have at least an id and name and email?
-        for permName, permValue in body['res'].items():
-          for i in permValue:
-            self.assertIn("id", i)
-            self.assertIn("name", i)
-            self.assertIn("email", i)
+        for userId, user in body['res']['userLookup'].items():
+          self.assertIn("id", user)
+          self.assertIn("name", user)
+          self.assertIn("email", user)
+          self.assertEqual(userId, user["id"])
+        for perm in body['res']['permissions'].values():
+          self.assertTrue(type(perm) is list)
+        # for permName, permValue in body['res'].items():
+        #   for i in permValue:
+        #     self.assertIn("id", i)
+        #     self.assertIn("name", i)
+        #     self.assertIn("email", i)
     def test_edit_permissions(self):
         """Edit Permissions."""
         # Add two permissions.
