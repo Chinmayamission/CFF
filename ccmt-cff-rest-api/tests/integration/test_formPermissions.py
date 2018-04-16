@@ -11,8 +11,8 @@ class FormPermissions(unittest.TestCase):
     def setUp(self):
         with open(".chalice/config.json") as file:
             self.lg = LocalGateway(app, Config(chalice_stage="beta", config_from_disk=json.load(file)))
-        self.orig_id = os.getenv("DEV_COGNITO_IDENTITY_ID")
-        _, os.environ["DEV_COGNITO_IDENTITY_ID"] = COGNITO_IDENTITY_ID_OWNER.split("cff:cognitoIdentityId:")
+        self.orig_id = app.test_user_id
+        _, app.test_user_id = COGNITO_IDENTITY_ID_OWNER.split("cff:cognitoIdentityId:")
     def test_list_permissions(self):
         """Load form lists."""
         response = self.lg.handle_request(method='GET',
@@ -66,4 +66,4 @@ class FormPermissions(unittest.TestCase):
         if "Responses_View" in body['res']:
           self.assertNotIn(COGNITO_IDENTITY_ID_NO_PERMISSIONS, body['res']['Responses_View'])
     def tearDown(self):
-      os.environ["DEV_COGNITO_IDENTITY_ID"] = self.orig_id
+      app.test_user_id = self.orig_id

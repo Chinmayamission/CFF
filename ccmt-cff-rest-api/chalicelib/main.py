@@ -1,6 +1,7 @@
 import boto3
 from boto3.dynamodb.conditions import Key
 from chalice import Chalice, AuthResponse, CognitoUserPoolAuthorizer, IAMAuthorizer, UnauthorizedError
+from chalicelib import routes
 import datetime
 import json
 import os
@@ -26,25 +27,37 @@ TABLES = TABLES_CLASS()
 
 class CustomChalice(Chalice):
     def get_current_user_id(self):
+        """Get current user id."""
         id = None
         try:
             id = self.current_request.context['identity']['cognitoIdentityId']
         except (KeyError, AttributeError):
-            # This hack allows for integration testing.
-            id = os.getenv("DEV_COGNITO_IDENTITY_ID") or None
+            if app.test_user_id: id = app.test_user_id
             if not id: raise
         return "cff:cognitoIdentityId:{}".format(id)
-    def check_permissions(self, model, action):
-        id = self.get_current_user_id()
+    def check_permissions(self, model, actions):
+        if type(actions) is str:
+            actions = [actions]
+        try:
+            id = self.get_current_user_id()
+        except:
+            id = "cff:anonymousUser"
+        actions.append("owner")
         cff_permissions = model.get("cff_permissions", {})
-        if id in cff_permissions.get(action, []) or id in cff_permissions.get("owner", []):
+        current_user_perms = cff_permissions.get(id, {}) or cff_permissions.get("cff:loggedInUser", {})
+        if any(a in current_user_perms for a in actions):
             return True
         else:
-            raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, action))
+            raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, actions))
 
 app = CustomChalice(app_name='ccmt-cff-rest-api')
 # app = Chalice(app_name='ccmt-cff-rest-api')
 app.debug = True
+
+# This hack allows for integration testing.
+test_user_id = os.getenv("DEV_COGNITO_IDENTITY_ID") or None
+if test_user_id:
+    app.test_user_id = test_user_id
 
 iamAuthorizer = IAMAuthorizer()
 
@@ -58,7 +71,6 @@ http http://localhost:8000/forms/e4548443-99da-4340-b825-3f09921b4bc5 "Authoriza
 http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authorization: allow"
 """
 
-from chalicelib import routes
 app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.center_list)
 app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
 app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
