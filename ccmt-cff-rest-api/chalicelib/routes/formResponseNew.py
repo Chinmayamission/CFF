@@ -62,12 +62,12 @@ def form_response_new(formId, responseId=None):
           calc_item_total_to_paymentInfo(coupon_paymentInfoItem, paymentInfo)
           paymentInfo['items'].append(coupon_paymentInfoItem)
       else:
-          return {"success": False, "message": "Coupon Code not found.", "fields_to_clear": ["couponCode"]}
+          return {"res": {"success": False, "message": "Coupon Code not found.", "fields_to_clear": ["couponCode"]}}
       # verify max # of coupons:
       code_valid, code_num_remaining = coupon_code_verify_max_and_record_as_used(TABLES.forms, form, couponCode, responseId, response_data)
       if not code_valid:
           message = "Coupon code maximum reached.\nSubmitting this form will cause you to exceed the coupon code maximum.\nNumber of spots remaining: {}".format(code_num_remaining)
-          return {"success": False, "message": message, "fields_to_clear": ["couponCode"]}
+          return {"res": {"success": False, "message": message, "fields_to_clear": ["couponCode"]}}
   else:
       response_data.pop("couponCode", None)
   response_data.pop("total", None)
@@ -109,7 +109,7 @@ def form_response_new(formId, responseId=None):
           Item=response)
       if paid: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)
-      return {"paid": paid, "success": True, "action": "insert", "id": responseId, "paymentInfo": paymentInfo }
+      return {"res": {"paid": paid, "success": True, "action": "insert", "id": responseId, "paymentInfo": paymentInfo } }
   else:
       # Updating.
       response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
@@ -141,11 +141,13 @@ def form_response_new(formId, responseId=None):
           response_verify_update(response_new, TABLES.responses, confirmationEmailInfo)
           paid = True
       return {
-          "success": True,
-          "paid": paid,
-          "action": "update",
-          "id": responseId,
-          "paymentInfo": paymentInfo,
-          "total_amt_received": response_old.get("IPN_TOTAL_AMOUNT", 0), # todo: encode currency into here as well.
-          "paymentInfo_old": response_old["paymentInfo"]
+          "res": {
+            "success": True,
+            "paid": paid,
+            "action": "update",
+            "id": responseId,
+            "paymentInfo": paymentInfo,
+            "total_amt_received": response_old.get("IPN_TOTAL_AMOUNT", 0), # todo: encode currency into here as well.
+            "paymentInfo_old": response_old["paymentInfo"]
+          }
       }
