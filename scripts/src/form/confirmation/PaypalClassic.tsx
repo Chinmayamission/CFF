@@ -24,7 +24,6 @@ declare var MODE: string;
 class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicState> {
     constructor(props:any) {
         super(props);
-        console.log("paymentinfo", this.props);
         let items = this.props.paymentInfo.items;
         let state = {
             "form_url": (MODE != 'prod') ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
@@ -32,7 +31,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "cmd": "_cart",
             "business": this.props.paymentMethodInfo.business,
             "currency_code": this.props.paymentInfo_owed.currency || "USD",
-            "notify_url": this.props.apiEndpoint + "?action=ipn",
+            "notify_url": `${this.props.apiEndpoint}/${this.props.responseId}/ipn`,
             "return": this.props.paymentInfo_owed.redirectUrl || window.location.href.split("#")[0] + "#payment_success=1",
             "cancel_return": window.location.href.split("#")[0] + "#payment_success=0",
             "items": items.filter(e => e.amount > 0),

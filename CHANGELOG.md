@@ -39,6 +39,10 @@ Todo:
 
 ## 1.2.9 (tbd)
 - Allow form submit page to work with chalice API
+
+- Bug fix: fix minifying of js
+- Small fix: sandbox mode now depends on production or not (production = no sandbox, no production = sandbox)
+- New ipn notification url: /responses/{responseId}/ipn
 In progress:
 - Add "share" page with view / modify permissions functionality.
 - Permissions renamed to be more consistent: ex ResponsesEdit --> Responses_Edit

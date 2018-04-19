@@ -72,7 +72,7 @@ if (formRenderElement) {
       <FormPage formId={formRenderElement.getAttribute('data-ccmt-cff-form-id')}
         authKey={formRenderElement.getAttribute('data-ccmt-cff-auth-key')}
         specifiedShowFields={(formRenderElement.getAttribute('data-ccmt-cff-specified-show-fields') || "").split(",")}
-        apiEndpoint={formRenderElement.getAttribute('data-ccmt-cff-api-endpoint')} />
+        apiEndpoint={ENDPOINT_URL} />
     </div>
     ,
     formRenderElement
