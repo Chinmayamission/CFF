@@ -14,6 +14,12 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
         title: 'Chinmaya Forms Framework - ' + MODE,
         template: './scripts/src/index.html',
+        filename: "index.html"
+    }),
+    new HtmlWebpackPlugin({
+        title: 'Chinmaya Forms Framework Form - ' + MODE,
+        template: './scripts/src/form.html',
+        filename: "form.html"
     })
  ]
 });

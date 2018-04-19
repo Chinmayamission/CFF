@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Form from 'react-jsonschema-form';
+import {API} from "aws-amplify";
 
 import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
@@ -130,20 +131,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     console.log("caught");
     console.error(error, info);
   }
-
-  getFormSubmitUrl() {
-    let formId = this.props.formId;
-    let formUrl = this.props.apiEndpoint + "?action=" + "formSubmit" + "&formVersion=1&formId=" + formId;
-    if (this.state.responseId) {
-      console.log("yes");
-      formUrl += "&resid=" + this.state.responseId;
-    }
-    if (this.props.authKey) {
-      formUrl += "&authKey=" + this.props.authKey;
-    }
-    formUrl += "&modifyLink=" + window.location.href;
-    return encodeURI(formUrl);
-  }
   scrollToTop() {
     //ReactDOM.findDOMNode(this).scrollIntoView();
     window.scrollTo(0, 0);
@@ -216,10 +203,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
 
     this.setState({ajaxLoading: true});
-    instance.post(this.getFormSubmitUrl(), formData).catch(e => {
-      if ((window as any).CCMT_CFF_DEVMODE === true) {
-        return MockData.newResponse();
-      }
+    API.post("CFF", `forms/${this.props.formId}/responses`, {
+      "body": {
+        "data": formData,
+        "modifyLink": window.location.href
+      } // todo: include repsonse id for update.
+    }).catch(e => {
       this.setState({ajaxLoading: false});
       alert("Error submitting the form. " + e);
     }).then((response) => {
@@ -284,9 +273,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       }
     }*/
   }
-  /*invalidItem(item, ) {
-
-  }*/
   validate(formData, errors) {
     console.log("errs are", errors);
     if (this.state.validationInfo) {

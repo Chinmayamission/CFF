@@ -38,6 +38,8 @@ Todo:
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
 ## 1.2.9 (tbd)
+- Allow form submit page to work with chalice API
+In progress:
 - Add "share" page with view / modify permissions functionality.
 - Permissions renamed to be more consistent: ex ResponsesEdit --> Responses_Edit
 
