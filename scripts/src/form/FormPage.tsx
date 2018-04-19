@@ -153,27 +153,24 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidMount() {
-    let queryObjFlat = queryString.parse(location.hash);
-    if (queryObjFlat["payment_success"] == "1") {
-      this.setState({"status": STATUS_FORM_PAYMENT_SUCCESS});
-    }
-    else if (queryObjFlat["responseId"]) {
-      FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, queryObjFlat["responseId"], (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
-          responseId: responseLoaded["responseId"],
-          responseLoaded: responseLoaded,
-          data: responseLoaded ? responseLoaded.value : null,
-          status: STATUS_FORM_RENDERED,
-          paymentCalcInfo,
-          focusUpdateInfo
-        });
-      });
-    }
-    else {
-      if ((window as any).CCMT_CFF_DEVMODE_AUTOFILL == true) {
-        this.setState({data: MockData.sampleData});
-      }
+    // let queryObjFlat = queryString.parse(location.hash);
+    // if (queryObjFlat["payment_success"] == "1") {
+    //   this.setState({"status": STATUS_FORM_PAYMENT_SUCCESS});
+    // }
+    // else if (queryObjFlat["responseId"]) {
+    //   FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, queryObjFlat["responseId"], (e) => this.handleError(e))
+    //   .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
+    //     this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
+    //       responseId: responseLoaded["responseId"],
+    //       responseLoaded: responseLoaded,
+    //       data: responseLoaded ? responseLoaded.value : null,
+    //       status: STATUS_FORM_RENDERED,
+    //       paymentCalcInfo,
+    //       focusUpdateInfo
+    //     });
+    //   });
+    // }
+    // else {
       FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, (e) => this.handleError(e))
       .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
         this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
@@ -183,7 +180,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           focusUpdateInfo
         });
       });
-    }
+    // }
 
   }
   goBackToFormPage() {
@@ -212,7 +209,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       this.setState({ajaxLoading: false});
       alert("Error submitting the form. " + e);
     }).then((response) => {
-      let res = response.data.res;
+      let res = response.res;
       if (!(res.success == true && res.id)) {
         this.setState({ajaxLoading: false});
         if (res.success == false && res.message) {

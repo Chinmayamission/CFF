@@ -3,6 +3,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { API } from 'aws-amplify';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import {isArray} from "lodash-es";
 import "./FormList.scss";
 import FormNew from "../FormNew/FormNew";
 
@@ -108,14 +109,18 @@ function ActionButton(props) {
         </button>
     </NavLink>);
 }
-function hasPermission(permissions, permissionName, userId) {
-    if (permissions) {
-        if (permissions[permissionName] && ~permissions[permissionName].indexOf(userId)) {
-            return true;
+function hasPermission(cff_permissions, permissionNames, userId) {
+    if (!isArray(permissionNames)) {
+        permissionNames = [permissionNames];
+    }
+    permissionNames.push("owner");
+    if (cff_permissions && cff_permissions[userId]) {
+        for (let permissionName of permissionNames) {
+            if (cff_permissions[userId][permissionName] == true) {
+                return true;
+            }
         }
-        else if (permissions["owner"] && ~permissions["owner"].indexOf(userId)) {
-            return true;
-        }
+        return false;
     }
     return false;
 }
