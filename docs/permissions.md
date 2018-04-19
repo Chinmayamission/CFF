@@ -2,17 +2,13 @@
 On a form:
 
 owner
-ViewResponses
-EditResponses
-
 Responses_View
 Responses_Edit
 Responses_ViewSummary
 Forms_PermissionsView
+Forms_PermissionsEdit
 
 todo:
-Permissions_Get
-Permissions_Edit
 Forms_List
 Schemas_List
 Forms_Edit
