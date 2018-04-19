@@ -4,7 +4,7 @@
 # 1.0.7 (tbd)
 - add view permissions endpoint.
 - return all new from edit response endpoint
-- Store permissions differently: {userId: [permList]} rather than {permName: [...userIds]}.
+- Store permissions differently: {userId: {perm1: true, perm2: true, ...}} rather than {permName: [...userIds]}.
 
 # 1.0.6 (4/12/18)
 - Reorganization of app.py into multiple files.

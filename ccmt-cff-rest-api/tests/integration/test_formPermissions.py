@@ -2,8 +2,8 @@ import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
-from app import app
 from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID, COGNITO_IDENTITY_ID_OWNER, COGNITO_IDENTITY_ID_NO_PERMISSIONS
+from app import app
 import uuid
 import os
 """

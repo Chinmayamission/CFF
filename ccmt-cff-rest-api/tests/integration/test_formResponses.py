@@ -2,8 +2,8 @@ import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
-from app import app
 from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE
+from app import app
 
 class FormResponses(unittest.TestCase):
     def setUp(self):

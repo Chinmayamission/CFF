@@ -1,2 +1,8 @@
+beautifulsoup4==4.6.0
 boto3==1.6.11
+cssutils==1.0.2
+flatdict==3.0.0
+html2text==2018.1.9
+py-expression-eval==0.3.4
 pydash==4.5.0
+pynliner==0.8.0
