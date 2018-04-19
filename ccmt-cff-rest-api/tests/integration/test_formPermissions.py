@@ -6,6 +6,10 @@ from app import app
 from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID, COGNITO_IDENTITY_ID_OWNER, COGNITO_IDENTITY_ID_NO_PERMISSIONS
 import uuid
 import os
+"""
+python -m unittest tests.integration.test_formPermissions
+"""
+
 
 class FormPermissions(unittest.TestCase):
     def setUp(self):
@@ -28,7 +32,7 @@ class FormPermissions(unittest.TestCase):
           self.assertIn("email", user)
           self.assertEqual(userId, user["id"])
         for perm in body['res']['permissions'].values():
-          self.assertTrue(type(perm) is list)
+          self.assertTrue(type(perm) is dict)
         # for permName, permValue in body['res'].items():
         #   for i in permValue:
         #     self.assertIn("id", i)
@@ -39,7 +43,7 @@ class FormPermissions(unittest.TestCase):
         # Add two permissions.
         body = {
           "userId": COGNITO_IDENTITY_ID_NO_PERMISSIONS,
-          "permissions": ["Responses_Edit", "Responses_View"]
+          "permissions": {"Responses_Edit": True, "Responses_View": True}
         }
         response = self.lg.handle_request(method='POST',
                                           path='/forms/{}/permissions/edit'.format(FORM_ID),
@@ -47,23 +51,19 @@ class FormPermissions(unittest.TestCase):
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        self.assertIn(COGNITO_IDENTITY_ID_NO_PERMISSIONS, body['res']['Responses_Edit'])
-        self.assertIn(COGNITO_IDENTITY_ID_NO_PERMISSIONS, body['res']['Responses_View'])
+        self.assertEqual({"Responses_Edit": True, "Responses_View": True}, body['res'][COGNITO_IDENTITY_ID_NO_PERMISSIONS])
         # Remove permissions.
         body =   {
           "userId": COGNITO_IDENTITY_ID_NO_PERMISSIONS,
-          "permissions": []
+          "permissions": {}
         }
-        response = self.lg.handle_request(method='GET',
+        response = self.lg.handle_request(method='POST',
                                           path='/forms/{}/permissions/edit'.format(FORM_ID),
-                                          headers={},
+                                          headers={"Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertTrue(len(body['res']) > 0, "No forms returned!")
-        if "Responses_Edit" in body['res']:
-          self.assertNotIn(COGNITO_IDENTITY_ID_NO_PERMISSIONS, body['res']['Responses_Edit'])
-        if "Responses_View" in body['res']:
-          self.assertNotIn(COGNITO_IDENTITY_ID_NO_PERMISSIONS, body['res']['Responses_View'])
+        self.assertEqual({}, body['res'].get(COGNITO_IDENTITY_ID_NO_PERMISSIONS, {}))
     def tearDown(self):
       app.test_user_id = self.orig_id

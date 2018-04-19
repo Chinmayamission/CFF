@@ -12,7 +12,7 @@ def form_create(centerId):
     """
     from ..main import app, TABLES
     # todo: add permissions check.
-    form_permissions = {"owner": app.get_current_user_id()}
+    form_permissions = {app.get_current_user_id(): {"owner": True}}
     schemaRef = pick(app.current_request.json_body["schema"], "id", "version") 
     form_name = app.current_request.json_body.get("form_name", "Untitled form {}".format(datetime.datetime.now().isoformat()))
     schemaModifier = dict(

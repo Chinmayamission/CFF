@@ -9,7 +9,7 @@ def edit_response(formId, responseId):
         Key=dict(id=formId, version=1),
         ProjectionExpression="cff_permissions"
     )["Item"]
-    app.check_permissions(form, "ResponsesEdit")
+    app.check_permissions(form, "Responses_Edit")
     path = app.current_request.json_body["path"]
     value = app.current_request.json_body["value"]
     # Todo: make sure path is not one of the reserved keywords, by using expressionattributenames.

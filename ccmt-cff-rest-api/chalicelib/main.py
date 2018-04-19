@@ -33,18 +33,18 @@ class CustomChalice(Chalice):
             id = self.current_request.context['identity']['cognitoIdentityId']
         except (KeyError, AttributeError):
             if app.test_user_id: id = app.test_user_id
-            if not id: raise
+            if not id: id = "cff:anonymousUser"
         return "cff:cognitoIdentityId:{}".format(id)
     def check_permissions(self, model, actions):
         if type(actions) is str:
             actions = [actions]
-        try:
-            id = self.get_current_user_id()
-        except:
-            id = "cff:anonymousUser"
+        id = self.get_current_user_id()
         actions.append("owner")
         cff_permissions = model.get("cff_permissions", {})
-        current_user_perms = cff_permissions.get(id, {}) or cff_permissions.get("cff:loggedInUser", {})
+        current_user_perms = {}
+        if id is not "cff:anonymousUser":
+            current_user_perms.update(cff_permissions.get("cff:loggedInUser", {}))
+        current_user_perms.update(cff_permissions.get(id, {}))
         if any(a in current_user_perms for a in actions):
             return True
         else:
@@ -95,7 +95,7 @@ def view_response(formId, responseId):
         Key=dict(id=formId, version=1),
         ProjectionExpression="cff_permissions"
     )["Item"]
-    app.check_permissions(form, "ViewResponses")
+    app.check_permissions(form, "Responses_View")
     response = TABLES.responses.get_item(
         Key=dict(formId=formId, responseId=responseId)
     )["Item"]

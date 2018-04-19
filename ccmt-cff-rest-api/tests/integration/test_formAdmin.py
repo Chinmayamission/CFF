@@ -37,6 +37,6 @@ class FormAdmin(unittest.TestCase):
         self.assertIn('form', body['res'])
         self.assertIn('id', body['res']['form'])
         self.assertIn('name', body['res']['form'])
-        self.assertIn(COGNITO_IDENTITY_ID, body['res']['form']['cff_permissions']['owner'])
+        self.assertEqual({"owner": True}, body['res']['form']['cff_permissions'][COGNITO_IDENTITY_ID])
         self.assertEqual(body['res']['form']['version'], 1)
         self.assertEqual(body['res']['form']['schema'], TEST_SCHEMA)

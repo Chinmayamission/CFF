@@ -10,7 +10,7 @@ def form_response_summary(formId):
         Key=dict(id=formId, version=1),
         ProjectionExpression="schemaModifier, cff_permissions"
     )["Item"]
-    app.check_permissions(form, "ViewResponseSummary")
+    app.check_permissions(form, "Responses_ViewSummary")
     dataOptions = TABLES.schemaModifiers.get_item(
         Key=form["schemaModifier"],
         ProjectionExpression="dataOptions"
