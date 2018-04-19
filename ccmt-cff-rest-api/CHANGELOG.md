@@ -2,6 +2,8 @@
 - add modify_permissions.
 
 # 1.0.7 (tbd)
+- Add code from new form submit.
+
 - add view permissions endpoint.
 - return all new from edit response endpoint
 - Store permissions differently: {userId: {perm1: true, perm2: true, ...}} rather than {permName: [...userIds]}.

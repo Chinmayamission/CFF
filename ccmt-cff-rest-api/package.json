@@ -4,7 +4,7 @@
   "description": "vim ~/.aws/config\r vim ~/.aws/credentials",
   "main": "index.js",
   "scripts": {
-    "logs": "chalice logs --profile ashwin-cff-lambda --stage dev",
+    "logs": "chalice logs --profile ashwin-cff-lambda --stage beta > chalice.log",
     "start": "cross-env TABLE_PREFIX=cff_dev AWS_PROFILE=ashwin-cff-lambda chalice local --stage dev --port=8001",
     "deploy": "chalice deploy --profile ashwin-cff-lambda --stage beta",
     "deploy-prod": "chalice deploy --profile ashwin-cff-lambda --stage prod",

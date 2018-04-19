@@ -20,5 +20,5 @@ class FormSubmit(unittest.TestCase):
                                           body=json.dumps(FORM_DATA_ONE))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        responseId = body.pop("id")
-        self.assertEqual(body, FORM_SUBMIT_RESP_ONE)
+        responseId = body['res'].pop("id")
+        self.assertEqual(body['res'], FORM_SUBMIT_RESP_ONE)

@@ -2,3 +2,4 @@
 **/.chalice/venv/
 **/node_modules
 **/*.pyc
+*.log

@@ -62,7 +62,7 @@ sandboxOptions = {
 }
 
 
-class IpnHandler(DBConnection):
+class IpnHandler():
     def ipnHandler(self, param_str):
         sandbox = sandboxOptions[self.alias]
         VERIFY_URL_PROD = 'https://www.paypal.com/cgi-bin/webscr'
