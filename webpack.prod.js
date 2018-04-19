@@ -15,11 +15,11 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(DEST_URL)
   },
-  optimization: {
-    minimizer: [
-      new OptimizeCSSAssetsPlugin({})
-    ]
-  },
+  // optimization: {
+  //   minimizer: [
+  //     new OptimizeCSSAssetsPlugin({})
+  //   ]
+  // },
   plugins: [
      new CleanWebpackPlugin([DEST_URL]),
      new HtmlWebpackPlugin({
