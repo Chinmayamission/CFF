@@ -9,6 +9,7 @@ import JSONEditor from "./JSONEditor"
 import VersionSelect from "./VersionSelect";
 import { cloneDeep, get, set, assign, isObject, forOwn } from "lodash-es";
 import Modal from 'react-responsive-modal';
+import dataLoadingView from "../util/DataLoadingView";
 
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
@@ -31,7 +32,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
 
     componentWillMount() {
-        FormLoader.getForm(this.props.apiEndpoint, this.props.form.id, { "include_s_sm_versions": true, "apiKey": this.props.apiKey })
+        FormLoader.getForm(this.props.apiEndpoint, this.props.match.params.formId, { "include_s_sm_versions": true, "apiKey": this.props.apiKey })
             .then(({ name, center, schemaModifier, couponCodes, couponCodes_used, schema, schema_versions, schemaModifier_versions }) => {
                 if (couponCodes_used) {
                     // forOwn(couponCodes_used, (e, v) => assign(v, "numberUsed", v.responses ? v.responses.length : 0));
@@ -68,17 +69,15 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         //}
     }
     saveForm() {
-        let dataToSend = {
-            "schemaModifier": this.state.schemaModifier,
-            "schema": this.state.schema,
-            "name": this.state.formName,
-            "couponCodes": this.state.couponCodes
-        };
-        console.log("data to send", dataToSend, this.state.couponCodes);
-
         this.setState({ ajaxLoading: true });
-        let url = "";
-        axios.post(this.props.apiEndpoint + "?action=formEdit&id=" + this.props.form.id + "&version=1&apiKey=" + this.props.apiKey, dataToSend).then((response) => {
+        API.post("CFF", `forms/${this.props.match.params.formId}`, {
+            "body": {
+                "schemaModifier": this.state.schemaModifier,
+                "schema": this.state.schema,
+                "name": this.state.formName,
+                "couponCodes": this.state.couponCodes
+            }
+        }).then((response) => {
             let res = response.data.res;
             if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
@@ -154,7 +153,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                     <label>Form Name</label>
                     <input className="form-control" value={this.state.formName}
                         onChange={(e) => this.changeFormName(e.target.value)} />
-                    <label>Form Id</label><input className="form-control" disabled value={this.props.form.id} />
+                    <label>Form Id</label><input className="form-control" disabled value={this.props.match.params.formId} />
                 </div>
                 <div className="col-6 col-sm-3">
                     <VersionSelect
@@ -254,7 +253,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                     </div>
                     {this.renderTopPane()}
                     {/*<div className="row">
-                        <FormPage apiEndpoint={this.props.apiEndpoint} formId={this.props.form.id} />
+                        <FormPage apiEndpoint={this.props.apiEndpoint} formId={this.props.match.params.formId} />
         </div>*/}
                 </div>}
             </div>);

@@ -175,6 +175,9 @@ function FormPages() {
         <Route path="/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
             <ResponseTable key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
         }/>
+        <Route path="/:centerSlug/:centerId/:formId/edit" render={props =>
+            <FormEdit key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
+        }/>
         <Route path="/:centerSlug/:centerId/:formId/summary" render={props =>
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>

@@ -231,17 +231,8 @@ export module FormLoader {
             }
         }
         // todo: allow response editing here, too.
-        return API.get("CFF", "forms/" + formId + "/render", {})
+        return API.get("CFF", `forms/${formId}/render` + (opts.include_s_sm_versions ? "?versions=1": ""), {})
                 .then(response => response.res);
-        // return  axios.get(url, { "responseType": "json" })
-        // .catch(e => {
-        //     if ((window as any).CCMT_CFF_DEVMODE===true) {
-        //         return MockData.formRender;
-        //     }
-        //     throw ("Error loading the form. " + e);
-        // })
-        // .then(response => response.data.res);
-        // .then(unescapeJSON);
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey})

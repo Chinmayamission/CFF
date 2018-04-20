@@ -58,8 +58,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         url={`${this.props.match.url}/${form.id}/edit`}
                                         icon="oi-pencil"
                                         text="Edit"
-                                        userId={this.props.userId}
-                                        disabled={true} />
+                                        userId={this.props.userId} />
                                     <ActionButton permissions={form.cff_permissions}
                                         permissionName="Responses_View"
                                         url={`${this.props.match.url}/${form.id}/responses`}
@@ -103,11 +102,21 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
 }
 function ActionButton(props) {
-    return (<NavLink to={`${props.url}`}>
-        <button className="ccmt-cff-btn-action" disabled={props.disabled || !hasPermission(props.permissions, props.permissionName, props.userId)}>
-            <span className={`oi ${props.icon}`}></span> {props.text}
-        </button>
-    </NavLink>);
+    let disabled = props.disabled || !hasPermission(props.permissions, props.permissionName, props.userId);
+    if (disabled) {
+        return (<a href="">
+            <button className="ccmt-cff-btn-action" disabled={true}>
+                <span className={`oi ${props.icon}`}></span> {props.text}
+            </button>
+        </a>);
+    }
+    else {
+        return (<NavLink to={`${props.url}`}>
+            <button className="ccmt-cff-btn-action">
+                <span className={`oi ${props.icon}`}></span> {props.text}
+            </button>
+        </NavLink>);
+    }
 }
 function hasPermission(cff_permissions, permissionNames, userId) {
     if (!isArray(permissionNames)) {

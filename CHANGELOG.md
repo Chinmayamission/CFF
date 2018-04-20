@@ -38,12 +38,23 @@ Todo:
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
 ## 1.2.9 (tbd)
+Form Page:
 - Allow form submit page to work with chalice API
 
+Admin Page:
+- hide entire form list on detail view; add back button
+- Fix styling, remove links for disabled buttons on admin console.
+- Add form edit page
+
+Other fixes:
 - Bug fix: fix minifying of js
 - Small fix: sandbox mode now depends on production or not (production = no sandbox, no production = sandbox)
 - New ipn notification url: /responses/{responseId}/ipn
+
+
 In progress:
+
+
 - Add "share" page with view / modify permissions functionality.
 - Permissions renamed to be more consistent: ex ResponsesEdit --> Responses_Edit
 
