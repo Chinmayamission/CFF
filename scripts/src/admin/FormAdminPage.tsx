@@ -156,7 +156,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                 }
             }
             />
-            <Route path="/:centerSlug/:centerId" render={props =>
+            <Route path="/:centerSlug/:centerId" exact render={props =>
                 <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
             }/>
             <Route path="/:centerSlug/:centerId/:formId" component={FormPages} />

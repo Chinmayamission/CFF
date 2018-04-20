@@ -7,7 +7,8 @@ interface ICenterListState {
 
 interface ICenterListProps {
     onError: (any) => void,
-    user: IUserItem
+    user: IUserItem,
+    history: {goBack: () => void}
 }
 interface IUserItem {
     id: string,

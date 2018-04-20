@@ -26,6 +26,12 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
         return (
             <div>
                 <ul className="nav nav-pills">
+                    <li className="nav-item">
+                        <a className="nav-link" href="#" onClick={this.props.history.goBack}>
+                            <span className="oi oi-media-skip-backward"></span>
+                            &nbsp;&nbsp;Go back
+                        </a>
+                    </li>
                     {this.state.centerList && this.state.centerList.map(e => 
                         <li className="nav-item" key={e.id}>
                             <NavLink className="nav-link" to={`/${e.name}/${e.id}`}>
