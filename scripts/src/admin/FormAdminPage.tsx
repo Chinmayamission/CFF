@@ -154,12 +154,16 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
         return (<Router>
             <div>
-            <Route path="/" render={(props) =>
-                {return this.state.user.id ? 
-                    <CenterList {...props} user={this.state.user} onError={e => this.onUnauth(e)} /> : null
-                }
+            {this.state.user.id &&
+                <Switch>
+                    <Route path="/" exact render={(props) =>
+                        <CenterList {...props} selectedCenter={false} user={this.state.user} onError={e => this.onUnauth(e)} />
+                    }/>
+                    <Route path="/" render={(props) =>
+                        <CenterList {...props} selectedCenter={true} user={this.state.user} onError={e => this.onUnauth(e)} />
+                    }/>
+                </Switch>
             }
-            />
             <Route path="/:centerSlug/:centerId" exact render={props =>
                 <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
             }/>

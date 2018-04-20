@@ -15,7 +15,11 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
     }
     loadCenterList() {
         return API.post("CFF", "centers", {"body": this.props.user}).then(e => {
-            this.setState({"centerList": e.res});
+            let centerList = e.res;
+            this.setState({ centerList });
+            if (centerList.length && !this.props.selectedCenter) {
+                this.props.history.push(`/${centerList[0].name}/${centerList[0].id}`);
+            }
         }).catch(e => this.props.onError(e));
     }
     componentWillMount() {
@@ -38,6 +42,9 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
                             </NavLink>
                         </li>
                     )}
+                    {this.state.centerList && this.state.centerList.length == 0 && 
+                        <div>No forms exist for this center yet.</div>
+                    }
                 </ul>
             </div>
         )

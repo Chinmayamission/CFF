@@ -45,6 +45,7 @@ Admin Page:
 - hide entire form list on detail view; add back button
 - Fix styling, remove links for disabled buttons on admin console.
 - Add form edit page
+- Select first center by default upon logging in.
 
 Other fixes:
 - Bug fix: fix minifying of js
