@@ -217,19 +217,6 @@ let createSchemas = (data, specifiedShowFields) => {
 
 export module FormLoader {
     export function getForm(apiEndpoint, formId, opts) {
-        // todo: maybe allow to get different versions?
-        let url = apiEndpoint + "?action=" + (opts && opts.apiKey ? "formRenderAdmin": "formRender") + "&version=1&id=" + formId;
-        if (opts) {
-            if (opts.responseId) {
-                url += "&resid=" + opts.responseId;
-            }
-            if (opts.apiKey) {
-                url += "&apiKey=" + opts.apiKey;
-            }
-            if (opts.authKey) {
-                url += "&authKey=" + opts.authKey;
-            }
-        }
         // todo: allow response editing here, too.
         return API.get("CFF", `forms/${formId}/render` + (opts.include_s_sm_versions ? "?versions=1": ""), {})
                 .then(response => response.res);

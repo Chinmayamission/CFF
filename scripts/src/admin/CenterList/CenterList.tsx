@@ -14,7 +14,6 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
         }
     }
     loadCenterList() {
-        console.log(this.props.user);
         return API.post("CFF", "centers", {"body": this.props.user}).then(e => {
             this.setState({"centerList": e.res});
         }).catch(e => this.props.onError(e));

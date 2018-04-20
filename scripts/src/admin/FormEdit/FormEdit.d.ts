@@ -4,7 +4,12 @@
 interface IFormEditProps {
     apiKey: string,
     apiEndpoint: string,
-    form: IFormListItem
+    form: IFormListItem,
+    match: {
+        params: {
+            formId: string
+        }
+    }
 }
 
 interface IFormEditState {

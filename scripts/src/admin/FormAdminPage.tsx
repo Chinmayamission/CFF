@@ -90,8 +90,12 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
     componentWillMount() {
         Auth.currentCredentials().then(creds => {
+            if (creds.expired) {
+                Auth.signOut();
+                return;
+            }
             Auth.currentUserInfo().then(e => {
-                console.warn(e);
+                console.warn(creds, e);
                 if (!e) {
                     Auth.signOut();
                     return;
