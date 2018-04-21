@@ -90,7 +90,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
     componentWillMount() {
         Auth.currentCredentials().then(creds => {
-            if (creds.expired) {
+            if (!creds || creds.expired) {
                 Auth.signOut();
                 return;
             }
@@ -157,10 +157,13 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             {this.state.user.id &&
                 <Switch>
                     <Route path="/" exact render={(props) =>
-                        <CenterList {...props} selectedCenter={false} user={this.state.user} onError={e => this.onUnauth(e)} />
+                        <CenterList {...props} user={this.state.user} onError={e => this.onUnauth(e)} />
+                    }/>
+                    <Route path="/:centerSlug/:centerId" exact render={(props) =>
+                        <CenterList {...props} selectedCenter={true} user={this.state.user} onError={e => this.onUnauth(e)} />
                     }/>
                     <Route path="/" render={(props) =>
-                        <CenterList {...props} selectedCenter={true} user={this.state.user} onError={e => this.onUnauth(e)} />
+                        <CenterList {...props} selectedCenter={true} selectedForm={true} user={this.state.user} onError={e => this.onUnauth(e)} />
                     }/>
                 </Switch>
             }
