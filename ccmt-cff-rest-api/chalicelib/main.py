@@ -79,12 +79,14 @@ app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthoriz
 app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
 app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
 app.route('/centers/{centerId}/forms/new', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_create)
+app.route('/forms/{formId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.form_delete)
+app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit)
 app.route('/forms/{formId}/responses', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_list)
 # form response edit
 app.route('/forms/{formId}/summary', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_summary)
 app.route('/forms/{formId}/responses/{responseId}/edit', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.edit_response)
 app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_get_permissions)
-app.route('/forms/{formId}/permissions/edit', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
+app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
 
 app.route('/forms/{formId}/render', methods=['GET'], cors=True)(routes.form_render)
 app.route('/forms/{formId}/responses', methods=['POST'], cors=True)(routes.form_response_new)

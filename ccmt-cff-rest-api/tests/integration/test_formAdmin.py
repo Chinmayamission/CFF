@@ -1,13 +1,14 @@
+"""
+python -m unittest tests.integration.test_formAdmin
+"""
 import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
-from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID
+from .constants import CENTER_ID, TEST_SCHEMA, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID
 from app import app
 
-SCHEMA_ID = "5e258c2c-9b85-40ad-b764-979fc9df1740"
-SCHEMA_VERSION = 3
-TEST_SCHEMA = {"id": SCHEMA_ID, "version": SCHEMA_VERSION}
+
 
 class FormAdmin(unittest.TestCase):
     def setUp(self):
@@ -25,8 +26,8 @@ class FormAdmin(unittest.TestCase):
         # Do schemas have at least an id and value?
         self.assertIn("version", body['res'][0])
         self.assertIn("id", body['res'][0])
-    def test_create_form(self):
-        """Create form."""
+    def test_create_and_delete_form(self):
+        """Create form and delete it."""
         body = dict(schema=TEST_SCHEMA)
         response = self.lg.handle_request(method='POST',
                                           path='/centers/{}/forms/new'.format(CENTER_ID),
@@ -40,3 +41,23 @@ class FormAdmin(unittest.TestCase):
         self.assertEqual({"owner": True}, body['res']['form']['cff_permissions'][COGNITO_IDENTITY_ID])
         self.assertEqual(body['res']['form']['version'], 1)
         self.assertEqual(body['res']['form']['schema'], TEST_SCHEMA)
+        formId = body['res']['form']['id']
+        response = self.lg.handle_request(method='GET',
+                                          path='/forms/{}/render'.format(formId),
+                                          headers={},
+                                          body='')
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertEqual(body['res']['id'], formId)
+        response = self.lg.handle_request(method='DELETE',
+                                          path='/forms/{}'.format(formId),
+                                          headers={},
+                                          body='')
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertEqual(body, {"res": None, "success": True, "action": "delete"});
+        response = self.lg.handle_request(method='GET',
+                                          path='/forms/{}/render'.format(formId),
+                                          headers={},
+                                          body='')
+        self.assertEqual(response['statusCode'], 500, response)

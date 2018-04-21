@@ -46,7 +46,7 @@ class FormPermissions(unittest.TestCase):
           "permissions": {"Responses_Edit": True, "Responses_View": True}
         }
         response = self.lg.handle_request(method='POST',
-                                          path='/forms/{}/permissions/edit'.format(FORM_ID),
+                                          path='/forms/{}/permissions'.format(FORM_ID),
                                           headers={"Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)

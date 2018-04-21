@@ -19,7 +19,7 @@ class FormIpn(unittest.TestCase):
         ipn_value = "mc_gross=25.00&protection_eligibility=Eligible&address_status=confirmed&item_number1=Registration for Training Only&payer_id=VE2HLZ5ZKU7BE&address_street=10570 victory gate dr&payment_date=10:27:30 Apr 19, 2018 PDT&payment_status=Completed&charset=windows-1252&address_zip=30022&first_name=Ashwin&mc_fee=1.03&address_country_code=US&address_name=outplayed apps&notify_version=3.9&custom={}/{}&payer_status=unverified&business=aramaswamis-facilitator@gmail.com&address_country=United States&num_cart_items=1&address_city=Johns creek&verify_sign=AU-C7Ml6CZ.YODugGUkMlAUH5j5nAdi7DA0aXYYb.kcZT3-n-fqYBTYy&payer_email=aramaswamis@gmail.com&txn_id=7XD19477EF695003H&payment_type=instant&payer_business_name=outplayed apps&last_name=Ramaswami&address_state=GA&item_name1=2018 CMSJ OM Run&receiver_email=aramaswamis-facilitator@gmail.com&payment_fee=1.03&quantity1=1&receiver_id=T4A6C58SP7PP2&txn_type=cart&mc_gross_1=25.00&mc_currency=USD&residence_country=US&test_ipn=1&transaction_subject=&payment_gross=25.00&ipn_track_id=fb67cfeee112e".format(FORM_ID, RESP_ID)
         response = self.lg.handle_request(method='POST',
                                           path='/responses/{}/ipn'.format(RESP_ID),
-                                          headers={},
+                                          headers={"Content-Type": "application/x-www-form-urlencoded"},
                                           body=ipn_value)
         self.assertEqual(response['statusCode'], 500, response)
         # todo: should this be 4xx instead?

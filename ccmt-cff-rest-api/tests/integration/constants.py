@@ -200,3 +200,13 @@ FORM_DATA_TWO_5K_10K = {"modifyLink": "http://omrun.cmsj.org/training-thankyou/"
                                                                                                                                                                                "line1": "test"}, "email": "aramaswamis@gmail.com", "participants": [{"name": {"last": "test", "first": "test"}, "gender": "M", "race": "5K", "age": 16},
                                                                                                                                                                                                                                                     {"name": {"last": "test2", "first": "test2"}, "gender": "M", "race": "10K", "age": 16}]}
                         }
+
+SCHEMA_ID = "5e258c2c-9b85-40ad-b764-979fc9df1740"
+SCHEMA_VERSION = 3
+TEST_SCHEMA = {"id": SCHEMA_ID, "version": SCHEMA_VERSION}
+
+FORM_MUTABLE_ID = "52863c95-deb2-43db-8cb8-b77257f2d357"
+FORM_MUTABLE_SCHEMA_ID = "5e258c2c-9b85-40ad-b764-979fc9df1740"
+FORM_MUTABLE_SCHEMAMODIFIER_ID = "f24bf264-6a5e-4bab-8b6f-6aebc7f5eb33"
+
+_ = None # dummy
