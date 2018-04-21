@@ -79,7 +79,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 "couponCodes": this.state.couponCodes
             }
         }).then((response) => {
-            let res = response.data.res;
+            let res = response.res;
             if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
@@ -103,6 +103,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         })
 
     }
+    // todo: fix this to work with the new api.
     onVersionSelect(path, version) { // path can be either "schema" or "schemaModifier"
         if (version == "NEW") {
             let updated = this.state[path];
@@ -119,7 +120,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             "&id=" + this.state[path].id +
             "&version=" + version
         ).then((response) => {
-            let res = response.data.res;
+            let res = response.data.res; // todo: fix
             if (!res) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
