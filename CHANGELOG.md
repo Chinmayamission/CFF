@@ -37,7 +37,7 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
-## 1.3.0.2 (4/20/2018) (backend 1.1.0)
+## 1.3.0.3 (4/20/2018) (backend 1.1.0)
 - Output files have version numbers in their names.
 - Created a deploy script which automatically uploads to S3 and cloudfront.
 
