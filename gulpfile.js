@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var shell = require('gulp-shell');
 var typescript = require('gulp-tsc');
 var connect = require('gulp-connect');
+var pjson = require("./package.json");
 
 gulp.task('serve', ['dev', 'webserver']);
 
@@ -16,12 +17,21 @@ gulp.task('webserver', function() {
     });
 });
 
+gulp.task('webserver-prod', function() {
+    connect.server({
+        port: 8001,
+        root: "./scripts/prod",
+        livereload: true,
+        fallback: `./scripts/prod/index.${pjson.version}.html`
+    });
+});
+
 const DJANGO_ROOT_URL = "./htdocs/cff";
 const FORMBUILDER_URL = "./htdocs/cff/gcmw/forms/formBuilder";
 const inputFiles = FORMBUILDER_URL + '/assets/ts/**/*.tsx';
 
 gulp.task('FormPage-js', shell.task([
-    'webpack --watch --config webpack.dev.js'
+    'webpack --progress --watch --config webpack.dev.js'
 ]));
 
 // gulp.task('FormPage-js-build', function() {
@@ -35,5 +45,5 @@ gulp.task('FormPage-js', shell.task([
 // });
 
 gulp.task('build', shell.task([
-    'webpack --config webpack.prod.js'
+    'webpack --progress --config webpack.prod.js'
 ]))

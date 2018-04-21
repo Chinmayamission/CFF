@@ -1,6 +1,9 @@
 const path = require('path');
 var webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+var pjson = require('./package.json');
+var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const FORMBUILDER_URL = "./scripts";
 const SRC_URL = FORMBUILDER_URL + "/src";
@@ -8,7 +11,7 @@ const DEST_URL = FORMBUILDER_URL + "/dist";
 
 module.exports = {
   entry: {
-    app: ["babel-polyfill", SRC_URL + '/index']
+    app: ["babel-polyfill", SRC_URL + '/app']
   },
   optimization: {
     splitChunks: {
@@ -27,9 +30,23 @@ module.exports = {
     filename: "[name].[chunkhash].js"
   },
   plugins: [
+    new HardSourceWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css"
     }),
+    new webpack.DefinePlugin({
+      VERSION: `"${pjson.version}"`
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Chinmaya Forms Framework Admin',
+      template: './scripts/src/index.html',
+      filename: "index.html"
+    }),
+    new HtmlWebpackPlugin({
+        title: 'Chinmaya Forms Framework Form',
+        template: './scripts/src/form.html',
+        filename: "form.html"
+    })
   ],
   module: {
     rules: [
@@ -58,14 +75,14 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] //['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader'] //['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.(svg|woff|eot|ttf)$/,
         use: {
           loader: "url-loader",
           options: {
-            limit: 50000,
+            // limit: 50000,
           },
         },
       }

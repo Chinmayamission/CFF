@@ -37,6 +37,10 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
+## 1.3.1 (4/21/2018)
+- Package webpack into only two js files (so it works with forms on the WP plugin).
+- Add footer to admin page.
+
 ## 1.3.0.3 (4/20/2018) (backend 1.1.0)
 - Output files have version numbers in their names.
 - Created a deploy script which automatically uploads to S3 and cloudfront.

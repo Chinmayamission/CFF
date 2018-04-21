@@ -9,17 +9,7 @@ module.exports = merge(common, {
  mode: 'development',
  plugins: [
     new webpack.DefinePlugin({
-        MODE: '"' + MODE + '"'
-    }),
-    new HtmlWebpackPlugin({
-        title: 'Chinmaya Forms Framework - ' + MODE,
-        template: './scripts/src/index.html',
-        filename: "index.html"
-    }),
-    new HtmlWebpackPlugin({
-        title: 'Chinmaya Forms Framework Form - ' + MODE,
-        template: './scripts/src/form.html',
-        filename: "form.html"
+        MODE: `"${MODE}"`
     })
  ]
 });

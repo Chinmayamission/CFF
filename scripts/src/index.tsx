@@ -1,14 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-// import App from './App';
-import FormPage from './form/FormPage';
-import { BrowserRouter } from 'react-router-dom';
 import "./common/main.scss";
 import * as DOMPurify from 'dompurify';
 import Amplify from 'aws-amplify';
-import FormAdminPage from './admin/FormAdminPage';
 
 declare var MODE: string;
+declare var VERSION: string;
+
+console.log("CFF Version", VERSION);
 
 let ENDPOINT_URL = "";
 switch (MODE) {
@@ -50,9 +49,6 @@ const federated = {
 };
 
 
-// dev apiEndpoint https://l5nrf4co1g.execute-api.us-east-1.amazonaws.com/dev/forms
-// dev apiKey test
-
 (window as any).CCMT_CFF_DEVMODE = false;
 (window as any).CCMT_CFF_DEVMODE_AUTOFILL = false;
 
@@ -65,33 +61,9 @@ DOMPurify.addHook('afterSanitizeAttributes', function (node) {
   }
 });
 
-let formRenderElement = document.getElementById('ccmt-cff-render') as HTMLElement;
-if (formRenderElement) {
-  ReactDOM.render(
-    <div className="ccmt-cff-Wrapper-Bootstrap">
-      <FormPage formId={formRenderElement.getAttribute('data-ccmt-cff-form-id')}
-        authKey={formRenderElement.getAttribute('data-ccmt-cff-auth-key')}
-        specifiedShowFields={(formRenderElement.getAttribute('data-ccmt-cff-specified-show-fields') || "").split(",")}
-        apiEndpoint={ENDPOINT_URL} />
-    </div>
-    ,
-    formRenderElement
-  );
-}
+let Config = {
+  ENDPOINT_URL,
+  federated
+};
 
-let formAdminElement = document.getElementById('ccmt-cff-admin') as HTMLElement;
-if (formAdminElement) {
-  ReactDOM.render(
-    <div className="ccmt-cff-Wrapper-Bootstrap">
-      <FormAdminPage
-        apiEndpoint={formAdminElement.getAttribute('data-ccmt-cff-api-endpoint')}
-        apiKey={formAdminElement.getAttribute('data-ccmt-cff-api-key')}
-        //authState={"auth"}
-        //authData={{"id": formAdminElement.getAttribute('data-ccmt-cff-api-key'), "name": "Ashwin"}}
-        federated={federated}
-        />
-    </div>,
-    formAdminElement
-  );
-
-}
+export default Config;

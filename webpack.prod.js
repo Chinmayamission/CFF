@@ -22,23 +22,31 @@ module.exports = merge(common, {
   //     new OptimizeCSSAssetsPlugin({})
   //   ]
   // },
+  // module: {
+  //   rules: [
+  //     {
+  //       test: /\.s?css$/,
+  //       use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] //['style-loader', 'css-loader', 'sass-loader']
+  //     }
+  //   ]
+  // },
   output: {
     path: path.resolve(DEST_URL),
     publicPath: '/',
     filename: `[name].${pjson.version}.js`
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: `[name].${pjson.version}.css`
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: `[name].${pjson.version}.css`
+    // }),
      new CleanWebpackPlugin([DEST_URL]),
      new HtmlWebpackPlugin({
-       filename: `index.${pjson.version}.html`,
-       title: 'Chinmaya Forms Framework - ' + MODE,
-       template: './scripts/src/index.html',
+        title: 'Chinmaya Forms Framework Admin',
+        template: './scripts/src/index.html',
+        filename: `index.${pjson.version}.html`
      }),
     new webpack.DefinePlugin({
-      MODE: '"' + MODE + '"'
+      MODE: `"${MODE}"`
     })
   ]
 });
