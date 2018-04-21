@@ -86,6 +86,6 @@ if response["Distribution"]["DistributionConfig"] != DistributionConfig:
   second_dict = DistributionConfig
   first_dict = response["Distribution"]["DistributionConfig"]
   diff = { k : second_dict[k] for k in set(second_dict) - set(first_dict) }
-  raise Exception("distributino config not updated properly. diff is {}".format(diff))
+  raise Exception("Distribution config was not updated properly. Diff is {}".format(diff))
 
 print("Cloudfront distribution config updated successfully.")
