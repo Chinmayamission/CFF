@@ -26,7 +26,10 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
             }
         }).then(e => {
             this.setState({permissions});
-        });
+        }).catch(e => {
+            alert("You do not have permission to do this action.");
+            this.props.onError(e);
+        })
     }
 
     render() {

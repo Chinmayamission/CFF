@@ -20,7 +20,8 @@ interface ISharedFormAdminPageProps {
     params: {
         formId?: string
     }
- } 
+ },
+ onError: (any) => void
 }
 
 interface IFormAdminPageState {
