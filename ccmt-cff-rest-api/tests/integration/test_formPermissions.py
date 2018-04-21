@@ -33,6 +33,7 @@ class FormPermissions(unittest.TestCase):
           self.assertEqual(userId, user["id"])
         for perm in body['res']['permissions'].values():
           self.assertTrue(type(perm) is dict)
+        self.assertTrue(type(body['res']['possiblePermissions']) is list)
         # for permName, permValue in body['res'].items():
         #   for i in permValue:
         #     self.assertIn("id", i)
@@ -58,7 +59,7 @@ class FormPermissions(unittest.TestCase):
           "permissions": {}
         }
         response = self.lg.handle_request(method='POST',
-                                          path='/forms/{}/permissions/edit'.format(FORM_ID),
+                                          path='/forms/{}/permissions'.format(FORM_ID),
                                           headers={"Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)

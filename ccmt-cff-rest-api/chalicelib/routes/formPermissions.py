@@ -1,6 +1,6 @@
 from boto3.dynamodb.conditions import Key
 from pydash.arrays import union
-POSSIBLE_PERMISSIONS = ("Responses_View", "Responses_Edit", "Responses_View", "Responses_Edit", "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "Forms_Edit", "SchemaModifiers_Edit")
+POSSIBLE_PERMISSIONS = ["owner", "Responses_View", "Responses_Edit", "Forms_Edit", "Forms_PermissionsView", "Forms_PermissionsEdit"] # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
 
 def form_get_permissions(formId):
   """Get form permission ID's and resolve them into name & email."""
@@ -21,7 +21,7 @@ def form_get_permissions(formId):
     }
   })["Responses"][get_table_name("users")]
   user_lookup = {user["id"]: user for user in users}
-  return {"res": {"permissions": form['cff_permissions'], "userLookup": user_lookup}}
+  return {"res": {"permissions": form['cff_permissions'], "userLookup": user_lookup, "possiblePermissions": POSSIBLE_PERMISSIONS}}
 
 def form_edit_permissions(formId):
   """Set form permissions of a particular user to an array.
