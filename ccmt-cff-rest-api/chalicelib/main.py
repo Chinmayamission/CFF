@@ -39,17 +39,21 @@ class CustomChalice(Chalice):
             if app.test_user_id: id = app.test_user_id
             if not id: id = "cff:anonymousUser"
         return "cff:cognitoIdentityId:{}".format(id)
-    def check_permissions(self, model, actions):
-        if type(actions) is str:
-            actions = [actions]
-        id = self.get_current_user_id()
-        actions.append("owner")
+    def get_user_permissions(self, id, model):
+        """id = user id. model = model with cff_permissions in it."""
         cff_permissions = model.get("cff_permissions", {})
         current_user_perms = {}
         if id is not "cff:anonymousUser":
             current_user_perms.update(cff_permissions.get("cff:loggedInUser", {}))
         current_user_perms.update(cff_permissions.get(id, {}))
-        if any(a in current_user_perms for a in actions):
+        return current_user_perms
+    def check_permissions(self, model, actions):
+        if type(actions) is str:
+            actions = [actions]
+        actions.append("owner")
+        id = self.get_current_user_id()
+        current_user_perms = self.get_user_permissions(id, model)
+        if any((a in current_user_perms and current_user_perms[a] == True) for a in actions):
             return True
         else:
             raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, actions))

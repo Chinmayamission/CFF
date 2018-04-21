@@ -34,11 +34,15 @@ class FormPermissions(unittest.TestCase):
         for perm in body['res']['permissions'].values():
           self.assertTrue(type(perm) is dict)
         self.assertTrue(type(body['res']['possiblePermissions']) is list)
-        # for permName, permValue in body['res'].items():
-        #   for i in permValue:
-        #     self.assertIn("id", i)
-        #     self.assertIn("name", i)
-        #     self.assertIn("email", i)
+    def test_list_permissions_mine(self):
+        """List *my* permissions. (not used currently in client side)."""
+        response = self.lg.handle_request(method='GET',
+                                          path='/forms/{}/permissions?mine=1'.format(FORM_ID),
+                                          headers={},
+                                          body='')
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertEqual(list(body['res'].keys()), ["permissions"])
     def test_edit_permissions(self):
         """Edit Permissions."""
         # Add two permissions.

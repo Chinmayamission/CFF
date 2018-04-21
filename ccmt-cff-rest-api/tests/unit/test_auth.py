@@ -1,4 +1,8 @@
+"""
+python -m unittest tests.unit.test_auth
+"""
 import unittest
+from chalice.app import UnauthorizedError
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
@@ -15,17 +19,25 @@ class FormPermissions(unittest.TestCase):
       self.assertEqual(app.get_current_user_id(), "cff:cognitoIdentityId:{}".format(COG_ID))
     def test_get_current_user_id_ctx(self):
       pass
-    # def test_check_permissions_owner(self):
-    #   app.test_user_id = COG_ID
-    #   print(COG_ID)
-    #   model = {"cff_permissions": {app.get_current_user_id(): ["owner"]}}
-    #   for action in ("owner", "Responses_Edit", "Forms_Edit"):
-    #     with self.subTest(action=action):
-    #       self.assertTrue(app.check_permissions(model, action))
-    # def test_check_permissions_anon(self):
-    #   app.test_user_id = COG_ID
-    #   print(COG_ID)
-    #   model = {"cff_permissions": {app.get_current_user_id(): ["owner"]}}
-    #   for action in ("owner", "Responses_Edit", "Forms_Edit"):
-    #     with self.subTest(action=action):
-    #       self.assertTrue(app.check_permissions(model, action))
+    def test_check_permissions_owner(self):
+      app.test_user_id = COG_ID
+      model = {"cff_permissions": {app.get_current_user_id(): {"owner": True}}}
+      for action in ("owner", "Responses_Edit", "Forms_Edit"):
+        with self.subTest(action=action):
+          self.assertTrue(app.check_permissions(model, action))
+    def test_check_permissions_invalid(self):
+      app.test_user_id = COG_ID
+      model = {"cff_permissions": {app.get_current_user_id(): {"Responses_View": True}}}
+      for action in ("owner", "Responses_Edit", "Forms_Edit"):
+        with self.subTest(action=action):
+          with self.assertRaises(UnauthorizedError):
+            app.check_permissions(model, action)
+      self.assertTrue(app.check_permissions(model, "Responses_View"))
+    def test_check_permissions_invalid_false(self):
+      app.test_user_id = COG_ID
+      model = {"cff_permissions": {app.get_current_user_id(): {"Responses_View": True, "Responses_Edit": False, "Forms_Edit": False, "owner": False}}}
+      for action in ("owner", "Responses_Edit", "Forms_Edit"):
+        with self.subTest(action=action):
+          with self.assertRaises(UnauthorizedError):
+            app.check_permissions(model, action)
+      self.assertTrue(app.check_permissions(model, "Responses_View"))
