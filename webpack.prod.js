@@ -33,7 +33,8 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(DEST_URL),
     publicPath: '/',
-    filename: `[name].${pjson.version}.js`
+    filename: 'cff.[name].js'
+    // filename: `[name].${pjson.version}.js`
   },
   plugins: [
     // new MiniCssExtractPlugin({
@@ -43,7 +44,8 @@ module.exports = merge(common, {
      new HtmlWebpackPlugin({
         title: 'Chinmaya Forms Framework Admin',
         template: './scripts/src/index.html',
-        filename: `index.${pjson.version}.html`
+        filename: 'index.html'
+        // filename: `index.${pjson.version}.html`
      }),
     new webpack.DefinePlugin({
       MODE: `"${MODE}"`

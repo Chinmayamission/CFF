@@ -37,6 +37,9 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
+## 1.3.2 (tbd)
+- Use cloudfront invalidations instead of versioning script names, so that script urls are constant (for use with wordpress plugin)
+
 ## 1.3.1 (4/21/2018)
 - Package webpack into only two js files (so it works with forms on the WP plugin).
 - Add footer to admin page.

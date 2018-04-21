@@ -5,8 +5,9 @@ Also uploads Cloudfront Distribution accordingly.
 
 import boto3
 import json
-import os
 import mimetypes
+import os
+import time
 AWS_PROFILE_NAME = "ashwin-cff-lambda"
 dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
 boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
@@ -22,7 +23,8 @@ print("Version is {}".format(VERSION))
 BUCKET = "cff.chinmayamission.com"
 CLOUDFRONT_ID = "EF7WSN5FPDLRR"
 CLOUDFRONT_ORIGIN_PATH = "/{}".format(VERSION)
-CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(VERSION)
+# CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(VERSION)
+CLOUDFRONT_INDEX_PAGE_PATH = "/index.html"
 
 ## UPLOAD TO S3 BUCKET
 
@@ -89,3 +91,18 @@ if response["Distribution"]["DistributionConfig"] != DistributionConfig:
   raise Exception("Distribution config was not updated properly. Diff is {}".format(diff))
 
 print("Cloudfront distribution config updated successfully.")
+
+print("Creating invalidation...")
+response = client.create_invalidation(
+    DistributionId=CLOUDFRONT_ID,
+    InvalidationBatch={
+        'Paths': {
+            'Quantity': 1,
+            'Items': [
+                '/*',
+            ]
+        },
+        'CallerReference': str(time.time())
+    }
+)
+print("Invalidation request sent.")
