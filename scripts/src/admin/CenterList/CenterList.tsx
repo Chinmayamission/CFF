@@ -30,7 +30,9 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
             <div>
                 <ul className="nav nav-pills">
                     <li className="nav-item">
-                        <a className="nav-link" href="#" onClick={this.props.history.goBack}>
+                        <a className={'nav-link' + (this.props.selectedForm ? "": " disabled ccmt-cff-nav-link-disabled")}
+                            onClick={this.props.selectedForm ? this.props.history.goBack: null}
+                            href="#">
                             <span className="oi oi-media-skip-backward"></span>
                             &nbsp;&nbsp;Go back
                         </a>

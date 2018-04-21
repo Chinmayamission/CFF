@@ -9,7 +9,8 @@ interface ICenterListProps {
     onError: (any) => void,
     user: IUserItem,
     history: {goBack: () => void, push: (string) => void},
-    selectedCenter: boolean
+    selectedCenter?: boolean,
+    selectedForm?: boolean
 }
 interface IUserItem {
     id: string,
