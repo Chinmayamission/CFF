@@ -14,6 +14,15 @@ interface ISharedAdminProps {
     apiEndpoint: string,
     apiKey: string
 }
+
+interface ISharedFormAdminPageProps {
+ match: {
+    params: {
+        formId?: string
+    }
+ } 
+}
+
 interface IFormAdminPageState {
     formList: IFormListItem[],
     centerList: {id: number, name: string}[],
