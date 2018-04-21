@@ -37,7 +37,7 @@ Todo:
 - Minify vendor bundle js file.
 - Create [version#] instead of [chunkhash] webpack gen. files.
 
-## 1.2.9 (tbd)
+## 1.3.0 (4/20/2018)
 Form Page:
 - Allow form submit page to work with chalice API
 
