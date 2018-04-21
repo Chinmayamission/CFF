@@ -1,12 +1,11 @@
 # todo
 - add modify_permissions.
 
-# 1.0.7 (tbd)
-- Add code from new form submit.
-
-- add view permissions endpoint.
-- return all new from edit response endpoint
+# 1.1.0 (4/20/18) (frontend 1.3.0)
+- Add code for new form submit.
+- add view permissions, edit permissions endpoint.
 - Store permissions differently: {userId: {perm1: true, perm2: true, ...}} rather than {permName: [...userIds]}.
+- Return all new from edit response endpoint
 
 # 1.0.6 (4/12/18)
 - Reorganization of app.py into multiple files.
