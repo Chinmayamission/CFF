@@ -87,9 +87,7 @@
         }
         &:not(:first-child) {
             .control-label {
-                //@extend .d-none;
-                @extend .d-md-none;
-                //display: none;
+                // @extend .d-md-none;
             }
             .ccmt-cff-array-row-number {
                 top: 15px;
