@@ -173,8 +173,8 @@ def human_readable_key(key, delimiter=":"):
     key = re.sub(delimiter, ": ", key)
     return key
 
-def dict_to_table(dict, human_readable=True):
-    flat = flatdict.FlatDict(dict)
+def dict_to_table(dct, human_readable=True):
+    flat = flatdict.FlatterDict(dct)
     table = "<table>"
     for key, value in flat.items():
         if human_readable: key = human_readable_key(key)
@@ -182,22 +182,5 @@ def dict_to_table(dict, human_readable=True):
     table += "</table>"
     return table
 
-spacing = "&nbsp;&nbsp;&nbsp;"
-def render_value(key, value, prefix=""):
-    text = ""
-    if type(value) is dict:
-        for (k, v) in value.items():
-            text += "<br>{}".format(dict_to_table(v))
-    elif type(value) is list:
-        for (i, v) in enumerate(value):
-            text += "<br>{}. {}".format(i + 1, render_value(k, v, prefix))
-    else:
-        text += "<br><b>{}</b><span>{}</span>".format(key, value)
-    return text
-
-def display_form_dict(dict):
-    return dict_to_table(dict)
-    text = "<div>"
-    for key, value in dict.items():
-        text += render_value(key, value)
-    text += "</div>"
+def display_form_dict(dct):
+    return dict_to_table(dct)

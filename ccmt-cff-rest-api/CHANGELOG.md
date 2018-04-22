@@ -1,3 +1,5 @@
+# 1.1.12 (tbd)
+- Use Flatterdict -- fix lists not flattening in emails sent.
 
 # 1.1.1 (4/21/18)
 - Allow an array to be specified in confirmationEmailInfo.toField, also if email is undefined it won't break but will just skip that one.
