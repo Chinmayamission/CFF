@@ -71,6 +71,12 @@ export module CreateSchemas {
                 schemaMetadata[key] = data.schemaModifier[key];
         }
 
+        // specified show fields -- lets you do a custom override of schemaModifiers.
+        for (let key in specifiedShowFields) {
+            let value = specifiedShowFields[key];
+            set(schemaModifier, key, value);
+        }
+
         console.log('orig schema', schema, 'orig schemamodifier', schemaModifier);
         let uiSchema = {};
 
@@ -169,7 +175,7 @@ export module CreateSchemas {
                 else if (~fieldPath.indexOf(".ui:cff:display:if:specified")) {
                     // Show field only if it's in the specified show fields attribute.
                     // todo: fix this -- should be fieldValue, not fieldPath.replace(....).
-                    if (~specifiedShowFields.indexOf(fieldPath.replace(".ui:cff:display:if:specified", ""))) {
+                    if (isArray(specifiedShowFields) && ~specifiedShowFields.indexOf(fieldPath.replace(".ui:cff:display:if:specified", ""))) {
                         set(uiSchema, fieldPath, fieldValue);
                     }
                     else {
