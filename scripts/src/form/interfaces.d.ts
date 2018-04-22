@@ -77,7 +77,7 @@ interface IFormPageState {
 }
 
 interface IValidationInfoItem {fieldPath: string, ifExpr: string, message: string}
-interface IFocusUpdateInfoItem {type: string, from: string, to: string};
+interface IFocusUpdateInfoItem {type: string, from: string, to: string, which: string};
 interface IFormPageProps {
     formId: any,
     apiEndpoint: string,

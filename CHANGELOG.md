@@ -36,11 +36,18 @@ Todo:
 - hide title "Payment" in form loading
 - Let minItems be specified dynamically based on other values.
 
-## 1.3.2 (tbd)
+## 1.3.3
+- Add updateFromField option (see docs/updateFromField.md)
+- Show headers on each row of array field by default
+- Upgrade RJF to 1.0.3 (from 0.5!)
+
+## 1.3.2 (4/21/18)
 - Make minItems work in schemaModifier
 - Add some jest unit tests
 - Refactor some of schema expression parsing code
 - In deploy.py script: Use cloudfront invalidations instead of versioning script names, so that script urls are constant (for use with wordpress plugin)
+### 1.3.2-1
+
 
 ## 1.3.1 (4/21/2018)
 - Package webpack into only two js files (so it works with forms on the WP plugin).

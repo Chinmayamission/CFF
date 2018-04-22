@@ -17,7 +17,7 @@ import ExpressionParser from "src/common/util/ExpressionParser";
 
 import * as DOMPurify from 'dompurify';
 import * as queryString from "query-string";
-import { get, pick, set } from "lodash-es";
+import { get, pick, set, pickBy, unset } from "lodash-es";
 import "./form.scss";
 import FormConfirmationPage from "./FormConfirmationPage";
 import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
@@ -137,15 +137,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    let stateKeysToEncode = ["status", "responseId"];
-    if (pick(this.state, stateKeysToEncode) != pick(prevState, stateKeysToEncode)) {
-      let encodedState = pick(this.state, stateKeysToEncode);
-      let newQS = queryString.stringify(encodedState);
-      window.location.hash = newQS;//queryString.stringify(encodedState);  
-      if (this.state.status != prevState.status) {
-        this.scrollToTop();
-      }
-    }
   }
   handleError(e) {
     console.error("ERROR", e);
@@ -249,26 +240,55 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
   }
   onChange(e) {
-    this.setState({"data": e.formData});
+    console.warn("Change is here.");
+    let formData = e.formData;
+    let schema = (this.state.schema);
+    console.log(schema.properties.participants.minItems);
+    let uiSchema = (this.state.uiSchema);
+    let needUpdateSchemas = false;
+    console.log(this.state.focusUpdateInfo);
+    for (let focusUpdateInfoItem of this.state.focusUpdateInfo) {
+      if (focusUpdateInfoItem.type == "copy") {
+        let fromValue = get(formData, focusUpdateInfoItem.from);
+        if (fromValue) {
+          if (!~["schema", "uiSchema"].indexOf(focusUpdateInfoItem.which)) {
+            throw "Not supported";
+          }
+          let toSet = focusUpdateInfoItem.which == "schema" ? schema : uiSchema;
+          if (get(toSet, focusUpdateInfoItem.to) != fromValue) {
+            console.log("Need to update s/sm.");
+            needUpdateSchemas = true;
+            set(toSet, focusUpdateInfoItem.to, fromValue);
+            console.log(toSet, focusUpdateInfoItem.to, fromValue);
+            let toPath = focusUpdateInfoItem.to.split(".");
+            let attributeName = toPath.pop();
+            if (attributeName == "minItems") {
+              // Special case -- delete participants here, otherwise it won't update.
+              let arraySchemaPath = toPath.join(".");
+              unset(formData, SchemaUtil.objToSchemaModifierPath(arraySchemaPath));
+              console.log("unset");
+            }
+          }
+          else {
+            console.log("Don't need to update s/sm.");
+          }
+
+        }
+      }
+    }
+    formData = pickBy(formData, v => v !== undefined);
+    if (needUpdateSchemas) {
+      this.setState({"data": formData, schema, uiSchema});
+    }
+    else {
+      this.setState({"data": formData});
+    }
+    
   }
   onFocus(rootPath, value) {
     //let toPath = "email";
     let toPath = SchemaUtil.rootPathToSchemaModifierPath(rootPath);
     let formData = this.state.data;
-    /*if (true) {
-      for (let focusUpdateInfoItem of this.state.focusUpdateInfo) {
-        if (focusUpdateInfoItem.type == "copy") { // && get(this.state.data, focusUpdateInfoItem.to) == get(this.state.data, toPath)) {
-          let fromValue = get(this.state.data, focusUpdateInfoItem.from);
-          //console.log(focusUpdateInfoItem, fromValue);
-          if (fromValue) {
-            set(formData, focusUpdateInfoItem.to, fromValue);
-            console.log(JSON.stringify(formData));
-            this.setState({"data": formData});
-            //this.forceUpdate();
-          }
-        }
-      }
-    }*/
   }
   validate(formData, errors) {
     console.log("errs are", errors);
@@ -309,6 +329,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         <Loading hasError={this.state.hasError} />
       );
     } // else if (this.state.status == STATUS_FORM_RENDERED) {
+    console.log(this.state.schema.properties.participants.minItems);
+    // return         <Form
+    // schema={this.state.schema}
+    // uiSchema={this.state.uiSchema} widgets={widgets} onChange={(e) => {this.onChange(e)}} />;
     let formToReturn = (
       <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
         <Form

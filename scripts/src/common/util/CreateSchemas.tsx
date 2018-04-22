@@ -114,6 +114,19 @@ export module CreateSchemas {
             let fieldValue = flattenedSchemaModifier[fieldPath];
             // console.log("fp", fieldPath, fieldValue);
             let schemaFieldPath = SchemaUtil.objToSchemaPath(fieldPath);
+            if (typeof fieldValue === 'string' && ~fieldValue.indexOf("ui:cff:updateFromField:")) {
+                // Update from field.
+                let fieldKeyName = fieldPath.substring(0, fieldPath.lastIndexOf("."));
+                focusUpdateInfo.push({
+                    type: "copy",
+                    from: fieldValue.replace("ui:cff:updateFromField:", ""),
+                    to: isUiSchemaKey(fieldKeyName) ? fieldPath : `properties.${schemaFieldPath}`,
+                    which: isUiSchemaKey(fieldKeyName) ? "uiSchema" : "schema"
+                });
+                fieldValue = 0; //todo: do a better more sensible default, based on schema type.
+                flattenedSchemaModifier[fieldPath] = fieldValue;
+            }
+
             if (~["title", "description"].indexOf(fieldPath)) {
                 // Top-level modifications.
                 schema[fieldPath] = fieldValue;
@@ -146,25 +159,11 @@ export module CreateSchemas {
                     }
                 }
                 else if (~fieldPath.indexOf(".ui:cff:copyValueTo")) {
-                    focusUpdateInfo.push({
-                        type: "copy",
-                        from: fieldPath.replace(".ui:cff:copyValueTo", ""),
-                        to: fieldValue
-                    })
-                    /* let ifExpr = ;
-                    let message = get(schemaModifier, fieldValue);
-                    ifExpr = ifExpr && isArray(ifExpr) ? ifExpr : [ifExpr];
-                    message = message && isArray(message) ? message: [message || "Error"];
-                    for (let i = 0; i < ifExpr.length; i++) {
-                        let index = i;
-                        if (i >= message.length)
-                            index = message.length - 1;
-                        validationInfo.push({
-                            fieldPath: fieldPath.replace(".ui:cff:validate:if", ""),
-                            ifExpr: ifExpr[i],
-                            message: message[index]
-                        });
-                    }*/
+                    // focusUpdateInfo.push({
+                    //     type: "copy",
+                    //     from: fieldPath.replace(".ui:cff:copyValueTo", ""),
+                    //     to: fieldValue
+                    // })
                 }
                 else if (~fieldPath.indexOf(".ui:cff:display:if:specified")) {
                     // Show field only if it's in the specified show fields attribute.
@@ -183,7 +182,7 @@ export module CreateSchemas {
                     set(uiSchema, fieldPath, fieldValue);
                 }
             }
-            else if (!fieldValue) {
+            else if (typeof fieldValue === 'undefined' || fieldValue === false) {
                 // Should not be called.
                 // Removes any config that might have been copied over to uiSchema.
                 // unset(uiSchema, fieldPath);
@@ -198,7 +197,7 @@ export module CreateSchemas {
             else if (typeof fieldValue == "boolean") { // including or excluding a field.
             }
             else {
-                //console.log("setting ", fieldPath, schemaFieldPath);
+                console.log("setting ", fieldPath, schemaFieldPath, fieldValue);
                 set(schema.properties, schemaFieldPath, fieldValue);
             }
         }
