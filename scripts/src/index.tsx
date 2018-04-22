@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import "./common/main.scss";
 import * as DOMPurify from 'dompurify';
-import Amplify from 'aws-amplify';
+import Amplify, {Auth} from 'aws-amplify';
 
 declare var MODE: string;
 declare var VERSION: string;
@@ -58,6 +58,14 @@ DOMPurify.addHook('afterSanitizeAttributes', function (node) {
   // set all elements owning target to target=_blank
   if ('target' in node) {
     node.setAttribute('target', '_blank');
+  }
+});
+
+Auth.currentCredentials().then(creds => {
+  if (!creds || creds.expired) {
+      Auth.signOut();
+      window.location.href = "";
+      return;
   }
 });
 
