@@ -36,6 +36,9 @@ Todo:
 - hide title "Payment" in form loading
 - Let minItems be specified dynamically based on other values.
 
+## 1.3.5 (4/22/18)
+- Fix bug: If specified show fields is not specified, it should still work.
+
 ## 1.3.4 (4/22/18)
 - Set ui:cff:updateFromField's value to ui:cff:defaultValue if necessary
 - Specify JSON to override schemaModifier in data-ccmt-cff-specified-show-fields (lets you create custom forms with 1 participant, 2 participants, or hidden stuff, etc.)

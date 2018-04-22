@@ -68,4 +68,6 @@ To let anyone do manual entry, do:
 
 ## Other use cases / examples
 - Show additionalDonation and manualPayment:
-[ccmt-cff-render-form id="5c243e61-5407-402b-a89b-5190c46d0d05" specifiedShowFields="additionalDonation, manualPayment"]
+[ccmt-cff-render-form id="5c243e62-5407-402b-a89b-5190c46d0d05" specifiedShowFields="additionalDonation, manualPayment"]
+now:specifiedShowFields
+[ccmt-cff-render-form id="5c243e62-5407-402b-a89b-5190c46d0d05" specified-show-fields='{"participants": "minItems": 1}']
