@@ -20,5 +20,7 @@
 }
 ```
 
+NOTE: ```toField``` can also be an array.
+
 `modifyLink`: overrides default modify link (which is the page url)
 Use case: you have an admin form (with manualEntry), but you want people when they submit and then edit from confirmation email, the link should link back to the regular form.
