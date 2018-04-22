@@ -123,7 +123,8 @@ export module CreateSchemas {
                     to: isUiSchemaKey(fieldKeyName) ? fieldPath : `properties.${schemaFieldPath}`,
                     which: isUiSchemaKey(fieldKeyName) ? "uiSchema" : "schema"
                 });
-                fieldValue = 0; //todo: do a better more sensible default, based on schema type.
+                // replace replaces the last part after the last dot:
+                fieldValue = get(flattenedSchemaModifier, fieldPath.replace(/\.[^.]*?$/, ".ui:cff:defaultValue") , 0); //todo: do a better more sensible default, based on schema type.
                 flattenedSchemaModifier[fieldPath] = fieldValue;
             }
 
