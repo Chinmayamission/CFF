@@ -34,11 +34,13 @@ clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 
 Todo:
 - hide title "Payment" in form loading
-- Minify vendor bundle js file.
-- Create [version#] instead of [chunkhash] webpack gen. files.
+- Let minItems be specified dynamically based on other values.
 
 ## 1.3.2 (tbd)
-- Use cloudfront invalidations instead of versioning script names, so that script urls are constant (for use with wordpress plugin)
+- Make minItems work in schemaModifier
+- Add some jest unit tests
+- Refactor some of schema expression parsing code
+- In deploy.py script: Use cloudfront invalidations instead of versioning script names, so that script urls are constant (for use with wordpress plugin)
 
 ## 1.3.1 (4/21/2018)
 - Package webpack into only two js files (so it works with forms on the WP plugin).

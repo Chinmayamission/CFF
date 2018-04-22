@@ -5,7 +5,7 @@ const DELIM_VALUE = "ASKLDJAKSLDJ12903812";
 const SPACE_VALUE = "AJSID2309483ASFSDLJF";
 
 export module ExpressionParser {
-    function dict_array_to_sum_dict(original, key_value_eq) {
+    export function dict_array_to_sum_dict(original, key_value_eq=null) {
         /*
         Converts array of dictionaries to a single dictionary consisting of the sum.
         >>> dict_array_to_sum_dict([{"a":2, "b":5}, {"a":1, "b":6}]) 
