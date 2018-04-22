@@ -184,11 +184,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
   onSubmit(data: { formData: {} }) {
     var formData = data.formData;
-    var instance = axios.create({
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
 
     this.setState({ajaxLoading: true});
     API.post("CFF", `forms/${this.props.formId}/responses`, {
@@ -276,7 +271,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         }
       }
     }
-    formData = pickBy(formData, v => v !== undefined);
+    // formData = pickBy(formData, v => v !== undefined);
     if (needUpdateSchemas) {
       this.setState({"data": formData, schema, uiSchema});
     }
@@ -345,10 +340,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           ArrayFieldTemplate={ArrayFieldTemplate}
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}
-          onChange={(e) => {this.onChange(e)}}
+          // onChange={(e) => {this.onChange(e)}}
           onFocus={(e, v) => {this.onFocus(e, v)}}
           onSubmit={(e) => this.onSubmit(e)}
-          onError={(e) => this.scrollToTop()}
+          onError={(e) => {console.error(e); this.scrollToTop()}}
           showErrorList={true}
           ErrorList={ErrorListTemplate}
           validate={(a, b) => this.validate(a, b)}
