@@ -36,7 +36,7 @@ Todo:
 - hide title "Payment" in form loading
 - Let minItems be specified dynamically based on other values.
 
-## 1.3.3
+## 1.3.3 (4/22/18)
 - Add updateFromField option (see docs/updateFromField.md)
 - Show headers on each row of array field by default
 - Upgrade RJF to 1.0.3 (from 0.5!)
