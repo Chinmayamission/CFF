@@ -60,13 +60,19 @@ def send_confirmation_email(response, confirmationEmailInfo):
         if "contentFooter" in confirmationEmailInfo:
             msgBody += confirmationEmailInfo["contentFooter"]
         # todo: check amounts and Completed status, and then send.
-        send_email(toEmail=get(response["value"], toField),
+        
+        if type(toField) is not list:
+            toField = [toField]
+
+        kwargs = dict(toEmail=[get(response["value"], i) for i in toField],
                             fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
                             fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
                             subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
                             bccEmail=confirmationEmailInfo.get("bcc", ""),
                             ccEmail=confirmationEmailInfo.get("cc", ""),
                             msgBody=msgBody)
+        send_email(**kwargs)
+        return kwargs
 
 def send_email(
     toEmail="aramaswamis@gmail.com",
@@ -93,14 +99,17 @@ def send_email(
     if toEmail and type(toEmail) is str: toEmail = toEmail.split(",")
     if ccEmail and type(ccEmail) is str: ccEmail = ccEmail.split(",")
     if bccEmail and type(bccEmail) is str: bccEmail = bccEmail.split(",")
-    
+    toEmail = [email for email in toEmail if email] if toEmail else []
+    ccEmail = [email for email in ccEmail if email] if ccEmail else []
+    bccEmail = [email for email in bccEmail if email] if bccEmail else []
+
     try:
         response = client.send_email(
             Source=SENDER,
             Destination={
-                'ToAddresses': toEmail or [],
-                'CcAddresses': ccEmail or [],
-                'BccAddresses': bccEmail or [],
+                'ToAddresses': toEmail,
+                'CcAddresses': ccEmail,
+                'BccAddresses': bccEmail
             },
             Message={
                 'Subject': {

@@ -1,5 +1,6 @@
-# todo
-- add modify_permissions.
+
+# 1.1.1 (4/21/18)
+- Allow an array to be specified in confirmationEmailInfo.toField, also if email is undefined it won't break but will just skip that one.
 
 # 1.1.0 (4/20/18) (frontend 1.3.0)
 - Add code for new form submit.
