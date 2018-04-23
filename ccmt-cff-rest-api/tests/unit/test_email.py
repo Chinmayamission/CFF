@@ -6,7 +6,6 @@ from chalicelib.util.formSubmit.emailer import send_confirmation_email
 from tests.integration.constants import _
 import unittest
 from botocore.exceptions import ClientError
-
 CONFIRMATION_EMAIL_INFO = {
     "cc": None,
     "image": "http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png",

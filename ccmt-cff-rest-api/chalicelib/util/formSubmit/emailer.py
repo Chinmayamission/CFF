@@ -74,6 +74,12 @@ def send_confirmation_email(response, confirmationEmailInfo):
         send_email(**kwargs)
         return kwargs
 
+def email_to_html_text(msgBody):
+    BODY_TEXT = html2text.html2text(msgBody)
+    # The HTML body of the email.
+    BODY_HTML = Pynliner().from_string(msgBody).with_cssString(ccmt_email_css).run() # bleach.linkify(bleach.clean(msgBody))
+    return BODY_TEXT, BODY_HTML
+
 def send_email(
     toEmail="aramaswamis@gmail.com",
     fromEmail="webmaster@chinmayamission.com",
@@ -88,10 +94,7 @@ def send_email(
     SENDER = "{} <{}>".format(fromName, fromEmail)
     # If necessary, replace us-west-2 with the AWS Region you're using for Amazon SES.
     AWS_REGION = "us-east-1"
-    # The email body for recipients with non-HTML email clients.
-    BODY_TEXT = html2text.html2text(msgBody)
-    # The HTML body of the email.
-    BODY_HTML = Pynliner().from_string(msgBody).with_cssString(ccmt_email_css).run() # bleach.linkify(bleach.clean(msgBody))
+    BODY_TEXT, BODY_HTML = email_to_html_text(msgBody)
     # The character encoding for the email.
     CHARSET = "utf-8"
     client = boto3.client('ses',region_name=AWS_REGION)
