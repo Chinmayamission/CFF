@@ -35,6 +35,11 @@ clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
 Todo:
 - hide title "Payment" in form loading
 - Let minItems be specified dynamically based on other values.
+- Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
+
+## 1.3.6 (4/23/18)
+- Make the form work on Internet Explorer by compiling code for older browsers
+- Remove some old code / clean up code.
 
 ## 1.3.5 (4/22/18)
 - Fix bug: If specified show fields is not specified, it should still work.
