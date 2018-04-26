@@ -1,6 +1,6 @@
 import { set, unset, get, isArray } from 'lodash-es';
 import SchemaUtil from "./SchemaUtil";
-import * as deref from "json-schema-deref-sync";
+import * as deref from "json-schema-deref-sync/dist";
 import { flatten } from 'flat';
 
 interface IResult {

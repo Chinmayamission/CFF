@@ -7,6 +7,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var pjson = require('./package.json');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
 const DEST_URL = FORMBUILDER_URL + "/prod";
@@ -17,6 +18,12 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(DEST_URL)
   },
+  // plugins: [
+  //     // new UglifyJsPlugin(/* ... */),
+  //     new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
+  //     new webpack.optimize.ModuleConcatenationPlugin(),
+  //     new webpack.NoEmitOnErrorsPlugin()
+  // ],
   // optimization: {
   //   minimizer: [
   //     new OptimizeCSSAssetsPlugin({})

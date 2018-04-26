@@ -54,7 +54,7 @@ module.exports = {
         test: [/\.tsx?$/],
         exclude: [/node_modules/, /\.test.tsx?$/],
         // exclude: [/node_modules/, /\.test.tsx?$/],
-        // exclude: [/node_modules\/(?!(react-dom|react)\/).*/, /\.test.tsx?$/],
+        // exclude: [/node_modules\/(?!(json-schema-deref-sync)\/).*/, /\.test.tsx?$/],
         // exclude: /node_modules\/(?![module1|module2])/
         use:
           [
