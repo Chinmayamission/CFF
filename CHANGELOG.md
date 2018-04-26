@@ -37,6 +37,10 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.8 (4/26/18)
+- Add onChange handler back again, so payment table updates in real time.
+- Fix jest tests
+
 ## 1.3.7 (4/26/18)
 - Fix IE 11 issue by referencing "json-schema-deref-sync/dist" for now.
 - Fix calculation of PAYMENT_INFO_ROUNDOFF, etc.
