@@ -340,7 +340,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           ArrayFieldTemplate={ArrayFieldTemplate}
           ObjectFieldTemplate={ObjectFieldTemplate}
           transformErrors={transformErrors}
-          // onChange={(e) => {this.onChange(e)}}
+          onChange={(e) => {this.onChange(e)}}
           onFocus={(e, v) => {this.onFocus(e, v)}}
           onSubmit={(e) => this.onSubmit(e)}
           onError={(e) => {console.error(e); this.scrollToTop()}}
