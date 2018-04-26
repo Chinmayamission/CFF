@@ -37,12 +37,12 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
-## 1.3.7 (tbd)
-- Remove template literals on json-schema-deref-sync library (temp. fix -- need to fix properly later), so that it really works on IE.
+## 1.3.7 (4/26/18)
+- Fix IE 11 issue by referencing "json-schema-deref-sync/dist" for now.
 - Fix calculation of PAYMENT_INFO_ROUNDOFF, etc.
 
 ## 1.3.6 (4/23/18)
-- Make the form work on Internet Explorer by compiling code for older browsers
+- Make the form work on Internet Explorer by compiling code for older browsers (actually, this doesn't work)
 - Remove some old code / clean up code.
 
 ## 1.3.5 (4/22/18)
