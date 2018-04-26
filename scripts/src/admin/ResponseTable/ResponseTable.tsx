@@ -50,6 +50,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         }
     }
     formatPayment(total, currency="USD") {
+        if (!total) total = 0;
         if (Intl && Intl.NumberFormat) {
             return Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(total);
         }
@@ -104,16 +105,27 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 // todo: what to do when donationAmount and roundOff are specified as different?
                 let donationItem = find(e.paymentInfo.items, i => ~i.name.toLowerCase().indexOf("donation") || ~i.name.toLowerCase().indexOf("donation"));
                 let hasRoundOff = e.value.roundOff == true;
+                let roundOffAmount = 0;
+                let donationAmount = 0;
+                let additionalDonationAmount = 0;
+                let nonDonationAmount = 0;
                 if (donationItem) {
-                    let roundOffAmount = 0;
-                    if (hasRoundOff && e.value.additionalDonation) {
-                        // Set round off item equal to the total donation amount minus the "aditional donation"
-                        roundOffAmount = donationItem.amount - e.value.additionalDonation;
-                        this.setRow("PAYMENT_INFO_ROUNDOFF", this.formatPayment(roundOffAmount), valueToAssign, headerNamesToShow);
+                    if (hasRoundOff) {
+                        // Set round off item equal to the total donation amount minus the "additional donation"
+                        roundOffAmount = donationItem.amount - (e.value.additionalDonation || 0);
                     }
-                    this.setRow("PAYMENT_INFO_DONATION", this.formatPayment(donationItem.amount), valueToAssign, headerNamesToShow);
-                    this.setRow("PAYMENT_INFO_NON_DONATION", this.formatPayment(e.paymentInfo.total - donationItem.amount - roundOffAmount), valueToAssign, headerNamesToShow);
+                    donationAmount = donationItem.amount;
+                    additionalDonationAmount = e.value.additionalDonation || 0;
                 }
+                else {
+                    donationAmount = 0;
+                    roundOffAmount = 0;
+                }
+                nonDonationAmount = e.paymentInfo.total - additionalDonationAmount - roundOffAmount;
+                this.setRow("PAYMENT_INFO_ROUNDOFF", this.formatPayment(roundOffAmount), valueToAssign, headerNamesToShow);
+                // this.setRow("PAYMENT_INFO_DONATION", this.formatPayment(donationAmount), valueToAssign, headerNamesToShow);
+                this.setRow("PAYMENT_INFO_ADDITIONAL_DONATION", this.formatPayment(additionalDonationAmount), valueToAssign, headerNamesToShow);
+                this.setRow("PAYMENT_INFO_NON_DONATION", this.formatPayment(nonDonationAmount), valueToAssign, headerNamesToShow);
                 assign(e.value, valueToAssign);
                 this.setState({tableDataOrigObject: data});
                 return e.value;

@@ -75,6 +75,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.setState({"status": STATUS_CENTER_LIST});
     }
     handleError(e) {
+        console.error(e);
         this.setState({"hasError": true});
     }
     componentDidCatch(error, info) {

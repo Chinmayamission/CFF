@@ -31,9 +31,9 @@ module.exports = {
   },
   plugins: [
     new HardSourceWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "[name].[contenthash].css"
-    }),
+    // new MiniCssExtractPlugin({
+    //   filename: "[name].[contenthash].css"
+    // }),
     new webpack.DefinePlugin({
       VERSION: `"${pjson.version}"`
     }),
@@ -51,8 +51,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: [/\.tsx?$/],
         exclude: [/node_modules/, /\.test.tsx?$/],
+        // exclude: [/node_modules/, /\.test.tsx?$/],
+        // exclude: [/node_modules\/(?!(react-dom|react)\/).*/, /\.test.tsx?$/],
+        // exclude: /node_modules\/(?![module1|module2])/
         use:
           [
             {
@@ -62,10 +65,15 @@ module.exports = {
                 "presets": [
                   ["env", {
                     "targets": {
-                      "browsers": "> 2%"
+                      "browsers": [
+                        "Explorer 11",
+                        "> 5%"
+                      ]
                     }
                   }]
-                ]
+                ],
+                plugins: [require("babel-plugin-transform-class-properties"), require("babel-plugin-transform-es2015-arrow-functions"), require("babel-plugin-transform-es3-member-expression-literals"), require("babel-plugin-transform-es3-property-literals")]
+                // plugins: ["@babel/plugin-transform-template-literals"]
               }
             },
             {
@@ -97,13 +105,3 @@ module.exports = {
   },
   mode: 'development'
 };
-
-function isExternal(module) {
-  var context = module.context;
-
-  if (typeof context !== 'string') {
-    return false;
-  }
-
-  return context.indexOf('node_modules') !== -1;
-}
