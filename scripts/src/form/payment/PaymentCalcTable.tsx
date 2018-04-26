@@ -40,6 +40,7 @@ class PaymentCalcTable extends React.Component<IPaymentCalcTableProps, IPaymentC
     }
     render() {
         let paymentInfo = this.calculatePaymentInfo(this.props.paymentCalcInfo, this.props.formData);
+        if (!paymentInfo.items.length) return null;
         return (
             <PaymentTable paymentInfo={paymentInfo} />
         );
