@@ -239,7 +239,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     console.warn("Change is here.");
     let formData = e.formData;
     let schema = (this.state.schema);
-    console.log(schema.properties.participants.minItems);
     let uiSchema = (this.state.uiSchema);
     let needUpdateSchemas = false;
     console.log(this.state.focusUpdateInfo);
@@ -325,7 +324,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         <Loading hasError={this.state.hasError} />
       );
     } // else if (this.state.status == STATUS_FORM_RENDERED) {
-    console.log(this.state.schema.properties.participants.minItems);
     // return         <Form
     // schema={this.state.schema}
     // uiSchema={this.state.uiSchema} widgets={widgets} onChange={(e) => {this.onChange(e)}} />;
