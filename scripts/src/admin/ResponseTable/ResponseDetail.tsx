@@ -30,9 +30,9 @@ class ResponseDetail extends React.Component<{data: any, formId: string, respons
     getColorFromRace(race) {
         switch (race) {
             case "Mela": return "#a4c2f4";
-            case "Half Marathon": return "#ff0000";
+            case "Half Marathon": return "#ff4e50";
             case "5K": return "#00ff00";
-            case "10K":
+            case "10K": return "#fcfbe3"
             default: return "#ffffff";
         }
     }
