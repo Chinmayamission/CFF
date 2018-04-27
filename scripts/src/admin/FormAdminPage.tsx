@@ -115,21 +115,21 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             <div className="App FormAdminPage">
             {this.state.user.id &&
                 <Switch>
-                    <Route path="/" exact render={(props) =>
+                    <Route path="/admin/" exact render={(props) =>
                         <CenterList {...props} user={this.state.user} onError={e => this.onUnauth(e)} />
                     }/>
-                    <Route path="/:centerSlug/:centerId" exact render={(props) =>
+                    <Route path="/admin/:centerSlug/:centerId" exact render={(props) =>
                         <CenterList {...props} selectedCenter={true} user={this.state.user} onError={e => this.onUnauth(e)} />
                     }/>
-                    <Route path="/" render={(props) =>
+                    <Route path="/admin/" render={(props) =>
                         <CenterList {...props} selectedCenter={true} selectedForm={true} user={this.state.user} onError={e => this.onUnauth(e)} />
                     }/>
                 </Switch>
             }
-            <Route path="/:centerSlug/:centerId" exact render={props =>
+            <Route path="/admin/:centerSlug/:centerId" exact render={props =>
                 <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
             }/>
-            <Route path="/:centerSlug/:centerId/:formId" component={FormPages} />
+            <Route path="/admin/:centerSlug/:centerId/:formId" component={FormPages} />
             <footer className="ccmt-cff-admin-footer">
                 <div className="container">
                     <span className="text-muted">Chinmaya Forms Framework, version {VERSION}</span>
@@ -142,21 +142,21 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
 }
 function FormPages() {
     return (<Switch>
-        <Route path='/:centerSlug/:centerId/:formId/responses' exact render={({match}) => <Redirect to={`/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responses/all`} />} />
-        <Route path='/:centerSlug/:centerId/:formId/responsesEdit' exact render={({match}) => <Redirect to={`/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responsesEdit/all`} />} />
-        <Route path="/:centerSlug/:centerId/:formId/responses/:tableViewName" render={props =>
+        <Route path='/admin/:centerSlug/:centerId/:formId/responses' exact render={({match}) => <Redirect to={`/admin/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responses/all`} />} />
+        <Route path='/admin/:centerSlug/:centerId/:formId/responsesEdit' exact render={({match}) => <Redirect to={`/admin/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responsesEdit/all`} />} />
+        <Route path="/admin/:centerSlug/:centerId/:formId/responses/:tableViewName" render={props =>
             <ResponseTable key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
         }/>
-        <Route path="/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
+        <Route path="/admin/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
             <ResponseTable key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
         }/>
-        <Route path="/:centerSlug/:centerId/:formId/edit" render={props =>
+        <Route path="/admin/:centerSlug/:centerId/:formId/edit" render={props =>
             <FormEdit key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>
-        <Route path="/:centerSlug/:centerId/:formId/summary" render={props =>
+        <Route path="/admin/:centerSlug/:centerId/:formId/summary" render={props =>
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>
-        <Route path="/:centerSlug/:centerId/:formId/share" render={props =>
+        <Route path="/admin/:centerSlug/:centerId/:formId/share" render={props =>
             <FormShare key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>
     </Switch>);

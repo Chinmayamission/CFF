@@ -18,7 +18,7 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
             let centerList = e.res;
             this.setState({ centerList });
             if (centerList.length && !this.props.selectedCenter) {
-                this.props.history.push(`/${centerList[0].name}/${centerList[0].id}`);
+                this.props.history.push(`/admin/${centerList[0].name}/${centerList[0].id}`);
             }
         }).catch(e => this.props.onError(e));
     }
@@ -39,7 +39,7 @@ class CenterList extends React.Component<ICenterListProps, ICenterListState> {
                     </li>
                     {this.state.centerList && this.state.centerList.map(e => 
                         <li className="nav-item" key={e.id}>
-                            <NavLink className="nav-link" to={`/${e.name}/${e.id}`}>
+                            <NavLink className="nav-link" to={`/admin/${e.name}/${e.id}`}>
                                 {e.name}
                             </NavLink>
                         </li>

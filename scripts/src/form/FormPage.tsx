@@ -144,6 +144,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidMount() {
+    console.log(this.props);
     // let queryObjFlat = queryString.parse(location.hash);
     // if (queryObjFlat["payment_success"] == "1") {
     //   this.setState({"status": STATUS_FORM_PAYMENT_SUCCESS});

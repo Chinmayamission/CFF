@@ -8,7 +8,10 @@ interface IWithAuthenticatorProps {
 interface IFormAdminPageProps extends IWithAuthenticatorProps {
     apiEndpoint: string,
     apiKey: string,
-    federated: any
+    federated: any,
+    match: {
+        url: string
+    }
 }
 interface ISharedAdminProps {
     apiEndpoint: string,

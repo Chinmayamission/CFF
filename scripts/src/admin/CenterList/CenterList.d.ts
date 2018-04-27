@@ -10,7 +10,10 @@ interface ICenterListProps {
     user: IUserItem,
     history: {goBack: () => void, push: (string) => void},
     selectedCenter?: boolean,
-    selectedForm?: boolean
+    selectedForm?: boolean,
+    match: {
+        url: string
+    }
 }
 interface IUserItem {
     id: string,

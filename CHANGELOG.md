@@ -37,6 +37,10 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.12 (4/27/18)
+- Allow arbitrary forms to be rendered on CFF website, too (and included as an iframe). Thus, move urls: https://cff.chinmayamission.com/admin and https://cff.chinmayamission.com/form/asjdlajskdl&specifiedShowFields={"title":"HU"}
+- Create 
+
 ## 1.3.11 (4/27/18)
 - Bug fix: Don't check them in by default!
 - Disable hard source webpack plugin for now, doesn't work.
