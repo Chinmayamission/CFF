@@ -40,7 +40,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Chinmaya Forms Framework Admin',
       template: './scripts/src/index.html',
-      filename: "index.html"
+      filename: `index.${pjson.version}.html`
     }),
     new HtmlWebpackPlugin({
         title: 'Chinmaya Forms Framework Form',

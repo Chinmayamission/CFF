@@ -39,7 +39,7 @@ Todo:
 
 ## 1.3.12 (4/27/18)
 - Allow arbitrary forms to be rendered on CFF website, too (and included as an iframe). Thus, move urls: https://cff.chinmayamission.com/admin and https://cff.chinmayamission.com/form/asjdlajskdl&specifiedShowFields={"title":"HU"}
-- Create 
+- Build two versions of the script -- app.js (for wordpress) and app.[version].js (for CFF website), fixing cache problem for wordpress websites.
 
 ## 1.3.11 (4/27/18)
 - Bug fix: Don't check them in by default!

@@ -13,11 +13,8 @@ const FORMBUILDER_URL = "./scripts";
 const DEST_URL = FORMBUILDER_URL + "/prod";
 
 const MODE = "prod";
-module.exports = merge(common, {
+let prod_named_versions = merge(common, {
   mode: 'production',
-  output: {
-    path: path.resolve(DEST_URL)
-  },
   // plugins: [
   //     // new UglifyJsPlugin(/* ... */),
   //     new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
@@ -40,14 +37,13 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(DEST_URL),
     publicPath: '/',
-    filename: 'cff.[name].js'
+    filename: `cff.[name].${pjson.version}.js`
     // filename: `[name].${pjson.version}.js`
   },
   plugins: [
     // new MiniCssExtractPlugin({
     //   filename: `[name].${pjson.version}.css`
     // }),
-     new CleanWebpackPlugin([DEST_URL]),
      new HtmlWebpackPlugin({
         title: 'Chinmaya Forms Framework Admin',
         template: './scripts/src/index.html',
@@ -60,3 +56,17 @@ module.exports = merge(common, {
   ]
 });
 
+let prod_not_named_versions = merge(prod_named_versions, {
+  mode: 'production',
+  output: {
+    filename: 'cff.[name].js'
+  },
+  plugins: [
+    new CleanWebpackPlugin([DEST_URL]),
+    new webpack.DefinePlugin({
+      MODE: `"${MODE}"`
+    })
+  ]
+});
+
+module.exports = [prod_not_named_versions, prod_named_versions];
