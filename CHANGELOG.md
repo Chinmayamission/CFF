@@ -37,8 +37,34 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
-## 1.3.10 (tbd)
-- properly override top level required field in schema
+Allow complete customization of tables in dataOptions:
+```
+  "tables": [
+    {
+      "title": "Check In",
+      "unwindBy": "registrants",
+      "columnOrder": ["name.first", "name.last", "email"],
+      "omrunCheckin": true
+    }
+  ]
+```
+For now:
+```
+"mainTable": {
+  "columnOrder": [],
+  "aggregateCols": [
+    "PAID",
+    "race"
+  ],
+  "omrunCheckin": true
+}
+```
+
+## 1.3.10 (4/27/18)
+- Properly override top level required field in schema
+- Only show checkin information if "omrunCheckin" is true.
+- Add response checkin functionality (can only do if you have response edit permissions.)
+- Bring the columns in columnOrder to the front; still keep the other columns though.
 
 ## 1.3.9 (4/26/18)
 - Hide payment info table if no rows found.
@@ -65,7 +91,7 @@ Todo:
 ## 1.3.3 (4/22/18)
 - Add updateFromField option (see docs/updateFromField.md)
 - Show headers on each row of array field by default
-- Upgrade RJF to 1.0.3 (from 0.5!)
+- Upgrade RJF to 1.0.3 (from 0.5!) *BREAKING CHANGE* - uses ajv json validator, so required has to be an array, not a boolean anymore.
 
 ## 1.3.2 (4/21/18)
 - Make minItems work in schemaModifier
