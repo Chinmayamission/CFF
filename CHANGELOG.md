@@ -36,10 +36,12 @@ Todo:
 - hide title "Payment" in form loading
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
-- Fix "required" fields problem.
+
+## 1.3.10 (tbd)
+- properly override top level required field in schema
 
 ## 1.3.9 (4/26/18)
-- Hide payment info table if no rows found
+- Hide payment info table if no rows found.
 
 ## 1.3.8 (4/26/18)
 - Add onChange handler back again, so payment table updates in real time.

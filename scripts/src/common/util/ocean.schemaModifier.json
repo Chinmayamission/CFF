@@ -1,0 +1,80 @@
+{
+  "description": "<b>Registration fee includes camp fee, food, and accommodation.</b>",
+  "required": [
+    "participants",
+    "address",
+    "emergency_contact"
+  ],
+  "ui:order": [
+    "participants",
+    "address",
+    "emergency_contact"
+  ],
+  "address": {
+    "zipcode": {
+      "classNames": "fiveColumn"
+    },
+    "state": {
+      "classNames": "fiveColumn"
+    },
+    "city": {
+      "classNames": "fiveColumn"
+    },
+    "line2": {
+      "classNames": "fiveColumn"
+    },
+    "line1": {
+      "classNames": "fiveColumn"
+    }
+  },
+  "title": "Ocean's Eighteen Registration Form",
+  "emergency_contact": {
+    "full_name": {
+      "title": "Emergency Contact Name",
+      "classNames": "threeColumn"
+    },
+    "title": " ",
+    "phone": {
+      "title": "Emergency Contact Phone",
+      "classNames": "threeColumn"
+    },
+    "required": [
+      "full_name",
+      "phone"
+    ]
+  },
+  "participants": {
+    "minItems": 1,
+    "description": " ",
+    "ui:options": {
+      "addable": false
+    },
+    "title": "Registrants",
+    "items": {
+      "name": {
+        "classNames": "twoColumn",
+        "last": {
+          "classNames": "col-12 col-sm-6"
+        },
+        "required": [
+          "last",
+          "first"
+        ],
+        "first": {
+          "classNames": "col-12 col-sm-6"
+        }
+      },
+      "phone": {
+        "classNames": "fourColumn"
+      },
+      "email": {
+        "classNames": "fourColumn"
+      },
+      "required": [
+        "name",
+        "phone",
+        "email"
+      ]
+    }
+  }
+}

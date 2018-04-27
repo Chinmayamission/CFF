@@ -1,0 +1,262 @@
+{
+  "description": "<b>Camp</b> registration training form.",
+  "required": ["a"],
+  "ui:order": [
+    "number_participants",
+    "email",
+    "phone",
+    "address",
+    "participants",
+    "emergency_contact",
+    "cause",
+    "howHeard",
+    "acceptTerms",
+    "additionalDonation",
+    "roundOff",
+    "couponCode",
+    "manualEntry"
+  ],
+  "title": "Camp Registration Training Form",
+  "type": "object",
+  "definitions": {
+    "name": {
+      "ui:order": [
+        "first",
+        "last"
+      ],
+      "title": " ",
+      "type": "object",
+      "properties": {
+        "last": {
+          "classNames": "twoColumn",
+          "title": "Last Name",
+          "type": "string",
+          "ui:placeholder": "Last Name"
+        },
+        "first": {
+          "classNames": "twoColumn",
+          "title": "First Name",
+          "type": "string",
+          "ui:placeholder": "First Name"
+        }
+      },
+      "required": [
+        "first",
+        "last"
+      ]
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "ui:cff:nonModifiable": true,
+      "format": "email",
+      "type": "string",
+      "ui:placeholder": "Email Address"
+    },
+    "emergency_contact": {
+      "ui:order": [
+        "name",
+        "full_name",
+        "phone"
+      ],
+      "title": "Emergency Contact Name",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "object",
+          "properties": {
+            "last": {
+              "title": "Contact Last Name",
+              "type": "string",
+              "classNames": "twoColumn"
+            },
+            "first": {
+              "title": "Contact First Name",
+              "type": "string",
+              "classNames": "twoColumn"
+            }
+          },
+          "required": [
+            "last",
+            "first"
+          ]
+        },
+        "phone": {
+          "type": "string"
+        },
+        "full_name": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "properties": {
+    "manualEntry": {
+      "title": "Method of Payment",
+      "type": "string",
+      "enum": [
+        "Cash",
+        "Check",
+        "Other"
+      ]
+    },
+    "additionalDonation": {
+      "ui:widget": "cff:money",
+      "description": "All Donations are Tax-Deductible.",
+      "title": "Additional Donation",
+      "type": "number",
+      "minimum": 0
+    },
+    "howHeard": {
+      "type": "string"
+    },
+    "address": {
+      "ui:order": [
+        "line1",
+        "line2",
+        "city",
+        "state",
+        "zipcode"
+      ],
+      "type": "object",
+      "properties": {
+        "zipcode": {
+          "type": "string",
+          "classNames": "threeColumn"
+        },
+        "state": {
+          "type": "string",
+          "classNames": "threeColumn"
+        },
+        "city": {
+          "type": "string",
+          "classNames": "threeColumn"
+        },
+        "line2": {
+          "title": "Address Line 2",
+          "type": "string"
+        },
+        "line1": {
+          "title": "Address Line 1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "line1",
+        "line2",
+        "city",
+        "state",
+        "zipcode"
+      ]
+    },
+    "acceptTerms": {
+      "title": "Accept Terms and Conditions",
+      "type": "boolean",
+      "description": "I agree to the Terms and Conditions."
+    },
+    "cause": {
+      "title": "Support a cause",
+      "type": "string"
+    },
+    "phone": {
+      "$ref": "#/definitions/phone"
+    },
+    "number_participants": {
+      "type": "number"
+    },
+    "roundOff": {
+      "ui:widget": "cff:roundOff",
+      "title": "Round off",
+      "type": "boolean"
+    },
+    "couponCode": {
+      "ui:widget": "cff:couponCode",
+      "description": "Coupon will be applied at checkout.",
+      "title": "Coupon Code",
+      "type": "string"
+    },
+    "email": {
+      "$ref": "#/definitions/email"
+    },
+    "emergency_contact": {
+      "$ref": "#/definitions/emergency_contact"
+    },
+    "participants": {
+      "minItems": 1,
+      "ui:options": {
+        "addable": true,
+        "orderable": false
+      },
+      "title": "Participants",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "ui:order": [
+          "name",
+          "gender",
+          "phone",
+          "email",
+          "age",
+          "race",
+          "shirt_size",
+          "has_bib_name",
+          "bib_name",
+          "bib_number"
+        ],
+        "properties": {
+          "gender": {
+            "type": "string",
+            "enum": [
+              "M",
+              "F"
+            ],
+            "ui:placeholder": "Select gender"
+          },
+          "has_bib_name": {
+            "title": "Personalize your Bib?",
+            "type": "boolean"
+          },
+          "race": {
+            "type": "string",
+            "ui:placeholder": "Select race"
+          },
+          "bib_name": {
+            "title": "Personalized Bib Name",
+            "type": "string"
+          },
+          "phone": {
+            "$ref": "#/definitions/phone"
+          },
+          "shirt_size": {
+            "title": "T Shirt Size",
+            "type": "string",
+            "enum": [
+              "Youth S",
+              "Youth M",
+              "Youth L",
+              "Adult S",
+              "Adult M",
+              "Adult L"
+            ],
+            "ui:placeholder": "Select T-Shirt Size"
+          },
+          "bib_number": {
+            "type": "string"
+          },
+          "name": {
+            "$ref": "#/definitions/name"
+          },
+          "age": {
+            "type": "number",
+            "ui:placeholder": "Age"
+          },
+          "email": {
+            "$ref": "#/definitions/email"
+          }
+        }
+      },
+      "uniqueItems": true
+    }
+  }
+}

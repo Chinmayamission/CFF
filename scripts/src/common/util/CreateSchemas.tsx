@@ -134,7 +134,7 @@ export module CreateSchemas {
                 flattenedSchemaModifier[fieldPath] = fieldValue;
             }
 
-            if (~["title", "description"].indexOf(fieldPath)) {
+            if (~["title", "description"].indexOf(fieldPath) || fieldPath == "required") {
                 // Top-level modifications.
                 schema[fieldPath] = fieldValue;
             }
