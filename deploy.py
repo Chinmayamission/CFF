@@ -23,8 +23,8 @@ print("Version is {}".format(VERSION))
 BUCKET = "cff.chinmayamission.com"
 CLOUDFRONT_ID = "EF7WSN5FPDLRR"
 CLOUDFRONT_ORIGIN_PATH = "/{}".format(VERSION)
-# CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(VERSION)
-CLOUDFRONT_INDEX_PAGE_PATH = "/index.html"
+CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(VERSION)
+# CLOUDFRONT_INDEX_PAGE_PATH = "/index.html"
 
 ## UPLOAD TO S3 BUCKET
 
