@@ -1,3 +1,6 @@
+# 1.1.3 (4/26/18)
+- Cache all responses every 100 seconds, so it's not *super* slow.
+
 # 1.1.2 (4/23/18)
 - Use Flatterdict -- fix lists not flattening in emails sent.
 - refactor some email sending code, tests

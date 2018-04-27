@@ -15,6 +15,6 @@ def form_response_summary(formId):
         Key=form["schemaModifier"],
         ProjectionExpression="dataOptions"
     )["Item"].get("dataOptions", {})
-    responses = get_all_responses(KeyConditionExpression=Key('formId').eq(formId), FilterExpression=Key('PAID').eq(True))
+    responses = get_all_responses(hash_name="form responses paid {}".format(formId), KeyConditionExpression=Key('formId').eq(formId), FilterExpression=Key('PAID').eq(True))
     result = aggregate_data(dataOptions, responses)
     return {"res": result}
