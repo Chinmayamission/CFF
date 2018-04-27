@@ -68,7 +68,7 @@ class ResponseDetail extends React.Component<{data: any, formId: string, respons
         // }
     ];
     let i = 0;
-    let tableData = this.state.data.value.participants.map(e => Object.assign({"cff_accessor": `participants.${i++}`, "bib_number": "55", "check_in": true}, e));
+    let tableData = this.state.data.value.participants.map(e => Object.assign({"cff_accessor": `participants.${i++}`}, e));
     let showOmrunTable = get(this.props.dataOptions, "mainTable.omrunCheckin") == true;
         return (
             <div className="container-fluid" key={this.props.responseId}>

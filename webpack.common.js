@@ -30,7 +30,7 @@ module.exports = {
     filename: "[name].[chunkhash].js"
   },
   plugins: [
-    new HardSourceWebpackPlugin(),
+    // new HardSourceWebpackPlugin(),
     // new MiniCssExtractPlugin({
     //   filename: "[name].[contenthash].css"
     // }),

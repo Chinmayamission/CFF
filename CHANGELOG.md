@@ -37,28 +37,9 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
-Allow complete customization of tables in dataOptions:
-```
-  "tables": [
-    {
-      "title": "Check In",
-      "unwindBy": "registrants",
-      "columnOrder": ["name.first", "name.last", "email"],
-      "omrunCheckin": true
-    }
-  ]
-```
-For now:
-```
-"mainTable": {
-  "columnOrder": [],
-  "aggregateCols": [
-    "PAID",
-    "race"
-  ],
-  "omrunCheckin": true
-}
-```
+## 1.3.11 (4/27/18)
+- Bug fix: Don't check them in by default!
+- Disable hard source webpack plugin for now, doesn't work.
 
 ## 1.3.10 (4/27/18)
 - Properly override top level required field in schema
