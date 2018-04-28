@@ -37,11 +37,14 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
-## 1.3.15 (todo)
+## 1.3.16 (4/27/18)
+- Swap center name in form url: /CCMT/forms/{formId}
+
+## 1.3.15 (4/27/18)
 - Bug fix: show required properly
 - Fix admin urls' redirecting when refreshed.
 - Bug fix: Disable type overriding in schemas
-- Include center name in form URL. /CCMT/askdljsad-askl
+- Include center name in form URL. /forms/CCMT/{formId}
 
 ## 1.3.14 (4/27/18)
 - Base target to allow iframe embedding links to open in parent

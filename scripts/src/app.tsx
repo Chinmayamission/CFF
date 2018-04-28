@@ -16,7 +16,7 @@ if (true || formAdminElement) {
     <div className="ccmt-cff-Wrapper-Bootstrap">
       <Router>
         <Switch>
-          <Route path="/forms/:centerSlug/:formId" exact render={(props) => {
+          <Route path="/:centerSlug/forms/:formId" exact render={(props) => {
             return (
               <FormStandalone {...props} formId={props.match.params.formId} ENDPOINT_URL={Config.ENDPOINT_URL} />
             );
