@@ -13,7 +13,7 @@ gulp.task('webserver', function() {
         port: 8000,
         root: "./scripts/dist",
         livereload: true,
-        fallback: "./scripts/dist/index.html"
+        fallback: `./scripts/dist/index.${pjson.version}.html`
     });
 });
 
