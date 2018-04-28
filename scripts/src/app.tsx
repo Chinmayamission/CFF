@@ -17,13 +17,12 @@ if (true || formAdminElement) {
       <Router>
         <Switch>
           <Route path="/forms/:formId" exact render={(props) => {
-            console.log("HEY");
             return (
               <FormStandalone {...props} formId={props.match.params.formId} ENDPOINT_URL={Config.ENDPOINT_URL} />
             );
           }
           } />
-          <Route path="/admin/" exact render={(props) =>
+          <Route path="/admin/" render={(props) =>
             <div className="App FormAdminPage">
               <FormAdminPage
                 {...props}
