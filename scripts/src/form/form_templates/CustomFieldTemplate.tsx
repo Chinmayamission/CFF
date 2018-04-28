@@ -9,7 +9,7 @@ function CustomFieldTemplate(props) {
             (<div>
               <label htmlFor={id} className="control-label">
                 <span dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(label) }} />
-                {schema.required &&
+                {required &&
                   <span className="ccmt_cff_required_asterisk"> *</span>}
               </label>
               {/*todo: conditional requiring? */}
