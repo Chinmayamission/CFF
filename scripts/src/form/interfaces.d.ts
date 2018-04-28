@@ -84,7 +84,8 @@ interface IFormPageProps {
     initialFormData?: any,
     readonly?: boolean,
     authKey?: string,
-    specifiedShowFields?: any[]
+    specifiedShowFields?: any[],
+    onFormLoad?: (Schema, UiSchema) => void
 }
 
 interface IFormConfirmationPageProps {

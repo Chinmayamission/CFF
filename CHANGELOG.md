@@ -37,6 +37,13 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.14 (4/27/18)
+- Base target to allow iframe embedding links to open in parent
+- Change colors of HM/10K for bib check in.
+- Nice CSS for standalone form view (looks like a form page).
+- Allow background color of standalone form view to be controlled by ui:cff:backgroundColor.
+- Fix gulp serve issue.
+
 ## 1.3.13 (4/27/18)
 - Remove logs that broke code.
 

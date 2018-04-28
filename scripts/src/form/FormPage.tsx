@@ -171,6 +171,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           paymentCalcInfo,
           focusUpdateInfo
         });
+        this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
       });
     // }
 

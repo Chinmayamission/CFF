@@ -3,23 +3,24 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FormAdminPage from './admin/FormAdminPage';
 import FormPage from "./form/FormPage";
+import FormStandalone from "./form/FormStandalone/FormStandalone";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import * as queryString from 'query-string';
-
+import "./app.scss";
 import "./form.tsx";
 
+
 let formAdminElement = document.getElementById('ccmt-cff-main') as HTMLElement;
-if (formAdminElement) {
+if (true || formAdminElement) {
   ReactDOM.render(
     <div className="ccmt-cff-Wrapper-Bootstrap">
       <Router>
         <Switch>
           <Route path="/forms/:formId" exact render={(props) => {
-            let qs = queryString.parse(props.location.search);
-            return <FormPage formId={props.match.params.formId}
-              authKey={null}
-              specifiedShowFields={JSON.parse((qs && qs["specifiedShowFields"]) || "{}")}
-              apiEndpoint={Config.ENDPOINT_URL} />
+            console.log("HEY");
+            return (
+              <FormStandalone {...props} formId={props.match.params.formId} ENDPOINT_URL={Config.ENDPOINT_URL} />
+            );
           }
           } />
           <Route path="/admin/" exact render={(props) =>
