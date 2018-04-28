@@ -203,6 +203,9 @@ export module CreateSchemas {
             }
             else if (typeof fieldValue == "boolean") { // including or excluding a field.
             }
+            else if (~["type"].indexOf(SchemaUtil.getLastDotNotation(fieldPath))) {
+                // Don't override certain fields such as type.
+            }
             else {
                 console.log("setting ", fieldPath, schemaFieldPath, fieldValue);
                 set(schema.properties, schemaFieldPath, fieldValue);

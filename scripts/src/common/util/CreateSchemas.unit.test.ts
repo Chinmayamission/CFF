@@ -46,3 +46,12 @@ test('ocean retreat should override required', () => {
     "emergency_contact"
   ]);
 });
+
+test('color schema', () => {
+  let result = CreateSchemas.createSchemas({
+    "schema": {"value": require("./color.old.schema.json") },
+    "schemaModifier": {"value": require("./color.old.schemaModifier.json") }
+  }, []);
+  expect(result.schema).toEqual(require("./color.new.schema.json"));
+  expect(result.uiSchema).toEqual(require("./color.new.uiSchema.json"));
+});
