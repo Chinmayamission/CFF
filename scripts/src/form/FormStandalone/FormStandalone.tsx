@@ -13,18 +13,18 @@ class FormStandalone extends React.Component<IFormStandaloneProps, IFormStandalo
   constructor(props: any) {
     super(props);
     this.state = {
-      backgroundColor: null
+      background: null
     };
 
   }
   onFormLoad(schema, uiSchema) {
     let opts: any = {};
-    get(uiSchema, "ui:cff:backgroundColor") && (opts.backgroundColor = get(uiSchema, "ui:cff:backgroundColor"));
+    get(uiSchema, "ui:cff:background") && (opts.background = get(uiSchema, "ui:cff:background"));
     this.setState(opts);
   }
   render() {
     let qs = queryString.parse(this.props.location.search);
-    return (<div className="App ccmt-cff-page-form" style={this.state.backgroundColor && { backgroundColor: this.state.backgroundColor }}>
+    return (<div className="App ccmt-cff-page-form" style={this.state.background && { background: this.state.background }}>
       <div className="container ccmt-cff-paper-outline">
         <FormPage formId={this.props.formId}
           onFormLoad={(a, b) => this.onFormLoad(a, b)}

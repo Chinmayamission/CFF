@@ -7,5 +7,5 @@ interface IFormStandaloneProps {
 }
 
 interface IFormStandaloneState {
-  backgroundColor: null
+  background: null
 }
