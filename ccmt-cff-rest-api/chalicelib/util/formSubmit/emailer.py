@@ -23,7 +23,7 @@ ul {
     padding: 0;
 }
 img.mainImage {
-    max-width: 200px;
+    max-width: 50%;
     float: right;
     margin: 20px;
 }

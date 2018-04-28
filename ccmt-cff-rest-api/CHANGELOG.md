@@ -1,3 +1,6 @@
+# 1.1.4 (4/28/18)
+- Make mainImage in confirmation email a bit bigger.
+
 # 1.1.3 (4/26/18)
 - Cache all responses every 100 seconds, so it's not *super* slow.
 
