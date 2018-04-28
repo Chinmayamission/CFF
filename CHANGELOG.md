@@ -41,6 +41,7 @@ Todo:
 - Change ui:cff:backgroundColor to ui:cff:background so it allows for images, etc. Ex:
 ```    "ui:cff:background": "url('https://i.imgur.com/FlP2bNx.png')",```
 - Allow for custom html in titles, so you can add images.
+- Default loading background is white
 
 ## 1.3.16 (4/27/18)
 - Swap center name in form url: /CCMT/forms/{formId}
