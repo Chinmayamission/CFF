@@ -55,9 +55,7 @@ const CustomTitleField = ({ title, required }) => {
     return <span />;
   }
   const legend = required ? title + '*' : title;
-  return <h2 className="ccmt-cff-form-title">
-    {legend}
-  </h2>;
+  return <h2 className="ccmt-cff-form-title" dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(legend) }} />;
 };
 
 function ErrorListTemplate(props) {

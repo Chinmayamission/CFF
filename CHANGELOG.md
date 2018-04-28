@@ -37,6 +37,11 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.17 (4/28/18)
+- Change ui:cff:backgroundColor to ui:cff:background so it allows for images, etc. Ex:
+```    "ui:cff:background": "url('https://i.imgur.com/FlP2bNx.png')",```
+- Allow for custom html in titles, so you can add images.
+
 ## 1.3.16 (4/27/18)
 - Swap center name in form url: /CCMT/forms/{formId}
 
