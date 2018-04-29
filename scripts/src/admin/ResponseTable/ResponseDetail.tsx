@@ -38,25 +38,31 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
         }
     }
     render() {
+        let cell = row => row.value || "None";
         let columns = [{
             Header: "First Name",
-            accessor: "name.first"
+            accessor: "name.first",
+            Cell: cell
         },
         {
             Header: "Last Name",
-            accessor: "name.last"
+            accessor: "name.last",
+            Cell: cell
         },
         {
             Header: "T-shirt size",
-            accessor: "shirt_size"
+            accessor: "shirt_size",
+            Cell: cell
         },
         {
             Header: "Race",
-            accessor: "race"
+            accessor: "race",
+            Cell: cell
         },
         {
             Header: "Bib Number",
-            accessor: "bib_number"
+            accessor: "bib_number",
+            Cell: cell
         },
         {
             Header: "Check in",
