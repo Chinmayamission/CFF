@@ -2,8 +2,7 @@
 import * as React from 'react';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
-import {assign, concat, groupBy, get, map, keys,
-    isArray, intersectionWith, find, union, filter, set, findIndex} from 'lodash-es';
+import {assign, concat, get, isArray, find, filter, set} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
@@ -12,6 +11,7 @@ import {API} from "aws-amplify";
 import Loading from "src/common/Loading/Loading";
 import ResponseDetail from "./ResponseDetail";
 import InlineEdit from "react-edit-inline";
+import filterHeaderObjs from "./filterHeaderObjs";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
 const STATUS_RESPONSES_LOADING = 0;
@@ -142,7 +142,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             let dataOptions = this.state.dataOptions;
             let colsToAggregate = [];
             if (dataOptions.mainTable) {
-                headerObjs = this.filterHeaderObjs(headerObjs, dataOptions.mainTable);
+                headerObjs = filterHeaderObjs(headerObjs, dataOptions.mainTable);
                 colsToAggregate = this.getColsToAggregate(dataOptions.mainTable);
             }
             
@@ -228,7 +228,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         let dataOptions = this.state.dataOptions;
         let colsToAggregate = [];
         if (dataOptions.unwindTables && dataOptions.unwindTables[rowToUnwind]) {
-            headerObjs = this.filterHeaderObjs(headerObjs, dataOptions.unwindTables[rowToUnwind]);
+            headerObjs = filterHeaderObjs(headerObjs, dataOptions.unwindTables[rowToUnwind]);
             colsToAggregate = this.getColsToAggregate(dataOptions.unwindTables[rowToUnwind]);
         }
         
@@ -237,25 +237,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             tableHeadersDisplayed: headerObjs,
             colsToAggregate
         });
-    }
-    filterHeaderObjs(headerObjs, dataOption) {
-        let filtered = [];
-        if (dataOption && dataOption.columnOrder && dataOption.columnOrder.length && isArray(dataOption.columnOrder)) {
-            // Bring the columns in columnOrder to the front.
-            let columnsAtFront = (dataOption.columnOrder);
-            for (let colName of columnsAtFront.reverse()) {
-                let index = findIndex(headerObjs, e => e.id.toLowerCase() == colName.toLowerCase());
-                if (index != -1)
-                    headerObjs.unshift(headerObjs.splice(index, 1)[0]);
-            }
-            filtered = headerObjs;
-            // filtered = headerObjs.sort((a, b) => ~findIndex(dataOption.columnOrder, header => b.id == header));
-            // filtered = intersectionWith(headerObjs, dataOption.columnOrder, (header, order) => header.id == order);
-        }
-        if (filtered.length == 0) { // Don't return empty header objs.
-            return headerObjs;
-        }
-        return filtered;
     }
     getColsToAggregate(dataOption) {
         if (dataOption && dataOption.aggregateCols && dataOption.aggregateCols.length && isArray(dataOption.aggregateCols)) {

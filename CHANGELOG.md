@@ -37,6 +37,11 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.19 (tbd)
+- dataOptions.columnOrder by default includes *only those columns*, to include the rest of the columns, use a wildcard:
+["name.first", "name.last", "email"] -- only 3 columns
+["name.first", "name.last", "email", "*"] -- 3 columns + more.
+
 ## 1.3.18 (4/28/18)
 - Allow paypal cancel url to reflect iframe's parent, not cff url.
 - Bug fix: Form checkbox and round off are now required when specified.
