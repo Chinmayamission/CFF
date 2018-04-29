@@ -156,6 +156,9 @@ function FormPages() {
         <Route path="/admin/:centerSlug/:centerId/:formId/summary" render={props =>
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>
+        <Route path="/admin/:centerSlug/:centerId/:formId/checkin" render={props =>
+            <ResponseTable key={props.match.params.formId} checkinMode={true} editMode={false} onError={e => this.onError(e)} {...props} />
+        }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/share" render={props =>
             <FormShare key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>

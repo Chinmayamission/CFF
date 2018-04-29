@@ -7,7 +7,8 @@ interface IResponseTableProps {
         url: string
     },
     onError: (any) => void,
-    editMode: boolean
+    editMode?: boolean,
+    checkinMode?: boolean
 }
 
 interface IResponseTableState {

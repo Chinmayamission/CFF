@@ -41,7 +41,8 @@ Todo:
 - dataOptions.columnOrder by default includes *only those columns*, to include the rest of the columns, use a wildcard:
 ["name.first", "name.last", "email"] -- only 3 columns
 ["name.first", "name.last", "email", "*"] -- 3 columns + more.
-
+- Specific page for check in, with form permission Responses_CheckIn
+- Don't show entire response in check in page.
 - Dev: Use TDD with Jest
 
 ## 1.3.18 (4/28/18)

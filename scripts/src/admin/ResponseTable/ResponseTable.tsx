@@ -30,6 +30,10 @@ const filterCaseInsensitive = (filter, row) => {
 };
 
 class ResponseTable extends React.Component<IResponseTableProps, IResponseTableState> {
+    static defaultProps = {
+        editMode: false,
+        checkinMode: false
+    }
     constructor(props:any) {
         super(props);
         this.state = {
@@ -141,9 +145,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             );
             let dataOptions = this.state.dataOptions;
             let colsToAggregate = [];
-            if (dataOptions.mainTable) {
-                headerObjs = filterHeaderObjs(headerObjs, dataOptions.mainTable);
-                colsToAggregate = this.getColsToAggregate(dataOptions.mainTable);
+            let tableName = this.props.checkinMode ? "checkinTable" : "mainTable";
+            if (dataOptions[tableName]) {
+                headerObjs = filterHeaderObjs(headerObjs, dataOptions[tableName]);
+                colsToAggregate = this.getColsToAggregate(dataOptions[tableName]);
             }
             
             // Set possible rows to unwind, equal to top-level array items.
@@ -306,7 +311,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
             defaultFilterMethod={filterCaseInsensitive}
             freezeWhenExpanded={true}
-            SubComponent={ ({row}) => <ResponseDetail responseId={row.ID} formId={this.props.match.params.formId} dataOptions={this.state.dataOptions} /> }
+            SubComponent={ ({row}) => <ResponseDetail checkInMode={this.props.checkinMode} responseId={row.ID} formId={this.props.match.params.formId} dataOptions={this.state.dataOptions} /> }
             getTrProps={(state, rowInfo, column) => {
                 return {
                   style: {
@@ -319,42 +324,35 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 // console.log(state, instance);
                 return (
                     <div>
-                        <ul className="nav nav-pills">
-                            <li onClick={() => this.showResponsesTable()} className="nav-item">
-                                <NavLink className="nav-link" to={`all`}>
-                                    All Responses
-                                </NavLink>
-                            </li>
-                            {this.state.possibleFieldsToUnwind.map(e => 
-                                <li className="nav-item" key={e} onClick={() => this.showUnwindTable(e)}>
-                                    <NavLink className="nav-link" to={`participants`}>
-                                        Unwind by {e}
+                        {!this.props.checkinMode && <div>
+                            <ul className="nav nav-pills">
+                                <li onClick={() => this.showResponsesTable()} className="nav-item">
+                                    <NavLink className="nav-link" to={`all`}>
+                                        All Responses
                                     </NavLink>
-                                    
                                 </li>
-                            )}
-                        </ul>
-                        {/*<button className="btn" onClick={() => this.showResponsesTable()}>View all responses</button>
-                        &emsp;Or unwind by:
-                        <select value={this.state.rowToUnwind}
-                            onChange={(e) => this.showUnwindTable(e.target.value)}>
-                            <option key="null" value="" disabled>Select column</option>
-                            {this.state.possibleFieldsToUnwind.map((e) => 
-                                <option key={e}>{e}</option>
-                            )}
-                        </select>*/}
-                        <CSVLink
-                            data={state.sortedData.map(e=> {
-                                for (let header of this.state.tableHeadersDisplayed) {
-                                    if (typeof e[header.key] == 'undefined') {
-                                        e[header.key] = "";
+                                {this.state.possibleFieldsToUnwind.map(e => 
+                                    <li className="nav-item" key={e} onClick={() => this.showUnwindTable(e)}>
+                                        <NavLink className="nav-link" to={`participants`}>
+                                            Unwind by {e}
+                                        </NavLink>
+                                        
+                                    </li>
+                                )}
+                            </ul>
+                            <CSVLink
+                                data={state.sortedData.map(e=> {
+                                    for (let header of this.state.tableHeadersDisplayed) {
+                                        if (typeof e[header.key] == 'undefined') {
+                                            e[header.key] = "";
+                                        }
                                     }
-                                }
-                                return e;
-                            })}
-                            headers={this.state.tableHeadersDisplayed}>
-                        <button className="btn btn-outline-primary">Download CSV</button>
-                        </CSVLink>
+                                    return e;
+                                })}
+                                headers={this.state.tableHeadersDisplayed}>
+                            <button className="btn btn-outline-primary">Download CSV</button>
+                            </CSVLink>
+                        </div>}
                         {makeTable()}
                     </div>
                 )

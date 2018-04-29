@@ -66,6 +66,12 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                         text="Responses"
                                         userId={this.props.userId} />
                                     <ActionButton permissions={form.cff_permissions}
+                                        permissionName="Responses_CheckIn"
+                                        url={`${this.props.match.url}/${form.id}/checkin`}
+                                        icon="oi-check"
+                                        text="Check in"
+                                        userId={this.props.userId} />
+                                    <ActionButton permissions={form.cff_permissions}
                                         permissionName="Responses_ViewSummary"
                                         url={`${this.props.match.url}/${form.id}/summary`}
                                         icon="oi-list"

@@ -83,6 +83,10 @@ interface IDataOptions {
         columnOrder?: string[],
         aggregateCols?: string[]
     },
+    checkinTable?: {
+        columnOrder?: string[],
+        aggregateCols?: string[]
+    },
     unwindTables?: {
         [columnName:string]: {
             columnOrder?: string[],
