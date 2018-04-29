@@ -1,15 +1,11 @@
 import datetime
 import re
 
-def edit_response(formId, responseId):
-    """Edit an individual response from the admin dashboard.
+def edit_response_common(formId, responseId):
+    """Common function used both by edit response and response checkin.
+    Edit an individual response from the admin dashboard.
     """
     from ..main import app, TABLES
-    form = TABLES.forms.get_item(
-        Key=dict(id=formId, version=1),
-        ProjectionExpression="cff_permissions"
-    )["Item"]
-    app.check_permissions(form, "Responses_Edit")
     path = app.current_request.json_body["path"]
     value = app.current_request.json_body["value"]
     # Todo: make sure path is not one of the reserved keywords, by using expressionattributenames.
@@ -54,3 +50,20 @@ def edit_response(formId, responseId):
     )["Attributes"]
     return {"res": result, "success": True, "action": "update"}
     # todo: return a better, more uniform response.
+
+def edit_response(formId, responseId):
+    from ..main import app, TABLES
+    form = TABLES.forms.get_item(
+        Key=dict(id=formId, version=1),
+        ProjectionExpression="cff_permissions"
+    )["Item"]
+    app.check_permissions(form, "Responses_Edit")
+
+def response_checkin(formId, responseId):
+    from ..main import app, TABLES
+    form = TABLES.forms.get_item(
+        Key=dict(id=formId, version=1),
+        ProjectionExpression="cff_permissions"
+    )["Item"]
+    app.check_permissions(form, "Responses_CheckIn")
+    return edit_response_common(formId, responseId)

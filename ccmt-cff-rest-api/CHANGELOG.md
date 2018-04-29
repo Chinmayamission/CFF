@@ -1,3 +1,9 @@
+Todo: more rigorous tests for response checkin endpoint.
+
+
+# 1.1.5 (4/28/18)
+- Add response checkin endpoint: /forms/{formId}/responses/{responseId}/checkin -- requires permission Responses_CheckIn.
+
 # 1.1.4 (4/28/18)
 - Make mainImage in confirmation email a bit bigger.
 
