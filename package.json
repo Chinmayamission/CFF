@@ -4,7 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --silent",
+    "tdd": "jest --silent --watch",
     "start": "gulp serve",
     "build": "gulp build",
     "deploy-prod": "gulp build && python deploy.py"
