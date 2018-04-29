@@ -33,6 +33,12 @@ class FormPermissions(unittest.TestCase):
           with self.assertRaises(UnauthorizedError):
             app.check_permissions(model, action)
       self.assertTrue(app.check_permissions(model, "Responses_View"))
+    def test_check_permissions_valid(self):
+      app.test_user_id = COG_ID
+      model = {"cff_permissions": {app.get_current_user_id(): {"Responses_View": True, "Responses_CheckIn": True}}}
+      for action in ("Responses_View", ["Responses_View", "Responses_Edit"], ["Form_Edit", "Responses_CheckIn"]):
+        with self.subTest(action=action):
+          self.assertTrue(app.check_permissions(model, action))
     def test_check_permissions_invalid_false(self):
       app.test_user_id = COG_ID
       model = {"cff_permissions": {app.get_current_user_id(): {"Responses_View": True, "Responses_Edit": False, "Forms_Edit": False, "owner": False}}}

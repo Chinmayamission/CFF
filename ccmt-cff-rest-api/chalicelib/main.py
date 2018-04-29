@@ -111,7 +111,7 @@ def view_response(formId, responseId):
         Key=dict(id=formId, version=1),
         ProjectionExpression="cff_permissions"
     )["Item"]
-    app.check_permissions(form, "Responses_View")
+    app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
     response = TABLES.responses.get_item(
         Key=dict(formId=formId, responseId=responseId)
     )["Item"]
