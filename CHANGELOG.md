@@ -39,6 +39,7 @@ Todo:
 
 ## 1.3.18 (4/28/18)
 - Allow paypal cancel url to reflect iframe's parent, not cff url.
+- Bug fix: Form checkbox is now required when specified.
 
 ## 1.3.17 (4/28/18)
 - Change ui:cff:backgroundColor to ui:cff:background so it allows for images, etc. Ex:
