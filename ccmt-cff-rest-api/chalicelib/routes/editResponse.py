@@ -58,6 +58,7 @@ def edit_response(formId, responseId):
         ProjectionExpression="cff_permissions"
     )["Item"]
     app.check_permissions(form, "Responses_Edit")
+    return edit_response_common(formId, responseId)
 
 def response_checkin(formId, responseId):
     from ..main import app, TABLES

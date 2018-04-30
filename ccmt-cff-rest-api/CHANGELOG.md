@@ -1,6 +1,9 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
+# 1.1.7 (4/30/18)
+- Bugfix: fix edit response problem.
+
 # 1.1.6 (4/29/18)
 - Allow people with Responses_CheckIn permission to view all responses and view individual response too.
 
