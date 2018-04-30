@@ -3,6 +3,7 @@ Todo: version api urls (/1.x/...)
 
 # 1.1.7 (4/30/18)
 - Bugfix: fix edit response problem.
+- Add integration tests for admin response edit.
 
 # 1.1.6 (4/29/18)
 - Allow people with Responses_CheckIn permission to view all responses and view individual response too.
