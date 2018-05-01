@@ -32,7 +32,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "business": this.props.paymentMethodInfo.business,
             "currency_code": this.props.paymentInfo_owed.currency || "USD",
             "notify_url": `${this.props.apiEndpoint}responses/${this.props.responseId}/ipn`,
-            "return": this.props.paymentInfo_owed.redirectUrl || window.location.href.split("#")[0] + "#payment_success=1",
+            "return": this.props.paymentInfo_owed.redirectUrl || ((window.location != window.parent.location) ? document.referrer : window.location.href),
             "cancel_return": (window.location != window.parent.location) ? document.referrer : window.location.href,
             "items": items.filter(e => e.amount > 0),
             "amount": this.props.paymentInfo_owed.total, // not used.

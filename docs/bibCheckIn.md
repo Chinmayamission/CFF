@@ -14,12 +14,8 @@ Allow complete customization of tables in dataOptions:
 
 For now:
 ```
-"mainTable": {
+"checkinTable": {
   "columnOrder": [],
-  "aggregateCols": [
-    "PAID",
-    "race"
-  ],
   "omrunCheckin": true
 }
 ```

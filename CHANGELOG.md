@@ -42,8 +42,9 @@ Todo:
 ["name.first", "name.last", "email"] -- only 3 columns
 ["name.first", "name.last", "email", "*"] -- 3 columns + more.
 - Specific page for check in, with form permission Responses_CheckIn
-- Don't show entire response in check in page.
-- Show "None" in check in detail table if empty value.
+  - Don't show entire response, unwind tables, or download csv in check in page.
+  - Show "None" in check in detail table if empty value.
+  - dataOptions.checkinTable contains info for check in, including the "omrunCheckin" option.
 - Dev: Use TDD with Jest
 
 ## 1.3.18 (4/28/18)

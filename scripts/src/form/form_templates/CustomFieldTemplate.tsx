@@ -12,7 +12,6 @@ function CustomFieldTemplate(props) {
                 {required &&
                   <span className="ccmt_cff_required_asterisk"> *</span>}
               </label>
-              {/*todo: conditional requiring? */}
             </div>
           )}
         {!hidden && schema.type != "object" && schema.type != "array" && schema.type != "boolean" && description}
