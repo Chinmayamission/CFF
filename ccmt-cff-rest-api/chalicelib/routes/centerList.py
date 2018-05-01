@@ -27,5 +27,9 @@ def center_list():
     if not 'centers' in user or not user['centers']:
         raise UnauthorizedError("No centers found for this user.")
     # todo: change this to a batch get.
-    centers = [TABLES.centers.get_item(Key=dict(id=centerId))["Item"] for centerId in user['centers']]
+    centers = [TABLES.centers.get_item(
+        Key=dict(id=centerId),
+        ProjectionExpression="#id, #name",
+        ExpressionAttributeNames={"#id": "id", "#name": "name"}
+        )["Item"] for centerId in user['centers']]
     return {"res": centers}

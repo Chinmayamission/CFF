@@ -1,6 +1,9 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
+# 1.1.8 (Dev)
+- Only return center ID and name from listCenters endpoint (so centers can contain secret info, payment info, etc.)
+
 # 1.1.7 (4/30/18)
 - Bugfix: fix edit response problem.
 - Add integration tests for admin response edit.

@@ -4,6 +4,9 @@ from chalice.local import LocalGateway
 import json
 from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID
 from app import app
+"""
+python -m unittest tests.integration.test_formSubmit
+"""
 
 class FormAdmin(unittest.TestCase):
     def setUp(self):
@@ -33,6 +36,8 @@ class FormAdmin(unittest.TestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertTrue(len(body['res']) > 0, "No forms returned!")
+        for center in body['res']:
+            self.assertEqual(list(center.keys()), ["id", "name"], "Returned more keys than needed.")
     def test_list_forms(self):
         """Load form lists."""
         response = self.lg.handle_request(method='GET',
