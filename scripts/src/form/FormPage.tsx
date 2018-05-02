@@ -110,6 +110,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       uiSchema: { "title": "status" },
       step: 0,
       paymentInfo: null,
+      paymentMethods: null,
       paymentInfo_received: null,
       paymentCalcInfo: null,
       data: null,
@@ -228,7 +229,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         data: formData,
         responseId: res.id,
         paymentInfo: res.paymentInfo,
-        paymentInfo_received: paymentInfo_received
+        paymentInfo_received: paymentInfo_received,
+        paymentMethods: res.paymentMethods
       });
     }).catch((err) => {
       alert("Error. " + err);
@@ -372,6 +374,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             schemaMetadata={this.state.schemaMetadata}
             paymentInfo={this.state.paymentInfo}
             paymentInfo_received={this.state.paymentInfo_received}
+            paymentMethods={this.state.paymentMethods}
             uiSchema={this.state.uiSchema}
             data={this.state.data}
             goBack={this.goBackToFormPage}
