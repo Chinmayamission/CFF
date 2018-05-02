@@ -32,7 +32,7 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
             {
                 Header: "Amount",
                 id: "amount",
-                accessor: d => this.formatPayment(d.amount)
+                accessor: d => this.formatPayment(d.amount, this.props.paymentInfo.currency)
             },
             {
                 Header: "Quantity",
