@@ -70,6 +70,7 @@ interface IFormPageState {
     hasError: boolean,
     paymentInfo: IPaymentInfo,
     paymentInfo_received: IPaymentInfo,
+    paymentMethods: IPaymentMethods,
     paymentCalcInfo: IPaymentCalcInfo,
     ajaxLoading: boolean,
     validationInfo: IValidationInfoItem[],
@@ -98,6 +99,7 @@ interface IFormConfirmationPageProps {
     formId: string,
     paymentInfo: IPaymentInfo,
     paymentInfo_received: IPaymentInfo,
+    paymentMethods: IPaymentMethods,
     goBack: () => void,
     onPaymentComplete: (message: any) => void
 }
