@@ -16,6 +16,7 @@ jmespath==0.9.3
 numpy==1.14.2
 pandas==0.22.0
 py-expression-eval==0.3.4
+pycryptodome==3.6.1
 pydash==4.5.0
 pynliner==0.8.0
 python-dateutil==2.6.1
