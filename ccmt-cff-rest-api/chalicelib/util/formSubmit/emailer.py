@@ -49,12 +49,12 @@ def send_confirmation_email(response, confirmationEmailInfo):
                 msgBody += "<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
                     paymentInfoItem.get('name',''),
                     paymentInfoItem.get('description',''),
-                    format_payment(paymentInfoItem.get('amount',''), 'USD'),
+                    format_payment(paymentInfoItem.get('amount',''), get(response, 'paymentInfo.currency', 'USD')),
                     paymentInfoItem.get('quantity','')
                 )
             msgBody += "</table>"
         
-        msgBody += "<br><br><h2>Total Amount: {}</h2><br><h2>Amount Received: {}</h2>".format(format_paymentInfo(response["paymentInfo"]), format_payment(response.get("IPN_TOTAL_AMOUNT", 0), 'USD'))
+        msgBody += "<br><br><h2>Total Amount: {}</h2>".format(format_paymentInfo(response["paymentInfo"]))
         if confirmationEmailInfo["showModifyLink"] and "modifyLink" in response:
             msgBody += "<br><br>Modify your response by going to this link: {}#responseId={}".format(confirmationEmailInfo.get("modifyLink", response["modifyLink"]), str(response["responseId"]))
         if "contentFooter" in confirmationEmailInfo:

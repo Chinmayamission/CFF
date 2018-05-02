@@ -45,7 +45,7 @@ EXPECTED_RES = {
     'subject': 'CFF Unit Testing Form\n Confirmation',
     'bccEmail': '',
     'ccEmail': None,
-    'msgBody': "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2><br><h2>Amount Received: $0.00</h2>",
+    'msgBody': "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>",
 }
 
 class TestEmail(unittest.TestCase):
