@@ -5,9 +5,13 @@ import CCAvenueFrame from "./CCAvenueFrame";
 class CCAvenue extends React.Component<any, any> {
 
  render() {
-     return <div></div>;
-     // return <CCAvenueFrame {...this.props} />;
+     let ccAvenueInfo = {
 
+     };
+     return (<div>
+         <h2>CCAvenue Payment</h2>
+         <CCAvenueFrame {...this.props} />
+        </div>);
  }
 
 }

@@ -37,6 +37,16 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.20 (tbd)
+- CCAvenue integration!
+
+- Fix paypal return urls and modify links to reflect parent url of iframe
+- format payment properly with different currencies
+- bug fix: response detail works when there are no participants column
+- Change processing of paymentMethods (filling in billing_name etc. from forms) to server-side from client-side
+- Client reads in paymentMethods from server (it can contain things such as the ccavenue hash)
+- dev server runs on port 80
+
 ## 1.3.19 (4/28/18) (backend 1.1.5)
 - dataOptions.columnOrder by default includes *only those columns*, to include the rest of the columns, use a wildcard:
 ["name.first", "name.last", "email"] -- only 3 columns
