@@ -101,7 +101,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                     "DATE_CREATED": e.date_created,
                     "NUMERIC_ID": index + 1,
                     "DATE_LAST_MODIFIED": e.date_last_modified,
-                    "PAYMENT_INFO_TOTAL": this.formatPayment(e.paymentInfo.total),
+                    "PAYMENT_INFO_TOTAL": this.formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
                     "UPDATE_HISTORY": e.UPDATE_HISTORY,
                     //"PAYMENT_INFO_ITEMS": '"' + JSON.stringify(e.paymentInfo.items) + '"',
                     "CONFIRMATION_EMAIL_INFO": e.confirmationEmailInfo
@@ -126,10 +126,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                     roundOffAmount = 0;
                 }
                 nonDonationAmount = e.paymentInfo.total - additionalDonationAmount - roundOffAmount;
-                this.setRow("PAYMENT_INFO_ROUNDOFF", this.formatPayment(roundOffAmount), valueToAssign, headerNamesToShow);
+                this.setRow("PAYMENT_INFO_ROUNDOFF", this.formatPayment(roundOffAmount, e.paymentInfo.currency), valueToAssign, headerNamesToShow);
                 // this.setRow("PAYMENT_INFO_DONATION", this.formatPayment(donationAmount), valueToAssign, headerNamesToShow);
-                this.setRow("PAYMENT_INFO_ADDITIONAL_DONATION", this.formatPayment(additionalDonationAmount), valueToAssign, headerNamesToShow);
-                this.setRow("PAYMENT_INFO_NON_DONATION", this.formatPayment(nonDonationAmount), valueToAssign, headerNamesToShow);
+                this.setRow("PAYMENT_INFO_ADDITIONAL_DONATION", this.formatPayment(additionalDonationAmount, e.paymentInfo.currency), valueToAssign, headerNamesToShow);
+                this.setRow("PAYMENT_INFO_NON_DONATION", this.formatPayment(nonDonationAmount, e.paymentInfo.currency), valueToAssign, headerNamesToShow);
                 assign(e.value, valueToAssign);
                 this.setState({tableDataOrigObject: data});
                 return e.value;
