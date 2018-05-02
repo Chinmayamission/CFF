@@ -10,7 +10,9 @@ gulp.task('dev', ['FormPage-js']);
 
 gulp.task('webserver', function() {
     connect.server({
-        port: 8000,
+        port: 80,
+        // If this doesn't work on Windows, disable the "Web Deployment Agent Service"
+        // Stop-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess -Force
         root: "./scripts/dist",
         livereload: true,
         fallback: `./scripts/dist/index.${pjson.version}.html`
