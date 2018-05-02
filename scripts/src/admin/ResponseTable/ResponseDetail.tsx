@@ -71,16 +71,15 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
         }
     ];
     let i = 0;
-    let tableData = this.state.data.value.participants.map(e => Object.assign({"cff_accessor": `participants.${i++}`}, e));
     let showOmrunTable = get(this.props.dataOptions, "checkinTable.omrunCheckin") == true;
         return (
             <div className="container-fluid" key={this.props.responseId}>
                 <div className="row">
-                {this.props.checkInMode && showOmrunTable && <div className="card col-12">
+                {this.props.checkInMode && showOmrunTable && this.state.data.value.participants && <div className="card col-12">
                     <div className="card-body">
                         <h5 className="card-title">Details</h5>
                             <ReactTable
-                                data={tableData}
+                                data={this.state.data.value.participants.map(e => Object.assign({"cff_accessor": `participants.${i++}`}, e))}
                                 columns={columns}
                                 minRows={0}
                                 showPagination={false}
