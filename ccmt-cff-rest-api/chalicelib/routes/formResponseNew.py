@@ -6,7 +6,8 @@ from ..util.formSubmit.util import calculate_price
 from ..util.formSubmit.couponCodes import coupon_code_verify_max_and_record_as_used
 from ..util.formSubmit.emailer import send_confirmation_email
 from ..util.formSubmit.responseHandler import response_verify_update
-
+from ..util.formSubmit.ccavenue import update_ccavenue_hash
+from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
 
 def form_response_new(formId, responseId=None):
   from ..main import app, TABLES
@@ -19,7 +20,7 @@ def form_response_new(formId, responseId=None):
   modifyLink = app.current_request.json_body['modifyLink']
   form = TABLES.forms.get_item(
       Key=dict(id=formId, version=1),
-      ProjectionExpression="#schema, schemaModifier, couponCodes, cff_permissions",
+      ProjectionExpression="#schema, center, schemaModifier, couponCodes, cff_permissions",
       ExpressionAttributeNames={"#schema": "schema"}
     )["Item"]
   schemaModifier = TABLES.schemaModifiers.get_item(
@@ -27,6 +28,7 @@ def form_response_new(formId, responseId=None):
     )["Item"]
   paymentInfo = pick(schemaModifier['paymentInfo'], ["currency", "items", "redirectUrl", "total"])
   confirmationEmailInfo = schemaModifier['confirmationEmailInfo']
+  paymentMethods = fill_paymentMethods_with_data(schemaModifier['paymentMethods'], response_data)
 
   def calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo):
     paymentInfoItem['amount'] = Decimal(calculate_price(paymentInfoItem.get('amount', '0'), response_data))
@@ -87,6 +89,7 @@ def form_response_new(formId, responseId=None):
                 'version': 1
           }, # id, version.
           "paymentInfo": paymentInfo,
+          "paymentMethods": paymentMethods,
           "PAID": paid
       }
       # todo: make manual entry work on update, too.
@@ -109,7 +112,9 @@ def form_response_new(formId, responseId=None):
           Item=response)
       if paid: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)
-      return {"res": {"paid": paid, "success": True, "action": "insert", "id": responseId, "paymentInfo": paymentInfo } }
+      if "ccavenue" in paymentMethods: # todo: add this in update too.
+          paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], schemaModifier, response)
+      return {"res": {"paid": paid, "success": True, "action": "insert", "id": responseId, "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
   else:
       # Updating.
       response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
@@ -147,6 +152,7 @@ def form_response_new(formId, responseId=None):
             "action": "update",
             "id": responseId,
             "paymentInfo": paymentInfo,
+            "paymentMethods": paymentMethods,
             "total_amt_received": response_old.get("IPN_TOTAL_AMOUNT", 0), # todo: encode currency into here as well.
             "paymentInfo_old": response_old["paymentInfo"]
           }

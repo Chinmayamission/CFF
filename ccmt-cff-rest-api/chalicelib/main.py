@@ -30,6 +30,12 @@ if os.getenv("TABLE_PREFIX") == "cff_prod":
     PROD = True
 
 class CustomChalice(Chalice):
+    def get_url(self, path=''):
+        headers = self.current_request.headers
+        return '%s://%s/%s%s' % (headers['x-forwarded-proto'],
+                            headers['host'],
+                            self.current_request.context['stage'],
+                            path)
     def get_current_user_id(self):
         """Get current user id."""
         id = None
@@ -95,7 +101,9 @@ app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer
 
 app.route('/forms/{formId}/render', methods=['GET'], cors=True)(routes.form_render)
 app.route('/forms/{formId}/responses', methods=['POST'], cors=True)(routes.form_response_new)
+# todo: fix this:
 app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ipn_listener)
+app.route('/forms/{formId}/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
 
 # get schema and schemaModifier versions
 # edit form

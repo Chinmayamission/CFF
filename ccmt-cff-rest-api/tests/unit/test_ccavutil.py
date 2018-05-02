@@ -1,12 +1,12 @@
 """
 python -m unittest tests.unit.test_ccavutil
-netsh interface portproxy add v4tov4 listenport=80 listenaddress=localhost connectport=8000 connectaddress=localhost
 """
 from chalicelib.util.ccavutil import POSSIBLE_PARAMS, encrypt, decrypt
+from chalicelib.util.formSubmit.ccavenue import update_ccavenue_hash
 import unittest
 
-INPUT_DATA = {param: "test123123" for param in POSSIBLE_PARAMS}
-WORKING_KEY = 'ahuahuahu'.encode()#.encode('latin-1')
+INPUT_DATA = {"a": "b"} #{param: "test1231234" for param in POSSIBLE_PARAMS}
+WORKING_KEY = "asdlkjskljasdkljas"#.encode('latin-1')
 
 class TestCcavutil(unittest.TestCase):
   maxDiff = None
@@ -15,3 +15,7 @@ class TestCcavutil(unittest.TestCase):
     decrypted = decrypt(encrypted, WORKING_KEY)
     self.assertEqual(INPUT_DATA, decrypted)
     print(encrypted)
+
+class TestCcAvenue(unittest.TestCase):
+  def test_update_ccavenue_hash(self):
+    pass

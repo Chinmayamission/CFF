@@ -19,15 +19,15 @@ def encrypt(inputDict,workingKey):
   plainText = urlencode(inputDict)
   plainText = pad(plainText.encode('utf-8'))
   encDigest = hashlib.md5() # bytes("text","ascii")
-  encDigest.update(workingKey)
+  encDigest.update(workingKey.encode('utf-8'))
   enc_cipher = AES.new(encDigest.digest(), AES.MODE_CBC, iv.encode('latin-1'))
   encryptedText = enc_cipher.encrypt(plainText)
-  return binascii.hexlify(encryptedText)
+  return binascii.hexlify(encryptedText).decode('utf-8')
 
 def decrypt(cipherText,workingKey):
   iv = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f'
   decDigest = hashlib.md5() #md5.new ()
-  decDigest.update(workingKey)
+  decDigest.update(workingKey.encode('utf-8'))
   encryptedText = binascii.unhexlify(cipherText)
   dec_cipher = AES.new(decDigest.digest(), AES.MODE_CBC, iv.encode('latin-1'))
   decryptedText = dec_cipher.decrypt(encryptedText).decode('utf-8')

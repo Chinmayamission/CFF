@@ -1,7 +1,10 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
-# 1.1.8 (Dev)
+# 1.1.8 (5/2/18)
+- CCAvenue integration
+- Upon form submit, the api also returns paymentMethods (with things such as ccavenue hash already computed)
+- Support different currency formatting (not just USD)
 - Only return center ID and name from listCenters endpoint (so centers can contain secret info, payment info, etc.)
 
 # 1.1.7 (4/30/18)

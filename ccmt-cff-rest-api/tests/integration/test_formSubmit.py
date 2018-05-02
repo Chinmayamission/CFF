@@ -10,6 +10,7 @@ from app import app
 from pydash.objects import set_
 
 class FormSubmit(unittest.TestCase):
+    maxDiff = None
     def setUp(self):
         with open(".chalice/config.json") as file:
             self.lg = LocalGateway(app, Config(chalice_stage="beta", config_from_disk=json.load(file)))
@@ -23,6 +24,7 @@ class FormSubmit(unittest.TestCase):
         body = json.loads(response['body'])
         responseId = body['res'].pop("id")
         self.assertEqual(body['res'], FORM_SUBMIT_RESP_ONE)
+        self.assertIn("paymentMethods", body['res'])
         """View response."""
         response = self.lg.handle_request(method='GET',
                                           path='/forms/{}/responses/{}/view'.format(FORM_ID, responseId),
@@ -43,3 +45,20 @@ class FormSubmit(unittest.TestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertEqual(body['res']['value'], expected_data)
+    def test_submit_form_ccavenue(self):
+        formId = "c06e7f16-fcfc-4cb5-9b81-722103834a81"
+        formData = {"name": "test"}
+        ccavenue_access_code = "2656EE03958C01EE950045272F0DBEC9"
+        ccavenue_merchant_id = "155729"
+        response = self.lg.handle_request(method='POST',
+                                          path='/forms/{}/responses'.format(formId),
+                                          headers={"Content-Type": "application/json"},
+                                          body=json.dumps(FORM_DATA_ONE))
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        responseId = body['res'].pop("id")
+        ccavenue = body['res']["paymentMethods"]["ccavenue"]
+        self.assertEqual(ccavenue["access_code"], ccavenue_access_code)
+        self.assertEqual(ccavenue["merchant_id"], ccavenue_merchant_id)
+        self.assertIn("encRequest", ccavenue)
+        pass
