@@ -232,6 +232,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         paymentInfo_received: paymentInfo_received,
         paymentMethods: res.paymentMethods
       });
+      window.scrollTo(0,0);
     }).catch((err) => {
       alert("Error. " + err);
     });
