@@ -8,7 +8,7 @@ In schemaModifier.paymentMethods:
     "billing_state": "$address.state",
     "billing_email": "$email",
     "billing_country": "USA",
-    "billing_zip": "$address.zip",
+    "billing_zip": "$address.zipcode",
     "billing_address": "$address.line1",
     "billing_name": [
       "$contact_name.first",
