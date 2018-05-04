@@ -45,60 +45,59 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                 <small title={`s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}`}><code>{form["id"]}</code></small>
                             </td>
                             <td>
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="Forms_Embed"
-                                        url={`${this.props.match.url}/${form.id}/embed`}
-                                        icon="oi-document"
-                                        text="Embed"
-                                        userId={this.props.userId}
-                                        disabled={true}
-                                        />
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="Forms_Edit"
-                                        url={`${this.props.match.url}/${form.id}/edit`}
-                                        icon="oi-pencil"
-                                        text="Edit"
-                                        userId={this.props.userId} />
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="Responses_View"
-                                        url={`${this.props.match.url}/${form.id}/responses`}
-                                        icon="oi-sort-ascending"
-                                        text="Responses"
-                                        userId={this.props.userId} />
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="Responses_CheckIn"
-                                        url={`${this.props.match.url}/${form.id}/checkin`}
-                                        icon="oi-check"
-                                        text="Check in"
-                                        userId={this.props.userId} />
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="Responses_ViewSummary"
-                                        url={`${this.props.match.url}/${form.id}/summary`}
-                                        icon="oi-list"
-                                        text="Summary"
-                                        userId={this.props.userId} />
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="Forms_PermissionsView"
-                                        url={`${this.props.match.url}/${form.id}/share`}
-                                        icon="oi-share-boxed"
-                                        text="Share"
-                                        userId={this.props.userId}
+                                <ActionButton form={form}
+                                    permissionName="Forms_Embed"
+                                    url={`${this.props.match.url}/${form.id}/embed`}
+                                    icon="oi-document"
+                                    text="Embed"
+                                    userId={this.props.userId}
                                     />
-                                    <ActionButton permissions={form.cff_permissions}
-                                        permissionName="Responses_Edit"
-                                        url={`${this.props.match.url}/${form.id}/responsesEdit`}
-                                        icon="oi-pencil"
-                                        text="Edit Responses"
-                                        userId={this.props.userId}
-                                    />
-                                    {/*<ActionButton permissions={form.cff_permissions}
-                                        permissionName="Responses_View"
-                                        url={`${this.props.match.url}/${form.id}/lookup`}
-                                        icon="oi-magnifying-glass"
-                                        text="Check in"
-                                        userId={this.props.userId}
-                                        disabled={false}
-                                    />*/}
+                                <ActionButton form={form}
+                                    permissionName="Forms_Edit"
+                                    url={`${this.props.match.url}/${form.id}/edit`}
+                                    icon="oi-pencil"
+                                    text="Edit"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Responses_View"
+                                    url={`${this.props.match.url}/${form.id}/responses`}
+                                    icon="oi-sort-ascending"
+                                    text="Responses"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Responses_CheckIn"
+                                    url={`${this.props.match.url}/${form.id}/checkin`}
+                                    icon="oi-check"
+                                    text="Check in"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Responses_ViewSummary"
+                                    url={`${this.props.match.url}/${form.id}/summary`}
+                                    icon="oi-list"
+                                    text="Summary"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Forms_PermissionsView"
+                                    url={`${this.props.match.url}/${form.id}/share`}
+                                    icon="oi-share-boxed"
+                                    text="Share"
+                                    userId={this.props.userId}
+                                />
+                                <ActionButton form={form}
+                                    permissionName="Responses_Edit"
+                                    url={`${this.props.match.url}/${form.id}/responsesEdit`}
+                                    icon="oi-pencil"
+                                    text="Edit Responses"
+                                    userId={this.props.userId}
+                                />
+                                {/*<ActionButton permissions={form.cff_permissions}
+                                    permissionName="Responses_View"
+                                    url={`${this.props.match.url}/${form.id}/lookup`}
+                                    icon="oi-magnifying-glass"
+                                    text="Check in"
+                                    userId={this.props.userId}
+                                    disabled={false}
+                                />*/}
                             </td>
                         </tr>
                     )}
@@ -108,7 +107,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
 }
 function ActionButton(props) {
-    let disabled = props.disabled || !hasPermission(props.permissions, props.permissionName, props.userId);
+    let disabled = props.disabled || !hasPermission(props.form.cff_permissions, props.permissionName, props.userId);
     if (disabled) {
         return (<a href="">
             <button className="ccmt-cff-btn-action" disabled={true}>
@@ -117,7 +116,7 @@ function ActionButton(props) {
         </a>);
     }
     else {
-        return (<NavLink to={`${props.url}`}>
+        return (<NavLink to={{pathname: `${props.url}`, state: {form: props.form}}}>
             <button className="ccmt-cff-btn-action">
                 <span className={`oi ${props.icon}`}></span> {props.text}
             </button>

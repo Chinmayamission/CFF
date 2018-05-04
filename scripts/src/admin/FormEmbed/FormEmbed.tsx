@@ -1,9 +1,8 @@
-/// <reference path="./admin.d.ts"/>
+/// <reference path="./FormEmbed.d.ts"/>
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
-import FormPage from "src/form/FormPage";
 
-class FormEdit extends React.Component<any, any> {
+class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
     constructor(props:any) {
         super(props);
         this.render = this.render.bind(this);
@@ -34,8 +33,9 @@ class FormEdit extends React.Component<any, any> {
                 </pre>
                 <button className="btn btn-primary" onClick={() => {this.onOpenModal()}}>Preview</button>
                 <Modal open={this.state.open} onClose={this.onCloseModal}>
-                    <FormPage formId = {this.props.form.id} apiEndpoint={this.props.apiEndpoint}
-                        authKey="" specifiedShowFields={[""]} />
+                    {/* <FormPage formId = {this.props.form.id} apiEndpoint={this.props.apiEndpoint}
+                        authKey="" specifiedShowFields={[""]} /> */}
+                    <div>Test</div>
                     {/* todo: make default props, etc. toggle-able. */}
                 </Modal>
             </div>

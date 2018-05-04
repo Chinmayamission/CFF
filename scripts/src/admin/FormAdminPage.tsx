@@ -4,7 +4,7 @@ import {flatten} from 'flat';
 import * as queryString from "query-string";
 import {pick, get, set, find} from "lodash-es";
 import FormPage from "../form/FormPage";
-import FormEmbed from "./FormEmbed";
+import FormEmbed from "./FormEmbed/FormEmbed";
 import CenterList from "./CenterList/CenterList";
 import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
@@ -149,6 +149,9 @@ function FormPages() {
         }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
             <ResponseTable key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
+        }/>
+        <Route path="/admin/:centerSlug/:centerId/:formId/embed" render={props =>
+            <FormEmbed form={props.location.state.form} formId={props.match.params.formId} onError={e => this.onError(e)} />
         }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/edit" render={props =>
             <FormEdit key={props.match.params.formId} onError={e => this.onError(e)} {...props} />

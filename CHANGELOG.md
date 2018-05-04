@@ -37,6 +37,9 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.21 (dev)
+- Add form embed page.
+
 ## 1.3.20 (5/2/18) (backend 1.1.8)
 - CCAvenue integration!
 - Fix scroll to top upon form submit.
