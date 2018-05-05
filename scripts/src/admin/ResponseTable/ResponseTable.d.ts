@@ -8,7 +8,8 @@ interface IResponseTableProps {
     },
     onError: (any) => void,
     editMode?: boolean,
-    checkinMode?: boolean
+    checkinMode?: boolean,
+    selectedForm: IFormListItem
 }
 
 interface IResponseTableState {

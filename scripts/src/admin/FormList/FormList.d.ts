@@ -23,6 +23,7 @@ interface IFormListProps extends ISharedAdminProps {
             centerId: number
         }
     },
+    selectedForm?: IFormListItem
     onError: (any) => void,
     userId: string
 }

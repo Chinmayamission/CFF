@@ -49,7 +49,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             rowToUnwind: null,
             colsToAggregate: [],
             dataOptions: null,
-            loading: false,
+            loading: true,
             hasError: false
         }
     }
@@ -77,7 +77,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         this.setState({hasError: true});
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.onLoadStart();
         FormLoader.getFormAndCreateSchemas("", this.props.match.params.formId, "", [""], e => this.onError(e)).then(({ schema, dataOptions }) => {
             this.setState({
@@ -300,6 +300,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
     }
 
     render() {
+        let selectedForm = this.props.selectedForm;
         return this.state.loading ? <Loading hasError={this.state.hasError} /> : (
             <ReactTable
             data={this.state.tableDataDisplayed}
@@ -318,8 +319,8 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                     color: rowInfo.row["CFF_REACT_TABLE_STATUS"] == "updating" ? 'grey' : 'black'
                   }
                 }
-              }}
-            >
+              }
+            }>
             {(state, makeTable, instance) => {
                 // console.log(state, instance);
                 return (
@@ -327,13 +328,13 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                         {!this.props.checkinMode && <div>
                             <ul className="nav nav-pills">
                                 <li onClick={() => this.showResponsesTable()} className="nav-item">
-                                    <NavLink className="nav-link" to={`all`}>
+                                    <NavLink className="nav-link" to={{pathname: `all`, state: {selectedForm} }}>
                                         All Responses
                                     </NavLink>
                                 </li>
                                 {this.state.possibleFieldsToUnwind.map(e => 
                                     <li className="nav-item" key={e} onClick={() => this.showUnwindTable(e)}>
-                                        <NavLink className="nav-link" to={`participants`}>
+                                        <NavLink className="nav-link" to={{pathname: e, state: {selectedForm} }}>
                                             Unwind by {e}
                                         </NavLink>
                                         

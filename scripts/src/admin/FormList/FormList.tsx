@@ -27,6 +27,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     }
     render() {
+        let formList = this.props.selectedForm ? [this.props.selectedForm] : this.state.formList;
         return (
             <table className="ccmt-cff-form-list table table-sm table-responsive-sm">
                 <thead>
@@ -39,7 +40,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.formList && this.state.formList.map((form) =>
+                    {formList && formList.map((form) =>
                         <tr key={form["id"]}>
                             <td>{form["name"]}<br />
                                 <small title={`s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}`}><code>{form["id"]}</code></small>
@@ -116,7 +117,7 @@ function ActionButton(props) {
         </a>);
     }
     else {
-        return (<NavLink to={{pathname: `${props.url}`, state: {form: props.form}}}>
+        return (<NavLink to={{pathname: `${props.url}`, state: {selectedForm: props.form}}}>
             <button className="ccmt-cff-btn-action">
                 <span className={`oi ${props.icon}`}></span> {props.text}
             </button>
