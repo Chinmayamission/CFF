@@ -38,6 +38,8 @@ Todo:
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
 ## 1.3.22 (5/5/18)
+- Fix form embed url
+- Show pagination in checkin table
 
 ## 1.3.21 (5/4/18)
 - Add form embed page.
