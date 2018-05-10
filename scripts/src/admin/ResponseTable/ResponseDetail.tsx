@@ -82,7 +82,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
                                 data={this.state.data.value.participants.map(e => Object.assign({"cff_accessor": `participants.${i++}`}, e))}
                                 columns={columns}
                                 minRows={0}
-                                showPagination={false}
+                                showPagination={true}
                                 getTrProps={(state, rowInfo, column) => {
                                     return {
                                       style: {

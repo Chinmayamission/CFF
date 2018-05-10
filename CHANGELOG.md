@@ -37,6 +37,8 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.22 (5/5/18)
+
 ## 1.3.21 (5/4/18)
 - Add form embed page.
 - Form detail page shows other form buttons on top
