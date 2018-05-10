@@ -22,6 +22,7 @@ interface SchemaMetadata {
 }
 
 interface IPaymentInfo {
+    description?: string,
     total: any,
     currency: string,
     redirectUrl?: string,

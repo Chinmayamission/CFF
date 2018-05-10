@@ -37,6 +37,9 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.23 (5/10/18) - backend 1.1.9
+- Allow "description" to be provided in paymentInfo which overrides default text after submit.
+
 ## 1.3.22 (5/5/18)
 - Fix form embed url
 - Show pagination in checkin table

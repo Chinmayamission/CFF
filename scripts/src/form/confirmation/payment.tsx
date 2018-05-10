@@ -6,6 +6,7 @@ import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import {clone} from "lodash-es";
 import ReactTable from 'react-table';
+import * as DOMPurify from 'dompurify';
 
 let Components = {
     "paypal_rest": Paypal,
@@ -79,7 +80,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             <div style={{ "textAlign": "center" }}>
                 {this.props.paymentInfo_owed.total > 0 && 
                     <div>
-                        <p>Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.</p><br />
+                        <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.props.paymentInfo.description || "Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.") }} />
                         {this.getPaymentMethods()}
                     </div>
                 }

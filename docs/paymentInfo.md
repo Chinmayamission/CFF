@@ -1,3 +1,11 @@
+# Fields
+```
+{
+  "currency": "USD" | "INR",
+  "redirectUrl": "http://sandeepany.chinmayamission.com/",
+  "description"?: "<br><br>You will receive an email with further details about payment."
+}
+
 # Example
 
 ## Manual entry
