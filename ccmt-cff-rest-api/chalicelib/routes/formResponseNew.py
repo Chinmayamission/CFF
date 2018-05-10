@@ -26,7 +26,7 @@ def form_response_new(formId, responseId=None):
   schemaModifier = TABLES.schemaModifiers.get_item(
       Key=form["schemaModifier"]
     )["Item"]
-  paymentInfo = pick(schemaModifier['paymentInfo'], ["currency", "items", "redirectUrl", "total"])
+  paymentInfo = schemaModifier['paymentInfo']
   confirmationEmailInfo = schemaModifier['confirmationEmailInfo']
   paymentMethods = fill_paymentMethods_with_data(schemaModifier['paymentMethods'], response_data)
 

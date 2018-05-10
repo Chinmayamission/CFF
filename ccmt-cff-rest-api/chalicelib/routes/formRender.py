@@ -15,7 +15,8 @@ def get_latest_version(collection, id):
 
 def form_render(formId):
     from ..main import app, TABLES
-    """Renders schema and schemaModifier. Todo: also modify schema server-side and return just schema & uiSchema."""
+    """Renders schema and schemaModifier. Todo: also modify schema server-side and return just schema & uiSchema.
+    Todo: get coupon codes."""
     form = TABLES.forms.get_item(
         Key=dict(id=formId, version=1),
         ProjectionExpression="#name, id, version, date_created, date_last_modified, #schema, schemaModifier",

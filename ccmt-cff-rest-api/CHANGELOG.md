@@ -1,7 +1,10 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
-# 1.1.8 (tbd)
+# 1.1.9 (5/10/18)
+- Return all fields for paymentInfo (so payment page can be more customized)
+
+# 1.1.8 (5/2/18)
 Major:
 - CCAvenue integration
 
