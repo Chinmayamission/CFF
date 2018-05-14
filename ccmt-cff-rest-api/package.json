@@ -1,6 +1,6 @@
 {
   "name": "ccmt-cff-rest-api",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "vim ~/.aws/config\r vim ~/.aws/credentials",
   "main": "index.js",
   "scripts": {

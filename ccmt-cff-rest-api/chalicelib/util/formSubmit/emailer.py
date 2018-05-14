@@ -54,7 +54,8 @@ def send_confirmation_email(response, confirmationEmailInfo):
                 )
             msgBody += "</table>"
         
-        msgBody += "<br><br><h2>Total Amount: {}</h2>".format(format_paymentInfo(response["paymentInfo"]))
+        totalAmountText = confirmationEmailInfo.get("totalAmountText", "Total Amount")
+        msgBody += "<br><br><h2>{}: {}</h2>".format(totalAmountText, format_paymentInfo(response["paymentInfo"]))
         if confirmationEmailInfo["showModifyLink"] and "modifyLink" in response:
             msgBody += "<br><br>Modify your response by going to this link: {}#responseId={}".format(confirmationEmailInfo.get("modifyLink", response["modifyLink"]), str(response["responseId"]))
         if "contentFooter" in confirmationEmailInfo:

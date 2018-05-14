@@ -78,3 +78,15 @@ class TestEmail(unittest.TestCase):
             CONFIRMATION_EMAIL_INFO, **{"cc": "bad_email"})
         with self.assertRaises(ClientError):
             send_confirmation_email(RESPONSE, confirmationEmailInfo)
+    
+    def test_send_email_custom_total_amount_text(self):
+        confirmationEmailInfo = dict(
+            CONFIRMATION_EMAIL_INFO, **{"totalAmountText": "CUSTOMCUSTOM"})
+        res = send_confirmation_email(RESPONSE, confirmationEmailInfo)
+        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": EXPECTED_RES["msgBody"].replace("Total Amount", "CUSTOMCUSTOM")}))    
+
+    def test_send_email_table_column_order(self):
+        confirmationEmailInfo = dict(
+            CONFIRMATION_EMAIL_INFO, **{"columnOrder": ["email", "email2"]})
+        res = send_confirmation_email(RESPONSE, confirmationEmailInfo)
+        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": ""}))
