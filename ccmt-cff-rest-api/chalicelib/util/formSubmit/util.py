@@ -2,6 +2,7 @@ from py_expression_eval import Parser
 import flatdict
 import re
 from collections import defaultdict
+from pydash.objects import get
 """
 workon cff
 python -m doctest functions/forms/lib/util.py
@@ -175,14 +176,26 @@ def human_readable_key(key, delimiter=":"):
     key = re.sub(delimiter, ": ", key)
     return key
 
-def dict_to_table(dct, human_readable=True):
+def dict_to_table(dct, options={}, human_readable=True):
     flat = flatdict.FlatterDict(dct)
+    columnOrder = options.get("columnOrder", [])
     table = "<table>"
-    for key, value in flat.items():
+    remainingColumns = set(v for v in flat.keys())
+    newColumns = []
+    for columnOrderItem in columnOrder:
+        columnOrderItem = columnOrderItem.replace("]", ":").replace("[", ":").replace(".", ":")
+        possibleColumns = [v for v in remainingColumns if v is columnOrderItem or v.startswith(columnOrderItem + ":")]
+        if len(possibleColumns) > 0:
+            newColumns += possibleColumns
+            remainingColumns -= set(possibleColumns)
+    if len(newColumns) == 0:
+        newColumns = remainingColumns
+    for key in sorted(newColumns):
+        value = flat[key]
         if human_readable: key = human_readable_key(key)
         table += "<tr><th>{}</th><td>{}</td></tr>".format(key, value)
     table += "</table>"
     return table
 
-def display_form_dict(dct):
-    return dict_to_table(dct)
+def display_form_dict(dct, options={}):
+    return dict_to_table(dct, options=options)

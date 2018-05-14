@@ -1,9 +1,10 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
-# 1.1.10 (dev)
+# 1.1.10 (5/13/18)
 - Let email total amount text to be customized (totalAmountText in confirmationEmailInfo)
-- columnOrder in confirmationEmailInfo
+- Let columns in email table be customized, too:
+  - {"responseTableOptions": {"columnOrder": ["participants", "email"]}} in confirmationEmailInfo
 
 # 1.1.9 (5/10/18)
 - Return all fields for paymentInfo (so payment page can be more customized)

@@ -40,7 +40,7 @@ def send_confirmation_email(response, confirmationEmailInfo):
             msgBody += "<img class='mainImage' src='{}' />".format(confirmationEmailInfo["image"])
         msgBody += confirmationEmailInfo.get("message", "")
         if confirmationEmailInfo["showResponse"]:
-            msgBody += "<br><br>" + display_form_dict(response["value"])
+            msgBody += "<br><br>" + display_form_dict(response["value"], confirmationEmailInfo.get("responseTableOptions", {}))
         
         if 'items' in response['paymentInfo'] and len(response['paymentInfo']['items']) > 0:
             msgBody += "<br><br><table class=paymentInfoTable>"
