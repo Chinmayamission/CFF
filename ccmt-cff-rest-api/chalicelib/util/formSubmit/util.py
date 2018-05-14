@@ -189,8 +189,8 @@ def dict_to_table(dct, options={}, human_readable=True):
             newColumns += possibleColumns
             remainingColumns -= set(possibleColumns)
     if len(newColumns) == 0:
-        newColumns = remainingColumns
-    for key in sorted(newColumns):
+        newColumns = sorted(remainingColumns)
+    for key in newColumns:
         value = flat[key]
         if human_readable: key = human_readable_key(key)
         table += "<tr><th>{}</th><td>{}</td></tr>".format(key, value)
