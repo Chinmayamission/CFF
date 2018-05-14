@@ -56,7 +56,6 @@ class TestEmail(unittest.TestCase):
 
     def test_send_email_success(self):
         res = send_confirmation_email(RESPONSE, CONFIRMATION_EMAIL_INFO)
-        print(res)
         self.assertEqual(res, EXPECTED_RES)
     
     def test_send_email_multiple_one_email_not_found(self):
@@ -102,7 +101,8 @@ class TestEmail(unittest.TestCase):
 
     def test_send_email_table_column_order_complex(self):
         confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"responseTableOptions": {"columnOrder": ["participants", "email"]}})
-        response = dict(RESPONSE, **{"value": {"participants": [{"name": "Ashwin", "age": 12}], "email": TO_EMAIL, "email2": TO_EMAIL}})
+            CONFIRMATION_EMAIL_INFO, **{"responseTableOptions": {"columnOrder": ["participants.0.name.first", "participants", "email"]}})
+        response = dict(RESPONSE, **{"value": {"participants": [{"name": {"first": "Ashwin"}, "age": 12}], "email": TO_EMAIL, "email2": TO_EMAIL}})
         res = send_confirmation_email(response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>participant 1 age</th><td>12</td></tr><tr><th>participant 1 name</th><td>Ashwin</td></tr><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
+        print(res)
+        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>participant 1 name: first</th><td>Ashwin</td></tr><tr><th>participant 1 age</th><td>12</td></tr><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))

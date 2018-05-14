@@ -184,7 +184,7 @@ def dict_to_table(dct, options={}, human_readable=True):
     newColumns = []
     for columnOrderItem in columnOrder:
         columnOrderItem = columnOrderItem.replace("]", ":").replace("[", ":").replace(".", ":")
-        possibleColumns = [v for v in remainingColumns if v is columnOrderItem or v.startswith(columnOrderItem + ":")]
+        possibleColumns = [v for v in remainingColumns if v == columnOrderItem or v.startswith(columnOrderItem + ":")]
         if len(possibleColumns) > 0:
             newColumns += sorted(possibleColumns)
             remainingColumns -= set(possibleColumns)
