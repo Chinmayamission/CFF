@@ -71,8 +71,8 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "aws-amplify": "^0.2.9",
-    "aws-amplify-react": "^0.1.32",
+    "aws-amplify": "^0.4.1",
+    "aws-amplify-react": "^0.1.47",
     "aws-sdk": "^2.211.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",

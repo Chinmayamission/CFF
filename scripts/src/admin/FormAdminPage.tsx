@@ -47,26 +47,25 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
     }
     componentWillMount() {
-        Auth.currentCredentials().then(creds => {
-            if (!creds || creds.expired) {
-                Auth.signOut();
-                return;
-            }
-            Auth.currentUserInfo().then(e => {
-                console.warn(creds, e);
-                if (!e) {
-                    Auth.signOut();
-                    return;
-                }
-                let currentUser = pick(e, ["id", "name", "email"]);
-                if (!currentUser.id) {
-                    currentUser.id = creds.params.IdentityId;
-                }
-                currentUser.id = "cff:cognitoIdentityId:" + currentUser.id;
-                this.setState({user: currentUser}); // , this.loadCenters);
-                console.log(currentUser);
-            });
+        // Auth.currentCredentials().then(creds => {
+        //     if (!creds || creds.expired) {
+        //         Auth.signOut();
+        //         return;
+        //     }
+        Auth.currentAuthenticatedUser().then(e => {
+            // if (!e) {
+            //     Auth.signOut();
+            //     return;
+            // }
+            let currentUser = pick(e, ["id", "name", "email"]);
+            // if (!currentUser.id) {
+            //     currentUser.id = creds.params.IdentityId;
+            // }
+            currentUser.id = "cff:cognitoIdentityId:" + currentUser.id;
+            this.setState({user: currentUser}); // , this.loadCenters);
+            console.log(currentUser);
         });
+        // });
     }
     componentDidMount() {
         this.loadCenters();
@@ -136,8 +135,12 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             </Switch>
             <Route path="/admin/:centerSlug/:centerId/:formId" component={FormPages} />
             <footer className="ccmt-cff-admin-footer">
-                <div className="container">
+                <div className="container mb-2">
                     <span className="text-muted">Chinmaya Forms Framework, version {VERSION}</span>
+                    <div style={{"float":"right"}}>
+                        <span>Hello, {this.state.user.name} ({this.state.user.email})</span>
+                        <button className="btn btn-outline-danger ml-4" onClick={() => Auth.signOut().then(() => {window.location.href="/"})} >Sign Out</button>
+                    </div>
                 </div>
             </footer>
             </div>
@@ -182,4 +185,4 @@ function AccessDenied(props) {
     </div>);
 }
 
-export default withAuthenticator(FormAdminPage, { includeGreetings: true });
+export default withAuthenticator(FormAdminPage);
