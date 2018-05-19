@@ -16,7 +16,9 @@
   "fromName": "OmRun Training",
   "from": "omrun@cmsj.org",
   "contentHeader": "Header<hr>",
-  "message": "Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018."
+  "message": "Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.",
+  "totalAmountText"?: "asdsad",
+  "columnOrder"?: "adsadas"
 }
 ```
 
