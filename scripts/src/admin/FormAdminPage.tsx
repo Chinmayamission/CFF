@@ -131,7 +131,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                     <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
                 }/>
                 <Route path="/admin/:centerSlug/:centerId" render={props =>
-                    <FormList selectedForm={props.location.state.selectedForm} key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
+                    <FormList selectedForm={null} key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
                 }/>
             </Switch>
             <Route path="/admin/:centerSlug/:centerId/:formId" component={FormPages} />
@@ -148,17 +148,17 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
 function FormPages() {
     return (<Switch>
         <Route path='/admin/:centerSlug/:centerId/:formId/responses' exact render={({match, location}) =>
-            <Redirect to={{pathname: `/admin/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responses/all`, state: {selectedForm: location.state.selectedForm} }} />} />
+            <Redirect to={{pathname: `/admin/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responses/all` }} />} />
         <Route path='/admin/:centerSlug/:centerId/:formId/responsesEdit' exact render={({match, location}) =>
-            <Redirect to={{pathname: `/admin/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responsesEdit/all`, state: {selectedForm: location.state.selectedForm} }} />} />
+            <Redirect to={{pathname: `/admin/${match.params.centerSlug}/${match.params.centerId}/${match.params.formId}/responsesEdit/all` }} />} />
         <Route path="/admin/:centerSlug/:centerId/:formId/responses/:tableViewName" render={props =>
-            <ResponseTable selectedForm={props.location.state.selectedForm} key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
+            <ResponseTable selectedForm={null} key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
         }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/responsesEdit" render={props =>
-            <ResponseTable selectedForm={props.location.state.selectedForm} key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
+            <ResponseTable selectedForm={null} key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
         }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/embed" render={props =>
-            <FormEmbed form={props.location.state.selectedForm} formId={props.match.params.formId} onError={e => this.onError(e)} />
+            <FormEmbed form={null} formId={props.match.params.formId} onError={e => this.onError(e)} />
         }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/edit" render={props =>
             <FormEdit key={props.match.params.formId} onError={e => this.onError(e)} {...props} />

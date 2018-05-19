@@ -23,21 +23,20 @@ class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
 
     }
     render() {
-        console.log(this.props.form);
         
         return (
             <div>
                 <h1>Embed form shortcode</h1>
-                <h2>{this.props.form.name}</h2>
+                {/* <h2>{this.props.form.name}</h2> */}
                 <pre>
-                    &lt;iframe frameborder="0" style="width: 100%; height: 100vh" src="https://cff.chinmayamission.com/WP/forms/{this.props.form.id}"&gt;
+                    &lt;iframe frameborder="0" style="width: 100%; height: 100vh" src="https://cff.chinmayamission.com/WP/forms/{this.props.formId}"&gt;
                     &lt;/iframe&gt;
                 </pre>
                 <button className="btn btn-primary" onClick={() => {this.onOpenModal()}}>Preview</button>
                 <Modal open={this.state.open} onClose={this.onCloseModal} styles={{"modal": {"width": "100%", "height": "100%"}}}>
                     {/* <FormPage formId = {this.props.form.id} apiEndpoint={this.props.apiEndpoint}
                         authKey="" specifiedShowFields={[""]} /> */}
-                    <Embed form={this.props.form} />
+                    <Embed formId={this.props.formId} />
                     {/* todo: make default props, etc. toggle-able. */}
                 </Modal>
             </div>
@@ -46,7 +45,7 @@ class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
 }
 
 function Embed(props) {
-    return (<iframe frameBorder="0" style={{"width": "100%", "height": "100%"}} src={`/WP/forms/${props.form.id}`}>
+    return (<iframe frameBorder="0" style={{"width": "100%", "height": "100%"}} src={`/WP/forms/${props.formId}`}>
     </iframe>);
 }
 
