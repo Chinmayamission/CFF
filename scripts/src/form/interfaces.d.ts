@@ -75,7 +75,8 @@ interface IFormPageState {
     paymentCalcInfo: IPaymentCalcInfo,
     ajaxLoading: boolean,
     validationInfo: IValidationInfoItem[],
-    focusUpdateInfo: IFocusUpdateInfoItem[]
+    focusUpdateInfo: IFocusUpdateInfoItem[],
+    paymentStarted: boolean
 }
 
 interface IValidationInfoItem {fieldPath: string, ifExpr: string, message: string}
@@ -87,7 +88,7 @@ interface IFormPageProps {
     readonly?: boolean,
     authKey?: string,
     specifiedShowFields?: any[],
-    onFormLoad?: (Schema, UiSchema) => void
+    onFormLoad?: (Schema, UiSchema) => void,
 }
 
 interface IFormConfirmationPageProps {
@@ -102,7 +103,8 @@ interface IFormConfirmationPageProps {
     paymentInfo_received: IPaymentInfo,
     paymentMethods: IPaymentMethods,
     goBack: () => void,
-    onPaymentComplete: (message: any) => void
+    onPaymentComplete: (message: any) => void,
+    onPaymentStarted: (message: any) => void
 }
 
 interface IFormConfirmationPageState {
@@ -120,6 +122,7 @@ interface IPaymentProps {
     paymentMethods: IPaymentMethods
     onPaymentComplete: (message: any) => void,
     onPaymentError: (message: any) => void,
+    onPaymentStarted: (message: any) => void,
     responseId: string,
     formId: string,
     apiEndpoint: string,

@@ -71,10 +71,14 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         alert("There was an error. " + message);
         console.log("error", message);
     }
+    onPaymentStarted(message) {
+        this.props.onPaymentStarted(message);
+    }
     render() {
         return (
         <div className="ccmt-cff-Page-FormConfirmationPage">        
         <Payment
+            onPaymentStarted={e => this.onPaymentStarted(e)}
             apiEndpoint={this.props.apiEndpoint}
             paymentInfo={this.props.paymentInfo}
             paymentInfo_owed={this.state.paymentInfo_owed}

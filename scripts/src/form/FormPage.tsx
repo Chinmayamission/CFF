@@ -113,6 +113,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentMethods: null,
       paymentInfo_received: null,
       paymentCalcInfo: null,
+      paymentStarted: false,
       data: null,
       responseId: null,
       responseLoaded: null,
@@ -314,6 +315,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     return errors;
   }
+  onPaymentStarted(e) {
+    this.setState({paymentStarted: true});
+  }
   render() {
     if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
@@ -361,15 +365,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     );
     if (this.state.status == STATUS_FORM_CONFIRMATION) {
       return (<div>
-          <h1>Confirmation Page</h1>
-          <button className="btn btn-default"
-            onClick={this.goBackToFormPage}
-          >Go back and edit form response</button>
-          {formToReturn}
-          <button className="btn btn-default"
-            onClick={this.goBackToFormPage}
-          >Go back and edit form response</button>
+          {!this.state.paymentStarted && <div>
+            <h1>Confirmation Page</h1>
+            <button className="btn btn-default"
+              onClick={this.goBackToFormPage}
+            >Go back and edit form response</button>
+            {formToReturn}
+            <button className="btn btn-default"
+              onClick={this.goBackToFormPage}
+            >Go back and edit form response</button>
+          </div>}
           <FormConfirmationPage
+            onPaymentStarted={e => this.onPaymentStarted(e)}
             apiEndpoint={this.props.apiEndpoint}
             schema={this.state.schema}
             schemaMetadata={this.state.schemaMetadata}

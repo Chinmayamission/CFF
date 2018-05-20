@@ -4,6 +4,7 @@ import PaymentTable from "./PaymentTable";
 import Paypal from "./paypal";
 import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
+import ManualApproval from "./ManualApproval";
 import {clone} from "lodash-es";
 import ReactTable from 'react-table';
 import * as DOMPurify from 'dompurify';
@@ -11,11 +12,15 @@ import * as DOMPurify from 'dompurify';
 let Components = {
     "paypal_rest": Paypal,
     "paypal_classic": PaypalClassic,
-    "ccavenue": CCAvenue
+    "ccavenue": CCAvenue,
+    "manual_approval": ManualApproval
 };
 class Payment extends React.Component<IPaymentProps, any> {
     constructor(props: any) {
         super(props);
+        this.state = {
+            paymentStarted: false
+        }
       }
 
     getPaymentMethods() {
@@ -25,6 +30,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             if (!MyComponent) return;
             console.log('option is', paymentMethod);
             let props = {
+                "onPaymentStarted": e => this.onPaymentStarted(e),
                 "paymentInfo_owed": this.props.paymentInfo_owed,
                 "paymentInfo_received": this.props.paymentInfo_received,
                 "paymentInfo": this.props.paymentInfo,
@@ -51,6 +57,10 @@ class Payment extends React.Component<IPaymentProps, any> {
     }
     formatPaymentInfo(paymentInfo : IPaymentInfo) {
         return this.formatPayment(paymentInfo.total, paymentInfo.currency);
+    }
+    onPaymentStarted(e) {
+        this.props.onPaymentStarted(e);
+        this.setState({paymentStarted: true});
     }
     render() {
         if (!this.props.paymentMethods) {
@@ -80,7 +90,9 @@ class Payment extends React.Component<IPaymentProps, any> {
             <div style={{ "textAlign": "center" }}>
                 {this.props.paymentInfo_owed.total > 0 && 
                     <div>
-                        <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.props.paymentInfo.description || "Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.") }} />
+                        {!this.state.paymentStarted && 
+                            <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.props.paymentInfo.description || "Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.") }} />
+                        }
                         {this.getPaymentMethods()}
                     </div>
                 }
