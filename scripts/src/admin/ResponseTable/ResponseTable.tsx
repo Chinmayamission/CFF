@@ -349,6 +349,9 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                                         if (typeof e[header.key] == 'undefined') {
                                             e[header.key] = "";
                                         }
+                                        if (typeof e[header.key] == 'string') {
+                                            e[header.key] = e[header.key].replace(/\n/g, "  ");
+                                        }
                                     }
                                     return e;
                                 })}
