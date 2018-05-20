@@ -51,14 +51,14 @@ export module CreateSchemas {
         if ("uiSchema" in data) {
             // New form type -- don't do all this calculations / overrides.
             return {
-                schemaMetadata: data["formOptions"],
+                schemaMetadata: get(data, "formOptions", {}),
                 uiSchema: data["uiSchema"],
                 schema: data["schema"],
                 defaultFormData: {},
-                paymentCalcInfo: get(data, "formOptions.paymentInfo"), 
+                paymentCalcInfo: get(data, "formOptions.paymentInfo", {}), 
                 validationInfo: {},
                 focusUpdateInfo: {},
-                dataOptions: get(data, "formOptions.dataOptions")
+                dataOptions: get(data, "formOptions.dataOptions", {})
             };
         }
         let validationInfo: IValidationInfoItem[] = [];

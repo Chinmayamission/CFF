@@ -74,6 +74,8 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         this.setState({"loading": false});
     }
     onError(e) {
+        alert("Error: " + e);
+        console.error(e);
         this.setState({hasError: true});
     }
 
@@ -289,6 +291,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             this.setState({tableDataOrigObject, tableData, tableDataDisplayed});
         }).catch(e => {
             alert(`Response update failed: ${e}`);
+            console.error(e);
         })
         // console.log(value, path, row, this.state.tableDataOrigObject);
     }
