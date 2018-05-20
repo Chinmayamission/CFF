@@ -37,6 +37,12 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.24 - backend 1.1.11 (5/19/18)
+- Fix bug where opening pages in new tab would crash
+- Better signed in UI (don't use greetings bar, it's all in the footer)
+- Upgrade aws amplify.
+- Add "auto_email" and "manual_approval" payment option
+
 ## 1.3.23 (5/10/18) - backend 1.1.9
 - Allow "description" to be provided in paymentInfo which overrides default text after submit.
 
