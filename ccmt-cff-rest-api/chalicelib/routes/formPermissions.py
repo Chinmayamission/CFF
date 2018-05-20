@@ -1,6 +1,6 @@
 from boto3.dynamodb.conditions import Key
 from pydash.arrays import union
-POSSIBLE_PERMISSIONS = ["owner", "Responses_View", "Responses_Edit", "Responses_CheckIn", "Forms_Edit", "Forms_PermissionsView", "Forms_PermissionsEdit"] # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
+POSSIBLE_PERMISSIONS = ["owner", "Responses_View", "Responses_Export", "Responses_ViewSummary", "Responses_Edit", "Responses_CheckIn", "Forms_Edit", "Forms_PermissionsView", "Forms_PermissionsEdit"] # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
 
 def form_get_permissions(formId):
   """

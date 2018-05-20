@@ -5,6 +5,7 @@ from .formCreate import form_create
 from .formEdit import form_edit
 from .formDelete import form_delete
 from .formRender import form_render
+from .formResponseExport import form_response_export
 from .formResponseList import form_response_list
 from .formResponseSummary import form_response_summary
 from .editResponse import edit_response, response_checkin
