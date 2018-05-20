@@ -9,7 +9,8 @@ module.exports = merge(common, {
  mode: 'development',
  plugins: [
     new webpack.DefinePlugin({
-        MODE: `"${MODE}"`
+        MODE: `"${MODE}"`,
+        API_VERSION: `"api"`
     })
  ]
 });

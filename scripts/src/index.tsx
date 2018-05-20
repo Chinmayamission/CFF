@@ -6,20 +6,21 @@ import Amplify, {Auth} from 'aws-amplify';
 
 declare var MODE: string;
 declare var VERSION: string;
+declare var API_VERSION: string;
 
-console.log("CFF Version", VERSION);
+console.log("CFF Version", VERSION, "API Version", API_VERSION);
 
 let ENDPOINT_URL = "";
 switch (MODE) {
   case "dev":
-    ENDPOINT_URL = "https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/";
+    ENDPOINT_URL = `https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/`;
     break;
   case "beta":
-    ENDPOINT_URL = "https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/api/";
+    ENDPOINT_URL = `https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/api/`;
     break;
   case "prod":
   default:
-    ENDPOINT_URL = "https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com/api/";
+    ENDPOINT_URL = `https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com/${API_VERSION}/`;
     break;
 }
 

@@ -5,6 +5,7 @@ owner
 Responses_View
 Responses_Edit
 Responses_CheckIn
+Responses_Export
 Responses_ViewSummary
 Forms_PermissionsView
 Forms_PermissionsEdit

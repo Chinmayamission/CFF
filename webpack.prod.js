@@ -52,22 +52,10 @@ let prod_named_versions = merge(common, {
         // filename: `index.${pjson.version}.html`
      }),
     new webpack.DefinePlugin({
-      MODE: `"${MODE}"`
+      MODE: `"${MODE}"`,
+      API_VERSION: `"api"` //For now. //`"${pjson.api_version}"`.replace(/\./g, "_")
     })
   ]
 });
 
-let prod_not_named_versions = merge(prod_named_versions, {
-  mode: 'production',
-  output: {
-    filename: 'cff.[name].js'
-  },
-  plugins: [
-    new CleanWebpackPlugin([DEST_URL]),
-    new webpack.DefinePlugin({
-      MODE: `"${MODE}"`
-    })
-  ]
-});
-
-module.exports = [prod_named_versions];
+module.exports = prod_named_versions;

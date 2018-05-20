@@ -37,6 +37,16 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.26 (5/20/18) - backend 1.1.12
+- Allow form structure "v2": allow uiSchema and schema to be specified directly within the form itself.
+- Support free forms (no payment required)
+- Bug fix: Export CSVs with newlines in them.
+- Feature: Add "Loading" animation for ManualApproval component.
+
+- In the form database entry, formOptions can now have successMessage, confirmationEmailInfo, showConfirmationPage (to skip confirmation page), paymentMethods etc.
+- Note: formOptions is referred to as "schemaMetadata" in the code
+- Note: v2 does not work with paid forms yet, only free forms.
+
 ## 1.3.25 (5/19/18)
 - Quick fix on the js file names.
 

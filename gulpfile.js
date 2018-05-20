@@ -21,7 +21,7 @@ gulp.task('webserver', function() {
 
 gulp.task('webserver-prod', function() {
     connect.server({
-        port: 8001,
+        port: 8000,
         root: "./scripts/prod",
         livereload: true,
         fallback: `./scripts/prod/index.${pjson.version}.html`
