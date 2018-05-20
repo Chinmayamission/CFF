@@ -30,6 +30,7 @@ const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
 const STATUS_FORM_CONFIRMATION = 4;
 const STATUS_FORM_PAYMENT_SUCCESS = 6;
+const STATUS_FORM_DONE = 8;
 
 
 /* Adds a custom error message for regex validation (especially for phone numbers).
@@ -206,13 +207,20 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             for (let field of res.fields_to_clear) {
               set(formDataNew, field, "");
             }
-            this.setState({data: formDataNew})
+            this.setState({data: formDataNew});
           }
           throw "Error submitting the form: " + res.message;
         }
         else {
           throw "Response not formatted correctly: " + JSON.stringify(res);
         }
+      }
+      if (this.state.schemaMetadata.showConfirmationPage === false) {
+        this.setState({
+          ajaxLoading: false,
+          status: STATUS_FORM_DONE
+        })
+        return;
       }
       let newResponse = res.action == "insert";
       let paymentInfo_received = null;
@@ -323,6 +331,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       return (<div>
         <h1>Payment processing</h1>
         <p>Thank you for your payment! You will receive a confirmation email within 24 hours after the payment has been verified.</p>
+      </div>);
+    }
+    if (this.state.status == STATUS_FORM_DONE) {
+      return (<div>
+        <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.state.schemaMetadata.successMessage) }} />
       </div>);
     }
     if (this.state.status == STATUS_FORM_LOADING) {

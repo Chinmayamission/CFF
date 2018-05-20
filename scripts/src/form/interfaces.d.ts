@@ -18,7 +18,9 @@ interface SchemaModifier {
 interface SchemaMetadata {
     paymentInfo?: IPaymentInfo,
     paymentMethods?: PaymentMethods
-    confirmationEmailInfo?: any
+    confirmationEmailInfo?: any,
+    showConfirmationPage?: boolean,
+    successMessage?: string
 }
 
 interface IPaymentInfo {
