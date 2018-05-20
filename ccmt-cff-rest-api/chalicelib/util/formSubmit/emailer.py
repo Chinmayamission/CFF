@@ -48,6 +48,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
             flat[human_readable_key(i)] = flat.pop(i)
         kwargs = dict(response, response=flat)
         msgBody = env.from_string(templateText).render(**kwargs)
+        addCSS = False
     else:
         msgBody = ""
         if "contentHeader" in confirmationEmailInfo:
@@ -78,6 +79,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
         if "contentFooter" in confirmationEmailInfo:
             msgBody += confirmationEmailInfo["contentFooter"]
         # todo: check amounts and Completed status, and then send.
+        addCSS = True
     
     toField = confirmationEmailInfo["toField"]
     if type(toField) is not list:
@@ -89,13 +91,18 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
                         subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
                         bccEmail=confirmationEmailInfo.get("bcc", ""),
                         ccEmail=confirmationEmailInfo.get("cc", ""),
-                        msgBody=msgBody)
+                        msgBody=msgBody,
+                        addCSS=addCSS
+                        )
     return kwargs
 
-def email_to_html_text(msgBody):
+def email_to_html_text(msgBody, addCSS):
     BODY_TEXT = html2text.html2text(msgBody)
     # The HTML body of the email.
-    BODY_HTML = Pynliner().from_string(msgBody).with_cssString(ccmt_email_css).run() # bleach.linkify(bleach.clean(msgBody))
+    if addCSS:
+        BODY_HTML = Pynliner().from_string(msgBody).with_cssString(ccmt_email_css).run()
+    else:
+        BODY_HTML = Pynliner().from_string(msgBody).run() # bleach.linkify(bleach.clean(msgBody))
     return BODY_TEXT, BODY_HTML
 
 def send_email(
@@ -105,14 +112,15 @@ def send_email(
     bccEmail="",
     fromName="Webmaster",
     subject="Confirmation email",
-    msgBody="<h1>Confirmation</h1><br><p>Thank you for registering.</p>"
+    msgBody="<h1>Confirmation</h1><br><p>Thank you for registering.</p>",
+    addCSS=False
     ):
     # Replace sender@example.com with your "From" address.
     # This address must be verified with Amazon SES.
     SENDER = "{} <{}>".format(fromName, fromEmail)
     # If necessary, replace us-west-2 with the AWS Region you're using for Amazon SES.
     AWS_REGION = "us-east-1"
-    BODY_TEXT, BODY_HTML = email_to_html_text(msgBody)
+    BODY_TEXT, BODY_HTML = email_to_html_text(msgBody, addCSS)
     # The character encoding for the email.
     CHARSET = "utf-8"
     client = boto3.client('ses',region_name=AWS_REGION)
