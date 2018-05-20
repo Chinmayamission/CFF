@@ -48,6 +48,19 @@ let isUiSchemaPath = (path) => {
 
 export module CreateSchemas {
     export function createSchemas(data, specifiedShowFields) {
+        if ("uiSchema" in data) {
+            // New form type -- don't do all this calculations / overrides.
+            return {
+                schemaMetadata: data["formOptions"],
+                uiSchema: data["uiSchema"],
+                schema: data["schema"],
+                defaultFormData: {},
+                paymentCalcInfo: get(data, "formOptions.paymentInfo"), 
+                validationInfo: {},
+                focusUpdateInfo: {},
+                dataOptions: get(data, "formOptions.dataOptions")
+            };
+        }
         let validationInfo: IValidationInfoItem[] = [];
         let focusUpdateInfo: IFocusUpdateInfoItem[] = [];
         let isEditingResponse = !!data["responseLoaded"];

@@ -43,7 +43,9 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                     {formList && formList.map((form) =>
                         <tr key={form["id"]}>
                             <td>{form["name"]}<br />
-                                <small title={`s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}`}><code>{form["id"]}</code></small>
+                                <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
+                                    <code>{form["id"]}</code>
+                                </small>
                             </td>
                             <td>
                                 <ActionButton form={form}

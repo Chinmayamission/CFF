@@ -55,3 +55,17 @@ test('color schema', () => {
   expect(result.schema).toEqual(require("./color.new.schema.json"));
   expect(result.uiSchema).toEqual(require("./color.new.uiSchema.json"));
 });
+
+test('keep schema and uischema the same.', () => {
+  let paymentInfo = {"A":"B"};
+  let result = CreateSchemas.createSchemas({
+    "schema": require("./color.new.schema.json"),
+    "uiSchema": require("./color.new.uiSchema.json"),
+    "formOptions": {
+      "paymentInfo": paymentInfo
+    }
+  }, []);
+  expect(result.schema).toEqual(require("./color.new.schema.json"));
+  expect(result.uiSchema).toEqual(require("./color.new.uiSchema.json"));
+  expect(result.paymentCalcInfo).toEqual(paymentInfo);
+});
