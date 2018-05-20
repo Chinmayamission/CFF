@@ -12,6 +12,7 @@ from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
 def form_response_new(formId, responseId=None):
   from ..main import app, TABLES
   newResponse = False
+  email_sent = False
   if not responseId:
       responseId = str(uuid.uuid4())
       newResponse = True
@@ -26,9 +27,9 @@ def form_response_new(formId, responseId=None):
   schemaModifier = TABLES.schemaModifiers.get_item(
       Key=form["schemaModifier"]
     )["Item"]
-  paymentInfo = schemaModifier['paymentInfo']
-  confirmationEmailInfo = schemaModifier['confirmationEmailInfo']
-  paymentMethods = fill_paymentMethods_with_data(schemaModifier['paymentMethods'], response_data)
+  paymentInfo = schemaModifier.setdefault('paymentInfo', {})
+  confirmationEmailInfo = schemaModifier.setdefault('confirmationEmailInfo', {})
+  paymentMethods = fill_paymentMethods_with_data(schemaModifier.setdefault('paymentMethods', []), response_data)
 
   def calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo):
     paymentInfoItem['amount'] = Decimal(calculate_price(paymentInfoItem.get('amount', '0'), response_data))
@@ -112,10 +113,15 @@ def form_response_new(formId, responseId=None):
           Item=response)
       if paid: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)
+          email_sent = True
       if "ccavenue" in paymentMethods: # todo: add this in update too.
           paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], schemaModifier, response)
-      return {"res": {"paid": paid, "success": True, "action": "insert", "id": responseId, "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
+      if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
+          send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
+          email_sent = True
+      return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "id": responseId, "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
   else:
+      raise Exception("Updating not supported yet")
       # Updating.
       response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
       response_new = TABLES.responses.update_item(
@@ -150,6 +156,7 @@ def form_response_new(formId, responseId=None):
             "success": True,
             "paid": paid,
             "action": "update",
+            # "email_sent": email_sent,
             "id": responseId,
             "paymentInfo": paymentInfo,
             "paymentMethods": paymentMethods,

@@ -48,7 +48,7 @@ class FormSubmit(unittest.TestCase):
     def test_submit_form_ccavenue(self):
         formId = "c06e7f16-fcfc-4cb5-9b81-722103834a81"
         formData = {"name": "test"}
-        ccavenue_access_code = "2656EE03958C01EE950045272F0DBEC9"
+        ccavenue_access_code = "AVOC74EK51CE27COEC"
         ccavenue_merchant_id = "155729"
         response = self.lg.handle_request(method='POST',
                                           path='/forms/{}/responses'.format(formId),
@@ -61,4 +61,7 @@ class FormSubmit(unittest.TestCase):
         self.assertEqual(ccavenue["access_code"], ccavenue_access_code)
         self.assertEqual(ccavenue["merchant_id"], ccavenue_merchant_id)
         self.assertIn("encRequest", ccavenue)
+        pass
+    def test_submit_form_manual_approval(self):
+        # todo.
         pass

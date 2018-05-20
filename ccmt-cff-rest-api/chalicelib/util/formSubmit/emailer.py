@@ -4,9 +4,11 @@ from botocore.exceptions import ClientError
 # import bleach
 import html2text
 from pynliner import Pynliner
-from .util import format_paymentInfo, format_payment, display_form_dict
+from .util import format_paymentInfo, format_payment, display_form_dict, human_readable_key
 from pydash.objects import get
 import logging
+from jinja2 import Environment
+import flatdict
 
 ccmt_email_css = """
 table {
@@ -29,9 +31,24 @@ img.mainImage {
 }
 """
 
-def send_confirmation_email(response, confirmationEmailInfo):
-    if confirmationEmailInfo:
-        toField = confirmationEmailInfo["toField"]
+env = Environment()
+
+def human_readable(input):
+    return input.upper()
+
+# env.filters['upperstring'] = upperstring
+
+def create_confirmation_email_dict(response, confirmationEmailInfo):
+    # Creates dict with confirmation email info.
+    if not confirmationEmailInfo: return
+    if "template" in confirmationEmailInfo:
+        templateText = get(confirmationEmailInfo, "template.html")
+        flat = flatdict.FlatterDict(response["value"])
+        for i in flat:
+            flat[human_readable_key(i)] = flat.pop(i)
+        kwargs = dict(response, response=flat)
+        msgBody = env.from_string(templateText).render(**kwargs)
+    else:
         msgBody = ""
         if "contentHeader" in confirmationEmailInfo:
             msgBody += confirmationEmailInfo["contentHeader"]
@@ -61,19 +78,19 @@ def send_confirmation_email(response, confirmationEmailInfo):
         if "contentFooter" in confirmationEmailInfo:
             msgBody += confirmationEmailInfo["contentFooter"]
         # todo: check amounts and Completed status, and then send.
-        
-        if type(toField) is not list:
-            toField = [toField]
+    
+    toField = confirmationEmailInfo["toField"]
+    if type(toField) is not list:
+        toField = [toField]
 
-        kwargs = dict(toEmail=[get(response["value"], i) for i in toField],
-                            fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
-                            fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
-                            subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
-                            bccEmail=confirmationEmailInfo.get("bcc", ""),
-                            ccEmail=confirmationEmailInfo.get("cc", ""),
-                            msgBody=msgBody)
-        send_email(**kwargs)
-        return kwargs
+    kwargs = dict(toEmail=[get(response["value"], i) for i in toField],
+                        fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
+                        fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
+                        subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
+                        bccEmail=confirmationEmailInfo.get("bcc", ""),
+                        ccEmail=confirmationEmailInfo.get("cc", ""),
+                        msgBody=msgBody)
+    return kwargs
 
 def email_to_html_text(msgBody):
     BODY_TEXT = html2text.html2text(msgBody)
@@ -151,3 +168,9 @@ def send_email(
         raise
     else:
         print('Email sent successfully to {}.'.format(toEmail))
+
+def send_confirmation_email(response, confirmationEmailInfo):
+    """ Actually send confirmation email"""
+    dct = create_confirmation_email_dict(response, confirmationEmailInfo)
+    send_email(**dct)
+    return dct

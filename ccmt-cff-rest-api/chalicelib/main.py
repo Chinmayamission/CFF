@@ -31,6 +31,8 @@ if os.getenv("TABLE_PREFIX") == "cff_prod":
 
 class CustomChalice(Chalice):
     def get_url(self, path=''):
+        if os.getenv("UNIT_TEST") == "TRUE":
+            return f"dummy://{path}"
         headers = self.current_request.headers
         return '%s://%s/%s%s' % (headers['x-forwarded-proto'],
                             headers['host'],
@@ -104,6 +106,8 @@ app.route('/forms/{formId}/responses', methods=['POST'], cors=True)(routes.form_
 # todo: fix this:
 app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ipn_listener)
 app.route('/forms/{formId}/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
+app.route('/forms/{formId}/responses/{responseId}/sendConfirmationEmail', methods=['POST'], cors=True)(routes.response_send_confirmation_email)
+
 
 # get schema and schemaModifier versions
 # edit form
