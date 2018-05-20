@@ -1,6 +1,12 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
+# 1.1.11 (5/19/18)
+- Add auto_email and manual_approval options to paymentMethods.
+- Allow jinja templates in confirmationEmailInfo to be specified for each paymentMethod.
+- All tests should pass now.
+- Add code from manual om run tools.
+
 # 1.1.10 (5/13/18)
 - Let email total amount text to be customized (totalAmountText in confirmationEmailInfo)
 - Let columns in email table be customized, too:
