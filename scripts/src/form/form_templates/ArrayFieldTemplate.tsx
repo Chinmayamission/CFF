@@ -30,10 +30,6 @@ class ArrayFieldTemplate extends React.Component<any, any> {
       paymentInfo: null
     }
   }
-  componentWillReceiveProps(newProps) {
-    console.log("newProps", newProps);
-    //this.setState({name: newProps.name});
-  }
   render() {
     return (
       <fieldset className={this.props.className}>
