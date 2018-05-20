@@ -1,6 +1,11 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
+# 1.1.12 (5/20/18)
+- Allow uiSchema and schema to be specified directly within the form itself.
+- Don't include default email css on templates
+- Set up part of responses export url.
+
 # 1.1.11 (5/19/18)
 - Add auto_email and manual_approval options to paymentMethods.
 - Allow jinja templates in confirmationEmailInfo to be specified for each paymentMethod.
