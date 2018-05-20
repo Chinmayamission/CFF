@@ -368,7 +368,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         >
           {this.state.status == STATUS_FORM_RENDERED &&
             <div>
-              {this.state.paymentCalcInfo &&
+              {this.state.paymentCalcInfo && this.state.paymentCalcInfo.items && this.state.paymentCalcInfo.items.length > 0 &&
                 <PaymentCalcTable formData={this.state.data} paymentCalcInfo={this.state.paymentCalcInfo} />
               }
               <button className="btn btn-primary btn-lg" type="submit">Submit</button>
