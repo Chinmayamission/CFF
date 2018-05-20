@@ -21,15 +21,19 @@ def form_response_new(formId, responseId=None):
   modifyLink = app.current_request.json_body['modifyLink']
   form = TABLES.forms.get_item(
       Key=dict(id=formId, version=1),
-      ProjectionExpression="#schema, center, schemaModifier, couponCodes, cff_permissions",
+      ProjectionExpression="#schema, center, uiSchema, formOptions, schemaModifier, couponCodes, cff_permissions",
       ExpressionAttributeNames={"#schema": "schema"}
     )["Item"]
-  schemaModifier = TABLES.schemaModifiers.get_item(
-      Key=form["schemaModifier"]
-    )["Item"]
-  paymentInfo = schemaModifier.setdefault('paymentInfo', {})
-  confirmationEmailInfo = schemaModifier.setdefault('confirmationEmailInfo', {})
-  paymentMethods = fill_paymentMethods_with_data(schemaModifier.setdefault('paymentMethods', []), response_data)
+  if "uiSchema" in form:
+      # v2.
+      formOptions = form.get("formOptions", {})
+  else:
+    formOptions = TABLES.schemaModifiers.get_item(
+        Key=form["schemaModifier"]
+        )["Item"]
+  paymentInfo = formOptions.setdefault('paymentInfo', {})
+  confirmationEmailInfo = formOptions.setdefault('confirmationEmailInfo', {})
+  paymentMethods = fill_paymentMethods_with_data(formOptions.setdefault('paymentMethods', {}), response_data)
 
   def calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo):
     paymentInfoItem['amount'] = Decimal(calculate_price(paymentInfoItem.get('amount', '0'), response_data))
@@ -37,7 +41,7 @@ def form_response_new(formId, responseId=None):
     paymentInfo['total'] += paymentInfoItem['amount'] * paymentInfoItem['quantity']
   paymentInfoItemsWithTotal = []
   paymentInfo['total'] = 0
-  for paymentInfoItem in paymentInfo['items']:
+  for paymentInfoItem in paymentInfo.setdefault('items', []):
       paymentInfoItem.setdefault("name", "Payment Item")
       paymentInfoItem.setdefault("description", "Payment Item")
       paymentInfoItem.setdefault("quantity", "1")
@@ -111,11 +115,11 @@ def form_response_new(formId, responseId=None):
     #           }]
       TABLES.responses.put_item(
           Item=response)
-      if paid: # If total amount is zero (user uses coupon code to get for free)
+      if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)
           email_sent = True
       if "ccavenue" in paymentMethods: # todo: add this in update too.
-          paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], schemaModifier, response)
+          paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], response)
       if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
           send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
           email_sent = True

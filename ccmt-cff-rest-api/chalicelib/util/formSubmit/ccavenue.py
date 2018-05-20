@@ -3,7 +3,7 @@ from pydash.objects import get
 import time
 import shortuuid
 
-def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, centerId, schemaModifier, response):
+def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, centerId, response):
   from ...main import app, TABLES
   center = TABLES.centers.get_item(
     Key=dict(id=centerId),
