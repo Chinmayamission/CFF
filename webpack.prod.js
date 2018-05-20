@@ -44,6 +44,7 @@ let prod_named_versions = merge(common, {
     // new MiniCssExtractPlugin({
     //   filename: `[name].${pjson.version}.css`
     // }),
+    new CleanWebpackPlugin([DEST_URL]),
      new HtmlWebpackPlugin({
         title: 'Chinmaya Forms Framework Admin',
         template: './scripts/src/index.html',
@@ -69,4 +70,4 @@ let prod_not_named_versions = merge(prod_named_versions, {
   ]
 });
 
-module.exports = [prod_not_named_versions, prod_named_versions];
+module.exports = [prod_named_versions];

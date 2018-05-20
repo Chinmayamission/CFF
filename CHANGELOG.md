@@ -37,6 +37,9 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 1.3.25 (5/19/18)
+- Quick fix on the js file names.
+
 ## 1.3.24 - backend 1.1.11 (5/19/18)
 - Fix bug where opening pages in new tab would crash
 - Better signed in UI (don't use greetings bar, it's all in the footer)
