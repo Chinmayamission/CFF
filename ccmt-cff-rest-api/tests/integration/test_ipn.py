@@ -26,3 +26,21 @@ class FormIpn(unittest.TestCase):
     def test_ipn_success(self):
         # asd
         pass
+    def test_ipn_v2_duplicate(self):
+        formId = "e08b694e-27b8-418f-ad7c-79a0b89f52be"
+        respId = "9c6992d0-45e1-49dd-acbd-6bd376603630"
+        ipn_value = "mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&item_number1=Base Registration&item_number2=$25 for each additional child&payer_id=A4CSL993V3BDG&address_street=1 Main St&payment_date=19:57:49 May 23, 2018 PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=test&mc_fee=0.33&address_country_code=US&address_name=test buyer&notify_version=3.9&custom={}/{}&payer_status=verified&business=aramaswamis-facilitator@gmail.com&address_country=United States&num_cart_items=2&address_city=San Jose&verify_sign=AGV6csTg6wZeXiLA3TJ1jLQ3z0LlAh8kX529e3I8BAcD2qpKcKlQOEzO&payer_email=aramaswamis-buyer@gmail.com&txn_id=0TC74719VH5246718&payment_type=instant&last_name=buyer&address_state=CA&item_name1=Base Registration&receiver_email=aramaswamis-facilitator@gmail.com&item_name2=Additional Registration&payment_fee=0.33&quantity1=1&quantity2=1&receiver_id=T4A6C58SP7PP2&txn_type=cart&mc_gross_1=0.50&mc_currency=USD&mc_gross_2=0.50&residence_country=US&test_ipn=1&transaction_subject=&payment_gross=1.00&ipn_track_id=6db0da264b868".format(formId, respId)
+        response = self.lg.handle_request(method='POST',
+                                    path='/responses/{}/ipn'.format(respId),
+                                    headers={"Content-Type": "application/x-www-form-urlencoded"},
+                                    body=ipn_value)
+        self.assertEqual(response['statusCode'], 500, response)
+    def test_ipn_v2(self):
+        formId = "e08b694e-27b8-418f-ad7c-79a0b89f52be"
+        respId = "6f04eae0-cfa1-4a9e-a479-c9fd33685f42"
+        ipn_value = f"mc_gross=1.00&protection_eligibility=Eligible&address_status=confirmed&item_number1=Base Registration&item_number2=$25 for each additional child&payer_id=A4CSL993V3BDG&address_street=1 Main St&payment_date=20:51:56 May 23, 2018 PDT&payment_status=Completed&charset=windows-1252&address_zip=95131&first_name=test&mc_fee=0.33&address_country_code=US&address_name=test buyer&notify_version=3.9&custom={formId}/{respId}&payer_status=verified&business=aramaswamis-facilitator@gmail.com&address_country=United States&num_cart_items=2&address_city=San Jose&verify_sign=Ad9FJ2m.C8oQHWRDydCR9PjtwuG0A3a8ACOCmj.8zC5TIp7VZ7UU2pU9&payer_email=aramaswamis-buyer@gmail.com&txn_id=9S303752WL4567910&payment_type=instant&last_name=buyer&address_state=CA&item_name1=Base Registration&receiver_email=aramaswamis-facilitator@gmail.com&item_name2=Additional Registration&payment_fee=0.33&quantity1=1&quantity2=1&receiver_id=T4A6C58SP7PP2&txn_type=cart&mc_gross_1=0.50&mc_currency=USD&mc_gross_2=0.50&residence_country=US&test_ipn=1&transaction_subject=&payment_gross=1.00&ipn_track_id=288fbb5f4d134"
+        response = self.lg.handle_request(method='POST',
+                                    path='/responses/{}/ipn'.format(respId),
+                                    headers={"Content-Type": "application/x-www-form-urlencoded"},
+                                    body=ipn_value)
+        print(response)

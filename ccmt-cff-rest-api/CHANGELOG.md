@@ -1,6 +1,9 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
+# 1.1.13 (5/24/18)
+- Bug fix: Allow payment (and ipn handler) to work with v2 version of forms
+
 # 1.1.12 (5/20/18)
 - Allow uiSchema and schema to be specified directly within the form itself.
 - Don't include default email css on templates

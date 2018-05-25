@@ -141,17 +141,21 @@ class IpnHandler:
           ProjectionExpression="form"
       )["Item"]["form"]
       formKey['version'] = int(formKey['version'])
-      schemaModifierKey = self.TABLES.forms.get_item(
+      form = self.TABLES.forms.get_item(
           Key=formKey,
-          ProjectionExpression="schemaModifier"
-      )["Item"]["schemaModifier"]
-      schemaModifierKey['version'] = int(schemaModifierKey['version'])
-      schemaModifier = self.TABLES.schemaModifiers.get_item(
-          Key=schemaModifierKey,
-          ProjectionExpression="confirmationEmailInfo, paymentMethods"
+          ProjectionExpression="schemaModifier, formOptions"
       )["Item"]
-      self.confirmationEmailInfo = schemaModifier["confirmationEmailInfo"]
-      self.paymentMethods = schemaModifier["paymentMethods"]
+      if "formOptions" not in form:
+        schemaModifierKey = form["schemaModifier"]
+        schemaModifierKey['version'] = int(schemaModifierKey['version'])
+        formOptions = self.TABLES.schemaModifiers.get_item(
+            Key=schemaModifierKey,
+            ProjectionExpression="confirmationEmailInfo, paymentMethods"
+        )["Item"]
+      else:
+        formOptions = form.get("formOptions", {})
+      self.confirmationEmailInfo = formOptions.get("confirmationEmailInfo", {})
+      self.paymentMethods = formOptions.get("paymentMethods", {})
   def get_expected_receiver_email_paypal_classic(self):
       return self.paymentMethods["paypal_classic"]["business"]
 
