@@ -18,7 +18,7 @@ def response_send_confirmation_email(formId, responseId):
       )["Item"]
   else:
     formOptions = form["formOptions"]
-  paymentMethod = app.current_request.json_body.get("paymentMethod", "")
+  paymentMethod = (app.current_request.json_body or {}).get("paymentMethod", "")
 
   confirmationEmailInfo = get(formOptions, f"paymentMethods.{paymentMethod}.confirmationEmailInfo", formOptions.get("confirmationEmailInfo", {}))
   email = send_confirmation_email(response, confirmationEmailInfo)
