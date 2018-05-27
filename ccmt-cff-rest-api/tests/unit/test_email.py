@@ -122,3 +122,15 @@ class TestCreateEmail(unittest.TestCase):
     def test_create_email_html_template(self):
         res = create_confirmation_email_dict(RESPONSE, CONFIRMATION_EMAIL_INFO_TEMPLATE)
         self.assertEqual(res, EXPECTED_RES_TEMPLATE)
+    
+    def test_create_email_html_template_with_undefined(self):
+        response = RESPONSE
+        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": "Hello world. {{undef}}{{undef.undef}}Hohoho."})
+        res = create_confirmation_email_dict(response, confirmationEmailInfo)
+        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. Hohoho."))
+
+    def test_create_email_html_template_format_payment_filter(self):
+        response = RESPONSE
+        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": "Hello world. {{paymentInfo.total | format_payment(paymentInfo.currency)}} Hohoho."})
+        res = create_confirmation_email_dict(response, confirmationEmailInfo)
+        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. $500.00 Hohoho."))

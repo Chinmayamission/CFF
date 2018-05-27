@@ -7,7 +7,7 @@ from pynliner import Pynliner
 from .util import format_paymentInfo, format_payment, display_form_dict, human_readable_key
 from pydash.objects import get
 import logging
-from jinja2 import Environment
+from jinja2 import Environment, Undefined
 import flatdict
 
 ccmt_email_css = """
@@ -31,7 +31,12 @@ img.mainImage {
 }
 """
 
-env = Environment()
+class SilentUndefined(Undefined):
+    def _fail_with_undefined_error(self, *args, **kwargs):
+        return ''
+
+env = Environment(undefined=SilentUndefined)
+env.filters['format_payment'] = format_payment
 
 def human_readable(input):
     return input.upper()
