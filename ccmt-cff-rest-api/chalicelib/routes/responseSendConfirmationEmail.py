@@ -5,20 +5,22 @@ def response_send_confirmation_email(formId, responseId):
   from ..main import app, TABLES
   form = TABLES.forms.get_item(
     Key=dict(id=formId, version=1),
-    ProjectionExpression="schemaModifier"
+    ProjectionExpression="schemaModifier, formOptions"
   )["Item"]
   response = TABLES.responses.get_item(
     Key=dict(formId=formId, responseId=responseId)
   )["Item"]
   # todo: permissions here?
-  schemaModifier = TABLES.schemaModifiers.get_item(
-      Key=form["schemaModifier"],
-      ProjectionExpression="paymentInfo, paymentMethods, confirmationEmailInfo"
-    )["Item"]
-
+  if "formOptions" not in form:
+    formOptions = TABLES.schemaModifiers.get_item(
+        Key=form["schemaModifier"],
+        ProjectionExpression="paymentInfo, paymentMethods, confirmationEmailInfo"
+      )["Item"]
+  else:
+    formOptions = form["formOptions"]
   paymentMethod = app.current_request.json_body.get("paymentMethod", "")
-  print(f"paymentMethods.{paymentMethod}.confirmationEmailInfo", schemaModifier, "========\n\n======")
-  confirmationEmailInfo = get(schemaModifier, f"paymentMethods.{paymentMethod}.confirmationEmailInfo", schemaModifier.get("confirmationEmailInfo", {}))
+
+  confirmationEmailInfo = get(formOptions, f"paymentMethods.{paymentMethod}.confirmationEmailInfo", formOptions.get("confirmationEmailInfo", {}))
   email = send_confirmation_email(response, confirmationEmailInfo)
 
   return {"success": True, "email_sent": True, "email": email}
