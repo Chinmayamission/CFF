@@ -8,7 +8,7 @@ def fill_paymentMethods_with_data(paymentMethods, form_data):
       if type(value) is str:
         value = [value]
       if type(value) is list:
-        value = [(get(form_data, x[1:], x) if x.startswith("$") else x) for x in value]
+        value = [(get(form_data, x[1:], ".") if x.startswith("$") else x) for x in value]
         value = "".join(value)
       new_paymentMethods[paymentMethodName][key] = value
   return new_paymentMethods
