@@ -1,6 +1,10 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
+# 1.1.14 (5/26/18)
+- Fix responseSendConfirmationEmail endpoint to work with v2 version of form
+- Allow undefined variables to not crash jinja templates in email; add format_payment filter to templates too.
+
 # 1.1.13 (5/24/18)
 - Bug fix: Allow payment (and ipn handler) to work with v2 version of forms
 
