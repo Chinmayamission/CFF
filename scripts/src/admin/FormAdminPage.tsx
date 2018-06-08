@@ -14,9 +14,20 @@ import FormShare from "./FormShare/FormShare"
 import Loading from "src/common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
-import { withAuthenticator } from 'aws-amplify-react';
-import { Auth, API } from 'aws-amplify';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+
+import { connect } from 'react-redux';
+
+
+const mapStateToProps = state => ({
+    ...state.auth
+});
+  
+const mapDispatchToProps = (dispatch, ownProps) => ({
+
+});
+import Login from "./Login";
+
 
 declare var VERSION: string;
 const STATUS_LOADING = 0;
@@ -40,35 +51,8 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             loading: false
         }
     }
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps, nextProps.authState);
-        if (this.props.authState != "signedIn" && nextProps.authState == "signedIn") {
-
-        }
-    }
-    componentWillMount() {
-        // Auth.currentCredentials().then(creds => {
-        //     if (!creds || creds.expired) {
-        //         Auth.signOut();
-        //         return;
-        //     }
-        Auth.currentAuthenticatedUser().then(e => {
-            // if (!e) {
-            //     Auth.signOut();
-            //     return;
-            // }
-            let currentUser = pick(e, ["id", "name", "email"]);
-            // if (!currentUser.id) {
-            //     currentUser.id = creds.params.IdentityId;
-            // }
-            currentUser.id = "cff:cognitoIdentityId:" + currentUser.id;
-            this.setState({user: currentUser}); // , this.loadCenters);
-            console.log(currentUser);
-        });
-        // });
-    }
     componentDidMount() {
-        this.loadCenters();
+        // this.loadCenters();
     }
     loadCenters() {
         this.setState({"status": STATUS_CENTER_LIST});
@@ -104,6 +88,9 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.setState({"loading": false});
     }
     render() {
+        return <div><h1>It works.</h1><Login /></div>;
+    }
+    render_old() {
         if (this.state.status == STATUS_ACCESS_DENIED) {
             return <AccessDenied userId={this.state.user.id} />;
         }
@@ -139,7 +126,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                     <span className="text-muted">Chinmaya Forms Framework, version {VERSION}</span>
                     <div style={{"float":"right"}}>
                         <span>Hello, {this.state.user.name} ({this.state.user.email})</span>
-                        <button className="btn btn-outline-danger ml-4" onClick={() => Auth.signOut().then(() => {window.location.href="/"})} >Sign Out</button>
+                        {/* <button className="btn btn-outline-danger ml-4" onClick={() => Auth.signOut().then(() => {window.location.href="/"})} >Sign Out</button> */}
                     </div>
                 </div>
             </footer>
@@ -185,4 +172,4 @@ function AccessDenied(props) {
     </div>);
 }
 
-export default withAuthenticator(FormAdminPage);
+export default connect(mapStateToProps, mapDispatchToProps)(FormAdminPage);

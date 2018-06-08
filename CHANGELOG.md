@@ -37,6 +37,11 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+## 2.0.0 (tbd)
+- Use CosmosDB for backend
+- Use Auth0 for authentication
+- Use Redux
+
 ## 1.3.26 (5/20/18) - backend 1.1.12
 - Allow form structure "v2": allow uiSchema and schema to be specified directly within the form itself.
 - Support free forms (no payment required)

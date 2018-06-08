@@ -1,4 +1,3 @@
-import Config from "./index";
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FormPage from './form/FormPage';
@@ -11,7 +10,7 @@ if (formRenderElement) {
       <FormPage formId={formRenderElement.getAttribute('data-ccmt-cff-form-id')}
         authKey={formRenderElement.getAttribute('data-ccmt-cff-auth-key')}
         specifiedShowFields={JSON.parse(formRenderElement.getAttribute('data-ccmt-cff-specified-show-fields') || "{}")}
-        apiEndpoint={Config.ENDPOINT_URL} />
+        apiEndpoint={"abcdefg"} />
     </div>
     ,
     formRenderElement

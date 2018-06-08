@@ -11,7 +11,7 @@ const DEST_URL = FORMBUILDER_URL + "/dist";
 
 module.exports = {
   entry: {
-    app: ["babel-polyfill", SRC_URL + '/app']
+    app: ["babel-polyfill", SRC_URL + '/index']
   },
   optimization: {
     splitChunks: {
@@ -41,11 +41,6 @@ module.exports = {
       title: 'Chinmaya Forms Framework Admin',
       template: './scripts/src/index.html',
       filename: `index.${pjson.version}.html`
-    }),
-    new HtmlWebpackPlugin({
-        title: 'Chinmaya Forms Framework Form',
-        template: './scripts/src/form.html',
-        filename: "form.html"
     })
   ],
   module: {
@@ -53,12 +48,9 @@ module.exports = {
       {
         test: [/\.tsx?$/],
         exclude: [/node_modules/, /\.test.tsx?$/],
-        // exclude: [/node_modules/, /\.test.tsx?$/],
-        // exclude: [/node_modules\/(?!(json-schema-deref-sync)\/).*/, /\.test.tsx?$/],
-        // exclude: /node_modules\/(?![module1|module2])/
         use:
           [
-            {
+            /*{
               'loader': 'babel-loader',
               options: {
                 "cacheDirectory": true,
@@ -75,7 +67,7 @@ module.exports = {
                 plugins: [require("babel-plugin-transform-class-properties"), require("babel-plugin-transform-es2015-arrow-functions"), require("babel-plugin-transform-es3-member-expression-literals"), require("babel-plugin-transform-es3-property-literals")]
                 // plugins: ["@babel/plugin-transform-template-literals"]
               }
-            },
+            },*/
             {
               'loader': 'ts-loader'
             }
