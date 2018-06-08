@@ -1,0 +1,42 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+attrs = "==17.4.0"
+"beautifulsoup4" = "==4.6.0"
+blinker = "==1.4"
+"boto3" = "==1.6.20"
+botocore = "==1.9.20"
+certifi = "==2018.1.18"
+chalice = "==1.1.1"
+chardet = "==3.0.4"
+click = "==6.6"
+cssutils = "==1.0.2"
+docutils = "==0.14"
+flatdict = "==3.0.0"
+"html2text" = "==2018.1.9"
+idna = "==2.6"
+"jinja2" = "==2.10"
+jmespath = "==0.9.3"
+markupsafe = "==1.0"
+numpy = "==1.14.2"
+pandas = "==0.22.0"
+py-expression-eval = "==0.3.4"
+pycryptodome = "==3.6.1"
+pydash = "==4.5.0"
+pynliner = "==0.8.0"
+python-dateutil = "==2.6.1"
+pytz = "==2018.3"
+requests = "==2.18.4"
+"s3transfer" = "==0.1.13"
+shortuuid = "==0.5.0"
+six = "==1.11.0"
+typing = "==3.5.3.0"
+"urllib3" = "==1.22"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

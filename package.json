@@ -1,0 +1,19 @@
+{
+  "name": "ccmt-cff-rest-api",
+  "version": "2.0.0",
+  "description": "vim ~/.aws/config\r vim ~/.aws/credentials",
+  "main": "index.js",
+  "scripts": {
+    "logs": "pipenv run chalice logs --profile ashwin-cff-lambda --stage beta > chalice.log",
+    "start": "pipenv run cross-env TABLE_PREFIX=cff_dev AWS_PROFILE=ashwin-cff-lambda chalice local --stage dev --port=8001",
+    "deploy": "pipenv run chalice deploy --profile ashwin-cff-lambda --stage beta",
+    "deploy-prod": "pipenv run chalice deploy --profile ashwin-cff-lambda --stage prod",
+    "test": "set AWS_PROFILE=ashwin-cff-lambda&&pipenv run python -m unittest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^5.1.4"
+  }
+}
