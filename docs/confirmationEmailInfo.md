@@ -1,5 +1,20 @@
 # Confirmation Email Info
 
+## New
+```json
+{
+      "cc": null,
+      "from": "webmaster@chinmayamission.com",
+      "fromName": "CCMT Webmaster",
+      "subject": "Academician Form - We have received your response",
+      "template": {
+        "html": "<img src=https://i.imgur.com/a9jf89X.png width=100%><h1>Confirmation</h1><h2>Academician Form</h2>Thank you for  submitting the form. This is a confirmation that we have received your response.<br><br><table>{% for key, value in response.items() %}<tr><th>{{key}}</th><td>{{value}}</td></tr>{% endfor %}</table>"
+      },
+      "toField": "email"
+    }
+```
+
+## Old
 ```json
 {
   "cc": [

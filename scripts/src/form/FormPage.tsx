@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Form from 'react-jsonschema-form';
 import {API} from "aws-amplify";
+import CreateSchemas from "src/common/util/CreateSchemas"
 
 import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
@@ -164,6 +165,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     //   });
     // }
     // else {
+      if (this.props.form_preloaded) {
+        let cs = CreateSchemas.createSchemas(this.props.form_preloaded, []);
+        let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo } = cs;
+        this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
+          status: STATUS_FORM_RENDERED,
+          data: defaultFormData,
+          paymentCalcInfo,
+          focusUpdateInfo
+        });
+        this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
+        return;
+      }
       FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, (e) => this.handleError(e))
       .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
         this.setState({ schemaMetadata, uiSchema, schema, validationInfo,

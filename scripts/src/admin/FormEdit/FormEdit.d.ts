@@ -4,27 +4,51 @@
 interface IFormEditProps {
     apiKey: string,
     apiEndpoint: string,
-    form: IFormListItem,
-    match: {
-        params: {
-            formId: string
-        }
+    formId: string,
+    data: {res: IFormDBEntry}
+}
+interface IFormDBEntry {
+    id: string,
+    version: number,
+    name: string,
+    date_last_modified: string,
+    date_created: string,
+    schema: {[x: string]: any}
+    uiSchema: {[x: string]: any},
+    formOptions: {
+        paymentInfo: IPaymentInfo,
+        paymentMethods: IPaymentMethods,
+        confirmationEmailInfo: IConfirmationEmailInfo,
+        dataOptions: IDataOptions
+    },
+    data: {
+        res: IFormDBEntry
     }
+}
+interface IConfirmationEmailInfo {
+    toField: string,
+    from: string,
+    fromName: string,
+    subject: string,
+    template?: {
+        html?: string
+    }
+    cc?: any,
+    bcc?: any;
+    image?: any,
+    showResponse?: any,
+    contentFooter?: string,
+    contentHeader?: any,
+    message?: any,
+    totalAmountText?: any,
+    columnOrder?: any
 }
 
 interface IFormEditState {
-    schema: ISchemaDBEntry,
-    schemaModifier: ISchemaModifierDBEntry,
-    schema_orig: ISchemaDBEntry,
-    schemaModifier_orig: ISchemaModifierDBEntry,
-    ajaxLoading: boolean,
-    dataLoaded: boolean,
-    formName: string,
-    schema_versions: IVersion[],
-    schemaModifier_versions: IVersion[],
-    openModal: boolean,
-    couponCodes: ICouponCode[],
-    couponCodes_used: string[] 
+    form: IFormDBEntry,
+    original_form: IFormDBEntry,
+    input_form: IFormDBEntry,
+    ajaxLoading: boolean
 }
 interface ICouponCode {
     amount: string,

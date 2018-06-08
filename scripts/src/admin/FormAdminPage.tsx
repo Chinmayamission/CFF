@@ -125,6 +125,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                     }/>
                 </Switch>
             }
+            <Route path="/admin/:centerSlug/:centerId/:formId" component={FormPages} />
             <Switch>
                 <Route path="/admin/:centerSlug/:centerId" exact render={props =>
                     <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
@@ -133,7 +134,6 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                     <FormList selectedForm={null} key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
                 }/>
             </Switch>
-            <Route path="/admin/:centerSlug/:centerId/:formId" component={FormPages} />
             <footer className="ccmt-cff-admin-footer">
                 <div className="container mb-2">
                     <span className="text-muted">Chinmaya Forms Framework, version {VERSION}</span>
@@ -164,7 +164,7 @@ function FormPages() {
             <FormEmbed form={null} formId={props.match.params.formId} onError={e => this.onError(e)} />
         }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/edit" render={props =>
-            <FormEdit key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
+            <FormEdit formId={props.match.params.formId} key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         }/>
         <Route path="/admin/:centerSlug/:centerId/:formId/summary" render={props =>
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />

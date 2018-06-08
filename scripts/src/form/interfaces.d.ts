@@ -84,13 +84,14 @@ interface IFormPageState {
 interface IValidationInfoItem {fieldPath: string, ifExpr: string, message: string}
 interface IFocusUpdateInfoItem {type: string, from: string, to: string, which: string};
 interface IFormPageProps {
-    formId: any,
-    apiEndpoint: string,
+    formId?: any,
+    apiEndpoint?: string,
     initialFormData?: any,
     readonly?: boolean,
     authKey?: string,
     specifiedShowFields?: any[],
     onFormLoad?: (Schema, UiSchema) => void,
+    form_preloaded?: IFormDBEntry
 }
 
 interface IFormConfirmationPageProps {
