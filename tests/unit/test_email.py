@@ -1,5 +1,5 @@
 """
-python -m unittest tests.unit.test_email
+pipenv run python -m unittest tests.unit.test_email
 """
 from chalicelib.util.formSubmit.emailer import create_confirmation_email_dict
 # import tests.config
@@ -139,3 +139,10 @@ class TestCreateEmail(unittest.TestCase):
         confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": "Hello world. {{ahuahu.total | format_payment(ahiahi.currency)}} Hohoho."})
         res = create_confirmation_email_dict(response, confirmationEmailInfo)
         self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho."))
+    def test_create_email_html_template_format_payment_parents_family(self):
+        pass
+        # response = RESPONSE
+        # template = "<div style='width: 100%;background-color: #eee; margin: 10px 0px;'> <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'> <img src='http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png' width='100%'> <h1>Confirmation</h1> <h2>2018-19 Long Island Balavihar Registration Form</h2>Thank you for submitting the form. This is a confirmation that we have received your response.<br> <br> <table> <tbody> <tr> <th colspan=2>Parents</th> </tr> {% for parent in value.parents %} <tr> <th>Parent {{loop.index}} Name</th><td>{{parent.name.first}} {{parent.name.last}}</td></tr> <tr><th>Parent {{loop.index}} Email</th><td>{{parent.email}}</td></tr> <tr><th>Parent {{loop.index}} Phone</th><td>{{parent.phone}}</td> </tr> {% endfor %} <tr> <th colspan=2>Parents</th> </tr> {% for child in value.children %} <tr> <th>Child {{loop.index}} Name</th><td>{{child.name.first}} {{child.name.last}}</td></tr> <tr><th>Child {{loop.index}} DOB</th><td>{{child.dob}}</td></tr> <tr><th>Child {{loop.index}} Email</th><td>{{child.email}}</td></tr> <tr><th>Child {{loop.index}} Allergies</th><td>{{child.allergies}}</td></tr> <tr><th>Child {{loop.index}} Grade</th><td>{{child.grade}}</td> </tr> {% endfor %} <tr> <th>Address Line 1</th><td>{{value.address.line1}}</td> </tr> <tr> <th>Address Line 2</th><td>{{value.address.line2}}</td> </tr> <tr> <th>City</th><td>{{value.address.city}}</td> </tr> <tr> <th>State</th><td>{{value.address.state}}</td> </tr> <tr> <th>Zipcode</th><td>{{value.address.zipcode}}</td> </tr> <tr> <th>Geeta Chanting Class Interest</th><td>{{value.geeta_class}}</td> </tr> </tbody> </table> <h2>Payment Info</h2><table><tr><th>Item</th><th>Amount</th><th>Quantity</th></tr>{%for item in paymentInfo['items'] %}<tr><td>{{item.name}}</td><td>{{item.amount | format_payment(paymentInfo.currency)}}</td><td>{{item.quantity}}</td></tr>{% endfor %}</table><br><strong>Total Amount: {{paymentInfo.total | format_payment(paymentInfo.currency)}}</strong><br><br><br>We thank you for your contribution and support.<br>Chinmaya Mission New York is a not-for-profit organization exempt from Federal Income tax under section 501 (c) (3). Tax ID:.<br>May Gurudev's Blessing be with you.</div> </div>"
+        # confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template})
+        # res = create_confirmation_email_dict(response, confirmationEmailInfo)
+        # self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho."), res)
