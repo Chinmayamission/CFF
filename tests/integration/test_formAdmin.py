@@ -1,5 +1,5 @@
 """
-python -m unittest tests.integration.test_formAdmin
+pipenv run python -m unittest tests.integration.test_formAdmin
 """
 import unittest
 from chalice.config import Config
@@ -29,8 +29,8 @@ class FormAdmin(unittest.TestCase):
     def test_create_and_delete_form(self):
         """Create form and delete it."""
         body = dict(schema=TEST_SCHEMA)
-        response = self.lg.handle_request(method='POST',
-                                          path='/centers/{}/forms/new'.format(CENTER_ID),
+        response = self.lg.handle_request(method='PUT',
+                                          path='/forms',
                                           headers={"Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
