@@ -24,7 +24,7 @@ def form_response_new(formId, responseId=None):
   
   response_data = app.current_request.json_body["data"]
   modifyLink = app.current_request.json_body['modifyLink']
-  form = Form.objects.get(id=ObjectId(formId)).only("name", "schema", "uiSchema", "formOptions", "cff_permissions") #couponCodes
+  form = Form.objects.get({"_id":ObjectId(formId)}).only("name", "schema", "uiSchema", "formOptions", "cff_permissions") #couponCodes
   formOptions = form.formOptions
   paymentInfo = formOptions.setdefault('paymentInfo', {})
   confirmationEmailInfo = formOptions.setdefault('confirmationEmailInfo', {})

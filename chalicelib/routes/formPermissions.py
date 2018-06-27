@@ -5,7 +5,7 @@ POSSIBLE_PERMISSIONS = ["owner", "Responses_View", "Responses_Export", "Response
 
 def form_render(formId):
     """Get forms user has access to."""
-    form = Form.objects.get(id=ObjectId(formId)).only("name", "date_created", "date_last_modified", "schema", "uiSchema", "formOptions")
+    form = Form.objects.get({"_id":ObjectId(formId)}).only("name", "date_created", "date_last_modified", "schema", "uiSchema", "formOptions")
     return {"res": form}
 
 def form_get_permissions(formId):
@@ -16,7 +16,7 @@ def form_get_permissions(formId):
   ?mine=1 -- only get my permission names (for logged in user) - requires no auth except for being logged in. (This is currently not used).
   """
   from ..main import app
-  form = Form.objects.get(id=ObjectId(formId)).only("cff_permissions")
+  form = Form.objects.get({"_id":ObjectId(formId)}).only("cff_permissions")
   if app.current_request.query_params and "mine" in app.current_request.query_params:
     permissions = app.get_user_permissions(app.get_current_user_id(), form)
     return {"res": {"permissions": permissions}}
@@ -34,7 +34,7 @@ def form_edit_permissions(formId):
   }
   """
   from ..main import app
-  form = Form.objects.get(id=ObjectId(formId)).only("cff_permissions")
+  form = Form.objects.get({"_id":ObjectId(formId)}).only("cff_permissions")
   app.check_permissions(form, 'Forms_PermissionsEdit')
   permissions = app.current_request.json_body['permissions']
   userId = app.current_request.json_body['userId']
@@ -46,6 +46,6 @@ def form_edit_permissions(formId):
     if type(v) is not bool:
       raise Exception("Permission {} not formatted correctly; each value should be a boolean.".format({i: v}))
   # todo: update date last modified, here, too?
-  form.update(**{f"cff_permissions.{userId}": permissions})
+  form.cff_permissions[userId] = permissions
   return {"res": serialize_model(Form)["cff_permissions"], "success": True, "action": "update"}
   

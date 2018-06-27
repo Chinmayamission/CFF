@@ -7,7 +7,7 @@ from bson.objectid import ObjectId
 def form_response_summary(formId):
     """Show response agg. summary"""
     from ..main import app, TABLES
-    form = Form.objects.get(id=ObjectId(formId)).only("formOptions", "cff_permissions")
+    form = Form.objects.get({"_id":ObjectId(formId)}).only("formOptions", "cff_permissions")
     app.check_permissions(form, "Responses_ViewSummary")
     # todo: use aggregation framework here instead.
     responses = Response.objects.raw({"form": Form, "PAID": True}).values()

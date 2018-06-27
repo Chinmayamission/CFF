@@ -5,19 +5,15 @@ from bson.objectid import ObjectId
 
 def form_edit(formId):
   from ..main import app, TABLES
-  form = Form.objects.get(id=ObjectId(formId))
+  form = Form.objects.get({"_id":ObjectId(formId)})
   app.check_permissions(form, 'Forms_Edit')
   body = pick(app.current_request.json_body, ["schema", "uiSchema", "formOptions", "name"])
-  form.update(body)
-
-  response = {
-    form: serialize_model(form),
-    schema_versions: [],
-    schemaModifier_versions: []
-  }
+  for k, v in body.items():
+    setattr(form, k, v)
+  form.save()
   return {
     "res": {
       "success": True,
-      "updated_values": response
+      "updated_values": serialize_model(form)
     }
   }

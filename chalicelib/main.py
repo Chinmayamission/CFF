@@ -115,7 +115,7 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 app.route('/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
 app.route('/forms', methods=['POST'], cors=True, authorizer=iamAuthorizer, content_types=['application/x-www-form-urlencoded'])(routes.form_create)
 app.route('/forms/{formId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.form_delete)
-app.route('/forms/{formId}', methods=['PUT'], cors=True, authorizer=iamAuthorizer)(routes.form_edit)
+app.route('/forms/{formId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.form_edit)
 app.route('/forms/{formId}/responses', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_list)
 # form response edit
 app.route('/forms/{formId}/responsesExport', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_export)
