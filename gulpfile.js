@@ -28,24 +28,7 @@ gulp.task('webserver-prod', function() {
     });
 });
 
-const DJANGO_ROOT_URL = "./htdocs/cff";
-const FORMBUILDER_URL = "./htdocs/cff/gcmw/forms/formBuilder";
-const inputFiles = FORMBUILDER_URL + '/assets/ts/**/*.tsx';
 
 gulp.task('FormPage-js', shell.task([
     'webpack --progress --watch --config webpack.dev.js'
 ]));
-
-// gulp.task('FormPage-js-build', function() {
-//     // return null;
-//     return gulp.src(inputFiles)
-//     .pipe(typescript({
-//         target: "ES6",
-//         additionalTscParameters: ['--jsx', 'react']
-//     }))
-//     .pipe(gulp.dest(FORMBUILDER_URL + '/assets/bundles/'));
-// });
-
-gulp.task('build', shell.task([
-    'webpack --progress --config webpack.prod.js'
-]))

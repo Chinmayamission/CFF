@@ -14,17 +14,25 @@ boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
 os.putenv("AWS_PROFILE", AWS_PROFILE_NAME)
 client = boto3.client('s3')
 
-SCRIPT_PATH = "./scripts/prod"
+DEPLOY_TO = os.getenv("CFF_DEPLOY_TO")
+if DEPLOY_TO=="prod":
+  SCRIPT_PATH = "./scripts/prod"
+  BUCKET = "cff.chinmayamission.com"
+  CLOUDFRONT_ID = "EF7WSN5FPDLRR"
+elif DEPLOY_TO=="beta":
+  SCRIPT_PATH = "./scripts/beta"
+  BUCKET = "beta.cff.chinmayamission.com"
+  CLOUDFRONT_ID = "EB6H37XF3EXRP"
+else:
+  raise Exception("No deploy to selected! Set the CFF_DEPLOY_TO variable to beta or prod.")
+
 with open("package.json") as json_data:
   d = json.load(json_data)
   VERSION = d["version"]
 print("Version is {}".format(VERSION))
-# VERSION = "1.3.0.2"
-BUCKET = "cff.chinmayamission.com"
-CLOUDFRONT_ID = "EF7WSN5FPDLRR"
+
 CLOUDFRONT_ORIGIN_PATH = "/{}".format(VERSION)
 CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(VERSION)
-# CLOUDFRONT_INDEX_PAGE_PATH = "/index.html"
 
 ## UPLOAD TO S3 BUCKET
 
@@ -49,6 +57,7 @@ for root, dirs, files in os.walk(SCRIPT_PATH):
     try:
         client.head_object(Bucket=BUCKET, Key=s3_path)
         print("Path found on S3! Skipping {}...".format(s3_path))
+        raise(f"Path {s3_path} found on S3! Please bump the version.")
 
         # try:
         #     client.delete_object(Bucket=BUCKET, Key=s3_path)
