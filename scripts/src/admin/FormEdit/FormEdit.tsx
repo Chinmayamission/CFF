@@ -96,7 +96,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     render() {
         return (
             <div className="ccmt-cff-page-FormEdit">
-                {/* {this.state.ajaxLoading && <Loading />} */}
+                {this.state.loading && <Loading />}
                 <div className="container-fluid">
                     {this.renderTopPane()}
                     <div className="row">
