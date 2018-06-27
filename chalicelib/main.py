@@ -52,6 +52,7 @@ if os.getenv("DB_NAME") == "cff_prod":
     PROD = True
 
 class CustomChalice(Chalice):
+    test_user_id = None
     def get_url(self, path=''):
         if os.getenv("UNIT_TEST") == "TRUE":
             return f"dummy://{path}"
