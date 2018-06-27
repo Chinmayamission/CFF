@@ -1,12 +1,13 @@
 from ..util import get_all_responses
 from boto3.dynamodb.conditions import Key
+from chalicelib.models import Form, Response, serialize_model
+from bson.objectid import ObjectId
 
 def form_response_list(formId):
     """Show all responses for a particular form."""
-    from ..main import app, TABLES
-    form = TABLES.forms.get_item(
-        Key=dict(id=formId, version=1)
-    )["Item"]
+    from ..main import app
+    form = Form.objects.get(id=ObjectId(formId)).only("formOptions", "cff_permissions")
     app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
-    responses = get_all_responses(hash_name="form responses {}".format(formId), KeyConditionExpression=Key('formId').eq(formId))
-    return {'res': responses }# Form.get("e4548443-99da-4340-b825-3f09921b4bc5", 1)}
+    # todo: use search framework, don't return all!
+    responses = Response.objects.raw({"form": Form}).values()
+    return {"res": responses}

@@ -27,13 +27,28 @@ class TABLES_CLASS:
     schemaModifiers = dynamodb.Table(get_table_name("schemaModifiers"))
     centers = dynamodb.Table(get_table_name("centres"))
     users = dynamodb.Table(get_table_name("users"))
-    cff = client["cff"]
+    cm = client["cm"]
 TABLES = TABLES_CLASS()
 
-pymodm.connection.connect(os.getenv("MONGO_CONN_STR") or "mongodb://cff:tHiIf1XC44U94XuSvgM9QSKc5du2idci8RHgnRI6eqvpICW0q60KHKykZVddMGn1F6YemMDgyJafIooYMaTjBw==@cff.documents.azure.com:10255/cff?ssl=true&replicaSet=globaldb")
+host = os.getenv("MONGO_HOST", "mongodb://localhost:10255/cm?ssl=true")
+user = os.getenv("MONGO_USER", "localhost")
+password = os.getenv("MONGO_PASSWORD", 'C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==')
+
+"""client = MongoClient(host)
+db = client.cff
+db.authenticate(name=user,password=password)
+print("=====")
+# print(next(client.cm.cff.find({})))
+# print("====")
+client.cm.cff.insert_one({"hi":"ho"})
+print("Inserted!")
+print(next(client.cm.cff.find({})))
+"""
+
+pymodm.connection.connect(host, username=user, password=password)
 
 PROD = False
-if os.getenv("TABLE_PREFIX") == "cff_prod":
+if os.getenv("DB_NAME") == "cff_prod":
     PROD = True
 
 class CustomChalice(Chalice):
@@ -56,7 +71,7 @@ class CustomChalice(Chalice):
         return "cff:cognitoIdentityId:{}".format(id)
     def get_user_permissions(self, id, model):
         """id = user id. model = model with cff_permissions in it."""
-        cff_permissions = model.get("cff_permissions", {})
+        cff_permissions = getattr(model, "cff_permissions", {})
         current_user_perms = {}
         if id is not "cff:anonymousUser":
             current_user_perms.update(cff_permissions.get("cff:loggedInUser", {}))
@@ -94,12 +109,13 @@ http http://localhost:8000/forms/e4548443-99da-4340-b825-3f09921b4bc5 "Authoriza
 http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authorization: allow"
 """
 
-app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.center_list)
-app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
-app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
-app.route('/forms', methods=['PUT', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.form_create)
+# app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.center_list)
+# app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
+# app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
+app.route('/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
+app.route('/forms', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_create)
 app.route('/forms/{formId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.form_delete)
-app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit)
+app.route('/forms/{formId}', methods=['PUT'], cors=True, authorizer=iamAuthorizer)(routes.form_edit)
 app.route('/forms/{formId}/responses', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_list)
 # form response edit
 app.route('/forms/{formId}/responsesExport', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_export)
@@ -109,7 +125,7 @@ app.route('/forms/{formId}/responses/{responseId}/checkin', methods=['POST'], co
 app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_get_permissions)
 app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
 
-app.route('/forms/{formId}/render', methods=['GET'], cors=True)(routes.form_render)
+app.route('/forms/{formId}', methods=['GET'], cors=True)(routes.form_render)
 app.route('/forms/{formId}/responses', methods=['POST'], cors=True)(routes.form_response_new)
 # todo: fix this:
 app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ipn_listener)

@@ -8,29 +8,24 @@ from ..util.formSubmit.emailer import send_confirmation_email
 from ..util.formSubmit.responseHandler import response_verify_update
 from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
+from chalicelib.models import Form, Response, serialize_model
+from bson.objectid import ObjectId
+
 
 def form_response_new(formId, responseId=None):
-  from ..main import app, TABLES
+  from ..main import app
   newResponse = False
   email_sent = False
   if not responseId:
-      responseId = str(uuid.uuid4())
+      responseId = ObjectId()
       newResponse = True
+  else:
+      responseId = ObjectId(responseId)
   
   response_data = app.current_request.json_body["data"]
   modifyLink = app.current_request.json_body['modifyLink']
-  form = TABLES.forms.get_item(
-      Key=dict(id=formId, version=1),
-      ProjectionExpression="#schema, center, uiSchema, formOptions, schemaModifier, couponCodes, cff_permissions",
-      ExpressionAttributeNames={"#schema": "schema"}
-    )["Item"]
-  if "uiSchema" in form:
-      # v2.
-      formOptions = form.get("formOptions", {})
-  else:
-    formOptions = TABLES.schemaModifiers.get_item(
-        Key=form["schemaModifier"]
-        )["Item"]
+  form = Form.objects.get(id=ObjectId(formId)).only("name", "schema", "uiSchema", "formOptions", "cff_permissions") #couponCodes
+  formOptions = form.formOptions
   paymentInfo = formOptions.setdefault('paymentInfo', {})
   confirmationEmailInfo = formOptions.setdefault('confirmationEmailInfo', {})
   paymentMethods = fill_paymentMethods_with_data(formOptions.setdefault('paymentMethods', {}), response_data)
@@ -82,39 +77,17 @@ def form_response_new(formId, responseId=None):
   paymentInfo['items'] = [item for item in paymentInfo['items'] if item['quantity'] * item['amount'] != 0]
   if newResponse:
       paid = paymentInfo["total"] == 0
-      response = {
-          "formId": formId, # partition key
-          "responseId": responseId, # sort key
-          "modifyLink": modifyLink,
-          "value": response_data,
-          "date_last_modified": datetime.datetime.now().isoformat(),
-          "date_created": datetime.datetime.now().isoformat(),
-          "form": {
-                'id': formId,
-                'version': 1
-          }, # id, version.
-          "paymentInfo": paymentInfo,
-          "paymentMethods": paymentMethods,
-          "PAID": paid
-      }
-      # todo: make manual entry work on update, too.
-      # todo: rewrite manual entry.
-    #   if schemaModifier["paymentInfo"].get("manualEntry", {}).get("enabled", False) == True:
-    #       manualEntryMethodPath = schemaModifier["paymentInfo"]["manualEntry"].get("inputPath", "manualEntry")
-    #       manualEntryMethodName = get(response["value"], manualEntryMethodPath)
-    #       unset(response["value"], manualEntryMethodPath)
-    #       if manualEntryMethodName and authKey in get(form, "cff:permissions.manualEntry", []):
-    #           paid = True
-    #           response["PAID"] = True
-    #           response["IPN_TOTAL_AMOUNT"] = paymentInfo["total"]
-    #           response["PAYMENT_HISTORY"] = [{
-    #               "amount": Decimal(paymentInfo["total"]),
-    #               "currency": "USD", # todo fix.
-    #               "date": datetime.datetime.now().isoformat(),
-    #               "method": "cff:manualEntry:" + manualEntryMethodName
-    #           }]
-      TABLES.responses.put_item(
-          Item=response)
+      response = Response(
+          form=Form,
+          id=responseId,
+          #modifyLink=modifyLink,
+          value=response_data,
+          date_last_modified=datetime.datetime.now().isoformat(),
+          date_created=datetime.datetime.now().isoformat(),
+          paymentInfo=paymentInfo,
+          PAID=paid
+      ).save()
+      response = serialize_model(response)
       if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)
           email_sent = True
@@ -125,8 +98,8 @@ def form_response_new(formId, responseId=None):
           email_sent = True
       return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "id": responseId, "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
   else:
-      raise Exception("Updating not supported yet")
-      # Updating.
+      raise Exception("Updating is not supported yet!")
+      """# Updating.
       response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
       response_new = TABLES.responses.update_item(
           Key={ 'formId': formId, 'responseId': responseId },
@@ -168,3 +141,4 @@ def form_response_new(formId, responseId=None):
             "paymentInfo_old": response_old["paymentInfo"]
           }
       }
+      """

@@ -1,20 +1,15 @@
 from ..util import get_all_responses
 from ..util.responsesAggregate import aggregate_data
 from boto3.dynamodb.conditions import Key
+from chalicelib.models import Form, Response, serialize_model
+from bson.objectid import ObjectId
 
 def form_response_summary(formId):
     """Show response agg. summary"""
     from ..main import app, TABLES
-    # form = Form.get(id=formId, version=1)
-    form = TABLES.forms.get_item(
-        Key=dict(id=formId, version=1),
-        ProjectionExpression="schemaModifier, cff_permissions"
-    )["Item"]
+    form = Form.objects.get(id=ObjectId(formId)).only("formOptions", "cff_permissions")
     app.check_permissions(form, "Responses_ViewSummary")
-    dataOptions = TABLES.schemaModifiers.get_item(
-        Key=form["schemaModifier"],
-        ProjectionExpression="dataOptions"
-    )["Item"].get("dataOptions", {})
-    responses = get_all_responses(hash_name="form responses paid {}".format(formId), KeyConditionExpression=Key('formId').eq(formId), FilterExpression=Key('PAID').eq(True))
-    result = aggregate_data(dataOptions, responses)
+    # todo: use aggregation framework here instead.
+    responses = Response.objects.raw({"form": Form, "PAID": True}).values()
+    result = aggregate_data(form.formOptions["dataOptions"], list(responses))
     return {"res": result}
