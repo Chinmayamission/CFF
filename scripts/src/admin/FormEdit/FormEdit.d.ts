@@ -1,7 +1,25 @@
 /// <reference path="../admin.d.ts"/>
 /// <reference path="../../form/interfaces.d.ts"/>
 
+
 interface IFormEditProps {
+    data: any,
+    match: {
+        params: {
+            formId: string
+        }
+    }
+}
+
+interface IFormEditState {
+    schema: Schema,
+    uiSchema: UiSchema,
+    formOptions: any,
+    formName: string,
+    loading: boolean
+}
+
+interface IFormEditPropsOld {
     formId: string,
     data: {res: IFormDBEntry}
 }
@@ -42,7 +60,7 @@ interface IConfirmationEmailInfo {
     columnOrder?: any
 }
 
-interface IFormEditState {
+interface IFormEditStateOld {
     form: IFormDBEntry,
     original_form: IFormDBEntry,
     input_form: IFormDBEntry,

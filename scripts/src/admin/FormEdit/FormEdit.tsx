@@ -1,155 +1,150 @@
 /// <reference path="./FormEdit.d.ts"/>
 import * as React from 'react';
-import FormPage from "src/form/FormPage";
+import axios from 'axios';
+import FormLoader from "src/common/FormLoader";
+// import FormPage from "src/form/FormPage";
 import Loading from "src/common/Loading/Loading";
-import { cloneDeep, zipObject } from "lodash-es";
+// import * as difflet from "difflet";
+import JSONEditor from "./JSONEditor";
+import { cloneDeep, get, set, assign, isObject, forOwn } from "lodash-es";
+import Modal from 'react-responsive-modal';
 import dataLoadingView from "../util/DataLoadingView";
 import {API} from "aws-amplify";
-import "./FormEdit.scss";
-import "src/form/form.scss";
-import Form from "react-jsonschema-form";
-import ArrayFieldTemplate from "src/form/form_templates/ArrayFieldTemplate";
-import ObjectFieldTemplate from "src/form/form_templates/ObjectFieldTemplate";
-import CustomFieldTemplate from "src/form/form_templates/CustomFieldTemplate";
 
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);
-        let form = cloneDeep(this.props.data.res);
-        form.schema.properties = Object.keys(form.schema.properties).map(key => ({key, value: form.schema.properties[key]}));
+        let form = props.data.res;
         this.state = {
-            ajaxLoading: false,
-            form: cloneDeep(this.props.data.res),
-            input_form: form,
-            original_form: this.props.data.res
+            schema: get(form, "schema", {}),
+            uiSchema: get(form, "uiSchema", {}),
+            formOptions: get(form, "formOptions", {"paymentInfo": {}, "confirmationEmailInfo": {}, "paymentMethods": {} }),
+            formName: get(form, "name", "None"),
+            loading: false
         }
     }
-    componentDidMount() {
+
+    componentWillMount() {
+        
 
     }
     getPath(params) {
 
     }
+    onChange(path, data) {
+        //console.log(path, data);
+        //if (isObject(get(this.state, path))) {
+            this.setState(set(assign({}, this.state), path, data));
+        //}
+        //else {
+        //    alert("Error: " + path + " not found or not an object in state.");
+        //}
+    }
     saveForm() {
-        this.setState({ ajaxLoading: true });
-        API.post("CFF_v2", `forms/${this.props.formId}`, {
+        this.setState({ loading: true });
+        API.patch("CFF_v2", `forms/${this.props.match.params.formId}`, {
             "body": {
-                // "schemaModifier": this.state.schemaModifier,
-                // "schema": this.state.schema,
-                // "name": this.state.formName,
-                // "couponCodes": this.state.couponCodes
+                "uiSchema": this.state.uiSchema,
+                "schema": this.state.schema,
+                "formOptions": this.state.formOptions,
+                "name": this.state.formName,
             }
         }).then((response) => {
             let res = response.res;
-            if (!(res.success == true && res.form)) {
+            if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
-            let form = res.form;
+            let formOptions = res.updated_values.formOptions || this.state.formOptions;
+            let schema = res.updated_values.schema || this.state.schema;
+            let uiSchema = res.updated_values.uiSchema || this.state.uiSchema;
+            let formName = res.updated_values.form.name || this.state.formName;
             this.setState({
-                ajaxLoading: false,
-                form
+                loading: false,
+                formName: formName,
+                schema: schema,
+                uiSchema: uiSchema,
+                formOptions: formOptions
             });
         }).catch(e => {
-            this.setState({ ajaxLoading: false });
+            this.setState({ loading: false });
             console.error(e);
             alert("Error, " + e);
-        });
+        })
+
     }
-    onChange(path, formData) {
-        let keys = formData.properties.map(e => e.key);
-        let values = formData.properties.map(e => e.value);
-        formData.properties = zipObject(keys, values);
-        console.log(formData.properties, this.state.original_form.schema.properties);
+    
+    changeFormName(newName) {
+        this.setState({ formName: newName });
     }
-    render() {
-        let schema = {
-            "title": "Edit Schema",
-            "type": "object",
-            "properties": {
-                "title": {"type": "string"},
-                // "id": {"type": "string"},
-                "type": {"type": "string"},
-                "description": {"type": "string"},
-                "properties": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "key": {"type": "string"},
-                            "value": {
-                                "type": "object",
-                                "properties": {
-                                    "type": {"type": "string", "enum": ["boolean", "string", "object"]},
-                                    "title": {"type": "string"},
-                                    "default": {"type": "string"}
-                                },
-                                "dependencies": {
-                                    "type": {
-                                        "oneOf": [
-                                            {
-                                                "properties": {
-                                                    "type": {"enum": ["object", "boolean"]}
-                                                }
-                                            },
-                                            {
-                                                "properties": {
-                                                    "type": {"enum": ["string"]},
-                                                    "format": {"type": "string", "enum": ["email", "uri", "data-url", "alt-date", "alt-datetime", "date", "date-time"]}
-                                                }
-                                            },
-                                            {
-                                                "properties": {
-                                                    "type": {"enum": ["number"]},
-                                                    "format": {"type": "string", "enum": ["updown", "range", "radio"]}
-                                                }
-                                            }
-                                        ]
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
-        let uiSchema = {
-            "id": {"ui:readonly": true},
-            "properties": {
-                "items": {
-                    "key": {"classNames": "col-12 col-sm-6 col-md-3"},
-                    "value": {
-                        "type": {"classNames": "col-12 col-sm-4 col-md-2"},
-                        "format": {"classNames": "col-12 col-sm-4 col-md-2"},
-                        "title": {"classNames": "col-12 col-sm-4 col-md-2"},
-                        "default": {"classNames": "col-12 col-sm-4 col-md-2"}
-                    }
-                },
-                "ui:options":  {
-                    orderable: true,
-                    addable: true
-                }
-            }
-        }
-        
+    renderTopPane() {
         return (
-            <div className="ccmt-cff-page-FormEdit">
-                <div className="row">
-                    <div className="col-12 col-sm-6 ccmt-cff-FormEdit-half">
-                        <Form schema={schema} uiSchema={uiSchema}
-                            ArrayFieldTemplate={ArrayFieldTemplate}
-                            CustomFieldTemplate={CustomFieldTemplate}
-                            ObjectFieldTemplate={ObjectFieldTemplate}
-                            formData={this.state.input_form.schema}
-                            onChange={e => this.onChange("schema", e.formData)}
-                        />
-                    </div>
-                    <div className="col-12 col-sm-6 ccmt-cff-FormEdit-half">
-                        <FormPage form_preloaded={this.state.form} />
-                    </div>
+            <div className="row">
+                <div className="col-12 col-sm-6">
+                    <label>Form Name</label>
+                    <input className="form-control" value={this.state.formName}
+                        onChange={(e) => this.changeFormName(e.target.value)} />
+                    <label>Form Id</label><input className="form-control" disabled value={this.props.match.params.formId} />
+                </div>
+                <div className="col-6 col-sm-3 p-4">
+                    <button className="btn btn-lg btn-primary"
+                        onClick={(e) => this.saveForm()} >Save Form</button>
                 </div>
             </div>
         );
+    }
+    render() {
+        return (
+            <div className="ccmt-cff-page-FormEdit">
+                {/* {this.state.ajaxLoading && <Loading />} */}
+                <div className="container-fluid">
+                    {this.renderTopPane()}
+                    <div className="row">
+                        <JSONEditor
+                            title={"Payment Info"}
+                            data={this.state.formOptions.paymentInfo}
+                            disabled={false}
+                            onChange={(e) => this.onChange("formOptions.paymentInfo", e)}
+                        />
+                        <JSONEditor
+                            title={"Payment Methods"}
+                            data={this.state.formOptions.paymentMethods}
+                            disabled={false}
+                            onChange={(e) => this.onChange("formOptions.paymentMethods", e)}
+                        />
+                        <JSONEditor
+                            title={"Confirmation Email Info"}
+                            data={this.state.formOptions.confirmationEmailInfo}
+                            disabled={false}
+                            onChange={(e) => this.onChange("formOptions.confirmationEmailInfo", e)}
+                        />
+                        <JSONEditor
+                            title={"UiSchema Value"}
+                            data={this.state.formOptions.value}
+                            disabled={false}
+                            onChange={(e) => this.onChange("uiSchema.value", e)}
+                        />
+                        <JSONEditor
+                            title={"Schema Value"}
+                            data={this.state.schema.value}
+                            disabled={false}
+                            large={true}
+                            onChange={(e) => this.onChange("schema.value", e)}
+                        />
+                        <JSONEditor
+                            title={"Data Options"}
+                            data={this.state.formOptions.dataOptions}
+                            disabled={false}
+                            large={true}
+                            onChange={(e) => this.onChange("formOptions.dataOptions", e)}
+                        />
+                    </div>
+                    {this.renderTopPane()}
+                    {/*<div className="row">
+                        <FormPage apiEndpoint={this.props.apiEndpoint} formId={this.props.match.params.formId} />
+        </div>*/}
+                </div>
+            </div>);
     }
 }
 
