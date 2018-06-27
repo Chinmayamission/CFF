@@ -12,7 +12,7 @@ import ArrayFieldTemplate from "src/form/form_templates/ArrayFieldTemplate";
 import ObjectFieldTemplate from "src/form/form_templates/ObjectFieldTemplate";
 import CustomFieldTemplate from "src/form/form_templates/CustomFieldTemplate";
 
-class FormEditOld extends React.Component<IFormEditProps, IFormEditState> {
+class FormEditOld extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);

@@ -101,42 +101,25 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                     {this.renderTopPane()}
                     <div className="row">
                         <JSONEditor
-                            title={"Payment Info"}
-                            data={this.state.formOptions.paymentInfo}
+                            title={"Form Options"}
+                            data={this.state.formOptions}
                             disabled={false}
-                            onChange={(e) => this.onChange("formOptions.paymentInfo", e)}
-                        />
-                        <JSONEditor
-                            title={"Payment Methods"}
-                            data={this.state.formOptions.paymentMethods}
-                            disabled={false}
-                            onChange={(e) => this.onChange("formOptions.paymentMethods", e)}
-                        />
-                        <JSONEditor
-                            title={"Confirmation Email Info"}
-                            data={this.state.formOptions.confirmationEmailInfo}
-                            disabled={false}
-                            onChange={(e) => this.onChange("formOptions.confirmationEmailInfo", e)}
+                            large={true}
+                            onChange={(e) => this.onChange("formOptions", e)}
                         />
                         <JSONEditor
                             title={"UiSchema Value"}
-                            data={this.state.formOptions.value}
+                            data={this.state.uiSchema}
                             disabled={false}
-                            onChange={(e) => this.onChange("uiSchema.value", e)}
+                            large={true}
+                            onChange={(e) => this.onChange("uiSchema", e)}
                         />
                         <JSONEditor
                             title={"Schema Value"}
-                            data={this.state.schema.value}
+                            data={this.state.schema}
                             disabled={false}
                             large={true}
-                            onChange={(e) => this.onChange("schema.value", e)}
-                        />
-                        <JSONEditor
-                            title={"Data Options"}
-                            data={this.state.formOptions.dataOptions}
-                            disabled={false}
-                            large={true}
-                            onChange={(e) => this.onChange("formOptions.dataOptions", e)}
+                            onChange={(e) => this.onChange("schema", e)}
                         />
                     </div>
                     {this.renderTopPane()}
