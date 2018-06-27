@@ -54,7 +54,7 @@ export module CreateSchemas {
                 schemaMetadata: get(data, "formOptions", {}),
                 uiSchema: data["uiSchema"],
                 schema: data["schema"],
-                defaultFormData: {},
+                defaultFormData: get(data, "formOptions.defaultFormData", {}),
                 paymentCalcInfo: get(data, "formOptions.paymentInfo", {}), 
                 validationInfo: {},
                 focusUpdateInfo: {},
