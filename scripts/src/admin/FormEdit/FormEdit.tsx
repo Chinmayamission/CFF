@@ -58,7 +58,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             let formOptions = res.updated_values.formOptions || this.state.formOptions;
             let schema = res.updated_values.schema || this.state.schema;
             let uiSchema = res.updated_values.uiSchema || this.state.uiSchema;
-            let formName = res.updated_values.form.name || this.state.formName;
+            let formName = res.updated_values.name || this.state.formName;
             this.setState({
                 loading: false,
                 formName: formName,
