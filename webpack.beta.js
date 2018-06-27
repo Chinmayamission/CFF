@@ -10,9 +10,9 @@ var pjson = require('./package.json');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
-const DEST_URL = FORMBUILDER_URL + "/prod";
+const DEST_URL = FORMBUILDER_URL + "/beta";
 
-const MODE = "prod";
+const MODE = "beta";
 module.exports = merge(common, {
   mode: 'production',
   output: {

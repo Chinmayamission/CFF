@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const common = require('./webpack.common.js');
 var webpack = require('webpack')
 
-const MODE = "beta";
+const MODE = "dev";
 module.exports = merge(common, {
  devtool: 'source-map',
  mode: 'development',

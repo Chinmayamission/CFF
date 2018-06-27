@@ -38,7 +38,7 @@ module.exports = {
       VERSION: `"${pjson.version}"`
     }),
     new HtmlWebpackPlugin({
-      title: 'Chinmaya Forms Framework Admin',
+      title: 'Chinmaya Forms Framework',
       template: './scripts/src/index.html',
       filename: `index.${pjson.version}.html`
     })

@@ -5,9 +5,11 @@ import Amplify, {Auth} from "aws-amplify";
 
 declare var MODE: any;
 let ENDPOINT_URL = "";
+let local = false;
 switch (MODE) {
   case "dev":
-    ENDPOINT_URL = `https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/`;
+    ENDPOINT_URL = `http://localhost:8001/`;
+    local = true;
     break;
   case "beta":
     ENDPOINT_URL = `https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/`;
@@ -46,11 +48,11 @@ Amplify.configure({
     endpoints: [
         {
             name: "CFF_v1",
-            endpoint: `${ENDPOINT_URL}api/`
+            endpoint: local ? ENDPOINT_URL: `${ENDPOINT_URL}api/`
         },
         {
             name: "CFF_v2",
-            endpoint: `${ENDPOINT_URL}v2/`
+            endpoint: local ? ENDPOINT_URL: `${ENDPOINT_URL}v2/`
         }
     ]
   }
