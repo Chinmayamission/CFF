@@ -13,7 +13,7 @@ def form_create():
     # todo: add permissions check.
     form_permissions = {app.get_current_user_id(): {"owner": True}}
     # schemaRef = pick(app.current_request.json_body["schema"], "id", "version") 
-    form_name = app.current_request.json_body.get("form_name", "Untitled form {}".format(datetime.datetime.now().isoformat()))
+    form_name = (app.current_request.json_body or {}).get("form_name", "Untitled form {}".format(datetime.datetime.now().isoformat()))
     form = Form(
         name=form_name,
         version=1,
