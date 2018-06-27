@@ -14,18 +14,11 @@ import FormShare from "./FormShare/FormShare"
 import Loading from "src/common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-
+import { Route, Switch, Redirect } from "react-router-dom";
+import {ConnectedRouter} from "connected-react-router";
+import history from "src/history.ts";
 import { connect } from 'react-redux';
 
-
-const mapStateToProps = state => ({
-    ...state.auth
-});
-  
-const mapDispatchToProps = (dispatch, ownProps) => ({
-
-});
 import Login from "./Login";
 
 
@@ -88,18 +81,15 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         this.setState({"loading": false});
     }
     render() {
-        return <div><h1>It works.</h1><Login /></div>;
-    }
-    render_old() {
         if (this.state.status == STATUS_ACCESS_DENIED) {
             return <AccessDenied userId={this.state.user.id} />;
         }
         if (this.state.hasError) {
             return <Loading hasError={true} />;
         }
-        return (<Router>
+        return (<ConnectedRouter history={history}>
             <div className="App FormAdminPage">
-            {this.state.user.id &&
+            {(true || this.state.user.id) &&
                 <Switch>
                     <Route path="/admin/" exact render={(props) =>
                         <CenterList {...props} user={this.state.user} onError={e => this.onUnauth(e)} />
@@ -121,19 +111,19 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                     <FormList selectedForm={null} key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
                 }/>
             </Switch>
-            <footer className="ccmt-cff-admin-footer">
+            {/* <footer className="ccmt-cff-admin-footer">
                 <div className="container mb-2">
                     <span className="text-muted">Chinmaya Forms Framework, version {VERSION}</span>
                     <div style={{"float":"right"}}>
                         <span>Hello, {this.state.user.name} ({this.state.user.email})</span>
-                        {/* <button className="btn btn-outline-danger ml-4" onClick={() => Auth.signOut().then(() => {window.location.href="/"})} >Sign Out</button> */}
+                        
                     </div>
                 </div>
-            </footer>
+            </footer> */}
             </div>
-        </Router>);
+        </ConnectedRouter>);
+    }
 
-        }
 }
 function FormPages() {
     return (<Switch>
@@ -172,4 +162,26 @@ function AccessDenied(props) {
     </div>);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormAdminPage);
+interface IFormAdminPageWrapperProps {
+    loggedIn: boolean
+}
+
+
+const mapStateToProps = state => ({
+    ...state.auth
+});
+  
+const mapDispatchToProps = (dispatch, ownProps) => ({
+
+});
+const FormAdminPageWrapper = (props:IFormAdminPageWrapperProps) => {
+    return (<div>
+        <div className="">
+        <Login />
+        </div>
+        <hr />
+    {props.loggedIn && <FormAdminPage />}
+    </div>);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormAdminPageWrapper);

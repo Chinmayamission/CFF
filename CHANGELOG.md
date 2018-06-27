@@ -39,7 +39,7 @@ Todo:
 
 ## 2.0.0 (tbd)
 - Use CosmosDB for backend
-- Use Auth0 for authentication
+- Custom authentication UI
 - Use Redux
 
 ## 1.3.26 (5/20/18) - backend 1.1.12

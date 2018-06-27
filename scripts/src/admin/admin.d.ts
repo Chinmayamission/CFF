@@ -1,15 +1,12 @@
 interface IWithAuthenticatorProps {
-    authState: string,
-    authData: {
+    authState?: string,
+    authData?: {
         id: string,
         name: string
     }
 }
 interface IFormAdminPageProps extends IWithAuthenticatorProps {
-    apiEndpoint: string,
-    apiKey: string,
-    federated: any,
-    match: {
+    match?: {
         url: string
     }
 }

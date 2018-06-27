@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./App";
-import "./form.tsx";
+import aws_exports from "./aws_exports";
+import Amplify, {Auth} from "aws-amplify";
+
+Amplify.configure(aws_exports);
 
 declare var MODE: any;
 declare var API_VERSION: any;
@@ -20,3 +23,4 @@ switch (MODE) {
 }
 
 ReactDOM.render(<App />, document.getElementById('ccmt-cff-main'));
+import "./form.tsx";

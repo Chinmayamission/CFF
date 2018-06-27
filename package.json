@@ -74,8 +74,8 @@
   "dependencies": {
     "auth0-js": "^9.6.1",
     "auth0-lock": "^11.7.2",
-    "aws-amplify": "^0.4.1",
-    "aws-amplify-react": "^0.1.47",
+    "aws-amplify": "^0.4.4",
+    "aws-amplify-react": "^0.1.50",
     "aws-sdk": "^2.211.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",
@@ -99,6 +99,7 @@
     "query-string": "^5.0.1",
     "react-csv": "^1.0.10",
     "react-edit-inline": "https://github.com/chukitow/ReactInlineEdit/tarball/feature/deprecated-protypes",
+    "react-google-login": "^3.2.1",
     "react-json-view": "^1.15.2",
     "react-linkify": "^0.2.2",
     "react-loading": "^1.0.3",
