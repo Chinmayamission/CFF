@@ -17,7 +17,7 @@
         "DB_NAME": "cff_beta",
         "MONGO_HOST": "mongodb://chinmayamission.documents.azure.com:10255/cm?ssl=true&replicaSet=globaldb",
         "MONGO_USER": "chinmayamission",
-        "MONGO_PASSWORD": "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A"
+        "MONGO_PASSWORD": "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
       }
     },
     "prod": {
@@ -27,7 +27,7 @@
         "DB_NAME": "cff_prod",
         "MONGO_HOST": "mongodb://chinmayamission.documents.azure.com:10255/cm?ssl=true&replicaSet=globaldb",
         "MONGO_USER": "chinmayamission",
-        "MONGO_PASSWORD": "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A"
+        "MONGO_PASSWORD": "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
       }
     }
   }
