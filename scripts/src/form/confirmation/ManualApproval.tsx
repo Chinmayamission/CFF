@@ -14,7 +14,7 @@ class ManualApproval extends React.Component<any, any> {
  }
  sendConfirmationEmail() {
     this.setState({"loading": true});
-    API.post("CFF", `forms/${this.props.formId}/responses/${this.props.responseId}/sendConfirmationEmail`, {
+    API.post("CFF_v2", `forms/${this.props.formId}/responses/${this.props.responseId}/sendConfirmationEmail`, {
         "body": {"paymentMethod": "manual_approval"}
     }).then(e => {
         this.setState({"done": true, "loading": false});

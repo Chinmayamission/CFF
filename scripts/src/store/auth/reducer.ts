@@ -1,8 +1,10 @@
+/// <reference path="./types.d.ts" />
 import { Reducer } from 'redux';
 
-const initialState: any = {
+const initialState: IAuthState = {
   loggedIn: false,
-  user: null
+  user: null,
+  userId: null
 };
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {
@@ -11,7 +13,8 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         loggedIn: true,
-        user: action.user
+        user: action.user,
+        userId: `cff:cognitoIdentityId:${action.user.id}`
       };
     case 'LOGOUT_SUCCESS':
       return {

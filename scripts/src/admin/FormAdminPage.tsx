@@ -1,11 +1,6 @@
 /// <reference path="./admin.d.ts"/>
 import * as React from 'react';
-import {flatten} from 'flat';
-import * as queryString from "query-string";
-import {pick, get, set, find} from "lodash-es";
-import FormPage from "../form/FormPage";
 import FormEmbed from "./FormEmbed/FormEmbed";
-import CenterList from "./CenterList/CenterList";
 import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable/ResponseTable";
@@ -89,37 +84,12 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
         return (<ConnectedRouter history={history}>
             <div className="App FormAdminPage">
-            {(true || this.state.user.id) &&
-                <Switch>
-                    <Route path="/admin/" exact render={(props) =>
-                        <CenterList {...props} user={this.state.user} onError={e => this.onUnauth(e)} />
-                    }/>
-                    <Route path="/admin/:centerSlug/:centerId" exact render={(props) =>
-                        <CenterList {...props} selectedCenter={true} user={this.state.user} onError={e => this.onUnauth(e)} />
-                    }/>
-                    <Route path="/admin/" render={(props) =>
-                        <CenterList {...props} selectedCenter={true} selectedForm={true} user={this.state.user} onError={e => this.onUnauth(e)} />
-                    }/>
-                </Switch>
-            }
-            <Route path="/admin/:centerSlug/:centerId/:formId" component={FormPages} />
+            <Route path="/admin/:formId" component={FormPages} />
             <Switch>
-                <Route path="/admin/:centerSlug/:centerId" exact render={props =>
-                    <FormList key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
-                }/>
-                <Route path="/admin/:centerSlug/:centerId" render={props =>
-                    <FormList selectedForm={null} key={props.match.params.centerSlug} onError={e => this.onError(e)} userId={this.state.user.id} {...props} />
+                <Route path="/admin/" exact render={props =>
+                    <FormList onError={e => this.onError(e)} {...props} />
                 }/>
             </Switch>
-            {/* <footer className="ccmt-cff-admin-footer">
-                <div className="container mb-2">
-                    <span className="text-muted">Chinmaya Forms Framework, version {VERSION}</span>
-                    <div style={{"float":"right"}}>
-                        <span>Hello, {this.state.user.name} ({this.state.user.email})</span>
-                        
-                    </div>
-                </div>
-            </footer> */}
             </div>
         </ConnectedRouter>);
     }

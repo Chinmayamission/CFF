@@ -2,8 +2,6 @@
 /// <reference path="../../form/interfaces.d.ts"/>
 
 interface IFormEditProps {
-    apiKey: string,
-    apiEndpoint: string,
     formId: string,
     data: {res: IFormDBEntry}
 }

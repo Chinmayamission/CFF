@@ -5,7 +5,6 @@ import FormStandalone from "./form/FormStandalone/FormStandalone";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import * as queryString from 'query-string';
 import "./app.scss";
-import auth from "./Auth";
 import * as DOMPurify from 'dompurify';
 import Login from "./admin/Login";
 import {withFederated, Authenticator} from "aws-amplify-react";
@@ -59,9 +58,15 @@ const App = () => (
     <ConnectedRouter history={history}>
       <div className="ccmt-cff-Wrapper-Bootstrap">
         <Switch>
+        <Route path="/v2/forms/:formId" exact render={(props) => {
+            return (
+              <FormStandalone {...props} formId={props.match.params.formId} />
+            );
+          }
+          } />
           <Route path="/:centerSlug/forms/:formId" exact render={(props) => {
             return (
-              <FormStandalone {...props} formId={props.match.params.formId} ENDPOINT_URL={"abcdefg"} />
+              <FormStandalone {...props} formId={props.match.params.formId} />
             );
           }
           } />

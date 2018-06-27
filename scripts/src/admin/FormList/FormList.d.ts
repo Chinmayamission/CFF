@@ -1,9 +1,7 @@
 interface IFormListItem {
     name: string,
-    id: string,
+    _id: string,
     version: number,
-    schema: any,
-    schemaModifier: any,
     cff_permissions: {[x: string]: string[]},
     date_last_modified: string,
     date_created: string
@@ -15,13 +13,9 @@ interface IFormListState {
 }
 
 
-interface IFormListProps extends ISharedAdminProps {
+interface IFormListProps extends IAuthState {
     match: {
-        url: string,
-        params: {
-            centerName: string,
-            centerId: number
-        }
+        url: string
     },
     selectedForm?: IFormListItem
     onError: (any) => void,

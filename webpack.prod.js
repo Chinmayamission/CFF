@@ -52,8 +52,7 @@ let prod_named_versions = merge(common, {
         // filename: `index.${pjson.version}.html`
      }),
     new webpack.DefinePlugin({
-      MODE: `"${MODE}"`,
-      API_VERSION: `"api"` //For now. //`"${pjson.api_version}"`.replace(/\./g, "_")
+        MODE: `"${MODE}"`
     })
   ]
 });

@@ -6,6 +6,16 @@ import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import {isArray} from "lodash-es";
 import "./FormList.scss";
 import FormNew from "../FormNew/FormNew";
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => ({
+    ...state.auth
+});
+  
+const mapDispatchToProps = (dispatch, ownProps) => ({
+
+});
+
 
 class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
@@ -16,7 +26,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         }
     }
     loadFormList() {
-        return API.get("CFF", "centers/" + this.props.match.params.centerId + "/forms", {}).then(e => {
+        return API.get("CFF_v2", "forms", {}).then(e => {
             this.setState({ "formList": e.res });
         }).catch(e => this.props.onError(e));
     }
@@ -35,67 +45,68 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                         <th>Form name</th>
                         <th>Actions</th>
                         <th>
-                            <FormNew centerId={this.props.match.params.centerId} onError={this.props.onError} />
+                            <FormNew onError={this.props.onError} />
                         </th>
                     </tr>
                 </thead>
                 <tbody>
+                    {formList && formList.length == 0 && <tr><td>No forms found. Create one!</td></tr>}
                     {formList && formList.map((form) =>
-                        <tr key={form["id"]}>
+                        <tr key={form["_id"]}>
                             <td>{form["name"]}<br />
                                 <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
-                                    <code>{form["id"]}</code>
+                                    <code>{form["_id"]}</code>
                                 </small>
                             </td>
                             <td>
                                 <ActionButton form={form}
                                     permissionName="Forms_Embed"
-                                    url={`${this.props.match.url}/${form.id}/embed`}
+                                    url={`${this.props.match.url}/${form._id}/embed`}
                                     icon="oi-document"
                                     text="Embed"
                                     userId={this.props.userId}
                                     />
                                 <ActionButton form={form}
                                     permissionName="Forms_Edit"
-                                    url={`${this.props.match.url}/${form.id}/edit`}
+                                    url={`${this.props.match.url}/${form._id}/edit`}
                                     icon="oi-pencil"
                                     text="Edit"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Responses_View"
-                                    url={`${this.props.match.url}/${form.id}/responses`}
+                                    url={`${this.props.match.url}/${form._id}/responses`}
                                     icon="oi-sort-ascending"
                                     text="Responses"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Responses_CheckIn"
-                                    url={`${this.props.match.url}/${form.id}/checkin`}
+                                    url={`${this.props.match.url}/${form._id}/checkin`}
                                     icon="oi-check"
                                     text="Check in"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Responses_ViewSummary"
-                                    url={`${this.props.match.url}/${form.id}/summary`}
+                                    url={`${this.props.match.url}/${form._id}/summary`}
                                     icon="oi-list"
                                     text="Summary"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Forms_PermissionsView"
-                                    url={`${this.props.match.url}/${form.id}/share`}
+                                    url={`${this.props.match.url}/${form._id}/share`}
                                     icon="oi-share-boxed"
                                     text="Share"
                                     userId={this.props.userId}
                                 />
                                 <ActionButton form={form}
                                     permissionName="Responses_Edit"
-                                    url={`${this.props.match.url}/${form.id}/responsesEdit`}
+                                    url={`${this.props.match.url}/${form._id}/responsesEdit`}
                                     icon="oi-pencil"
                                     text="Edit Responses"
                                     userId={this.props.userId}
                                 />
                                 {/*<ActionButton permissions={form.cff_permissions}
                                     permissionName="Responses_View"
-                                    url={`${this.props.match.url}/${form.id}/lookup`}
+                                    url={`${this.props.match.url}/${form._id}/lookup`}
                                     icon="oi-magnifying-glass"
                                     text="Check in"
                                     userId={this.props.userId}
@@ -141,4 +152,5 @@ function hasPermission(cff_permissions, permissionNames, userId) {
     }
     return false;
 }
-export default FormList;
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormList);

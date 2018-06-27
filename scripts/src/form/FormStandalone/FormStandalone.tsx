@@ -28,9 +28,7 @@ class FormStandalone extends React.Component<IFormStandaloneProps, IFormStandalo
       <div className="container ccmt-cff-paper-outline">
         <FormPage formId={this.props.formId}
           onFormLoad={(a, b) => this.onFormLoad(a, b)}
-          authKey={null}
-          specifiedShowFields={JSON.parse((qs && qs["specifiedShowFields"]) || "{}")}
-          apiEndpoint={this.props.ENDPOINT_URL} />
+          specifiedShowFields={JSON.parse((qs && qs["specifiedShowFields"]) || "{}")} />
       </div>
     </div>);
   }

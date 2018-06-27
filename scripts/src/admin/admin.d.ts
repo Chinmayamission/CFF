@@ -11,8 +11,6 @@ interface IFormAdminPageProps extends IWithAuthenticatorProps {
     }
 }
 interface ISharedAdminProps {
-    apiEndpoint: string,
-    apiKey: string
 }
 
 interface ISharedFormAdminPageProps {

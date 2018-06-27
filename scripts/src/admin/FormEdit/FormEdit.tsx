@@ -33,7 +33,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
     saveForm() {
         this.setState({ ajaxLoading: true });
-        API.post("CFF", `forms/${this.props.formId}`, {
+        API.post("CFF_v2", `forms/${this.props.formId}`, {
             "body": {
                 // "schemaModifier": this.state.schemaModifier,
                 // "schema": this.state.schema,
@@ -154,5 +154,5 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
 }
 
 export default dataLoadingView(FormEdit, (props) => {
-    return API.get("CFF", `forms/${props.formId}/render`, {});
+    return API.get("CFF_v2", `forms/${props.formId}/render`, {});
 });

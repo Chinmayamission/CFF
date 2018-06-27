@@ -147,24 +147,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
 
   componentDidMount() {
     console.log(this.props);
-    // let queryObjFlat = queryString.parse(location.hash);
-    // if (queryObjFlat["payment_success"] == "1") {
-    //   this.setState({"status": STATUS_FORM_PAYMENT_SUCCESS});
-    // }
-    // else if (queryObjFlat["responseId"]) {
-    //   FormLoader.loadResponseAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, queryObjFlat["responseId"], (e) => this.handleError(e))
-    //   .then(({ schemaMetadata, uiSchema, schema, responseLoaded, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
-    //     this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
-    //       responseId: responseLoaded["responseId"],
-    //       responseLoaded: responseLoaded,
-    //       data: responseLoaded ? responseLoaded.value : null,
-    //       status: STATUS_FORM_RENDERED,
-    //       paymentCalcInfo,
-    //       focusUpdateInfo
-    //     });
-    //   });
-    // }
-    // else {
       if (this.props.form_preloaded) {
         let cs = CreateSchemas.createSchemas(this.props.form_preloaded, []);
         let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo } = cs;
@@ -177,7 +159,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
         return;
       }
-      FormLoader.getFormAndCreateSchemas(this.props.apiEndpoint, this.props.formId, this.props.authKey, this.props.specifiedShowFields, (e) => this.handleError(e))
+      FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e))
       .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
         this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
           status: STATUS_FORM_RENDERED,
@@ -202,7 +184,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     var formData = data.formData;
 
     this.setState({ajaxLoading: true});
-    API.post("CFF", `forms/${this.props.formId}/responses`, {
+    API.post("CFF_v2", `forms/${this.props.formId}/responses`, {
       "body": {
         "data": formData,
         "modifyLink": (window.location != window.parent.location) ? document.referrer : window.location.href
@@ -405,7 +387,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           </div>}
           <FormConfirmationPage
             onPaymentStarted={e => this.onPaymentStarted(e)}
-            apiEndpoint={this.props.apiEndpoint}
             schema={this.state.schema}
             schemaMetadata={this.state.schemaMetadata}
             paymentInfo={this.state.paymentInfo}

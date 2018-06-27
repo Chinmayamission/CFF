@@ -3,7 +3,6 @@ import fetch from "cross-fetch";
 import {Auth} from "aws-amplify";
 import { Cache } from 'aws-amplify';
 
-declare const ENDPOINT_URL: string;
 
 export const loggedIn = (user) => ({
   type: 'LOGIN_SUCCESS',

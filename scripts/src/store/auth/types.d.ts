@@ -11,3 +11,8 @@ interface IUserCredentials {
   email: string,
   name: string
 }
+interface IAuthState {
+  loggedIn: boolean,
+  user: IUserCredentials,
+  userId: string
+}

@@ -85,10 +85,8 @@ interface IValidationInfoItem {fieldPath: string, ifExpr: string, message: strin
 interface IFocusUpdateInfoItem {type: string, from: string, to: string, which: string};
 interface IFormPageProps {
     formId?: any,
-    apiEndpoint?: string,
     initialFormData?: any,
     readonly?: boolean,
-    authKey?: string,
     specifiedShowFields?: any[],
     onFormLoad?: (Schema, UiSchema) => void,
     form_preloaded?: IFormDBEntry
@@ -100,7 +98,6 @@ interface IFormConfirmationPageProps {
     uiSchema: UiSchema,
     data: Data,
     responseId: string,
-    apiEndpoint: string,
     formId: string,
     paymentInfo: IPaymentInfo,
     paymentInfo_received: IPaymentInfo,
@@ -128,7 +125,6 @@ interface IPaymentProps {
     onPaymentStarted: (message: any) => void,
     responseId: string,
     formId: string,
-    apiEndpoint: string,
     formData: Data
 }
 
@@ -164,7 +160,6 @@ interface IPaymentMethodProps {
     paymentInfo: IPaymentInfo,
     confirmationEmailInfo: ConfirmationEmailInfo,
     responseId: string,
-    apiEndpoint: string,
     formId: string,
     formData: Data
 }
