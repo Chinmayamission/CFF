@@ -154,5 +154,5 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
 }
 
 export default dataLoadingView(FormEdit, (props) => {
-    return API.get("CFF_v2", `forms/${props.formId}/render`, {});
+    return API.get("CFF_v2", `forms/${props.formId}`, {});
 });

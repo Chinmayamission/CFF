@@ -87,7 +87,6 @@ export function checkLoginStatus() {
         dispatch(loggedOut());
       }
     });
-    console.log(session);
     // console.log(Cache.getItem('federatedInfo'))
     // const credentials: IFederatedCredentials = Cache.getItem('federatedInfo');
     // console.log(credentials.token);
