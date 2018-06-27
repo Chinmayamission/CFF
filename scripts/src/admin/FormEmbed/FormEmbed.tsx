@@ -43,7 +43,7 @@ class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
 }
 
 function Embed(props) {
-    return (<iframe frameBorder="0" style={{"width": "100%", "height": "100%"}} src={`/WP/forms/${props.formId}`}>
+    return (<iframe frameBorder="0" style={{"width": "100%", "height": "100%"}} src={`/v2/forms/${props.formId}`}>
     </iframe>);
 }
 
