@@ -144,7 +144,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     console.error("ERROR", e);
     this.setState({"hasError": true});
   }
-
   componentDidMount() {
     console.log(this.props);
       if (this.props.form_preloaded) {

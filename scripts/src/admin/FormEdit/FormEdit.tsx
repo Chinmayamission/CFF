@@ -2,11 +2,11 @@
 import * as React from 'react';
 import axios from 'axios';
 import FormLoader from "src/common/FormLoader";
-// import FormPage from "src/form/FormPage";
+import FormPage from "src/form/FormPage";
 import Loading from "src/common/Loading/Loading";
 // import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor";
-import { cloneDeep, get, set, assign, isObject, forOwn } from "lodash-es";
+import { get, set, assign, pick } from "lodash-es";
 import Modal from 'react-responsive-modal';
 import dataLoadingView from "../util/DataLoadingView";
 import {API} from "aws-amplify";
@@ -94,6 +94,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         );
     }
     render() {
+        console.log(this.state);
         return (
             <div className="ccmt-cff-page-FormEdit">
                 {this.state.loading && <Loading />}
@@ -121,11 +122,11 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             large={true}
                             onChange={(e) => this.onChange("schema", e)}
                         />
+                        <div className="col-12 col-sm-6">
+                            <FormPage key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
+                        </div>
                     </div>
                     {this.renderTopPane()}
-                    {/*<div className="row">
-                        <FormPage apiEndpoint={this.props.apiEndpoint} formId={this.props.match.params.formId} />
-        </div>*/}
                 </div>
             </div>);
     }
