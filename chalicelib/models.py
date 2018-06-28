@@ -3,6 +3,7 @@ from pymodm import connect, fields, MongoModel, EmbeddedMongoModel
 from bson.objectid import ObjectId
 import datetime
 import os
+import pymodm
 
 class BaseMongoModel(MongoModel):
   def save(self, *args, **kwargs):
@@ -36,7 +37,7 @@ class Form(BaseMongoModel):
   formType = fields.CharField()
   version = fields.IntegerField()
 
-class Response(MongoModel):
+class Response(BaseMongoModel):
   id = fields.ObjectIdField(primary_key=True)
   form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
   user = fields.EmbeddedDocumentField(User)
@@ -52,7 +53,7 @@ class Response(MongoModel):
 def serialize_model(model):
   """Serializes model so it is OK to send back as a JSON response.
   """
-  if type(model) is list:
+  if type(model) in (list, pymodm.queryset.QuerySet):
     return [serialize_model(m) for m in model]
   dict_ = model.to_son().to_dict()
   for k in list(dict_):
