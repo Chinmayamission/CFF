@@ -58,6 +58,12 @@ const App = () => (
     <ConnectedRouter history={history}>
       <div className="ccmt-cff-Wrapper-Bootstrap">
         <Switch>
+          <Route path="/admin/" render={(props) =>
+              <FormAdminPage
+                {...props}
+                apiKey={null}
+              />
+          } />
         <Route path="/v2/forms/:formId" exact render={(props) => {
             return (
               <FormStandalone {...props} formId={props.match.params.formId} />
@@ -69,12 +75,6 @@ const App = () => (
               <FormStandalone {...props} formId={props.match.params.formId} />
             );
           }
-          } />
-          <Route path="/admin/" render={(props) =>
-              <FormAdminPage
-                {...props}
-                apiKey={null}
-              />
           } />
           <Redirect to={`/admin/`} />
         </Switch>

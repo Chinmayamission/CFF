@@ -7,6 +7,7 @@ import {isArray} from "lodash-es";
 import "./FormList.scss";
 import FormNew from "../FormNew/FormNew";
 import { connect } from 'react-redux';
+import dataLoadingView from "../util/DataLoadingView";
 
 const mapStateToProps = state => ({
     ...state.auth
@@ -21,17 +22,14 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);
+        console.log(props);
         this.state = {
-            formList: null
+            formList: props.data.res
         }
     }
     loadFormList() {
-        return API.get("CFF_v2", "forms", {}).then(e => {
-            this.setState({ "formList": e.res });
-        }).catch(e => this.props.onError(e));
     }
     componentDidMount() {
-        this.loadFormList();
     }
     showEmbedCode(formId) {
 
@@ -153,4 +151,7 @@ function hasPermission(cff_permissions, permissionNames, userId) {
     return false;
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormList);
+const FormListWrapper = dataLoadingView(connect(mapStateToProps, mapDispatchToProps)(FormList), (props) => {
+    return API.get("CFF_v2", `forms`, {});
+});
+export default FormListWrapper;
