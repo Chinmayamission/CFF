@@ -127,7 +127,7 @@ app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=
 app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
 
 app.route('/forms/{formId}', methods=['GET'], cors=True)(routes.form_render)
-app.route('/forms/{formId}/responses', methods=['POST'], cors=True)(routes.form_response_new)
+app.route('/forms/{formId}', methods=['POST'], cors=True)(routes.form_response_new)
 # todo: fix this:
 app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ipn_listener)
 app.route('/forms/{formId}/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
@@ -139,7 +139,7 @@ app.route('/forms/{formId}/responses/{responseId}/sendConfirmationEmail', method
 # get form permissions
 # edit form permissions
 
-@app.route('/forms/{formId}/responses/{responseId}/view', cors=True, authorizer=iamAuthorizer)
+@app.route('/forms/{formId}/responses/{responseId}', cors=True, authorizer=iamAuthorizer)
 def view_response(formId, responseId):
     """View an individual response from the admin dashboard (for search functionality).
         Currently, this isn't used.

@@ -1,6 +1,7 @@
 import boto3
 import json
 import os
+import json
 AWS_PROFILE_NAME = "ashwin-cff-lambda"
 dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
 boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
@@ -220,5 +221,16 @@ FORM_V2_ID = "e211731b-97f4-40ff-8ff6-9658d711d1a0"
 FORM_V2_RENDER_RESP = {'version': 1.0, 'uiSchema': {'phone': {'ui:widget': 'phone', 'ui:placeholder': 'Phone Number'}, 'contact_name': {'last': {'classNames': 'col-12 col-sm-6'}, 'ui:order': ['first', 'last'], 'first': {'classNames': 'col-12 col-sm-6'}}, 'ui:order': ['contact_name', 'email', 'phone', 'area_expertise', 'books_authored', 'papers_authored']}, 'schema': {'description': 'Contact form.', 'title': 'Form with uiSchema and schema inline (Academicians Contact Form)', 'type': 'object', 'definitions': {'name': {'title': ' ', 'type': 'object', 'properties': {'last': {'title': 'Last Name', 'type': 'string', 'classNames': 'twoColumn'}, 'first': {'title': 'First Name', 'type': 'string', 'classNames': 'twoColumn'}}}}, 'properties': {'area_expertise': {'title': 'Area of Expertise', 'type': 'string'}, 'contact_name': {'ui:order': ['first', 'last'], 'title': ' ', 'type': 'object', 'properties': {'last': {'title': 'Last Name', 'type': 'string'}, 'first': {'title': 'First Name', 'type': 'string'}}}, 'papers_authored': {'format': 'textarea', 'title': 'Papers Authored', 'type': 'string'}, 'phone': {'title': 'Phone Number', 'type': 'string'}, 'books_authored': {'format': 'textarea', 'title': 'Books Authored', 'type': 'string'}, 'email': {'format': 'email', 'type': 'string'}}, 'required': ['contact_name', 'email', 'area_expertise']}, 'date_last_modified': '2018-05-20T04:16:30.579101', 'formOptions': {'successMessage': '<h1>Form submission success</h1><h2>Academician Form</h2><p>You will receive an email with confirmation shortly. Thank you!</p>', 'confirmationEmailInfo': {'cc': None, 'template': {'html': '<img src=https://i.imgur.com/a9jf89X.png width=100%><h1>Confirmation</h1><h2>Academician Form</h2>Thank you for  submitting the form. This is a confirmation that we have received your response.<br><br><table>{% for key, value in response.items() %}<tr><th>{{key}}</th><td>{{value}}</td></tr>{% endfor %}</table>'}, 'fromName': 'CCMT Webmaster', 'from': 'webmaster@chinmayamission.com', 'subject': 'Academician Form - We have received your response', 'toField': 'email'}, 'showConfirmationPage': False}, 'date_created': '2018-05-20T03:59:32.211390', 'id': 'e211731b-97f4-40ff-8ff6-9658d711d1a0', 'name': 'uischema and schema form -- Academicians Contact Form'}
 # don't use, it may change!
 FORM_V2_SUBMIT_RESP = {'paid': True, 'success': True, 'action': 'insert', 'email_sent': True, 'paymentInfo': {'total': 0, 'items': []}, 'paymentMethods': {}}
+
+# Using new.
+def load_file(fileName):
+    with open(os.path.dirname(os.path.realpath(__file__)) + "/files/" + fileName) as file:
+        return json.load(file)
+
+ONE_SCHEMA = load_file("schema.json")
+ONE_UISCHEMA = load_file("uiSchema.json")
+ONE_FORMOPTIONS = load_file("formOptions.json")
+ONE_FORMDATA = load_file("formData.json")
+
 
 _ = None # dummy

@@ -1,5 +1,4 @@
 import uuid
-from decimal import Decimal
 import datetime
 from pydash.objects import pick, get, unset
 from ..util.formSubmit.util import calculate_price
@@ -23,16 +22,16 @@ def form_response_new(formId, responseId=None):
       responseId = ObjectId(responseId)
   
   response_data = app.current_request.json_body["data"]
-  modifyLink = app.current_request.json_body['modifyLink']
-  form = Form.objects.get({"_id":ObjectId(formId)}).only("name", "schema", "uiSchema", "formOptions", "cff_permissions") #couponCodes
+  modifyLink = app.current_request.json_body.get('modifyLink', '') # todo fix
+  form = Form.objects.only("name", "schema", "uiSchema", "formOptions", "cff_permissions").get({"_id":ObjectId(formId)}) #couponCodes
   formOptions = form.formOptions
   paymentInfo = formOptions.setdefault('paymentInfo', {})
   confirmationEmailInfo = formOptions.setdefault('confirmationEmailInfo', {})
   paymentMethods = fill_paymentMethods_with_data(formOptions.setdefault('paymentMethods', {}), response_data)
 
   def calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo):
-    paymentInfoItem['amount'] = Decimal(calculate_price(paymentInfoItem.get('amount', '0'), response_data))
-    paymentInfoItem['quantity'] = Decimal(calculate_price(paymentInfoItem.get('quantity', '0'), response_data))
+    paymentInfoItem['amount'] = calculate_price(paymentInfoItem.get('amount', '0'), response_data)
+    paymentInfoItem['quantity'] = calculate_price(paymentInfoItem.get('quantity', '0'), response_data)
     paymentInfo['total'] += paymentInfoItem['amount'] * paymentInfoItem['quantity']
   paymentInfoItemsWithTotal = []
   paymentInfo['total'] = 0
@@ -78,14 +77,14 @@ def form_response_new(formId, responseId=None):
   if newResponse:
       paid = paymentInfo["total"] == 0
       response = Response(
-          form=Form,
+          form=form,
           id=responseId,
           #modifyLink=modifyLink,
           value=response_data,
-          date_last_modified=datetime.datetime.now().isoformat(),
+          date_modified=datetime.datetime.now().isoformat(),
           date_created=datetime.datetime.now().isoformat(),
           paymentInfo=paymentInfo,
-          PAID=paid
+          paid=paid
       ).save()
       response = serialize_model(response)
       if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
@@ -96,7 +95,7 @@ def form_response_new(formId, responseId=None):
       if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
           send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
           email_sent = True
-      return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "id": responseId, "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
+      return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "id": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
   else:
       raise Exception("Updating is not supported yet!")
       """# Updating.
@@ -124,7 +123,7 @@ def form_response_new(formId, responseId=None):
           ReturnValues="ALL_NEW"
       )["Attributes"]
       paid = False
-      if paymentInfo["total"] == 0 or (response_old.get("PAID", None) == True and paymentInfo["total"] <= response_old["paymentInfo"]["total"]):
+      if paymentInfo["total"] == 0 or (response_old.get("paid", None) == True and paymentInfo["total"] <= response_old["paymentInfo"]["total"]):
           # If 1) total amount is zero (user uses coupon code to get for free); or 2) user is updating a name or something -- so that they don't owe any more money -- update immediately.
           response_verify_update(response_new, TABLES.responses, confirmationEmailInfo)
           paid = True
@@ -134,7 +133,7 @@ def form_response_new(formId, responseId=None):
             "paid": paid,
             "action": "update",
             # "email_sent": email_sent,
-            "id": responseId,
+            "id": str(responseId),
             "paymentInfo": paymentInfo,
             "paymentMethods": paymentMethods,
             "total_amt_received": response_old.get("IPN_TOTAL_AMOUNT", 0), # todo: encode currency into here as well.

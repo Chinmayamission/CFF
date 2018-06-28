@@ -12,12 +12,10 @@ from botocore.exceptions import ClientError
 from chalice.config import Config
 from chalice.local import LocalGateway
 from app import app
+from tests.integration.baseTestCase import BaseTestCase
 
-class TestEmail(unittest.TestCase):
+class TestEmail(BaseTestCase):
     maxDiff = None
-    def setUp(self):
-        with open(".chalice/config.json") as file:
-            self.lg = LocalGateway(app, Config(chalice_stage="beta", config_from_disk=json.load(file)))
     def test_actually_send_email_cc_bad_email(self):
         confirmationEmailInfo = dict(
             CONFIRMATION_EMAIL_INFO, **{"cc": "bad_email"})

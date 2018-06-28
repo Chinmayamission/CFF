@@ -38,7 +38,7 @@ class Form(BaseMongoModel):
 
 class Response(MongoModel):
   id = fields.ObjectIdField(primary_key=True)
-  form = fields.ReferenceField(Form)
+  form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
   user = fields.EmbeddedDocumentField(User)
   paymentInfo = fields.DictField()
   payment_status_detail = fields.ListField(fields.DictField())

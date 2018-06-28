@@ -6,21 +6,22 @@ from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGN
 from app import app
 import uuid
 import os
+from tests.integration.baseTestCase import BaseTestCase
 """
-python -m unittest tests.integration.test_formPermissions
+pipenv run python -m unittest tests.integration.test_formPermissions
 """
 
 
-class FormPermissions(unittest.TestCase):
+class FormPermissions(BaseTestCase):
     def setUp(self):
-        with open(".chalice/config.json") as file:
-            self.lg = LocalGateway(app, Config(chalice_stage="beta", config_from_disk=json.load(file)))
+        super(FormPermissions, self).setUp()
         self.orig_id = app.test_user_id
         _, app.test_user_id = COGNITO_IDENTITY_ID_OWNER.split("cff:cognitoIdentityId:")
+        self.formId = self.create_form()
     def test_list_permissions(self):
-        """Load form lists."""
+        """Load form permissions."""
         response = self.lg.handle_request(method='GET',
-                                          path='/forms/{}/permissions'.format(FORM_ID),
+                                          path=f'/forms/{self.formId}/permissions',
                                           headers={},
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
@@ -37,7 +38,7 @@ class FormPermissions(unittest.TestCase):
     def test_list_permissions_mine(self):
         """List *my* permissions. (not used currently in client side)."""
         response = self.lg.handle_request(method='GET',
-                                          path='/forms/{}/permissions?mine=1'.format(FORM_ID),
+                                          path=f'/forms/{self.formId}/permissions?mine=1',
                                           headers={},
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
@@ -51,19 +52,19 @@ class FormPermissions(unittest.TestCase):
           "permissions": {"Responses_Edit": True, "Responses_View": True}
         }
         response = self.lg.handle_request(method='POST',
-                                          path='/forms/{}/permissions'.format(FORM_ID),
+                                          path=f'/forms/{self.formId}/permissions',
                                           headers={"Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertEqual({"Responses_Edit": True, "Responses_View": True}, body['res'][COGNITO_IDENTITY_ID_NO_PERMISSIONS])
         # Remove permissions.
-        body =   {
+        body = {
           "userId": COGNITO_IDENTITY_ID_NO_PERMISSIONS,
           "permissions": {}
         }
         response = self.lg.handle_request(method='POST',
-                                          path='/forms/{}/permissions'.format(FORM_ID),
+                                          path=f'/forms/{self.formId}/permissions',
                                           headers={"Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
@@ -71,4 +72,5 @@ class FormPermissions(unittest.TestCase):
         self.assertTrue(len(body['res']) > 0, "No forms returned!")
         self.assertEqual({}, body['res'].get(COGNITO_IDENTITY_ID_NO_PERMISSIONS, {}))
     def tearDown(self):
+      self.delete_form(self.formId)
       app.test_user_id = self.orig_id

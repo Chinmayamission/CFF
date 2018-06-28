@@ -1,0 +1,51 @@
+{
+  "confirmationEmailInfo": {
+    "cc": null,
+    "from": "ccmt.dev@gmail.com",
+    "fromName": "CMTC",
+    "subject": "2018-19 BBNJ form",
+    "template": {
+      "html": "<div style='width: 100%;background-color: #eee; margin: 10px 0px;'> <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'> <img src='http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png' width='100%'> <h1>Confirmation</h1> <h2>2018-19 Long Island Balavihar Registration Form</h2>Thank you for submitting the form. This is a confirmation that we have received your response.<br> <br> <table> <tbody> <tr> <th colspan=2>Parents</th> </tr> {% for parent in value.parents %} <tr> <th>Parent {{loop.index}} Name</th><td>{{parent.name.first}} {{parent.name.last}}</td></tr> <tr><th>Parent {{loop.index}} Email</th><td>{{parent.email}}</td></tr> <tr><th>Parent {{loop.index}} Phone</th><td>{{parent.phone}}</td> </tr> {% endfor %} <tr> <th colspan=2>Parents</th> </tr> {% for child in value.children %} <tr> <th>Child {{loop.index}} Name</th><td>{{child.name.first}} {{child.name.last}}</td></tr> <tr><th>Child {{loop.index}} DOB</th><td>{{child.dob}}</td></tr> <tr><th>Child {{loop.index}} Email</th><td>{{child.email}}</td></tr> <tr><th>Child {{loop.index}} Allergies</th><td>{{child.allergies}}</td></tr> <tr><th>Child {{loop.index}} Grade</th><td>{{child.grade}}</td> </tr> {% endfor %} <tr> <th>Address Line 1</th><td>{{value.address.line1}}</td> </tr> <tr> <th>Address Line 2</th><td>{{value.address.line2}}</td> </tr> <tr> <th>City</th><td>{{value.address.city}}</td> </tr> <tr> <th>State</th><td>{{value.address.state}}</td> </tr> <tr> <th>Zipcode</th><td>{{value.address.zipcode}}</td> </tr> <tr> <th>Geeta Chanting Class Interest</th><td>{{value.geeta_class}}</td> </tr> </tbody> </table> <h2>Payment Info</h2><table><tr><th>Item</th><th>Amount</th><th>Quantity</th></tr>{%for item in paymentInfo['items'] %}<tr><td>{{item.name}}</td><td>{{item.amount | format_payment(paymentInfo.currency)}}</td><td>{{item.quantity}}</td></tr>{% endfor %}</table><br><strong>Total Amount: {{paymentInfo.total | format_payment(paymentInfo.currency)}}</strong><br><br><br>We thank you for your contribution and support.<br>Chinmaya Mission New York is a not-for-profit organization exempt from Federal Income tax under section 501 (c) (3). Tax ID: 26-1337001.<br>May Gurudev's Blessing be with you.</div> </div>"
+    },
+    "toField": [
+      "parents[0].email",
+      "parents[1].email"
+    ]
+  },
+  "paymentInfo": {
+    "currency": "USD",
+    "items": [
+      {
+        "amount": "0.50",
+        "description": "Base Registration",
+        "name": "Base Registration",
+        "quantity": "1"
+      },
+      {
+        "amount": "0.50",
+        "description": "$25 for each additional child",
+        "name": "Additional Registration",
+        "quantity": "(children > 2)*(children - 2)"
+      }
+    ]
+  },
+  "paymentMethods": {
+    "paypal_classic": {
+      "address1": "$address.line1",
+      "address2": "$address.line2",
+      "business": "aramaswamis@gmail.com",
+      "city": "$address.city",
+      "cmd": "_cart",
+      "email": "$parents[0].email",
+      "first_name": "$parents[0].name.first",
+      "image_url": "http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png",
+      "last_name": "$parents[1].name.last",
+      "payButtonText": "Pay Now",
+      "sandbox": false,
+      "state": "$address.state",
+      "zip": "$address.zipcode"
+    }
+  },
+  "showConfirmationPage": true,
+  "successMessage": "<h1>Form submission success</h1><h2>Academician Form</h2><p>You will receive an email with confirmation shortly. Thank you!</p>"
+}

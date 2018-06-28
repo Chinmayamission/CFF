@@ -10,6 +10,6 @@ def form_response_summary(formId):
     form = Form.objects.get({"_id":ObjectId(formId)}).only("formOptions", "cff_permissions")
     app.check_permissions(form, "Responses_ViewSummary")
     # todo: use aggregation framework here instead.
-    responses = Response.objects.raw({"form": Form, "PAID": True}).values()
+    responses = Response.objects.raw({"form": Form, "paid": True}).values()
     result = aggregate_data(form.formOptions["dataOptions"], list(responses))
     return {"res": result}

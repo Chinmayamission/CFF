@@ -7,11 +7,9 @@ from chalice.local import LocalGateway
 import json
 from .constants import FORM_ID
 from app import app
+from tests.integration.baseTestCase import BaseTestCase
 
-class TestCcavenueResponseHandler(unittest.TestCase):
-    def setUp(self):
-        with open(".chalice/config.json") as file:
-            self.lg = LocalGateway(app, Config(chalice_stage="beta", config_from_disk=json.load(file)))
+class TestCcavenueResponseHandler(BaseTestCase):
     def test_decrypt_duplicate(self):
         # todo: fix this
         pass

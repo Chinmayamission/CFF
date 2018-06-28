@@ -7,11 +7,9 @@ from chalice.local import LocalGateway
 import json
 from .constants import FORM_ID
 from app import app
+from tests.integration.baseTestCase import BaseTestCase
 
-class FormIpn(unittest.TestCase):
-    def setUp(self):
-        with open(".chalice/config.json") as file:
-            self.lg = LocalGateway(app, Config(chalice_stage="beta", config_from_disk=json.load(file)))
+class FormIpn(BaseTestCase):
     def test_ipn_duplicate(self):
         RESP_ID = "3b971455-639b-4007-9c1f-4bdcc36ccff7"
         # e4548443-99da-4340-b825-3f09921b4df5/
