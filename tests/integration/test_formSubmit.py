@@ -14,22 +14,17 @@ ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent
 
 class FormSubmit(BaseTestCase):
     maxDiff = None
-    # def setUp(self):
-    #     super(FormSubmit, self).setUp()
-
+    def setUp(self):
+        super(FormSubmit, self).setUp()
+        self.formId = self.create_form()
     def test_submit_form_one(self):
         """Submit form."""
-        self.formId = self.create_form()
+        
         self.edit_form(self.formId, {"schema": ONE_SCHEMA, "uiSchema": ONE_UISCHEMA, "formOptions": ONE_FORMOPTIONS})
-        response = self.lg.handle_request(method='POST',
-                                          path='/forms/{}'.format(self.formId),
-                                          headers={"Content-Type": "application/json"},
-                                          body=json.dumps({"data": ONE_FORMDATA}))
-        self.assertEqual(response['statusCode'], 200, response)
-        body = json.loads(response['body'])
-        responseId = body['res'].pop("id")
-        self.assertEqual(body['res'], ONE_SUBMITRES, body)
-        self.assertIn("paymentMethods", body['res'])
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
+        self.assertIn("paymentMethods", submit_res)
+
         """View response."""
         response = self.lg.handle_request(method='GET',
                                           path='/responses/{}'.format(responseId),
@@ -50,6 +45,7 @@ class FormSubmit(BaseTestCase):
         # self.assertEqual(response['statusCode'], 200, response)
         # body = json.loads(response['body'])
         # self.assertEqual(body['res']['value'], expected_data)
+
     # def test_submit_form_ccavenue(self):
     #     formId = "c06e7f16-fcfc-4cb5-9b81-722103834a81"
     #     formData = {"name": "test"}

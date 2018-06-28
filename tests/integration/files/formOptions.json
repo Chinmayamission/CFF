@@ -12,6 +12,8 @@
       "parents[1].email"
     ]
   },
+  "dataOptions": {
+  },
   "paymentInfo": {
     "currency": "USD",
     "items": [

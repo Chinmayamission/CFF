@@ -58,3 +58,11 @@ class BaseTestCase(unittest.TestCase):
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
     return body['res']
+  def submit_form(self, formId, formData):
+    response = self.lg.handle_request(method='POST',
+                                      path=f'/forms/{formId}',
+                                      headers={"Content-Type": "application/json"},
+                                      body=json.dumps({"data": formData}))
+    self.assertEqual(response['statusCode'], 200, response)
+    body = json.loads(response['body'])
+    return body['res'].pop('id'), body['res']

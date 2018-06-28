@@ -6,8 +6,8 @@ from bson.objectid import ObjectId
 def form_response_list(formId):
     """Show all responses for a particular form."""
     from ..main import app
-    form = Form.objects.get({"_id":ObjectId(formId)}).only("formOptions", "cff_permissions")
+    form = Form.objects.only("formOptions", "cff_permissions").get({"_id":ObjectId(formId)})
     app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
     # todo: use search framework, don't return all!
-    responses = Response.objects.raw({"form": Form}).values()
-    return {"res": responses}
+    responses = Response.objects.raw({"form": form.id})
+    return {"res": [serialize_model(r) for r in responses]}

@@ -14,7 +14,6 @@ def form_edit(formId):
   # Validate $ref properly.
   if form.schema:
     form.schema = renameKey(form.schema, "$ref", "__$ref")
-  print(form.schema)
   form.save()
   return {
     "res": {
