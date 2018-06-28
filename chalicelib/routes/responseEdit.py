@@ -54,7 +54,7 @@ def edit_response_common(formId, responseId):
     return {"res": result, "success": True, "action": "update"}
     # todo: return a better, more uniform response.
 
-def edit_response(formId, responseId):
+def response_edit(formId, responseId):
     from ..main import app, TABLES
     form = TABLES.forms.get_item(
         Key=dict(id=formId, version=1),

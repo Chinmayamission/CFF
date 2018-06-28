@@ -121,7 +121,7 @@ app.route('/forms/{formId}/responses', methods=['GET'], cors=True, authorizer=ia
 # form response edit
 app.route('/forms/{formId}/responsesExport', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_export)
 app.route('/forms/{formId}/summary', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_summary)
-app.route('/forms/{formId}/responses/{responseId}/edit', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.edit_response)
+app.route('/forms/{formId}/responses/{responseId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit)
 app.route('/forms/{formId}/responses/{responseId}/checkin', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.response_checkin)
 app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_get_permissions)
 app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
@@ -133,23 +133,4 @@ app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_ty
 app.route('/forms/{formId}/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
 app.route('/forms/{formId}/responses/{responseId}/sendConfirmationEmail', methods=['POST'], cors=True)(routes.response_send_confirmation_email)
 
-
-# get schema and schemaModifier versions
-# edit form
-# get form permissions
-# edit form permissions
-
-@app.route('/forms/{formId}/responses/{responseId}', cors=True, authorizer=iamAuthorizer)
-def view_response(formId, responseId):
-    """View an individual response from the admin dashboard (for search functionality).
-        Currently, this isn't used.
-    """
-    form = TABLES.forms.get_item(
-        Key=dict(id=formId, version=1),
-        ProjectionExpression="cff_permissions"
-    )["Item"]
-    app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
-    response = TABLES.responses.get_item(
-        Key=dict(formId=formId, responseId=responseId)
-    )["Item"]
-    return {"success": True, "res": response}
+app.route('/responses/{responseId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.response_view)
