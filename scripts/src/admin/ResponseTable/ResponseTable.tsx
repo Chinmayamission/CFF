@@ -5,14 +5,14 @@ import ReactTable from 'react-table';
 import {assign, concat, get, isArray, find, filter, set} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import FormLoader from "src/common/FormLoader";
-import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
 import {API} from "aws-amplify";
 import Loading from "src/common/Loading/Loading";
 import ResponseDetail from "./ResponseDetail";
 import InlineEdit from "react-edit-inline";
 import filterHeaderObjs from "./filterHeaderObjs";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import {flatten} from 'flat';
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -93,9 +93,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             // data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
             let headerNamesToShow = ["PAID", "IPN_TOTAL_AMOUNT", "DATE_LAST_MODIFIED", "DATE_CREATED", "NUMERIC_ID", "PAYMENT_INFO_TOTAL"];
             data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
+            data = data.map(e => {e.value = flatten(e.value); return e});
             data = data.map((e, index) => {
                 let valueToAssign = {
-                    "ID": e.responseId,
+                    "ID": e._id,
                     "PAID": e.PAID ? "YES": "NO",
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "PAYMENT_HISTORY": e.PAYMENT_HISTORY,
@@ -211,27 +212,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties),
             this.state.tableHeaders // concat original table headers with this.
         );
-        // let i = 0;
-        // let fivek = 0;
-        // let tenk = 0;
-        // for (let unwoundItem of data) {
-        //     // console.log(unwoundItem, unwoundItem.CFF_UNWIND_PATH, headerObjs);
-        //     if (get(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.race`) == "5K") {
-        //         // set(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.bib_number`, fivek + 5000);
-        //         // fivek++;
-        //         let j = fivek;
-        //         fivek++;
-        //         setTimeout(() => {this.onResponseEdit(`bib_number`, j + 5000, {original: unwoundItem, index: j})}, i*1000);
-        //     }
-        //     else if (get(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.race`) == "10K") {
-        //         // set(unwoundItem, `${unwoundItem.CFF_UNWIND_PATH}.bib_number`, tenk + 5000);
-        //         // tenk++;
-        //         let j = tenk;
-        //         tenk++;
-        //         setTimeout(() => {this.onResponseEdit(`bib_number`, j + 10000, {original: unwoundItem, index: j})}, i*1000);
-        //     }
-        //     i++;
-        // }
         let dataOptions = this.state.dataOptions;
         let colsToAggregate = [];
         if (dataOptions.unwindTables && dataOptions.unwindTables[rowToUnwind]) {
@@ -244,6 +224,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             tableHeadersDisplayed: headerObjs,
             colsToAggregate
         });
+        console.log(data);
     }
     getColsToAggregate(dataOption) {
         if (dataOption && dataOption.aggregateCols && dataOption.aggregateCols.length && isArray(dataOption.aggregateCols)) {
@@ -272,7 +253,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         }
 
         console.log(`Setting ${responseId}'s ${path} to ${value}.`);
-        API.post("CFF", `forms/${this.props.match.params.formId}/responses/${responseId}/edit`, {
+        API.patch("CFF", `responses/${responseId}/edit`, {
             "body":
             {
                 "path": `value.${path}`,
