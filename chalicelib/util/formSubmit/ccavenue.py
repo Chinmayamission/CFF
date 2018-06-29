@@ -24,8 +24,8 @@ def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, centerId, response):
     "order_id": orderId,
     "currency": response["paymentInfo"]["currency"],
     "amount": response["paymentInfo"]["total"],
-    "redirect_url": app.get_url(f"/forms/{formId}/responses/{responseId}/ccavenueResponseHandler"),
-    "cancel_url": app.get_url(f"/forms/{formId}/responses/{responseId}/ccavenueResponseHandler"), # todo: fix this.
+    "redirect_url": app.get_url(f"/responses/{responseId}/ccavenueResponseHandler"),
+    "cancel_url": app.get_url(f"/responses/{responseId}/ccavenueResponseHandler"), # todo: fix this.
     "language": "en",
     "integration_type": "iframe_normal",
     "billing_name": ccavenuePaymentMethodInfo["billing_name"],

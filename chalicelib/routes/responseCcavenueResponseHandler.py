@@ -3,16 +3,21 @@ import json
 from urllib.parse import parse_qsl
 from chalicelib.util.ccavutil import decrypt
 from chalicelib.util.formSubmit.emailer import send_confirmation_email
-from chalice import Response
+import chalice
 import datetime
 from decimal import Decimal
 from pydash.objects import get
+from chalicelib.models import Form, Response, serialize_model
+from bson.objectid import ObjectId
 
 """
  {'order_id': '4qwjQy46tSDjYEvmdDPi4m', 'tracking_id': '307003756646', 'bank_ref_no': '1525281619352', 'order_status': 'Success', 'payment_mode': 'Net Banking', 'card_name': 'AvenuesTest', 'status_code': 'null', 'status_message': 'Y', 'currency': 'INR', 'amount': '50.0', 'billing_name': 'Ashwin Ramaswami', 'billing_address': '123 123 Lane', 'billing_city': 'Buckhead', 'billing_state': 'GA', 'billing_zip': '12302', 'billing_country': 'USA', 'billing_tel': '7705159732', 'billing_email': 'aramaswamis@gmail.com', 'merchant_param1': '031ee09a-6b40-4f5f-af66-71f71115d088', 'vault': 'N', 'offer_type': 'null', 'offer_code': 'null', 'discount_value': '0.0', 'mer_amount': '50.0', 'eci_value': 'null', 'retry': 'N', 'response_code': '0', 'trans_date': '02/05/2018 22:51:06'}
 """
 def append_ipn_fail_with_status(formId, responseId, paramDict, status="INVALID", description=" "):
   from ..main import TABLES
+  # response = Response
+  #response = Response.objects.get({"_id":ObjectId(responseId)})
+  #form = Form.objects.only("formOptions").get({"_id":response.form.id})
   response = TABLES.responses.update_item(
       Key=dict(formId=formId, responseId=responseId),
       UpdateExpression=("set IPN_HISTORY = list_append(if_not_exists(IPN_HISTORY, :empty_list), :ipnValue),"
@@ -119,5 +124,5 @@ def response_ccavenue_response_handler(formId, responseId):
   elif paramDict["order_status"] == "Success":
     append_ipn_success(formId, responseId, paramDict, schemaModifier)
     redirect_url = get(schemaModifier, "paymentMethods.ccavenue.redirectUrl", get(schemaModifier, "paymentInfo.redirectUrl", ""))
-    return Response('', status_code=302,
+    return chalice.Response('', status_code=302,
       headers={'Location': redirect_url })

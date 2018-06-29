@@ -8,7 +8,7 @@
     "start": "cross-env DEV_COGNITO_IDENTITY_ID=us-east-1:1e3aa7b7-b042-4834-98f1-7915985c39a5 pipenv run chalice local --stage dev --port=8001",
     "deploy": "pipenv run chalice deploy --profile ashwin-cff-lambda --stage beta",
     "deploy-prod": "pipenv run chalice deploy --profile ashwin-cff-lambda --stage prod",
-    "test": "set AWS_PROFILE=ashwin-cff-lambda&&pipenv run python -m unittest"
+    "test": "pipenv run python -m unittest"
   },
   "keywords": [],
   "author": "",

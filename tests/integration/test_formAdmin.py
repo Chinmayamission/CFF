@@ -40,5 +40,3 @@ class FormAdmin(BaseTestCase):
         form = self.render_form(formId)
         self.assertEqual(form["name"], NEW_NAME)
         self.assertEqual(form["schema"], NEW_SCHEMA)
-    def test_performance(self):
-        pass

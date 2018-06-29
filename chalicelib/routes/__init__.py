@@ -1,6 +1,5 @@
 from .centerList import center_list
 from .formList import form_list
-from .schemaList import schema_list
 from .formCreate import form_create
 from .formEdit import form_edit
 from .formDelete import form_delete

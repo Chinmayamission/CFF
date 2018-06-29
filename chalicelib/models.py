@@ -33,6 +33,8 @@ class FormOptions(EmbeddedMongoModel):
   dataOptions = fields.DictField(blank=True)
   paymentMethods = fields.DictField(blank=True)
   defaultFormData = fields.DictField(blank=True)
+  showConfirmationPage = fields.BooleanField()
+  successMessage = fields.CharField()
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)

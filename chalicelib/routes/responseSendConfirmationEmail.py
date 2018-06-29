@@ -1,26 +1,16 @@
 from ..util.formSubmit.emailer import send_confirmation_email
 from pydash.objects import get
+from chalicelib.models import Form, serialize_model
+from bson.objectid import ObjectId
 
-def response_send_confirmation_email(formId, responseId):
+def response_send_confirmation_email(responseId):
   from ..main import app, TABLES
-  form = TABLES.forms.get_item(
-    Key=dict(id=formId, version=1),
-    ProjectionExpression="schemaModifier, formOptions"
-  )["Item"]
-  response = TABLES.responses.get_item(
-    Key=dict(formId=formId, responseId=responseId)
-  )["Item"]
+  response = Response.objects.get({"_id":ObjectId(responseId)})
+  form = Form.objects.only("formOptions").get({"_id":response.form.id})
   # todo: permissions here?
-  if "formOptions" not in form:
-    formOptions = TABLES.schemaModifiers.get_item(
-        Key=form["schemaModifier"],
-        ProjectionExpression="paymentInfo, paymentMethods, confirmationEmailInfo"
-      )["Item"]
-  else:
-    formOptions = form["formOptions"]
   paymentMethod = (app.current_request.json_body or {}).get("paymentMethod", "")
 
-  confirmationEmailInfo = get(formOptions, f"paymentMethods.{paymentMethod}.confirmationEmailInfo", formOptions.get("confirmationEmailInfo", {}))
-  email = send_confirmation_email(response, confirmationEmailInfo)
+  confirmationEmailInfo = get(form.formOptions.paymentMethods, f"{paymentMethod}.confirmationEmailInfo", form.formOptions.confirmationEmailInfo)
+  email = send_confirmation_email(serialize_model(response), confirmationEmailInfo)
 
   return {"success": True, "email_sent": True, "email": email}

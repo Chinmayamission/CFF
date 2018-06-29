@@ -21,7 +21,7 @@ class FormIpn(BaseTestCase):
                                           headers={"Content-Type": "application/x-www-form-urlencoded"},
                                           body=ipn_value)
         self.assertEqual(response['statusCode'], 200, response)
-        print(Response())
+        print(response)
         # todo: should this be 4xx instead?
     # def test_ipn_success(self):
     #     # asd
