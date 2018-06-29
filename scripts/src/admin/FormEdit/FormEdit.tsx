@@ -55,10 +55,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
-            let formOptions = res.updated_values.formOptions || this.state.formOptions;
-            let schema = res.updated_values.schema || this.state.schema;
-            let uiSchema = res.updated_values.uiSchema || this.state.uiSchema;
-            let formName = res.updated_values.name || this.state.formName;
+            this.setState({loading: false});
             // this.setState({
             //     loading: false,
             //     formName: formName,
@@ -124,7 +121,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             onChange={(e) => this.onChange("schema", e)}
                         />
                         <div className="col-12 col-sm-6">
-                            <FormPage key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
+                            <FormPage formId={this.props.match.params.formId} key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
                         </div>
                     </div>
                     {this.renderTopPane()}
