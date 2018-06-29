@@ -26,6 +26,8 @@ import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import MockData from "src/common/util/MockData";
 import SchemaUtil from "src/common/util/SchemaUtil";
+import {connect} from "react-redux";
+import {logout} from "src/store/auth/actions";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -33,6 +35,13 @@ const STATUS_FORM_CONFIRMATION = 4;
 const STATUS_FORM_PAYMENT_SUCCESS = 6;
 const STATUS_FORM_DONE = 8;
 
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  logout: () => dispatch(logout())
+});
 
 /* Adds a custom error message for regex validation (especially for phone numbers).
  */
@@ -142,6 +151,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
   handleError(e) {
     console.error("ERROR", e);
+    this.props.logout();
     this.setState({"hasError": true});
   }
   componentDidMount() {
@@ -183,7 +193,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     var formData = data.formData;
 
     this.setState({ajaxLoading: true});
-    API.post("CFF_v2", `forms/${this.props.formId}/responses`, {
+    API.post("CFF_v2", `forms/${this.props.formId}`, {
       "body": {
         "data": formData,
         "modifyLink": (window.location != window.parent.location) ? document.referrer : window.location.href
@@ -404,4 +414,4 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 }
 
-export default FormPage;
+export default connect(mapStateToProps, mapDispatchToProps)(FormPage);

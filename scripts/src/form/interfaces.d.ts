@@ -89,7 +89,8 @@ interface IFormPageProps {
     readonly?: boolean,
     specifiedShowFields?: any[],
     onFormLoad?: (Schema, UiSchema) => void,
-    form_preloaded?: IFormDBEntry
+    form_preloaded?: IFormDBEntry,
+    logout: () => void
 }
 
 interface IFormConfirmationPageProps {
