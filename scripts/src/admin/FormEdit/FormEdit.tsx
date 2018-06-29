@@ -43,7 +43,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
     saveForm() {
         this.setState({ loading: true });
-        API.patch("CFF_v2", `forms/${this.props.match.params.formId}`, {
+        API.patch("CFF", `forms/${this.props.match.params.formId}`, {
             "body": {
                 "uiSchema": this.state.uiSchema,
                 "schema": this.state.schema,
@@ -131,5 +131,5 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
 }
 
 export default dataLoadingView(FormEdit, (props) => {
-    return API.get("CFF_v2", `forms/${props.formId}`, {});
+    return API.get("CFF", `forms/${props.formId}`, {});
 });

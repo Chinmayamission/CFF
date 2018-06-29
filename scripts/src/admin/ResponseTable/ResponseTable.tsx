@@ -86,7 +86,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 schema, dataOptions
             });
         })
-        .then(() => API.get("CFF_v2", "forms/" + this.props.match.params.formId + "/responses", {}))
+        .then(() => API.get("CFF", "forms/" + this.props.match.params.formId + "/responses", {}))
         .then(e => {console.warn("RES", e); return e.res})
         // .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
@@ -272,7 +272,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         }
 
         console.log(`Setting ${responseId}'s ${path} to ${value}.`);
-        API.post("CFF_v2", `forms/${this.props.match.params.formId}/responses/${responseId}/edit`, {
+        API.post("CFF", `forms/${this.props.match.params.formId}/responses/${responseId}/edit`, {
             "body":
             {
                 "path": `value.${path}`,

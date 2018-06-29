@@ -15,7 +15,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
     }
     changeCheckIn(row, checked) {
         console.log(checked);
-        API.post("CFF_v2", `forms/${this.props.formId}/responses/${this.props.responseId}/checkin`, {
+        API.post("CFF", `forms/${this.props.formId}/responses/${this.props.responseId}/checkin`, {
             "body":
             {
                 "path": `value.${row.cff_accessor}.check_in`, // participants[0].check_in
@@ -116,5 +116,5 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
 // export default ResponseDetail;
 
 export default dataLoadingView(ResponseDetail, (props) => {
-    return API.get("CFF_v2", `forms/${props.formId}/responses/${props.responseId}/view`, {});
+    return API.get("CFF", `forms/${props.formId}/responses/${props.responseId}/view`, {});
 });

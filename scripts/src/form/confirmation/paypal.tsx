@@ -3,9 +3,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
 import Loading from "src/common/Loading/Loading";
-
+declare var ENDPOINT_URL: string;
 /*
- * 
+ * not used currently.
  */
 
 class Paypal extends React.Component<IPaypalProps, IPaypalState> {
@@ -26,7 +26,7 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
                             currency: this.props.paymentInfo.currency },
                         custom: this.props.formId + "/" + this.props.responseId,
                         // todo: fix this.
-                        notify_url: "API_ENDPOINT_TODO_FIX" + "?action=ipn"
+                        notify_url: ENDPOINT_URL + "?action=ipn"
                     }
                 ]
             }

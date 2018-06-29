@@ -180,6 +180,7 @@ interface IPaypalClassicProps extends IPaymentMethodProps {
     paymentMethodInfo: IPaymentMethodInfoPaypalClassic,
     paymentInfo_owed: IPaymentInfo,
     paymentInfo_received: IPaymentInfo
+    apiEndpoint: string
 }
 interface PaypalClassicSharedAttrs {
     "cmd": string,

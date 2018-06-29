@@ -11,7 +11,7 @@ class FormNew extends React.Component<IFormNewProps, {}> {
         }
     }
     createForm() {
-      return API.post("CFF_v2", 'forms', {"a":"b"
+      return API.post("CFF", 'forms', {"a":"b"
       }).then(e => {
         console.log(e.res);
         alert("DONE!" + e.res);

@@ -193,7 +193,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     var formData = data.formData;
 
     this.setState({ajaxLoading: true});
-    API.post("CFF_v2", `forms/${this.props.formId}`, {
+    API.post("CFF", `forms/${this.props.formId}`, {
       "body": {
         "data": formData,
         "modifyLink": (window.location != window.parent.location) ? document.referrer : window.location.href

@@ -19,7 +19,7 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
     onPermissionsChange(userId, permissionName, value) {
         let permissions = this.state.permissions;
         set(permissions, `${userId}.${permissionName}`, value);
-        API.post("CFF_v2", `forms/${this.props.match.params.formId}/permissions`, {
+        API.post("CFF", `forms/${this.props.match.params.formId}/permissions`, {
             "body": {
                 "userId": userId,
                 "permissions": get(permissions, userId)
@@ -63,5 +63,5 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
 
 
 export default dataLoadingView(FormShare, (props) => {
-    return API.get("CFF_v2", `forms/${props.match.params.formId}/permissions`, {});
+    return API.get("CFF", `forms/${props.match.params.formId}/permissions`, {});
 });

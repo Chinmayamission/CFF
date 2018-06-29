@@ -152,6 +152,6 @@ function hasPermission(cff_permissions, permissionNames, userId) {
 }
 
 const FormListWrapper = dataLoadingView(connect(mapStateToProps, mapDispatchToProps)(FormList), (props) => {
-    return API.get("CFF_v2", `forms`, {});
+    return API.get("CFF", `forms`, {});
 });
 export default FormListWrapper;

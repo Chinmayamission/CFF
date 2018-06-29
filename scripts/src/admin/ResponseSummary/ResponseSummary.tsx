@@ -85,5 +85,5 @@ class ResponseSummary extends React.Component<any, any> {
 }
 
 export default dataLoadingView(ResponseSummary, (props) => {
-    return API.get("CFF_v2", "forms/" + props.match.params.formId + "/summary", {});
+    return API.get("CFF", "forms/" + props.match.params.formId + "/summary", {});
 });

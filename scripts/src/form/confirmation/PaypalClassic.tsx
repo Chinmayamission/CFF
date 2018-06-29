@@ -1,6 +1,7 @@
 /// <reference path="../interfaces.d.ts" />
 import * as React from 'react';
 import {get, sumBy} from "lodash-es";
+import {connect} from "react-redux";
 
 /* Example Usage:
 
@@ -20,7 +21,17 @@ import {get, sumBy} from "lodash-es";
     }
 
  */
+
+const mapStateToProps = state => ({
+    ...state.auth
+});
+  
+const mapDispatchToProps = (dispatch, ownProps) => ({
+
+});
+
 declare var MODE: string;
+declare var ENDPOINT_URL: string;
 class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicState> {
     constructor(props:any) {
         super(props);
@@ -32,7 +43,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "business": this.props.paymentMethodInfo.business,
             "currency_code": this.props.paymentInfo_owed.currency || "USD",
             // todo: Fix this.
-            "notify_url": `${"API_ENDPOINT_TODO_FIX"}responses/${this.props.responseId}/ipn`,
+            "notify_url": `${ENDPOINT_URL}responses/${this.props.responseId}/ipn`,
             "return": this.props.paymentInfo_owed.redirectUrl || ((window.location != window.parent.location) ? document.referrer : window.location.href),
             "cancel_return": (window.location != window.parent.location) ? document.referrer : window.location.href,
             "items": items.filter(e => e.amount > 0),
@@ -108,4 +119,4 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
     );
     } 
 }
-export default PaypalClassic;
+export default connect(mapStateToProps, mapDispatchToProps)(PaypalClassic);

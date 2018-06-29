@@ -23,7 +23,8 @@ module.exports = merge(common, {
   plugins: [
     new CleanWebpackPlugin([DEST_URL]),
     new webpack.DefinePlugin({
-        MODE: `"${MODE}"`
+        MODE: `"${MODE}"`,
+        ENDPOINT_URL: `"https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"`
     })
   ]
 });
