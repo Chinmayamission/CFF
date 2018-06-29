@@ -24,10 +24,9 @@ def form_response_new(formId, responseId=None):
   response_data = app.current_request.json_body["data"]
   modifyLink = app.current_request.json_body.get('modifyLink', '') # todo fix
   form = Form.objects.only("name", "schema", "uiSchema", "formOptions", "cff_permissions").get({"_id":ObjectId(formId)}) #couponCodes
-  formOptions = form.formOptions
-  paymentInfo = formOptions.setdefault('paymentInfo', {})
-  confirmationEmailInfo = formOptions.setdefault('confirmationEmailInfo', {})
-  paymentMethods = fill_paymentMethods_with_data(formOptions.setdefault('paymentMethods', {}), response_data)
+  paymentInfo = form.formOptions.paymentInfo
+  confirmationEmailInfo = form.formOptions.confirmationEmailInfo
+  paymentMethods = fill_paymentMethods_with_data(form.formOptions.paymentMethods, response_data)
 
   def calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo):
     paymentInfoItem['amount'] = calculate_price(paymentInfoItem.get('amount', '0'), response_data)
@@ -85,7 +84,8 @@ def form_response_new(formId, responseId=None):
           date_created=datetime.datetime.now().isoformat(),
           paymentInfo=paymentInfo,
           paid=paid
-      ).save()
+      )
+      response.save()
       response = serialize_model(response)
       if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)

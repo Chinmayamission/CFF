@@ -2,7 +2,7 @@ from boto3.dynamodb.conditions import Key
 import datetime
 import uuid
 from pydash.objects import pick
-from chalicelib.models import Form, serialize_model
+from chalicelib.models import Form, FormOptions, serialize_model
 from bson.objectid import ObjectId
 from bson import BSON
 
@@ -20,8 +20,9 @@ def form_create():
         center="None",
         id = ObjectId(),
         cff_permissions=form_permissions,
-        schema={"title": "Form"},
+        schema={"title": "Form", "properties": {"name": {"type": "string"}}},
         uiSchema={"title": "Form"},
+        formOptions=FormOptions(confirmationEmailInfo={}, paymentInfo={}, paymentMethods={}, dataOptions={}, defaultFormData={}),
         date_modified=datetime.datetime.now().isoformat(),
         date_created=datetime.datetime.now().isoformat()
     )

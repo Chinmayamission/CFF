@@ -11,7 +11,7 @@ class BaseTestCase(unittest.TestCase):
     with open(".chalice/config.json") as file:
       self.lg = LocalGateway(app, Config(chalice_stage="dev", config_from_disk=json.load(file)))
   def tearDown(self):
-    if self.formId: self.delete_form(self.formId)
+    if hasattr(self, "formId"): self.delete_form(self.formId)
   def create_form(self):
     response = self.lg.handle_request(method='POST',
                                       path='/forms',
@@ -24,7 +24,7 @@ class BaseTestCase(unittest.TestCase):
     self.assertIn('name', body['res']['form'])
     self.assertEqual({"owner": True}, body['res']['form']['cff_permissions']["cff:cognitoIdentityId:" + app.test_user_id])
     self.assertEqual(body['res']['form']['version'], 1)
-    DEFAULT_SCHEMA = {"title": "Form"}
+    DEFAULT_SCHEMA = {"title": "Form", 'properties': {'name': {'type': 'string'}}}
     self.assertEqual(body['res']['form']['schema'], DEFAULT_SCHEMA)
     formId = body['res']['form']['_id']
     return formId
