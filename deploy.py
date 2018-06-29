@@ -18,7 +18,7 @@ DEPLOY_TO = os.getenv("CFF_DEPLOY_TO")
 if DEPLOY_TO=="prod":
   SCRIPT_PATH = "./scripts/prod"
   BUCKET = "cff.chinmayamission.com"
-  CLOUDFRONT_ID = "EF7WSN5FPDLRR"
+  CLOUDFRONT_ID = "E39K0TEZVH0LIV"
 elif DEPLOY_TO=="beta":
   SCRIPT_PATH = "./scripts/beta"
   BUCKET = "beta.cff.chinmayamission.com"
