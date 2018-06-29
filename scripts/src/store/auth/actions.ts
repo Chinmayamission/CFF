@@ -56,7 +56,9 @@ export function login() {
 }
 export function logout() {
   return dispatch => {
-    Cache.setItem("federatedInfo", null);
+    Cache.removeItem("federatedInfo");
+    localStorage.clear();
+    console.log(Cache.getAllKeys());
     Auth.signOut().then(e => {
       const ga = (window as any).gapi.auth2.getAuthInstance();
       return ga.signOut();
