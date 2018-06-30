@@ -14,8 +14,9 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
     response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=datetime.datetime.now().isoformat(), method=method_name))
     response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
     response.paid = float(response.amount_paid) >= float(response.paymentInfo.get("total", 0))
-    email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
-    response.email_trail.append(EmailTrailItem(value=email_sent, date=datetime.datetime.now()))
+    if response.paid:
+        email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
+        response.email_trail.append(EmailTrailItem(value=email_sent, date=datetime.datetime.now()))
     response.save()
 
 def response_ipn_listener(responseId):
