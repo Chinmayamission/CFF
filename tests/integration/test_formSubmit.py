@@ -46,17 +46,20 @@ class FormSubmit(BaseTestCase):
         # self.assertEqual(body['res']['value'], expected_data)
     def test_mark_successful_payment(self):
 
-        mark_successful_payment(
+        paid = mark_successful_payment(
             form=Form.objects.get({"_id": ObjectId(self.formId)}),
             response=Response.objects.get({"_id": ObjectId(self.responseId)}),
             full_value={"a":"b","c":"d"},
             method_name="unittest_ipn",
-            amount=500,
+            amount=0.5,
             currency="USD",
             id="payment1"
         )
+        self.assertEqual(paid, True)
         response = self.view_response(self.responseId)
-        print(response)
+        response['payment_trail'][0].pop("date")
+        self.assertEqual(response['payment_trail'], [{'value': {'a': 'b', 'c': 'd'}, 'method': 'unittest_ipn', 'status': 'SUCCESS', 'id': 'payment1', '_cls': 'chalicelib.models.PaymentTrailItem'}])
+        # todo: add more tests for other parts of response.
     # def test_submit_form_ccavenue(self):
     #     formId = "c06e7f16-fcfc-4cb5-9b81-722103834a81"
     #     formData = {"name": "test"}

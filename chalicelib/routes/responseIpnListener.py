@@ -18,6 +18,7 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
         response.email_trail.append(EmailTrailItem(value=email_sent, date=datetime.datetime.now()))
     response.save()
+    return response.paid
 
 def response_ipn_listener(responseId):
     from ..main import app, PROD
