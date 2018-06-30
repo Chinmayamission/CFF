@@ -49,26 +49,26 @@ def form_response_new(formId, responseId=None):
       calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo)
 
   # Redeem coupon codes.
-  if "couponCode" in response_data and response_data["couponCode"]:
-      couponCode = response_data["couponCode"]
-      if "couponCodes" in form and couponCode in form["couponCodes"]:
-          coupon_paymentInfoItem = {
-              "amount": form["couponCodes"][couponCode].get("amount", "0"),
-              "quantity": form["couponCodes"][couponCode].get("quantity", "1"),
-              "name": form["couponCodes"][couponCode].get("name", "Coupon Code"),
-              "description": form["couponCodes"][couponCode].get("description", "Coupon Code")
-          }
-          calc_item_total_to_paymentInfo(coupon_paymentInfoItem, paymentInfo)
-          paymentInfo['items'].append(coupon_paymentInfoItem)
-      else:
-          return {"res": {"success": False, "message": "Coupon Code not found.", "fields_to_clear": ["couponCode"]}}
-      # verify max # of coupons:
-      code_valid, code_num_remaining = coupon_code_verify_max_and_record_as_used(TABLES.forms, form, couponCode, responseId, response_data)
-      if not code_valid:
-          message = "Coupon code maximum reached.\nSubmitting this form will cause you to exceed the coupon code maximum.\nNumber of spots remaining: {}".format(code_num_remaining)
-          return {"res": {"success": False, "message": message, "fields_to_clear": ["couponCode"]}}
-  else:
-      response_data.pop("couponCode", None)
+#   if "couponCode" in response_data and response_data["couponCode"]:
+#       couponCode = response_data["couponCode"]
+#       if "couponCodes" in form and couponCode in form["couponCodes"]:
+#           coupon_paymentInfoItem = {
+#               "amount": form["couponCodes"][couponCode].get("amount", "0"),
+#               "quantity": form["couponCodes"][couponCode].get("quantity", "1"),
+#               "name": form["couponCodes"][couponCode].get("name", "Coupon Code"),
+#               "description": form["couponCodes"][couponCode].get("description", "Coupon Code")
+#           }
+#           calc_item_total_to_paymentInfo(coupon_paymentInfoItem, paymentInfo)
+#           paymentInfo['items'].append(coupon_paymentInfoItem)
+#       else:
+#           return {"res": {"success": False, "message": "Coupon Code not found.", "fields_to_clear": ["couponCode"]}}
+#       # verify max # of coupons:
+#       code_valid, code_num_remaining = coupon_code_verify_max_and_record_as_used(TABLES.forms, form, couponCode, responseId, response_data)
+#       if not code_valid:
+#           message = "Coupon code maximum reached.\nSubmitting this form will cause you to exceed the coupon code maximum.\nNumber of spots remaining: {}".format(code_num_remaining)
+#           return {"res": {"success": False, "message": message, "fields_to_clear": ["couponCode"]}}
+#   else:
+#       response_data.pop("couponCode", None)
   response_data.pop("total", None)
 
   paymentInfo['items'] = [item for item in paymentInfo['items'] if item['quantity'] * item['amount'] != 0]
