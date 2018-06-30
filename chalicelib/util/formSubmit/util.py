@@ -165,16 +165,16 @@ def format_paymentInfo(paymentInfo):
 def human_readable_key(key, delimiter=":"):
     """
     >>> human_readable_key("participants:0:name")
-    'participant 1 name'
+    'Participant 1 Name'
     >>> human_readable_key("participants_hello_world:0:name")
-    'participants hello world 1 name'
+    'Participants Hello World 1 Name'
     """
-    """Makes a delimited key human-readable.
-    Ex: participants:0:name --> Participant 1 Name"""
+    """Makes a delimited key human-readable."""
     key = key.replace("_", " ")
     delimiter = re.escape(delimiter)
     key = re.sub(r's?{0}(\d+){0}?'.format(delimiter), lambda x: " " + str(int(x.group(1)) + 1) + " ", key)
     key = re.sub(delimiter, ": ", key)
+    key = key.title()
     return key
 
 def dict_to_table(dct, options={}, human_readable=True):
