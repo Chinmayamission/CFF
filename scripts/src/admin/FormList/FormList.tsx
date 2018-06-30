@@ -50,61 +50,61 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 <tbody>
                     {formList && formList.length == 0 && <tr><td>No forms found. Create one!</td></tr>}
                     {formList && formList.map((form) =>
-                        <tr key={form["_id"]}>
+                        <tr key={form["_id"]["$oid"]}>
                             <td>{form["name"]}<br />
                                 <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
-                                    <code>{form["_id"]}</code>
+                                    <code>{form["_id"]["$oid"]}</code>
                                 </small>
                             </td>
                             <td>
                                 <ActionButton form={form}
                                     permissionName="Forms_Embed"
-                                    url={`./${form._id}/embed`}
+                                    url={`./${form["_id"]["$oid"]}/embed`}
                                     icon="oi-document"
                                     text="Embed"
                                     userId={this.props.userId}
                                     />
                                 <ActionButton form={form}
                                     permissionName="Forms_Edit"
-                                    url={`./${form._id}/edit`}
+                                    url={`./${form["_id"]["$oid"]}/edit`}
                                     icon="oi-pencil"
                                     text="Edit"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Responses_View"
-                                    url={`./${form._id}/responses`}
+                                    url={`./${form["_id"]["$oid"]}/responses`}
                                     icon="oi-sort-ascending"
                                     text="Responses"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Responses_CheckIn"
-                                    url={`.${form._id}/checkin`}
+                                    url={`.${form["_id"]["$oid"]}/checkin`}
                                     icon="oi-check"
                                     text="Check in"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Responses_ViewSummary"
-                                    url={`./${form._id}/summary`}
+                                    url={`./${form["_id"]["$oid"]}/summary`}
                                     icon="oi-list"
                                     text="Summary"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Forms_PermissionsView"
-                                    url={`./${form._id}/share`}
+                                    url={`./${form["_id"]["$oid"]}/share`}
                                     icon="oi-share-boxed"
                                     text="Share"
                                     userId={this.props.userId}
                                 />
                                 <ActionButton form={form}
                                     permissionName="Responses_Edit"
-                                    url={`./${form._id}/responsesEdit`}
+                                    url={`./${form["_id"]["$oid"]}/responsesEdit`}
                                     icon="oi-pencil"
                                     text="Edit Responses"
                                     userId={this.props.userId}
                                 />
                                 {/*<ActionButton permissions={form.cff_permissions}
                                     permissionName="Responses_View"
-                                    url={`./${form._id}/lookup`}
+                                    url={`./${form["_id"]["$oid"]}/lookup`}
                                     icon="oi-magnifying-glass"
                                     text="Check in"
                                     userId={this.props.userId}

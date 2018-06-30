@@ -1,6 +1,6 @@
 interface IFormListItem {
     name: string,
-    _id: string,
+    _id: {$oid: string},
     version: number,
     cff_permissions: {[x: string]: string[]},
     date_last_modified: string,

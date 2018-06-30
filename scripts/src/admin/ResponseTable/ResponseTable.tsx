@@ -96,14 +96,14 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             data = data.map(e => {e.value = flatten(e.value); return e});
             data = data.map((e, index) => {
                 let valueToAssign = {
-                    "ID": e._id,
+                    "ID": e["_id"]["$oid"],
                     "PAID": e.PAID ? "YES": "NO",
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "PAYMENT_HISTORY": e.PAYMENT_HISTORY,
                     "IPN_HISTORY": e.IPN_HISTORY,
-                    "DATE_CREATED": e.date_created,
+                    "DATE_CREATED": e.date_created.$date,
                     "NUMERIC_ID": index + 1,
-                    "DATE_LAST_MODIFIED": e.date_last_modified,
+                    "DATE_LAST_MODIFIED": e.date_modified.$date,
                     "PAYMENT_INFO_TOTAL": this.formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
                     "UPDATE_HISTORY": e.UPDATE_HISTORY,
                     //"PAYMENT_INFO_ITEMS": '"' + JSON.stringify(e.paymentInfo.items) + '"',
