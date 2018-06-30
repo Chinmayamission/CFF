@@ -66,3 +66,11 @@ class BaseTestCase(unittest.TestCase):
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
     return body['res'].pop('id'), body['res']
+  def view_response(self, responseId):
+    response = self.lg.handle_request(method='GET',
+                                      path='/responses/{}'.format(responseId),
+                                      headers={},
+                                      body='')
+    self.assertEqual(response['statusCode'], 200, response)
+    body = json.loads(response['body'])
+    return body['res']

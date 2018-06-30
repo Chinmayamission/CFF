@@ -9,6 +9,7 @@ from pydash.objects import get
 import logging
 from jinja2 import Environment, Undefined
 import flatdict
+from chalicelib.models import serialize_model
 
 ccmt_email_css = """
 table {
@@ -48,10 +49,10 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     if not confirmationEmailInfo: return
     if "template" in confirmationEmailInfo:
         templateText = get(confirmationEmailInfo, "template.html")
-        flat = flatdict.FlatterDict(response["value"])
+        flat = flatdict.FlatterDict(response.value)
         for i in flat:
             flat[human_readable_key(i)] = flat.pop(i)
-        kwargs = dict(response, response=flat)
+        kwargs = dict(serialize_model(response), response=flat)
         msgBody = env.from_string(templateText).render(**kwargs)
         addCSS = False
     else:
@@ -63,7 +64,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
             msgBody += "<img class='mainImage' src='{}' />".format(confirmationEmailInfo["image"])
         msgBody += confirmationEmailInfo.get("message", "")
         if confirmationEmailInfo["showResponse"]:
-            msgBody += "<br><br>" + display_form_dict(response["value"], confirmationEmailInfo.get("responseTableOptions", {}))
+            msgBody += "<br><br>" + display_form_dict(response.value, confirmationEmailInfo.get("responseTableOptions", {}))
         
         if 'items' in response['paymentInfo'] and len(response['paymentInfo']['items']) > 0:
             msgBody += "<br><br><table class=paymentInfoTable>"
@@ -90,7 +91,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     if type(toField) is not list:
         toField = [toField]
 
-    kwargs = dict(toEmail=[get(response["value"], i) for i in toField],
+    kwargs = dict(toEmail=[get(response.value, i) for i in toField],
                         fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
                         fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
                         subject=confirmationEmailInfo.get("subject", "Confirmation Email"),

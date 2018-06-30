@@ -6,7 +6,7 @@ import os
 import pymodm
 
 currency_field = fields.CharField(required=True, choices=("USD", "INR"))
-money_field = fields.Decimal128Field(required=True, min_value=0)
+money_field = fields.CharField(required=True)
 
 class BaseMongoModel(MongoModel):
   def save(self, *args, **kwargs):
@@ -67,6 +67,10 @@ class UpdateTrailItem(EmbeddedMongoModel):
   new = fields.DictField()
   date = fields.DateTimeField(required=True)
 
+class EmailTrailItem(EmbeddedMongoModel):
+  value = fields.DictField()
+  date = fields.DateTimeField(required=True)
+
 # class PaymentInfoItem(EmbeddedMongoModel):
 #   name = fields.CharField(required=True, min_length=1)
 #   description = fields.CharField(required=True, min_length=1)
@@ -77,7 +81,7 @@ class UpdateTrailItem(EmbeddedMongoModel):
 #   currency = currency_field
 #   total = money_field
 #   redirectUrl = fields.URLField()
-#   items = fields.EmbeddedDocumentListField(PaymentInfoItem)
+#   items = fields.EmbeddedDocumentListField(PaymentInfoItem, blank=True, default=[])
 
 
 class Response(BaseMongoModel):
@@ -86,11 +90,12 @@ class Response(BaseMongoModel):
   user = fields.EmbeddedDocumentField(User)
   # paymentInfo = fields.EmbeddedDocumentField(PaymentInfo)
   paymentInfo = fields.DictField()
-  payment_status_detail = fields.EmbeddedDocumentListField(PaymentStatusDetailItem)
-  paid = fields.BooleanField()
-  amount_paid = fields.Decimal128Field(min_value=0)
-  payment_trail = fields.EmbeddedDocumentListField(PaymentTrailItem)
-  update_trail = fields.EmbeddedDocumentListField(UpdateTrailItem)
+  payment_status_detail = fields.EmbeddedDocumentListField(PaymentStatusDetailItem, blank=True, default=[])
+  paid = fields.BooleanField(default=False)
+  amount_paid = fields.CharField()
+  payment_trail = fields.EmbeddedDocumentListField(PaymentTrailItem, blank=True, default=[])
+  update_trail = fields.EmbeddedDocumentListField(UpdateTrailItem, blank=True, default=[])
+  email_trail = fields.EmbeddedDocumentListField(EmailTrailItem, blank=True, default=[])
   value = fields.DictField()
   date_created = fields.DateTimeField(required=True)
   date_modified = fields.DateTimeField(required=True)
@@ -100,11 +105,22 @@ def serialize_model(model):
   """
   if type(model) in (list, pymodm.queryset.QuerySet):
     return [serialize_model(m) for m in model]
-  dict_ = model.to_son().to_dict()
-  for k in list(dict_):
-    v = dict_[k]
-    if k == "_cls":
-      del dict_[k]
-    elif type(v) not in (str, int, float, dict, type(None)):
-      dict_[k] = str(v)
-  return dict_
+  model = model.to_son().to_dict()
+  for k in list(model):
+    v = model[k]
+    if type(v) is ObjectId:
+      model[k] = str(v)
+    elif hasattr(v, "to_son"):
+      model[k] = serialize_model[v]
+    elif k == "_cls":
+      del model[k]
+    elif type(v) is datetime.datetime:
+      model[k] = str(v)
+  return model
+  # for k in list(dict_):
+  #   v = dict_[k]
+  #   if k == "_cls":
+  #     del dict_[k]
+  #   elif type(v) not in (str, int, float, dict, type(None)):
+  #     dict_[k] = str(v)
+  # return dict_

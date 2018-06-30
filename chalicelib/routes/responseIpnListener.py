@@ -5,8 +5,19 @@ from decimal import Decimal
 from botocore.exceptions import ClientError
 from ..util.formSubmit.emailer import send_confirmation_email
 from ..util.formSubmit.responseHandler import response_verify_update
-from chalicelib.models import PaymentTrailItem, PaymentStatusDetailItem, Form, Response
+from chalicelib.models import PaymentTrailItem, PaymentStatusDetailItem, EmailTrailItem, Form, Response
 from bson.objectid import ObjectId
+from bson.decimal128 import Decimal128
+from decimal import Decimal
+
+def mark_successful_payment(form, response, full_value, method_name, amount, currency, id):
+    response.payment_trail.append(PaymentTrailItem(value=full_value, status="SUCCESS", date=datetime.datetime.now(), method=method_name, id=id))
+    response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=datetime.datetime.now().isoformat(), method=method_name))
+    response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
+    response.paid = float(response.amount_paid) > float(response.paymentInfo["total"])
+    email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
+    response.email_trail.append(EmailTrailItem(value=email_sent, date=datetime.datetime.now()))
+    response.save()
 
 def response_ipn_listener(responseId):
     from ..main import app, PROD
@@ -25,6 +36,7 @@ def response_ipn_listener(responseId):
     
     def raise_ipn_error(message):
         response.payment_trail.append(PaymentTrailItem(value=paramDict, status="ERROR", date=datetime.datetime.now(), method="paypal_ipn", id=message))
+        response.save()
         raise Exception("IPN ERROR: " + message)
 
     if responseId != responseIdFromIpn:
@@ -41,22 +53,28 @@ def response_ipn_listener(responseId):
     r.raise_for_status()
 
     # Check return message and take action as needed
-    if True or r.text == 'VERIFIED':
+    if r.text == 'VERIFIED':
         # payment_status completed.
         form = Form.objects.only("formOptions").get({"_id":response.form.id})
         expected_receiver_email = form.formOptions.paymentMethods["paypal_classic"]["business"]
         if paramDict["receiver_email"] != expected_receiver_email:
-            raise_ipn_error("Emails do not match; receiver email is {} and expected email is {}.".format(paramDict["receiver_email"], expected_receiver_email))
+            raise_ipn_error("Emails do not match.".format(paramDict["receiver_email"], expected_receiver_email))
         if paramDict["payment_status"] != "Completed":
             raise_ipn_error("Payment status is not complete.")
         
         txn_id = paramDict["txn_id"]
         if any(item.status == "SUCCESS" and item.id == txn_id for item in response.payment_trail):
-            raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")
+            raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")      
         
-        response.payment_trail.append(PaymentTrailItem(value=paramDict, status="SUCCESS", date=datetime.datetime.now(), method="paypal_ipn", id=txn_id))
-        response.payment_status_detail.append(PaymentStatusDetailItem(amount=paramDict["mc_gross"], currency=paramDict["mc_currency"], data=datetime.datetime.now().isoformat(), method="paypal_ipn"))
-        response.amount_paid += self.paramDict["mc_gross"]
+        mark_successful_payment(
+            form=form,
+            response=response,
+            full_value=paramDict,
+            method_name="paypal_ipn",
+            amount=paramDict["mc_gross"],
+            currency=paramDict["mc_currency"],
+            id=txn_id
+        )
         # Has user paid the amount owed? Checks the PENDING_UPDATE for the total amount owed, else the response itself (when not updating).
         # fullyPaid = response["IPN_TOTAL_AMOUNT"] >= response.get("PENDING_UPDATE", response)["paymentInfo"]["total"]
 
@@ -80,5 +98,3 @@ def response_ipn_listener(responseId):
         raise_ipn_error("IPN was neither VERIFIED nor INVALID.")
 
     return ""
-
-

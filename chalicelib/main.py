@@ -30,6 +30,10 @@ class TABLES_CLASS:
     cm = client["cm"]
 TABLES = TABLES_CLASS()
 
+# os.environ["MONGO_HOST"] = "mongodb://chinmayamission.documents.azure.com:10255/cm?ssl=true&replicaSet=globaldb"
+# os.environ["MONGO_USER"] = "chinmayamission"
+# os.environ["MONGO_PASSWORD"] = "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
+
 host = os.getenv("MONGO_HOST", "mongodb://localhost:10255/cm?ssl=true")
 user = os.getenv("MONGO_USER", "localhost")
 password = os.getenv("MONGO_PASSWORD", 'C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==')

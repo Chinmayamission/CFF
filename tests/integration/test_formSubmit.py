@@ -9,30 +9,32 @@ from .constants import ONE_SCHEMA, ONE_UISCHEMA, ONE_FORMOPTIONS, ONE_FORMDATA
 from app import app
 from pydash.objects import set_
 from tests.integration.baseTestCase import BaseTestCase
+from chalicelib.routes.responseIpnListener import mark_successful_payment
+from chalicelib.models import Form, Response
+from bson.objectid import ObjectId
+import time
 
-ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': '.', 'first_name': '.', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': '.', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
+ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'aramaswamis@gmail.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
 
 class FormSubmit(BaseTestCase):
     maxDiff = None
     def setUp(self):
         super(FormSubmit, self).setUp()
         self.formId = self.create_form()
+        time.sleep(.5)
+        self.edit_form(self.formId, {"schema": ONE_SCHEMA, "uiSchema": ONE_UISCHEMA, "formOptions": ONE_FORMOPTIONS})
+        time.sleep(.5)
+        self.responseId, self.submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        time.sleep(.5)
     def test_submit_form_one(self):
         """Submit form."""
-        
-        self.edit_form(self.formId, {"schema": ONE_SCHEMA, "uiSchema": ONE_UISCHEMA, "formOptions": ONE_FORMOPTIONS})
-        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
-        self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
-        self.assertIn("paymentMethods", submit_res)
+
+        self.assertEqual(self.submit_res, ONE_SUBMITRES, self.submit_res)
+        self.assertIn("paymentMethods", self.submit_res)
 
         """View response."""
-        response = self.lg.handle_request(method='GET',
-                                          path='/responses/{}'.format(responseId),
-                                          headers={},
-                                          body='')
-        self.assertEqual(response['statusCode'], 200, response)
-        body = json.loads(response['body'])
-        self.assertEqual(body['res']['value'], ONE_FORMDATA)
+        response = self.view_response(self.responseId)
+        self.assertEqual(response['value'], ONE_FORMDATA)
         
         # """Edit response."""
         # body = {"path": "value.contact_name.last", "value": "NEW_LAST!"}
@@ -45,7 +47,19 @@ class FormSubmit(BaseTestCase):
         # self.assertEqual(response['statusCode'], 200, response)
         # body = json.loads(response['body'])
         # self.assertEqual(body['res']['value'], expected_data)
+    def test_mark_successful_payment(self):
 
+        mark_successful_payment(
+            form=Form.objects.get({"_id": ObjectId(self.formId)}),
+            response=Response.objects.get({"_id": ObjectId(self.responseId)}),
+            full_value={"a":"b","c":"d"},
+            method_name="unittest_ipn",
+            amount=500,
+            currency="USD",
+            id="payment1"
+        )
+        response = self.view_response(self.responseId)
+        print(response)
     # def test_submit_form_ccavenue(self):
     #     formId = "c06e7f16-fcfc-4cb5-9b81-722103834a81"
     #     formData = {"name": "test"}
