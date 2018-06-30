@@ -29,6 +29,7 @@ interface IFormAdminPageState {
     selectedForm: IFormListItem,
     status: number,
     hasError: boolean,
+    errorMessage: string,
     apiKey: string,
     user: IUserItem,
     loading: boolean

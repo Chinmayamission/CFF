@@ -116,6 +116,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.state = {
       status: STATUS_FORM_LOADING,
       hasError: false,
+      errorMessage: "",
       schemaMetadata: {},
       schema: { "title": "None", "type": "object" },
       uiSchema: { "title": "status" },
@@ -137,7 +138,15 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
 
   componentDidCatch(error, info) {
     // Display fallback UI
-    this.setState({ hasError: true });
+    error = error.toString();
+    if (this.state.hasError) {
+     
+      this.setState({ hasError: true, errorMessage: this.state.errorMessage + "\n\n" + JSON.stringify(error, null, 2) });
+    }
+    else {
+      this.setState({ hasError: true, errorMessage: JSON.stringify(error, null, 2) });
+    }
+    
     // You can also log the error to an error reporting service
     console.log("caught");
     console.error(error, info);
@@ -331,6 +340,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.setState({paymentStarted: true});
   }
   render() {
+    if (this.state.hasError) {
+      return <div><h1>Unexpected Error</h1><p>There was an error rendering the form. Please try again later.</p><code>{this.state.errorMessage}</code></div>; 
+    }
     if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
         <h1>Payment processing</h1>

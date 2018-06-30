@@ -34,6 +34,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             selectedForm: null,
             status: STATUS_LOADING,
             hasError: false,
+            errorMessage: "",
             user: {id: "", name: "", email: ""},
             apiKey: null,
             loading: false

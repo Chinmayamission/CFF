@@ -71,6 +71,7 @@ interface IFormPageState {
     responseId: string,
     responseLoaded: IResponse,
     hasError: boolean,
+    errorMessage: string,
     paymentInfo: IPaymentInfo,
     paymentInfo_received: IPaymentInfo,
     paymentMethods: IPaymentMethods,
