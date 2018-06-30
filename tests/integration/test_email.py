@@ -2,7 +2,6 @@
 python -m unittest tests.integration.test_email
 """
 from chalicelib.util.formSubmit.emailer import send_confirmation_email
-from chalicelib.routes.responseSendConfirmationEmail import response_send_confirmation_email
 # import tests.config
 from tests.integration.constants import _
 from tests.unit.test_email import CONFIRMATION_EMAIL_INFO, CONFIRMATION_EMAIL_INFO_TEMPLATE, RESPONSE
@@ -16,20 +15,23 @@ from tests.integration.baseTestCase import BaseTestCase
 
 class TestEmail(BaseTestCase):
     maxDiff = None
+    def setUp(self):
+        super(TestEmail, self).setUp()
+        self.formId = self.create_form()
+        self.response = Response(**RESPONSE)
     def test_actually_send_email_cc_bad_email(self):
         confirmationEmailInfo = dict(
             CONFIRMATION_EMAIL_INFO, **{"cc": "bad_email"})
         with self.assertRaises(ClientError):
-            send_confirmation_email(RESPONSE, confirmationEmailInfo)
+            send_confirmation_email(self.response, confirmationEmailInfo)
     def test_actually_send_email(self):
-        send_confirmation_email(RESPONSE, CONFIRMATION_EMAIL_INFO)
+        send_confirmation_email(self.response, CONFIRMATION_EMAIL_INFO)
     def test_actually_send_email_template(self):
-        send_confirmation_email(RESPONSE, CONFIRMATION_EMAIL_INFO_TEMPLATE)
+        send_confirmation_email(self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE)
+    @unittest.skip('not implemented yet')
     def test_endpoint_send_confirmation_email_success(self):
-        formId = "3da8dc83-3e6e-4900-a99b-ac45dcae2fbb"
-        responseId = "6949b63c-ec89-4e79-b33d-378f1c1d2f42"
         response = self.lg.handle_request(method='POST',
-                                          path=f'/forms/{formId}/responses/{responseId}/sendConfirmationEmail',
+                                          path=f'/responses/{self.responseId}/sendConfirmationEmail',
                                           headers={"Content-Type": "application/json"},
                                           body=json.dumps({"paymentMethod": "manual_approval"}))
         self.assertEqual(response['statusCode'], 200, response)

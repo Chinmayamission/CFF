@@ -21,11 +21,8 @@ class FormSubmit(BaseTestCase):
     def setUp(self):
         super(FormSubmit, self).setUp()
         self.formId = self.create_form()
-        time.sleep(.5)
         self.edit_form(self.formId, {"schema": ONE_SCHEMA, "uiSchema": ONE_UISCHEMA, "formOptions": ONE_FORMOPTIONS})
-        time.sleep(.5)
         self.responseId, self.submit_res = self.submit_form(self.formId, ONE_FORMDATA)
-        time.sleep(.5)
     def test_submit_form_one(self):
         """Submit form."""
 

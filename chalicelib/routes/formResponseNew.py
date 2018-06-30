@@ -4,7 +4,6 @@ from pydash.objects import pick, get, unset
 from ..util.formSubmit.util import calculate_price
 from ..util.formSubmit.couponCodes import coupon_code_verify_max_and_record_as_used
 from ..util.formSubmit.emailer import send_confirmation_email
-from ..util.formSubmit.responseHandler import response_verify_update
 from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
 from chalicelib.models import Form, Response, serialize_model
@@ -86,7 +85,6 @@ def form_response_new(formId, responseId=None):
           paid=paid
       )
       response.save()
-      response = serialize_model(response)
       if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)
           email_sent = True

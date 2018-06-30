@@ -66,10 +66,10 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
         if confirmationEmailInfo["showResponse"]:
             msgBody += "<br><br>" + display_form_dict(response.value, confirmationEmailInfo.get("responseTableOptions", {}))
         
-        if 'items' in response['paymentInfo'] and len(response['paymentInfo']['items']) > 0:
+        if 'items' in response.paymentInfo and len(response.paymentInfo['items']) > 0:
             msgBody += "<br><br><table class=paymentInfoTable>"
             msgBody += "<tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr>"
-            for paymentInfoItem in response['paymentInfo']['items']:
+            for paymentInfoItem in response.paymentInfo['items']:
                 msgBody += "<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
                     paymentInfoItem.get('name',''),
                     paymentInfoItem.get('description',''),
@@ -79,11 +79,10 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
             msgBody += "</table>"
         
         totalAmountText = confirmationEmailInfo.get("totalAmountText", "Total Amount")
-        msgBody += "<br><br><h2>{}: {}</h2>".format(totalAmountText, format_paymentInfo(response["paymentInfo"]))
-        if confirmationEmailInfo["showModifyLink"] and "modifyLink" in response:
-            msgBody += "<br><br>Modify your response by going to this link: {}#responseId={}".format(confirmationEmailInfo.get("modifyLink", response["modifyLink"]), str(response["responseId"]))
-        if "contentFooter" in confirmationEmailInfo:
-            msgBody += confirmationEmailInfo["contentFooter"]
+        msgBody += "<br><br><h2>{}: {}</h2>".format(totalAmountText, format_paymentInfo(response.paymentInfo))
+        if confirmationEmailInfo.get("showModifyLink", False) and hasattr(response, "modifyLink"):
+            msgBody += "<br><br>Modify your response by going to this link: {}#responseId={}".format(confirmationEmailInfo.get("modifyLink", response.modifyLink), str(response["_id"]["$oid"]))
+        msgBody += confirmationEmailInfo.get("contentFooter", "")
         # todo: check amounts and Completed status, and then send.
         addCSS = True
     

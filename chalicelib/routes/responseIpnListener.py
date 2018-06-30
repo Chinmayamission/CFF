@@ -4,7 +4,6 @@ import urllib
 from decimal import Decimal
 from botocore.exceptions import ClientError
 from ..util.formSubmit.emailer import send_confirmation_email
-from ..util.formSubmit.responseHandler import response_verify_update
 from chalicelib.models import PaymentTrailItem, PaymentStatusDetailItem, EmailTrailItem, Form, Response
 from bson.objectid import ObjectId
 from bson.decimal128 import Decimal128
@@ -83,15 +82,6 @@ def response_ipn_listener(responseId):
         #     response_verify_update(response, self.TABLES.responses, form.formOptions.confirmationEmailInfo)
         # else:
         #     # update it as paid or not.
-        #     response = self.TABLES.responses.update_item(
-        #         Key=self.responseKey,
-        #         UpdateExpression=("SET PAID = :paid"),
-        #         ExpressionAttributeValues={
-        #             ":paid": fullyPaid
-        #         },
-        #         ReturnValues="ALL_NEW"
-        #     )["Attributes"]
-        #     send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
     elif r.text == 'INVALID':
         raise_ipn_error("Rejected by PayPal: {}".format(VERIFY_URL))
     else:

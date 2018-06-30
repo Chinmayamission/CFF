@@ -11,6 +11,6 @@ def response_send_confirmation_email(responseId):
   paymentMethod = (app.current_request.json_body or {}).get("paymentMethod", "")
 
   confirmationEmailInfo = get(form.formOptions.paymentMethods, f"{paymentMethod}.confirmationEmailInfo", form.formOptions.confirmationEmailInfo)
-  email = send_confirmation_email(serialize_model(response), confirmationEmailInfo)
+  email = send_confirmation_email(response, confirmationEmailInfo)
 
   return {"success": True, "email_sent": True, "email": email}
