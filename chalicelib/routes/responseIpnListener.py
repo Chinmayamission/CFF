@@ -30,7 +30,7 @@ def response_ipn_listener(responseId):
 
     # verify payment. should be equal to amount owed.
     paramDict = dict(params)
-    responseIdFromIpn = paramDict["custom"]
+    responseIdFromIpn = paramDict.get("custom", "")
     response = Response.objects.get({"_id": ObjectId(responseId)})
     
     def raise_ipn_error(message):
