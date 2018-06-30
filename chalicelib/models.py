@@ -113,6 +113,9 @@ def serialize_model(model):
     json_options=options
   ))
   model.pop("_cls")
+  for k, v in model.items():
+    if type(v) is dict:
+      v.pop("_cls", "")
   # for k in list(model):
   #   v = model[k]
   #   if type(v) is ObjectId:
