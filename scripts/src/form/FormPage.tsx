@@ -203,7 +203,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       alert("Error submitting the form. " + e);
     }).then((response) => {
       let res = response.res;
-      if (!(res.success == true && res.id)) {
+      if (!(res.success == true && res._id)) {
         this.setState({ajaxLoading: false});
         if (res.success == false && res.message) {
           if (res.fields_to_clear && res.fields_to_clear.length) {
