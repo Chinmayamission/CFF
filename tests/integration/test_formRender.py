@@ -18,5 +18,5 @@ class FormRender(BaseTestCase):
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        self.assertEqual(set(("_id", "name", "schema", "uiSchema")), set(body['res'].keys()))
+        self.assertEqual(set(("_id", "name", "schema", "uiSchema", "formOptions")), set(body['res'].keys()))
         self.assertEqual(body['res']['_id']['$oid'], self.formId)

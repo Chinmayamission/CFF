@@ -112,6 +112,7 @@ def serialize_model(model):
   model = json.loads(dumps(model.to_son().to_dict(),
     json_options=options
   ))
+  model.pop("_cls")
   # for k in list(model):
   #   v = model[k]
   #   if type(v) is ObjectId:
