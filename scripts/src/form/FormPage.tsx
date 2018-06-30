@@ -240,7 +240,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         ajaxLoading: false,
         status: STATUS_FORM_CONFIRMATION,
         data: formData,
-        responseId: res.id,
+        responseId: res.responseId,
         paymentInfo: res.paymentInfo,
         paymentInfo_received: paymentInfo_received,
         paymentMethods: res.paymentMethods
