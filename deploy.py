@@ -17,11 +17,11 @@ client = boto3.client('s3')
 DEPLOY_TO = os.getenv("CFF_DEPLOY_TO")
 if DEPLOY_TO=="prod":
   SCRIPT_PATH = "./scripts/prod"
-  BUCKET = "cff.chinmayamission.com"
+  BUCKET = "forms.chinmayamission.com"
   CLOUDFRONT_ID = "E39K0TEZVH0LIV"
 elif DEPLOY_TO=="beta":
   SCRIPT_PATH = "./scripts/beta"
-  BUCKET = "beta.cff.chinmayamission.com"
+  BUCKET = "forms.beta.chinmayamission.com"
   CLOUDFRONT_ID = "EB6H37XF3EXRP"
 else:
   raise Exception("No deploy to selected! Set the CFF_DEPLOY_TO variable to beta or prod.")
