@@ -38,7 +38,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     toField = confirmationEmailInfo["toField"]
     if type(toField) is not list:
         toField = [toField]
-        
+
     emailOptions = dict(toEmail=[get(response.value, i) for i in toField],
                         fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
                         fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
@@ -128,6 +128,5 @@ def send_email(
 def send_confirmation_email(response, confirmationEmailInfo):
     """ Actually send confirmation email"""
     dct = create_confirmation_email_dict(response, confirmationEmailInfo)
-    print("DCT IS", dct)
     send_email(**dct)
     return dct
