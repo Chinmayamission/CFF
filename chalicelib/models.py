@@ -4,6 +4,8 @@ from bson.objectid import ObjectId
 import datetime
 import os
 import pymodm
+from bson.json_util import dumps, RELAXED_JSON_OPTIONS, DatetimeRepresentation
+import json 
 
 currency_field = fields.CharField(required=True, choices=("USD", "INR"))
 money_field = fields.CharField(required=True)
@@ -105,17 +107,21 @@ def serialize_model(model):
   """
   if type(model) in (list, pymodm.queryset.QuerySet):
     return [serialize_model(m) for m in model]
-  model = model.to_son().to_dict()
-  for k in list(model):
-    v = model[k]
-    if type(v) is ObjectId:
-      model[k] = str(v)
-    elif hasattr(v, "to_son"):
-      model[k] = serialize_model[v]
-    elif k == "_cls":
-      del model[k]
-    elif type(v) is datetime.datetime:
-      model[k] = str(v)
+  options = RELAXED_JSON_OPTIONS
+  options.datetime_representation = DatetimeRepresentation.ISO8601
+  model = json.loads(dumps(model.to_son().to_dict(),
+    json_options=options
+  ))
+  # for k in list(model):
+  #   v = model[k]
+  #   if type(v) is ObjectId:
+  #     model[k] = str(v)
+  #   elif hasattr(v, "to_son"):
+  #     model[k] = serialize_model[v]
+  #   elif k == "_cls":
+  #     del model[k]
+  #   elif type(v) is datetime.datetime:
+  #     model[k] = str(v)
   return model
   # for k in list(dict_):
   #   v = dict_[k]

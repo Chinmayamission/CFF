@@ -26,7 +26,7 @@ class BaseTestCase(unittest.TestCase):
     self.assertEqual(body['res']['form']['version'], 1)
     DEFAULT_SCHEMA = {"title": "Form", 'properties': {'name': {'type': 'string'}}}
     self.assertEqual(body['res']['form']['schema'], DEFAULT_SCHEMA)
-    formId = body['res']['form']['_id']
+    formId = body['res']['form']['_id']["$oid"]
     return formId
   def render_form(self, formId, fail=False):
     response = self.lg.handle_request(method='GET',
@@ -65,7 +65,7 @@ class BaseTestCase(unittest.TestCase):
                                       body=json.dumps({"data": formData}))
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
-    return body['res'].pop('id'), body['res']
+    return body['res'].pop('responseId'), body['res']
   def view_response(self, responseId):
     response = self.lg.handle_request(method='GET',
                                       path='/responses/{}'.format(responseId),

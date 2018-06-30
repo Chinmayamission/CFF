@@ -95,7 +95,7 @@ def form_response_new(formId, responseId=None):
       if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
           send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
           email_sent = True
-      return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "id": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
+      return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
   else:
       raise Exception("Updating is not supported yet!")
       """# Updating.
