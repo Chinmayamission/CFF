@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "./App";
 import Amplify, {Auth} from "aws-amplify";
+import { I18n } from 'aws-amplify';
 
 declare var MODE: any;
 declare var ENDPOINT_URL: any;
@@ -39,6 +40,16 @@ Amplify.configure({
     ]
   }
 });
+
+const authScreenLabels = {
+    en: {
+        'Sign Up': 'Create new account',
+        'Sign Up Account': 'Create a new account'
+    }
+};
+
+I18n.setLanguage('en');
+I18n.putVocabularies(authScreenLabels);
 
 ReactDOM.render(<App />, document.getElementById('ccmt-cff-main'));
 import "./form.tsx";

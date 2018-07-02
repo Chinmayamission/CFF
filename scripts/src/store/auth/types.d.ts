@@ -14,5 +14,6 @@ interface IUserCredentials {
 interface IAuthState {
   loggedIn: boolean,
   user: IUserCredentials,
-  userId: string
+  userId: string,
+  authMethod: string
 }

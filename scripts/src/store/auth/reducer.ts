@@ -4,12 +4,14 @@ import { Reducer } from 'redux';
 const initialState: IAuthState = {
   loggedIn: false,
   user: null,
-  userId: null
+  userId: null,
+  authMethod: null
 };
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
+      console.log("LOGIN_SUCCESS", action);
       return {
         ...state,
         loggedIn: true,
@@ -21,6 +23,11 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
         ...state,
         loggedIn: false
       };
+    case "SET_AUTH_METHOD":
+      return {
+        ...state,
+        authMethod: action.authMethod
+      }
     default:
       return state;
   }

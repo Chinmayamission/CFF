@@ -1,8 +1,8 @@
 /// <reference path="../store/auth/types.d.ts" />
 import React from "react";
 import { connect } from 'react-redux';
-import {checkLoginStatus, login, logout, handleAuthStateChange} from "../store/auth/actions";
-import { withFederated } from 'aws-amplify-react';
+import {checkLoginStatus, logout, handleAuthStateChange} from "../store/auth/actions";
+import { withFederated, Authenticator } from 'aws-amplify-react';
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -11,7 +11,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   // getProfile: () => dispatch(getProfile()),
   checkLoginStatus: () => dispatch(checkLoginStatus()),
-  login: () => dispatch(login()),
   logout: () => dispatch(logout()),
   handleAuthStateChange: (state, data) => dispatch(handleAuthStateChange(state, data))
 });
@@ -42,7 +41,6 @@ const federated = {
 const Federated = withFederated(Buttons);
 interface ILoginProps {
   checkLoginStatus: () => void,
-  login: () => void,
   logout: () => void,
   handleAuthStateChange: (a, b) => void,
   setup: () => void,
@@ -59,7 +57,8 @@ class Login extends React.Component<ILoginProps, {}> {
         <h3>
         Chinmaya Forms Framework
         Sign in</h3>
-        <Federated federated={federated} onStateChange={this.props.handleAuthStateChange} />
+        <Authenticator federated={federated} onStateChange={this.props.handleAuthStateChange} />
+        {/* <Federated federated={federated} onStateChange={this.props.handleAuthStateChange} /> */}
       </div>);
     }
     else {

@@ -37,23 +37,6 @@ export function federatedSignIn(credentials: IFederatedCredentials) {
   }
 }
 
-export function login() {
-  return dispatch => {
-    // Retrieve active Google user session
-    const ga = (window as any).gapi.auth2.getAuthInstance();
-    ga.signIn().then(googleUser => {
-        const { id_token, expires_at } = googleUser.getAuthResponse();
-        const profile = googleUser.getBasicProfile();
-        const user = {
-            email: profile.getEmail(),
-            name: profile.getName()
-        };
-        console.log(user);
-        let credentials = {"provider": "google", "expires_at": expires_at, "token": id_token, user};
-        dispatch(federatedSignIn(credentials));
-    });
-  }
-}
 export function logout() {
   return dispatch => {
     Cache.removeItem("federatedInfo");
@@ -74,21 +57,55 @@ export function logout() {
 //     });
 //   }
 // }
-export function checkLoginStatus() {
-  return dispatch => {
-    let session = Auth.currentAuthenticatedUser().then((creds: IUserCredentials) => {
+export function checkLoginStatus(authMethod="") {
+  return (dispatch, getState) => {
+    (window as any).Auth = Auth;
+    // Auth.currentUserInfo().then(e => console.warn(e)).catch(e => console.warn(e));
+    function getUserCredentials() {
+      if (authMethod) {
+        dispatch(setAuthMethod(authMethod));
+      }
+      else {
+        authMethod = getState().authMethod;
+      }
+      if (authMethod == "user_pool") {
+        return Auth.currentCredentials().then(e => {
+          // todo: get user info
+          return {"name": "Name", "email": "email@email.com", "id": e.data.IdentityId};
+        });
+      }
+      else if (authMethod == "federated_identity") {
+        return Auth.currentAuthenticatedUser();
+      }
+      else {
+        console.log("unrecognized auth method");
+        return null;
+        // throw "Unrecognized auth method " + authMethod;
+      }
+    }
+    let credsPromise = getUserCredentials();
+    if (!credsPromise) {
+      // dispatch(loggedOut());
+      return;
+    }
+    let session = credsPromise.then((creds: IUserCredentials) => {
       if (!creds) throw "No credentials";
       console.log("logged in", creds);
       dispatch(loggedIn(creds));
     }).catch(e => {
-      let credentials: IFederatedCredentials = Cache.getItem('federatedInfo');
-      if (credentials) {
-        console.log("cache is", credentials);
-        dispatch(federatedSignIn(credentials));
-      }
-      else {
-        dispatch(loggedOut());
-      }
+      console.error(e);
+      // Auth.currentSession().then(e => {
+      //   let credentials: IFederatedCredentials = Cache.getItem('federatedInfo');
+      // })
+      
+      // if (credentials) {
+      //   console.log("cache is", credentials);
+      //   dispatch(federatedSignIn(credentials));
+      // }
+      // else {
+      //   console.log()
+      //   dispatch(loggedOut());
+      // }
     });
     console.log(session);
     // console.log(Cache.getItem('federatedInfo'))
@@ -102,8 +119,18 @@ export function handleAuthStateChange(state, data) {
   return dispatch => {
     console.log(state, data);
     if (state == "signedIn") {
-      dispatch(checkLoginStatus());
+      if (data) {
+        dispatch(checkLoginStatus("user_pool"));
+      }
+      else {
+        dispatch(checkLoginStatus("federated_identity"));
+      }
       // dispatch(loggedIn()); return;
     }
   }
 }
+
+export const setAuthMethod = (method_name) => ({
+  type: 'SET_AUTH_METHOD',
+  authMethod: method_name
+});

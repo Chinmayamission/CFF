@@ -37,9 +37,18 @@ Todo:
 - Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
+todo:
+- details problem
+- 
+- user login/signup
+
+## 2.0.9 (tbd)
+- Fix "paid" display on responsetable
+
 ## 2.0.8 (6/30/18)
 - Use CosmosDB for backend
 - Custom authentication UI
+- Live form preview while editing
 - Use Redux
 - Lots of other changes.
 
