@@ -1,26 +1,20 @@
 import { Reducer } from 'redux';
+import {FormState} from "./types.d";
 
-const initialState: any = {
-  loggedIn: false,
-  user: null
+const initialState: FormState = {
+  formData: null
 };
 
-const auth: Reducer<any> = (state: any = initialState, action): any => {
+const form: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case 'SET_FORM_DATA':
       return {
         ...state,
-        loggedIn: true,
-        user: action.user
-      };
-    case 'LOGOUT_SUCCESS':
-      return {
-        ...state,
-        loggedIn: false
+        formData: action.formData
       };
     default:
       return state;
   }
 };
 
-export default auth;
+export default form;

@@ -1,30 +1,16 @@
 /// <reference path="./interfaces.d.ts"/>
-import axios from 'axios';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
 import Form from 'react-jsonschema-form';
 import {API} from "aws-amplify";
 import CreateSchemas from "src/common/util/CreateSchemas"
 
-import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate.tsx";
-import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate.tsx";
-import CustomFieldTemplate from "./form_templates/CustomFieldTemplate.tsx";
-import CheckboxWidget from "./form_widgets/CheckboxWidget.tsx";
-import PhoneWidget from "./form_widgets/PhoneWidget";
-import RoundOffWidget from "./form_widgets/RoundOffWidget";
-import MoneyWidget from "./form_widgets/MoneyWidget"
-import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
-import ExpressionParser from "src/common/util/ExpressionParser";
-
-import * as DOMPurify from 'dompurify';
-import * as queryString from "query-string";
-import { get, pick, set, pickBy, unset } from "lodash-es";
+import DOMPurify from 'dompurify';
+import { get, set, unset } from "lodash-es";
 import "./form.scss";
+import CustomForm from "./CustomForm";
 import FormConfirmationPage from "./FormConfirmationPage";
-import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
-import MockData from "src/common/util/MockData";
 import SchemaUtil from "src/common/util/SchemaUtil";
 import {connect} from "react-redux";
 import {logout} from "src/store/auth/actions";
@@ -36,74 +22,13 @@ const STATUS_FORM_PAYMENT_SUCCESS = 6;
 const STATUS_FORM_DONE = 8;
 
 const mapStateToProps = state => ({
-
+  ...state.form
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   logout: () => dispatch(logout())
 });
 
-/* Adds a custom error message for regex validation (especially for phone numbers).
- */
-function transformErrors(errors) {
-  return errors.map(error => {
-    if (error.name === "pattern") {
-      error.message = "Please enter a value in the correct format."
-    }
-    return error;
-  });
-}
-
-
-const FormattedDescriptionField = ({ id, description }) => {
-  return <div id={id} className="my-2">
-    <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
-  </div>;
-};
-
-const CustomTitleField = ({ title, required }) => {
-  if (!title || !title.trim()) {
-    return <span />;
-  }
-  const legend = required ? title + '*' : title;
-  return <h2 className="ccmt-cff-form-title" dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(legend) }} />;
-};
-
-function ErrorListTemplate(props) {
-  const { errors } = props;
-  return null;
-  /*return (
-    <div className="ccmt-cff-errorList">
-      <b>Errors:</b>
-      {errors.map((error, i) => {
-        return (
-          <li key={i}>
-            {error.stack}
-          </li>
-        );
-      })}
-    </div>
-  );*/
-};
-
-
-
-const widgets = {
-  phone: PhoneWidget,
-  CheckboxWidget: CheckboxWidget,
-  "cff:roundOff": RoundOffWidget,
-  "cff:money": MoneyWidget,
-  "cff:couponCode": CouponCodeWidget
-};
-
-const fields = {
-  DescriptionField: FormattedDescriptionField,
-  TitleField: CustomTitleField
-};
-
-const schema = {};
-
-const uiSchema = {};
 
 var This;
 //const log = (type: {}) => console.log.bind(console, type);
@@ -151,10 +76,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     console.log("caught");
     console.error(error, info);
   }
-  scrollToTop() {
-    //ReactDOM.findDOMNode(this).scrollIntoView();
-    window.scrollTo(0, 0);
-  }
 
   componentDidUpdate(prevProps, prevState) {
   }
@@ -164,7 +85,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.setState({"hasError": true});
   }
   componentDidMount() {
-    console.log(this.props);
       if (this.props.form_preloaded) {
         let cs = CreateSchemas.createSchemas(this.props.form_preloaded, []);
         let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo } = cs;
@@ -259,85 +179,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       alert("Error. " + err);
     });
   }
-  onChange(e) {
-    console.warn("Change is here.");
-    let formData = e.formData;
-    let schema = (this.state.schema);
-    let uiSchema = (this.state.uiSchema);
-    let needUpdateSchemas = false;
-    console.log(this.state.focusUpdateInfo);
-    for (let focusUpdateInfoItem of this.state.focusUpdateInfo) {
-      if (focusUpdateInfoItem.type == "copy") {
-        let fromValue = get(formData, focusUpdateInfoItem.from);
-        if (fromValue) {
-          if (!~["schema", "uiSchema"].indexOf(focusUpdateInfoItem.which)) {
-            throw "Not supported";
-          }
-          let toSet = focusUpdateInfoItem.which == "schema" ? schema : uiSchema;
-          if (get(toSet, focusUpdateInfoItem.to) != fromValue) {
-            console.log("Need to update s/sm.");
-            needUpdateSchemas = true;
-            set(toSet, focusUpdateInfoItem.to, fromValue);
-            console.log(toSet, focusUpdateInfoItem.to, fromValue);
-            let toPath = focusUpdateInfoItem.to.split(".");
-            let attributeName = toPath.pop();
-            if (attributeName == "minItems") {
-              // Special case -- delete participants here, otherwise it won't update.
-              let arraySchemaPath = toPath.join(".");
-              unset(formData, SchemaUtil.objToSchemaModifierPath(arraySchemaPath));
-              console.log("unset");
-            }
-          }
-          else {
-            console.log("Don't need to update s/sm.");
-          }
-
-        }
-      }
-    }
-    // formData = pickBy(formData, v => v !== undefined);
-    if (needUpdateSchemas) {
-      this.setState({"data": formData, schema, uiSchema});
-    }
-    else {
-      this.setState({"data": formData});
-    }
-    
-  }
-  onFocus(rootPath, value) {
-    //let toPath = "email";
-    let toPath = SchemaUtil.rootPathToSchemaModifierPath(rootPath);
-    let formData = this.state.data;
-  }
-  validate(formData, errors) {
-    console.log("errs are", errors);
-    if (this.state.validationInfo) {
-      for (let info of this.state.validationInfo) {
-        let path = info["fieldPath"];
-        path = path.replace(/\.items/g, "");
-        let value = get(formData, path);
-        if (value && value.length) {
-          // array validation.
-          for (let item of value) {
-            try {
-              let result = ExpressionParser.calculate_price(info.ifExpr, item);
-              if (result) {
-                get(errors, path).addError(info.message);
-                break;
-              }
-            }
-            catch (e) {
-              get(errors, path).addError(e);
-              break;
-            }
-          }
-        }
-      }
-    }
-    return errors;
-  }
   onPaymentStarted(e) {
     this.setState({paymentStarted: true});
+  }
+  onChange(e) {
+    this.setState({data: e.formData});
   }
   render() {
     if (this.state.hasError) {
@@ -364,33 +210,14 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     // uiSchema={this.state.uiSchema} widgets={widgets} onChange={(e) => {this.onChange(e)}} />;
     let formToReturn = (
       <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
-        <Form
+        <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED}
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
           formData={this.state.data}
-          widgets={widgets}
-          fields={fields}
-          FieldTemplate={CustomFieldTemplate}
-          ArrayFieldTemplate={ArrayFieldTemplate}
-          ObjectFieldTemplate={ObjectFieldTemplate}
-          transformErrors={transformErrors}
-          onChange={(e) => {this.onChange(e)}}
-          onFocus={(e, v) => {this.onFocus(e, v)}}
-          onSubmit={(e) => this.onSubmit(e)}
-          onError={(e) => {console.error(e); this.scrollToTop()}}
-          showErrorList={true}
-          ErrorList={ErrorListTemplate}
-          validate={(a, b) => this.validate(a, b)}
-        >
-          {this.state.status == STATUS_FORM_RENDERED &&
-            <div>
-              {this.state.paymentCalcInfo && this.state.paymentCalcInfo.items && this.state.paymentCalcInfo.items.length > 0 &&
-                <PaymentCalcTable formData={this.state.data} paymentCalcInfo={this.state.paymentCalcInfo} />
-              }
-              <button className="btn btn-primary btn-lg" type="submit">Submit</button>
-            </div>
-          }
-        </Form>
+          paymentCalcInfo={this.state.paymentCalcInfo}
+          onSubmit={e => this.onSubmit(e)}
+          onChange={e => this.onChange(e)}
+          />
         {this.state.ajaxLoading && <Loading hasError={this.state.hasError} />}
       </div>
     );

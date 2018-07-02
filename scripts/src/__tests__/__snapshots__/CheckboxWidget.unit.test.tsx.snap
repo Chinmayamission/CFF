@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders checkbox with title and description 1`] = `
+<form
+  class="rjsf"
+>
+  <div
+    class="form-group field field-object"
+  >
+    <div
+      class="container-fluid"
+    >
+      <h2
+        class="ccmt-cff-form-title"
+      >
+        Form
+      </h2>
+      <div />
+      <div
+        class="row"
+      >
+        <div
+          class="form-group field field-undefined  col-12"
+        >
+          <div>
+            <label
+              class="control-label"
+              for="root_acceptTerms"
+            >
+              <span>
+                Accept terms?
+              </span>
+            </label>
+          </div>
+          <div
+            class="my-2"
+            id="root_acceptTerms__description"
+          >
+            <div>
+              Description for accepting terms
+            </div>
+          </div>
+          <div
+            class="unsupported-field"
+          >
+            <p>
+              Unsupported field schema
+              <span>
+                 for field 
+                <code>
+                  root_acceptTerms
+                </code>
+              </span>
+              <em>
+                : Unknown field type undefined
+              </em>
+              .
+            </p>
+            <pre>
+              {
+  "title": "Accept terms?",
+  "description": "Description for accepting terms"
+}
+            </pre>
+          </div>
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+    <div />
+    <div />
+  </div>
+  <p>
+    <button
+      class="btn btn-info"
+      type="submit"
+    >
+      Submit
+    </button>
+  </p>
+</form>
+`;

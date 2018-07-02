@@ -39,6 +39,7 @@ export function federatedSignIn(credentials: IFederatedCredentials) {
 
 export function logout() {
   return dispatch => {
+    console.log("signing out");
     Cache.removeItem("federatedInfo");
     localStorage.clear();
     console.log(Cache.getAllKeys());

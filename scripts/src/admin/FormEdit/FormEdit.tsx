@@ -92,7 +92,6 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         );
     }
     render() {
-        console.log(this.state);
         return (
             <div className="ccmt-cff-page-FormEdit">
                 {this.state.loading && <Loading />}

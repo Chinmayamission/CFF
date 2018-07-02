@@ -1,74 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders FormPage correctly 1`] = `
-<FormPage
-  formId="test123"
-  form_preloaded={
-    Object {
-      "formOptions": Object {
-        "confirmationEmailInfo": Object {
-          "cc": null,
-          "from": "info@chinmayanewyork.org",
-          "fromName": "Chinmaya Mission New York",
-          "subject": "2018-19 Long Island Balavihar Registration Form - We have received your response",
-          "template": Object {
-            "html": "<div style='width: 100%;background-color: #eee; margin: 10px 0px;'> <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'> <img src='http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png' width='100%'> <h1>Confirmation</h1> <h2>2018-19 Long Island Balavihar Registration Form</h2>Thank you for submitting the form. This is a confirmation that we have received your response.<br> <br> <table> <tbody> <tr> <th colspan=2>Parents</th> </tr> {% for parent in value.parents %} <tr> <th>Parent {{loop.index}} Name</th><td>{{parent.name.first}} {{parent.name.last}}</td></tr> <tr><th>Parent {{loop.index}} Email</th><td>{{parent.email}}</td></tr> <tr><th>Parent {{loop.index}} Phone</th><td>{{parent.phone}}</td> </tr> {% endfor %} <tr> <th colspan=2>Parents</th> </tr> {% for child in value.children %} <tr> <th>Child {{loop.index}} Name</th><td>{{child.name.first}} {{child.name.last}}</td></tr> <tr><th>Child {{loop.index}} DOB</th><td>{{child.dob}}</td></tr> <tr><th>Child {{loop.index}} Email</th><td>{{child.email}}</td></tr> <tr><th>Child {{loop.index}} Allergies</th><td>{{child.allergies}}</td></tr> <tr><th>Child {{loop.index}} Grade</th><td>{{child.grade}}</td> </tr> {% endfor %} <tr> <th>Address Line 1</th><td>{{value.address.line1}}</td> </tr> <tr> <th>Address Line 2</th><td>{{value.address.line2}}</td> </tr> <tr> <th>City</th><td>{{value.address.city}}</td> </tr> <tr> <th>State</th><td>{{value.address.state}}</td> </tr> <tr> <th>Zipcode</th><td>{{value.address.zipcode}}</td> </tr> <tr> <th>Geeta Chanting Class Interest</th><td>{{value.geeta_class}}</td> </tr> </tbody> </table> <h2>Payment Info</h2><table><tr><th>Item</th><th>Amount</th><th>Quantity</th></tr>{%for item in paymentInfo['items'] %}<tr><td>{{item.name}}</td><td>{{item.amount | format_payment(paymentInfo.currency)}}</td><td>{{item.quantity}}</td></tr>{% endfor %}</table><br><strong>Total Amount: {{paymentInfo.total | format_payment(paymentInfo.currency)}}</strong><br><br><br>We thank you for your contribution and support.<br>Chinmaya Mission New York is a not-for-profit organization exempt from Federal Income tax under section 501 (c) (3). Tax ID: 26-1337001.<br>May Gurudev's Blessing be with you.</div> </div>",
+<div
+  className="ccmt-cff-Page-FormPage "
+>
+  <CustomForm
+    formData={Object {}}
+    onChange={[Function]}
+    onSubmit={[Function]}
+    paymentCalcInfo={
+      Object {
+        "currency": "USD",
+        "items": Array [
+          Object {
+            "amount": "150",
+            "description": "With no children",
+            "name": "2018-19 CMA Marietta Balavihar Family Registration",
+            "quantity": "!donation and parents == 2 and children == 0",
           },
-          "toField": Array [
-            "parents[0].email",
-            "parents[1].email",
-          ],
-        },
-        "paymentInfo": Object {
-          "currency": "USD",
-          "items": Array [
-            Object {
-              "amount": "150",
-              "description": "With no children",
-              "name": "2018-19 CMA Marietta Balavihar Family Registration",
-              "quantity": "!donation and parents == 2 and children == 0",
-            },
-            Object {
-              "amount": "300",
-              "description": "With one child",
-              "name": "2018-19 CMA Marietta Balavihar Family Registration",
-              "quantity": "!donation and parents == 2 and children == 1",
-            },
-            Object {
-              "amount": "450",
-              "description": "With two or more children",
-              "name": "2018-19 CMA Marietta Balavihar Family Registration",
-              "quantity": "!donation and parents == 2 and children >= 2",
-            },
-            Object {
-              "amount": "2000",
-              "description": "Includes: CMA family membership for 1 year, including Bala Vihar fees; Complimentary tickets to fund-raising events benefiting CMA for 1 year",
-              "name": "2018-19 CMA Marietta Balavihar Registration - One-time donation",
-              "quantity": "donation",
-            },
-          ],
-        },
-        "paymentMethods": Object {
-          "paypal_classic": Object {
-            "address1": "$address.line1",
-            "address2": "$address.line2",
-            "business": "kkapur1@optonline.net",
-            "city": "$address.city",
-            "cmd": "_cart",
-            "email": "$parents[0].email",
-            "first_name": "$parents[0].name.first",
-            "image_url": "http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png",
-            "last_name": "$parents[1].name.last",
-            "payButtonText": "Pay Now",
-            "sandbox": false,
-            "state": "$address.state",
-            "zip": "$address.zipcode",
+          Object {
+            "amount": "300",
+            "description": "With one child",
+            "name": "2018-19 CMA Marietta Balavihar Family Registration",
+            "quantity": "!donation and parents == 2 and children == 1",
           },
-        },
-        "showConfirmationPage": true,
-        "successMessage": "<h1>Form submission success</h1><h2>Academician Form</h2><p>You will receive an email with confirmation shortly. Thank you!</p>",
-      },
-      "schema": Object {
+          Object {
+            "amount": "450",
+            "description": "With two or more children",
+            "name": "2018-19 CMA Marietta Balavihar Family Registration",
+            "quantity": "!donation and parents == 2 and children >= 2",
+          },
+          Object {
+            "amount": "2000",
+            "description": "Includes: CMA family membership for 1 year, including Bala Vihar fees; Complimentary tickets to fund-raising events benefiting CMA for 1 year",
+            "name": "2018-19 CMA Marietta Balavihar Registration - One-time donation",
+            "quantity": "donation",
+          },
+        ],
+      }
+    }
+    schema={
+      Object {
         "definitions": Object {
           "name": Object {
             "properties": Object {
@@ -289,8 +261,11 @@ exports[`renders FormPage correctly 1`] = `
         ],
         "title": "<img src='https://www.chinmayamissionalpharetta.org/wp-content/themes/cma/img/headerImg.png' style='width:50%;display:block;margin:auto;'><br>2018-19 Marietta Balavihar Registration Form",
         "type": "object",
-      },
-      "uiSchema": Object {
+      }
+    }
+    showPaymentTable={true}
+    uiSchema={
+      Object {
         "address": Object {
           "city": Object {
             "classNames": "col-12 col-sm-6 col-md-4",
@@ -441,38 +416,8 @@ exports[`renders FormPage correctly 1`] = `
           "donation",
           "accept_terms",
         ],
-      },
+      }
     }
-  }
-  logout={[Function]}
-  store={
-    Object {
-      "dispatch": [Function],
-      "getState": [Function],
-      "replaceReducer": [Function],
-      "subscribe": [Function],
-      Symbol(observable): [Function],
-    }
-  }
-  storeSubscription={
-    Subscription {
-      "listeners": Object {
-        "clear": [Function],
-        "get": [Function],
-        "notify": [Function],
-        "subscribe": [Function],
-      },
-      "onStateChange": [Function],
-      "parentSub": undefined,
-      "store": Object {
-        "dispatch": [Function],
-        "getState": [Function],
-        "replaceReducer": [Function],
-        "subscribe": [Function],
-        Symbol(observable): [Function],
-      },
-      "unsubscribe": [Function],
-    }
-  }
-/>
+  />
+</div>
 `;

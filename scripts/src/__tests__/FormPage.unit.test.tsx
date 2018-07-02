@@ -7,7 +7,6 @@ import formOptions from './formOptions.json';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow, mount, render } from 'enzyme';
-import { Provider } from 'react-redux';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -20,4 +19,4 @@ it('renders FormPage correctly', () => {
     <FormPage store={store} formId={"test123"} form_preloaded={form_preloaded} />
   ).dive();
   expect(wrapper).toMatchSnapshot();
-});
+}); 

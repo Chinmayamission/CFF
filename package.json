@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "jest --silent",
-    "tdd": "jest --silent --watch",
+    "test": "jest",
+    "tdd": "jest --watch",
     "start": "gulp serve",
     "build": "webpack --progress --config webpack.beta.js",
     "deploy": "webpack --progress --config webpack.beta.js && cross-env CFF_DEPLOY_TO=beta pipenv run python deploy.py",
@@ -145,6 +145,9 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "moduleDirectories": ["node_modules", "scripts"]
+    "moduleDirectories": [
+      "node_modules",
+      "scripts"
+    ]
   }
 }
