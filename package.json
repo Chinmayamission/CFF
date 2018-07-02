@@ -148,6 +148,7 @@
     "moduleDirectories": [
       "node_modules",
       "scripts"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "./scripts/src/__tests__/setup.ts"
   }
 }

@@ -1,10 +1,6 @@
 import React from "react";
 import { shallow, mount, render } from 'enzyme';
 import CustomForm from "src/form/CustomForm";
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 
 it('test', () => {
@@ -13,7 +9,8 @@ it('test', () => {
     "title": "Form",
     "properties": {
       "interests": {
-        "title": "Tell us about your interests",
+        "title": "Title interests Tell us about your interests",
+        "description": "Description interests blah blah blah",
         "type": "array",
         "uniqueItems": true,
         "items": {
@@ -42,4 +39,6 @@ it('test', () => {
   );
   // expect(wrapper.exists(".root_interests")).toEqual(true);
   expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("Title interests Tell us about your interests");
+  expect(wrapper.text()).toContain("Description interests blah blah blah");
 }); 
