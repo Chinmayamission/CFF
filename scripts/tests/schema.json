@@ -1,0 +1,222 @@
+{
+  "description": "<strong>Note:</strong> This form is for registration at the Marietta location. If you need to register for the Alpharetta location, <a href='https://www.chinmayamissionalpharetta.org/registration/'>please go to the Alpharetta registration form</a>.<br><br>",
+  "title": "<img src='https://www.chinmayamissionalpharetta.org/wp-content/themes/cma/img/headerImg.png' style='width:50%;display:block;margin:auto;'><br>2018-19 Marietta Balavihar Registration Form",
+  "type": "object",
+  "definitions": {
+    "name": {
+      "title": " ",
+      "type": "object",
+      "properties": {
+        "last": {
+          "title": "Last Name",
+          "type": "string"
+        },
+        "first": {
+          "title": "First Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "first",
+        "last"
+      ]
+    }
+  },
+  "properties": {
+    "address": {
+      "zipcode": {
+        "classNames": "col-12 col-sm-6 col-md-4"
+      },
+      "state": {
+        "classNames": "col-12 col-sm-6 col-md-4"
+      },
+      "type": "object",
+      "properties": {
+        "zipcode": {
+          "type": "string",
+          "classNames": "threeColumn"
+        },
+        "state": {
+          "type": "string",
+          "classNames": "threeColumn",
+          "enum": [
+            "GA"
+          ]
+        },
+        "city": {
+          "type": "string",
+          "classNames": "threeColumn"
+        },
+        "line2": {
+          "title": "Address Line 2",
+          "type": "string"
+        },
+        "line1": {
+          "title": "Address Line 1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "line1",
+        "city",
+        "state",
+        "zipcode"
+      ]
+    },
+    "accept_terms": {
+      "title": "Terms and Conditions",
+      "type": "boolean",
+      "description": "You will receive our weekly newsletter and teacher communication at the email address you have given. Please be aware of this.<br>You can edit your cell phone, email address, & street address."
+    },
+    "children": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "title": "Child Information",
+        "type": "object",
+        "properties": {
+          "previous": {
+            "title": "Have you previously attended Balavihar?",
+            "description": "",
+            "type": "boolean"
+          },
+          "allergies": {
+            "title": "Allergies (any we should know of)?",
+            "type": "string"
+          },
+          "interests": {
+            "title": "Tell us about your interests",
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "Art",
+                "Singing",
+                "Music",
+                "Dance",
+                "Sports",
+                "Cooking",
+                "Writing",
+                "Coding"
+              ]
+            }
+          },
+          "name": {
+            "$ref": "#/definitions/name"
+          },
+          "dob": {
+            "format": "date",
+            "title": "Date of Birth",
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "title": "Email (if any)",
+            "type": "string"
+          },
+          "language_class": {
+            "title": "Language Class",
+            "description": "Minimum requirement for Language Classes:<br>Sanskrit=4th grade and up<br>Hindi: Grade 1 and up<br>Gujarati=Toddler and up<br>All other languages=KG and up",
+            "type": "string",
+            "enum": [
+              "Gujarati",
+              "Hindi",
+              "Sanskrit",
+              "Tamil",
+              "Telegu",
+              "Malayalam",
+              "Kannada",
+              "Marathi"
+            ]
+          },
+          "grade": {
+            "title": "Grade in September 2018",
+            "type": "string",
+            "enum": [
+              "Pre K",
+              "KG",
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "grade",
+          "dob"
+        ]
+      }
+    },
+    "donation": {
+      "title": "Would you like to do a one time donation of $2,000 for this year instead?",
+      "type": "boolean",
+      "description": "This includes:<ul><li>CMA family membership for 1 year, including Bala Vihar fees</li><li>Complimentary tickets to fund-raising events benefiting CMA for 1 year</li></ul>"
+    },
+    "subscribe": {
+      "title": "I would like to be informed about future Chinmaya Mission events by email.",
+      "type": "boolean",
+      "description": "I would like to be informed by email about future events from Chinmaya Mission."
+    },
+    "parents": {
+      "minItems": 2,
+      "maxItems": 2,
+      "type": "array",
+      "items": {
+        "title": " ",
+        "type": "object",
+        "properties": {
+          "previous": {
+            "title": "Have you previously been involved in Chinmaya Mission?",
+            "type": "boolean"
+          },
+          "volunteer": {
+            "title": "Would you like to volunteer at CMA Marietta? If so, how?",
+            "type": "string",
+            "enum": [
+              "Teaching",
+              "Backup teacher",
+              "Art activity",
+              "Music",
+              "Dance",
+              "Technology",
+              "Cooking",
+              "Event organization"
+            ]
+          },
+          "name": {
+            "$ref": "#/definitions/name"
+          },
+          "phone": {
+            "title": "Phone Number",
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "email"
+        ]
+      }
+    }
+  },
+  "required": [
+    "parents",
+    "subscribe",
+    "donation",
+    "accept_terms"
+  ]
+}

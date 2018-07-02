@@ -2,7 +2,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import {checkLoginStatus, logout, handleAuthStateChange} from "../store/auth/actions";
-import { withFederated, Authenticator } from 'aws-amplify-react';
+import { withFederated, Authenticator, SignIn, SignUp, ConfirmSignUp } from 'aws-amplify-react';
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -57,8 +57,12 @@ class Login extends React.Component<ILoginProps, {}> {
         <h3>
         Chinmaya Forms Framework
         Sign in</h3>
-        <Authenticator federated={federated} onStateChange={this.props.handleAuthStateChange} />
-        {/* <Federated federated={federated} onStateChange={this.props.handleAuthStateChange} /> */}
+        {/* <Authenticator hideDefault={true} federated={federated} onStateChange={this.props.handleAuthStateChange}>
+          <SignIn federated={federated}/>
+
+          
+        </Authenticator> */}
+        <Federated federated={federated} onStateChange={this.props.handleAuthStateChange} />
       </div>);
     }
     else {

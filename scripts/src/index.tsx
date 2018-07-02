@@ -44,7 +44,8 @@ Amplify.configure({
 const authScreenLabels = {
     en: {
         'Sign Up': 'Create new account',
-        'Sign Up Account': 'Create a new account'
+        'Sign Up Account': 'New member? Create a new account',
+        'Sign In Account': 'Sign In'
     }
 };
 

@@ -1,0 +1,478 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders FormPage correctly 1`] = `
+<FormPage
+  formId="test123"
+  form_preloaded={
+    Object {
+      "formOptions": Object {
+        "confirmationEmailInfo": Object {
+          "cc": null,
+          "from": "info@chinmayanewyork.org",
+          "fromName": "Chinmaya Mission New York",
+          "subject": "2018-19 Long Island Balavihar Registration Form - We have received your response",
+          "template": Object {
+            "html": "<div style='width: 100%;background-color: #eee; margin: 10px 0px;'> <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'> <img src='http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png' width='100%'> <h1>Confirmation</h1> <h2>2018-19 Long Island Balavihar Registration Form</h2>Thank you for submitting the form. This is a confirmation that we have received your response.<br> <br> <table> <tbody> <tr> <th colspan=2>Parents</th> </tr> {% for parent in value.parents %} <tr> <th>Parent {{loop.index}} Name</th><td>{{parent.name.first}} {{parent.name.last}}</td></tr> <tr><th>Parent {{loop.index}} Email</th><td>{{parent.email}}</td></tr> <tr><th>Parent {{loop.index}} Phone</th><td>{{parent.phone}}</td> </tr> {% endfor %} <tr> <th colspan=2>Parents</th> </tr> {% for child in value.children %} <tr> <th>Child {{loop.index}} Name</th><td>{{child.name.first}} {{child.name.last}}</td></tr> <tr><th>Child {{loop.index}} DOB</th><td>{{child.dob}}</td></tr> <tr><th>Child {{loop.index}} Email</th><td>{{child.email}}</td></tr> <tr><th>Child {{loop.index}} Allergies</th><td>{{child.allergies}}</td></tr> <tr><th>Child {{loop.index}} Grade</th><td>{{child.grade}}</td> </tr> {% endfor %} <tr> <th>Address Line 1</th><td>{{value.address.line1}}</td> </tr> <tr> <th>Address Line 2</th><td>{{value.address.line2}}</td> </tr> <tr> <th>City</th><td>{{value.address.city}}</td> </tr> <tr> <th>State</th><td>{{value.address.state}}</td> </tr> <tr> <th>Zipcode</th><td>{{value.address.zipcode}}</td> </tr> <tr> <th>Geeta Chanting Class Interest</th><td>{{value.geeta_class}}</td> </tr> </tbody> </table> <h2>Payment Info</h2><table><tr><th>Item</th><th>Amount</th><th>Quantity</th></tr>{%for item in paymentInfo['items'] %}<tr><td>{{item.name}}</td><td>{{item.amount | format_payment(paymentInfo.currency)}}</td><td>{{item.quantity}}</td></tr>{% endfor %}</table><br><strong>Total Amount: {{paymentInfo.total | format_payment(paymentInfo.currency)}}</strong><br><br><br>We thank you for your contribution and support.<br>Chinmaya Mission New York is a not-for-profit organization exempt from Federal Income tax under section 501 (c) (3). Tax ID: 26-1337001.<br>May Gurudev's Blessing be with you.</div> </div>",
+          },
+          "toField": Array [
+            "parents[0].email",
+            "parents[1].email",
+          ],
+        },
+        "paymentInfo": Object {
+          "currency": "USD",
+          "items": Array [
+            Object {
+              "amount": "150",
+              "description": "With no children",
+              "name": "2018-19 CMA Marietta Balavihar Family Registration",
+              "quantity": "!donation and parents == 2 and children == 0",
+            },
+            Object {
+              "amount": "300",
+              "description": "With one child",
+              "name": "2018-19 CMA Marietta Balavihar Family Registration",
+              "quantity": "!donation and parents == 2 and children == 1",
+            },
+            Object {
+              "amount": "450",
+              "description": "With two or more children",
+              "name": "2018-19 CMA Marietta Balavihar Family Registration",
+              "quantity": "!donation and parents == 2 and children >= 2",
+            },
+            Object {
+              "amount": "2000",
+              "description": "Includes: CMA family membership for 1 year, including Bala Vihar fees; Complimentary tickets to fund-raising events benefiting CMA for 1 year",
+              "name": "2018-19 CMA Marietta Balavihar Registration - One-time donation",
+              "quantity": "donation",
+            },
+          ],
+        },
+        "paymentMethods": Object {
+          "paypal_classic": Object {
+            "address1": "$address.line1",
+            "address2": "$address.line2",
+            "business": "kkapur1@optonline.net",
+            "city": "$address.city",
+            "cmd": "_cart",
+            "email": "$parents[0].email",
+            "first_name": "$parents[0].name.first",
+            "image_url": "http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png",
+            "last_name": "$parents[1].name.last",
+            "payButtonText": "Pay Now",
+            "sandbox": false,
+            "state": "$address.state",
+            "zip": "$address.zipcode",
+          },
+        },
+        "showConfirmationPage": true,
+        "successMessage": "<h1>Form submission success</h1><h2>Academician Form</h2><p>You will receive an email with confirmation shortly. Thank you!</p>",
+      },
+      "schema": Object {
+        "definitions": Object {
+          "name": Object {
+            "properties": Object {
+              "first": Object {
+                "title": "First Name",
+                "type": "string",
+              },
+              "last": Object {
+                "title": "Last Name",
+                "type": "string",
+              },
+            },
+            "required": Array [
+              "first",
+              "last",
+            ],
+            "title": " ",
+            "type": "object",
+          },
+        },
+        "description": "<strong>Note:</strong> This form is for registration at the Marietta location. If you need to register for the Alpharetta location, <a href='https://www.chinmayamissionalpharetta.org/registration/'>please go to the Alpharetta registration form</a>.<br><br>",
+        "properties": Object {
+          "accept_terms": Object {
+            "description": "You will receive our weekly newsletter and teacher communication at the email address you have given. Please be aware of this.<br>You can edit your cell phone, email address, & street address.",
+            "title": "Terms and Conditions",
+            "type": "boolean",
+          },
+          "address": Object {
+            "properties": Object {
+              "city": Object {
+                "classNames": "threeColumn",
+                "type": "string",
+              },
+              "line1": Object {
+                "title": "Address Line 1",
+                "type": "string",
+              },
+              "line2": Object {
+                "title": "Address Line 2",
+                "type": "string",
+              },
+              "state": Object {
+                "classNames": "threeColumn",
+                "enum": Array [
+                  "GA",
+                ],
+                "type": "string",
+              },
+              "zipcode": Object {
+                "classNames": "threeColumn",
+                "type": "string",
+              },
+            },
+            "required": Array [
+              "line1",
+              "city",
+              "state",
+              "zipcode",
+            ],
+            "state": Object {
+              "classNames": "col-12 col-sm-6 col-md-4",
+            },
+            "type": "object",
+            "zipcode": Object {
+              "classNames": "col-12 col-sm-6 col-md-4",
+            },
+          },
+          "children": Object {
+            "items": Object {
+              "properties": Object {
+                "allergies": Object {
+                  "title": "Allergies (any we should know of)?",
+                  "type": "string",
+                },
+                "dob": Object {
+                  "format": "date",
+                  "title": "Date of Birth",
+                  "type": "string",
+                },
+                "email": Object {
+                  "format": "email",
+                  "title": "Email (if any)",
+                  "type": "string",
+                },
+                "grade": Object {
+                  "enum": Array [
+                    "Pre K",
+                    "KG",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11",
+                    "12",
+                  ],
+                  "title": "Grade in September 2018",
+                  "type": "string",
+                },
+                "interests": Object {
+                  "items": Object {
+                    "enum": Array [
+                      "Art",
+                      "Singing",
+                      "Music",
+                      "Dance",
+                      "Sports",
+                      "Cooking",
+                      "Writing",
+                      "Coding",
+                    ],
+                    "type": "string",
+                  },
+                  "title": "Tell us about your interests",
+                  "type": "array",
+                  "uniqueItems": true,
+                },
+                "language_class": Object {
+                  "description": "Minimum requirement for Language Classes:<br>Sanskrit=4th grade and up<br>Hindi: Grade 1 and up<br>Gujarati=Toddler and up<br>All other languages=KG and up",
+                  "enum": Array [
+                    "Gujarati",
+                    "Hindi",
+                    "Sanskrit",
+                    "Tamil",
+                    "Telegu",
+                    "Malayalam",
+                    "Kannada",
+                    "Marathi",
+                  ],
+                  "title": "Language Class",
+                  "type": "string",
+                },
+                "name": Object {
+                  "$ref": "#/definitions/name",
+                },
+                "previous": Object {
+                  "description": "",
+                  "title": "Have you previously attended Balavihar?",
+                  "type": "boolean",
+                },
+              },
+              "required": Array [
+                "name",
+                "grade",
+                "dob",
+              ],
+              "title": "Child Information",
+              "type": "object",
+            },
+            "minItems": 1,
+            "type": "array",
+          },
+          "donation": Object {
+            "description": "This includes:<ul><li>CMA family membership for 1 year, including Bala Vihar fees</li><li>Complimentary tickets to fund-raising events benefiting CMA for 1 year</li></ul>",
+            "title": "Would you like to do a one time donation of $2,000 for this year instead?",
+            "type": "boolean",
+          },
+          "parents": Object {
+            "items": Object {
+              "properties": Object {
+                "email": Object {
+                  "format": "email",
+                  "type": "string",
+                },
+                "name": Object {
+                  "$ref": "#/definitions/name",
+                },
+                "phone": Object {
+                  "title": "Phone Number",
+                  "type": "string",
+                },
+                "previous": Object {
+                  "title": "Have you previously been involved in Chinmaya Mission?",
+                  "type": "boolean",
+                },
+                "volunteer": Object {
+                  "enum": Array [
+                    "Teaching",
+                    "Backup teacher",
+                    "Art activity",
+                    "Music",
+                    "Dance",
+                    "Technology",
+                    "Cooking",
+                    "Event organization",
+                  ],
+                  "title": "Would you like to volunteer at CMA Marietta? If so, how?",
+                  "type": "string",
+                },
+              },
+              "required": Array [
+                "name",
+                "email",
+              ],
+              "title": " ",
+              "type": "object",
+            },
+            "maxItems": 2,
+            "minItems": 2,
+            "type": "array",
+          },
+          "subscribe": Object {
+            "description": "I would like to be informed by email about future events from Chinmaya Mission.",
+            "title": "I would like to be informed about future Chinmaya Mission events by email.",
+            "type": "boolean",
+          },
+        },
+        "required": Array [
+          "parents",
+          "subscribe",
+          "donation",
+          "accept_terms",
+        ],
+        "title": "<img src='https://www.chinmayamissionalpharetta.org/wp-content/themes/cma/img/headerImg.png' style='width:50%;display:block;margin:auto;'><br>2018-19 Marietta Balavihar Registration Form",
+        "type": "object",
+      },
+      "uiSchema": Object {
+        "address": Object {
+          "city": Object {
+            "classNames": "col-12 col-sm-6 col-md-4",
+          },
+          "classNames": "col-12",
+          "line1": Object {
+            "classNames": "col-12 col-sm-6",
+          },
+          "line2": Object {
+            "classNames": "col-12 col-sm-6",
+          },
+          "state": Object {
+            "classNames": "col-12 col-sm-6 col-md-4",
+          },
+          "ui:order": Array [
+            "line1",
+            "line2",
+            "city",
+            "state",
+            "zipcode",
+          ],
+          "zipcode": Object {
+            "classNames": "col-12 col-sm-6 col-md-4",
+          },
+        },
+        "children": Object {
+          "classNames": "col-12",
+          "items": Object {
+            "allergies": Object {
+              "classNames": "col-12 col-sm-6",
+              "ui:widget": "textarea",
+            },
+            "dob": Object {
+              "classNames": "col-12 col-sm-6",
+            },
+            "email": Object {
+              "classNames": "col-12 col-sm-6",
+            },
+            "grade": Object {
+              "classNames": "col-12 col-sm-6",
+            },
+            "interests": Object {
+              "classNames": "col-12 col-sm-6",
+              "ui:widget": "checkboxes",
+            },
+            "language_class": Object {
+              "classNames": "col-12 col-sm-6",
+            },
+            "name": Object {
+              "classNames": "col-12",
+              "first": Object {
+                "classNames": "col-12 col-sm-6",
+              },
+              "last": Object {
+                "classNames": "col-12 col-sm-6",
+              },
+              "ui:order": Array [
+                "first",
+                "last",
+              ],
+            },
+            "previous": Object {
+              "classNames": "col-12",
+              "ui:widget": "radio",
+            },
+            "required": Array [
+              "name",
+              "dob",
+              "grade",
+            ],
+            "ui:order": Array [
+              "name",
+              "dob",
+              "grade",
+              "email",
+              "language_class",
+              "previous",
+              "allergies",
+              "interests",
+            ],
+          },
+        },
+        "contact_name": Object {
+          "first": Object {
+            "classNames": "col-12 col-sm-6",
+          },
+          "last": Object {
+            "classNames": "col-12 col-sm-6",
+          },
+          "ui:order": Array [
+            "first",
+            "last",
+          ],
+        },
+        "donation": Object {
+          "classNames": "col-12",
+          "ui:widget": "radio",
+        },
+        "geeta_class": Object {
+          "classNames": "col-12",
+          "ui:widget": "radio",
+        },
+        "parents": Object {
+          "classNames": "col-12",
+          "items": Object {
+            "email": Object {
+              "classNames": "col-12 col-sm-6 col-md-3",
+            },
+            "name": Object {
+              "classNames": "col-12 col-md-6",
+              "first": Object {
+                "classNames": "col-12 col-sm-6",
+              },
+              "last": Object {
+                "classNames": "col-12 col-sm-6",
+              },
+              "ui:order": Array [
+                "first",
+                "last",
+              ],
+            },
+            "phone": Object {
+              "classNames": "col-12 col-sm-6 col-md-3",
+            },
+            "previous": Object {
+              "classNames": "col-12",
+              "ui:widget": "radio",
+            },
+            "ui:order": Array [
+              "name",
+              "phone",
+              "email",
+              "previous",
+              "volunteer",
+            ],
+          },
+        },
+        "subscribe": Object {
+          "classNames": "col-12",
+          "ui:widget": "radio",
+        },
+        "ui:cff:background": "#ff7600",
+        "ui:order": Array [
+          "parents",
+          "children",
+          "address",
+          "subscribe",
+          "donation",
+          "accept_terms",
+        ],
+      },
+    }
+  }
+  logout={[Function]}
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+  storeSubscription={
+    Subscription {
+      "listeners": Object {
+        "clear": [Function],
+        "get": [Function],
+        "notify": [Function],
+        "subscribe": [Function],
+      },
+      "onStateChange": [Function],
+      "parentSub": undefined,
+      "store": Object {
+        "dispatch": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+        Symbol(observable): [Function],
+      },
+      "unsubscribe": [Function],
+    }
+  }
+/>
+`;

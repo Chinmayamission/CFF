@@ -1,0 +1,152 @@
+{
+  "contact_name": {
+    "last": {
+      "classNames": "col-12 col-sm-6"
+    },
+    "ui:order": [
+      "first",
+      "last"
+    ],
+    "first": {
+      "classNames": "col-12 col-sm-6"
+    }
+  },
+  "address": {
+    "zipcode": {
+      "classNames": "col-12 col-sm-6 col-md-4"
+    },
+    "ui:order": [
+      "line1",
+      "line2",
+      "city",
+      "state",
+      "zipcode"
+    ],
+    "state": {
+      "classNames": "col-12 col-sm-6 col-md-4"
+    },
+    "city": {
+      "classNames": "col-12 col-sm-6 col-md-4"
+    },
+    "line2": {
+      "classNames": "col-12 col-sm-6"
+    },
+    "line1": {
+      "classNames": "col-12 col-sm-6"
+    },
+    "classNames": "col-12"
+  },
+  "children": {
+    "items": {
+      "dob": {
+        "classNames": "col-12 col-sm-6"
+      },
+      "allergies": {
+        "classNames": "col-12 col-sm-6",
+        "ui:widget": "textarea"
+      },
+      "interests": {
+        "classNames": "col-12 col-sm-6",
+        "ui:widget": "checkboxes"
+      },
+      "grade": {
+        "classNames": "col-12 col-sm-6"
+      },
+      "language_class": {
+        "classNames": "col-12 col-sm-6"
+      },
+      "name": {
+        "last": {
+          "classNames": "col-12 col-sm-6"
+        },
+        "ui:order": [
+          "first",
+          "last"
+        ],
+        "first": {
+          "classNames": "col-12 col-sm-6"
+        },
+        "classNames": "col-12"
+      },
+      "previous": {
+        "ui:widget": "radio",
+        "classNames": "col-12"
+      },
+      "ui:order": [
+        "name",
+        "dob",
+        "grade",
+        "email",
+        "language_class",
+        "previous",
+        "allergies",
+        "interests"
+      ],
+      "email": {
+        "classNames": "col-12 col-sm-6"
+      },
+      "required": [
+        "name",
+        "dob",
+        "grade"
+      ]
+    },
+    "classNames": "col-12"
+  },
+  "subscribe": {
+    "ui:widget": "radio",
+    "classNames": "col-12"
+  },
+  "geeta_class": {
+    "ui:widget": "radio",
+    "classNames": "col-12"
+  },
+  "donation": {
+    "ui:widget": "radio",
+    "classNames": "col-12"
+  },
+  "ui:order": [
+    "parents",
+    "children",
+    "address",
+    "subscribe",
+    "donation",
+    "accept_terms"
+  ],
+  "ui:cff:background": "#ff7600",
+  "parents": {
+    "items": {
+      "previous": {
+        "ui:widget": "radio",
+        "classNames": "col-12"
+      },
+      "name": {
+        "classNames": "col-12 col-md-6",
+        "ui:order": [
+          "first",
+          "last"
+        ],
+        "last": {
+          "classNames": "col-12 col-sm-6"
+        },
+        "first": {
+          "classNames": "col-12 col-sm-6"
+        }
+      },
+      "ui:order": [
+        "name",
+        "phone",
+        "email",
+        "previous",
+        "volunteer"
+      ],
+      "phone": {
+        "classNames": "col-12 col-sm-6 col-md-3"
+      },
+      "email": {
+        "classNames": "col-12 col-sm-6 col-md-3"
+      }
+    },
+    "classNames": "col-12"
+  }
+}

@@ -8,12 +8,9 @@ import "./app.scss";
 import * as DOMPurify from 'dompurify';
 
 import { Provider } from 'react-redux';
-import { Reducer, createStore, applyMiddleware } from 'redux';
-import { reducers } from './store/index';
-import thunkMiddleware from 'redux-thunk'
-import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { ConnectedRouter } from 'connected-react-router';
-import history from "./history.ts";
+import history from "./history";
+import store from "./store";
 
 // Make all external links in form open in a new tab.
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
@@ -22,12 +19,6 @@ DOMPurify.addHook('afterSanitizeAttributes', function (node) {
     node.setAttribute('target', '_blank');
   }
 });
-
-
-const store = createStore(
-  connectRouter(history)(reducers),
-  applyMiddleware(thunkMiddleware, routerMiddleware(history))
-);
 
 const App = () => (
   <Provider store={store}>
