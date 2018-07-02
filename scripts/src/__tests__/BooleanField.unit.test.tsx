@@ -6,20 +6,21 @@ import Adapter from 'enzyme-adapter-react-16';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-it('renders checkbox with title and description', () => {
+it('renders radio box', () => {
   let schema = {
     "type": "object",
     "title": "Form",
     "properties": {
-      "acceptTerms": {
-        "title": "Accept terms?",
-        "description": "Description for accepting terms"
+      "donation": {
+        "title": "Donation?",
+        "description": "Our description of the donation",
+        "type": "boolean"
       }
     }
   };
   let uiSchema = {
-    "interests": {
-      "ui:widget": "checkboxes"
+    "donation": {
+      "ui:widget": "radio"
     }
   }
   const wrapper = render(
@@ -27,4 +28,6 @@ it('renders checkbox with title and description', () => {
   );
   // expect(wrapper.exists(".root_interests")).toEqual(true);
   expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("Donation?");
+  expect(wrapper.text()).toContain("Our description of the donation");
 }); 
