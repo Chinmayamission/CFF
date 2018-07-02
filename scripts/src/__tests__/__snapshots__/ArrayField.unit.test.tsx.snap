@@ -7,6 +7,22 @@ exports[`test 1`] = `
   <div
     class="form-group field field-object"
   >
+    <div>
+      <label
+        class="control-label"
+        for="root"
+      >
+        <span>
+          Form
+        </span>
+      </label>
+    </div>
+    <div
+      class="my-2"
+      id="root__description"
+    >
+      <div />
+    </div>
     <div
       class="container-fluid"
     >
@@ -22,6 +38,24 @@ exports[`test 1`] = `
         <div
           class="form-group field field-array  col-12"
         >
+          <div>
+            <label
+              class="control-label"
+              for="root_interests"
+            >
+              <span>
+                Title interests Tell us about your interests
+              </span>
+            </label>
+          </div>
+          <div
+            class="my-2"
+            id="root_interests__description"
+          >
+            <div>
+              Description interests blah blah blah
+            </div>
+          </div>
           <div
             class="checkboxes"
             id="root_interests"

@@ -5,7 +5,7 @@ function CustomFieldTemplate(props) {
     const {id, classNames, label, help, required, hidden, description, errors, children, schema, uiSchema} = props;
     return (
       <div className={classNames}>
-        {!hidden && schema.type != "object" && schema.type != "array" && 
+        {!hidden &&
             (<div>
               <label htmlFor={id} className="control-label">
                 <span dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(label) }} />
@@ -14,7 +14,7 @@ function CustomFieldTemplate(props) {
               </label>
             </div>
           )}
-        {!hidden && schema.type != "object" && schema.type != "array" && schema.type != "boolean" && description}
+        {!hidden && description}
         {children}
         {errors}
         {help}
