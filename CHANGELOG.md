@@ -44,6 +44,7 @@ todo:
 
 ## 2.0.9 (tbd)
 - Fix "paid" display on responsetable
+- Use AWS amplify username/pwd and google auth.
 
 ## 2.0.8 (6/30/18)
 - Use CosmosDB for backend
