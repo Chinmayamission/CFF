@@ -76,30 +76,33 @@ const schema = {};
 const uiSchema = {};
 
 function CustomForm(props) {
-  return (<Form
-    schema={props.schema}
-    uiSchema={props.uiSchema}
-    formData={props.formData}
-    widgets={widgets}
-    fields={fields}
-    // FieldTemplate={CustomFieldTemplate}
-    ArrayFieldTemplate={ArrayFieldTemplate}
-    ObjectFieldTemplate={ObjectFieldTemplate}
-    transformErrors={transformErrors}
-    onChange={(e) => { props.onChange(e) }}
-    onSubmit={(e) => props.onSubmit(e)}
-    onError={(e) => { alert("Error: " + e); console.error(e); window.scrollTo(0, 0); }}
-    showErrorList={true}
-    ErrorList={ErrorListTemplate}
-  >
-    {props.showPaymentTable &&
-      <div>
-        {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
-          <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
-        }
-        <button className="btn btn-primary btn-lg" type="submit">Submit</button>
-      </div>
-    }
-  </Form>);
+  return (
+  <div className="ccmt-cff-Page-FormPage">
+    <Form
+      schema={props.schema}
+      uiSchema={props.uiSchema}
+      formData={props.formData}
+      widgets={widgets}
+      fields={fields}
+      // FieldTemplate={CustomFieldTemplate}
+      ArrayFieldTemplate={ArrayFieldTemplate}
+      ObjectFieldTemplate={ObjectFieldTemplate}
+      transformErrors={transformErrors}
+      onChange={(e) => { props.onChange(e) }}
+      onSubmit={(e) => props.onSubmit(e)}
+      onError={(e) => { alert("Error: " + e); console.error(e); window.scrollTo(0, 0); }}
+      showErrorList={true}
+      ErrorList={ErrorListTemplate}
+    >
+      {props.showPaymentTable &&
+        <div>
+          {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
+            <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
+          }
+          <button className="btn btn-primary btn-lg" type="submit">Submit</button>
+        </div>
+      }
+    </Form>
+  </div>);
 }
 export default CustomForm;

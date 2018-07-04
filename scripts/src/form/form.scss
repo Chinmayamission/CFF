@@ -10,6 +10,13 @@
 
 .ccmt-cff-Page-FormPage {
     // padding: 0px 10px;
+    .ccmt-cff-form-title span.required {
+        display: none;
+    }
+    span.required {
+        color: red;
+        margin-left: 5px;
+    }
     input, button {
         height: auto;
     }
