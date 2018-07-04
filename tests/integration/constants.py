@@ -2,7 +2,7 @@ import boto3
 import json
 import os
 import json
-AWS_PROFILE_NAME = "ashwin-cff-lambda"
+AWS_PROFILE_NAME = os.getenv("CFF_AWS_PROFILE_NAME", "ashwin-cff-lambda")
 dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
 boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
 os.putenv("AWS_PROFILE", AWS_PROFILE_NAME)

@@ -78,49 +78,49 @@ class TestCreateEmail(unittest.TestCase):
         pass
         # send_confirmation_email({"value": {"email": TO_EMAIL}}, CONFIRMATION_EMAIL_INFO)
 
-    def test_create_email_success(self):
-        res = create_confirmation_email_dict(self.response, CONFIRMATION_EMAIL_INFO)
-        self.assertEqual(res, EXPECTED_RES)
+    # def test_create_email_success(self):
+    #     res = create_confirmation_email_dict(self.response, CONFIRMATION_EMAIL_INFO)
+    #     self.assertEqual(res, EXPECTED_RES)
     
-    def test_create_email_multiple_one_email_not_found(self):
-        """ One email will be None -- it should not include this email here."""
-        confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"toField": ["email", "email2"]})
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES, **{"toEmail": [TO_EMAIL, None]}))
+    # def test_create_email_multiple_one_email_not_found(self):
+    #     """ One email will be None -- it should not include this email here."""
+    #     confirmationEmailInfo = dict(
+    #         CONFIRMATION_EMAIL_INFO, **{"toField": ["email", "email2"]})
+    #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"toEmail": [TO_EMAIL, None]}))
 
-    def test_create_email_multiple_to(self):
-        confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"toField": ["email", "email2"]})
-        self.response.value = {"email": TO_EMAIL, "email2": TO_EMAIL}
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES, **{"toEmail": [TO_EMAIL, TO_EMAIL], "msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr><tr><th>email2</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
+    # def test_create_email_multiple_to(self):
+    #     confirmationEmailInfo = dict(
+    #         CONFIRMATION_EMAIL_INFO, **{"toField": ["email", "email2"]})
+    #     self.response.value = {"email": TO_EMAIL, "email2": TO_EMAIL}
+    #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"toEmail": [TO_EMAIL, TO_EMAIL], "msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr><tr><th>email2</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
 
-    def test_create_email_custom_total_amount_text(self):
-        confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"totalAmountText": "CUSTOMCUSTOM"})
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": EXPECTED_RES["msgBody"].replace("Total Amount", "CUSTOMCUSTOM")}))    
+    # def test_create_email_custom_total_amount_text(self):
+    #     confirmationEmailInfo = dict(
+    #         CONFIRMATION_EMAIL_INFO, **{"totalAmountText": "CUSTOMCUSTOM"})
+    #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": EXPECTED_RES["msgBody"].replace("Total Amount", "CUSTOMCUSTOM")}))    
 
-    def test_create_email_show_response_false(self):
-        confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"showResponse": False})
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))    
+    # def test_create_email_show_response_false(self):
+    #     confirmationEmailInfo = dict(
+    #         CONFIRMATION_EMAIL_INFO, **{"showResponse": False})
+    #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))    
 
-    def test_create_email_table_column_order(self):
-        confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"responseTableOptions": {"columnOrder": ["email"]}})
-        self.response.value = {"email": TO_EMAIL, "email2": TO_EMAIL}
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
+    # def test_create_email_table_column_order(self):
+    #     confirmationEmailInfo = dict(
+    #         CONFIRMATION_EMAIL_INFO, **{"responseTableOptions": {"columnOrder": ["email"]}})
+    #     self.response.value = {"email": TO_EMAIL, "email2": TO_EMAIL}
+    #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
 
-    def test_create_email_table_column_order_complex(self):
-        confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"responseTableOptions": {"columnOrder": ["participants.0.name.first", "participants", "email"]}})
-        self.response.value = {"participants": [{"name": {"first": "Ashwin"}, "age": 12}], "email": TO_EMAIL, "email2": TO_EMAIL}
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>participant 1 name: first</th><td>Ashwin</td></tr><tr><th>participant 1 age</th><td>12</td></tr><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
+    # def test_create_email_table_column_order_complex(self):
+    #     confirmationEmailInfo = dict(
+    #         CONFIRMATION_EMAIL_INFO, **{"responseTableOptions": {"columnOrder": ["participants.0.name.first", "participants", "email"]}})
+    #     self.response.value = {"participants": [{"name": {"first": "Ashwin"}, "age": 12}], "email": TO_EMAIL, "email2": TO_EMAIL}
+    #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>participant 1 name: first</th><td>Ashwin</td></tr><tr><th>participant 1 age</th><td>12</td></tr><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
     
     def test_create_email_html_template(self):
         res = create_confirmation_email_dict(self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE)
@@ -139,6 +139,11 @@ class TestCreateEmail(unittest.TestCase):
         confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": "Hello world. {{ahuahu.total | format_payment(ahiahi.currency)}} Hohoho."})
         res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
         self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho."))
+    def test_email_html_template_true_false(self):
+        # todo fix
+        template = "<div style='width: 100%;background-color: #eee; margin: 10px 0px;'> <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'> <img src='https://d1dyr7ljeznkdv.cloudfront.net/cff.chinmayamission.com/Ramdoot%20banner.png' width='100%'> <div style='float: left'> CHINMAYA RAMDOOT CMTC </div> <div style='float: left'> Tax ID: </div> <br style='clear: both'> <br> <br> <br> Hari OM,<br><br> Thank you for supporting Chinmaya Ramdoot with your generous donation. <table style='border: 1px solid black; margin: 10px; padding: 10px;'> <tr> <td>CMTC<br>Chinmaya Ramdoot</td> <td>{{paymentInfo.total | format_payment(paymentInfo.currency)}} {% if value['Pariwar'] %}(monthly donation){% endif %} </td> </tr> </table> <br> <br> With Prem & OM,<br> Ramdoot Sevaks </div> </div>"
+        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template})
+        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
     def test_create_email_html_template_format_payment_parents_family(self):
         pass
         # response = self.response
