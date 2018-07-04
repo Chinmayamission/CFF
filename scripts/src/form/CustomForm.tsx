@@ -82,7 +82,7 @@ function CustomForm(props) {
     formData={props.formData}
     widgets={widgets}
     fields={fields}
-    FieldTemplate={CustomFieldTemplate}
+    // FieldTemplate={CustomFieldTemplate}
     ArrayFieldTemplate={ArrayFieldTemplate}
     ObjectFieldTemplate={ObjectFieldTemplate}
     transformErrors={transformErrors}
