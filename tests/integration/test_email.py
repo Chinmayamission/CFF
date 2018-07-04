@@ -1,5 +1,5 @@
 """
-python -m unittest tests.integration.test_email
+pipenv run python -m unittest tests.integration.test_email
 """
 from chalicelib.util.formSubmit.emailer import send_confirmation_email
 # import tests.config
@@ -12,6 +12,7 @@ from chalice.config import Config
 from chalice.local import LocalGateway
 from app import app
 from tests.integration.baseTestCase import BaseTestCase
+from chalicelib.models import Response
 
 class TestEmail(BaseTestCase):
     maxDiff = None
