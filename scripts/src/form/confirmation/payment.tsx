@@ -19,7 +19,8 @@ class Payment extends React.Component<IPaymentProps, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            paymentStarted: false
+            paymentStarted: false,
+            paymentMethodStarted: null
         }
       }
 
@@ -28,9 +29,14 @@ class Payment extends React.Component<IPaymentProps, any> {
         return paymentMethods.map((paymentMethod) => {
             var MyComponent = Components[paymentMethod];
             if (!MyComponent) return;
+            
+            // Hide other payment method buttons when one payment method has started:
+            if (this.state.paymentMethodStarted && this.state.paymentMethodStarted != paymentMethod) return;
+            
             console.log('option is', paymentMethod);
             let props = {
-                "onPaymentStarted": e => this.onPaymentStarted(e),
+                "onPaymentStarted": e => this.onPaymentStarted(paymentMethod, e),
+                "paymentStarted": this.state.paymentStarted,
                 "paymentInfo_owed": this.props.paymentInfo_owed,
                 "paymentInfo_received": this.props.paymentInfo_received,
                 "paymentInfo": this.props.paymentInfo,
@@ -43,7 +49,9 @@ class Payment extends React.Component<IPaymentProps, any> {
                 "formData": this.props.formData
                 // todo: get user's entered data.
             }
-            return React.createElement(MyComponent, props);
+            return (<div className="col-12 col-sm-6 col-md-4 p-4" style={{"margin": "0 auto"}}>
+                    <MyComponent {...props} />
+                    </div>);
         });
     }
     formatPayment(total, currency="USD") {
@@ -57,9 +65,9 @@ class Payment extends React.Component<IPaymentProps, any> {
     formatPaymentInfo(paymentInfo : IPaymentInfo) {
         return this.formatPayment(paymentInfo.total, paymentInfo.currency);
     }
-    onPaymentStarted(e) {
+    onPaymentStarted(paymentMethodName, e) {
         this.props.onPaymentStarted(e);
-        this.setState({paymentStarted: true});
+        this.setState({paymentStarted: true, paymentMethodStarted: paymentMethodName});
     }
     render() {
         if (!this.props.paymentMethods) {
@@ -88,7 +96,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             </div>
             <div style={{ "textAlign": "center" }}>
                 {this.props.paymentInfo_owed.total > 0 && 
-                    <div>
+                    <div className="container-fluid row">
                         {!this.state.paymentStarted && 
                             <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.props.paymentInfo.description || "Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.") }} />
                         }
