@@ -3,13 +3,13 @@
     {
       "name": "api_handler_role",
       "resource_type": "iam_role",
-      "role_arn": "arn:aws:iam::131049698002:role/ccmt-cff-api-beta-api_handler",
-      "role_name": "ccmt-cff-api-beta-api_handler"
+      "role_arn": "arn:aws:iam::131049698002:role/ccmt-cff-api-v2-beta-api_handler",
+      "role_name": "ccmt-cff-api-v2-beta-api_handler"
     },
     {
       "name": "api_handler",
       "resource_type": "lambda_function",
-      "lambda_arn": "arn:aws:lambda:us-east-1:131049698002:function:ccmt-cff-api-beta"
+      "lambda_arn": "arn:aws:lambda:us-east-1:131049698002:function:ccmt-cff-api-v2-beta"
     },
     {
       "name": "rest_api",
