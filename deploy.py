@@ -7,7 +7,9 @@ import boto3
 import json
 import mimetypes
 import os
+import subprocess
 import time
+
 AWS_PROFILE_NAME = os.getenv("CFF_AWS_PROFILE_NAME", "ashwin-cff-lambda")
 dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
 boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
@@ -32,7 +34,7 @@ elif DEPLOY_TO=="beta":
   # So that the dev environment can have multiple deployments of same "version":
   version = f"{pjson_version}.{time.time()}"
   print(f"version is {version}")
-  subprocess.call(f"npx webpack --config webpack.dev.js --env={version}", shell=True)
+  subprocess.call(f"npx webpack --config webpack.beta.js --env={version}", shell=True)
 else:
   raise Exception("No deploy to selected! Set the CFF_DEPLOY_TO variable to beta or prod.")
 

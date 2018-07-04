@@ -8,9 +8,9 @@
     "tdd": "jest --watch",
     "start": "gulp serve",
     "build": "webpack --progress --config webpack.beta.js",
-    "deploy": "webpack --progress --config webpack.beta.js && cross-env CFF_DEPLOY_TO=beta pipenv run python deploy.py",
+    "deploy": "cross-env CFF_DEPLOY_TO=beta pipenv run python deploy.py",
     "build-prod": "webpack --progress --config webpack.prod.js",
-    "deploy-prod": "webpack --progress --config webpack.prod.js && cross-env CFF_DEPLOY_TO=prod pipenv run python deploy.py"
+    "deploy-prod": "cross-env CFF_DEPLOY_TO=prod pipenv run python deploy.py"
   },
   "keywords": [],
   "author": "",
