@@ -8,31 +8,39 @@ import json
 import mimetypes
 import os
 import time
-AWS_PROFILE_NAME = "ashwin-cff-lambda"
+AWS_PROFILE_NAME = os.getenv("CFF_AWS_PROFILE_NAME", "ashwin-cff-lambda")
 dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
 boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
-os.putenv("AWS_PROFILE", AWS_PROFILE_NAME)
 client = boto3.client('s3')
+
+with open("package.json") as json_data:
+  d = json.load(json_data)
+  pjson_version = d["version"]
 
 DEPLOY_TO = os.getenv("CFF_DEPLOY_TO")
 if DEPLOY_TO=="prod":
   SCRIPT_PATH = "./scripts/prod"
   BUCKET = "forms.chinmayamission.com"
   CLOUDFRONT_ID = "E39K0TEZVH0LIV"
+  version = pjson_version
+  print(f"version is {version}")
+  subprocess.call("npx webpack --config webpack.prod.js", shell=True)
 elif DEPLOY_TO=="beta":
   SCRIPT_PATH = "./scripts/beta"
   BUCKET = "forms.beta.chinmayamission.com"
   CLOUDFRONT_ID = "EB6H37XF3EXRP"
+  # So that the dev environment can have multiple deployments of same "version":
+  version = f"{pjson_version}.{time.time()}"
+  print(f"version is {version}")
+  subprocess.call(f"npx webpack --config webpack.dev.js --env={version}", shell=True)
 else:
   raise Exception("No deploy to selected! Set the CFF_DEPLOY_TO variable to beta or prod.")
 
-with open("package.json") as json_data:
-  d = json.load(json_data)
-  VERSION = d["version"]
-print("Version is {}".format(VERSION))
+print("=====")
+print("Deploying to cloudfront...")
 
-CLOUDFRONT_ORIGIN_PATH = "/{}".format(VERSION)
-CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(VERSION)
+CLOUDFRONT_ORIGIN_PATH = "/{}".format(version)
+CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(version)
 
 ## UPLOAD TO S3 BUCKET
 
@@ -40,7 +48,7 @@ CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(VERSION)
 client.put_object(
         Bucket=BUCKET,
         Body='',
-        Key="{}/".format(VERSION)
+        Key="{}/".format(version)
         )
 
 for root, dirs, files in os.walk(SCRIPT_PATH):
@@ -51,7 +59,7 @@ for root, dirs, files in os.walk(SCRIPT_PATH):
 
     # construct the full Dropbox path
     relative_path = os.path.relpath(local_path, SCRIPT_PATH)
-    s3_path = "{}/{}".format(VERSION, relative_path) # os.path.join(S3_DEST_PATH, relative_path)
+    s3_path = "{}/{}".format(version, relative_path) # os.path.join(S3_DEST_PATH, relative_path)
     
     print("Searching \"{}\" in \"{}\"".format(s3_path, BUCKET))
     try:
