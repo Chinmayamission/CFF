@@ -9,16 +9,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var pjson = require('./package.json');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
-const FORMBUILDER_URL = "./scripts";
-const DEST_URL = FORMBUILDER_URL + "/beta";
+const DEST_URL = "./scripts/beta";
 
 const MODE = "beta";
-module.exports = merge(common, {
+module.exports = version => merge(common, {
   mode: 'production',
   output: {
     path: path.resolve(DEST_URL),
     publicPath: '/',
-    filename: `cff.[name].${pjson.version}.js`
+    filename: `cff.[name].${version}.js`
   },
   plugins: [
     new CleanWebpackPlugin([DEST_URL]),
