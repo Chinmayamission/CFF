@@ -60,29 +60,16 @@ export function logout() {
 // }
 export function checkLoginStatus(authMethod="") {
   return (dispatch, getState) => {
-    (window as any).Auth = Auth;
-    // Auth.currentUserInfo().then(e => console.warn(e)).catch(e => console.warn(e));
     function getUserCredentials() {
-      if (authMethod) {
-        dispatch(setAuthMethod(authMethod));
-      }
-      else {
-        authMethod = getState().authMethod;
-      }
-      if (authMethod == "user_pool") {
-        return Auth.currentCredentials().then(e => {
-          // todo: get user info
-          return {"name": "Name", "email": "email@email.com", "id": e.data.IdentityId};
-        });
-      }
-      else if (authMethod == "federated_identity") {
-        return Auth.currentAuthenticatedUser();
-      }
-      else {
-        console.log("unrecognized auth method");
-        return null;
-        // throw "Unrecognized auth method " + authMethod;
-      }
+      return Auth.currentCredentials().then(e => {
+        console.log("currentCredentials are", e);
+        if (!e) {
+          // federated_identity
+          return Auth.currentAuthenticatedUser();
+        }
+        // user pool
+        return {"name": "Name", "email": "email@email.com", "id": e.data.IdentityId};
+      });
     }
     let credsPromise = getUserCredentials();
     if (!credsPromise) {
