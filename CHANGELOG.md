@@ -42,15 +42,14 @@ todo:
 - 
 - user login/signup
 
-## 2.0.9 (tbd)
-
+## 2.0.9 (7/4/18)
 - Deployment process for dev involves a timestamp, so version number doesn't need to keep being incremented.
-
 - When a payment method is selected, hide the other payment methods.
-- Fix manual_approval payment method on backend.
+- Fix manual_approval payment method on backend (which sends a confirmation email).
 - change "Pay Now" to "Payment"
 - Fix name and description not showing up on boolean fields and array fields.
 - Fix "paid" display on response table
+- Separate custom form into a separate component (from the FormPage) so it's easier to test in isolation
 - Authentication tweaks (make code work with user pool login)
 
 ## 2.0.8 (6/30/18)

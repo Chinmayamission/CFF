@@ -21,6 +21,12 @@ module.exports = version => merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin([DEST_URL]),
+    new HtmlWebpackPlugin({
+      title: 'Chinmaya Forms Framework - Beta',
+      template: './scripts/src/index.html',
+      // filename: 'index.html'
+      filename: `index.${version}.html`
+    }),
     new webpack.DefinePlugin({
         MODE: `"${MODE}"`,
         ENDPOINT_URL: `"https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"`
