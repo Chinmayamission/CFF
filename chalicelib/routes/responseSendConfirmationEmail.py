@@ -1,6 +1,6 @@
 from ..util.formSubmit.emailer import send_confirmation_email
 from pydash.objects import get
-from chalicelib.models import Form, serialize_model
+from chalicelib.models import Form, Response, serialize_model
 from bson.objectid import ObjectId
 
 def response_send_confirmation_email(responseId):
