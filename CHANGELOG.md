@@ -1,7 +1,7 @@
 Todo: more rigorous tests for response checkin endpoint, also for view responses for people with only Responses_CheckIn permission.
 Todo: version api urls (/1.x/...)
 
-# 2.0.0 (tbd)
+# 2.0.9 (tbd) (check version notes of ccmt-cff-client from now on)
 - Add mongodb (cosmosdb)
 - Use pymodm
 - Endpoint changes to be more RESTful.
