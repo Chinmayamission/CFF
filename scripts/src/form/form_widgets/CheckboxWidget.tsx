@@ -26,6 +26,7 @@ function CheckboxWidget(props) {
           disabled={disabled || readonly}
           autoFocus={autofocus}
           onChange={event => onChange(event.target.checked)}
+          style={{"bottom": 0}}
         />
         <label htmlFor={id} className="form-check-label"
             dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(schema.description) }} />
