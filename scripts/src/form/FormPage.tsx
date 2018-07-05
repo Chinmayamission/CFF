@@ -14,6 +14,8 @@ import FormLoader from "src/common/FormLoader";
 import SchemaUtil from "src/common/util/SchemaUtil";
 import {connect} from "react-redux";
 import {logout} from "src/store/auth/actions";
+import {Helmet} from "react-helmet";
+import htmlToText from "html-to-text";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -210,6 +212,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     // uiSchema={this.state.uiSchema} widgets={widgets} onChange={(e) => {this.onChange(e)}} />;
     let formToReturn = (
       <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
+        <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
         <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED}
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
