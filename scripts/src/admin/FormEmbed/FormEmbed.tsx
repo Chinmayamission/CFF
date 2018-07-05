@@ -29,7 +29,7 @@ class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
                 <h1>Embed form shortcode</h1>
                 {/* <h2>{this.props.form.name}</h2> */}
                 <pre>
-                    &lt;iframe frameborder="0" style="width: 100%; height: 100vh" src="https://cff.chinmayamission.com/WP/forms/{this.props.formId}"&gt;
+                    &lt;iframe frameborder="0" style="width: 100%; height: 100vh" src="{window.location.href}/v2/forms/{this.props.formId}"&gt;
                     &lt;/iframe&gt;
                 </pre>
                 <button className="btn btn-primary" onClick={() => {this.onOpenModal()}}>Preview</button>
@@ -43,7 +43,7 @@ class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
 }
 
 function Embed(props) {
-    return (<iframe frameBorder="0" style={{"width": "100%", "height": "100%"}} src={`/v2/forms/${props.formId}`}>
+    return (<iframe frameBorder="0" style={{"width": "100%", "height": "100%"}} src={`${window.location.href}/v2/forms/${props.formId}`}>
     </iframe>);
 }
 
