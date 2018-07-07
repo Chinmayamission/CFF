@@ -11,18 +11,7 @@ import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
 import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
-
-
-/* Adds a custom error message for regex validation (especially for phone numbers).
- */
-function transformErrors(errors) {
-  return errors.map(error => {
-    if (error.name === "pattern") {
-      error.message = "Please enter a value in the correct format."
-    }
-    return error;
-  });
-}
+import {get} from "lodash-es";
 
 
 const FormattedDescriptionField = ({ id, description }) => {
@@ -71,38 +60,60 @@ const fields = {
   TitleField: CustomTitleField
 };
 
-const schema = {};
-
-const uiSchema = {};
+function validate(formData, errors) {
+  return errors;
+}
 
 function CustomForm(props) {
-  return (
-  <div className="ccmt-cff-Page-FormPage">
-    <Form
-      schema={props.schema}
-      uiSchema={props.uiSchema}
-      formData={props.formData}
-      widgets={widgets}
-      fields={fields}
-      // FieldTemplate={CustomFieldTemplate}
-      ArrayFieldTemplate={ArrayFieldTemplate}
-      ObjectFieldTemplate={ObjectFieldTemplate}
-      transformErrors={transformErrors}
-      onChange={(e) => { props.onChange(e) }}
-      onSubmit={(e) => props.onSubmit(e)}
-      onError={(e) => { alert("Error: " + e); console.error(e); window.scrollTo(0, 0); }}
-      showErrorList={true}
-      ErrorList={ErrorListTemplate}
-    >
-      {props.showPaymentTable &&
-        <div>
-          {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
-            <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
+  /* Adds a custom error message for regex validation (especially for phone numbers).
+ */
+  function transformErrors(errors) {
+    console.warn("transform", errors);
+    errors = errors.filter(error => {
+      if (error.name == "required" && ~error.property.match(/\.(.*)\[/)) {
+          let arrayFieldName = error.property.match(/\.(.*)\[/)[1]; // ".children[0].dob" -> "children"
+          if (get(props.uiSchema, `${arrayFieldName}.ui:options.cff:arrayExpandToMaximum`) === true) {
+            return false;
           }
-          <button className="btn btn-primary btn-lg" type="submit">Submit</button>
-        </div>
       }
-    </Form>
-  </div>);
+      return true;
+    });
+    return errors.map(error => {
+      if (error.name === "pattern") {
+        error.message = "Please enter a value in the correct format."
+      }
+      return error;
+    });
+  }
+  return (
+    <div className="ccmt-cff-Page-FormPage">
+      <Form
+        schema={props.schema}
+        uiSchema={props.uiSchema}
+        formData={props.formData}
+        widgets={widgets}
+        fields={fields}
+        noHtml5Validate={true}
+        // FieldTemplate={CustomFieldTemplate}
+        ArrayFieldTemplate={ArrayFieldTemplate}
+        ObjectFieldTemplate={ObjectFieldTemplate}
+        transformErrors={transformErrors}
+        onChange={(e) => { props.onChange(e) }}
+        onSubmit={(e) => props.onSubmit(e)}
+        validate={validate}
+        onError={(e) => { console.error(e); window.scrollTo(0, 0); }}
+        showErrorList={true}
+        ErrorList={ErrorListTemplate}
+      >
+        {props.showPaymentTable &&
+          <div>
+            {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
+              <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
+            }
+            <button className="btn btn-primary btn-lg" type="submit">Submit</button>
+          </div>
+        }
+      </Form>
+    </div>);
 }
 export default CustomForm;

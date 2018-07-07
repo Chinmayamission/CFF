@@ -42,6 +42,11 @@ todo:
 - 
 - user login/signup
 
+## 2.0.10 (in progress)
+- Each form now has a proper html title!
+- Checkbox moved to bottom (instead of aligned at the top)
+- Remove html5 validation from forms
+
 ## 2.0.9 (7/4/18)
 - Deployment process for dev involves a timestamp, so version number doesn't need to keep being incremented.
 - When a payment method is selected, hide the other payment methods.

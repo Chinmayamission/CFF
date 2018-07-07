@@ -43,6 +43,7 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         };*/
 
         let paymentInfo_owed : any = cloneDeep(props.paymentInfo);
+        // todo: fix this?
         if (this.props.paymentInfo_received) {
             paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - parseFloat(this.props.paymentInfo_received.total);
             // Just make it one item for now.
