@@ -85,7 +85,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
   componentDidMount() {
       if (this.props.form_preloaded) {
-        let cs = createSchemas(this.props.form_preloaded, []);
+        let cs = createSchemas(this.props.form_preloaded);
         let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo } = cs;
         this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
