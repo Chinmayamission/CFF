@@ -3,7 +3,7 @@
 import * as React from 'react';
 import ReactTable from 'react-table';
 import PaymentTable from "src/form/confirmation/PaymentTable";
-import ExpressionParser from "src/common/util/ExpressionParser";
+import ExpressionParser from "src/common/ExpressionParser";
 import {cloneDeep} from "lodash-es";
 import {Parser} from 'expr-eval';
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
 import {API} from "aws-amplify";
-import CreateSchemas from "src/common/util/CreateSchemas"
+import createSchemas from "src/common/CreateSchemas"
 
 import DOMPurify from 'dompurify';
 import { get, set, unset } from "lodash-es";
@@ -11,7 +11,6 @@ import CustomForm from "./CustomForm";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
-import SchemaUtil from "src/common/util/SchemaUtil";
 import {connect} from "react-redux";
 import {logout} from "src/store/auth/actions";
 import {Helmet} from "react-helmet";
@@ -57,8 +56,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       responseId: null,
       responseLoaded: null,
       ajaxLoading: false,
-      validationInfo: null,
-      focusUpdateInfo: null
     };
     
   }
@@ -88,24 +85,22 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
   componentDidMount() {
       if (this.props.form_preloaded) {
-        let cs = CreateSchemas.createSchemas(this.props.form_preloaded, []);
-        let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo } = cs;
-        this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
+        let cs = createSchemas(this.props.form_preloaded, []);
+        let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo } = cs;
+        this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
           data: defaultFormData,
-          paymentCalcInfo,
-          focusUpdateInfo
+          paymentCalcInfo
         });
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
         return;
       }
       FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, validationInfo, focusUpdateInfo }) => {
-        this.setState({ schemaMetadata, uiSchema, schema, validationInfo,
+      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo }) => {
+        this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
           data: defaultFormData,
-          paymentCalcInfo,
-          focusUpdateInfo
+          paymentCalcInfo
         });
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
       });

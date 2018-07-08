@@ -1,10 +1,7 @@
 /// <reference path="./interfaces.d.ts"/>
 import * as React from 'react';
 import Payment from './confirmation/payment';
-import {flatten} from 'flat';
 import {get, cloneDeep} from "lodash-es";
-import {queryString} from 'query-string'; 
-import SchemaUtil from "src/common/util/SchemaUtil";
 
 var This;
 class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, IFormConfirmationPageState> {
@@ -24,23 +21,6 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
         ];
 
         let tableData = [];
-        /*let flattenedData = flatten(this.props.data);
-        for (let fieldPath in flattenedData) {
-            let schemaItem = get(this.props.schema.properties, SchemaUtil.objToSchemaPath(fieldPath));
-            if (!schemaItem) schemaItem = fieldPath;
-            let fieldValue : any = flattenedData[fieldPath];
-            if (typeof fieldValue == "boolean")
-                fieldValue = (fieldValue ? "Yes": "No");
-            tableData.push({
-                "field": SchemaUtil.readableDotNotation(fieldPath, schemaItem.title),
-                "value": fieldValue
-            });
-        };
-        console.log("table data is ", tableData, tableHeaders);*/
-
-        /*this.state = {
-
-        };*/
 
         let paymentInfo_owed : any = cloneDeep(props.paymentInfo);
         // todo: fix this?

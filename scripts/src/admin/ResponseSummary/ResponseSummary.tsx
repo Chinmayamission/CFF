@@ -8,7 +8,6 @@ import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith, find
 import {CSVLink} from 'react-csv';
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
-import MockData from "src/common/util/MockData";
 import Headers from "src/admin/util/Headers";
 import {API} from "aws-amplify";
 import dataLoadingView from "../util/DataLoadingView";

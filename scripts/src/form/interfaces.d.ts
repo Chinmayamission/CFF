@@ -77,13 +77,9 @@ interface IFormPageState {
     paymentMethods: IPaymentMethods,
     paymentCalcInfo: IPaymentCalcInfo,
     ajaxLoading: boolean,
-    validationInfo: IValidationInfoItem[],
-    focusUpdateInfo: IFocusUpdateInfoItem[],
     paymentStarted: boolean
 }
 
-interface IValidationInfoItem {fieldPath: string, ifExpr: string, message: string}
-interface IFocusUpdateInfoItem {type: string, from: string, to: string, which: string};
 interface IFormPageProps {
     formId?: any,
     initialFormData?: any,

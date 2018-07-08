@@ -1,7 +1,7 @@
 /// <reference path="./common.d.ts"/>
 import {get} from 'lodash-es';
 import {API} from "aws-amplify";
-import CreateSchemas from "./util/CreateSchemas"
+import createSchemas from "./CreateSchemas";
 
 export module FormLoader {
     export function getForm(apiEndpoint, formId, opts) {
@@ -11,11 +11,11 @@ export module FormLoader {
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey})
-            .then(e => CreateSchemas.createSchemas(e, specifiedShowFields)).catch(handleError);
+            .then(e => createSchemas(e)).catch(handleError);
     }
     export function loadResponseAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, responseId, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey, "responseId": responseId})
-            .then(e => CreateSchemas.createSchemas(e, specifiedShowFields)).catch(handleError);
+            .then(e => createSchemas(e)).catch(handleError);
     }
 
 }
