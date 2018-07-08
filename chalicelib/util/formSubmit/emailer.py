@@ -9,7 +9,8 @@ from pydash.objects import get
 import logging
 from jinja2 import Environment, Undefined
 import flatdict
-from chalicelib.models import serialize_model
+from chalicelib.models import serialize_model, EmailTrailItem
+import datetime
 
 class SilentUndefined(Undefined):
     def _fail_with_undefined_error(self, *args, **kwargs):
@@ -129,4 +130,5 @@ def send_confirmation_email(response, confirmationEmailInfo):
     """ Actually send confirmation email"""
     dct = create_confirmation_email_dict(response, confirmationEmailInfo)
     send_email(**dct)
+    response.email_trail.append(EmailTrailItem(value=dct, date=datetime.datetime.now()))
     return dct
