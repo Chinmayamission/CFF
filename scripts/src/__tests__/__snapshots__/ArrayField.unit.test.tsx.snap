@@ -1,201 +1,186 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test 1`] = `
-<form
-  class="rjsf"
+<div
+  class="ccmt-cff-Page-FormPage"
 >
-  <div
-    class="form-group field field-object"
+  <form
+    class="rjsf"
+    novalidate=""
   >
-    <div>
-      <label
-        class="control-label"
-        for="root"
-      >
-        <span>
-          Form
-        </span>
-      </label>
-    </div>
     <div
-      class="my-2"
-      id="root__description"
+      class="form-group field field-object"
     >
-      <div />
-    </div>
-    <div
-      class="container-fluid"
-    >
-      <h2
-        class="ccmt-cff-form-title"
-      >
-        Form
-      </h2>
-      <div />
       <div
-        class="row"
+        class="container-fluid"
       >
-        <div
-          class="form-group field field-array  col-12"
+        <h2
+          class="ccmt-cff-form-title"
         >
-          <div>
+          Form
+        </h2>
+        <div />
+        <div
+          class="row"
+        >
+          <div
+            class="form-group field field-array  col-12"
+          >
             <label
               class="control-label"
               for="root_interests"
             >
-              <span>
-                Title interests Tell us about your interests
-              </span>
+              Title interests Tell us about your interests
             </label>
+            <div
+              class="my-2"
+              id="root_interests__description"
+            >
+              <div>
+                Description interests blah blah blah
+              </div>
+            </div>
+            <div
+              class="checkboxes"
+              id="root_interests"
+            >
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_0"
+                      type="checkbox"
+                    />
+                    <span>
+                      Art
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_1"
+                      type="checkbox"
+                    />
+                    <span>
+                      Singing
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_2"
+                      type="checkbox"
+                    />
+                    <span>
+                      Music
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_3"
+                      type="checkbox"
+                    />
+                    <span>
+                      Dance
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_4"
+                      type="checkbox"
+                    />
+                    <span>
+                      Sports
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_5"
+                      type="checkbox"
+                    />
+                    <span>
+                      Cooking
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_6"
+                      type="checkbox"
+                    />
+                    <span>
+                      Writing
+                    </span>
+                  </span>
+                </label>
+              </div>
+              <div
+                class="checkbox "
+              >
+                <label>
+                  <span>
+                    <input
+                      id="root_interests_7"
+                      type="checkbox"
+                    />
+                    <span>
+                      Coding
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div />
+            <div />
           </div>
-          <div
-            class="my-2"
-            id="root_interests__description"
-          >
-            <div>
-              Description interests blah blah blah
-            </div>
-          </div>
-          <div
-            class="checkboxes"
-            id="root_interests"
-          >
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_0"
-                    type="checkbox"
-                  />
-                  <span>
-                    Art
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_1"
-                    type="checkbox"
-                  />
-                  <span>
-                    Singing
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_2"
-                    type="checkbox"
-                  />
-                  <span>
-                    Music
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_3"
-                    type="checkbox"
-                  />
-                  <span>
-                    Dance
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_4"
-                    type="checkbox"
-                  />
-                  <span>
-                    Sports
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_5"
-                    type="checkbox"
-                  />
-                  <span>
-                    Cooking
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_6"
-                    type="checkbox"
-                  />
-                  <span>
-                    Writing
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div
-              class="checkbox "
-            >
-              <label>
-                <span>
-                  <input
-                    id="root_interests_7"
-                    type="checkbox"
-                  />
-                  <span>
-                    Coding
-                  </span>
-                </span>
-              </label>
-            </div>
-          </div>
-          <div />
-          <div />
         </div>
       </div>
+      <div />
+      <div />
     </div>
-    <div />
-    <div />
-  </div>
-  <p>
-    <button
-      class="btn btn-info"
-      type="submit"
-    >
-      Submit
-    </button>
-  </p>
-</form>
+    <p>
+      <button
+        class="btn btn-info"
+        type="submit"
+      >
+        Submit
+      </button>
+    </p>
+  </form>
+</div>
 `;
