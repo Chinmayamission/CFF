@@ -6,11 +6,12 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import * as queryString from 'query-string';
 import "./app.scss";
 import * as DOMPurify from 'dompurify';
+import Loading from "src/common/Loading/Loading";
 
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import history from "./history";
-import store from "./store";
+import { IBaseState } from "./store/base/types";
 
 // Make all external links in form open in a new tab.
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
@@ -20,33 +21,41 @@ DOMPurify.addHook('afterSanitizeAttributes', function (node) {
   }
 });
 
-const App = () => (
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <div className="ccmt-cff-Wrapper-Bootstrap">
-        <Switch>
-          <Route path="/admin/" render={(props) =>
-              <FormAdminPage
-                {...props}
-                apiKey={null}
-              />
-          } />
-        <Route path="/v2/forms/:formId" exact render={(props) => {
-            return (
-              <FormStandalone {...props} formId={props.match.params.formId} />
-            );
-          }
-          } />
-          <Route path="/:centerSlug/forms/:formId" exact render={(props) => {
-            return (
-              <FormStandalone {...props} formId={props.match.params.formId} />
-            );
-          }
-          } />
-          <Redirect to={`/admin/`} />
-        </Switch>
-      </div>
-    </ConnectedRouter>
-  </Provider>);
 
-export default App;
+const mapStateToProps = state => ({
+  ...state.base
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+
+});
+
+const App = (props: IBaseState) => (
+  <ConnectedRouter history={history}>
+    <div className="ccmt-cff-Wrapper-Bootstrap">
+      {props.loading && <Loading />}
+      <Switch>
+        <Route path="/admin/" render={(props) =>
+          <FormAdminPage
+            {...props}
+            apiKey={null}
+          />
+        } />
+        <Route path="/v2/forms/:formId" exact render={(props) => {
+          return (
+            <FormStandalone {...props} formId={props.match.params.formId} />
+          );
+        }
+        } />
+        <Route path="/:centerSlug/forms/:formId" exact render={(props) => {
+          return (
+            <FormStandalone {...props} formId={props.match.params.formId} />
+          );
+        }
+        } />
+        <Redirect to={`/admin/`} />
+      </Switch>
+    </div>
+  </ConnectedRouter>);
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -2,7 +2,7 @@
 import fetch from "cross-fetch";
 import {Auth} from "aws-amplify";
 import { Cache } from 'aws-amplify';
-
+import {loadingStart, loadingEnd} from "src/store/base/actions";
 
 export const loggedIn = (user) => ({
   type: 'LOGIN_SUCCESS',
@@ -51,15 +51,9 @@ export function logout() {
     })
   }
 }
-// export function getProfile() {
-//   return dispatch => {
-//     auth.getProfile((err, profileData: IProfileData) => {
-//       dispatch(renderProfile(profileData));
-//     });
-//   }
-// }
 export function checkLoginStatus(authMethod="") {
   return (dispatch, getState) => {
+    dispatch(loadingStart());
     function getUserCredentials() {
       return Auth.currentCredentials().then(e => {
         console.log("currentCredentials are", e);
@@ -79,6 +73,7 @@ export function checkLoginStatus(authMethod="") {
     let session = credsPromise.then((creds: IUserCredentials) => {
       if (!creds) throw "No credentials";
       console.log("logged in", creds);
+      dispatch(loadingEnd());
       dispatch(loggedIn(creds));
     }).catch(e => {
       console.error(e);

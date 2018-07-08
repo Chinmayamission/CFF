@@ -4,6 +4,9 @@ import App from "./App";
 import Amplify, {Auth} from "aws-amplify";
 import { I18n } from 'aws-amplify';
 
+import store from "./store";
+import {Provider} from "react-redux";
+
 declare var MODE: any;
 declare var ENDPOINT_URL: any;
 
@@ -52,5 +55,4 @@ const authScreenLabels = {
 I18n.setLanguage('en');
 I18n.putVocabularies(authScreenLabels);
 
-ReactDOM.render(<App />, document.getElementById('ccmt-cff-main'));
-import "./form.tsx";
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('ccmt-cff-main'));
