@@ -64,6 +64,7 @@ const fields = {
 };
 
 function validate(formData, errors) {
+  console.log("running validate");
   return errors;
 }
 

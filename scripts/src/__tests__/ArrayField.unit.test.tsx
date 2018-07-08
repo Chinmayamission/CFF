@@ -41,3 +41,19 @@ it('renders regular checkboxes correctly', () => {
   expect(wrapper.text()).toContain("Title interests Tell us about your interests");
   expect(wrapper.text()).toContain("Description interests blah blah blah");
 });
+
+it('renders regular object array', () => {
+  let schema = require("./schemas/parentSchema.json");
+  let uiSchema = {
+    // "parents": {
+    //   "ui:options": {
+    //     "cff:arrayExpandToMaximum": true
+    //   }
+    // }
+  }
+  const wrapper = render(
+    <CustomForm schema={schema} uiSchema={uiSchema} />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("Add");
+});
