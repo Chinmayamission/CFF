@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test 1`] = `
+exports[`renders regular checkboxes correctly 1`] = `
 <div
   class="ccmt-cff-Page-FormPage"
 >

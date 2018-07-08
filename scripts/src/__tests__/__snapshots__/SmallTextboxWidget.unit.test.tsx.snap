@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders small text box widget correctly 1`] = `
+<div
+  class="ccmt-cff-Page-FormPage"
+>
+  <form
+    class="rjsf"
+    novalidate=""
+  >
+    <div
+      class="form-group field field-object"
+    >
+      <div
+        class="container-fluid"
+      >
+        <h2
+          class="ccmt-cff-form-title"
+        >
+          Form
+        </h2>
+        <div />
+        <div
+          class="row"
+        >
+          <div
+            class="form-group field field-string  col-12"
+          >
+            <label
+              class="control-label"
+              for="root_interests_other"
+            >
+              interests_other
+            </label>
+            <input
+              class=""
+              id="root_interests_other"
+              label="interests_other"
+              placeholder=""
+              type="text"
+              value=""
+            />
+            <div />
+            <div />
+          </div>
+        </div>
+      </div>
+      <div />
+      <div />
+    </div>
+    <p>
+      <button
+        class="btn btn-info"
+        type="submit"
+      >
+        Submit
+      </button>
+    </p>
+  </form>
+</div>
+`;

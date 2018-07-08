@@ -6,6 +6,7 @@ import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate";
 import CustomFieldTemplate from "./form_templates/CustomFieldTemplate";
 import CheckboxWidget from "./form_widgets/CheckboxWidget";
+import SmallTextboxWidget from "./form_widgets/SmallTextboxWidget";
 import PhoneWidget from "./form_widgets/PhoneWidget";
 import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
@@ -15,6 +16,7 @@ import {get} from "lodash-es";
 
 
 const FormattedDescriptionField = ({ id, description }) => {
+  if (!description) return null;
   return <div id={id} className="my-2">
     <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
   </div>;
@@ -50,6 +52,7 @@ function ErrorListTemplate(props) {
 const widgets = {
   phone: PhoneWidget,
   CheckboxWidget: CheckboxWidget,
+  "cff:smallTextbox": SmallTextboxWidget,
   "cff:roundOff": RoundOffWidget,
   "cff:money": MoneyWidget,
   "cff:couponCode": CouponCodeWidget

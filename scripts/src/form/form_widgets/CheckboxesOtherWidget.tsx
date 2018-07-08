@@ -13,9 +13,10 @@ function deselectValue(value, selected) {
   return selected.filter(v => v !== value);
 }
 
-function CheckboxesWidget(props) {
+function CheckboxesOtherWidget(props) {
   const { id, disabled, options, value, autofocus, readonly, onChange } = props;
   const { enumOptions, inline } = options;
+  console.log('options', options);
   return (
     <div className="checkboxes" id={id}>
       {enumOptions.map((option, index) => {
@@ -46,38 +47,40 @@ function CheckboxesWidget(props) {
             {checkbox}
           </label>
         ) : (
-          <div key={index} className={`checkbox ${disabledCls}`}>
-            <label>{checkbox}</label>
-          </div>
-        );
+            <div key={index} className={`checkbox ${disabledCls}`}>
+              <label>{checkbox}</label>
+            </div>
+          );
       })}
     </div>
   );
 }
 
-// CheckboxesWidget.defaultProps = {
-//   autofocus: false,
-//   options: {
-//     inline: false,
-//   },
-// };
+/*
+CheckboxesWidget.defaultProps = {
+  autofocus: false,
+  options: {
+    inline: false,
+  },
+};
 
-// if (process.env.NODE_ENV !== "production") {
-//   CheckboxesWidget.propTypes = {
-//     schema: PropTypes.object.isRequired,
-//     id: PropTypes.string.isRequired,
-//     options: PropTypes.shape({
-//       enumOptions: PropTypes.array,
-//       inline: PropTypes.bool,
-//     }).isRequired,
-//     value: PropTypes.any,
-//     required: PropTypes.bool,
-//     readonly: PropTypes.bool,
-//     disabled: PropTypes.bool,
-//     multiple: PropTypes.bool,
-//     autofocus: PropTypes.bool,
-//     onChange: PropTypes.func,
-//   };
-// }
+if (process.env.NODE_ENV !== "production") {
+  CheckboxesWidget.propTypes = {
+    schema: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
+    options: PropTypes.shape({
+      enumOptions: PropTypes.array,
+      inline: PropTypes.bool,
+    }).isRequired,
+    value: PropTypes.any,
+    required: PropTypes.bool,
+    readonly: PropTypes.bool,
+    disabled: PropTypes.bool,
+    multiple: PropTypes.bool,
+    autofocus: PropTypes.bool,
+    onChange: PropTypes.func,
+  };
+}
+*/
 
-export default CheckboxesWidget;
+export default CheckboxesOtherWidget;

@@ -3,7 +3,7 @@ import { shallow, mount, render } from 'enzyme';
 import CustomForm from "src/form/CustomForm";
 
 
-it('test', () => {
+it('renders regular checkboxes correctly', () => {
   let schema = {
     "type": "object",
     "title": "Form",
@@ -37,8 +37,7 @@ it('test', () => {
   const wrapper = render(
     <CustomForm schema={schema} uiSchema={uiSchema} />
   );
-  // expect(wrapper.exists(".root_interests")).toEqual(true);
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("Title interests Tell us about your interests");
   expect(wrapper.text()).toContain("Description interests blah blah blah");
-}); 
+});
