@@ -6,7 +6,8 @@
       "autogen_policy": false,
       "api_gateway_stage": "v2",
       "environment_variables": {
-        "DB_NAME": "cff_dev"
+        "DB_NAME": "cff_dev",
+        "MODE": "DEV"
       }
     },
     "beta": {
@@ -14,9 +15,7 @@
       "api_gateway_stage": "v2",
       "environment_variables": {
         "DB_NAME": "cff_beta",
-        "MONGO_HOST": "mongodb://chinmayamission.documents.azure.com:10255/cm?ssl=true&replicaSet=globaldb",
-        "MONGO_USER": "chinmayamission",
-        "MONGO_PASSWORD": "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
+        "MODE": "BETA"
       }
     },
     "prod": {
@@ -24,9 +23,7 @@
       "api_gateway_stage": "v2",
       "environment_variables": {
         "DB_NAME": "cff_prod",
-        "MONGO_HOST": "mongodb://chinmayamission.documents.azure.com:10255/cm?ssl=true&replicaSet=globaldb",
-        "MONGO_USER": "chinmayamission",
-        "MONGO_PASSWORD": "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
+        "MODE": "PROD"
       }
     }
   }

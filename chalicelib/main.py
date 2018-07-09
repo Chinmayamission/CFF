@@ -34,25 +34,21 @@ TABLES = TABLES_CLASS()
 # os.environ["MONGO_USER"] = "chinmayamission"
 # os.environ["MONGO_PASSWORD"] = "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
 
-host = os.getenv("MONGO_HOST", "mongodb://localhost:10255/cm?ssl=true")
-user = os.getenv("MONGO_USER", "localhost")
-password = os.getenv("MONGO_PASSWORD", 'C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==')
-
-"""client = MongoClient(host)
-db = client.cff
-db.authenticate(name=user,password=password)
-print("=====")
-# print(next(client.cm.cff.find({})))
-# print("====")
-client.cm.cff.insert_one({"hi":"ho"})
-print("Inserted!")
-print(next(client.cm.cff.find({})))
-"""
-
-pymodm.connection.connect(host, username=user, password=password)
-
+ssm = boto3.client('ssm', 'us-east-1')
+MODE = os.getenv("MODE", "DEV")
 PROD = False
-if os.getenv("DB_NAME") == "cff_prod":
+if MODE == "DEV":
+    host = "mongodb://localhost:10255/cm?ssl=true"
+    user = "localhost"
+    password = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
+    pymodm.connection.connect(host, username=user, password=password)
+elif MODE == "BETA":
+    mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_DEV', WithDecryption=True)['Parameter']['Value']
+    pymodm.connection.connect(mongo_conn_str)
+    #pymodm.connection.connect
+elif MODE == "PROD":
+    mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_PROD', WithDecryption=True)['Parameter']['Value']
+    pymodm.connection.connect(mongo_conn_str)
     PROD = True
 
 class CustomChalice(Chalice):
