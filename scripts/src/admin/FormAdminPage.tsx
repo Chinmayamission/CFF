@@ -14,7 +14,7 @@ import {ConnectedRouter} from "connected-react-router";
 import history from "src/history.ts";
 import { connect } from 'react-redux';
 
-import Login from "./Login";
+import Login from "src/common/Login/Login";
 
 
 declare var VERSION: string;

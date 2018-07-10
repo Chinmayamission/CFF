@@ -19,7 +19,7 @@ Amplify.configure({
   // OPTIONAL - Amazon Cognito User Pool ID
       userPoolId: 'us-east-1_kcpcLxLzn',
   // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-      userPoolWebClientId: '2ugd10o5tkv6is796pctjsn2l1',
+      userPoolWebClientId: '77mcm1k9ll2ge68806h5kncfus',
   // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
       mandatorySignIn: false,
   // OPTIONAL - Configuration for cookie storage

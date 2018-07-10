@@ -1,9 +1,10 @@
-/// <reference path="../store/auth/types.d.ts" />
+
 import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
-import { checkLoginStatus, logout, handleAuthStateChange } from "../store/auth/actions";
-import { withFederated, Authenticator, SignIn, Greetings, SignUp, ConfirmSignUp } from 'aws-amplify-react';
+import { checkLoginStatus, logout, handleAuthStateChange } from "src/store/auth/actions";
+import { withFederated, Authenticator, SignIn, ConfirmSignIn, Greetings, SignUp, ConfirmSignUp, ForgotPassword, VerifyContact } from 'aws-amplify-react';
+import CustomSignUp from "./CustomSignUp";
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -36,6 +37,16 @@ const federated = {
   amazon_client_id: ''
 };
 const Federated = withFederated(Buttons);
+
+const errorMessageMap = (message) => {
+  if (/User does not exist/i.test(message)) {
+      return 'User does not exist!';
+  }
+
+  return message;
+}
+
+
 interface ILoginProps {
   checkLoginStatus: () => void,
   logout: () => void,
@@ -60,9 +71,16 @@ class Login extends React.Component<ILoginProps, {}> {
           Welcome to <br />
           <strong>Chinmaya Forms Framework</strong><br />
         </h3>
-        <Authenticator hideDefault={true} federated={federated} onStateChange={this.props.handleAuthStateChange}>
+        <Authenticator /*federated={federated}*/
+          errorMessage={errorMessageMap}
+          hideDefault={true}
+          onStateChange={this.props.handleAuthStateChange}>
+          <SignIn />
+          <CustomSignUp />
+          <ConfirmSignUp />
+          <ForgotPassword />
           {/* <SignIn federated={federated} /> */}
-          <Federated federated={federated} />
+          {/* <Federated federated={federated} /> */}
         </Authenticator>
         </div>
       </div>);
