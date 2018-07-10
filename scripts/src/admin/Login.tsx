@@ -42,7 +42,7 @@ interface ILoginProps {
   handleAuthStateChange: (a, b) => void,
   setup: () => void,
   loggedIn: boolean,
-  user: IUserCredentials
+  user: IUser
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {

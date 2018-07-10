@@ -1,8 +1,9 @@
 /// <reference path="./types.d.ts" />
 import fetch from "cross-fetch";
-import {Auth} from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
-import {loadingStart, loadingEnd} from "src/store/base/actions";
+import { loadingStart, loadingEnd } from "src/store/base/actions";
+import { setupMaster } from "cluster";
 
 export const loggedIn = (user) => ({
   type: 'LOGIN_SUCCESS',
@@ -15,27 +16,7 @@ export const loggedOut = () => ({
 export const renderProfile = (profileData) => ({
   type: 'RENDER_PROFILE',
   profileData
-})
-export function federatedSignIn(credentials: IFederatedCredentials) {
-  return dispatch => {
-    let {provider, token, expires_at} = credentials;
-    let user = {"a":"b"};
-    return Auth.federatedSignIn(
-      provider,
-      { 
-          // the JWT token
-          token: token,
-          // the expiration time
-          expires_at 
-      },
-      // a user object
-      user
-    ).then((e) => {
-        console.warn(e);
-        dispatch(checkLoginStatus());
-    });
-  }
-}
+});
 
 export function logout() {
   return dispatch => {
@@ -50,44 +31,20 @@ export function logout() {
     })
   }
 }
-export function checkLoginStatus(authMethod="") {
+export function checkLoginStatus() {
   return (dispatch, getState) => {
     dispatch(loadingStart());
-    function getUserCredentials() {
-      return Auth.currentCredentials().then(e => {
-        console.log("currentCredentials are", e);
-        if (!e) {
-          // federated_identity
-          return Auth.currentAuthenticatedUser();
-        }
-        // user pool
-        return {"name": "Name", "email": "email@email.com", "id": e.data.IdentityId};
-      });
-    }
-    let credsPromise = getUserCredentials();
-    if (!credsPromise) {
-      // dispatch(loggedOut());
-      return;
-    }
-    let session = credsPromise.then((creds: IUserCredentials) => {
-      if (!creds) throw "No credentials";
-      console.log("logged in", creds);
+    // getUserCredentials(), currentAuthenticatedUser()
+    let session = Auth.currentCredentials().then(e => {
+      console.log("currentCredentials are", e);
+      return Auth.currentAuthenticatedUser();
+    }).then((user: IUser) => {
+      if (!user) throw "No credentials";
+      console.log("logged in", user);
       dispatch(loadingEnd());
-      dispatch(loggedIn(creds));
+      dispatch(loggedIn(user));
     }).catch(e => {
       console.error(e);
-      // Auth.currentSession().then(e => {
-      //   let credentials: IFederatedCredentials = Cache.getItem('federatedInfo');
-      // })
-      
-      // if (credentials) {
-      //   console.log("cache is", credentials);
-      //   dispatch(federatedSignIn(credentials));
-      // }
-      // else {
-      //   console.log()
-      //   dispatch(loggedOut());
-      // }
     });
     console.log(session);
     // console.log(Cache.getItem('federatedInfo'))
@@ -102,10 +59,12 @@ export function handleAuthStateChange(state, data) {
     console.log(state, data);
     if (state == "signedIn") {
       if (data) {
-        dispatch(checkLoginStatus("user_pool"));
+        // user_pool
+        dispatch(checkLoginStatus());
       }
       else {
-        dispatch(checkLoginStatus("federated_identity"));
+        // federated_identity
+        dispatch(checkLoginStatus());
       }
       // dispatch(loggedIn()); return;
     }

@@ -6,14 +6,14 @@ interface IFederatedCredentials {
     email: string, name: string
   }
 }
-interface IUserCredentials {
+interface IUser {
   id: string,
   email: string,
   name: string
 }
 interface IAuthState {
   loggedIn: boolean,
-  user: IUserCredentials,
+  user: IUser,
   userId: string,
   authMethod: string
 }
