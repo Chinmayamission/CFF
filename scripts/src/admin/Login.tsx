@@ -63,13 +63,7 @@ class Login extends React.Component<ILoginProps, {}> {
         <Authenticator hideDefault={true} federated={federated} onStateChange={this.props.handleAuthStateChange}>
           {/* <SignIn federated={federated} /> */}
           <Federated federated={federated} />
-          <Greetings />
-
         </Authenticator>
-        {/* <Federated federated={federated} onStateChange={this.props.handleAuthStateChange} /> */}
-        </div>
-        <div className="col-12 col-sm-6">
-          
         </div>
       </div>);
     }

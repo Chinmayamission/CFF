@@ -39,14 +39,13 @@ export function federatedSignIn(credentials: IFederatedCredentials) {
 
 export function logout() {
   return dispatch => {
+    loadingStart();
     console.log("signing out");
     Cache.removeItem("federatedInfo");
     localStorage.clear();
     console.log(Cache.getAllKeys());
     Auth.signOut().then(e => {
-      const ga = (window as any).gapi.auth2.getAuthInstance();
-      return ga.signOut();
-    }).then(e => Auth.signOut()).then(e => {
+      loadingEnd();
       dispatch(loggedOut());
     })
   }
