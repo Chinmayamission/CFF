@@ -45,15 +45,28 @@ it('renders regular checkboxes correctly', () => {
 it('renders regular object array', () => {
   let schema = require("./schemas/parentSchema.json");
   let uiSchema = {
-    // "parents": {
-    //   "ui:options": {
-    //     "cff:arrayExpandToMaximum": true
-    //   }
-    // }
   }
   const wrapper = render(
     <CustomForm schema={schema} uiSchema={uiSchema} />
   );
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("Add");
+  expect(wrapper.text()).not.toContain("Remove");
+});
+
+it('renders object array with expand to maximum (parents)', () => {
+  let schema = require("./schemas/parentSchema.json");
+  let uiSchema = {
+    "parents": {
+      "ui:options": {
+        "cff:arrayExpandToMaximum": true
+      }
+    }
+  }
+  const wrapper = render(
+    <CustomForm schema={schema} uiSchema={uiSchema} />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).not.toContain("Add");
+  expect(wrapper.text()).not.toContain("Remove");
 });

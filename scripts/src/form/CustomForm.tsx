@@ -76,9 +76,9 @@ function CustomForm(props) {
     errors = errors.filter(error => {
       if (error.name == "required" && ~error.property.match(/\.(.*)\[/)) {
           let arrayFieldName = error.property.match(/\.(.*)\[/)[1]; // ".children[0].dob" -> "children"
-          if (get(props.uiSchema, `${arrayFieldName}.ui:options.cff:arrayExpandToMaximum`) === true) {
-            return false;
-          }
+          // if (get(props.uiSchema, `${arrayFieldName}.ui:options.cff:arrayExpandToMaximum`) === true) {
+          //   return false;
+          // }
       }
       return true;
     });
