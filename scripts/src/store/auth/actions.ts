@@ -5,9 +5,10 @@ import { Cache } from 'aws-amplify';
 import { loadingStart, loadingEnd } from "src/store/base/actions";
 import { setupMaster } from "cluster";
 
-export const loggedIn = (user) => ({
+export const loggedIn = (user, attributes) => ({
   type: 'LOGIN_SUCCESS',
-  user
+  user,
+  attributes
 });
 
 export const loggedOut = () => ({
@@ -35,18 +36,17 @@ export function checkLoginStatus() {
   return (dispatch, getState) => {
     dispatch(loadingStart());
     // getUserCredentials(), currentAuthenticatedUser()
-    let session = Auth.currentCredentials().then(e => {
-      console.log("currentCredentials are", e);
-      return Auth.currentAuthenticatedUser();
-    }).then((user: IUser) => {
+    // let session = Auth.currentCredentials().then(e => {
+    //   console.log("currentCredentials are", e);
+    //   return Auth.currentAuthenticatedUser();
+    // })
+    Auth.currentAuthenticatedUser().then((user: {username: string, attributes: IUserAttributes}) => {
       if (!user) throw "No credentials";
-      console.log("logged in", user);
       dispatch(loadingEnd());
-      dispatch(loggedIn(user));
+      dispatch(loggedIn(user, attributes));
     }).catch(e => {
       console.error(e);
     });
-    console.log(session);
     // console.log(Cache.getItem('federatedInfo'))
     // const credentials: IFederatedCredentials = Cache.getItem('federatedInfo');
     // console.log(credentials.token);

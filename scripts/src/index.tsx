@@ -21,18 +21,7 @@ Amplify.configure({
   // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
       userPoolWebClientId: '77mcm1k9ll2ge68806h5kncfus',
   // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-      mandatorySignIn: false,
-  // OPTIONAL - Configuration for cookie storage
-      cookieStorage: {
-      // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-          domain: '.chinmayamission.com',
-      // OPTIONAL - Cookie path
-          path: '/',
-      // OPTIONAL - Cookie expiration in days
-          expires: 365,
-      // OPTIONAL - Cookie secure flag
-          secure: true
-      }
+      mandatorySignIn: false
   },
   API: {
     endpoints: [
