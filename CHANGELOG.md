@@ -42,10 +42,15 @@ todo:
 - 
 - user login/signup
 
-## 2.0.10 (in progress)
+## 2.0.10 (7/11/18)
 - Each form now has a proper html title!
 - Checkbox moved to bottom (instead of aligned at the top)
 - Remove html5 validation from forms
+- Remove social signin, login only through userpool
+- Disable amplify localStorage to fix login issues.
+- Show your cff cognito identity ID when logged in.
+- Allow cff:smallTextbox widget to be used for an "other" text box field
+- Loading animations on login / credentials fetch.
 
 ## 2.0.9 (7/4/18)
 - Deployment process for dev involves a timestamp, so version number doesn't need to keep being incremented.
