@@ -47,13 +47,11 @@ const errorMessageMap = (message) => {
 }
 
 
-interface ILoginProps {
+interface ILoginProps extends IAuthState {
   checkLoginStatus: () => void,
   logout: () => void,
   handleAuthStateChange: (a, b) => void,
-  setup: () => void,
-  loggedIn: boolean,
-  user: IUser
+  setup: () => void
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
@@ -65,12 +63,6 @@ class Login extends React.Component<ILoginProps, {}> {
   render() {
     if (!this.props.loggedIn) {
       return (<div className="cff-login text-center">
-        <div className="col-12">
-        <img src={require("src/img/logo.png")} />
-        <h3 className="mb-4">
-          Welcome to <br />
-          <strong>Chinmaya Forms Framework</strong><br />
-        </h3>
         <Authenticator /*federated={federated}*/
           errorMessage={errorMessageMap}
           hideDefault={true}
@@ -82,12 +74,11 @@ class Login extends React.Component<ILoginProps, {}> {
           {/* <SignIn federated={federated} /> */}
           {/* <Federated federated={federated} /> */}
         </Authenticator>
-        </div>
       </div>);
     }
     else {
-      return (<div>
-        Welcome, {this.props.user.name} ({this.props.user.email})
+      return (<div className="text-left">
+        Welcome, {this.props.user.name} ({this.props.user.email})<br /><br />User ID: {this.props.userId}
         <div className="float-right"><button className="btn" onClick={() => this.props.logout()}>Logout</button></div>
       </div>);
     }

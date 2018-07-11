@@ -10,7 +10,7 @@ import Loading from "src/common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
 import { Route, Switch, Redirect } from "react-router-dom";
-import {ConnectedRouter} from "connected-react-router";
+import { ConnectedRouter } from "connected-react-router";
 import history from "src/history.ts";
 import { connect } from 'react-redux';
 
@@ -24,7 +24,7 @@ const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
 
 class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);
         this.state = {
@@ -35,7 +35,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
             status: STATUS_LOADING,
             hasError: false,
             errorMessage: "",
-            user: {id: "", name: "", email: ""},
+            user: { id: "", name: "", email: "" },
             apiKey: null,
             loading: false
         }
@@ -44,11 +44,11 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         // this.loadCenters();
     }
     loadCenters() {
-        this.setState({"status": STATUS_CENTER_LIST});
+        this.setState({ "status": STATUS_CENTER_LIST });
     }
     handleError(e) {
         console.error(e);
-        this.setState({"hasError": true});
+        this.setState({ "hasError": true });
     }
     componentDidCatch(error, info) {
         // Display fallback UI
@@ -64,17 +64,17 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
     }
     onError(error) {
         this.onLoadEnd();
-        this.setState({hasError: true});
+        this.setState({ hasError: true });
         // if (error == "No credentials") {
 
         // }
         alert(error);
     }
-    onLoadStart(e=null) {
-        this.setState({"loading": true});
+    onLoadStart(e = null) {
+        this.setState({ "loading": true });
     }
-    onLoadEnd(e=null) {
-        this.setState({"loading": false});
+    onLoadEnd(e = null) {
+        this.setState({ "loading": false });
     }
     render() {
         if (this.state.status == STATUS_ACCESS_DENIED) {
@@ -85,12 +85,12 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
         return (<ConnectedRouter history={history}>
             <div className="App FormAdminPage">
-            <Route path="/admin/:formId" component={FormPages} />
-            <Switch>
-                <Route path="/admin/" exact render={props =>
-                    <FormList onError={e => this.onError(e)} {...props} />
-                }/>
-            </Switch>
+                <Route path="/admin/:formId" component={FormPages} />
+                <Switch>
+                    <Route path="/admin/" exact render={props =>
+                        <FormList onError={e => this.onError(e)} {...props} />
+                    } />
+                </Switch>
             </div>
         </ConnectedRouter>);
     }
@@ -98,38 +98,38 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
 }
 function FormPages() {
     return (<Switch>
-        <Route path='/admin/:formId/responses' exact render={({match, location}) =>
-            <Redirect to={{pathname: `/admin/${match.params.formId}/responses/all` }} />} />
-        <Route path='/admin/:formId/responsesEdit' exact render={({match, location}) =>
-            <Redirect to={{pathname: `/admin/${match.params.formId}/responsesEdit/all` }} />} />
+        <Route path='/admin/:formId/responses' exact render={({ match, location }) =>
+            <Redirect to={{ pathname: `/admin/${match.params.formId}/responses/all` }} />} />
+        <Route path='/admin/:formId/responsesEdit' exact render={({ match, location }) =>
+            <Redirect to={{ pathname: `/admin/${match.params.formId}/responsesEdit/all` }} />} />
         <Route path="/admin/:formId/responses/:tableViewName" render={props =>
             <ResponseTable selectedForm={null} key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
-        }/>
+        } />
         <Route path="/admin/:formId/responsesEdit" render={props =>
             <ResponseTable selectedForm={null} key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
-        }/>
+        } />
         <Route path="/admin/:formId/embed" render={props =>
             <FormEmbed form={null} formId={props.match.params.formId} onError={e => this.onError(e)} />
-        }/>
+        } />
         <Route path="/admin/:formId/edit" render={props =>
             <FormEdit formId={props.match.params.formId} key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-        }/>
+        } />
         <Route path="/admin/:formId/summary" render={props =>
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-        }/>
+        } />
         <Route path="/admin/:formId/checkin" render={props =>
             <ResponseTable key={props.match.params.formId} checkinMode={true} editMode={false} onError={e => this.onError(e)} {...props} />
-        }/>
+        } />
         <Route path="/admin/:formId/share" render={props =>
             <FormShare key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-        }/>
+        } />
     </Switch>);
 }
 function AccessDenied(props) {
     return (<div>
         <h4><b>Access denied</b></h4>
-            <p>To finish setting up your account, please contact an administrator and give them your id:</p>
-            <pre className="cff-copy-box">{props.userId}</pre>
+        <p>To finish setting up your account, please contact an administrator and give them your id:</p>
+        <pre className="cff-copy-box">{props.userId}</pre>
     </div>);
 }
 
@@ -141,17 +141,25 @@ interface IFormAdminPageWrapperProps {
 const mapStateToProps = state => ({
     ...state.auth
 });
-  
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
 
 });
-const FormAdminPageWrapper = (props:IFormAdminPageWrapperProps) => {
+const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
     return (<div>
-        <div className="">
-        <Login />
+        <div className="col-12 text-center">
+            {!props.loggedIn &&
+                <div>
+                    <img src={require("src/img/logo.png")} />
+                    <h3 className="mb-4">
+                        Welcome to <br />
+                        <strong>Chinmaya Forms Framework</strong><br />
+                    </h3>
+                </div>}
+            <Login />
         </div>
         <hr />
-    {props.loggedIn && <FormAdminPage />}
+        {props.loggedIn && <FormAdminPage />}
     </div>);
 }
 

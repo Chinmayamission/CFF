@@ -43,7 +43,7 @@ export function checkLoginStatus() {
     Auth.currentAuthenticatedUser().then((user: {username: string, attributes: IUserAttributes}) => {
       if (!user) throw "No credentials";
       dispatch(loadingEnd());
-      dispatch(loggedIn(user, attributes));
+      dispatch(loggedIn(user.username, user.attributes));
     }).catch(e => {
       console.error(e);
     });
