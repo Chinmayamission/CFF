@@ -16,7 +16,7 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
         ...state,
         loggedIn: true,
         user: action.attributes,
-        userId: `cff:cognitoIdentityId:${action.user}`
+        userId: `cff:cognitoIdentityId:${action.userId}`
       };
     case 'LOGOUT_SUCCESS':
       return {

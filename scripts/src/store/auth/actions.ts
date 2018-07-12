@@ -5,9 +5,9 @@ import { Cache } from 'aws-amplify';
 import { loadingStart, loadingEnd } from "src/store/base/actions";
 import { setupMaster } from "cluster";
 
-export const loggedIn = (user, attributes) => ({
+export const loggedIn = (userId, attributes) => ({
   type: 'LOGIN_SUCCESS',
-  user,
+  userId,
   attributes
 });
 
@@ -40,10 +40,14 @@ export function checkLoginStatus() {
     //   console.log("currentCredentials are", e);
     //   return Auth.currentAuthenticatedUser();
     // })
-    Auth.currentAuthenticatedUser().then((user: {username: string, attributes: IUserAttributes}) => {
+    var cognitoIdentityId = null;
+    Auth.currentCredentials().then(e => {
+        cognitoIdentityId = e.data.IdentityId;
+        return Auth.currentAuthenticatedUser();
+    }).then((user: {username: string, attributes: IUserAttributes}) => {
       if (!user) throw "No credentials";
       dispatch(loadingEnd());
-      dispatch(loggedIn(user.username, user.attributes));
+      dispatch(loggedIn(cognitoIdentityId, user.attributes));
     }).catch(e => {
       console.error(e);
     });

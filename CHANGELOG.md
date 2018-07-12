@@ -42,6 +42,9 @@ todo:
 - 
 - user login/signup
 
+## 2.0.11 (7/12/18)
+- Show identity pool ID, not user pool ID, once user has logged in.
+
 ## 2.0.10 (7/11/18)
 - Each form now has a proper html title!
 - Checkbox moved to bottom (instead of aligned at the top)
