@@ -7,6 +7,7 @@ from tests.integration.constants import _
 import unittest
 from botocore.exceptions import ClientError
 from chalicelib.models import Response
+import os
 
 CONFIRMATION_EMAIL_INFO = {
     "cc": None,
@@ -29,9 +30,15 @@ CONFIRMATION_EMAIL_INFO_TEMPLATE = {
     "from": "ccmt.dev@gmail.com"
 }
 
+# with open(os.path.dirname(os.path.realpath(__file__)) + '/test.html', 'r') as myfile:
+#     data=myfile.read()
+#     CONFIRMATION_EMAIL_INFO_TEMPLATE["template"]["html"] = data
+# # TO_EMAIL = "success@simulator.amazonses.com"
+# TO_EMAIL = "aramaswamis@gmail.com"
 TO_EMAIL = "success@simulator.amazonses.com"
 
 RESPONSE = {
+    #"value": {"email": TO_EMAIL, "contact_name": {"first": "ashwin", "last": "ramaswami"}, "address": "abc defg"},
     "value": {"email": TO_EMAIL},
     "paymentInfo": {
       "currency": "USD",
@@ -66,7 +73,6 @@ EXPECTED_RES_TEMPLATE = {
     'subject': 'CFF Unit Testing Form\n Confirmation',
     'bccEmail': '',
     'ccEmail': '',
-    'addCSS': False,
     "msgBody": "<h1>Action Needed:</h1><h2>2018 Jagadeeshwara Mandir Suvarna Mahotsava Yajman Sponsorship Form</h2>Thank you for registration. As per Government of India FCRA guideliness CCMT is required to keep proof of Identity of the donor and hence we request you to send a copy of your passport to CCMT CFO abc.def@chinmayamission.com, copied on this email.<br> <table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br> <table><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr> <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></table>"
 }
 
