@@ -9,17 +9,20 @@ def list_all_users(userIds):
   from ..main import USER_POOL_ID
   user_lookup = {}
   client = boto3.client('cognito-idp', 'us-east-1')
-  for userId in userIds:
-    _, userId = userId.split("cm:cognitoUserPool:")
-    try:
-      response = client.admin_get_user(
-        UserPoolId=USER_POOL_ID,
-        Username=userId
-      )
-      attributes = {attr["Name"]: attr["Value"] for attr in response["UserAttributes"]}
-      user_lookup[userId] = {"name": attributes["name"], "email": attributes["email"], "center": attributes["custom:center"], "id": userId}
-    except client.exceptions.UserNotFoundException:
-      user_lookup[userId] = {"name": "unknown", "email": "unknown", "id": userId}
+  for userIdFull in userIds:
+    if "cm:cognitoUserPool:" in userIdFull:
+      try:
+        _, userId = userIdFull.split("cm:cognitoUserPool:")
+        response = client.admin_get_user(
+          UserPoolId=USER_POOL_ID,
+          Username=userId
+        )
+        attributes = {attr["Name"]: attr["Value"] for attr in response["UserAttributes"]}
+        user_lookup[userIdFull] = {"name": attributes["name"], "email": attributes["email"], "center": attributes["custom:center"], "id": userIdFull}
+      except client.exceptions.UserNotFoundException:
+        user_lookup[userIdFull] = {"name": "unknown", "email": "unknown", "id": userIdFull}
+    else:
+      user_lookup[userIdFull] = {"name": "unknown", "email": "unknown", "id": userIdFull}
   return user_lookup
 
 def form_get_permissions(formId):
