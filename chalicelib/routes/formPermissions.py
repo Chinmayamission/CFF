@@ -34,7 +34,7 @@ def form_edit_permissions(formId):
   }
   """
   from ..main import app
-  form = Form.objects.only("cff_permissions").get({"_id":ObjectId(formId)})
+  form = Form.objects.get({"_id":ObjectId(formId)})
   app.check_permissions(form, 'Forms_PermissionsEdit')
   permissions = app.current_request.json_body['permissions']
   userId = app.current_request.json_body['userId']
@@ -47,5 +47,6 @@ def form_edit_permissions(formId):
       raise Exception("Permission {} not formatted correctly; each value should be a boolean.".format({i: v}))
   # todo: update date last modified, here, too?
   form.cff_permissions[userId] = permissions
+  form.save()
   return {"res": form.cff_permissions, "success": True, "action": "update"}
   
