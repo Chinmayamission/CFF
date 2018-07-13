@@ -27,6 +27,13 @@
       "Resource": [
           "arn:aws:ssm:*:*:parameter/CFF_COSMOS_CONN_STR_WRITE_PROD"
       ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "cognito-idp:AdminGetUser",
+      "Resource": [
+          "arn:aws:cognito-idp:us-east-1:131049698002:userpool/us-east-1_kcpcLxLzn"
+      ]
     }
   ]
 }
