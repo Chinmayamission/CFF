@@ -42,6 +42,9 @@ todo:
 - 
 - user login/signup
 
+## 2.0.12 (7/12/18)
+- Add additional options for centers on signup
+
 ## 2.0.11 (7/12/18)
 - Show identity pool ID, not user pool ID, once user has logged in.
 
