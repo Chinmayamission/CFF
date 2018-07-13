@@ -21,17 +21,20 @@ function dataLoadingView(WrappedComponent: any, loadData: (any) => any) {
             this.onLoadEnd();
         }
         componentWillMount() {
+            this.refreshData();
+        }
+        refreshData() {
             this.onLoadStart();
             loadData(this.props).then(e => {
                 this.setState({data: e});
                 this.onLoadEnd();
             }).catch(e => {
                 this.onError(e);
-            })
+            });
         }
         render() {
             return this.state.loading ? <Loading hasError={this.state.hasError} /> :
-                <WrappedComponent data={this.state.data} {...this.props} />
+                <WrappedComponent data={this.state.data} {...this.props} refreshData={() => this.refreshData()} />
         }
     }
 }

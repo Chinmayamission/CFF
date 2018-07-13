@@ -1,12 +1,14 @@
 
 interface IFormShareProps extends ISharedFormAdminPageProps {
-  data: any
+  data: any,
+  refreshData: () => any
 }
 
 interface IFormShareState {
   permissions: any,
   users: any,
-  possiblePermissions: string[]
+  possiblePermissions: string[],
+  newUserId: string
 }
 
 interface IUserRowProps {
