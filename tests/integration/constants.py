@@ -12,7 +12,7 @@ os.environ["UNIT_TEST"] = "TRUE"
 
 COGNITO_IDENTITY_ID = "ccm:cognitoUserPool:us-east-1:1e3aa7b7-b042-4834-98f1-7915985c39a5"
 COGNITO_IDENTITY_ID_NO_PERMISSIONS = "cm:cognitoUserPool:no-permissions"
-COGNITO_IDENTITY_ID_OWNER = "cm:cognitoUserPool:owner"
+COGNITO_IDENTITY_ID_OWNER = "cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6"
 
 CENTER_ID = 1
 FORM_ID = "e4548443-99da-4340-b825-3f09921b4df5"

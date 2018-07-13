@@ -1,12 +1,26 @@
 from chalicelib.models import Form, serialize_model
 from bson.objectid import ObjectId
 from pydash.arrays import union
+import boto3
 POSSIBLE_PERMISSIONS = ["owner", "Responses_View", "Responses_Export", "Responses_ViewSummary", "Responses_Edit", "Responses_CheckIn", "Forms_Edit", "Forms_PermissionsView", "Forms_PermissionsEdit"] # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
 
-def form_render(formId):
-    """Get forms user has access to."""
-    form = Form.objects.get({"_id":ObjectId(formId)}).only("name", "date_created", "date_last_modified", "schema", "uiSchema", "formOptions")
-    return {"res": form}
+
+def list_all_users(userIds):
+  from ..main import USER_POOL_ID
+  user_lookup = {}
+  client = boto3.client('cognito-idp', 'us-east-1')
+  for userId in userIds:
+    _, userId = userId.split("cm:cognitoUserPool:")
+    try:
+      response = client.admin_get_user(
+        UserPoolId=USER_POOL_ID,
+        Username=userId
+      )
+      attributes = {attr["Name"]: attr["Value"] for attr in response["UserAttributes"]}
+      user_lookup[userId] = {"name": attributes["name"], "email": attributes["email"], "center": attributes["custom:center"], "id": userId}
+    except client.exceptions.UserNotFoundException:
+      user_lookup[userId] = {"name": "unknown", "email": "unknown", "id": userId}
+  return user_lookup
 
 def form_get_permissions(formId):
   """
@@ -22,7 +36,7 @@ def form_get_permissions(formId):
     return {"res": {"permissions": permissions}}
   app.check_permissions(form, 'Forms_PermissionsView')
   userIds = form.cff_permissions.keys()
-  user_lookup = {userId: {"name": "User", "email": userId, "id": userId} for userId in userIds}
+  user_lookup = list_all_users(userIds)
   return {"res": {"permissions": form.cff_permissions, "userLookup": user_lookup, "possiblePermissions": POSSIBLE_PERMISSIONS}}
 
 def form_edit_permissions(formId):

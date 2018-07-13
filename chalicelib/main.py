@@ -54,6 +54,8 @@ elif MODE == "PROD":
 
 """
 self.current_request.context
+
+# user pool login:
 {
 	'resourceId': 'rvekmq',
 	'authorizer': {
@@ -98,6 +100,37 @@ self.current_request.context
 	},
 	'apiId': '5fd3dqj2dc'
 }
+
+# identity pool login:
+{
+	'resourceId': 'rvekmq',
+	'resourcePath': '/forms',
+	'httpMethod': 'GET',
+	'extendedRequestId': 'J-6p1FQ_IAMF1Ow=',
+	'requestTime': '13/Jul/2018:20:26:51 +0000',
+	'path': '/v2/forms',
+	'accountId': '131049698002',
+	'protocol': 'HTTP/1.1',
+	'stage': 'v2',
+	'requestTimeEpoch': 1531513611769,
+	'requestId': '137c8ecd-86db-11e8-baa2-b75c6fe59095',
+	'identity': {
+		'cognitoIdentityPoolId': 'us-east-1:1ed8f7a7-74f9-4263-8791-88d88bbce0c9',
+		'accountId': '131049698002',
+		'cognitoIdentityId': 'us-east-1:41286d09-13c0-46a6-837c-751259ca5e70',
+		'caller': 'AROAIUHDDU7ZJPN2U67WK:CognitoIdentityCredentials',
+		'sourceIp': '98.192.8.209',
+		'accessKey': 'ASIAR5AZLWLJJXUEYLT7',
+		'cognitoAuthenticationType': 'authenticated',
+		'cognitoAuthenticationProvider': 'cognito-idp.us-east-1.amazonaws.com/us-east-1_kcpcLxLzn,cognito-idp.us-east-1.amazonaws.com/us-east-1_kcpcLxLzn:CognitoSignIn:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6',
+		'userArn': 'arn:aws:sts::131049698002:assumed-role/Cognito_CCMTAuth_Role/CognitoIdentityCredentials',
+		'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36',
+		'user': 'AROAIUHDDU7ZJPN2U67WK:CognitoIdentityCredentials'
+	},
+	'apiId': '5fd3dqj2dc'
+}
+
+
 """
 
 class CustomChalice(Chalice):
@@ -149,8 +182,11 @@ test_user_id = os.getenv("DEV_COGNITO_IDENTITY_ID") or None
 if test_user_id:
     app.test_user_id = test_user_id
 
+# iamAuthorizer = IAMAuthorizer()
 iamAuthorizer = CognitoUserPoolAuthorizer(
     'CCMT', provider_arns=['arn:aws:cognito-idp:us-east-1:131049698002:userpool/us-east-1_kcpcLxLzn'])
+USER_POOL_ID = "us-east-1_kcpcLxLzn"
+
 """
 # Home page
 http http://localhost:8000/forms/ "Authorization: allow"
