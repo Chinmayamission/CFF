@@ -22,14 +22,14 @@ def form_get_permissions(formId):
     return {"res": {"permissions": permissions}}
   app.check_permissions(form, 'Forms_PermissionsView')
   userIds = form.cff_permissions.keys()
-  user_lookup = {userId: {"name": "Test", "email": "test@test.com", "id": userId} for userId in userIds}
+  user_lookup = {userId: {"name": "User", "email": userId, "id": userId} for userId in userIds}
   return {"res": {"permissions": form.cff_permissions, "userLookup": user_lookup, "possiblePermissions": POSSIBLE_PERMISSIONS}}
 
 def form_edit_permissions(formId):
   """Set form permissions of a particular user to an array.
   POST request, with body:
   {
-    "userId": "cff:cognitoIdentityId:.....",
+    "userId": "cm:cognitoUserPool:.....",
     "permissions": ["Responses_Edit", "Responses_View", ""] or string. -- should have all permissions you want user to be assigned to.
   }
   """

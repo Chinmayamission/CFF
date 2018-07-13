@@ -32,7 +32,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     for i in flat:
         flat[human_readable_key(i)] = flat.pop(i)
     kwargs = dict(serialize_model(response), response=flat)
-    print("KWAA", kwargs)
+    # print("KWAA", kwargs)
     msgBody = env.from_string(templateText).render(**kwargs)
     addCSS = False
     
