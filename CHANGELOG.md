@@ -42,6 +42,15 @@ todo:
 - 
 - user login/signup
 
+## 2.0.13 (7/13/18)
+- Allow adding a user by ID to share
+- Change prefix for cff_permissions to cm:cognitoUserPool:[]
+
+DB:
+- Allow user to add a user to get access to a form.
+- Use db credentials from SSM instead of hard-coding
+- Add email_trail whenever an email is sent.
+
 ## 2.0.12 (7/12/18)
 - Add additional options for centers on signup
 
