@@ -40,22 +40,14 @@ export function checkLoginStatus() {
     //   console.log("currentCredentials are", e);
     //   return Auth.currentAuthenticatedUser();
     // })
-    var cognitoIdentityId = null;
-    Auth.currentCredentials().then(e => {
-        cognitoIdentityId = e.data.IdentityId;
-        return Auth.currentAuthenticatedUser();
-    }).then((user: {username: string, attributes: IUserAttributes}) => {
+    Auth.currentAuthenticatedUser()
+    .then((user: {username: string, attributes: IUserAttributes}) => {
       if (!user) throw "No credentials";
       dispatch(loadingEnd());
-      dispatch(loggedIn(cognitoIdentityId, user.attributes));
+      dispatch(loggedIn(user.username, user.attributes));
     }).catch(e => {
       console.error(e);
     });
-    // console.log(Cache.getItem('federatedInfo'))
-    // const credentials: IFederatedCredentials = Cache.getItem('federatedInfo');
-    // console.log(credentials.token);
-
-    // dispatch((auth.isAuthenticated() ? loggedIn : loggedOut)());
   }
 }
 export function handleAuthStateChange(state, data) {

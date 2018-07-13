@@ -10,7 +10,7 @@
 {
   "center": 1,
   "cff_permissions": {
-    "cff:cognitoIdentityId:us-east-1:1e3aa7b7-b042-4834-98f1-7915985c39a5": {
+    "cm:cognitoUserPool:us-east-1:1e3aa7b7-b042-4834-98f1-7915985c39a5": {
       "owner": true
     }
   },

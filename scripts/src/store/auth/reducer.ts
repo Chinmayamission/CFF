@@ -11,12 +11,11 @@ const initialState: IAuthState = {
 const auth: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
-      console.log("LOGIN_SUCCESS", action);
       return {
         ...state,
         loggedIn: true,
         user: action.attributes,
-        userId: `cff:cognitoIdentityId:${action.userId}`
+        userId: `cm:cognitoUserPool:${action.userId}`
       };
     case 'LOGOUT_SUCCESS':
       return {
