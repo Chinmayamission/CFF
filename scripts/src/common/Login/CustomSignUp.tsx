@@ -81,6 +81,8 @@ export default class CustomSignUp extends SignUp {
                             <option value="" selected disabled>Select center</option>
                             <option value="ccmt">CCMT</option>
                             <option value="cmtc">CMTC</option>
+                            <option value="cmny">CMNY</option>
+                            <option value="cmsj">CMSJ</option>
                         </select>
                     </FormRow>
                     <ButtonRow onClick={this.signUp} theme={theme}>
