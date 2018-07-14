@@ -29,7 +29,12 @@ Amplify.configure({
             name: "CFF",
             endpoint: ENDPOINT_URL,
             custom_header: async () => { 
-                return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
+                try {
+                    return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
+                }
+                catch (e) {
+                    return { Authorization: "" }
+                }
             }
         }
     ]
