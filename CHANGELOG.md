@@ -42,6 +42,10 @@ todo:
 - 
 - user login/signup
 
+## 2.0.14 (7/14/18)
+- Fix bug - forms breaking for unauthenticated users
+- Fix shown url on FormEmbed page
+
 ## 2.0.13 (7/13/18)
 - Allow adding a user by ID to share
 - Change prefix for cff_permissions to cm:cognitoUserPool:[]
