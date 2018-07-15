@@ -180,7 +180,7 @@ if MODE != "PROD":
 # This hack allows for integration testing.
 test_user_id = os.getenv("DEV_COGNITO_IDENTITY_ID") or None
 if test_user_id:
-    app.test_user_id = test_user_id
+	app.test_user_id = test_user_id
 
 # iamAuthorizer = IAMAuthorizer()
 iamAuthorizer = CognitoUserPoolAuthorizer(
