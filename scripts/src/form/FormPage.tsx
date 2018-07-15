@@ -194,7 +194,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     if (this.state.status == STATUS_FORM_DONE) {
       return (<div>
-        <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.state.schemaMetadata.successMessage) }} />
+        <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.state.schemaMetadata.successMessage || "Thank you for your form submission!") }} />
       </div>);
     }
     if (this.state.status == STATUS_FORM_LOADING) {
