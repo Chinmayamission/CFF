@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow, mount, render } from 'enzyme';
 import CustomForm from "src/form/CustomForm";
+import sinon from "sinon";
 
 it('renders default form without payment', () => {
   let schema = {
@@ -39,4 +40,52 @@ it('renders title and description with html', () => {
     <CustomForm schema={schema} uiSchema={uiSchema} />
   );
   expect(wrapper).toMatchSnapshot();
+});
+
+it('submits form fail required validation', () => {
+  let schema = {
+    "title": "Form",
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      }
+    },
+    "required": ["name"]
+  }; 
+  let uiSchema = {
+    "name": {"ui:placeholder": "Name"}
+  }
+  const spy = sinon.spy();
+  const wrapper = mount(
+    <CustomForm schema={schema} uiSchema={uiSchema} formData={{}} onSubmit={spy} />
+  )
+  let form = wrapper.find('form');
+  form.simulate('submit');
+  expect(form.text()).toContain("is a required property");
+  expect(spy.calledOnce).toBe(false);
 }); 
+
+it('submits form success', () => {
+  let schema = {
+    "title": "Form",
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      }
+    },
+    "required": ["name"]
+  }; 
+  let uiSchema = {
+    "name": {"ui:placeholder": "Name"}
+  }
+  const spy = sinon.spy();
+  const wrapper = mount(
+    <CustomForm schema={schema} uiSchema={uiSchema} formData={{"name": "Vishnu"}} onSubmit={spy} />
+  );
+  let form = wrapper.find('form');
+  form.simulate('submit');
+  expect(form.text()).not.toContain("is a required property");
+  expect(spy.calledOnce).toBe(true);
+});
