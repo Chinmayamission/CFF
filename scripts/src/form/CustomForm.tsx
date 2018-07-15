@@ -68,7 +68,17 @@ function validate(formData, errors) {
   return errors;
 }
 
-function CustomForm(props) {
+interface ICustomFormProps {
+  schema: any,
+  uiSchema: any,
+  formData?: any,
+  onChange?: (e) => void,
+  onSubmit?: (e) => void,
+  showPaymentTable?: boolean,
+  paymentCalcInfo?: IPaymentCalcInfo
+}
+
+function CustomForm(props: ICustomFormProps) {
   /* Adds a custom error message for regex validation (especially for phone numbers).
  */
   function transformErrors(errors) {
