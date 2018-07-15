@@ -7,7 +7,7 @@
 // import { shallow, mount, render } from 'enzyme';
 
 // // https://hackernoon.com/testing-react-components-with-jest-and-enzyme-41d592c174f
-
+// // Login: https://medium.com/@jamesrichardspr/testing-aws-user-cognito-sdk-js-with-jest-6a43d3727a2d
 // let form_preloaded = {schema, uiSchema, formOptions};
 
 // it('renders FormPage correctly', () => {
