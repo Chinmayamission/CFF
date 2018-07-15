@@ -7,56 +7,14 @@
         "maxItems": 2,
         "type": "array",
         "items": {
-          "title": " ",
           "type": "object",
           "properties": {
-            "previous": {
-              "title": "Have you previously been involved in Chinmaya Mission?",
-              "type": "boolean"
-            },
-            "volunteer": {
-              "title": "Would you like to volunteer at CMA Marietta? If so, how?",
-              "type": "string",
-              "enum": [
-                "Teaching",
-                "Backup teacher",
-                "Art activity",
-                "Music",
-                "Dance",
-                "Technology",
-                "Cooking",
-                "Event organization"
-              ]
-            },
-            "name": {
-              "title": " ",
-              "type": "object",
-              "properties": {
-                "last": {
-                  "title": "Last Name",
-                  "type": "string"
-                },
-                "first": {
-                  "title": "First Name",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "first",
-                "last"
-              ]
-            },
-            "phone": {
-              "title": "Phone Number",
-              "type": "string"
-            },
             "email": {
               "format": "email",
               "type": "string"
             }
           },
           "required": [
-            "name",
             "email"
           ]
         }

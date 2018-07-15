@@ -59,7 +59,7 @@ it('renders object array with expand to maximum (two parents)', () => {
   let uiSchema = {};
   let defaultFormData = {parents: [{}, {}]};
   const wrapper = render(
-    <CustomForm schema={schema} uiSchema={uiSchema} defaultFormData={defaultFormData} />
+    <CustomForm schema={schema} uiSchema={uiSchema} formData={defaultFormData} />
   );
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).not.toContain("Add");
