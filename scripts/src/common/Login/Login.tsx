@@ -78,7 +78,12 @@ class Login extends React.Component<ILoginProps, {}> {
     }
     else {
       return (<div className="text-left">
-        Welcome, {this.props.user.name} ({this.props.user.email})<br /><br />User ID: {this.props.userId}
+        <img src={require("src/img/logo.png")} style={{"width": 40, "marginRight": 40}} />
+        <div style={{"display": "inline-block", "verticalAlign": "middle"}}>
+          <strong>Chinmaya Forms Framework</strong><br />
+          Welcome, {this.props.user.name} ({this.props.user.email})
+        </div>
+        <div className="d-none"><br /><br />User ID: {this.props.userId}</div>
         <div className="float-right"><button className="btn" onClick={() => this.props.logout()}>Logout</button></div>
       </div>);
     }
