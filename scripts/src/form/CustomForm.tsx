@@ -73,15 +73,6 @@ function CustomForm(props) {
  */
   function transformErrors(errors) {
     console.warn("transform", errors);
-    errors = errors.filter(error => {
-      if (error.name == "required" && ~error.property.match(/\.(.*)\[/)) {
-          let arrayFieldName = error.property.match(/\.(.*)\[/)[1]; // ".children[0].dob" -> "children"
-          // if (get(props.uiSchema, `${arrayFieldName}.ui:options.cff:arrayExpandToMaximum`) === true) {
-          //   return false;
-          // }
-      }
-      return true;
-    });
     return errors.map(error => {
       if (error.name === "pattern") {
         error.message = "Please enter a value in the correct format."
