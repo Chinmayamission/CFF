@@ -54,19 +54,14 @@ it('renders regular object array', () => {
   expect(wrapper.text()).not.toContain("Remove");
 });
 
-it('renders object array with expand to maximum (parents)', () => {
+it('renders object array with expand to maximum (two parents)', () => {
   let schema = require("./schemas/parentSchema.json");
-  let uiSchema = {
-    "parents": {
-      "ui:options": {
-        "cff:arrayExpandToMaximum": true
-      }
-    }
-  }
+  let uiSchema = {};
+  let defaultFormData = {parents: [{}, {}]};
   const wrapper = render(
-    <CustomForm schema={schema} uiSchema={uiSchema} />
+    <CustomForm schema={schema} uiSchema={uiSchema} defaultFormData={defaultFormData} />
   );
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).not.toContain("Add");
-  expect(wrapper.text()).not.toContain("Remove");
+  expect(wrapper.text()).toContain("Remove");
 });

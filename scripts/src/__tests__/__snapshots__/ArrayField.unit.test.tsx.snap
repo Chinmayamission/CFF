@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders object array with expand to maximum (parents) 1`] = `
+exports[`renders object array with expand to maximum (two parents) 1`] = `
 <div
   class="ccmt-cff-Page-FormPage"
 >
