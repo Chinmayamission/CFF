@@ -20,8 +20,8 @@ def form_create():
         center="None",
         id = ObjectId(),
         cff_permissions=form_permissions,
-        schema={"title": "Form", "properties": {"name": {"type": "string"}}},
-        uiSchema={"title": "Form"},
+        schema={"title": "Form", "type": "object", "properties": {"name": {"type": "string"}}},
+        uiSchema={"name": {"ui:placeholder": "Name"}},
         formOptions=FormOptions(confirmationEmailInfo={}, paymentInfo={}, paymentMethods={}, dataOptions={}, defaultFormData={}),
         date_modified=datetime.datetime.now().isoformat(),
         date_created=datetime.datetime.now().isoformat()
