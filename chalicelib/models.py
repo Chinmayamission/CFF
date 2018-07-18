@@ -37,6 +37,7 @@ class FormOptions(EmbeddedMongoModel):
   defaultFormData = fields.DictField(blank=True)
   showConfirmationPage = fields.BooleanField()
   successMessage = fields.CharField()
+  loginRequired = fields.BooleanField()
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)
