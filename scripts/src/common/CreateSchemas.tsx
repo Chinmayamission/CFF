@@ -6,6 +6,7 @@ export default function createSchemas(data) {
         schema: data["schema"],
         defaultFormData: get(data, "formOptions.defaultFormData", {}),
         paymentCalcInfo: get(data, "formOptions.paymentInfo", {}),
-        dataOptions: get(data, "formOptions.dataOptions", {})
+        dataOptions: get(data, "formOptions.dataOptions", {}),
+        formOptions: get(data, "formOptions", {})
     };
 }

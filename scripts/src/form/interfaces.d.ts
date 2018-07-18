@@ -64,6 +64,7 @@ interface IResponse {
 interface IFormPageState {
     schema: Schema,
     schemaMetadata: SchemaMetadata,
+    formOptions: any,
     uiSchema: UiSchema,
     status: number,
     step: number,
@@ -87,7 +88,8 @@ interface IFormPageProps {
     specifiedShowFields?: any[],
     onFormLoad?: (Schema, UiSchema) => void,
     form_preloaded?: IFormDBEntry,
-    logout: () => void
+    logout: () => void,
+    auth: IAuthState
 }
 
 interface IFormConfirmationPageProps {

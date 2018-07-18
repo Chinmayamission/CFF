@@ -15,6 +15,7 @@ import {connect} from "react-redux";
 import {logout} from "src/store/auth/actions";
 import {Helmet} from "react-helmet";
 import htmlToText from "html-to-text";
+import Login from "src/common/Login/Login";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -23,7 +24,8 @@ const STATUS_FORM_PAYMENT_SUCCESS = 6;
 const STATUS_FORM_DONE = 8;
 
 const mapStateToProps = state => ({
-  ...state.form
+  ...state.form,
+  auth: state.auth
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -46,6 +48,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       schemaMetadata: {},
       schema: { "title": "None", "type": "object" },
       uiSchema: { "title": "status" },
+      formOptions: {},
       step: 0,
       paymentInfo: null,
       paymentMethods: null,
@@ -96,11 +99,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         return;
       }
       FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo }) => {
+      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions }) => {
         this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
           data: defaultFormData,
-          paymentCalcInfo
+          paymentCalcInfo,
+          formOptions
         });
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
       });
@@ -185,6 +189,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   render() {
     if (this.state.hasError) {
       return <div><h1>Unexpected Error</h1><p>There was an error rendering the form. Please try again later.</p><code>{this.state.errorMessage}</code></div>; 
+    }
+    if (get(this.state.formOptions, "loginRequired") === true && !this.props.auth.loggedIn) {
+      return <Login />;
     }
     if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
