@@ -42,6 +42,17 @@ todo:
 - 
 - user login/signup
 
+## 2.0.15 (7/19/18)
+- Simplify response table logic, dataOptions specifies the exact columns shown
+- Show login screen when formOptions.loginRequired is true
+- Don't display user ID on greetings bar
+- Add functionality to override schema with specifiedShowFields
+- Add fetch polyfill for IE compatibility
+
+Backend:
+- Remove numpy and pandas
+- Create default form which actually works.
+
 ## 2.0.14 (7/14/18)
 - Fix bug - forms breaking for unauthenticated users
 - Fix shown url on FormEmbed page
