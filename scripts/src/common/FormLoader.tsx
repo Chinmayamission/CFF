@@ -11,11 +11,11 @@ export module FormLoader {
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey})
-            .then(e => createSchemas(e)).catch(handleError);
+            .then(e => createSchemas(e, specifiedShowFields)).catch(handleError);
     }
     export function loadResponseAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, responseId, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey, "responseId": responseId})
-            .then(e => createSchemas(e)).catch(handleError);
+            .then(e => createSchemas(e, specifiedShowFields)).catch(handleError);
     }
 
 }
