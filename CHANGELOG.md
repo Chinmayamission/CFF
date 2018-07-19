@@ -42,6 +42,13 @@ todo:
 - 
 - user login/signup
 
+## 2.0.16 (7/19/18)
+Frontend only
+- Change structure of specifiedShowFields to have paths as keys, such as ```{
+    "title": "New",
+        "properties.parents.minItems": 5
+	  };```
+
 ## 2.0.15 (7/19/18)
 - Simplify response table logic, dataOptions specifies the exact columns shown
 - Show login screen when formOptions.loginRequired is true
