@@ -111,17 +111,17 @@ if response["Distribution"]["DistributionConfig"] != DistributionConfig:
 
 print("Cloudfront distribution config updated successfully.")
 
-print("Creating invalidation...")
-response = client.create_invalidation(
-    DistributionId=CLOUDFRONT_ID,
-    InvalidationBatch={
-        'Paths': {
-            'Quantity': 1,
-            'Items': [
-                '/*',
-            ]
-        },
-        'CallerReference': str(time.time())
-    }
-)
-print("Invalidation request sent.")
+# print("Creating invalidation...")
+# response = client.create_invalidation(
+#     DistributionId=CLOUDFRONT_ID,
+#     InvalidationBatch={
+#         'Paths': {
+#             'Quantity': 1,
+#             'Items': [
+#                 '/*',
+#             ]
+#         },
+#         'CallerReference': str(time.time())
+#     }
+# )
+# print("Invalidation request sent.")
