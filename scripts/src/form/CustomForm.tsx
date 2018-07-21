@@ -116,7 +116,9 @@ function CustomForm(props: ICustomFormProps) {
             }
           </div>
         }
-        <button className="btn btn-primary btn-lg" type="submit">{props.uiSchema["ui:cff:submitButtonText"] || "Submit"}</button>
+        <p>
+          <button className="btn btn-info" type="submit">{props.uiSchema["ui:cff:submitButtonText"] || "Submit"}</button>
+        </p>
       </Form>
     </div>);
 }
