@@ -1,11 +1,29 @@
 /// <reference path="./types.d.ts" />
 import { Reducer } from 'redux';
 
+const schema = {
+  "type": "object",
+  "title": "Log in",
+  "properties": {
+    "email": {"type": "string", "title": "Email Address"},
+    "password": {"type": "string", "title": "Password"}
+  }
+}
+
+const uiSchema = {
+  "password": {"ui:widget": "password"},
+  "ui:cff:submitButtonText": "Login"
+}
+
 const initialState: IAuthState = {
   loggedIn: false,
   user: null,
   userId: null,
-  authMethod: null
+  authMethod: null,
+  authForm: {
+    schema: schema,
+    uiSchema: uiSchema
+  }
 };
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {

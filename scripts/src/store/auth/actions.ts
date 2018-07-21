@@ -71,3 +71,19 @@ export const setAuthMethod = (method_name) => ({
   type: 'SET_AUTH_METHOD',
   authMethod: method_name
 });
+
+export function onAuthError(error) {
+  return dispatch => {
+    console.error("auth error", error);
+  }
+}
+
+
+export function onAuthFormSubmit(data) {
+  return dispatch => {
+    dispatch(loadingStart());
+    Auth.signIn(data.email, data.password)
+    .then(() => dispatch(checkLoginStatus()))
+    .catch(e => dispatch(onAuthError(e)))
+  }
+}

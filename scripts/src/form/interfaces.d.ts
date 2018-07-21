@@ -3,11 +3,9 @@ interface Window {
     paypal: any
 }
 
-type schemaType = "object";
-
 interface Schema {
-    title: String,
-    type?: schemaType,
+    title?: String,
+    type?: String,
     description?: String,
     
     [propName: string]: any;

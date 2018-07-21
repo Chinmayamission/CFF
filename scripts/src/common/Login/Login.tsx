@@ -2,9 +2,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
-import { checkLoginStatus, logout, handleAuthStateChange } from "src/store/auth/actions";
-// Need this to make amplify login work:
-(window as any).fetch = require('node-fetch');
+import CustomForm from "src/form/CustomForm";
+import { checkLoginStatus, logout, handleAuthStateChange, onAuthFormSubmit } from "src/store/auth/actions";
 import { withFederated, Authenticator, SignIn, ConfirmSignIn, Greetings, SignUp, ConfirmSignUp, ForgotPassword, VerifyContact } from 'aws-amplify-react';
 import CustomSignUp from "./CustomSignUp";
 
@@ -15,7 +14,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   checkLoginStatus: () => dispatch(checkLoginStatus()),
   logout: () => dispatch(logout()),
-  handleAuthStateChange: (state, data) => dispatch(handleAuthStateChange(state, data))
+  handleAuthStateChange: (state, data) => dispatch(handleAuthStateChange(state, data)),
+  onAuthFormSubmit: data => dispatch(onAuthFormSubmit(data))
 });
 
 const Buttons = (props) => (
@@ -53,7 +53,8 @@ interface ILoginProps extends IAuthState {
   checkLoginStatus: () => void,
   logout: () => void,
   handleAuthStateChange: (a, b) => void,
-  setup: () => void
+  setup: () => void,
+  onAuthFormSubmit: (e) => void
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
@@ -64,18 +65,11 @@ class Login extends React.Component<ILoginProps, {}> {
   }
   render() {
     if (!this.props.loggedIn) {
-      return (<div className="cff-login text-center">
-        <Authenticator /*federated={federated}*/
-          errorMessage={errorMessageMap}
-          hideDefault={true}
-          onStateChange={this.props.handleAuthStateChange}>
-          <SignIn />
-          <CustomSignUp />
-          <ConfirmSignUp />
-          <ForgotPassword />
-          {/* <SignIn federated={federated} /> */}
-          {/* <Federated federated={federated} /> */}
-        </Authenticator>
+      return (<div className="cff-login">
+        <CustomForm
+          schema={this.props.authForm.schema}
+          uiSchema={this.props.authForm.uiSchema}
+          onSubmit={e => this.props.onAuthFormSubmit(e.formData)} />
       </div>);
     }
     else {

@@ -16,5 +16,9 @@ interface IAuthState {
   loggedIn: boolean,
   user: IUserAttributes,
   userId: string,
-  authMethod: string
+  authMethod: string,
+  authForm: {
+    schema: Schema,
+    uiSchema: UiSchema
+  }
 }
