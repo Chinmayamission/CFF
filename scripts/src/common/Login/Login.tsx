@@ -3,9 +3,9 @@ import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
 import CustomForm from "src/form/CustomForm";
-import { checkLoginStatus, logout, handleAuthStateChange, onAuthFormSubmit, signIn, signUp, forgotPassword } from "src/store/auth/actions";
+import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword } from "src/store/auth/actions";
 import { withFederated } from 'aws-amplify-react';
-import {Tabs, Tab} from 'react-bootstrap-tabs';
+import AuthPageNavButton from "./AuthPageNavButton";
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -15,10 +15,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   checkLoginStatus: () => dispatch(checkLoginStatus()),
   logout: () => dispatch(logout()),
   handleAuthStateChange: (state, data) => dispatch(handleAuthStateChange(state, data)),
-  onAuthFormSubmit: data => dispatch(onAuthFormSubmit(data)),
   signIn: data => dispatch(signIn(data)),
   signUp: data => dispatch(signUp(data)),
-  forgotPassword: data => dispatch(forgotPassword(data)),
+  forgotPassword: data => dispatch(forgotPassword(data))
 });
 
 const Buttons = (props) => (
@@ -45,7 +44,7 @@ const Federated = withFederated(Buttons);
 
 const errorMessageMap = (message) => {
   if (/User does not exist/i.test(message)) {
-      return 'User does not exist!';
+    return 'User does not exist!';
   }
 
   return message;
@@ -65,34 +64,45 @@ class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
     // this.props.checkLoginStatus();
   }
-  handleAuthStateChange(a, b) {
-    console.log("hasc", arguments);
-  }
+
   render() {
     if (!this.props.loggedIn) {
+      if (this.props.message) {
+        return <div>{this.props.message}</div>;
+      }
       return (<div className="cff-login">
-        {this.props.message && <div>Message {this.props.message}</div>}
-        {this.props.error && <div>Error {this.props.error}</div>}
-        <Tabs>
-        <Tab label="Sign In"><CustomForm
-          schema={this.props.schemas.signIn.schema}
-          uiSchema={this.props.schemas.signIn.uiSchema}
-          onSubmit={e => this.props.signIn(e.formData)} /></Tab>
-        <Tab label="Sign Up"><CustomForm
-          schema={this.props.schemas.signUp.schema}
-          uiSchema={this.props.schemas.signUp.uiSchema}
-          onSubmit={e => this.props.signUp(e.formData)} /></Tab>
-        <Tab label="Forgot Password"><CustomForm
-          schema={this.props.schemas.forgotPassword.schema}
-          uiSchema={this.props.schemas.forgotPassword.uiSchema}
-          onSubmit={e => this.props.forgotPassword(e.formData)} /></Tab>
-        </Tabs>
+        {this.props.error && <div className="alert alert-danger" role="alert">
+          Error: {this.props.error}
+        </div>}
+        {this.props.authPage == "signIn" &&
+          <CustomForm
+            schema={this.props.schemas.signIn.schema}
+            uiSchema={this.props.schemas.signIn.uiSchema}
+            onSubmit={e => this.props.signIn(e.formData)} />
+        }
+        {this.props.authPage == "signUp" &&
+          <CustomForm
+            schema={this.props.schemas.signUp.schema}
+            uiSchema={this.props.schemas.signUp.uiSchema}
+            onSubmit={e => this.props.signUp(e.formData)} />
+        }
+        {this.props.authPage == "forgotPassword" &&
+          <CustomForm
+            schema={this.props.schemas.forgotPassword.schema}
+            uiSchema={this.props.schemas.forgotPassword.uiSchema}
+            onSubmit={e => this.props.forgotPassword(e.formData)} />
+        }
+        <div className="mt-4">
+          <AuthPageNavButton current={this.props.authPage} page="signIn" label="Sign In" />
+          <AuthPageNavButton current={this.props.authPage} page="signUp" label="Sign Up" />
+          <AuthPageNavButton current={this.props.authPage} page="forgotPassword" label="Forgot Password" />
+        </div>
       </div>);
     }
     else {
       return (<div className="text-left">
-        <img src={require("src/img/logo.png")} style={{"width": 40, "marginRight": 40}} />
-        <div style={{"display": "inline-block", "verticalAlign": "middle"}}>
+        <img src={require("src/img/logo.png")} style={{ "width": 40, "marginRight": 40 }} />
+        <div style={{ "display": "inline-block", "verticalAlign": "middle" }}>
           <strong>Chinmaya Forms Framework</strong><br />
           Welcome, {this.props.user.name} ({this.props.user.email})
         </div>

@@ -3,7 +3,6 @@ import fetch from "cross-fetch";
 import { Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
 import { loadingStart, loadingEnd } from "src/store/base/actions";
-import { setupMaster } from "cluster";
 
 export const loggedIn = (userId, attributes) => ({
   type: 'LOGIN_SUCCESS',
@@ -35,11 +34,6 @@ export function logout() {
 export function checkLoginStatus() {
   return (dispatch, getState) => {
     dispatch(loadingStart());
-    // getUserCredentials(), currentAuthenticatedUser()
-    // let session = Auth.currentCredentials().then(e => {
-    //   console.log("currentCredentials are", e);
-    //   return Auth.currentAuthenticatedUser();
-    // })
     Auth.currentAuthenticatedUser()
     .then((user: {username: string, attributes: IUserAttributes}) => {
       if (!user) throw "No credentials";
@@ -67,10 +61,10 @@ export function handleAuthStateChange(state, data) {
   }
 }
 
-export const setAuthMethod = (method_name) => ({
-  type: 'SET_AUTH_METHOD',
-  authMethod: method_name
-});
+export const setAuthPage = (authPage) => ({
+  type: 'SET_AUTH_PAGE',
+  authPage: authPage
+})
 
 export const setMessage = (message) => ({
   type: 'SET_MESSAGE',
@@ -79,7 +73,7 @@ export const setMessage = (message) => ({
 
 export const onAuthError = (error) => ({
   type: 'SET_ERROR',
-  error: JSON.stringify(error)
+  error: error
 })
 
 export function signIn(data) {
@@ -87,7 +81,7 @@ export function signIn(data) {
     dispatch(loadingStart());
     Auth.signIn(data.email, data.password)
     .then(() => dispatch(checkLoginStatus()))
-    .catch(e => dispatch(onAuthError(e)))
+    .catch(e => dispatch(onAuthError(e.message)))
   }
 }
 
@@ -107,7 +101,7 @@ export function signUp(data) {
       }
     })
     .then(() => dispatch(setMessage("Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in.")))
-    .catch(e => dispatch(onAuthError(e)))
+    .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
 }
@@ -117,7 +111,7 @@ export function forgotPassword(data) {
     dispatch(loadingStart());
     Auth.forgotPassword(data.email)
     .then(() => dispatch(setMessage("Please check your email for a link to change your password.")))
-    .catch(e => dispatch(onAuthError(e)))
+    .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
 }

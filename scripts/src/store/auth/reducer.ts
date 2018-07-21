@@ -5,10 +5,10 @@ const initialState: IAuthState = {
   loggedIn: false,
   user: null,
   userId: null,
-  authMethod: null,
   schemas: require("./schemas.json"),
   error: null,
-  message: null
+  message: null,
+  authPage: 'signIn'
 };
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {
@@ -25,10 +25,10 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
         ...state,
         loggedIn: false
       };
-    case "SET_AUTH_METHOD":
+    case "SET_AUTH_PAGE":
       return {
         ...state,
-        authMethod: action.authMethod
+        authPage: action.authPage
       }
     case "SET_MESSAGE":
       return {

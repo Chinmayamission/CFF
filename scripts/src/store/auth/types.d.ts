@@ -20,12 +20,12 @@ interface IAuthState {
   loggedIn: boolean,
   user: IUserAttributes,
   userId: string,
-  authMethod: string,
   schemas: {
     signIn: IAuthStateSchemaItem,
     signUp: IAuthStateSchemaItem,
     forgotPassword: IAuthStateSchemaItem
   },
   error: string,
-  message: string
+  message: string,
+  authPage: string
 }
