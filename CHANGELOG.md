@@ -42,6 +42,14 @@ todo:
 - 
 - user login/signup
 
+## 2.0.17 (7/21/18)
+Frontend only
+- Use custom UI for authentication
+- ui:cff:submitButtonText can be used to customize submit button text
+- Fix response table view, show all properties & show them properly
+- Fix array field rendering issues - when minItems is 0, it should show an "Add" button
+- Add ui:cff:arrayItemTitles option to customize titles for array
+
 ## 2.0.16 (7/19/18)
 Frontend only
 - Change structure of specifiedShowFields to have paths as keys, such as ```{
