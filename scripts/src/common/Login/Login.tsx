@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
 import CustomForm from "src/form/CustomForm";
-import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword } from "src/store/auth/actions";
+import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword, forgotPasswordSubmit } from "src/store/auth/actions";
 import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
 
@@ -17,7 +17,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleAuthStateChange: (state, data) => dispatch(handleAuthStateChange(state, data)),
   signIn: data => dispatch(signIn(data)),
   signUp: data => dispatch(signUp(data)),
-  forgotPassword: data => dispatch(forgotPassword(data))
+  forgotPassword: data => dispatch(forgotPassword(data)),
+  forgotPasswordSubmit: data => dispatch(forgotPasswordSubmit(data)),
 });
 
 const Buttons = (props) => (
@@ -58,11 +59,12 @@ interface ILoginProps extends IAuthState {
   setup: () => void,
   signIn: (e) => void,
   signUp: (e) => void,
-  forgotPassword: (e) => void
+  forgotPassword: (e) => void,
+  forgotPasswordSubmit: (e) => void
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
-    // this.props.checkLoginStatus();
+    this.props.checkLoginStatus();
   }
 
   render() {
@@ -91,6 +93,12 @@ class Login extends React.Component<ILoginProps, {}> {
             schema={this.props.schemas.forgotPassword.schema}
             uiSchema={this.props.schemas.forgotPassword.uiSchema}
             onSubmit={e => this.props.forgotPassword(e.formData)} />
+        }
+        {this.props.authPage == "forgotPasswordSubmit" &&
+          <CustomForm
+            schema={this.props.schemas.forgotPasswordSubmit.schema}
+            uiSchema={this.props.schemas.forgotPasswordSubmit.uiSchema}
+            onSubmit={e => this.props.forgotPasswordSubmit(e.formData)} />
         }
         <div className="mt-4">
           <AuthPageNavButton current={this.props.authPage} page="signIn" label="Sign In" />

@@ -11,7 +11,11 @@
           "type": "string",
           "title": "Password"
         }
-      }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
     },
     "uiSchema": {
       "password": {
@@ -26,7 +30,8 @@
       "properties": {
         "email": {
           "type": "string",
-          "title": "Email Address"
+          "title": "Email Address",
+          "description": "You will use this email address to log in to your account."
         },
         "password": {
           "type": "string",
@@ -36,7 +41,12 @@
           "type": "string",
           "title": "Re-enter password"
         }
-      }
+      },
+      "required": [
+        "email",
+        "password",
+        "password2"
+      ]
     },
     "uiSchema": {
       "password": {
@@ -56,8 +66,49 @@
           "type": "string",
           "title": "Email Address"
         }
-      }
+      },
+      "required": [
+        "email"
+      ]
     },
     "uiSchema": {}
+  },
+  "forgotPasswordSubmit": {
+    "schema": {
+      "type": "object",
+      "description": "Please check your email for a code and enter the code here to change your password:",
+      "properties": {
+        "email": {
+          "type": "string",
+          "title": "Email Address"
+        },
+        "code": {
+          "type": "string",
+          "title": "Code"
+        },
+        "password": {
+          "type": "string",
+          "title": "New password"
+        },
+        "password2": {
+          "type": "string",
+          "title": "Confirm new password"
+        }
+      },
+      "required": [
+        "email",
+        "code",
+        "password",
+        "password2"
+      ]
+    },
+    "uiSchema": {
+      "password": {
+        "ui:widget": "password"
+      },
+      "password2": {
+        "ui:widget": "password"
+      }
+    }
   }
 }

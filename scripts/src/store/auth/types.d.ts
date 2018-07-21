@@ -23,7 +23,8 @@ interface IAuthState {
   schemas: {
     signIn: IAuthStateSchemaItem,
     signUp: IAuthStateSchemaItem,
-    forgotPassword: IAuthStateSchemaItem
+    forgotPassword: IAuthStateSchemaItem,
+    forgotPasswordSubmit: IAuthStateSchemaItem
   },
   error: string,
   message: string,

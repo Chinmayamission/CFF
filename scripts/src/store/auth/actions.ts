@@ -37,11 +37,10 @@ export function checkLoginStatus() {
     Auth.currentAuthenticatedUser()
     .then((user: {username: string, attributes: IUserAttributes}) => {
       if (!user) throw "No credentials";
-      dispatch(loadingEnd());
       dispatch(loggedIn(user.username, user.attributes));
     }).catch(e => {
       console.error(e);
-    });
+    }).then(() => dispatch(loadingEnd()));
   }
 }
 export function handleAuthStateChange(state, data) {
@@ -100,7 +99,7 @@ export function signUp(data) {
         name: "User"
       }
     })
-    .then(() => dispatch(setMessage("Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in.")))
+    .then(() => dispatch(setMessage("Account creation complete. Please check your email for a confirmation link to confirm your email address, then refresh this page to sign in.")))
     .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
@@ -110,7 +109,21 @@ export function forgotPassword(data) {
   return dispatch => {
     dispatch(loadingStart());
     Auth.forgotPassword(data.email)
-    .then(() => dispatch(setMessage("Please check your email for a link to change your password.")))
+    .then(() => dispatch(setAuthPage("forgotPasswordSubmit")))
+    .catch(e => dispatch(onAuthError(e.message)))
+    .then(() => dispatch(loadingEnd()))
+  }
+}
+
+export function forgotPasswordSubmit(data) {
+  return dispatch => {
+    if (data.password != data.password2) {
+      dispatch(onAuthError("Passwords do not match."));
+      return;
+    }
+    dispatch(loadingStart());
+    Auth.forgotPasswordSubmit(data.email, data.code, data.password)
+    .then(() => dispatch(setMessage("Password changed successfully! Please refresh the page to log in again.")))
     .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
