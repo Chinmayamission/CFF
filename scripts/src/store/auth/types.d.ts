@@ -12,13 +12,20 @@ interface IUserAttributes {
   name: string,
   "custom:center": string
 }
+interface IAuthStateSchemaItem {
+  schema: Schema,
+  uiSchema: UiSchema
+}
 interface IAuthState {
   loggedIn: boolean,
   user: IUserAttributes,
   userId: string,
   authMethod: string,
-  authForm: {
-    schema: Schema,
-    uiSchema: UiSchema
-  }
+  schemas: {
+    signIn: IAuthStateSchemaItem,
+    signUp: IAuthStateSchemaItem,
+    forgotPassword: IAuthStateSchemaItem
+  },
+  error: string,
+  message: string
 }

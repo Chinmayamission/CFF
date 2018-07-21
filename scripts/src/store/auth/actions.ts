@@ -72,18 +72,52 @@ export const setAuthMethod = (method_name) => ({
   authMethod: method_name
 });
 
-export function onAuthError(error) {
-  return dispatch => {
-    console.error("auth error", error);
-  }
-}
+export const setMessage = (message) => ({
+  type: 'SET_MESSAGE',
+  message: message
+})
 
+export const onAuthError = (error) => ({
+  type: 'SET_ERROR',
+  error: JSON.stringify(error)
+})
 
-export function onAuthFormSubmit(data) {
+export function signIn(data) {
   return dispatch => {
     dispatch(loadingStart());
     Auth.signIn(data.email, data.password)
     .then(() => dispatch(checkLoginStatus()))
     .catch(e => dispatch(onAuthError(e)))
+  }
+}
+
+export function signUp(data) {
+  return dispatch => {
+    if (data.password != data.password2) {
+      dispatch(onAuthError("Passwords do not match."));
+      return;
+    }
+    dispatch(loadingStart());
+    Auth.signUp({
+      username: data.email,
+      password: data.password,
+      attributes: {
+        email: data.email,
+        name: "User"
+      }
+    })
+    .then(() => dispatch(setMessage("Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in.")))
+    .catch(e => dispatch(onAuthError(e)))
+    .then(() => dispatch(loadingEnd()))
+  }
+}
+
+export function forgotPassword(data) {
+  return dispatch => {
+    dispatch(loadingStart());
+    Auth.forgotPassword(data.email)
+    .then(() => dispatch(setMessage("Please check your email for a link to change your password.")))
+    .catch(e => dispatch(onAuthError(e)))
+    .then(() => dispatch(loadingEnd()))
   }
 }

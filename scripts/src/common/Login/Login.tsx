@@ -3,9 +3,9 @@ import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
 import CustomForm from "src/form/CustomForm";
-import { checkLoginStatus, logout, handleAuthStateChange, onAuthFormSubmit } from "src/store/auth/actions";
-import { withFederated, Authenticator, SignIn, ConfirmSignIn, Greetings, SignUp, ConfirmSignUp, ForgotPassword, VerifyContact } from 'aws-amplify-react';
-import CustomSignUp from "./CustomSignUp";
+import { checkLoginStatus, logout, handleAuthStateChange, onAuthFormSubmit, signIn, signUp, forgotPassword } from "src/store/auth/actions";
+import { withFederated } from 'aws-amplify-react';
+import {Tabs, Tab} from 'react-bootstrap-tabs';
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -15,7 +15,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   checkLoginStatus: () => dispatch(checkLoginStatus()),
   logout: () => dispatch(logout()),
   handleAuthStateChange: (state, data) => dispatch(handleAuthStateChange(state, data)),
-  onAuthFormSubmit: data => dispatch(onAuthFormSubmit(data))
+  onAuthFormSubmit: data => dispatch(onAuthFormSubmit(data)),
+  signIn: data => dispatch(signIn(data)),
+  signUp: data => dispatch(signUp(data)),
+  forgotPassword: data => dispatch(forgotPassword(data)),
 });
 
 const Buttons = (props) => (
@@ -54,7 +57,9 @@ interface ILoginProps extends IAuthState {
   logout: () => void,
   handleAuthStateChange: (a, b) => void,
   setup: () => void,
-  onAuthFormSubmit: (e) => void
+  signIn: (e) => void,
+  signUp: (e) => void,
+  forgotPassword: (e) => void
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
@@ -66,10 +71,22 @@ class Login extends React.Component<ILoginProps, {}> {
   render() {
     if (!this.props.loggedIn) {
       return (<div className="cff-login">
-        <CustomForm
-          schema={this.props.authForm.schema}
-          uiSchema={this.props.authForm.uiSchema}
-          onSubmit={e => this.props.onAuthFormSubmit(e.formData)} />
+        {this.props.message && <div>Message {this.props.message}</div>}
+        {this.props.error && <div>Error {this.props.error}</div>}
+        <Tabs>
+        <Tab label="Sign In"><CustomForm
+          schema={this.props.schemas.signIn.schema}
+          uiSchema={this.props.schemas.signIn.uiSchema}
+          onSubmit={e => this.props.signIn(e.formData)} /></Tab>
+        <Tab label="Sign Up"><CustomForm
+          schema={this.props.schemas.signUp.schema}
+          uiSchema={this.props.schemas.signUp.uiSchema}
+          onSubmit={e => this.props.signUp(e.formData)} /></Tab>
+        <Tab label="Forgot Password"><CustomForm
+          schema={this.props.schemas.forgotPassword.schema}
+          uiSchema={this.props.schemas.forgotPassword.uiSchema}
+          onSubmit={e => this.props.forgotPassword(e.formData)} /></Tab>
+        </Tabs>
       </div>);
     }
     else {

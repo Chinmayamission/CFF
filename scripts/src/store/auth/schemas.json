@@ -1,0 +1,63 @@
+{
+  "signIn": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "title": "Email Address"
+        },
+        "password": {
+          "type": "string",
+          "title": "Password"
+        }
+      }
+    },
+    "uiSchema": {
+      "password": {
+        "ui:widget": "password"
+      },
+      "ui:cff:submitButtonText": "Sign In"
+    }
+  },
+  "signUp": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "title": "Email Address"
+        },
+        "password": {
+          "type": "string",
+          "title": "Password"
+        },
+        "password2": {
+          "type": "string",
+          "title": "Re-enter password"
+        }
+      }
+    },
+    "uiSchema": {
+      "password": {
+        "ui:widget": "password"
+      },
+      "password2": {
+        "ui:widget": "password"
+      },
+      "ui:cff:submitButtonText": "Sign Up"
+    }
+  },
+  "forgotPassword": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "title": "Email Address"
+        }
+      }
+    },
+    "uiSchema": {}
+  }
+}
