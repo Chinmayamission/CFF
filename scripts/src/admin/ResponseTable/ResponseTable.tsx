@@ -94,6 +94,16 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             let headerNamesToShow = ["ID", "IPN_TOTAL_AMOUNT", "DATE_LAST_MODIFIED", "DATE_CREATED", "NUMERIC_ID", "PAYMENT_INFO_TOTAL"];
             data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
             data = data.map(e => {e.value = flatten(e.value); return e});
+            
+            let propertyHeaders = [];
+            for (let item of data) {
+                for (let i in flatten(item.value)) {
+                    if (!~propertyHeaders.indexOf(i)) {
+                        propertyHeaders.push(i);
+                    }
+                }
+            }
+
             data = data.map((e, index) => {
                 let valueToAssign = {
                     "ID": e["_id"]["$oid"],
@@ -119,7 +129,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
 
             let defaultHeaders = concat(
                 ["PAID"],
-                Object.keys(this.state.schema.properties),
+                propertyHeaders,
                 headerNamesToShow
             );
             let headerObjs = Headers.makeHeaderObjsFromKeys(
@@ -268,6 +278,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             columns={this.state.tableHeadersDisplayed.map(e => this.props.editMode ? this.makeHeaderEditable(e): e)}
             minRows={0}
             filterable
+            Cell={e => console.log(e)}
             //pivotBy={this.state.pivotCols}
             defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
             defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
