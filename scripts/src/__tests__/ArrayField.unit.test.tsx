@@ -113,3 +113,31 @@ it('shows one child which can be removed', () => {
   expect(wrapper.text()).toContain("Add");
   expect(wrapper.text()).toContain("Remove");
 });
+
+
+it('custom title for one and two', () => {
+  let schema = {
+    "type": "object",
+    "properties": {
+      "parents": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+  let uiSchema = {
+    "parents": {
+      "ui:cff:arrayItemTitles": ["Parent Info", "Spouse Info"]
+    }
+  };
+  let defaultFormData = {};
+  const wrapper = render(
+    <CustomForm schema={schema} uiSchema={uiSchema} formData={defaultFormData} />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("Parent Info");
+  expect(wrapper.text()).toContain("Spouse Info");
+});

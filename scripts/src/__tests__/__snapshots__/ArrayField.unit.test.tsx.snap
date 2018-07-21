@@ -1,5 +1,128 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`custom title for one and two 1`] = `
+<div
+  class="ccmt-cff-Page-FormPage"
+>
+  <form
+    class="rjsf"
+    novalidate=""
+  >
+    <div
+      class="form-group field field-object"
+    >
+      <div
+        class="container-fluid"
+      >
+        <span />
+        <div />
+        <div
+          class="row"
+        >
+          <div
+            class="form-group field field-array  col-12"
+          >
+            <fieldset
+              class="field field-array field-array-of-string"
+            >
+              <h2
+                class="ccmt-cff-form-title"
+              >
+                parents
+              </h2>
+              <div
+                class="array-item-list"
+              >
+                <div
+                  class="row mb-4"
+                >
+                  <div
+                    class="col-9"
+                  >
+                    <h2
+                      class="ccmt-cff-form-title"
+                    >
+                      Parent Info
+                    </h2>
+                    <div
+                      class="form-group field field-string  col-12"
+                    >
+                      <div />
+                      <input
+                        class="form-control"
+                        id="root_parents_0"
+                        placeholder=""
+                        required=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                  </div>
+                  <div
+                    class="col-3 ccmt-cff-array-button-container"
+                  />
+                </div>
+                <div
+                  class="row mb-4"
+                >
+                  <div
+                    class="col-9"
+                  >
+                    <h2
+                      class="ccmt-cff-form-title"
+                    >
+                      Spouse Info
+                    </h2>
+                    <div
+                      class="form-group field field-string  col-12"
+                    >
+                      <div />
+                      <input
+                        class="form-control"
+                        id="root_parents_1"
+                        placeholder=""
+                        required=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                  </div>
+                  <div
+                    class="col-3 ccmt-cff-array-button-container"
+                  />
+                </div>
+                <button
+                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  type="button"
+                >
+                  Add
+                </button>
+              </div>
+            </fieldset>
+            <div />
+            <div />
+          </div>
+        </div>
+      </div>
+      <div />
+      <div />
+    </div>
+    <p>
+      <button
+        class="btn btn-info"
+        type="submit"
+      >
+        Submit
+      </button>
+    </p>
+  </form>
+</div>
+`;
+
 exports[`renders object array with expand to maximum (two parents) 1`] = `
 <div
   class="ccmt-cff-Page-FormPage"

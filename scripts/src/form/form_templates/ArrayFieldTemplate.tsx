@@ -56,6 +56,11 @@ class ArrayFieldTemplate extends React.Component<any, any> {
             <div className="row mb-4" key={i}>
               <div className="col-9">
                 {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
+                {this.props.uiSchema["ui:cff:arrayItemTitles"] && this.props.uiSchema["ui:cff:arrayItemTitles"][i] &&
+                  <h2 className="ccmt-cff-form-title">
+                    {this.props.uiSchema["ui:cff:arrayItemTitles"][i]}
+                  </h2>
+                }
                 {element.children}
               </div>
               <div className="col-3 ccmt-cff-array-button-container">
