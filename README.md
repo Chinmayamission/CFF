@@ -12,9 +12,6 @@ Install Microsoft Visual C++ Build Tools: http://landinghub.visualstudio.com/vis
 
 ## Run locally
 ```npm start```
-Run cmd as administrator
-vim c:\Windows\System32\Drivers\etc\hosts
-Add: `127.0.0.1       cff.framework`
 
 ## Deploy
 ```npm run deploy``` Deploys to BETA
@@ -23,9 +20,6 @@ Add: `127.0.0.1       cff.framework`
 ## Debug
 View logs:
 ```npm run logs```
-
-# Run locally
-https://aka.ms/cosmosdb-emulator
 
 Dev: https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/
 Beta: https://jl6kpo0pd3.execute-api.us-east-1.amazonaws.com/api/

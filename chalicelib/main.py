@@ -37,12 +37,13 @@ TABLES = TABLES_CLASS()
 
 ssm = boto3.client('ssm', 'us-east-1')
 MODE = os.getenv("MODE", "DEV")
+print("MODE IS " + MODE)
 PROD = False
 if MODE == "DEV":
-    host = "mongodb://localhost:10255/admin?ssl=true"
-    user = "localhost"
-    password = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-    pymodm.connection.connect(host, username=user, password=password)
+    host = "mongodb://localhost:10255/admin"
+    # user = "localhost"
+    # password = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
+    pymodm.connection.connect(host)#, username=user, password=password)
 elif MODE == "BETA":
     mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_BETA', WithDecryption=True)['Parameter']['Value']
     pymodm.connection.connect(mongo_conn_str)
