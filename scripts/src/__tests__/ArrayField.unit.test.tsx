@@ -57,11 +57,59 @@ it('renders regular object array', () => {
 it('renders object array with expand to maximum (two parents)', () => {
   let schema = require("./schemas/parentSchema.json");
   let uiSchema = {};
-  let defaultFormData = {parents: [{}, {}]};
+  let defaultFormData = { parents: [{}, {}] };
   const wrapper = render(
     <CustomForm schema={schema} uiSchema={uiSchema} formData={defaultFormData} />
   );
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).not.toContain("Add");
+  expect(wrapper.text()).toContain("Remove");
+});
+
+it('shows add button when minItems is zero', () => {
+  let schema = {
+    "type": "object",
+    "properties": {
+      "children": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "title": "My Item Here"
+        }
+      }
+    }
+  }
+  let uiSchema = {};
+  let defaultFormData = {};
+  const wrapper = render(
+    <CustomForm schema={schema} uiSchema={uiSchema} formData={defaultFormData} />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).not.toContain("My Item Here");
+  expect(wrapper.text()).toContain("Add");
+});
+
+
+it('shows one child which can be removed', () => {
+  let schema = {
+    "type": "object",
+    "properties": {
+      "children": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "title": "My Item Here"
+        }
+      }
+    }
+  }
+  let uiSchema = {};
+  let defaultFormData = {children: [{}]};
+  const wrapper = render(
+    <CustomForm schema={schema} uiSchema={uiSchema} formData={defaultFormData} />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("My Item Here");
+  expect(wrapper.text()).toContain("Add");
   expect(wrapper.text()).toContain("Remove");
 });

@@ -445,15 +445,180 @@ exports[`renders regular object array 1`] = `
                   </div>
                   <div
                     class="col-3 ccmt-cff-array-button-container"
+                  />
+                </div>
+                <button
+                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  type="button"
+                >
+                  Add
+                </button>
+              </div>
+            </fieldset>
+            <div />
+            <div />
+          </div>
+        </div>
+      </div>
+      <div />
+      <div />
+    </div>
+    <p>
+      <button
+        class="btn btn-info"
+        type="submit"
+      >
+        Submit
+      </button>
+    </p>
+  </form>
+</div>
+`;
+
+exports[`shows add button when minItems is zero 1`] = `
+<div
+  class="ccmt-cff-Page-FormPage"
+>
+  <form
+    class="rjsf"
+    novalidate=""
+  >
+    <div
+      class="form-group field field-object"
+    >
+      <div
+        class="container-fluid"
+      >
+        <span />
+        <div />
+        <div
+          class="row"
+        >
+          <div
+            class="form-group field field-array  col-12"
+          >
+            <fieldset
+              class="field field-array field-array-of-string"
+            >
+              <h2
+                class="ccmt-cff-form-title"
+              >
+                children
+              </h2>
+              <div
+                class="array-item-list"
+              >
+                <button
+                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  type="button"
+                >
+                  Add
+                </button>
+              </div>
+            </fieldset>
+            <div />
+            <div />
+          </div>
+        </div>
+      </div>
+      <div />
+      <div />
+    </div>
+    <p>
+      <button
+        class="btn btn-info"
+        type="submit"
+      >
+        Submit
+      </button>
+    </p>
+  </form>
+</div>
+`;
+
+exports[`shows one child which can be removed 1`] = `
+<div
+  class="ccmt-cff-Page-FormPage"
+>
+  <form
+    class="rjsf"
+    novalidate=""
+  >
+    <div
+      class="form-group field field-object"
+    >
+      <div
+        class="container-fluid"
+      >
+        <span />
+        <div />
+        <div
+          class="row"
+        >
+          <div
+            class="form-group field field-array  col-12"
+          >
+            <fieldset
+              class="field field-array field-array-of-string"
+            >
+              <h2
+                class="ccmt-cff-form-title"
+              >
+                children
+              </h2>
+              <div
+                class="array-item-list"
+              >
+                <div
+                  class="row mb-4"
+                >
+                  <div
+                    class="col-9"
+                  >
+                    <div
+                      class="form-group field field-string  col-12"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_children_0"
+                      >
+                        My Item Here
+                        <span
+                          class="required"
+                        >
+                          *
+                        </span>
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_children_0"
+                        label="My Item Here"
+                        placeholder=""
+                        required=""
+                        type="text"
+                        value="[object Object]"
+                      />
+                      <div />
+                      <div />
+                    </div>
+                  </div>
+                  <div
+                    class="col-3 ccmt-cff-array-button-container"
                   >
                     <button
-                      class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                      class="btn btn-danger col-12 ccmt-cff-btn-array-remove"
                       type="button"
                     >
-                      Add
+                      Remove
                     </button>
                   </div>
                 </div>
+                <button
+                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  type="button"
+                >
+                  Add
+                </button>
               </div>
             </fieldset>
             <div />
