@@ -64,7 +64,6 @@ const fields = {
 };
 
 function validate(formData, errors) {
-  console.log("running validate");
   return errors;
 }
 
@@ -103,8 +102,8 @@ function CustomForm(props: ICustomFormProps) {
         ArrayFieldTemplate={ArrayFieldTemplate}
         ObjectFieldTemplate={ObjectFieldTemplate}
         transformErrors={transformErrors}
-        onChange={(e) => { props.onChange(e) }}
-        onSubmit={(e) => props.onSubmit(e)}
+        onChange={(e) => { props.onChange && props.onChange(e) }}
+        onSubmit={(e) => props.onSubmit && props.onSubmit(e)}
         validate={validate}
         onError={(e) => { console.error(e); window.scrollTo(0, 0); }}
         showErrorList={true}
@@ -115,9 +114,9 @@ function CustomForm(props: ICustomFormProps) {
             {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
               <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
             }
-            <button className="btn btn-primary btn-lg" type="submit">Submit</button>
           </div>
         }
+        <button className="btn btn-primary btn-lg" type="submit">{props.uiSchema["ui:cff:submitButtonText"] || "Submit"}</button>
       </Form>
     </div>);
 }
