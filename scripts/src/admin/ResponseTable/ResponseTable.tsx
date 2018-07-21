@@ -106,7 +106,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             data = data.map((e, index) => {
                 let valueToAssign = {
                     "ID": e["_id"]["$oid"],
-                    "PAID": e.paid ? "YES": "NO",
+                    "PAID": e.paid,
                     "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "PAYMENT_HISTORY": e.PAYMENT_HISTORY,
                     "IPN_HISTORY": e.IPN_HISTORY,

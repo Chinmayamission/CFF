@@ -32,6 +32,18 @@ export module Headers {
         }
         return headerObjs;
     }
+    /*
+     * Format a value for display on the header table.
+     */
+    export function formatValue(value) {
+        switch(typeof value) {
+            case "boolean":
+                return value ? "YES": "NO";
+            case "string":
+            default:
+                return value;
+        }
+    }
     
     export function makeHeaderObj(headerName, headerLabel = "") {
         if (!headerLabel) {
@@ -43,6 +55,7 @@ export module Headers {
             Header: headerLabel,
             id: headerName,
             accessor: headerName,
+            Cell: row => formatValue(row.value),
             // For csv export:
             label: headerLabel,
             key: headerName
@@ -55,9 +68,9 @@ export module Headers {
                     return true;
                     }
                     if (filter.value === "paid") {
-                    return row[filter.id] == "YES";
+                    return row[filter.id] === true;
                     }
-                    return row[filter.id]=="NO"; // || row[filter.id] == false;
+                    return row[filter.id] === false; // || row[filter.id] == false;
                 },
                 "Filter": ({ filter, onChange }) =>
                     (<select
