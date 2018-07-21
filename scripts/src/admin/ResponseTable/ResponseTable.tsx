@@ -87,7 +87,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             });
         })
         .then(() => API.get("CFF", "forms/" + this.props.match.params.formId + "/responses", {}))
-        .then(e => {console.warn("RES", e); return e.res})
+        .then(e => e.res)
         // .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
             // data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
@@ -134,7 +134,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             let headerObjs = Headers.makeHeaderObjsFromKeys(
                 get(this.state.dataOptions, `${tableName}.columnOrder`, defaultHeaders)
             );
-            console.log("HO", headerObjs);
 
             // if (dataOptions[tableName]) {
             //     headerObjs = filterHeaderObjs(headerObjs, dataOptions[tableName]);
@@ -211,7 +210,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             tableHeadersDisplayed: headerObjs,
             colsToAggregate
         });
-        console.log(data);
     }
     getColsToAggregate(dataOption) {
         if (dataOption && dataOption.aggregateCols && dataOption.aggregateCols.length && isArray(dataOption.aggregateCols)) {
@@ -261,7 +259,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             alert(`Response update failed: ${e}`);
             console.error(e);
         })
-        // console.log(value, path, row, this.state.tableDataOrigObject);
     }
     makeHeaderEditable(header) {
         header.Cell = row => (<div>
@@ -271,14 +268,12 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
     }
 
     render() {
-        console.warn(this.state.tableDataDisplayed, this.state.tableHeadersDisplayed);
         return this.state.loading ? <Loading hasError={this.state.hasError} /> : (
             <ReactTable
             data={this.state.tableDataDisplayed}
             columns={this.state.tableHeadersDisplayed.map(e => this.props.editMode ? this.makeHeaderEditable(e): e)}
             minRows={0}
             filterable
-            Cell={e => console.log(e)}
             //pivotBy={this.state.pivotCols}
             defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
             defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
@@ -294,7 +289,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
               }
             }>
             {(state, makeTable, instance) => {
-                // console.log(state, instance);
                 return (
                     <div>
                         {!this.props.checkinMode && <div>
