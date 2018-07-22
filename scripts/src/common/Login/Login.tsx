@@ -3,6 +3,8 @@ import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
 import CustomForm from "src/form/CustomForm";
+// Need this to make amplify login work:
+(window as any).fetch = require('node-fetch');
 import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword, forgotPasswordSubmit } from "src/store/auth/actions";
 import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
