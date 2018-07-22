@@ -39,6 +39,8 @@ export module Headers {
         switch(typeof value) {
             case "boolean":
                 return value ? "YES": "NO";
+            case "object":
+                return JSON.stringify(value);
             case "string":
             default:
                 return value;
