@@ -91,7 +91,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         // .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
             // data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
-            let headerNamesToShow = ["ID", "DATE_LAST_MODIFIED", "DATE_CREATED", "PAYMENT_INFO_TOTAL"];
+            let headerNamesToShow = ["DATE_LAST_MODIFIED", "DATE_CREATED", "PAYMENT_INFO_TOTAL"];
             data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
             
             let propertyHeaders = [];
@@ -126,7 +126,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             let tableName = this.props.checkinMode ? "checkinTable" : "mainTable";
 
             let defaultHeaders = concat(
-                ["PAID"],
+                ["ID", "PAID"],
                 propertyHeaders,
                 headerNamesToShow
             );
@@ -187,13 +187,11 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 let unwoundItem = item[rowToUnwind][i];
                 unwoundItem = assign({}, item, unwoundItem);
                 unwoundItem["CFF_UNWIND_PATH"] = `${rowToUnwind}.${i}`;
-                unwoundItem["NUMERIC_ID"] = unwoundItem["NUMERIC_ID"] + "." + (parseInt(i) + 1);
                 data.push(unwoundItem);
             }
         }
         let headerObjs = concat(
-            Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
-            Headers.makeHeaderObjsFromKeys(["NUMERIC_ID"]),
+            // Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
             Headers.makeHeaders(this.state.schema.properties[rowToUnwind].items.properties),
             this.state.tableHeaders // concat original table headers with this.
         );
