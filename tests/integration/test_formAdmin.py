@@ -20,7 +20,7 @@ class FormAdmin(BaseTestCase):
     def test_form_list_none(self):
         """When user can access no forms."""
         test_id_old = app.test_user_id 
-        app.test_user_id = "cff:testuserwithnothing"
+        app.test_user_id = "cm:cognitoUserPool:testuserwithnothing"
         response = self.lg.handle_request(method='GET', path='/forms', headers={"authorization": "auth",}, body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])

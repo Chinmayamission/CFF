@@ -16,7 +16,7 @@ class FormPermissions(BaseTestCase):
     def setUp(self):
         super(FormPermissions, self).setUp()
         self.orig_id = app.test_user_id
-        _, app.test_user_id = COGNITO_IDENTITY_ID_OWNER.split("cm:cognitoUserPool:")
+        app.test_user_id = COGNITO_IDENTITY_ID_OWNER
         self.formId = self.create_form()
     def test_list_permissions(self):
         """Load form permissions."""

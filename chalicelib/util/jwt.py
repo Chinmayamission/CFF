@@ -6,6 +6,7 @@ import requests
 import json
 import time
 from jose import jwk, jwt
+from jose.exceptions import JWTError
 from jose.utils import base64url_decode
 
 region = 'us-east-1'
@@ -21,7 +22,11 @@ keys = response.json()['keys']
 def get_claims(token):
     token = token
     # get the kid from the headers prior to verification
-    headers = jwt.get_unverified_headers(token)
+    try:
+      headers = jwt.get_unverified_headers(token)
+    except JWTError:
+      print(f"JWT could not be decoded properly: {token}")
+      return False
     kid = headers['kid']
     # search for the kid in the downloaded public keys
     key_index = -1

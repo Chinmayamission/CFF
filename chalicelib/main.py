@@ -131,7 +131,41 @@ self.current_request.context
     },
     'apiId': '5fd3dqj2dc'
 }
+"""
+"""
+With custom authorizer:
 
+ {
+ 	'resourceId': '6cavtc',
+ 	'authorizer': {
+ 		'principalId': 'user',
+ 		'id': 'cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6'
+ 	},
+ 	'resourcePath': '/forms/{formId}',
+ 	'httpMethod': 'PATCH',
+ 	'extendedRequestId': 'KcHdMH4YoAMFb-g=',
+ 	'requestTime': '22/Jul/2018:17:04:33 +0000',
+ 	'path': '/v2/forms/5b38c89839861b00019fbbd2',
+ 	'accountId': '131049698002',
+ 	'protocol': 'HTTP/1.1',
+ 	'stage': 'v2',
+ 	'requestTimeEpoch': 1532279073270,
+ 	'requestId': '4e1859e9-8dd1-11e8-b2a9-bf1fae68edc0',
+ 	'identity': {
+ 		'cognitoIdentityPoolId': None,
+ 		'accountId': None,
+ 		'cognitoIdentityId': None,
+ 		'caller': None,
+ 		'sourceIp': '98.192.8.209',
+ 		'accessKey': None,
+ 		'cognitoAuthenticationType': None,
+ 		'cognitoAuthenticationProvider': None,
+ 		'userArn': None,
+ 		'userAgent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36',
+ 		'user': None
+ 	},
+ 	'apiId': '5fd3dqj2dc'
+ }
 
 """
 
@@ -149,10 +183,10 @@ class CustomChalice(Chalice):
         """Get current user id."""
         id = None
         try:
-            id = self.current_request.context['id']
+            id = self.current_request.context['authorizer']['id']
         except (KeyError, AttributeError):
             if app.test_user_id: id = app.test_user_id
-        return "cm:cognitoUserPool:{}".format(id)
+        return id
     def get_user_permissions(self, id, model):
         """id = user id. model = model with cff_permissions in it."""
         cff_permissions = getattr(model, "cff_permissions", {})
@@ -193,12 +227,16 @@ def iamAuthorizer(auth_request):
     """
     {'sub': 'f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'email_verified': True, 'iss': 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_kcpcLxLzn', 'cognito:username': 'f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'aud': '77mcm1k9ll2ge68806h5kncfus', 'event_id': '1dc969c8-861e-11e8-b29e-336c6c2ce302', 'token_use': 'id', 'custom:center': 'CCMT', 'auth_time': 1531432454, 'name': 'Ashwin Ramaswami', 'exp': 1532273519, 'iat': 1532269919, 'email': 'aramaswamis@gmail.com'}
     """
-    return AuthResponse(routes=['*'], principal_id='user')
     claims = get_claims(auth_request.token)
-    if not claims:
-        claims = {"sub": "anonymousUser", "name": "Anonymous", "email": "anonymous@chinmayamission.com"}
+    if claims:
+        claims["sub"] = "cm:cognitoUserPool:" + claims["sub"]
+        # User(id=claims["id"]).save()
+    elif app.test_user_id:
+        claims = {"sub": app.test_user_id}
+    else:
+        claims = {"sub": "cm:cognitoUserPool:anonymousUser", "name": "Anonymous", "email": "anonymous@chinmayamission.com"}
     return AuthResponse(routes=['*'], principal_id='user', context={
-        "id": "cm:cognitoUserPool:" + claims["sub"]
+        "id": claims["sub"]
     })
 
 """

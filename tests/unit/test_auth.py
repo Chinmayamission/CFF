@@ -14,13 +14,13 @@ from collections import namedtuple
 def dict_to_object(d):
   return namedtuple('Struct', d.keys())(*d.values())
 
-COG_ID = "asd"
+COG_ID = "cm:cognitoUserPool:asd"
 class FormPermissions(unittest.TestCase):
     def setUp(self):
         pass
     def test_get_current_user_id_dev(self):
       app.test_user_id = COG_ID
-      self.assertEqual(app.get_current_user_id(), "cm:cognitoUserPool:{}".format(COG_ID))
+      self.assertEqual(app.get_current_user_id(), COG_ID)
     def test_get_current_user_id_ctx(self):
       pass
     def test_check_permissions_owner(self):

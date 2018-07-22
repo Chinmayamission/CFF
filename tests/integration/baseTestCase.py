@@ -22,7 +22,7 @@ class BaseTestCase(unittest.TestCase):
     self.assertIn('form', body['res'])
     self.assertIn('_id', body['res']['form'])
     self.assertIn('name', body['res']['form'])
-    self.assertEqual({"owner": True}, body['res']['form']['cff_permissions']["cm:cognitoUserPool:" + app.test_user_id])
+    self.assertEqual({"owner": True}, body['res']['form']['cff_permissions'][app.test_user_id])
     self.assertEqual(body['res']['form']['version'], 1)
     DEFAULT_SCHEMA = {'properties': {'name': {'type': 'string'}}, "title": "Form", "type": "object"}
     self.assertEqual(body['res']['form']['schema'], DEFAULT_SCHEMA)
