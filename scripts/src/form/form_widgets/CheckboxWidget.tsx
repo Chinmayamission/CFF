@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import * as DOMPurify from 'dompurify';
-import DescriptionField from "react-jsonschema-form";
+import TitleField from "react-jsonschema-form";
 
 function CheckboxWidget(props) {
   const {
@@ -16,7 +16,9 @@ function CheckboxWidget(props) {
     onChange,
   } = props;
   return (
-    <div className={`checkbox form-check ${disabled || readonly ? "disabled" : ""}`}>
+    <div>
+      <label className="control-label">{schema.title}</label>
+      <div className={`checkbox form-check ${disabled || readonly ? "disabled" : ""}`}>
         <input
           type="checkbox"
           id={id}
@@ -26,10 +28,11 @@ function CheckboxWidget(props) {
           disabled={disabled || readonly}
           autoFocus={autofocus}
           onChange={event => onChange(event.target.checked)}
-          style={{"bottom": 0}}
+          style={{ "bottom": 0 }}
         />
         <label htmlFor={id} className="form-check-label"
-            dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(schema.description) }} />
+          dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(schema.description) }} />
+      </div>
     </div>
   );
 }

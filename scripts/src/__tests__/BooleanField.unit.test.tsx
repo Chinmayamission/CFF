@@ -24,4 +24,28 @@ it('renders radio box', () => {
   );
   expect(wrapper.text()).toContain("Donation?");
   expect(wrapper.text()).toContain("Our description of the donation");
-}); 
+});
+
+it('renders checkbox', () => {
+  let schema = {
+    "type": "object",
+    "title": "Form",
+    "properties": {
+      "donation": {
+        "title": "Donation?",
+        "description": "Our description of the donation",
+        "type": "boolean"
+      }
+    }
+  };
+  let uiSchema = {
+    "donation": {
+      "ui:widget": "checkbox"
+    }
+  }
+  const wrapper = render(
+    <CustomForm schema={schema} uiSchema={uiSchema} />
+  );
+  expect(wrapper.text()).toContain("Donation?");
+  expect(wrapper.text()).toContain("Our description of the donation");
+});
