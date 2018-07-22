@@ -20,7 +20,7 @@ class FormIpn(BaseTestCase):
     def send_ipn(self, responseId, body):
         response = self.lg.handle_request(method='POST',
                                     path=f'/responses/{responseId}/ipn',
-                                    headers={"Content-Type": "application/x-www-form-urlencoded"},
+                                    headers={"authorization": "auth","Content-Type": "application/x-www-form-urlencoded"},
                                     body=body)
         self.assertEqual(response['statusCode'], 200, response)
         self.assertEqual(response['body'], '')
