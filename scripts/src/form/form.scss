@@ -60,6 +60,12 @@
     .ccmt-cff-btn-array-add {
         max-width: 200px;
     }
+    input[type=radio], input[type=checkbox] {
+        margin-right: 10px;
+        & + span::first-letter {
+            text-transform: uppercase;
+        }
+    }
     /*i.glyphicon { display: none; }
     .btn-add::after { content: 'Add'; }
     .array-item-move-up::after { content: 'Move Up'; }
