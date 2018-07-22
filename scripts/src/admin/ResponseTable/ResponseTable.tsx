@@ -91,7 +91,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         // .then(data => data.filter(e => typeof e === "object" && e.value))
         .then(data => {
             // data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
-            let headerNamesToShow = ["ID", "IPN_TOTAL_AMOUNT", "DATE_LAST_MODIFIED", "DATE_CREATED", "NUMERIC_ID", "PAYMENT_INFO_TOTAL"];
+            let headerNamesToShow = ["ID", "DATE_LAST_MODIFIED", "DATE_CREATED", "PAYMENT_INFO_TOTAL"];
             data = data.sort((a,b) => Date.parse(a.date_created) - Date.parse(b.date_created));
             
             let propertyHeaders = [];
@@ -107,11 +107,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 let valueToAssign = {
                     "ID": e["_id"]["$oid"],
                     "PAID": e.paid,
-                    "IPN_TOTAL_AMOUNT": e.IPN_TOTAL_AMOUNT,
                     "PAYMENT_HISTORY": e.PAYMENT_HISTORY,
                     "IPN_HISTORY": e.IPN_HISTORY,
                     "DATE_CREATED": e.date_created.$date,
-                    "NUMERIC_ID": index + 1,
+                    // "NUMERIC_ID": index + 1,
                     "DATE_LAST_MODIFIED": e.date_modified.$date,
                     "PAYMENT_INFO_TOTAL": this.formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
                     "UPDATE_HISTORY": e.UPDATE_HISTORY,
