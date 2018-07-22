@@ -50,7 +50,7 @@ module.exports = {
         exclude: [/node_modules/, /\.test.tsx?$/],
         use:
           [
-            /*{
+            {
               'loader': 'babel-loader',
               options: {
                 "cacheDirectory": true,
@@ -58,16 +58,13 @@ module.exports = {
                   ["env", {
                     "targets": {
                       "browsers": [
-                        "Explorer 11",
-                        "> 5%"
+                        "IE 8"
                       ]
                     }
                   }]
-                ],
-                plugins: [require("babel-plugin-transform-class-properties"), require("babel-plugin-transform-es2015-arrow-functions"), require("babel-plugin-transform-es3-member-expression-literals"), require("babel-plugin-transform-es3-property-literals")]
-                // plugins: ["@babel/plugin-transform-template-literals"]
+                ]
               }
-            },*/
+            },
             {
               'loader': 'ts-loader'
             }
