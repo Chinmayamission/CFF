@@ -14,7 +14,7 @@ class FormRender(BaseTestCase):
         self.formId = self.create_form()
         response = self.lg.handle_request(method='GET',
                                           path=f'/forms/{self.formId}',
-                                          headers={},
+                                          headers={"authorization": "auth",},
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])

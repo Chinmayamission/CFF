@@ -15,7 +15,7 @@ class BaseTestCase(unittest.TestCase):
   def create_form(self):
     response = self.lg.handle_request(method='POST',
                                       path='/forms',
-                                      headers={"Content-Type": "application/x-www-form-urlencoded"},
+                                      headers={"authorization": "auth","Content-Type": "application/x-www-form-urlencoded"},
                                       body="")
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
@@ -31,7 +31,7 @@ class BaseTestCase(unittest.TestCase):
   def render_form(self, formId, fail=False):
     response = self.lg.handle_request(method='GET',
                                       path=f"/forms/{formId}",
-                                      headers={},
+                                      headers={"authorization": "auth",},
                                       body='')
     if fail:
         self.assertEqual(response['statusCode'], 404, response)
@@ -43,7 +43,7 @@ class BaseTestCase(unittest.TestCase):
     if not formId: return None
     response = self.lg.handle_request(method='DELETE',
                                       path=f"/forms/{formId}",
-                                      headers={},
+                                      headers={"authorization": "auth",},
                                       body='')
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
@@ -53,7 +53,7 @@ class BaseTestCase(unittest.TestCase):
   def edit_form(self, formId, body):
     response = self.lg.handle_request(method='PATCH',
                                       path=f"/forms/{formId}",
-                                      headers={"Content-Type": "application/json"},
+                                      headers={"authorization": "auth","Content-Type": "application/json"},
                                       body=json.dumps(body))
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
@@ -61,7 +61,7 @@ class BaseTestCase(unittest.TestCase):
   def submit_form(self, formId, formData):
     response = self.lg.handle_request(method='POST',
                                       path=f'/forms/{formId}',
-                                      headers={"Content-Type": "application/json"},
+                                      headers={"authorization": "auth","Content-Type": "application/json"},
                                       body=json.dumps({"data": formData}))
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
@@ -69,7 +69,7 @@ class BaseTestCase(unittest.TestCase):
   def view_response(self, responseId):
     response = self.lg.handle_request(method='GET',
                                       path='/responses/{}'.format(responseId),
-                                      headers={},
+                                      headers={"authorization": "auth",},
                                       body='')
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])

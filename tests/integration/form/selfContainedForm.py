@@ -15,7 +15,7 @@ class SelfContainedForm(unittest.TestCase):
         body = dict(schema=TEST_SCHEMA)
         response = self.lg.handle_request(method='POST',
                                           path='/centers/{}/forms/new'.format(CENTER_ID),
-                                          headers={"Content-Type": "application/json"},
+                                          headers={"authorization": "auth","Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
@@ -24,13 +24,13 @@ class SelfContainedForm(unittest.TestCase):
     def tearDown(self):
         response = self.lg.handle_request(method='DELETE',
                                           path='/forms/{}'.format(self.formId),
-                                          headers={},
+                                          headers={"authorization": "auth",},
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertEqual(body, {"res": None, "success": True, "action": "delete"});
         response = self.lg.handle_request(method='GET',
                                           path='/forms/{}/render'.format(self.formId),
-                                          headers={},
+                                          headers={"authorization": "auth",},
                                           body='')
         self.assertEqual(response['statusCode'], 500, response)

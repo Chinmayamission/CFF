@@ -22,7 +22,7 @@ class FormPermissions(BaseTestCase):
         """Load form permissions."""
         response = self.lg.handle_request(method='GET',
                                           path=f'/forms/{self.formId}/permissions',
-                                          headers={},
+                                          headers={"authorization": "auth",},
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
@@ -40,7 +40,7 @@ class FormPermissions(BaseTestCase):
         """List *my* permissions. (not used currently in client side)."""
         response = self.lg.handle_request(method='GET',
                                           path=f'/forms/{self.formId}/permissions?mine=1',
-                                          headers={},
+                                          headers={"authorization": "auth",},
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
@@ -54,7 +54,7 @@ class FormPermissions(BaseTestCase):
         }
         response = self.lg.handle_request(method='POST',
                                           path=f'/forms/{self.formId}/permissions',
-                                          headers={"Content-Type": "application/json"},
+                                          headers={"authorization": "auth","Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
@@ -66,7 +66,7 @@ class FormPermissions(BaseTestCase):
         }
         response = self.lg.handle_request(method='POST',
                                           path=f'/forms/{self.formId}/permissions',
-                                          headers={"Content-Type": "application/json"},
+                                          headers={"authorization": "auth","Content-Type": "application/json"},
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])

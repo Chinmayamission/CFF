@@ -13,7 +13,7 @@ from tests.integration.baseTestCase import BaseTestCase
 class FormAdmin(BaseTestCase):
     def test_form_list(self):
         """List of forms that the current user can access."""
-        response = self.lg.handle_request(method='GET', path='/forms', headers={}, body='')
+        response = self.lg.handle_request(method='GET', path='/forms', headers={"authorization": "auth",}, body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])      
         self.assertEqual(set(("_id", "name", "cff_permissions")), set(body['res'][0].keys()))
@@ -21,7 +21,7 @@ class FormAdmin(BaseTestCase):
         """When user can access no forms."""
         test_id_old = app.test_user_id 
         app.test_user_id = "cff:testuserwithnothing"
-        response = self.lg.handle_request(method='GET', path='/forms', headers={}, body='')
+        response = self.lg.handle_request(method='GET', path='/forms', headers={"authorization": "auth",}, body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertEqual(body['res'], [])

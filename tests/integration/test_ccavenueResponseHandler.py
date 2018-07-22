@@ -18,7 +18,7 @@ class TestCcavenueResponseHandler(BaseTestCase):
         # responseId = "bce35d38-e83a-4514-bdc1-b4c22fa8e30d"
         # response = self.lg.handle_request(method='POST',
         #                                   path=f"/responses/{responseId}/ccavenueResponseHandler",
-        #                                   headers={"Content-Type": "application/x-www-form-urlencoded"},
+        #                                   headers={"authorization": "auth","Content-Type": "application/x-www-form-urlencoded"},
         #                                   body=body)
         # self.assertEqual(response['statusCode'], 500, response)
         # print(response)

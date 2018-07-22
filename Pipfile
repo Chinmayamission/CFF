@@ -35,6 +35,7 @@ typing = "==3.6.4"
 "urllib3" = "==1.22"
 pymongo = {extras = ["tls"]}
 pymodm = "*"
+python-jose = "*"
 
 [dev-packages]
 

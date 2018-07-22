@@ -21,14 +21,14 @@ class FormResponses(BaseTestCase):
         print("bulk create done")
     def test_form_responses_list(self):
         """View the entire response list."""
-        response = self.lg.handle_request(method='GET', headers={}, body='',
+        response = self.lg.handle_request(method='GET', headers={"authorization": "auth",}, body='',
                                           path=f'/forms/{self.formId}/responses/')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertTrue(len(body['res']) > 0, "Response list is empty.")
     def test_response_summary(self):
         """View aggregate summary of data."""
-        response = self.lg.handle_request(method='GET', headers={}, body='',
+        response = self.lg.handle_request(method='GET', headers={"authorization": "auth",}, body='',
                                           path=f'/forms/{self.formId}/summary')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])

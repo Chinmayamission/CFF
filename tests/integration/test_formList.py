@@ -13,7 +13,7 @@ class FormList(BaseTestCase):
         formId = self.create_form()
         response = self.lg.handle_request(method='GET',
                                           path='/forms',
-                                          headers={},
+                                          headers={"authorization": "auth",},
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])

@@ -12,7 +12,7 @@
     "serve:local": "cross-env DEV_COGNITO_IDENTITY_ID=f31c1cb8-681c-4d3e-9749-d7c074ffd7f6 AWS_PROFILE=ashwin-cff-lambda pipenv run chalice local --stage dev --port=8001",
     "deploy": "cross-env AWS_PROFILE=ashwin-cff-lambda pipenv run chalice deploy --profile ashwin-cff-lambda --stage beta",
     "deploy-prod": "cross-env AWS_PROFILE=ashwin-cff-lambda pipenv run chalice deploy --profile ashwin-cff-lambda --stage prod",
-    "test": "concurrently --kill-others \"npm run mongo\" \"pipenv run python -m unittest\""
+    "test": "pipenv run python -m unittest"
   },
   "keywords": [],
   "author": "",

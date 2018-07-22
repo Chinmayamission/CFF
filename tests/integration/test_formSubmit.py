@@ -36,7 +36,7 @@ class FormSubmit(BaseTestCase):
         # body = {"path": "value.contact_name.last", "value": "NEW_LAST!"}
         # response = self.lg.handle_request(method='PATCH',
         #                                   path=f'/responses/{responseId}',
-        #                                     headers={"Content-Type": "application/json"},
+        #                                     headers={"authorization": "auth","Content-Type": "application/json"},
         #                                   body=json.dumps(body))
         # expected_data = dict(ONE_FORMDATA)
         # set_(expected_data, "contact_name.last", "NEW_LAST!")
@@ -87,7 +87,7 @@ class FormSubmit(BaseTestCase):
     #     ccavenue_merchant_id = "155729"
     #     response = self.lg.handle_request(method='POST',
     #                                       path='/forms/{}/responses'.format(formId),
-    #                                       headers={"Content-Type": "application/json"},
+    #                                       headers={"authorization": "auth","Content-Type": "application/json"},
     #                                       body=json.dumps(FORM_DATA_ONE))
     #     self.assertEqual(response['statusCode'], 200, response)
     #     body = json.loads(response['body'])
@@ -105,7 +105,7 @@ class FormSubmit(BaseTestCase):
     #     form_data = dict(FORM_DATA_ONE, email="success@simulator.amazonses.com")
     #     response = self.lg.handle_request(method='POST',
     #                                       path='/forms/{}/responses'.format(FORM_V2_ID),
-    #                                       headers={"Content-Type": "application/json"},
+    #                                       headers={"authorization": "auth","Content-Type": "application/json"},
     #                                       body=json.dumps(form_data))
     #     self.assertEqual(response['statusCode'], 200, response)
     #     body = json.loads(response['body'])
@@ -114,7 +114,7 @@ class FormSubmit(BaseTestCase):
     #     """View response."""
     #     response = self.lg.handle_request(method='GET',
     #                                       path='/forms/{}/responses/{}/view'.format(FORM_V2_ID, responseId),
-    #                                       headers={},
+    #                                       headers={"authorization": "auth",},
     #                                       body='')
     #     self.assertEqual(response['statusCode'], 200, response)
     #     body = json.loads(response['body'])

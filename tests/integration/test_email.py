@@ -33,7 +33,7 @@ class TestEmail(BaseTestCase):
     def test_endpoint_send_confirmation_email_success(self):
         response = self.lg.handle_request(method='POST',
                                           path=f'/responses/{self.responseId}/sendConfirmationEmail',
-                                          headers={"Content-Type": "application/json"},
+                                          headers={"authorization": "auth","Content-Type": "application/json"},
                                           body=json.dumps({"paymentMethod": "manual_approval"}))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
