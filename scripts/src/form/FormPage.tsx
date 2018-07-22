@@ -191,7 +191,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       return <div><h1>Unexpected Error</h1><p>There was an error rendering the form. Please try again later.</p><code>{this.state.errorMessage}</code></div>; 
     }
     if (get(this.state.formOptions, "loginRequired") === true && !this.props.auth.loggedIn) {
-      return <Login />;
+      return 
+        <div>
+          <h1>{this.state.schema.title}</h1>
+          <h2>Please log in or sign up for a new account.</h2>
+          <Login />
+        </div>;
     }
     if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
