@@ -11,7 +11,7 @@ const DEST_URL = FORMBUILDER_URL + "/dist";
 
 module.exports = {
   entry: {
-    app: ["babel-polyfill", SRC_URL + '/index']
+    app: ["whatwg-fetch", "babel-polyfill", SRC_URL + '/index']
   },
   optimization: {
     splitChunks: {

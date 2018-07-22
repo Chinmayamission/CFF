@@ -88,7 +88,6 @@
     "bluebird": "^3.5.1",
     "connected-react-router": "^4.3.0",
     "cross-env": "^5.2.0",
-    "cross-fetch": "^2.2.1",
     "css-loader": "^0.28.7",
     "diff": "^3.4.0",
     "difflet": "^1.0.1",
@@ -124,7 +123,8 @@
     "style-loader": "^0.19.1",
     "svg-url-loader": "^2.3.1",
     "webpack": "^4.4.1",
-    "webpack-cli": "^2.0.13"
+    "webpack-cli": "^2.0.13",
+    "whatwg-fetch": "^2.0.4"
   },
   "jest": {
     "transform": {

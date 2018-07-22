@@ -42,6 +42,12 @@ todo:
 - 
 - user login/signup
 
+## 2.0.18 (7/21/18)
+Frontend only
+- Add fetch polyfill again to fix admin page on IE
+- CSS changes
+- Remove unneeded 
+
 ## 2.0.17 (7/21/18)
 Frontend only
 - Use custom UI for authentication
