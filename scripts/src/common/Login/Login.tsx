@@ -6,6 +6,7 @@ import CustomForm from "src/form/CustomForm";
 import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword, forgotPasswordSubmit } from "src/store/auth/actions";
 import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
+import {Link} from "react-router-dom";
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -109,7 +110,7 @@ class Login extends React.Component<ILoginProps, {}> {
     }
     else {
       return (<div className="text-left">
-        <img src={require("src/img/logo.png")} style={{ "width": 40, "marginRight": 40 }} />
+        <Link to="/"><img src={require("src/img/logo.png")} style={{ "width": 40, "marginRight": 40 }} /></Link>
         <div style={{ "display": "inline-block", "verticalAlign": "middle" }}>
           <strong>Chinmaya Forms Framework</strong><br />
           Welcome, {this.props.user.name} ({this.props.user.email})
