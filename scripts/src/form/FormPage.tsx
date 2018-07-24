@@ -99,7 +99,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         return;
       }
       FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions }) => {
+      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions, responseId, responseData }) => {
         this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
           data: defaultFormData,
@@ -191,12 +191,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       return <div><h1>Unexpected Error</h1><p>There was an error rendering the form. Please try again later.</p><code>{this.state.errorMessage}</code></div>; 
     }
     if (get(this.state.formOptions, "loginRequired") === true && !this.props.auth.loggedIn) {
-      return 
-        <div>
-          <h1>{this.state.schema.title}</h1>
+      return (<div className="text-center">
+          <h1 dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.state.schema.title)}} />
           <h2>Please log in or sign up for a new account.</h2>
           <Login />
-        </div>;
+      </div>);
     }
     if (this.state.status == STATUS_FORM_PAYMENT_SUCCESS) {
       return (<div>
