@@ -33,9 +33,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 declare var MODE: string;
 declare var ENDPOINT_URL: string;
 class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicState> {
-    constructor(props:any) {
+    constructor(props:IPaypalClassicProps) {
         super(props);
-        let items = this.props.paymentInfo.items;
+        let items = props.paymentInfo.items.filter(e => e.amount > 0);
+        if (props.convenienceFee) {
+            items.push({"amount": parseInt(props.convenienceFee), "quantity": 1, "name": "Convenience Fee", "description": "Convenience Fee"});
+        }
         let state = {
             "form_url": (MODE != 'prod') ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
             "custom": this.props.responseId,
@@ -46,7 +49,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "notify_url": `${ENDPOINT_URL}responses/${this.props.responseId}/ipn`,
             "return": this.props.paymentInfo_owed.redirectUrl || ((window.location != window.parent.location) ? document.referrer : window.location.href),
             "cancel_return": (window.location != window.parent.location) ? document.referrer : window.location.href,
-            "items": items.filter(e => e.amount > 0),
+            "items": items,
             "amount": this.props.paymentInfo_owed.total, // not used.
             "image_url": this.props.paymentMethodInfo.image_url,
             "first_name": this.props.paymentMethodInfo.first_name,
