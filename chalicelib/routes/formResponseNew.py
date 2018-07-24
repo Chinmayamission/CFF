@@ -6,8 +6,9 @@ from ..util.formSubmit.couponCodes import coupon_code_verify_max_and_record_as_u
 from ..util.formSubmit.emailer import send_confirmation_email
 from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
-from chalicelib.models import Form, Response, serialize_model
+from chalicelib.models import Form, Response, User, serialize_model
 from bson.objectid import ObjectId
+from pymodm.errors import DoesNotExist
 
 
 def form_response_new(formId, responseId=None):
@@ -84,6 +85,18 @@ def form_response_new(formId, responseId=None):
           paymentInfo=paymentInfo,
           paid=paid
       )
+      userId = app.get_current_user_id()
+      if userId is not "cm:cognitoUserPool:anonymousUser":
+        user = None
+        try:
+            user = User.objects.get({"id": userId})
+            print(f"User is {userId}")
+        except DoesNotExist:
+            print(f"Creating user {userId}")
+            user = User(id=userId)
+            user.save()
+        print(user, user.id)
+        response.user = user
       response.save()
       if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
           send_confirmation_email(response, confirmationEmailInfo)

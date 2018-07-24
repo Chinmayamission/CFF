@@ -24,10 +24,10 @@ class BaseMongoModel(MongoModel):
 class Center(EmbeddedMongoModel):
   name = fields.CharField()
 
-class User(EmbeddedMongoModel):
-  name = fields.CharField()
-  email = fields.EmailField()
-  id = fields.CharField()
+class User(BaseMongoModel):
+  name = fields.CharField(blank=True)
+  email = fields.EmailField(blank=True)
+  id = fields.CharField(primary_key=True)
 
 class FormOptions(EmbeddedMongoModel):
   paymentInfo = fields.DictField(blank=True)
@@ -90,7 +90,7 @@ class EmailTrailItem(EmbeddedMongoModel):
 class Response(BaseMongoModel):
   id = fields.ObjectIdField(primary_key=True)
   form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
-  user = fields.EmbeddedDocumentField(User)
+  user = fields.ReferenceField(User, on_delete=fields.ReferenceField.CASCADE)
   # paymentInfo = fields.EmbeddedDocumentField(PaymentInfo)
   paymentInfo = fields.DictField()
   payment_status_detail = fields.EmbeddedDocumentListField(PaymentStatusDetailItem, blank=True, default=[])
