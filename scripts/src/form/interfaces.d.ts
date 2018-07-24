@@ -177,8 +177,7 @@ interface IPaypalClassicProps extends IPaymentMethodProps {
     paymentMethodInfo: IPaymentMethodInfoPaypalClassic,
     paymentInfo_owed: IPaymentInfo,
     paymentInfo_received: IPaymentInfo
-    apiEndpoint: string,
-    convenienceFee?: string
+    apiEndpoint: string
 }
 interface PaypalClassicSharedAttrs {
     "cmd": string,
@@ -199,7 +198,8 @@ interface PaypalClassicSharedAttrs {
 }
 interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs {
     "sandbox": boolean,
-    "payButtonText": string
+    "payButtonText": string,
+    convenienceFee?: string
 }
 interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "form_url": string,
