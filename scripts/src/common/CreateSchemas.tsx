@@ -1,5 +1,5 @@
 import {get, set} from "lodash-es";
-export default function createSchemas(data, specifiedShowFields={}) {
+export default function createSchemas(data, specifiedShowFields={}, responseId=null, responseData=null) {
     for (let i in specifiedShowFields) {
         set(data["schema"], i, specifiedShowFields[i]);
     }
@@ -10,6 +10,8 @@ export default function createSchemas(data, specifiedShowFields={}) {
         defaultFormData: get(data, "formOptions.defaultFormData", {}),
         paymentCalcInfo: get(data, "formOptions.paymentInfo", {}),
         dataOptions: get(data, "formOptions.dataOptions", {}),
-        formOptions: get(data, "formOptions", {})
+        formOptions: get(data, "formOptions", {}),
+        responseId,
+        responseData
     };
 }

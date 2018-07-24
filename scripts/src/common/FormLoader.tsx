@@ -3,19 +3,20 @@ import {get} from 'lodash-es';
 import {API} from "aws-amplify";
 import createSchemas from "./CreateSchemas";
 
+interface IGetFormResponse {
+    res: any,
+    responseId: string,
+    responseData: any
+}
+
 export module FormLoader {
     export function getForm(apiEndpoint, formId, opts) {
         // todo: allow response editing here, too.
-        return API.get("CFF", `forms/${formId}` + (opts.include_s_sm_versions ? "?versions=1": ""), {})
-                .then(response => response.res);
+        return API.get("CFF", `forms/${formId}` + (opts.include_s_sm_versions ? "?versions=1": ""), {});
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey})
-            .then(e => createSchemas(e, specifiedShowFields)).catch(handleError);
-    }
-    export function loadResponseAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, responseId, handleError) {
-        return this.getForm(apiEndpoint, formId, {"authKey": authKey, "responseId": responseId})
-            .then(e => createSchemas(e, specifiedShowFields)).catch(handleError);
+            .then((e: IGetFormResponse) => createSchemas(e.res, specifiedShowFields, e.responseId, e.responseData)).catch(handleError);
     }
 
 }

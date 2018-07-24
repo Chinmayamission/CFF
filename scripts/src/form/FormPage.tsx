@@ -57,8 +57,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentStarted: false,
       data: null,
       responseId: null,
-      responseLoaded: null,
       ajaxLoading: false,
+      responseData: null
     };
     
   }
@@ -102,9 +102,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions, responseId, responseData }) => {
         this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
-          data: defaultFormData,
+          data: responseData || defaultFormData,
           paymentCalcInfo,
-          formOptions
+          formOptions,
+          responseData
         });
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
       });
@@ -120,6 +121,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
   }
   onSubmit(data: { formData: {} }) {
+    if (this.state.responseData) {
+      alert("Sorry! Updating your information is not supported yet.");
+      return;
+    }
     var formData = data.formData;
 
     this.setState({ajaxLoading: true});

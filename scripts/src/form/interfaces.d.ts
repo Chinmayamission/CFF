@@ -68,7 +68,7 @@ interface IFormPageState {
     step: number,
     data: Data,
     responseId: string,
-    responseLoaded: IResponse,
+    responseData: any,
     hasError: boolean,
     errorMessage: string,
     paymentInfo: IPaymentInfo,
@@ -209,5 +209,6 @@ interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "notify_url": string,
     "custom": string,
     "discount_amount_cart": number,
-    "payButtonText": string
+    "payButtonText": string,
+    "recurring_payments": boolean
 }
