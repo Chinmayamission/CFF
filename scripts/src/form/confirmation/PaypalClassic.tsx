@@ -62,7 +62,8 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "email": this.props.paymentMethodInfo.email,
             "payButtonText": this.props.paymentMethodInfo.payButtonText || "Pay Now with Paypal",
             "discount_amount_cart": Math.abs(sumBy(items, e => e.amount < 0 ? e.amount : 0)) +
-                (this.props.paymentInfo_received ? this.props.paymentInfo_received.total : 0)
+                (this.props.paymentInfo_received ? this.props.paymentInfo_received.total : 0),
+            "recurring_payments": false
         }
         // // Replace $'s with actual values from the data.
         // for (let i in state) {
@@ -115,6 +116,22 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
     alt="PayPal - The safer, easier way to pay online"/>*/}
             <input type="submit" className="btn btn-primary" value={this.state.payButtonText} />
+            {/* {this.state.recurring_payments &&
+                <div>
+                    xclick-subscriptions
+                    https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/#recurring-payment-variables
+                    t3
+                    D. Days. Valid range for p3 is 1 to 90.
+                    W. Weeks. Valid range for p3 is 1 to 52.
+                    M. Months. Valid range for p3 is 1 to 24.
+                    Y. Years. Valid range for p3 is 1 to 5.
+                    
+                    <input type="hidden" name="a3" value="1" />
+                    <input type="hidden" name="p3" value="1" />
+                    <input type="hidden" name="t3" value="M" />
+                    <input type="hidden" name="no_note" value="1" />
+                </div> */}
+            }
         </form>
     );
     } 
