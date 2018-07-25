@@ -8,6 +8,7 @@ import ManualApproval from "./ManualApproval";
 import {clone} from "lodash-es";
 import ReactTable from 'react-table';
 import * as DOMPurify from 'dompurify';
+import ExpressionParser from "src/common/ExpressionParser";
 
 let Components = {
     "paypal_rest": Paypal,
@@ -33,7 +34,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             
             // Hide other payment method buttons when one payment method has started:
             if (this.state.paymentMethodStarted && this.state.paymentMethodStarted != paymentMethod) return;
-            
+
             let props = {
                 "onPaymentStarted": e => this.onPaymentStarted(paymentMethod, e),
                 "paymentStarted": this.state.paymentStarted,
@@ -49,6 +50,12 @@ class Payment extends React.Component<IPaymentProps, any> {
                 "formData": this.props.formData
                 // todo: get user's entered data.
             }
+
+            // Hide payment method if it should be hidden according to cff_show_when
+            if (props.paymentMethodInfo.cff_show_when &&
+                    !ExpressionParser.calculate_price(props.paymentMethodInfo.cff_show_when, props.formData)) {
+                        return;
+                    }
             return (<div className="col-12 col-sm-6 col-md-4 p-4" style={{"margin": "0 auto"}}>
                     <MyComponent key={paymentMethod} {...props} />
                     </div>);
