@@ -26,6 +26,7 @@ interface IPaymentInfo {
     total: any,
     currency: string,
     redirectUrl?: string,
+    paymentInfoTableTitle?: string,
     items?: [IPaymentInfoItem]
 }
 

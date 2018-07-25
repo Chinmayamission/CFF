@@ -73,7 +73,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             return "";
         }
         return <div><br />
-            <h1>Payment</h1>
+            <h1>{this.props.paymentInfo.paymentInfoTableTitle || "Payment"}</h1>
             <div>
             {this.props.paymentInfo &&
                 <PaymentTable paymentInfo={this.props.paymentInfo} />
