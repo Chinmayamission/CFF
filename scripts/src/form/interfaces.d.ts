@@ -199,8 +199,7 @@ interface PaypalClassicSharedAttrs {
 }
 interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs {
     "sandbox": boolean,
-    "payButtonText": string,
-    convenienceFee?: string
+    "payButtonText": string
 }
 interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "form_url": string,

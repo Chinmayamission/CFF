@@ -36,9 +36,6 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
     constructor(props:IPaypalClassicProps) {
         super(props);
         let items = props.paymentInfo.items.filter(e => e.amount > 0);
-        if (props.paymentMethodInfo.convenienceFee) {
-            items.push({"amount": parseInt(props.paymentMethodInfo.convenienceFee), "quantity": 1, "name": "Convenience Fee", "description": "Convenience Fee"});
-        }
         let state = {
             "form_url": (MODE != 'prod') ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
             "custom": this.props.responseId,
