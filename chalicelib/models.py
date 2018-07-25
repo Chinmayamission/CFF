@@ -90,7 +90,7 @@ class EmailTrailItem(EmbeddedMongoModel):
 class Response(BaseMongoModel):
   id = fields.ObjectIdField(primary_key=True)
   form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
-  user = fields.ReferenceField(User, on_delete=fields.ReferenceField.CASCADE)
+  user = fields.ReferenceField(User, on_delete=fields.ReferenceField.CASCADE, blank=True)
   # paymentInfo = fields.EmbeddedDocumentField(PaymentInfo)
   paymentInfo = fields.DictField()
   payment_status_detail = fields.EmbeddedDocumentListField(PaymentStatusDetailItem, blank=True, default=[])
@@ -102,6 +102,7 @@ class Response(BaseMongoModel):
   value = fields.DictField()
   date_created = fields.DateTimeField(required=True)
   date_modified = fields.DateTimeField(required=True)
+  pending_update = fields.DictField()
 
 def serialize_model(model):
   """Serializes model so it is OK to send back as a JSON response.

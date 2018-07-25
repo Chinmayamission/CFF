@@ -51,4 +51,4 @@ class FormRender(BaseTestCase):
         self.assertEqual(set(("_id", "name", "schema", "uiSchema", "formOptions")), set(body['res'].keys()))
         self.assertEqual(body['res']['_id']['$oid'], self.formId)
         self.assertTrue("responseId" in body)
-        self.assertEqual(body["responseData"], formData)
+        self.assertEqual(body["response"]["value"], formData)
