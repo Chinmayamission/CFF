@@ -14,6 +14,11 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
     response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=datetime.datetime.now().isoformat(), method=method_name))
     response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
     response.paid = float(response.amount_paid) >= float(response.paymentInfo.get("total", 0))
+    if response.paid and response.pending_update:
+        response.value = response.pending_update["value"]
+        response.paymentInfo = response.pending_update["paymentInfo"]
+        response.pending_update = None
+        response.update_trail.append(UpdateTrailItem(date=datetime.datetime.now(), update_type="apply_update"))
     if response.paid:
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
     response.save()

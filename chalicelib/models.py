@@ -69,6 +69,7 @@ class UpdateTrailItem(EmbeddedMongoModel):
   old = fields.DictField()
   new = fields.DictField()
   date = fields.DateTimeField(required=True)
+  update_type = fields.CharField()
 
 class EmailTrailItem(EmbeddedMongoModel):
   value = fields.DictField()
@@ -102,7 +103,7 @@ class Response(BaseMongoModel):
   value = fields.DictField()
   date_created = fields.DateTimeField(required=True)
   date_modified = fields.DateTimeField(required=True)
-  pending_update = fields.DictField()
+  pending_update = fields.DictField(blank=True)
 
 def serialize_model(model):
   """Serializes model so it is OK to send back as a JSON response.

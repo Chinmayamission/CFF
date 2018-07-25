@@ -31,6 +31,20 @@ class FormSubmit(BaseTestCase):
         """View response."""
         response = self.view_response(responseId)
         self.assertEqual(response['value'], ONE_FORMDATA)
+
+    def test_submit_form_with_update(self):
+        """Submit form."""
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
+        self.assertIn("paymentMethods", submit_res)
+
+        """View response."""
+        response = self.view_response(responseId)
+        self.assertEqual(response['value'], ONE_FORMDATA)
+
+        responseIdNew, submit_res = self.submit_form(self.formId, ONE_FORMDATA, responseId)
+        self.assertEqual(responseIdNew, responseId)
+        self.assertEqual(submit_res, {'paid': False, 'success': True, 'action': 'pending_update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'aramaswamis@gmail.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
         
         # """Edit response."""
         # body = {"path": "value.contact_name.last", "value": "NEW_LAST!"}

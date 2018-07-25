@@ -6,7 +6,7 @@ from ..util.formSubmit.couponCodes import coupon_code_verify_max_and_record_as_u
 from ..util.formSubmit.emailer import send_confirmation_email
 from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
-from chalicelib.models import Form, Response, User, serialize_model
+from chalicelib.models import Form, Response, User, UpdateTrailItem, serialize_model
 from bson.objectid import ObjectId
 from pymodm.errors import DoesNotExist
 
@@ -110,7 +110,8 @@ def form_response_new(formId):
         response.update_trail.append(UpdateTrailItem(
             old=response.value,
             new=response_data,
-            date=datetime.datetime.now()
+            date=datetime.datetime.now(),
+            update_type="pending_update"
         ))
         if (response.paid == True and paymentInfo["total"] <= response.paymentInfo["total"]):
             paid = True
@@ -118,22 +119,31 @@ def form_response_new(formId):
             raise Exception(f"Response {response.id} does not belong to form {form.id}; it belongs to form {response.form.id}.")
         if response.user.id != userId:
             raise Exception(f"User {userId} does not own response {response.id} (owner is {response.user.id})")
-        paid = (response.get("paid", None) == True and paymentInfo["total"] <= response["paymentInfo"]["total"])
-    
-    response.value = response_data
-    response.date_modified = datetime.datetime.now()
-    response.paymentInfo = paymentInfo
-    response.paid = paid
-    response.save()
-    if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
-        send_confirmation_email(response, confirmationEmailInfo)
-        email_sent = True
-    if "ccavenue" in paymentMethods: # todo: add this in update too.
-        paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], response)
-    if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
-        send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
-        email_sent = True
-    return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
+    if newResponse or (not newResponse and paid):
+        response.value = response_data
+        response.date_modified = datetime.datetime.now()
+        response.paymentInfo = paymentInfo
+        response.paid = paid
+        if not newResponse:
+            response.update_trail.append(UpdateTrailItem(date=datetime.datetime.now(), update_type="apply_update"))
+        if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
+            send_confirmation_email(response, confirmationEmailInfo)
+            email_sent = True
+        if "ccavenue" in paymentMethods: # todo: add this in update too.
+            paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], response)
+        if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
+            send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
+            email_sent = True
+        response.save()
+        return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
+    elif not newResponse:
+        # Update.
+        response.date_modified = datetime.datetime.now()
+        response.pending_update = {
+            "value": response_data,
+            "paymentInfo": paymentInfo
+        }
+        return {"res": {"paid": paid, "success": True, "action": "pending_update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
     """# Updating.
     response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
     response_new = TABLES.responses.update_item(
