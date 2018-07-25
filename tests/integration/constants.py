@@ -7,7 +7,7 @@ dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
 boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
 os.putenv("AWS_PROFILE", AWS_PROFILE_NAME)
 os.environ["TABLE_PREFIX"] = "cff_beta"
-os.environ["DEV_COGNITO_IDENTITY_ID"] = "f31c1cb8-681c-4d3e-9749-d7c074ffd7f6"
+os.environ["DEV_COGNITO_IDENTITY_ID"] = "cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6"
 os.environ["UNIT_TEST"] = "TRUE"
 
 COGNITO_IDENTITY_ID = "ccm:cognitoUserPool:1e3aa7b7-b042-4834-98f1-7915985c39a5"
