@@ -96,7 +96,7 @@ class Response(BaseMongoModel):
   paymentInfo = fields.DictField()
   payment_status_detail = fields.EmbeddedDocumentListField(PaymentStatusDetailItem, blank=True, default=[])
   paid = fields.BooleanField(default=False)
-  amount_paid = fields.CharField()
+  amount_paid = fields.CharField(default="0")
   payment_trail = fields.EmbeddedDocumentListField(PaymentTrailItem, blank=True, default=[])
   update_trail = fields.EmbeddedDocumentListField(UpdateTrailItem, blank=True, default=[])
   email_trail = fields.EmbeddedDocumentListField(EmailTrailItem, blank=True, default=[])
