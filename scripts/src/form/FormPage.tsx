@@ -167,7 +167,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       if (!newResponse) {
         // Todo: get paymentInfo_received from server, too, even if it's a new response.
         // todo: don't hardcode currency.
-        paymentInfo_received = {"currency": "USD", "total": res.total_amt_received };
+        paymentInfo_received = {"currency": res.amt_received.currency, "total": res.amt_received.total };
       }
       if (res.paid) {
         paymentInfo_received = res.paymentInfo
@@ -224,7 +224,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     // schema={this.state.schema}
     // uiSchema={this.state.uiSchema} widgets={widgets} onChange={(e) => {this.onChange(e)}} />;
     let formToReturn = (
-      <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED && !this.state.responseId) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
+      <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
         <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
         <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED}
           schema={this.state.schema}
