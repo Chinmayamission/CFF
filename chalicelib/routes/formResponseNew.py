@@ -13,7 +13,7 @@ from pymodm.errors import DoesNotExist
 def get_user_or_create_one(userId):
     user = None
     try:
-        user = User.objects.get({"id": userId})
+        user = User.objects.get({"_id": userId})
         print(f"User is {userId}")
     except DoesNotExist:
         print(f"Creating user {userId}")
@@ -104,7 +104,13 @@ def form_response_new(formId):
         )
         if userId is not "cm:cognitoUserPool:anonymousUser":
             user = get_user_or_create_one(userId)
-            response.user = user
+            response.user = userId
+            # Only one response per user.
+            try:
+                Response.objects.get({"user": userId})
+                raise Exception(f"Response with userId {userId} already exists!")
+            except DoesNotExist:
+                pass
     else:
         response = Response.objects.get({"_id": responseId})
         response.update_trail.append(UpdateTrailItem(
@@ -143,7 +149,7 @@ def form_response_new(formId):
             "value": response_data,
             "paymentInfo": paymentInfo
         }
-        return {"res": {"paid": paid, "success": True, "action": "pending_update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
+        return {"res": {"paid": paid, "success": True, "action": "pending_update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }
     """# Updating.
     response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
     response_new = TABLES.responses.update_item(
