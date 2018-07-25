@@ -105,6 +105,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           data: responseData || defaultFormData,
           paymentCalcInfo,
           formOptions,
+          responseId,
           responseData
         });
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
@@ -121,18 +122,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
   }
   onSubmit(data: { formData: {} }) {
-    if (this.state.responseData) {
-      alert("Sorry! Updating your information is not supported yet.");
-      return;
-    }
-    var formData = data.formData;
+    let formData = data.formData;
+    let payload = {
+      "data": formData,
+      "modifyLink": (window.location != window.parent.location) ? document.referrer : window.location.href
+    } // todo: include repsonse id for update.
 
+    if (this.state.responseId) {
+      payload["responseId"] = this.state.responseId;
+    }
     this.setState({ajaxLoading: true});
     API.post("CFF", `forms/${this.props.formId}`, {
-      "body": {
-        "data": formData,
-        "modifyLink": (window.location != window.parent.location) ? document.referrer : window.location.href
-      } // todo: include repsonse id for update.
+      "body": payload
     }).catch(e => {
       this.setState({ajaxLoading: false});
       alert("Error submitting the form. " + e);
@@ -222,7 +223,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     // schema={this.state.schema}
     // uiSchema={this.state.uiSchema} widgets={widgets} onChange={(e) => {this.onChange(e)}} />;
     let formToReturn = (
-      <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
+      <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED && !this.state.responseId) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
         <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
         <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED}
           schema={this.state.schema}

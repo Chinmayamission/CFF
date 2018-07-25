@@ -80,21 +80,16 @@ interface IVersion {
 
 interface IResponseDBEntry extends IDBEntry {
     value: IResponse,
-    form : {
-        id: string,
-        version: number
-    },
+    form: string,
+    user?: string,
     paymentInfo: IPaymentInfo,
     confirmationEmailInfo: ConfirmationEmailInfo,
-    IPN_HISTORY?: [{
-        date: string,
-        sandbox: boolean,
-        value: any
-    }],
-    IPN_STATUS?: string,
-    IPN_TOTAL_AMOUNT?: number,
-    modifyLink?: string,
-    PAID: boolean
+    update_trail: any,
+    payment_trail: any,
+    payment_status_detail: any,
+    amount_paid: any,
+    modifyLink: string,
+    paid: boolean
 }
 
 interface IDBEntry {

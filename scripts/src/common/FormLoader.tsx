@@ -6,7 +6,7 @@ import createSchemas from "./CreateSchemas";
 interface IGetFormResponse {
     res: any,
     responseId: string,
-    responseData: any
+    response: IResponseDBEntry
 }
 
 export module FormLoader {
@@ -16,7 +16,7 @@ export module FormLoader {
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey})
-            .then((e: IGetFormResponse) => createSchemas(e.res, specifiedShowFields, e.responseId, e.responseData)).catch(handleError);
+            .then((e: IGetFormResponse) => createSchemas(e.res, specifiedShowFields, e.responseId, e.response.value)).catch(handleError);
     }
 
 }
