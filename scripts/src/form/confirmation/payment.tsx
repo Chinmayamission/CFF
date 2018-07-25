@@ -13,7 +13,8 @@ let Components = {
     "paypal_rest": Paypal,
     "paypal_classic": PaypalClassic,
     "ccavenue": CCAvenue,
-    "manual_approval": ManualApproval
+    "manual_approval": ManualApproval,
+    "manual_approval_2": ManualApproval
 };
 class Payment extends React.Component<IPaymentProps, any> {
     constructor(props: any) {
