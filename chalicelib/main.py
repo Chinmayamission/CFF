@@ -184,6 +184,7 @@ class CustomChalice(Chalice):
     def get_current_user_id(self):
         """Get current user id."""
         id = None
+        print(self.current_request.context)
         try:
             id = self.current_request.context['authorizer']['id']
         except (KeyError, AttributeError):
@@ -275,12 +276,8 @@ app.route('/forms/{formId}/summary', methods=['GET'], cors=True, authorizer=iamA
 app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_get_permissions)
 app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
 
-app.route('/forms/{formId}', methods=['GET'], cors=True)(routes.form_render)
-
-app.route('/forms/{formId}', methods=['POST'], cors=True)(routes.form_response_new)
-
-
-# todo: use custom authorizer for these two:
+app.route('/forms/{formId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_render)
+app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_response_new)
 app.route('/responses/{responseId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit)
 app.route('/responses/{responseId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.response_view)
 
