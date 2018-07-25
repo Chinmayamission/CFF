@@ -16,7 +16,7 @@ export module FormLoader {
     }
     export function getFormAndCreateSchemas(apiEndpoint, formId, authKey, specifiedShowFields, handleError) {
         return this.getForm(apiEndpoint, formId, {"authKey": authKey})
-            .then((e: IGetFormResponse) => createSchemas(e.res, specifiedShowFields, e.responseId, e.response.value)).catch(handleError);
+            .then((e: IGetFormResponse) => createSchemas(e.res, specifiedShowFields, e.responseId, e.response && e.response.value )).catch(handleError)
     }
 
 }
