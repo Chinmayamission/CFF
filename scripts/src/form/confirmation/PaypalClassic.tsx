@@ -131,7 +131,6 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
                     <input type="hidden" name="t3" value="M" />
                     <input type="hidden" name="no_note" value="1" />
                 </div> */}
-            }
         </form>
     );
     } 
