@@ -47,7 +47,8 @@ class Payment extends React.Component<IPaymentProps, any> {
                 "onPaymentError": this.props.onPaymentError,
                 "responseId": this.props.responseId,
                 "formId": this.props.formId,
-                "formData": this.props.formData
+                "formData": this.props.formData,
+                "paymentMethodName": paymentMethod
                 // todo: get user's entered data.
             }
 
