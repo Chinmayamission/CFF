@@ -80,6 +80,7 @@ class EmailTrailItem(EmbeddedMongoModel):
 #   description = fields.CharField(required=True, min_length=1)
 #   amount = fields.Decimal128Field(required=True)
 #   quantity = fields.IntegerField(required=True)
+#   recurrenceDuration = fields.CharField(required=False)
 
 # class PaymentInfo(EmbeddedMongoModel):
 #   currency = currency_field
