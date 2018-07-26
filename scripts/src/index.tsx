@@ -33,7 +33,7 @@ Amplify.configure({
                     return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
                 }
                 catch (e) {
-                    return { Authorization: "" }
+                    return { Authorization: "anonymous" }
                 }
             }
         }
