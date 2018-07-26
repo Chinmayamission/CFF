@@ -97,7 +97,7 @@ function CustomForm(props: ICustomFormProps) {
         formData={props.formData}
         widgets={widgets}
         fields={fields}
-        noHtml5Validate={true}
+        noHtml5Validate={false}
         // FieldTemplate={CustomFieldTemplate}
         ArrayFieldTemplate={ArrayFieldTemplate}
         ObjectFieldTemplate={ObjectFieldTemplate}
