@@ -149,6 +149,7 @@ def form_response_new(formId):
             "value": response_data,
             "paymentInfo": paymentInfo
         }
+        response.save()
         return {"res": {"paid": paid, "success": True, "action": "pending_update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }
     """# Updating.
     response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
