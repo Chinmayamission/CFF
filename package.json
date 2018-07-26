@@ -153,6 +153,10 @@
       "node_modules",
       "scripts"
     ],
-    "setupTestFrameworkScriptFile": "./scripts/src/__tests__/setup.ts"
+    "setupTestFrameworkScriptFile": "./scripts/src/__tests__/setup.ts",
+    "globals": {
+      "MODE": "prod",
+      "ENDPOINT_URL": "http://localhost:8001/"
+    }
   }
 }
