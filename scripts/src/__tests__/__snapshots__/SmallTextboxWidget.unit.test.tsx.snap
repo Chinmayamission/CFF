@@ -6,7 +6,6 @@ exports[`renders small text box widget correctly 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"

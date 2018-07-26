@@ -6,7 +6,6 @@ exports[`renders default form without payment 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"
@@ -66,7 +65,6 @@ exports[`renders title and description with html 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"

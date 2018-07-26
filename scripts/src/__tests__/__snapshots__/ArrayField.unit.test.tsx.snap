@@ -6,7 +6,6 @@ exports[`custom title for one and two 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"
@@ -129,7 +128,6 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"
@@ -301,7 +299,6 @@ exports[`renders regular checkboxes correctly 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"
@@ -486,7 +483,6 @@ exports[`renders regular object array 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"
@@ -604,7 +600,6 @@ exports[`shows add button when minItems is zero 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"
@@ -665,7 +660,6 @@ exports[`shows one child which can be removed 1`] = `
 >
   <form
     class="rjsf"
-    novalidate=""
   >
     <div
       class="form-group field field-object"
