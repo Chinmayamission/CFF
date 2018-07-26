@@ -1,6 +1,6 @@
 /// <reference path="../interfaces.d.ts" />
 import * as React from 'react';
-import {get, sumBy} from "lodash-es";
+import {find, get, sumBy} from "lodash-es";
 import {connect} from "react-redux";
 
 /* Example Usage:
@@ -63,8 +63,20 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "payButtonText": this.props.paymentMethodInfo.payButtonText || "Pay Now with Paypal",
             "discount_amount_cart": Math.abs(sumBy(items, e => e.amount < 0 ? e.amount : 0)) +
                 (this.props.paymentInfo_received ? this.props.paymentInfo_received.total : 0),
-            "recurring_payments": false
+            "recurrence": null
         }
+        let recurring_item = find(items, e => e["recurrenceDuration"]);
+        if (recurring_item) {
+            items = [];
+            let [expr, time, units] = /(\d*)([DWMY])/.exec(recurring_item.recurrenceDuration);
+            state.recurrence = {};
+            state.recurrence.item_name = recurring_item.name;
+            state.recurrence.a3 = recurring_item.amount * recurring_item.quantity;
+            state.recurrence.p3 = time;
+            state.recurrence.t3 = units;
+            state["cmd"] = "_xclick-subscriptions";
+        }
+
         // // Replace $'s with actual values from the data.
         // for (let i in state) {
         //     if (typeof state[i] === 'string' && state[i][0] == "$") {
@@ -91,7 +103,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             <input type="hidden" name="notify_url" value={this.state.notify_url} />
             <input type="hidden" name="return" value={this.state.return} />
             <input type="hidden" name="cancel_return" value={this.state.cancel_return} />
-            {this.state.items.map((item, i) =>
+            {this.state.cmd == "_cart" && this.state.items.map((item, i) =>
                 <div key={i}>
                     <input type="hidden" name={"item_name_" + (i+1)} value={item.name} />
                     <input type="hidden" name={"item_number_" + (i+1)} value={item.description} />
@@ -99,7 +111,9 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
                     <input type="hidden" name={"amount_" + (i+1)} value={item.amount} />
                 </div>
             )}
-            <input type="hidden" name="discount_amount_cart" value={this.state.discount_amount_cart} />
+            {this.state.cmd == "_cart" && 
+                <input type="hidden" name="discount_amount_cart" value={this.state.discount_amount_cart} />
+            }
             <input type="hidden" name="image_url" value={this.state.image_url} />
             <input type="hidden" name="first_name" value={this.state.first_name} />
             <input type="hidden" name="last_name" value={this.state.last_name} />
@@ -116,21 +130,23 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif"
     alt="PayPal - The safer, easier way to pay online"/>*/}
             <input type="submit" className="btn btn-primary" value={this.state.payButtonText} />
-            {/* {this.state.recurring_payments &&
+            {this.state.cmd == "_xclick-subscriptions" &&
                 <div>
-                    xclick-subscriptions
+                    {/* xclick-subscriptions
                     https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/#recurring-payment-variables
-                    t3
+                    a3 - price
+                    p3 - duration (integer)
+                    t3 - units
                     D. Days. Valid range for p3 is 1 to 90.
                     W. Weeks. Valid range for p3 is 1 to 52.
                     M. Months. Valid range for p3 is 1 to 24.
-                    Y. Years. Valid range for p3 is 1 to 5.
-                    
-                    <input type="hidden" name="a3" value="1" />
-                    <input type="hidden" name="p3" value="1" />
-                    <input type="hidden" name="t3" value="M" />
+                    Y. Years. Valid range for p3 is 1 to 5. */}
+                    <input type="hidden" name="item_name" value={this.state.recurrence.item_name} />
+                    <input type="hidden" name="a3" value={this.state.recurrence.a3} />
+                    <input type="hidden" name="p3" value={this.state.recurrence.p3} />
+                    <input type="hidden" name="t3" value={this.state.recurrence.t3} />
                     <input type="hidden" name="no_note" value="1" />
-                </div> */}
+                </div>}
         </form>
     );
     } 

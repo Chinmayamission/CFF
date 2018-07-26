@@ -140,7 +140,7 @@ exports[`renders subscription payment form 1`] = `
   <input
     name="cmd"
     type="hidden"
-    value="_cart"
+    value="_xclick-subscriptions"
   />
   <input
     name="custom"
@@ -180,33 +180,6 @@ exports[`renders subscription payment form 1`] = `
     name="cancel_return"
     type="hidden"
     value="about:blank"
-  />
-  <div>
-    <input
-      name="item_name_1"
-      type="hidden"
-      value="Name"
-    />
-    <input
-      name="item_number_1"
-      type="hidden"
-      value="Description"
-    />
-    <input
-      name="quantity_1"
-      type="hidden"
-      value="1"
-    />
-    <input
-      name="amount_1"
-      type="hidden"
-      value="40"
-    />
-  </div>
-  <input
-    name="discount_amount_cart"
-    type="hidden"
-    value="0"
   />
   <input
     name="image_url"
@@ -261,5 +234,32 @@ exports[`renders subscription payment form 1`] = `
     type="submit"
     value="Pay Now with Paypal"
   />
+  <div>
+    <input
+      name="item_name"
+      type="hidden"
+      value="Name"
+    />
+    <input
+      name="a3"
+      type="hidden"
+      value="40"
+    />
+    <input
+      name="p3"
+      type="hidden"
+      value="1"
+    />
+    <input
+      name="t3"
+      type="hidden"
+      value="M"
+    />
+    <input
+      name="no_note"
+      type="hidden"
+      value="1"
+    />
+  </div>
 </form>
 `;

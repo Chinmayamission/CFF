@@ -211,5 +211,10 @@ interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "custom": string,
     "discount_amount_cart": number,
     "payButtonText": string,
-    "recurring_payments": boolean
+    "recurrence"?: {
+        a3: string,
+        p3: string,
+        t3: string,
+        item_name: string
+    }
 }

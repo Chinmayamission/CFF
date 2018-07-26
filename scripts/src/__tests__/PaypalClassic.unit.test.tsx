@@ -9,13 +9,7 @@ it('renders default payment form', () => {
     "onPaymentStarted": e => e,
     "paymentStarted": false,
     "paymentInfo_owed": {
-      "currency": "USD",
-      "items": [{
-        "name": "Name",
-        "description": "Description",
-        "amount": 40,
-        "quantity": 1
-      }]
+      "currency": "USD"
     },
     "paymentInfo_received": {
       "currency": "USD",
@@ -55,14 +49,7 @@ it('renders subscription payment form', () => {
     "onPaymentStarted": e => e,
     "paymentStarted": false,
     "paymentInfo_owed": {
-      "currency": "USD",
-      "items": [{
-        "name": "Name",
-        "description": "Description",
-        "amount": 40,
-        "quantity": 1,
-        "recurrence": "5Y"
-      }]
+      "currency": "USD"
     },
     "paymentInfo_received": {
       "currency": "USD",
@@ -74,13 +61,13 @@ it('renders subscription payment form', () => {
         "name": "Name",
         "description": "Description",
         "amount": 40,
-        "quantity": 1
+        "quantity": 1,
+        "recurrenceDuration": "1M"
       }]
     },
     "paymentMethodInfo": {
 
     },
-    "key": "k",    // must be unique.
     "onPaymentComplete": e => e,
     "onPaymentError": e => e,
     "responseId": "r123456",
