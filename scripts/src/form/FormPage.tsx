@@ -227,7 +227,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
         {this.state.formOptions.loginRequired && <Login />}
         <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
-        <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED}
+        <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED || this.state.formOptions.paymentInfo.showPaymentTable === false}
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
           formData={this.state.data}
