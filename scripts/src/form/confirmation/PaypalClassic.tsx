@@ -35,7 +35,7 @@ declare var ENDPOINT_URL: string;
 class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicState> {
     constructor(props:IPaypalClassicProps) {
         super(props);
-        let items = props.paymentInfo.items.filter(e => e.amount > 0);
+        let items = props.paymentInfo.items.filter(e => e.amount * e.quantity > 0);
         let state = {
             "form_url": (MODE != 'prod') ? "https://www.sandbox.paypal.com/cgi-bin/webscr" : "https://www.paypal.com/cgi-bin/webscr",
             "custom": this.props.responseId,
