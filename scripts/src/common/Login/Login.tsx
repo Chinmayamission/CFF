@@ -110,7 +110,7 @@ class Login extends React.Component<ILoginProps, {}> {
     }
     else {
       return (<div className="text-left">
-        <Link to="/"><img src={require("src/img/logo.png")} style={{ "width": 40, "marginRight": 40 }} /></Link>
+        <img src={require("src/img/logo.png")} style={{ "width": 40, "marginRight": 40 }} />
         <div style={{ "display": "inline-block", "verticalAlign": "middle" }}>
           {/* <strong>Chinmaya Forms Framework</strong><br /> */}
           Welcome, {this.props.user.email}
