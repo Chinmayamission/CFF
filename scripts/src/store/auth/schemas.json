@@ -9,7 +9,8 @@
         },
         "password": {
           "type": "string",
-          "title": "Password"
+          "title": "Password",
+          "description": "Password needs to have at least 8 characters, an uppercase and a lowercase character."
         }
       },
       "required": [
