@@ -10,7 +10,16 @@ def response_send_confirmation_email(responseId):
   # todo: permissions here?
   paymentMethod = (app.current_request.json_body or {}).get("paymentMethod", "")
 
-  confirmationEmailInfo = get(form.formOptions.paymentMethods, f"{paymentMethod}.confirmationEmailInfo", form.formOptions.confirmationEmailInfo)
-  email = send_confirmation_email(response, confirmationEmailInfo)
+  if response.pending_update:
+    old_value = response.value
+    old_paymentInfo = response.paymentInfo
+    response.value = response.pending_update["value"]
+    response.paymentInfo = response.pending_update["paymentInfo"]
+    confirmationEmailInfo = get(form.formOptions.paymentMethods, f"{paymentMethod}.confirmationEmailInfo", form.formOptions.confirmationEmailInfo)
+    email = send_confirmation_email(response, confirmationEmailInfo)
+    response.value = old_value
+    response.paymentInfo = old_paymentInfo
+
+  response.save()
 
   return {"success": True, "email_sent": True, "email": email}
