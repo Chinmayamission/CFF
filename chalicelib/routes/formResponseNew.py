@@ -107,7 +107,7 @@ def form_response_new(formId):
             response.user = userId
             # Only one response per user.
             try:
-                Response.objects.get({"user": userId})
+                Response.objects.get({"form": ObjectId(formId), "user": userId})
                 raise Exception(f"Response with userId {userId} already exists!")
             except DoesNotExist:
                 pass
