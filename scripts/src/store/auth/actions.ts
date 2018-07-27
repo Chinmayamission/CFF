@@ -81,6 +81,7 @@ export function signIn(data) {
     Auth.signIn(data.email, data.password)
     .then(() => dispatch(checkLoginStatus()))
     .catch(e => dispatch(onAuthError(e.message)))
+    .then(() => dispatch(loadingEnd()))
   }
 }
 
