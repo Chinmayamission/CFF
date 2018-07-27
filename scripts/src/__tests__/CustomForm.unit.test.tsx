@@ -62,7 +62,7 @@ it('submits form fail required validation', () => {
   )
   let form = wrapper.find('form');
   form.simulate('submit');
-  expect(form.text()).toContain("is a required property");
+  expect(form.text()).toContain("is a required field");
   expect(spy.calledOnce).toBe(false);
 }); 
 
@@ -86,6 +86,6 @@ it('submits form success', () => {
   );
   let form = wrapper.find('form');
   form.simulate('submit');
-  expect(form.text()).not.toContain("is a required property");
+  expect(form.text()).not.toContain("is a required field");
   expect(spy.calledOnce).toBe(true);
 });
