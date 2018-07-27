@@ -258,10 +258,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     if (this.state.status == STATUS_FORM_CONFIRMATION) {
       return (<div>
           {!this.state.paymentStarted && <div>
-            <h1>Confirmation Page</h1>
-            <button className="btn btn-default"
-              onClick={this.goBackToFormPage}
-            >Go back and edit form response</button>
+            <h1 className="text-center">Confirmation Page</h1>
+            <div className="my-4 text-center">
+              Please scroll down and review your registration details in order to continue.
+            </div>
             {formToReturn}
             <button className="btn btn-default"
               onClick={this.goBackToFormPage}
