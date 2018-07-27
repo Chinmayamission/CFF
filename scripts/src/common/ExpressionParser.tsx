@@ -70,7 +70,7 @@ export module ExpressionParser {
                 // throw "Key " + variable + " is not numeric";
             }
             else {
-                value = parseFloat(value);
+                value = parseFloat(value) || 0;
             }
             return Math.round(value * 100) / 100;
         }
