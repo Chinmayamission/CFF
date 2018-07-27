@@ -42,7 +42,6 @@ class Payment extends React.Component<IPaymentProps, any> {
                 "paymentInfo_received": this.props.paymentInfo_received,
                 "paymentInfo": this.props.paymentInfo,
                 "paymentMethodInfo": this.props.paymentMethods[paymentMethod],
-                "key": paymentMethod,    // must be unique.
                 "onPaymentComplete": this.props.onPaymentComplete,
                 "onPaymentError": this.props.onPaymentError,
                 "responseId": this.props.responseId,
