@@ -66,14 +66,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props.loading);
-    if (!prevProps.loading && this.props.loading) {
-      // this.props.setFormLoading(false);
-      // this.setState({status: STATUS_FORM_LOADING}, () => this.loadForm() );
-    }
-    if (this.props.auth.loggedIn && this.state.responseId === undefined) {
-      this.setState({status: STATUS_FORM_LOADING});
-      window.location.reload();
+    if (this.props.auth.loggedIn && this.state.responseId === undefined && this.state.status != STATUS_FORM_LOADING) {
+      this.loadResponse();
     }
   }
   componentDidCatch(error, info) {
@@ -113,19 +107,29 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         return;
       }
       FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions, responseId, responseData }) => {
+      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions }) => {
         this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
-          data: responseData || defaultFormData,
+          data: defaultFormData,
           paymentCalcInfo,
-          formOptions,
-          responseId,
-          responseData
+          formOptions
         });
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
       });
     // }
 
+  }
+  loadResponse() {
+    this.setState({status: STATUS_FORM_LOADING});
+    API.get("CFF", `forms/${this.props.formId}/response`, {}).then(e => {
+      let res = e.res;
+      this.setState({
+        status: STATUS_FORM_RENDERED,
+        responseId: res ? res._id.$oid : null,
+        responseData: res ? res.value: null,
+        data: res ? res.value: this.state.data
+      })
+    });
   }
   goBackToFormPage() {
     This.setState({ status: STATUS_FORM_RENDERED });
@@ -180,7 +184,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       let paymentInfo_received = null;
       if (!newResponse) {
         // Todo: get paymentInfo_received from server, too, even if it's a new response.
-        // todo: don't hardcode currency.
         paymentInfo_received = {"currency": res.amt_received.currency, "total": res.amt_received.total };
       }
       if (res.paid) {
