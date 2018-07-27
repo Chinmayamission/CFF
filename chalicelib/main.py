@@ -277,6 +277,7 @@ app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=
 app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
 
 app.route('/forms/{formId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_render)
+app.route('/forms/{formId}/response', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_render_response)
 app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_response_new)
 app.route('/responses/{responseId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit)
 app.route('/responses/{responseId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.response_view)
