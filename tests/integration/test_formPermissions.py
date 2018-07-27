@@ -29,9 +29,9 @@ class FormPermissions(BaseTestCase):
         # Do permissions have at least an id and name and email?
         for userId, user in body['res']['userLookup'].items():
           self.assertEqual(user["id"], "cm:cognitoUserPool:ownerowner-681c-4d3e-9749-d7c074ffd7f6")
-          self.assertEqual(user["name"], "Ashwin Ramaswami")
-          self.assertIn(user["email"], "aramaswamis@gmail.com")
-          self.assertIn(user["center"], "CCMT")
+          self.assertEqual(user["name"], "unknown")
+          self.assertEqual(user["email"], "aramaswamis@gmail.com")
+          self.assertEqual(user["center"], "CCMT")
           self.assertEqual(userId, user["id"])
         for perm in body['res']['permissions'].values():
           self.assertTrue(type(perm) is dict)

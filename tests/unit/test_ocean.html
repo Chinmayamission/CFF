@@ -1,0 +1,31 @@
+<div style='width: 100%;background-color: #eee; margin: 10px 0px;'>
+  <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'>
+    <img src='https://www.chinmayamissionalpharetta.org/wp-content/themes/cma/img/headerImg.png' width='100%'>
+    <h1>Confirmation</h1>
+    <h2>2018-19 Marietta Balavihar Registration</h2>Thank you for submitting the form. This is a confirmation that we
+    have received your response. Please bring your check to the first day on August 12.
+    <br>
+    <br>
+    <table>
+      {% for key, val in response.items() %}
+      <tr>
+        <th>{{key}}</th>
+        <td>{{val}}</td>
+      </tr>
+      {% endfor %} </table>
+    <h2>Payment Info</h2>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Amount</th>
+        <th>Quantity</th>
+      </tr>{%for item in paymentInfo['items'] %}
+      <tr>
+        <td>{{item.name}}</td>
+        <td>{{item.amount | format_payment(paymentInfo.currency)}}</td>
+        <td>{{item.quantity}}</td>
+      </tr>{% endfor %}</table>
+    <br>
+    <strong>Total Amount: {{paymentInfo.total | format_payment(paymentInfo.currency)}}</strong>
+    <br>
+</div>
