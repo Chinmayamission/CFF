@@ -1,4 +1,4 @@
-from Crypto.Cipher import AES
+from Cryptodome.Cipher import AES
 import hashlib
 from urllib.parse import urlencode, parse_qsl
 import binascii
