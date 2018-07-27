@@ -5,13 +5,14 @@ From https://github.com/awslabs/aws-support-tools/blob/master/Cognito/decode-ver
 import requests
 import json
 import time
+import os
 from jose import jwk, jwt
 from jose.exceptions import JWTError
 from jose.utils import base64url_decode
 
 region = 'us-east-1'
-userpool_id = 'us-east-1_kcpcLxLzn'
-app_client_id = '77mcm1k9ll2ge68806h5kncfus'
+userpool_id = os.environ["USER_POOL_ID"]
+app_client_id = os.environ["COGNITO_CLIENT_ID"]
 keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
 # instead of re-downloading the public keys every time
 # we download them only on cold start

@@ -7,7 +7,9 @@
       "api_gateway_stage": "v2",
       "environment_variables": {
         "DB_NAME": "cff_dev",
-        "MODE": "DEV"
+        "MODE": "DEV",
+        "USER_POOL_ID": "us-east-1_U9ls8R6E3",
+        "COGNITO_CLIENT_ID": "2511g7rmn8p70losdlh9gi9j0"
       }
     },
     "beta": {
@@ -15,7 +17,9 @@
       "api_gateway_stage": "v2",
       "environment_variables": {
         "DB_NAME": "cff_beta",
-        "MODE": "BETA"
+        "MODE": "BETA",
+        "USER_POOL_ID": "us-east-1_U9ls8R6E3",
+        "COGNITO_CLIENT_ID": "2511g7rmn8p70losdlh9gi9j0"
       }
     },
     "prod": {
@@ -23,7 +27,9 @@
       "api_gateway_stage": "v2",
       "environment_variables": {
         "DB_NAME": "cff_prod",
-        "MODE": "PROD"
+        "MODE": "PROD",
+        "USER_POOL_ID": "us-east-1_kcpcLxLzn",
+        "COGNITO_CLIENT_ID": "77mcm1k9ll2ge68806h5kncfus"
       }
     }
   }

@@ -223,8 +223,8 @@ if test_user_id:
 # iamAuthorizer = IAMAuthorizer()
 # iamAuthorizer = CognitoUserPoolAuthorizer(
 #     'CCMT', provider_arns=['arn:aws:cognito-idp:us-east-1:131049698002:userpool/us-east-1_kcpcLxLzn'])
-USER_POOL_ID = "us-east-1_kcpcLxLzn"
-COGNITO_CLIENT_ID = "77mcm1k9ll2ge68806h5kncfus"
+USER_POOL_ID = os.environ["USER_POOL_ID"]
+COGNITO_CLIENT_ID = os.environ["COGNITO_CLIENT_ID"]
 
 @app.authorizer()
 def iamAuthorizer(auth_request):
