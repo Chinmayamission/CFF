@@ -1,6 +1,7 @@
 /// <reference path="./types.d.ts" />
 import { Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
+import {setFormLoading} from "src/store/form/actions";
 import { loadingStart, loadingEnd } from "src/store/base/actions";
 
 export const loggedIn = (userId, attributes) => ({

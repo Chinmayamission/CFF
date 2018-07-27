@@ -80,7 +80,7 @@ interface IFormPageState {
     paymentStarted: boolean
 }
 
-interface IFormPageProps {
+interface IFormPageProps { // extends FormState
     formId?: any,
     initialFormData?: any,
     readonly?: boolean,
@@ -88,7 +88,9 @@ interface IFormPageProps {
     onFormLoad?: (Schema, UiSchema) => void,
     form_preloaded?: IFormDBEntry,
     logout: () => void,
-    auth: IAuthState
+    auth: IAuthState,
+    loading: boolean,
+    setFormLoading: (boolean) => void
 }
 
 interface IFormConfirmationPageProps {

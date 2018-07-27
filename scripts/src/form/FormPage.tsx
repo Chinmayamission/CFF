@@ -13,6 +13,7 @@ import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import {connect} from "react-redux";
 import {logout} from "src/store/auth/actions";
+import {setFormLoading} from "src/store/form/actions";
 import {Helmet} from "react-helmet";
 import htmlToText from "html-to-text";
 import Login from "src/common/Login/Login";
@@ -29,7 +30,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  setFormLoading: (e) => dispatch(setFormLoading(e))
 });
 
 
@@ -56,13 +58,24 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentCalcInfo: null,
       paymentStarted: false,
       data: null,
-      responseId: null,
+      responseId: undefined,
       ajaxLoading: false,
-      responseData: null
+      responseData: undefined
     };
     
   }
 
+  componentDidUpdate(prevProps) {
+    console.log(this.props.loading);
+    if (!prevProps.loading && this.props.loading) {
+      // this.props.setFormLoading(false);
+      // this.setState({status: STATUS_FORM_LOADING}, () => this.loadForm() );
+    }
+    if (this.props.auth.loggedIn && this.state.responseId === undefined) {
+      this.setState({status: STATUS_FORM_LOADING});
+      window.location.reload();
+    }
+  }
   componentDidCatch(error, info) {
     // Display fallback UI
     error = error.toString();
@@ -78,15 +91,16 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     console.log("caught");
     console.error(error, info);
   }
-
-  componentDidUpdate(prevProps, prevState) {
-  }
   handleError(e) {
     console.error("ERROR", e);
     this.props.logout();
     this.setState({"hasError": true});
   }
   componentDidMount() {
+    this.loadForm();
+  }
+  loadForm() {
+      this.setState({status: STATUS_FORM_LOADING});
       if (this.props.form_preloaded) {
         let cs = createSchemas(this.props.form_preloaded);
         let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo } = cs;
@@ -215,7 +229,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.state.schemaMetadata.successMessage || "Thank you for your form submission!") }} />
       </div>);
     }
-    if (this.state.status == STATUS_FORM_LOADING) {
+    if (this.state.status == STATUS_FORM_LOADING || this.props.loading) {
       return (
         <Loading hasError={this.state.hasError} />
       );

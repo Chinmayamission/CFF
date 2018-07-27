@@ -7,8 +7,8 @@ import { I18n } from 'aws-amplify';
 import store from "./store";
 import {Provider} from "react-redux";
 
-declare var MODE: any;
-declare var ENDPOINT_URL: any;
+declare var MODE: string;
+declare var ENDPOINT_URL: string;
 
 Amplify.configure({
   Auth: {
@@ -33,6 +33,7 @@ Amplify.configure({
                     return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
                 }
                 catch (e) {
+                    console.error(e);
                     return { Authorization: "anonymous" }
                 }
             }
