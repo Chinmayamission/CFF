@@ -99,7 +99,8 @@ export function signUp(data) {
       password: data.password,
       attributes: {
         email: data.email,
-        name: "User"
+        name: "User",
+        website: (window.location != window.parent.location) ? document.referrer : window.location.href // Link for confirmation email
       }
     })
     .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below.")))
