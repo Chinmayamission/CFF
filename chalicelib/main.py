@@ -224,6 +224,7 @@ if test_user_id:
 # iamAuthorizer = CognitoUserPoolAuthorizer(
 #     'CCMT', provider_arns=['arn:aws:cognito-idp:us-east-1:131049698002:userpool/us-east-1_kcpcLxLzn'])
 USER_POOL_ID = "us-east-1_kcpcLxLzn"
+COGNITO_CLIENT_ID = "77mcm1k9ll2ge68806h5kncfus"
 
 @app.authorizer()
 def iamAuthorizer(auth_request):
@@ -282,6 +283,8 @@ app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthoriz
 app.route('/responses/{responseId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit)
 app.route('/responses/{responseId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.response_view)
 
+# Unauthorized:
 app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ipn_listener)
 app.route('/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
 app.route('/responses/{responseId}/sendConfirmationEmail', methods=['POST'], cors=True)(routes.response_send_confirmation_email)
+app.route('/confirmSignUp', methods=['GET'], cors=True)(routes.confirm_sign_up)
