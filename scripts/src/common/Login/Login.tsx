@@ -1,4 +1,3 @@
-
 import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
@@ -6,7 +5,6 @@ import CustomForm from "src/form/CustomForm";
 import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword, forgotPasswordSubmit } from "src/store/auth/actions";
 import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
-import {Link} from "react-router-dom";
 
 const mapStateToProps = state => ({
   ...state.auth

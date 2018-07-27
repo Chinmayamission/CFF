@@ -28,7 +28,9 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
     case "SET_AUTH_PAGE":
       return {
         ...state,
-        authPage: action.authPage
+        authPage: action.authPage,
+        message: action.message,
+        error: action.error
       }
     case "SET_MESSAGE":
       return {

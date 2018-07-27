@@ -14,7 +14,7 @@ interface IAuthPageNavButtonProps {
   currentPage: string,
   label: string,
   page: string,
-  setAuthPage: (e) => void
+  setAuthPage: (a, b?, c?) => void
 }
 
 function AuthPageNavButton(props: IAuthPageNavButtonProps) {

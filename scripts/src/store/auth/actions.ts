@@ -60,9 +60,11 @@ export function handleAuthStateChange(state, data) {
   }
 }
 
-export const setAuthPage = (authPage) => ({
+export const setAuthPage = (authPage, message="", error="") => ({
   type: 'SET_AUTH_PAGE',
-  authPage: authPage
+  authPage: authPage,
+  message: message,
+  error: error
 })
 
 export const setMessage = (message) => ({
