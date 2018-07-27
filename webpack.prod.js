@@ -24,7 +24,9 @@ module.exports = merge(common, {
     new CleanWebpackPlugin([DEST_URL]),
     new webpack.DefinePlugin({
         MODE: `"${MODE}"`,
-        ENDPOINT_URL: `"https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com/v2/"`
+        ENDPOINT_URL: `"https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com/v2/"`,
+        USER_POOL_ID: `"us-east-1_kcpcLxLzn"`,
+        COGNITO_CLIENT_ID: `"77mcm1k9ll2ge68806h5kncfus"`
     })
   ]
 });

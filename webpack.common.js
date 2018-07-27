@@ -35,7 +35,9 @@ module.exports = {
     //   filename: "[name].[contenthash].css"
     // }),
     new webpack.DefinePlugin({
-      VERSION: `"${pjson.version}"`
+      VERSION: `"${pjson.version}"`,
+      USER_POOL_ID: `"us-east-1_U9ls8R6E3"`,
+      COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`
     }),
     new HtmlWebpackPlugin({
       title: 'Chinmaya Forms Framework',

@@ -9,6 +9,8 @@ import {Provider} from "react-redux";
 
 declare var MODE: string;
 declare var ENDPOINT_URL: string;
+declare var USER_POOL_ID: string;
+declare var COGNITO_CLIENT_ID: string;
 
 Amplify.configure({
   Auth: {
@@ -17,9 +19,9 @@ Amplify.configure({
   // REQUIRED - Amazon Cognito Region
       region: 'us-east-1',
   // OPTIONAL - Amazon Cognito User Pool ID
-      userPoolId: 'us-east-1_kcpcLxLzn',
+      userPoolId: USER_POOL_ID,
   // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-      userPoolWebClientId: '77mcm1k9ll2ge68806h5kncfus',
+      userPoolWebClientId: COGNITO_CLIENT_ID,
   // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
       mandatorySignIn: false
   },
