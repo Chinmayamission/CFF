@@ -102,7 +102,7 @@ export function signUp(data) {
         name: "User"
       }
     })
-    .then(() => dispatch(setMessage("Account creation complete. Please check your email for a confirmation link to confirm your email address, then refresh this page to sign in.")))
+    .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below.")))
     .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
@@ -112,7 +112,7 @@ export function forgotPassword(data) {
   return dispatch => {
     dispatch(loadingStart());
     Auth.forgotPassword(data.email)
-    .then(() => dispatch(setAuthPage("forgotPasswordSubmit")))
+    .then(() => dispatch(setAuthPage("forgotPasswordSubmit", "Verification email sent. Please check your email for a code and enter the code below to change your password.")))
     .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
@@ -126,7 +126,7 @@ export function forgotPasswordSubmit(data) {
     }
     dispatch(loadingStart());
     Auth.forgotPasswordSubmit(data.email, data.code, data.password)
-    .then(() => dispatch(setMessage("Password changed successfully! Please refresh the page to log in again.")))
+    .then(() => dispatch(setAuthPage("signIn", "Password changed successfully! Please log in with your new password:")))
     .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }

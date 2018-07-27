@@ -68,12 +68,13 @@ class Login extends React.Component<ILoginProps, {}> {
 
   render() {
     if (!this.props.loggedIn) {
-      if (this.props.message) {
-        return <div>{this.props.message}</div>;
-      }
       return (<div className="cff-login">
+        {this.props.message && <div className="alert alert-info" role="alert">
+          {this.props.message}
+          </div>
+        }
         {this.props.error && <div className="alert alert-danger" role="alert">
-          Error: {this.props.error}
+          {this.props.error}
         </div>}
         {this.props.authPage == "signIn" &&
           <CustomForm

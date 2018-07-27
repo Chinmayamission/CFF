@@ -77,7 +77,6 @@
   "forgotPasswordSubmit": {
     "schema": {
       "type": "object",
-      "description": "Please check your email for a code and enter the code here to change your password:",
       "properties": {
         "email": {
           "type": "string",

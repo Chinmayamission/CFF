@@ -28,5 +28,5 @@ interface IAuthState {
   },
   error: string,
   message: string,
-  authPage: string
+  authPage: "forgotPassword" | "forgotPasswordSubmit" | "signIn" | "signUp"
 }
