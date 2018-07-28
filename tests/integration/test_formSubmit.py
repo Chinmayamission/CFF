@@ -32,7 +32,30 @@ class FormSubmit(BaseTestCase):
         response = self.view_response(responseId)
         self.assertEqual(response['value'], ONE_FORMDATA)
 
+    def test_submit_form_with_update_no_login_required(self):
+        """Submit form."""
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
+        self.assertIn("paymentMethods", submit_res)
+
+        """View response."""
+        response = self.view_response(responseId)
+        self.assertEqual(response['value'], ONE_FORMDATA)
+        self.assertTrue(response.get("user", None) == None)
+
+
+        response = self.lg.handle_request(method='POST',
+                                    path=f'/forms/{self.formId}',
+                                    headers={"authorization": "auth","Content-Type": "application/json"},
+                                    body=json.dumps({"data": ONE_FORMDATA, "responseId": responseId}))
+        self.assertEqual(response['statusCode'], 401, response)
+
+
     def test_submit_form_with_update(self):
+        """Create form."""
+        self.formId = self.create_form()
+        self.edit_form(self.formId, {"schema": ONE_SCHEMA, "uiSchema": ONE_UISCHEMA, "formOptions": dict(ONE_FORMOPTIONS, loginRequired=True)})
+
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)

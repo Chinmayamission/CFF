@@ -1,4 +1,5 @@
 import uuid
+from chalice import UnauthorizedError
 import datetime
 from pydash.objects import pick, get, unset
 from ..util.formSubmit.util import calculate_price
@@ -122,9 +123,11 @@ def form_response_new(formId):
         if (response.paid == True and paymentInfo["total"] <= response.paymentInfo["total"]):
             paid = True
         if form.id != response.form.id:
-            raise Exception(f"Response {response.id} does not belong to form {form.id}; it belongs to form {response.form.id}.")
+            raise UnauthorizedError(f"Response {response.id} does not belong to form {form.id}; it belongs to form {response.form.id}.")
+        if not response.user:
+            raise UnauthorizedError(f"User {userId} does not own response {response.id} (no owner)")
         if response.user.id != userId:
-            raise Exception(f"User {userId} does not own response {response.id} (owner is {response.user.id})")
+            raise UnauthorizedError(f"User {userId} does not own response {response.id} (owner is {response.user.id})")
     if newResponse or (not newResponse and paid):
         response.value = response_data
         response.date_modified = datetime.datetime.now()
