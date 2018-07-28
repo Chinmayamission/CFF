@@ -42,6 +42,14 @@ todo:
 - 
 - user login/signup
 
+## 2.1.0 (7/28/18)
+Major changes: (CMA Marietta and Chinmaya Ramdoot registrations)
+- Log in and edit response functionality for forms, with loginRequired 
+- Add subscription feature for paypal
+- Use dev and prod user pools, JWT authentication
+- Confirmation email for user pools has link that redirects back to the form
+- Add logic for update (different than old CFF, no pending_update here.)
+
 ## 2.0.18 (7/21/18)
 Frontend only
 - Add fetch polyfill again to fix admin page on IE
