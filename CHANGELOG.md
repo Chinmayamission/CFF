@@ -42,6 +42,10 @@ todo:
 - 
 - user login/signup
 
+## 2.1.1 (7/29/18)
+Front end only
+- Use correct, production user pool on the production website.
+
 ## 2.1.0 (7/28/18)
 Major changes: (CMA Marietta and Chinmaya Ramdoot registrations)
 - Log in and edit response functionality for forms, with loginRequired 

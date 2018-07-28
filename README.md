@@ -1,31 +1,22 @@
-# Usage
-[ccmt-cff-render-form id="59dbf12b734d1d18c05ebd21"]
-
-
-# Run
+# Run locally
 ```npm install
-npm install -g webpack webpack-cli gulp
 gulp serve
+
 ```
 # Deploy to production
 ```
-gulp build
+npx webpack --config webpack.prod.js
+gulp webserver-prod
+```
+Make sure it works, then
+```
+npm run deploy-prod
 ```
 
 # Notes
 ## Compatibility
 IE 10+, Chrome ??, Firefox ?? (export data doesn't work here).
 
-# quick form test code
-```
-function setVal(input, theValue, elemType=window.HTMLInputElement) { var nativeInputValueSetter = Object.getOwnPropertyDescriptor(elemType.prototype, "value").set;
-nativeInputValueSetter.call(input, theValue);
-var ev2 = new Event('input', { bubbles: true});
-input.dispatchEvent(ev2);
-}
-for (let i of document.getElementsByTagName("input")) { if (i.type == "email") setVal(i, "aramaswamis+12@gmail.com"); else if (i.type=="tel") setVal(i, "2"); else if (i.type == "checkbox") setVal(i, true); else if (i.label=="age") setVal(i, 15); else setVal(i, "test"); }
-for (let i of document.getElementsByTagName("select")) {setVal(i, i.children[1].value, window.HTMLSelectElement);}
-```
 
 Todo for Training:
 - allow admins to view unsuccessful/incomplete IPN responses.
