@@ -8,11 +8,12 @@ import os
 
 def lambda_handler(event, context):
   if event["userPoolId"] != os.environ["USER_POOL_ID"] or event["triggerSource"] != "CustomMessage_SignUp":
-    return
+    return event
   
   code = event["request"]["codeParameter"]
   username = event["request"]["userAttributes"]["sub"]
   url = os.environ["API_ENDPOINT"]
+  link = f"{url}confirmSignUp?code={code}&username={username}"
   
   event["response"]["emailSubject"] = "Chinmaya Mission Account - Please verify your account";
   event["response"]["smsMessage"] = f"Welcome to the service. Your confirmation code is {code}";
@@ -20,9 +21,12 @@ def lambda_handler(event, context):
   Hari OM,<br>
   Please click on the link below to verify your email address.<br><br>
 
-  <a href='{url}confirmSignUp?code={code}&username={username}'>Verify your email address</a><br><br>
+  <a href='{link}'>Verify your email address</a><br><br>
+  
+  If the link above does not work, please go to {link} in your browser.<br><br>
 
   Thanks,<br>
   Chinmaya Mission IT Team
+  
   """
   return event
