@@ -58,6 +58,11 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             </td>
                             <td>
                                 <ActionButton form={form}
+                                    url={`/v2/forms/${form["_id"]["$oid"]}`}
+                                    icon="oi-document"
+                                    text="View"
+                                    />
+                                <ActionButton form={form}
                                     permissionName="Forms_Embed"
                                     url={`./${form["_id"]["$oid"]}/embed`}
                                     icon="oi-document"
@@ -120,6 +125,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 }
 function ActionButton(props) {
     let disabled = props.disabled || !hasPermission(props.form.cff_permissions, props.permissionName, props.userId);
+    if (!props.permissionName) {
+        disabled = false;
+    }
+
     if (disabled) {
         return (<a href="">
             <button className="ccmt-cff-btn-action" disabled={true}>
