@@ -100,6 +100,7 @@ function CustomForm(props: ICustomFormProps) {
         formData={props.formData}
         widgets={widgets}
         fields={fields}
+        autocomplete={props.uiSchema["ui:cff:autocomplete"] ? true: false}
         noHtml5Validate={false}
         // FieldTemplate={CustomFieldTemplate}
         ArrayFieldTemplate={ArrayFieldTemplate}
