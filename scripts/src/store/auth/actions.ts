@@ -103,7 +103,7 @@ export function signUp(data) {
         website: (window.location != window.parent.location) ? document.referrer : window.location.href // Link for confirmation email
       }
     })
-    .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below.")))
+    .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below. If you don't see the email, please check your spam folder.")))
     .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
@@ -113,7 +113,7 @@ export function forgotPassword(data) {
   return dispatch => {
     dispatch(loadingStart());
     Auth.forgotPassword(data.email)
-    .then(() => dispatch(setAuthPage("forgotPasswordSubmit", "Verification email sent. Please check your email for a code and enter the code below to change your password.")))
+    .then(() => dispatch(setAuthPage("forgotPasswordSubmit", "Verification email sent. Please check your email for a code and enter the code below to change your password. If you don't see the email, please check your spam folder.")))
     .catch(e => dispatch(onAuthError(e.message)))
     .then(() => dispatch(loadingEnd()))
   }
