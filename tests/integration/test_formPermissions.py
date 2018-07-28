@@ -30,8 +30,8 @@ class FormPermissions(BaseTestCase):
         for userId, user in body['res']['userLookup'].items():
           self.assertEqual(user["id"], "cm:cognitoUserPool:ownerowner-681c-4d3e-9749-d7c074ffd7f6")
           self.assertEqual(user["name"], "unknown")
-          self.assertEqual(user["email"], "aramaswamis@gmail.com")
-          self.assertEqual(user["center"], "CCMT")
+          self.assertEqual(user["email"], "unknown")
+          # self.assertEqual(user["center"], "CCMT")
           self.assertEqual(userId, user["id"])
         for perm in body['res']['permissions'].values():
           self.assertTrue(type(perm) is dict)
