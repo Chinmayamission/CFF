@@ -102,7 +102,7 @@ def form_response_new(formId):
             id=responseId,
             date_created=datetime.datetime.now()
         )
-        if userId is not "cm:cognitoUserPool:anonymousUser":
+        if get(form, "formOptions.loginRequired", False) is True and userId is not "cm:cognitoUserPool:anonymousUser":
             user = get_user_or_create_one(userId)
             response.user = userId
             # Only one response per user.
