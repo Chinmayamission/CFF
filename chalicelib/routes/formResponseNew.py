@@ -117,7 +117,7 @@ def form_response_new(formId):
             old=response.value,
             new=response_data,
             date=datetime.datetime.now(),
-            update_type="pending_update"
+            update_type="update"
         ))
         if (response.paid == True and paymentInfo["total"] <= response.paymentInfo["total"]):
             paid = True
@@ -135,8 +135,10 @@ def form_response_new(formId):
         if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
             send_confirmation_email(response, confirmationEmailInfo)
             email_sent = True
+        # todo: fix this, ccavenue currently does not work with the new cosmosdb form format.
         if "ccavenue" in paymentMethods: # todo: add this in update too.
             paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], response)
+        # todo: fix this, should auto_email come even if not paid?
         if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
             send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
             email_sent = True
@@ -145,52 +147,13 @@ def form_response_new(formId):
     elif not newResponse:
         # Update.
         response.date_modified = datetime.datetime.now()
-        response.pending_update = {
-            "value": response_data,
-            "paymentInfo": paymentInfo
-        }
+        # Not using pending_update for now.
+        # response.pending_update = {
+        #     "value": response_data,
+        #     "paymentInfo": paymentInfo,
+        # }
+        response.value = response_data
+        response.paymentInfo = paymentInfo
+        response.paid = paid
         response.save()
-        return {"res": {"paid": paid, "success": True, "action": "pending_update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }
-    """# Updating.
-    response_old = TABLES.responses.get_item(Key={ 'formId': formId, 'responseId': responseId })["Item"]
-    response_new = TABLES.responses.update_item(
-        Key={ 'formId': formId, 'responseId': responseId },
-        UpdateExpression=("SET"
-            " UPDATE_HISTORY = list_append(if_not_exists(UPDATE_HISTORY, :empty_list), :updateHistory),"
-            " PENDING_UPDATE = :pendingUpdate,"
-            " date_last_modified = :now"),
-        ExpressionAttributeValues={
-            ':updateHistory': [{
-                "date": datetime.datetime.now(),
-                "action": "pending_update"
-            }],
-            ":pendingUpdate": {
-                "value": response_data,
-                "modifyLink": modifyLink,
-                "paymentInfo": paymentInfo
-            },
-            ':empty_list': [],
-            ":now": datetime.datetime.now()
-        },
-        # todo: if not updated, do this ...
-        ReturnValues="ALL_NEW"
-    )["Attributes"]
-    paid = False
-    if paymentInfo["total"] == 0 or (response_old.get("paid", None) == True and paymentInfo["total"] <= response_old["paymentInfo"]["total"]):
-        # If 1) total amount is zero (user uses coupon code to get for free); or 2) user is updating a name or something -- so that they don't owe any more money -- update immediately.
-        response_verify_update(response_new, TABLES.responses, confirmationEmailInfo)
-        paid = True
-    return {
-        "res": {
-        "success": True,
-        "paid": paid,
-        "action": "update",
-        # "email_sent": email_sent,
-        "id": str(responseId),
-        "paymentInfo": paymentInfo,
-        "paymentMethods": paymentMethods,
-        "total_amt_received": response_old.get("IPN_TOTAL_AMOUNT", 0), # todo: encode currency into here as well.
-        "paymentInfo_old": response_old["paymentInfo"]
-        }
-    }
-    """
+        return {"res": {"paid": paid, "success": True, "action": "update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }
