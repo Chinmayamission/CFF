@@ -4,14 +4,26 @@ import * as React from 'react';
 import { API } from "aws-amplify";
 import ReactTable from "react-table";
 import dataLoadingView from "../util/DataLoadingView";
-import {get, set} from "lodash-es";
+import { get, set } from "lodash-es";
 
 class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDetailState> {
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
         this.state = {
             data: this.props.data.res
         };
+    }
+    sendConfirmationEmail() {
+        API.post("CFF", `responses/${this.props.responseId}/sendConfirmationEmail`, {
+            "body":
+            {
+                // "paymentMethod": "manualApproval"
+            }
+        }).then(e => {
+            alert("Confirmation email sent!");
+        }).catch(e => {
+            alert(`Response update failed: ${e}`);
+        });
     }
     changeCheckIn(row, checked) {
         console.log(checked);
@@ -23,7 +35,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
             }
         }).then(e => {
             console.log("Response update succeeded", e);
-            this.setState({"data": e.res});
+            this.setState({ "data": e.res });
         }).catch(e => {
             alert(`Response update failed: ${e}`);
         })
@@ -67,46 +79,52 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
         {
             Header: "Check in",
             accessor: "check_in",
-            Cell: ({original}) => <input type="checkbox" checked={original.check_in} onChange={e => this.changeCheckIn(original, e.target.checked)} value="" id={`defaultCheck_${this.props.responseId}`} />
+            Cell: ({ original }) => <input type="checkbox" checked={original.check_in} onChange={e => this.changeCheckIn(original, e.target.checked)} value="" id={`defaultCheck_${this.props.responseId}`} />
         }
-    ];
-    let i = 0;
-    let showOmrunTable = get(this.props.dataOptions, "checkinTable.omrunCheckin") == true;
+        ];
+        let i = 0;
+        let showOmrunTable = get(this.props.dataOptions, "checkinTable.omrunCheckin") == true;
         return (
             <div className="container-fluid" key={this.props.responseId}>
                 <div className="row">
-                {this.props.checkInMode && showOmrunTable && this.state.data.value.participants && <div className="card col-12">
-                    <div className="card-body">
-                        <h5 className="card-title">Details</h5>
+                    {this.props.checkInMode && showOmrunTable && this.state.data.value.participants && <div className="card col-12 col-sm-6">
+                        <div className="card-body">
+                            <h5 className="card-title">Details</h5>
                             <ReactTable
-                                data={this.state.data.value.participants.map(e => Object.assign({"cff_accessor": `participants.${i++}`}, e))}
+                                data={this.state.data.value.participants.map(e => Object.assign({ "cff_accessor": `participants.${i++}` }, e))}
                                 columns={columns}
                                 minRows={0}
                                 showPagination={true}
                                 getTrProps={(state, rowInfo, column) => {
                                     return {
-                                      style: {
-                                        backgroundColor: this.getColorFromRace(get(rowInfo.row, "race"))
-                                      }
+                                        style: {
+                                            backgroundColor: this.getColorFromRace(get(rowInfo.row, "race"))
+                                        }
                                     }
-                                  }}
+                                }}
                             />
+                        </div>
+                    </div>}
+                    {!this.props.checkInMode && <div className="card col-12 col-sm-6">
+                        <div className="card-body">
+                            <h5 className="card-title">Inspector</h5>
+                            <ReactJson src={this.state.data}
+                                displayObjectSize={false}
+                                displayDataTypes={false}
+                                onEdit={false}
+                                onAdd={false}
+                                onDelete={false}
+                                collapsed={0}
+                                style={{ "fontFamily": "Arial, sans-serif", "marginLeft": "30px" }}
+                            />
+                        </div>
+                    </div>}
+                    <div className="card col-12 col-sm-6">
+                        <div className="card-body">
+                            <h5 className="card-title">Actions</h5>
+                            <button className="btn btn-sm btn-primary" onClick={() => this.sendConfirmationEmail()}>Send confirmation email</button>
+                        </div>
                     </div>
-                </div>}
-                {!this.props.checkInMode && <div className="card col-12">
-                    <div className="card-body">
-                        <h5 className="card-title">Inspector</h5>
-                        <ReactJson src={this.state.data}
-                            displayObjectSize={false}
-                            displayDataTypes={false}
-                            onEdit={false}
-                            onAdd={false}
-                            onDelete={false}
-                            collapsed={0}
-                            style={{ "fontFamily": "Arial, sans-serif", "marginLeft": "30px" }}
-                        />
-                    </div>
-                </div>}
                 </div>
             </div>
         );
