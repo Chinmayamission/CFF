@@ -19,6 +19,9 @@ def response_send_confirmation_email(responseId):
     email = send_confirmation_email(response, confirmationEmailInfo)
     response.value = old_value
     response.paymentInfo = old_paymentInfo
+  else:
+    confirmationEmailInfo = get(form.formOptions.paymentMethods, f"{paymentMethod}.confirmationEmailInfo", form.formOptions.confirmationEmailInfo)
+    email = send_confirmation_email(response, confirmationEmailInfo)
 
   response.save()
 
