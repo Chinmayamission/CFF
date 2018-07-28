@@ -34,6 +34,7 @@ class FormRender(BaseTestCase):
     def test_render_form_with_response(self):
         formData = {"a":"b"}
         self.formId = self.create_form()
+        self.edit_form(self.formId, {"formOptions": dict(loginRequired=True) })
         response = self.lg.handle_request(method='POST',
                                         path=f'/forms/{self.formId}',
                                         headers={"authorization": "auth","Content-Type": "application/json"},

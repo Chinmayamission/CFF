@@ -43,7 +43,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['value'], ONE_FORMDATA)
         self.assertTrue(response.get("user", None) == None)
 
-
+        
         response = self.lg.handle_request(method='POST',
                                     path=f'/forms/{self.formId}',
                                     headers={"authorization": "auth","Content-Type": "application/json"},

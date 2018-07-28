@@ -184,7 +184,6 @@ class CustomChalice(Chalice):
     def get_current_user_id(self):
         """Get current user id."""
         id = None
-        print(self.current_request.context)
         try:
             id = self.current_request.context['authorizer']['id']
         except (KeyError, AttributeError):

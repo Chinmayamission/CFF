@@ -26,7 +26,7 @@ def get_claims(token):
     try:
       headers = jwt.get_unverified_headers(token)
     except JWTError:
-      print(f"JWT could not be decoded properly: {token}")
+    #   print(f"JWT could not be decoded properly: {token}")
       return False
     kid = headers['kid']
     # search for the kid in the downloaded public keys
@@ -62,5 +62,5 @@ def get_claims(token):
         print(f'Token was not issued for this audience: {claims["aud"]}')
         return False
     # now we can use the claims
-    print(claims)
+    # print(claims)
     return claims
