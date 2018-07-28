@@ -263,7 +263,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
               Please scroll down and review your registration details in order to continue.
             </div>
             {formToReturn}
-            <button className="btn btn-default"
+            <button className="btn btn-warning my-4"
               onClick={this.goBackToFormPage}
             >Go back and edit form response</button>
           </div>}
