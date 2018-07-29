@@ -80,6 +80,7 @@ class FormSubmit(BaseTestCase):
         # self.assertEqual(response['statusCode'], 200, response)
         # body = json.loads(response['body'])
         # self.assertEqual(body['res']['value'], expected_data)
+    
     def test_mark_successful_payment(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
         paid = mark_successful_payment(
