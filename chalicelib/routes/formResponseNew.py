@@ -124,9 +124,7 @@ def form_response_new(formId):
             paid = True
         if form.id != response.form.id:
             raise UnauthorizedError(f"Response {response.id} does not belong to form {form.id}; it belongs to form {response.form.id}.")
-        if not response.user:
-            raise UnauthorizedError(f"User {userId} does not own response {response.id} (no owner)")
-        if response.user.id != userId:
+        if response.user and response.user.id != userId:
             raise UnauthorizedError(f"User {userId} does not own response {response.id} (owner is {response.user.id})")
     if newResponse or (not newResponse and paid):
         response.value = response_data
