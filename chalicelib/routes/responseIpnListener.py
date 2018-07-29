@@ -11,7 +11,7 @@ from decimal import Decimal
 
 def mark_successful_payment(form, response, full_value, method_name, amount, currency, id):
     response.payment_trail.append(PaymentTrailItem(value=full_value, status="SUCCESS", date=datetime.datetime.now(), method=method_name, id=id))
-    response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=datetime.datetime.now().isoformat(), method=method_name))
+    response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=datetime.datetime.now().isoformat(), method=method_name, id=id))
     response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
     response.paid = float(response.amount_paid) >= float(response.paymentInfo.get("total", 0))
     if response.pending_update:
