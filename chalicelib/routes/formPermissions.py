@@ -18,7 +18,7 @@ def list_all_users(userIds):
           Username=userId
         )
         attributes = {attr["Name"]: attr["Value"] for attr in response["UserAttributes"]}
-        user_lookup[userIdFull] = {"name": attributes["name"], "email": attributes["email"], "center": attributes["custom:center"], "id": userIdFull}
+        user_lookup[userIdFull] = {"name": attributes["name"], "email": attributes["email"], "id": userIdFull}
       except client.exceptions.UserNotFoundException:
         user_lookup[userIdFull] = {"name": "unknown", "email": "unknown", "id": userIdFull}
     else:
