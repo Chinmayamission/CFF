@@ -37,6 +37,20 @@ class FormIpn(BaseTestCase):
         ).save()
         ipn_value = "mc_gross=0.50&protection_eligibility=Eligible&address_status=confirmed&item_number1=Base Registration&payer_id=VE2HLZ5ZKU7BE&address_street=10570 victory gate dr&payment_date=06:42:00 Jun 30, 2018 PDT&payment_status=Completed&charset=windows-1252&address_zip=30022&first_name=Ashwin&mc_fee=0.31&address_country_code=US&address_name=outplayed apps&notify_version=3.9&custom=5b378702df89af000136319d&payer_status=unverified&business=aramaswamis-facilitator@gmail.com&address_country=United States&num_cart_items=1&address_city=Johns creek&verify_sign=AWkT50gtrA0iXnh55b939tXXlAFYAfxG.wdPFrayvThp7Tw1hro.K3JV&payer_email=aramaswamis@gmail.com&txn_id=6TS1068787252245S&payment_type=instant&payer_business_name=outplayed apps&last_name=Ramaswami&address_state=GA&item_name1=Base Registration&receiver_email=aramaswamis-facilitator@gmail.com&payment_fee=0.31&quantity1=1&receiver_id=T4A6C58SP7PP2&txn_type=cart&mc_gross_1=0.50&mc_currency=USD&residence_country=US&test_ipn=1&transaction_subject=&payment_gross=0.50&ipn_track_id=d61ac3d69a842"
         self.send_ipn(responseId, ipn_value)
+
+        response = self.view_response(responseId)
+        detail_payment_one = response["payment_status_detail"][0]
+        detail_payment_one.pop("date")
+        self.assertEqual(detail_payment_one, {'currency': 'USD', 'amount': '0.50', 'method': 'paypal_ipn', 'id': '6TS1068787252245S', '_cls': 'chalicelib.models.PaymentStatusDetailItem'})
+        detail_history_one = response["payment_trail"][0]
+        detail_history_one.pop("date")
+        self.assertEqual(detail_history_one, {
+            "value": {'mc_gross': '0.50', 'protection_eligibility': 'Eligible', 'address_status': 'confirmed', 'item_number1': 'Base Registration', 'payer_id': 'VE2HLZ5ZKU7BE', 'address_street': '10570 victory gate dr', 'payment_date': '06:42:00 Jun 30, 2018 PDT', 'payment_status': 'Completed', 'charset': 'windows-1252', 'address_zip': '30022', 'first_name': 'Ashwin', 'mc_fee': '0.31', 'address_country_code': 'US', 'address_name': 'outplayed apps', 'notify_version': '3.9', 'custom': '5b378702df89af000136319d', 'payer_status': 'unverified', 'business': 'aramaswamis-facilitator@gmail.com', 'address_country': 'United States', 'num_cart_items': '1', 'address_city': 'Johns creek', 'verify_sign': 'AWkT50gtrA0iXnh55b939tXXlAFYAfxG.wdPFrayvThp7Tw1hro.K3JV', 'payer_email': 'aramaswamis@gmail.com', 'txn_id': '6TS1068787252245S', 'payment_type': 'instant', 'payer_business_name': 'outplayed apps', 'last_name': 'Ramaswami', 'address_state': 'GA', 'item_name1': 'Base Registration', 'receiver_email': 'aramaswamis-facilitator@gmail.com', 'payment_fee': '0.31', 'quantity1': '1', 'receiver_id': 'T4A6C58SP7PP2', 'txn_type': 'cart', 'mc_gross_1': '0.50', 'mc_currency': 'USD', 'residence_country': 'US', 'test_ipn': '1', 'payment_gross': '0.50', 'ipn_track_id': 'd61ac3d69a842'},
+             'method': 'paypal_ipn', 'status': 'SUCCESS', 'id': '6TS1068787252245S', '_cls': 'chalicelib.models.PaymentTrailItem'}
+        )
+        self.assertTrue(len(response["email_trail"]) > 0)
+        self.assertEqual(response["paid"], True)
+        self.assertEqual(response["amount_paid"], "0.5")
     def test_ipn_reject(self):
         pass
         # todo: should this be 4xx instead?
