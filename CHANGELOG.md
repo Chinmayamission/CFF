@@ -42,8 +42,13 @@ todo:
 - 
 - user login/signup
 
+## 2.1.3 (7/29/18)
+Back end only
+- Fix render response endpoint
+- Allow user to go back and edit form when loginRequired is false
+
 ## 2.1.2 (7/29/18)
-Back end
+Back end only
 - Fix form permissions endpoint by removing center.
 - Store txn id in payment_status_detail
 - loginRequired must be true to use the /forms/{formId}/response endpoint.
