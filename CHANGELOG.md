@@ -42,7 +42,13 @@ todo:
 - 
 - user login/signup
 
-## 2.1.1 (7/29/18)
+## 2.1.2 (7/29/18)
+Back end
+- Fix form permissions endpoint by removing center.
+- Store txn id in payment_status_detail
+- loginRequired must be true to use the /forms/{formId}/response endpoint.
+
+## 2.1.1 (7/28/18)
 Front end only
 - Use correct, production user pool on the production website.
 
