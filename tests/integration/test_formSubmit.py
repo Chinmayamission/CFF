@@ -48,7 +48,7 @@ class FormSubmit(BaseTestCase):
                                     path=f'/forms/{self.formId}',
                                     headers={"authorization": "auth","Content-Type": "application/json"},
                                     body=json.dumps({"data": ONE_FORMDATA, "responseId": responseId}))
-        self.assertEqual(response['statusCode'], 401, response)
+        self.assertEqual(response['statusCode'], 200, response)
 
 
     def test_submit_form_with_update(self):
