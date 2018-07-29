@@ -20,9 +20,8 @@ def form_render(formId):
 
 def form_render_response(formId):
     from ..main import app
-    currentResponse = None
-    form = Form.objects.only("formOptions.loginRequired").get({"_id": ObjectId(formId)})
-    if get(form, "formOptions.loginRequired", False) is True and app.get_current_user_id() != "cm:cognitoUserPool:anonymousUser":
+    form = Form.objects.only("formOptions").get({"_id": ObjectId(formId)})
+    if get(form, "formOptions.loginRequired", False) == True and app.get_current_user_id() != "cm:cognitoUserPool:anonymousUser":
         try:
             response = Response.objects.get({"form": ObjectId(formId), "user": app.get_current_user_id()})
             return {"res": serialize_model(response)}
