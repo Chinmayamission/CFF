@@ -204,7 +204,7 @@ interface PaypalClassicSharedAttrs {
     "night_phone_c": string,
     "email": string
 }
-interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs {
+interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs, IPaymentMethodInfoSharedProps {
     "sandbox": boolean,
     "payButtonText": string
 }
@@ -224,4 +224,7 @@ interface IPaypalClassicState extends PaypalClassicSharedAttrs {
         t3: string,
         item_name: string
     }
+}
+interface IPaymentMethodInfoSharedProps {
+    "redirectUrl"?: string
 }

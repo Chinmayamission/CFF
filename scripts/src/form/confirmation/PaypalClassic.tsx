@@ -44,7 +44,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "currency_code": this.props.paymentInfo_owed.currency || "USD",
             // todo: Fix this.
             "notify_url": `${ENDPOINT_URL}responses/${this.props.responseId}/ipn`,
-            "return": this.props.paymentInfo_owed.redirectUrl || ((window.location != window.parent.location) ? document.referrer : window.location.href),
+            "return": this.props.paymentMethodInfo.redirectUrl || ((window.location != window.parent.location) ? document.referrer : window.location.href),
             "cancel_return": (window.location != window.parent.location) ? document.referrer : window.location.href,
             "items": items,
             "amount": "0", // not used.
