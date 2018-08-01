@@ -1,6 +1,6 @@
 import boto3
 from boto3.dynamodb.conditions import Key
-from chalice import Chalice, AuthResponse, CognitoUserPoolAuthorizer, IAMAuthorizer, UnauthorizedError
+from chalice import Chalice, AuthResponse, CognitoUserPoolAuthorizer, IAMAuthorizer, UnauthorizedError, BadRequestError
 from chalicelib import routes
 import datetime
 import json
@@ -287,3 +287,13 @@ app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_ty
 app.route('/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
 app.route('/responses/{responseId}/sendConfirmationEmail', methods=['POST'], cors=True)(routes.response_send_confirmation_email)
 app.route('/confirmSignUp', methods=['GET'], cors=True)(routes.confirm_sign_up)
+
+@app.route('/authorize', methods=['POST'], cors=True)
+def authorize():
+    token = app.current_request.json_body["token"]
+    claims = get_claims(token, verify_audience=False)
+    if claims:
+        print(claims)
+        return claims
+    else:
+        raise BadRequestError(f"Bad request, token not valid. {claims}")

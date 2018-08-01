@@ -20,7 +20,7 @@ keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.forma
 response = requests.get(keys_url)
 keys = response.json()['keys']
 
-def get_claims(token):
+def get_claims(token, verify_audience=True):
     token = token
     # get the kid from the headers prior to verification
     try:
@@ -58,7 +58,7 @@ def get_claims(token):
         print('Token is expired')
         return False
     # and the Audience  (use claims['client_id'] if verifying an access token)
-    if claims['aud'] != app_client_id:
+    if verify_audience and claims['aud'] != app_client_id:
         print(f'Token was not issued for this audience: {claims["aud"]}')
         return False
     # now we can use the claims
