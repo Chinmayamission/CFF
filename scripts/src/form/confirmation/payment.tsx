@@ -5,8 +5,6 @@ import Paypal from "./paypal";
 import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import ManualApproval from "./ManualApproval";
-import {clone} from "lodash-es";
-import ReactTable from 'react-table';
 import * as DOMPurify from 'dompurify';
 import ExpressionParser from "src/common/ExpressionParser";
 
@@ -24,14 +22,14 @@ class Payment extends React.Component<IPaymentProps, any> {
             paymentStarted: false,
             paymentMethodStarted: null
         }
-      }
+    }
 
     getPaymentMethods() {
         let paymentMethods = Object.keys(this.props.paymentMethods);
         return paymentMethods.map((paymentMethod) => {
             var MyComponent = Components[paymentMethod];
             if (!MyComponent) return;
-            
+
             // Hide other payment method buttons when one payment method has started:
             if (this.state.paymentMethodStarted && this.state.paymentMethodStarted != paymentMethod) return;
 
@@ -53,15 +51,15 @@ class Payment extends React.Component<IPaymentProps, any> {
 
             // Hide payment method if it should be hidden according to cff_show_when
             if (props.paymentMethodInfo.cff_show_when &&
-                    !ExpressionParser.calculate_price(props.paymentMethodInfo.cff_show_when, props.formData)) {
-                        return;
-                    }
-            return (<div className="col-12 col-sm-6 col-md-4 p-4" style={{"margin": "0 auto"}}>
-                    <MyComponent key={paymentMethod} {...props} />
-                    </div>);
+                !ExpressionParser.calculate_price(props.paymentMethodInfo.cff_show_when, props.formData)) {
+                return;
+            }
+            return (<div className="col-12 col-sm-6 col-md-4 p-4" style={{ "margin": "0 auto" }}>
+                <MyComponent key={paymentMethod} {...props} />
+            </div>);
         });
     }
-    formatPayment(total, currency="USD") {
+    formatPayment(total, currency = "USD") {
         if (Intl && Intl.NumberFormat) {
             return Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(total);
         }
@@ -69,12 +67,12 @@ class Payment extends React.Component<IPaymentProps, any> {
             return total + " " + currency;
         }
     }
-    formatPaymentInfo(paymentInfo : IPaymentInfo) {
+    formatPaymentInfo(paymentInfo: IPaymentInfo) {
         return this.formatPayment(paymentInfo.total, paymentInfo.currency);
     }
     onPaymentStarted(paymentMethodName, e) {
         this.props.onPaymentStarted(e);
-        this.setState({paymentStarted: true, paymentMethodStarted: paymentMethodName});
+        this.setState({ paymentStarted: true, paymentMethodStarted: paymentMethodName });
     }
     render() {
         if (!this.props.paymentMethods) {
@@ -83,35 +81,39 @@ class Payment extends React.Component<IPaymentProps, any> {
         return <div><br />
             <h1>{this.props.paymentInfo.paymentInfoTableTitle || "Payment"}</h1>
             <div>
-            {this.props.paymentInfo &&
-                <PaymentTable paymentInfo={this.props.paymentInfo} />
-            }
-            {this.props.paymentInfo_received && 
-                <div>
-                    <div>Amount Already Paid: {this.formatPaymentInfo(this.props.paymentInfo_received)}</div>
-                </div>
-            }
-            {this.props.paymentInfo_owed.total > 0 &&
-                <div><b>Amount Owed: {this.formatPaymentInfo(this.props.paymentInfo_owed)} </b></div>
-            }
-            {this.props.paymentInfo_owed.total < 0 &&
-                <div>
-                    <b>Amount Overpaid: {this.formatPaymentInfo(this.props.paymentInfo_owed)} </b>
-                    <p>Please contact us if you would like a refund, or, otherwise, this money will serve as a donation.</p>
-                </div>
-            }
+                {this.props.paymentInfo &&
+                    <PaymentTable paymentInfo={this.props.paymentInfo} />
+                }
+                {this.props.paymentInfo_received && this.props.paymentInfo_received.total > 0 &&
+                    <div>
+                        {this.props.paymentInfo_received &&
+                            <div>
+                                <div>Amount Already Paid: {this.formatPaymentInfo(this.props.paymentInfo_received)}</div>
+                            </div>
+                        }
+                        {this.props.paymentInfo_owed.total > 0 &&
+                            <div><b>Amount Owed: {this.formatPaymentInfo(this.props.paymentInfo_owed)} </b></div>
+                        }
+                        {this.props.paymentInfo_owed.total < 0 &&
+                            <div>
+                                <b>Amount Overpaid: {this.formatPaymentInfo(this.props.paymentInfo_owed)} </b>
+                                <p>Please contact us if you would like a refund, or, otherwise, this money will serve as a donation.</p>
+                            </div>
+                        }
+                    </div>
+                }
             </div>
             <div style={{ "textAlign": "center" }}>
-                {this.props.paymentInfo_owed.total > 0 && 
+                {this.props.paymentInfo_owed.total > 0 &&
                     <div className="container-fluid row">
-                        {!this.state.paymentStarted && 
+                        {!this.state.paymentStarted &&
                             <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.props.paymentInfo.description || "Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.") }} />
                         }
                         {this.getPaymentMethods()}
                     </div>
                 }
-                {this.props.paymentInfo_owed.total == 0 && 
-                    <div>We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.</div> }
+                {this.props.paymentInfo_owed.total == 0 &&
+                    <div>We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.</div>}
             </div>
         </div>;
 

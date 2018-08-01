@@ -30,6 +30,11 @@ interface IPaymentInfo {
     items?: [IPaymentInfoItem]
 }
 
+interface IPaymentInfoReceived {
+    currency: string,
+    total: number
+}
+
 interface IPaymentInfoItem {
     amount?: any,
     name?: string,
@@ -73,7 +78,7 @@ interface IFormPageState {
     hasError: boolean,
     errorMessage: string,
     paymentInfo: IPaymentInfo,
-    paymentInfo_received: IPaymentInfo,
+    paymentInfo_received: IPaymentInfoReceived,
     paymentMethods: IPaymentMethods,
     paymentCalcInfo: IPaymentCalcInfo,
     ajaxLoading: boolean,
@@ -101,7 +106,7 @@ interface IFormConfirmationPageProps {
     responseId: string,
     formId: string,
     paymentInfo: IPaymentInfo,
-    paymentInfo_received: IPaymentInfo,
+    paymentInfo_received: IPaymentInfoReceived,
     paymentMethods: IPaymentMethods,
     goBack: () => void,
     onPaymentComplete: (message: any) => void,
@@ -113,13 +118,13 @@ interface IFormConfirmationPageState {
     paymentTransactionInfo: string,
     tableData: any,
     tableHeaders: any,
-    paymentInfo_owed: IPaymentInfo
+    paymentInfo_owed: IPaymentInfoReceived
 }
 
 interface IPaymentProps {
     paymentInfo: IPaymentInfo,
-    paymentInfo_owed: IPaymentInfo,
-    paymentInfo_received: IPaymentInfo,
+    paymentInfo_owed: IPaymentInfoReceived,
+    paymentInfo_received: IPaymentInfoReceived,
     paymentMethods: IPaymentMethods
     onPaymentComplete: (message: any) => void,
     onPaymentError: (message: any) => void,
@@ -178,8 +183,8 @@ interface IPaypalState {
 }
 interface IPaypalClassicProps extends IPaymentMethodProps {
     paymentMethodInfo: IPaymentMethodInfoPaypalClassic,
-    paymentInfo_owed: IPaymentInfo,
-    paymentInfo_received: IPaymentInfo
+    paymentInfo_owed: IPaymentInfoReceived,
+    paymentInfo_received: IPaymentInfoReceived
     apiEndpoint: string
 }
 interface PaypalClassicSharedAttrs {

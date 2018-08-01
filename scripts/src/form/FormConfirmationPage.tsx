@@ -22,15 +22,10 @@ class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, I
 
         let tableData = [];
 
-        let paymentInfo_owed : any = cloneDeep(props.paymentInfo);
+        let paymentInfo_owed : IPaymentInfoReceived = {total: props.paymentInfo.total, currency: props.paymentInfo.currency};
         // todo: fix this?
-        if (this.props.paymentInfo_received && paymentInfo_owed.items.length) {
-            paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - parseFloat(this.props.paymentInfo_received.total);
-            // Just make it one item for now.
-            paymentInfo_owed.items[0].amount = paymentInfo_owed.total;
-            paymentInfo_owed.items[0].quantity = 1;
-            paymentInfo_owed.items[0].description = "Extra amount owed on update";
-            paymentInfo_owed.items = [paymentInfo_owed.items[0]];
+        if (props.paymentInfo_received && props.paymentInfo.items.length) {
+            paymentInfo_owed.total = parseFloat(this.props.paymentInfo.total) - this.props.paymentInfo_received.total;
         }
         console.log(paymentInfo_owed);
         this.state = {

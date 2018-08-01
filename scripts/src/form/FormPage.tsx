@@ -181,13 +181,15 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         return;
       }
       let newResponse = res.action == "insert";
-      let paymentInfo_received = null;
+      let paymentInfo_received: IPaymentInfoReceived = {currency: null, total: null};
       if (!newResponse) {
         // Todo: get paymentInfo_received from server, too, even if it's a new response.
-        paymentInfo_received = {"currency": res.amt_received.currency, "total": res.amt_received.total };
+        paymentInfo_received.currency = res.amt_received.currency;
+        paymentInfo_received.total = parseFloat(res.amt_received.total);
       }
       if (res.paid) {
-        paymentInfo_received = res.paymentInfo
+        paymentInfo_received.currency = res.paymentInfo.currency;
+        paymentInfo_received.total = parseFloat(res.paymentInfo.total);
       }
       this.setState({
         ajaxLoading: false,

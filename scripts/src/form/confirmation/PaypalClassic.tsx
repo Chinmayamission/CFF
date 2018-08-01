@@ -47,7 +47,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "return": this.props.paymentInfo_owed.redirectUrl || ((window.location != window.parent.location) ? document.referrer : window.location.href),
             "cancel_return": (window.location != window.parent.location) ? document.referrer : window.location.href,
             "items": items,
-            "amount": this.props.paymentInfo_owed.total, // not used.
+            "amount": "0", // not used.
             "image_url": this.props.paymentMethodInfo.image_url,
             "first_name": this.props.paymentMethodInfo.first_name,
             "last_name": this.props.paymentMethodInfo.last_name,
