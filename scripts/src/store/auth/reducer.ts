@@ -8,7 +8,8 @@ const initialState: IAuthState = {
   schemas: require("./schemas.json"),
   error: null,
   message: null,
-  authPage: 'signIn'
+  authPage: 'signIn',
+  cognitoUser: null
 };
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {
@@ -41,6 +42,11 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         error: action.error
+      }
+    case "SET_COGNITO_USER":
+      return {
+        ...state,
+        cognitoUser: action.cognitoUser
       }
     default:
       return state;

@@ -1,7 +1,7 @@
 /// <reference path="./types.d.ts" />
-import { Auth } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
-import {setFormLoading} from "src/store/form/actions";
+import { setFormLoading } from "src/store/form/actions";
 import { loadingStart, loadingEnd } from "src/store/base/actions";
 
 export const loggedIn = (userId, attributes) => ({
@@ -17,6 +17,10 @@ export const renderProfile = (profileData) => ({
   type: 'RENDER_PROFILE',
   profileData
 });
+export const setCognitoUser = (cognitoUser) => ({
+  type: "SET_COGNITO_USER",
+  cognitoUser
+});
 
 export function logout() {
   return dispatch => {
@@ -31,16 +35,50 @@ export function logout() {
     })
   }
 }
+
+function getCurrentUser() {
+  let jwt = localStorage.getItem("jwt");
+  if (jwt) {
+    /*
+    ud: "2511g7rmn8p70losdlh9gi9j0"
+    auth_time: 1533327899
+    cognito:username: "d10dbb72-8884-4eee-99d0-d4aa87eb280d"
+    email: "aramaswamis@gmail.com"
+    email_verified: true
+    event_id: "4af7ecbe-975b-11e8-9b04-e9c3e9a6969b"
+    exp: 1533331712
+    iat: 1533328112
+    iss: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_U9ls8R6E3"
+    name: "User"
+    sub: "d10dbb72-8884-4eee-99d0-d4aa87eb280d"
+    token_use: "id"
+    website: "http://localhost:8000/admin/"
+    */
+    return API.post("CFF", "authorize", { "body": { "token": jwt } })
+      .then(e => {
+        let attributes: IUserAttributes = { "name": e.name, "email": e.email, "email_verified": e.email_verified };
+        return {
+          "username": e["cognito:username"],
+          attributes
+        }
+      })
+      .catch(e => Auth.currentAuthenticatedUser())
+  }
+  else {
+    return Auth.currentAuthenticatedUser();
+  }
+}
+
 export function checkLoginStatus() {
   return (dispatch, getState) => {
     dispatch(loadingStart());
-    Auth.currentAuthenticatedUser()
-    .then((user: {username: string, attributes: IUserAttributes}) => {
-      if (!user) throw "No credentials";
-      dispatch(loggedIn(user.username, user.attributes));
-    }).catch(e => {
-      console.error(e);
-    }).then(() => dispatch(loadingEnd()));
+    getCurrentUser()
+      .then((user: { username: string, attributes: IUserAttributes }) => {
+        if (!user) throw "No credentials";
+        dispatch(loggedIn(user.username, user.attributes));
+      }).catch(e => {
+        console.error(e);
+      }).then(() => dispatch(loadingEnd()));
   }
 }
 export function handleAuthStateChange(state, data) {
@@ -60,7 +98,7 @@ export function handleAuthStateChange(state, data) {
   }
 }
 
-export const setAuthPage = (authPage, message="", error="") => ({
+export const setAuthPage = (authPage, message = "", error = "") => ({
   type: 'SET_AUTH_PAGE',
   authPage: authPage,
   message: message,
@@ -81,9 +119,10 @@ export function signIn(data) {
   return dispatch => {
     dispatch(loadingStart());
     Auth.signIn(data.email, data.password)
-    .then(() => dispatch(checkLoginStatus()))
-    .catch(e => dispatch(onAuthError(e.message)))
-    .then(() => dispatch(loadingEnd()))
+      .then(() => localStorage.removeItem("jwt"))
+      .then(() => dispatch(checkLoginStatus()))
+      .catch(e => dispatch(onAuthError(e.message)))
+      .then(() => dispatch(loadingEnd()))
   }
 }
 
@@ -103,9 +142,9 @@ export function signUp(data) {
         website: (window.location != window.parent.location) ? document.referrer : window.location.href // Link for confirmation email
       }
     })
-    .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below. If you don't see the email, please check your spam folder.")))
-    .catch(e => dispatch(onAuthError(e.message)))
-    .then(() => dispatch(loadingEnd()))
+      .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below. If you don't see the email, please check your spam folder.")))
+      .catch(e => dispatch(onAuthError(e.message)))
+      .then(() => dispatch(loadingEnd()))
   }
 }
 
@@ -113,9 +152,9 @@ export function forgotPassword(data) {
   return dispatch => {
     dispatch(loadingStart());
     Auth.forgotPassword(data.email)
-    .then(() => dispatch(setAuthPage("forgotPasswordSubmit", "Verification email sent. Please check your email for a code and enter the code below to change your password. If you don't see the email, please check your spam folder.")))
-    .catch(e => dispatch(onAuthError(e.message)))
-    .then(() => dispatch(loadingEnd()))
+      .then(() => dispatch(setAuthPage("forgotPasswordSubmit", "Verification email sent. Please check your email for a code and enter the code below to change your password. If you don't see the email, please check your spam folder.")))
+      .catch(e => dispatch(onAuthError(e.message)))
+      .then(() => dispatch(loadingEnd()))
   }
 }
 
@@ -127,8 +166,8 @@ export function forgotPasswordSubmit(data) {
     }
     dispatch(loadingStart());
     Auth.forgotPasswordSubmit(data.email, data.code, data.password)
-    .then(() => dispatch(setAuthPage("signIn", "Password changed successfully! Please log in with your new password:")))
-    .catch(e => dispatch(onAuthError(e.message)))
-    .then(() => dispatch(loadingEnd()))
+      .then(() => dispatch(setAuthPage("signIn", "Password changed successfully! Please log in with your new password:")))
+      .catch(e => dispatch(onAuthError(e.message)))
+      .then(() => dispatch(loadingEnd()))
   }
 }

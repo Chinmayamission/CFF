@@ -9,8 +9,7 @@ interface IFederatedCredentials {
 interface IUserAttributes {
   email: string,
   email_verified: boolean,
-  name: string,
-  "custom:center": string
+  name: string
 }
 interface IAuthStateSchemaItem {
   schema: Schema,
@@ -28,5 +27,6 @@ interface IAuthState {
   },
   error: string,
   message: string,
-  authPage: "forgotPassword" | "forgotPasswordSubmit" | "signIn" | "signUp"
+  authPage: "forgotPassword" | "forgotPasswordSubmit" | "signIn" | "signUp",
+  cognitoUser: any
 }

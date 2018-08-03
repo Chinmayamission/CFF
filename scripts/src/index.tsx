@@ -12,6 +12,20 @@ declare var ENDPOINT_URL: string;
 declare var USER_POOL_ID: string;
 declare var COGNITO_CLIENT_ID: string;
 
+const asyncLocalStorage = {
+    setItem: function (key, value) {
+        return Promise.resolve().then(function () {
+            localStorage.setItem(key, value);
+        });
+    },
+    getItem: function (key) {
+        return Promise.resolve().then(function () {
+            return localStorage.getItem(key) || "anonymous";
+        });
+    }
+};
+
+
 Amplify.configure({
   Auth: {
   // REQUIRED - Amazon Cognito Identity Pool ID
@@ -32,11 +46,11 @@ Amplify.configure({
             endpoint: ENDPOINT_URL,
             custom_header: async () => { 
                 try {
-                    return { Authorization: (await Auth.currentSession()).idToken.jwtToken } 
+                    return { Authorization: (await Auth.currentSession()).idToken.jwtToken }
                 }
                 catch (e) {
                     console.error(e);
-                    return { Authorization: "anonymous" }
+                    return { Authorization: await asyncLocalStorage.getItem("jwt") } 
                 }
             }
         }
@@ -54,5 +68,22 @@ const authScreenLabels = {
 
 I18n.setLanguage('en');
 I18n.putVocabularies(authScreenLabels);
+
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event)
+{
+    let jwt = event.data.jwt;
+    if (!jwt || typeof jwt !== "string") {
+        console.error("JWT is not string", jwt);
+        return;
+    }
+    localStorage.setItem("jwt", jwt);
+    //   if (event.origin !== "http://example.org:8080")
+    //     return;
+
+    //   // ...
+}
+
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('ccmt-cff-main'));
