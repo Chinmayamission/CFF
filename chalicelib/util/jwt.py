@@ -62,5 +62,4 @@ def get_claims(token, verify_audience=True):
         print(f'Token was not issued for this audience: {claims["aud"]}')
         return False
     # now we can use the claims
-    # print(claims)
     return claims
