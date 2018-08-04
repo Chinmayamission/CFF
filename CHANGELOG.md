@@ -42,7 +42,7 @@ todo:
 - 
 - user login/signup
 
-## 2.1.4 (8/3/18)
+## 2.1.4 (8/4/18)
 Front end and back end
 - Integrate login with wordpress; when wordpress user is signed in and views CFF through an iframe, they can access CFF as well (see ccmt-cff-wp-plugin and gcmw-plugins/wp_gcmw_cognito for more information)
 - Add /authorize endpoint on REST API. This is used to validate a JWT and return the response (irrespective of client ID).
