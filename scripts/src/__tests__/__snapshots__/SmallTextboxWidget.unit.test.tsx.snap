@@ -5,6 +5,7 @@ exports[`renders small text box widget correctly 1`] = `
   class="ccmt-cff-Page-FormPage"
 >
   <form
+    autocomplete="false"
     class="rjsf"
   >
     <div
