@@ -10,11 +10,20 @@ interface IValueEditProps extends ResponsesState {
 
 }
 class PaymentHistory extends React.Component<IValueEditProps, {}> {
+    formatPayment(total, currency="USD") {
+        if (Intl && Intl.NumberFormat) {
+            return Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(total);
+        }
+        else {
+            return total + " " + currency;
+        }
+    }
     render() {
         let headers = [
             {
                 Header: "Amount",
-                accessor: "amount",
+                id: "amount",
+                accessor: e => this.formatPayment(e.amount, e.currency),
                 Footer: <div><input className="form-control form-control-sm" placeholder="Amount" /></div>
             },
             {
