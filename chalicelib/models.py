@@ -71,6 +71,10 @@ class UpdateTrailItem(EmbeddedMongoModel):
   new = fields.DictField()
   date = fields.DateTimeField(required=True)
   update_type = fields.CharField()
+  path = fields.CharField()
+  user = fields.ReferenceField(User, blank=True)
+  old_value = fields.CharField()
+  new_value = fields.CharField()
 
 class EmailTrailItem(EmbeddedMongoModel):
   value = fields.DictField()
