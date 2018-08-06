@@ -1,8 +1,10 @@
 import { Reducer } from 'redux';
 import { ResponsesState } from "./types.d";
+import { set, cloneDeep } from "lodash-es";
 
 const initialState: ResponsesState = {
-  responseData: null
+  responseData: null,
+  paymentStatusDetailItem: {"amount": "", "currency": "", "date": null, "id": "", "method": ""}
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {
@@ -12,6 +14,13 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
         ...state,
         responseData: action.responseData
       };
+    case "CHANGE_PAYMENT_STATUS_DETAIL":
+      let item = cloneDeep(state.paymentStatusDetailItem);
+      set(item, action.key, action.value);
+      return {
+        ...state,
+        paymentStatusDetailItem: item
+      }
     default:
       return state;
   }

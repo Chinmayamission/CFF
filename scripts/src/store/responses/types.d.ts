@@ -1,5 +1,6 @@
 export interface ResponsesState {
-    responseData: IResponse
+    responseData: IResponse,
+    paymentStatusDetailItem: IPaymentStatusDetailItem
 }
 
 

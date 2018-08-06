@@ -22,3 +22,9 @@ export const setResponseDetail = (responseData: any) => ({
   type: 'SET_RESPONSE_DATA',
   responseData
 });
+
+export const onPaymentStatusDetailChange = (key: string, value: string) => ({
+  type: 'CHANGE_PAYMENT_STATUS_DETAIL',
+  key,
+  value
+})
