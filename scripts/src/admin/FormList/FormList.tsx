@@ -48,7 +48,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                     </tr>
                 </thead>
                 <tbody>
-                    {formList && formList.length == 0 && <tr><td>No forms found. Create one!</td></tr>}
+                    {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
                     {formList && formList.map((form) =>
                         <tr key={form["_id"]["$oid"]}>
                             <td>{form["name"]}<br />
