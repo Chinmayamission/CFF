@@ -5,10 +5,11 @@ import ReactTable from "react-table";
 // import { editResponse } from "src/store/responses/actions";
 import { ResponsesState } from "../../../store/responses/types";
 import "./PaymentHistory.scss";
-import { onPaymentStatusDetailChange } from "../../../store/responses/actions";
+import { onPaymentStatusDetailChange, submitNewPayment } from "../../../store/responses/actions";
 
 interface IValueEditProps extends ResponsesState {
-    onChange: (a, b) => void
+    onChange: (a, b) => void,
+    submitNewPayment: () => void
 }
 class PaymentHistory extends React.Component<IValueEditProps, {}> {
     formatPayment(total, currency = "USD") {
@@ -62,7 +63,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
                 Header: "Submit",
                 id: "submit",
                 accessor: e => null,
-                Footer: <div><button className="btn btn-sm btn-primary">Add</button></div>
+                Footer: <div><button className="btn btn-sm btn-primary" onClick={e => this.props.submitNewPayment()} >Add</button></div>
             }
         ];
         let data = this.props.responseData.payment_status_detail || [{ "currency": "USD", "amount": "123.00", "date": { "$date": "2018-07-04T15:19:38.697Z" }, "method": "paypal_ipn", "_cls": "chalicelib.models.PaymentStatusDetailItem" }, { "currency": "USD", "amount": "223.00", "date": { "$date": "2018-07-04T16:28:52.857Z" }, "method": "paypal_ipn", "_cls": "chalicelib.models.PaymentStatusDetailItem" }];
@@ -78,7 +79,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onChange: (a, b) => dispatch(onPaymentStatusDetailChange(a, b))
+    onChange: (a, b) => dispatch(onPaymentStatusDetailChange(a, b)),
+    submitNewPayment: () => dispatch(submitNewPayment())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PaymentHistory);

@@ -4,7 +4,7 @@ import { set, cloneDeep } from "lodash-es";
 
 const initialState: ResponsesState = {
   responseData: null,
-  paymentStatusDetailItem: {"amount": "", "currency": "", "date": null, "id": "", "method": ""}
+  paymentStatusDetailItem: {"amount": "", "currency": "USD", "date": null, "id": "", "method": ""}
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {

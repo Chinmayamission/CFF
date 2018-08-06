@@ -1,4 +1,5 @@
 import { API } from "aws-amplify";
+import { ResponsesState } from "./types";
 
 
 export const editResponse = (responseId, path, value) => (dispatch, getState) => {
@@ -27,4 +28,19 @@ export const onPaymentStatusDetailChange = (key: string, value: string) => ({
   type: 'CHANGE_PAYMENT_STATUS_DETAIL',
   key,
   value
-})
+});
+
+
+export const submitNewPayment = () => (dispatch, getState) => {
+  let responsesState: ResponsesState = getState().responses;
+  return API.post("CFF", `responses/${responsesState.responseData._id.$oid}/payment`, {
+    "body": responsesState.paymentStatusDetailItem
+  }).then(e => {
+    if (e.res.success === true) {
+      dispatch(setResponseDetail(e.res.response));
+    }
+  }).catch(e => {
+    console.error(e);
+    alert("Error submitting new payment. " + e);
+  });
+};
