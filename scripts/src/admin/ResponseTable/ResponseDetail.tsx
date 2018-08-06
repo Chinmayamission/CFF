@@ -1,4 +1,4 @@
-import {IResponseDetailProps, IResponseDetailState} from "./ResponseDetail.d";
+import { IResponseDetailProps, IResponseDetailState } from "./ResponseDetail.d";
 import ReactJson from 'react-json-view';
 import * as React from 'react';
 import { API } from "aws-amplify";
@@ -32,6 +32,17 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
         }).catch(e => {
             alert(`Response update failed: ${e}`);
         });
+    }
+    delete() {
+        if (confirm("Are you sure you want to delete this response (this cannot be undone)?")) {
+            API.del("CFF", `responses/${this.props.responseData._id.$oid}`, {}).then(e => {
+                alert("Response deleted!");
+                window.location.reload();
+                this.props.setResponseDetail(null);
+            }).catch(e => {
+                alert(`Response delete failed: ${e}`);
+            });
+        }
     }
     changeCheckIn(row, checked) {
         console.log(checked);
@@ -142,10 +153,11 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
                             />
                         </div>
                     </div>
-                    <div className="card col-12 col-sm-6">
+                    <div className="card col-12 col-sm-6 cff-response-detail-actions">
                         <div className="card-body">
                             <h5 className="card-title">Actions</h5>
                             <button className="btn btn-sm btn-primary" onClick={() => this.sendConfirmationEmail()}>Send confirmation email</button>
+                            <button className="btn btn-sm btn-danger" onClick={() => this.delete()}>Delete response forever</button>
                         </div>
                     </div>
                 </div>

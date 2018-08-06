@@ -4,6 +4,7 @@ On a form:
 owner
 Responses_View
 Responses_Edit
+Responses_Delete
 Responses_CheckIn
 Responses_Export
 Responses_ViewSummary
