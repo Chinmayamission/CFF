@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { ResponsesState } from "./types.d";
 
 const initialState: ResponsesState = {
-  responseData: {}
+  responseData: null
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {

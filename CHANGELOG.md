@@ -42,6 +42,11 @@ todo:
 - 
 - user login/signup
 
+## 2.1.5
+Front end and back end
+- Allow form editing functionality, more features on response detail view page.
+- Show payment history on response table
+
 ## 2.1.4 (8/4/18)
 Front end and back end
 - Integrate login with wordpress; when wordpress user is signed in and views CFF through an iframe, they can access CFF as well (see ccmt-cff-wp-plugin and gcmw-plugins/wp_gcmw_cognito for more information)

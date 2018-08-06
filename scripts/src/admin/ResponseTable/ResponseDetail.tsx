@@ -1,4 +1,4 @@
-/// <reference path="./ResponseDetail.d.ts"/>
+import {IResponseDetailProps, IResponseDetailState} from "./ResponseDetail.d";
 import ReactJson from 'react-json-view';
 import * as React from 'react';
 import { API } from "aws-amplify";
@@ -9,6 +9,7 @@ import "./ResponseDetail.scss";
 import ValueEdit from './ResponseCards/ValueEdit';
 import { connect } from "react-redux";
 import { setResponseDetail } from "src/store/responses/actions";
+import PaymentHistory from "./ResponseCards/PaymentHistory";
 
 class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDetailState> {
     constructor(props: any) {
@@ -91,6 +92,9 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
         ];
         let i = 0;
         let showOmrunTable = get(this.props.dataOptions, "checkinTable.omrunCheckin") == true;
+        if (!this.props.responseData) {
+            return <div>Loading...</div>;
+        }
         return (
             <div className="container-fluid cff-response-detail" key={this.props.responseId}>
                 <div className="row">
@@ -121,6 +125,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
                     <div className="card col-12 col-sm-6">
                         <div className="card-body">
                             <h5 className="card-title">Payment History</h5>
+                            <PaymentHistory />
                         </div>
                     </div>
                     <div className="card col-12 col-sm-6">
@@ -156,7 +161,7 @@ const ResponseDetailDataLoaded = dataLoadingView(ResponseDetail, (props) => {
 });
 
 const mapStateToProps = state => ({
-    // ...state.responses
+    ...state.responses
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

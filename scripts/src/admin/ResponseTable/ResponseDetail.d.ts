@@ -1,4 +1,6 @@
-interface IResponseDetailProps {
+import { ResponsesState } from "../../store/responses/types";
+
+export interface IResponseDetailProps extends ResponsesState{
   checkInMode: boolean,
   data: any,
   formId: string,
@@ -7,6 +9,6 @@ interface IResponseDetailProps {
   setResponseDetail: (e: any) => void
 }
 
-interface IResponseDetailState {
+export interface IResponseDetailState {
   data: any
 }
