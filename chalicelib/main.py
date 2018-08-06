@@ -283,6 +283,8 @@ app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthoriz
 app.route('/responses/{responseId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit)
 app.route('/responses/{responseId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.response_view)
 app.route('/responses/{responseId}/payment', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.response_payment)
+app.route('/responses/{responseId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.response_delete)
+
 
 # Unauthorized:
 app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ipn_listener)
