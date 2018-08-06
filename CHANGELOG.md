@@ -46,6 +46,7 @@ todo:
 Front end and back end
 - Allow form editing functionality, more features on response detail view page.
 - Show payment history on response table
+- Response delete functionality
 
 ## 2.1.4 (8/4/18)
 Front end and back end
