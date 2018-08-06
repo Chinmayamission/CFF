@@ -81,12 +81,12 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     icon="oi-sort-ascending"
                                     text="Responses"
                                     userId={this.props.userId} />
-                                <ActionButton form={form}
+                                {/* <ActionButton form={form}
                                     permissionName="Responses_CheckIn"
                                     url={`.${form["_id"]["$oid"]}/checkin`}
                                     icon="oi-check"
                                     text="Check in"
-                                    userId={this.props.userId} />
+                                    userId={this.props.userId} /> */}
                                 <ActionButton form={form}
                                     permissionName="Responses_ViewSummary"
                                     url={`./${form["_id"]["$oid"]}/summary`}
@@ -100,13 +100,13 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     text="Share"
                                     userId={this.props.userId}
                                 />
-                                <ActionButton form={form}
+                               {/* <ActionButton form={form}
                                     permissionName="Responses_Edit"
                                     url={`./${form["_id"]["$oid"]}/responsesEdit`}
                                     icon="oi-pencil"
                                     text="Edit Responses"
                                     userId={this.props.userId}
-                                />
+                                />  */}
                                 {/*<ActionButton permissions={form.cff_permissions}
                                     permissionName="Responses_View"
                                     url={`./${form["_id"]["$oid"]}/lookup`}

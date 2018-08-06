@@ -5,6 +5,9 @@ import { API } from "aws-amplify";
 import ReactTable from "react-table";
 import dataLoadingView from "../util/DataLoadingView";
 import { get, set } from "lodash-es";
+import "./ResponseDetail.scss";
+import ValueEdit from './ResponseCards/ValueEdit';
+import {connect} from "react-redux";
 
 class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDetailState> {
     constructor(props: any) {
@@ -85,7 +88,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
         let i = 0;
         let showOmrunTable = get(this.props.dataOptions, "checkinTable.omrunCheckin") == true;
         return (
-            <div className="container-fluid" key={this.props.responseId}>
+            <div className="container-fluid cff-response-detail" key={this.props.responseId}>
                 <div className="row">
                     {this.props.checkInMode && showOmrunTable && this.state.data.value.participants && <div className="card col-12 col-sm-6">
                         <div className="card-body">
@@ -105,9 +108,20 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
                             />
                         </div>
                     </div>}
-                    {!this.props.checkInMode && <div className="card col-12 col-sm-6">
+                    <div className="card col-12 col-sm-6">
                         <div className="card-body">
-                            <h5 className="card-title">Inspector</h5>
+                            <h5 className="card-title">Response Value</h5>
+                            <ValueEdit data={this.state.data.value} />
+                        </div>
+                    </div>
+                    <div className="card col-12 col-sm-6">
+                        <div className="card-body">
+                            <h5 className="card-title">Payment History</h5>
+                        </div>
+                    </div>
+                    <div className="card col-12 col-sm-6">
+                        <div className="card-body">
+                            <h5 className="card-title">Inspector (for debug purposes)</h5>
                             <ReactJson src={this.state.data}
                                 displayObjectSize={false}
                                 displayDataTypes={false}
@@ -118,7 +132,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
                                 style={{ "fontFamily": "Arial, sans-serif", "marginLeft": "30px" }}
                             />
                         </div>
-                    </div>}
+                    </div>
                     <div className="card col-12 col-sm-6">
                         <div className="card-body">
                             <h5 className="card-title">Actions</h5>
@@ -133,6 +147,16 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
 
 // export default ResponseDetail;
 
-export default dataLoadingView(ResponseDetail, (props) => {
+const ResponseDetailDataLoaded = dataLoadingView(ResponseDetail, (props) => {
     return API.get("CFF", `responses/${props.responseId}`, {});
 });
+
+const mapStateToProps = state => ({
+    ...state.auth
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResponseDetailDataLoaded);
