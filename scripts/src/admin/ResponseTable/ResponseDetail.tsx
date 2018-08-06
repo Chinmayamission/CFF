@@ -7,7 +7,8 @@ import dataLoadingView from "../util/DataLoadingView";
 import { get, set } from "lodash-es";
 import "./ResponseDetail.scss";
 import ValueEdit from './ResponseCards/ValueEdit';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import { setResponseDetail } from "src/store/responses/actions";
 
 class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDetailState> {
     constructor(props: any) {
@@ -15,6 +16,9 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
         this.state = {
             data: this.props.data.res
         };
+    }
+    componentDidMount() {
+        this.props.setResponseDetail(this.state.data);
     }
     sendConfirmationEmail() {
         API.post("CFF", `responses/${this.props.responseId}/sendConfirmationEmail`, {
@@ -111,7 +115,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
                     <div className="card col-12 col-sm-6">
                         <div className="card-body">
                             <h5 className="card-title">Response Value</h5>
-                            <ValueEdit data={this.state.data.value} />
+                            <ValueEdit />
                         </div>
                     </div>
                     <div className="card col-12 col-sm-6">
@@ -152,11 +156,11 @@ const ResponseDetailDataLoaded = dataLoadingView(ResponseDetail, (props) => {
 });
 
 const mapStateToProps = state => ({
-    ...state.auth
+    // ...state.responses
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    
+    setResponseDetail: e => dispatch(setResponseDetail(e))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResponseDetailDataLoaded);

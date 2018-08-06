@@ -223,52 +223,12 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             tableDataDisplayed: this.state.tableData
         });
     }
-    onResponseEdit(elementAccessor, value, {index, original}) {
-        let path = `${original.CFF_UNWIND_PATH || ""}.${elementAccessor}`;
-        let responseId = original.ID;
-
-        let tableDataDisplayed = this.state.tableDataDisplayed;
-        let selectedRow = tableDataDisplayed[index];
-        if (selectedRow) {
-            selectedRow["CFF_REACT_TABLE_STATUS"] = "updating";
-            this.setState({tableDataDisplayed});
-        }
-
-        console.log(`Setting ${responseId}'s ${path} to ${value}.`);
-        API.patch("CFF", `responses/${responseId}/edit`, {
-            "body":
-            {
-                "path": `value.${path}`,
-                "value": value
-            }
-        }).then(e => {
-            console.log("Response update succeeded", e);
-            selectedRow && (selectedRow["CFF_REACT_TABLE_STATUS"] = "");
-            let tableDataOrigObject = this.state.tableDataOrigObject;
-            let tableData = this.state.tableData;
-            let tableDataDisplayed = this.state.tableDataDisplayed;
-            set(find(tableDataOrigObject, {"responseId": responseId}), `value.${path}`, value);
-            set(find(tableData, {"responseId": responseId}), path, value);
-            set(selectedRow, elementAccessor, value);
-            // Todo: use index for faster.
-            this.setState({tableDataOrigObject, tableData, tableDataDisplayed});
-        }).catch(e => {
-            alert(`Response update failed: ${e}`);
-            console.error(e);
-        })
-    }
-    makeHeaderEditable(header) {
-        header.Cell = row => (<div>
-            <InlineEdit text={"" + (row.value || "None") } paramName="value" change={({value}) => this.onResponseEdit(header.accessor, value, row)} />
-        </div>);
-        return header;
-    }
 
     render() {
         return this.state.loading ? <Loading hasError={this.state.hasError} /> : (
             <ReactTable
             data={this.state.tableDataDisplayed}
-            columns={this.state.tableHeadersDisplayed.map(e => this.props.editMode ? this.makeHeaderEditable(e): e)}
+            columns={this.state.tableHeadersDisplayed}
             minRows={0}
             filterable
             //pivotBy={this.state.pivotCols}

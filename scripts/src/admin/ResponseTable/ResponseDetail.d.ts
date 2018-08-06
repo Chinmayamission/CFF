@@ -3,7 +3,8 @@ interface IResponseDetailProps {
   data: any,
   formId: string,
   responseId: string,
-  dataOptions: IDataOptions
+  dataOptions: IDataOptions,
+  setResponseDetail: (e: any) => void
 }
 
 interface IResponseDetailState {
