@@ -3,6 +3,7 @@ import ReactJson from "react-json-view";
 import { connect } from "react-redux";
 import { editResponse } from "src/store/responses/actions";
 import { ResponsesState } from "../../../store/responses/types";
+import "./ValueEdit.scss";
 
 interface IValueEditProps extends ResponsesState {
     editResponse: (a: string, b: string, c: any) => any
@@ -39,7 +40,7 @@ class ValueEdit extends React.Component<IValueEditProps, {}> {
             onEdit={e => this.onEdit(e)}
             onAdd={false}
             onDelete={false}
-            collapsed={1}
+            collapsed={false}
             style={{ "fontFamily": "Arial, sans-serif", "marginLeft": "30px" }}
         />;
     }
