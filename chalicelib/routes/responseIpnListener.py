@@ -21,7 +21,7 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
             response.paymentInfo = response.pending_update["paymentInfo"]
             response.pending_update = None
             response.update_trail.append(UpdateTrailItem(date=datetime.datetime.now(), update_type="apply_update"))
-    if response.paid:
+    if response.paid and form.formOptions.confirmationEmailInfo:
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
     response.save()
     return response.paid
