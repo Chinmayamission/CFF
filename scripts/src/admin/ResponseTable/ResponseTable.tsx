@@ -277,14 +277,27 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             defaultFilterMethod={filterCaseInsensitive}
             freezeWhenExpanded={true}
             SubComponent={ ({original, row}) => <ResponseDetail checkInMode={this.props.checkinMode} responseId={original.ID} formId={this.props.match.params.formId} dataOptions={this.state.dataOptions} /> }
-            getTrProps={(state, rowInfo, column) => {
+            getTrProps={(state, rowInfo, column, instance) => {
                 return {
                   style: {
                     color: rowInfo.row["CFF_REACT_TABLE_STATUS"] == "updating" ? 'grey' : 'black'
+                  },
+                  onClick: (e) => {
+                    const { expanded } = state;
+                    const path = rowInfo.nestingPath[0];
+                    const diff = { [path]: expanded[path] ? false : true };
+            
+                    instance.setState({
+                      expanded: {
+                        ...expanded,
+                        ...diff
+                      }
+                    });
                   }
                 }
               }
-            }>
+            }
+            >
             {(state, makeTable, instance) => {
                 return (
                     <div>
