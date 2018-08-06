@@ -152,8 +152,8 @@ const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
                 <div>
                     <img src={require("src/img/logo.png")} />
                     <h3 className="mb-4">
-                        Welcome to <br />
-                        <strong>Chinmaya Forms Framework</strong><br />
+                        Please log in to your <br />
+                        <strong>Chinmaya Mission Account</strong><br />
                     </h3>
                 </div>}
             <Login />
