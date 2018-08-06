@@ -127,9 +127,8 @@ function FormPages() {
 }
 function AccessDenied(props) {
     return (<div>
-        <h4><b>Access denied</b></h4>
-        <p>To finish setting up your account, please contact an administrator and give them your id:</p>
-        <pre className="cff-copy-box">{props.userId}</pre>
+        <h4><b>Error</b></h4>
+        <p>There was an unknown error. Please contact itsupport@chinmayamission.com to get help with this issue.</p>
     </div>);
 }
 
