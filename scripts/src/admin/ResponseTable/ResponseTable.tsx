@@ -234,7 +234,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             filterable
             //pivotBy={this.state.pivotCols}
             defaultSorted = { this.state.rowToUnwind ? [] : [{"id": "DATE_LAST_MODIFIED", "desc": true}] }
-            defaultFiltered= { [{"id": "PAID", "value": "paid"}] }
+            defaultFiltered= { [{"id": "PAID", "value": "all"}] }
             defaultFilterMethod={filterCaseInsensitive}
             freezeWhenExpanded={true}
             SubComponent={ ({original, row}) => <ResponseDetail checkInMode={this.props.checkinMode} responseId={original.ID} formId={this.props.match.params.formId} dataOptions={this.state.dataOptions} /> }

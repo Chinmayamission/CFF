@@ -1,14 +1,14 @@
 /// <reference path="../admin.d.ts"/>
 import * as React from 'react';
-import {assign, get} from "lodash-es";
+import { assign, get } from "lodash-es";
 
 export module Headers {
 
-    export function makeHeaders(schemaProperties, headerObjs=[]) {
+    export function makeHeaders(schemaProperties, headerObjs = []) {
         Headers.makeHeadersHelper(schemaProperties, headerObjs);
         return headerObjs;
     }
-    export function makeHeadersHelper(schemaProperties, headerObjs, prefix="") {
+    export function makeHeadersHelper(schemaProperties, headerObjs, prefix = "") {
         for (let header in schemaProperties) {
             if (schemaProperties[header]["type"] == "object") {
                 Headers.makeHeadersHelper(schemaProperties[header]["properties"], headerObjs, header);
@@ -36,9 +36,9 @@ export module Headers {
      * Format a value for display on the header table.
      */
     export function formatValue(value) {
-        switch(typeof value) {
+        switch (typeof value) {
             case "boolean":
-                return value ? "YES": "NO";
+                return value ? "YES" : "NO";
             case "object":
                 return JSON.stringify(value);
             case "string":
@@ -46,7 +46,7 @@ export module Headers {
                 return value;
         }
     }
-    
+
     export function makeHeaderObj(headerName, headerLabel = "") {
         if (!headerLabel) {
             headerLabel = headerName.replace(/^([a-z])/, t => t.toUpperCase());
@@ -67,18 +67,18 @@ export module Headers {
             headerObj = assign(headerObj, {
                 "filterMethod": (filter, row) => {
                     if (filter.value === "all") {
-                    return true;
+                        return true;
                     }
                     if (filter.value === "paid") {
-                    return row[filter.id] === true;
+                        return row[filter.id] === true;
                     }
                     return row[filter.id] === false; // || row[filter.id] == false;
                 },
                 "Filter": ({ filter, onChange }) =>
                     (<select
-                    onChange={event => onChange(event.target.value)}
-                    style={{ width: "100%" }}
-                    value={filter ? filter.value : "all"}
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: "100%" }}
+                        value={filter ? filter.value : "all"}
                     >
                         <option value="paid">Paid</option>
                         <option value="notpaid">Not Paid</option>
@@ -87,7 +87,7 @@ export module Headers {
             });
         }
         return headerObj;
-    }    
+    }
 
 }
 
