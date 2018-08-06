@@ -283,7 +283,8 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                     color: rowInfo.row["CFF_REACT_TABLE_STATUS"] == "updating" ? 'grey' : 'black'
                   },
                   onClick: (e) => {
-                    const { expanded } = state;
+                    // const { expanded } = state;
+                    const expanded = {};
                     const path = rowInfo.nestingPath[0];
                     const diff = { [path]: expanded[path] ? false : true };
             
