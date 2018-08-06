@@ -1,8 +1,9 @@
 import datetime
 import re
-from chalicelib.models import Response, UpdateTrailItem, serialize_model
+from chalicelib.models import Response, UpdateTrailItem, PaymentStatusDetailItem, serialize_model
 from bson.objectid import ObjectId
 from pydash.objects import get, set_
+from chalicelib.routes.responseIpnListener import mark_successful_payment
 
 def response_edit(responseId):
     from ..main import app, TABLES
@@ -33,3 +34,14 @@ def response_edit(responseId):
 
 def response_checkin(formId, responseId):
     pass
+
+def response_payment(responseId):
+    from ..main import app, TABLES
+    response = Response.objects.get({"_id": ObjectId(responseId)})
+    app.check_permissions(response.form, "Responses_Edit")
+    amount = app.current_request.json_body["amount"]
+    currency = app.current_request.json_body["currency"]
+    id = app.current_request.json_body["id"]
+    method = app.current_request.json_body["method"]
+    paid = mark_successful_payment(response.form, response, {"type": "manual", "method": method, "id": id}, method, amount, currency, id)
+    return {"res": {"success": True, "paid": paid, "response": serialize_model(response)}}
