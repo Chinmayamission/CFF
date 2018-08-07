@@ -1,4 +1,3 @@
-/// <reference path="../interfaces.d.ts"/>
 import * as React from 'react';
 import PaymentTable from "./PaymentTable";
 import Paypal from "./paypal";
@@ -7,6 +6,7 @@ import CCAvenue from "./CCAvenue";
 import ManualApproval from "./ManualApproval";
 import * as DOMPurify from 'dompurify';
 import ExpressionParser from "src/common/ExpressionParser";
+import { IPaymentProps, IPaymentInfo } from '../interfaces';
 
 let Components = {
     "paypal_rest": Paypal,

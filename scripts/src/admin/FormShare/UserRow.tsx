@@ -1,8 +1,8 @@
-/// <reference path="./FormShare.d.ts"/>
 import * as React from 'react';
 import {get} from "lodash-es";
 import Switch from 'react-toggle-switch';
 import "react-toggle-switch/dist/css/switch.min.css";
+import { IUserRowState, IUserRowProps } from './FormShare.d';
 
 class UserRow extends React.Component<IUserRowProps, IUserRowState> {
     constructor(props:any) {

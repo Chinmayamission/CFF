@@ -1,4 +1,3 @@
-/// <reference path="./FormEdit.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
 import FormLoader from "src/common/FormLoader";
@@ -10,6 +9,7 @@ import { get, set, assign, pick } from "lodash-es";
 import Modal from 'react-responsive-modal';
 import dataLoadingView from "../util/DataLoadingView";
 import {API} from "aws-amplify";
+import {IFormEditProps, IFormEditState} from "./FormEdit.d";
 
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {

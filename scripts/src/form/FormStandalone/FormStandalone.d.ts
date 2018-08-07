@@ -1,4 +1,4 @@
-interface IFormStandaloneProps {
+export interface IFormStandaloneProps {
   ENDPOINT_URL: string,
   formId: string,
   location: {
@@ -6,6 +6,6 @@ interface IFormStandaloneProps {
   }
 }
 
-interface IFormStandaloneState {
+export interface IFormStandaloneState {
   background: null
 }

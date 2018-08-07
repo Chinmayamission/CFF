@@ -1,7 +1,7 @@
-/// <reference path="../interfaces.d.ts" />
 import * as React from 'react';
 import {find, get, sumBy} from "lodash-es";
 import {connect} from "react-redux";
+import { IPaypalClassicProps, IPaypalClassicState } from '../interfaces';
 
 /* Example Usage:
 

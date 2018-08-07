@@ -1,4 +1,3 @@
-/// <reference path="../admin.d.ts"/>
 import React from 'react';
 import jsoneditor from 'jsoneditor';
 import "jsoneditor/dist/jsoneditor.min.css";

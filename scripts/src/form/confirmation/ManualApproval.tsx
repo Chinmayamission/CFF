@@ -1,4 +1,3 @@
-/// <reference path="../interfaces.d.ts"/>
 import * as React from 'react';
 import {API} from "aws-amplify";
 import * as DOMPurify from 'dompurify';

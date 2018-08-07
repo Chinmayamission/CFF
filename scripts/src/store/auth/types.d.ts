@@ -1,4 +1,6 @@
-interface IFederatedCredentials {
+import { Schema, UiSchema } from "../../form/interfaces";
+
+export interface IFederatedCredentials {
   expires_at: number,
   provider: string,
   token: string,
@@ -6,16 +8,16 @@ interface IFederatedCredentials {
     email: string, name: string
   }
 }
-interface IUserAttributes {
+export interface IUserAttributes {
   email: string,
   email_verified: boolean,
   name: string
 }
-interface IAuthStateSchemaItem {
+export interface IAuthStateSchemaItem {
   schema: Schema,
   uiSchema: UiSchema
 }
-interface IAuthState {
+export interface IAuthState {
   loggedIn: boolean,
   user: IUserAttributes,
   userId: string,

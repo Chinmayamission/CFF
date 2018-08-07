@@ -1,11 +1,8 @@
-/// <reference path="../interfaces.d.ts"/>
-/// <reference path="./IPaymentCalcTable.d.ts"/>
 import * as React from 'react';
-import ReactTable from 'react-table';
 import PaymentTable from "src/form/confirmation/PaymentTable";
 import ExpressionParser from "src/common/ExpressionParser";
 import {cloneDeep} from "lodash-es";
-import {Parser} from 'expr-eval';
+import {IPaymentCalcTableProps, IPaymentCalcTableState} from "./PaymentCalcTable.d";
 
 class PaymentCalcTable extends React.Component<IPaymentCalcTableProps, IPaymentCalcTableState> {
     constructor(props: any) {

@@ -1,19 +1,19 @@
 
-interface Window {
+export interface Window {
     paypal: any
 }
 
-interface Schema {
+export interface Schema {
     title?: String,
     type?: String,
     description?: String,
     
     [propName: string]: any;
 }
-interface SchemaModifier {
+export interface SchemaModifier {
     
 }
-interface SchemaMetadata {
+export interface SchemaMetadata {
     paymentInfo?: IPaymentInfo,
     paymentMethods?: PaymentMethods
     confirmationEmailInfo?: any,
@@ -21,7 +21,7 @@ interface SchemaMetadata {
     successMessage?: string
 }
 
-interface IPaymentInfo {
+export interface IPaymentInfo {
     description?: string,
     total: any,
     currency: string,
@@ -30,35 +30,35 @@ interface IPaymentInfo {
     items?: [IPaymentInfoItem]
 }
 
-interface IPaymentInfoReceived {
+export interface IPaymentInfoReceived {
     currency: string,
     total: number
 }
 
-interface IPaymentInfoItem {
+export interface IPaymentInfoItem {
     amount?: any,
     name?: string,
     description?: string,
     quantity?: any
 }
 
-interface PaymentMethod {
+export interface PaymentMethod {
     [propName: string]: any;
 }
-interface PaymentMethods {
+export interface PaymentMethods {
     paypal?: PaymentMethodPayPal;
     [propName: string]: PaymentMethod;
 }
 
-interface UiSchema {
+export interface UiSchema {
     [propName: string]: any;
 }
 
-interface Data {
+export interface Data {
     [propName: string]: any;
 }
 
-interface IFormPageState {
+export interface IFormPageState {
     schema: Schema,
     schemaMetadata: SchemaMetadata,
     formOptions: any,
@@ -78,7 +78,7 @@ interface IFormPageState {
     paymentStarted: boolean
 }
 
-interface IFormPageProps { // extends FormState
+export interface IFormPageProps { // extends FormState
     formId?: any,
     initialFormData?: any,
     readonly?: boolean,
@@ -91,7 +91,7 @@ interface IFormPageProps { // extends FormState
     setFormLoading: (boolean) => void
 }
 
-interface IFormConfirmationPageProps {
+export interface IFormConfirmationPageProps {
     schemaMetadata: SchemaMetadata,
     schema: Schema,
     uiSchema: UiSchema,
@@ -106,7 +106,7 @@ interface IFormConfirmationPageProps {
     onPaymentStarted: (message: any) => void
 }
 
-interface IFormConfirmationPageState {
+export interface IFormConfirmationPageState {
     paid: boolean,
     paymentTransactionInfo: string,
     tableData: any,
@@ -114,7 +114,7 @@ interface IFormConfirmationPageState {
     paymentInfo_owed: IPaymentInfoReceived
 }
 
-interface IPaymentProps {
+export interface IPaymentProps {
     paymentInfo: IPaymentInfo,
     paymentInfo_owed: IPaymentInfoReceived,
     paymentInfo_received: IPaymentInfoReceived,
@@ -127,26 +127,26 @@ interface IPaymentProps {
     formData: Data
 }
 
-interface PaymentOptions {
+export interface PaymentOptions {
 
 }
-interface IPaymentMethods { // list.
+export interface IPaymentMethods { // list.
 
 }
-interface PaymentMethodPayPal {
+export interface PaymentMethodPayPal {
     client: {
         sandbox?: String,
         production: String
     },
     env: "client" | "production"
 }
-interface IScriptLoaderProps {
+export interface IScriptLoaderProps {
     isScriptLoaded: boolean,
     isScriptLoadSucceed: boolean,
     onScriptLoaded: any,
     onError: (error: any) => void
 }
-interface IPaypalProps extends IScriptLoaderProps, IPaymentMethodProps {
+export interface IPaypalProps extends IScriptLoaderProps, IPaymentMethodProps {
     onPaymentComplete: IPaymentProps["onPaymentComplete"],
     onPaymentError: IPaymentProps["onPaymentError"],
     onAuthorize: (data: any, actions: any) => void,
@@ -155,14 +155,14 @@ interface IPaypalProps extends IScriptLoaderProps, IPaymentMethodProps {
     onClick: () => void,
     paymentMethodInfo: PaymentMethodPayPal
 }
-interface IPaymentMethodProps {
+export interface IPaymentMethodProps {
     paymentInfo: IPaymentInfo,
     confirmationEmailInfo: ConfirmationEmailInfo,
     responseId: string,
     formId: string,
     formData: Data
 }
-interface ConfirmationEmailInfo {
+export interface ConfirmationEmailInfo {
     from: string,
     cc: string,
     toField: string,
@@ -171,16 +171,16 @@ interface ConfirmationEmailInfo {
     showResponse: boolean,
     showModifyLink: boolean
 }
-interface IPaypalState {
+export interface IPaypalState {
 
 }
-interface IPaypalClassicProps extends IPaymentMethodProps {
+export interface IPaypalClassicProps extends IPaymentMethodProps {
     paymentMethodInfo: IPaymentMethodInfoPaypalClassic,
     paymentInfo_owed: IPaymentInfoReceived,
     paymentInfo_received: IPaymentInfoReceived
     apiEndpoint: string
 }
-interface PaypalClassicSharedAttrs {
+export interface PaypalClassicSharedAttrs {
     "cmd": string,
     "business": string,
     items?: IPaymentInfoItem[],
@@ -197,11 +197,11 @@ interface PaypalClassicSharedAttrs {
     "night_phone_c": string,
     "email": string
 }
-interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs, IPaymentMethodInfoSharedProps {
+export interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs, IPaymentMethodInfoSharedProps {
     "sandbox": boolean,
     "payButtonText": string
 }
-interface IPaypalClassicState extends PaypalClassicSharedAttrs {
+export interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "form_url": string,
     "amount": string,
     "currency_code": string,
@@ -218,6 +218,6 @@ interface IPaypalClassicState extends PaypalClassicSharedAttrs {
         item_name: string
     }
 }
-interface IPaymentMethodInfoSharedProps {
+export interface IPaymentMethodInfoSharedProps {
     "redirectUrl"?: string
 }

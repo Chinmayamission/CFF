@@ -1,4 +1,4 @@
-/// <reference path="./admin.d.ts"/>
+
 import * as React from 'react';
 import FormEmbed from "./FormEmbed/FormEmbed";
 import FormList from "./FormList/FormList";
@@ -15,6 +15,7 @@ import history from "src/history.ts";
 import { connect } from 'react-redux';
 
 import Login from "src/common/Login/Login";
+import { IFormAdminPageProps, IFormAdminPageState } from './admin';
 
 
 declare var VERSION: string;

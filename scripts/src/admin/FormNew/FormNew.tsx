@@ -1,8 +1,7 @@
-/// <reference path="./FormNew.d.ts"/>
 import * as React from 'react';
 import { API } from 'aws-amplify';
 import "./FormNew.scss";
-import {find, pick, get} from "lodash-es";
+import {IFormNewProps} from "./FormNew.d";
 
 class FormNew extends React.Component<IFormNewProps, {}> {
     constructor(props: any) {

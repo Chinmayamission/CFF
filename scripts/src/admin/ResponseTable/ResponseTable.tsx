@@ -1,4 +1,3 @@
-/// <reference path="./ResponseTable.d.ts"/>
 import * as React from 'react';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
@@ -13,6 +12,7 @@ import InlineEdit from "react-edit-inline";
 import filterHeaderObjs from "./filterHeaderObjs";
 import { NavLink } from "react-router-dom";
 import {flatten} from 'flat';
+import {IResponseTableProps, IResponseTableState} from "./ResponseTable.d";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;

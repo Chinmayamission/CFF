@@ -1,8 +1,8 @@
-/// <reference path="../interfaces.d.ts"/>
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
 import Loading from "src/common/Loading/Loading";
+import { IPaypalProps, IPaypalState } from '../interfaces';
 declare var ENDPOINT_URL: string;
 /*
  * not used currently.
@@ -84,7 +84,7 @@ class Paypal extends React.Component<IPaypalProps, IPaypalState> {
 
  render() {
     if (this.props.isScriptLoaded && this.props.isScriptLoadSucceed) {
-        let PayPalButton = window.paypal.Button.driver('react', { React, ReactDOM });
+        let PayPalButton = (window as any).paypal.Button.driver('react', { React, ReactDOM });
 
         let client = this.props.paymentMethodInfo.client;
         let env = this.props.paymentMethodInfo.env || "sandbox";

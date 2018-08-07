@@ -1,4 +1,3 @@
-/// <reference path="../interfaces.d.ts"/>
 import * as React from 'react';
 import CCAvenueFrame from "./CCAvenueFrame";
 

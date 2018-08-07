@@ -5,6 +5,7 @@ import CustomForm from "src/form/CustomForm";
 import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword, forgotPasswordSubmit } from "src/store/auth/actions";
 import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
+import { IAuthState } from "../../store/auth/types";
 
 const mapStateToProps = state => ({
   ...state.auth

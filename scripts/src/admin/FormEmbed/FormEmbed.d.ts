@@ -1,9 +1,9 @@
-interface IFormEmbedProps {
+export interface IFormEmbedProps {
     formId: string,
     onError: (any) => void,
     form: IFormListItem
 }
 
-interface IFormEmbedState {
+export interface IFormEmbedState {
     open: boolean
 }

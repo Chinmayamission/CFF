@@ -1,26 +1,27 @@
+import { ISharedFormAdminPageProps } from "../admin";
 
-interface IFormShareProps extends ISharedFormAdminPageProps {
+export interface IFormShareProps extends ISharedFormAdminPageProps {
   data: any,
   refreshData: () => any
 }
 
-interface IFormShareState {
+export interface IFormShareState {
   permissions: any,
   users: any,
   possiblePermissions: string[],
   newUserId: string
 }
 
-interface IUserRowProps {
+export interface IUserRowProps {
   user: any,
   permissions: any,
   possiblePermissions: string[],
   onPermissionsChange: (string, string, boolean) => void
 }
 
-interface IUserRowState {
+export interface IUserRowState {
 }
 
-interface IPermission {
+export interface IPermission {
   [x: string]: boolean
 }

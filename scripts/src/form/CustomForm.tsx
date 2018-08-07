@@ -13,6 +13,7 @@ import MoneyWidget from "./form_widgets/MoneyWidget"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
 import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
 import {get} from "lodash-es";
+import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 
 
 const FormattedDescriptionField = ({ id, description }) => {

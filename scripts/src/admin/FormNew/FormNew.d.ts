@@ -1,7 +1,7 @@
-interface IFormNewState {
+export interface IFormNewState {
 }
 
 
-interface IFormNewProps {
+export interface IFormNewProps {
     onError: (any) => void
 }

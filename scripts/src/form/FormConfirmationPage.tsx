@@ -1,7 +1,7 @@
-/// <reference path="./interfaces.d.ts"/>
 import * as React from 'react';
 import Payment from './confirmation/payment';
 import {get, cloneDeep} from "lodash-es";
+import { IFormConfirmationPageProps, IFormConfirmationPageState, IPaymentInfoReceived } from './interfaces';
 
 var This;
 class FormConfirmationPage extends React.Component<IFormConfirmationPageProps, IFormConfirmationPageState> {

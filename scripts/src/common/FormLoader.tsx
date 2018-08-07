@@ -1,7 +1,7 @@
-/// <reference path="./common.d.ts"/>
 import {get} from 'lodash-es';
 import {API} from "aws-amplify";
 import createSchemas from "./CreateSchemas";
+import { IResponseDBEntry } from '../admin/FormEdit/FormEdit.d';
 
 interface IGetFormResponse {
     res: any,

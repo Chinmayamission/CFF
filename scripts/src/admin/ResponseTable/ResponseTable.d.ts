@@ -1,4 +1,4 @@
-interface IResponseTableProps {
+export interface IResponseTableProps {
     match: {
         params: {
             formId: string,
@@ -12,7 +12,7 @@ interface IResponseTableProps {
     selectedForm: IFormListItem
 }
 
-interface IResponseTableState {
+export interface IResponseTableState {
     status: number,
     tableData: any[],
     tableHeaders: any[],

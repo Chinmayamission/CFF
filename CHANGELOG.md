@@ -45,7 +45,7 @@ todo:
 ## 2.1.5 (8/6/18)
 Front end and back end
 - Allow form editing functionality, more features on response detail view page.
-- Show payment history on response table
+- Show payment history on response table and allow admins to edit it
 - Response delete functionality
 
 ## 2.1.4 (8/4/18)

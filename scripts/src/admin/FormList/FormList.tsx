@@ -1,4 +1,3 @@
-/// <reference path="./FormList.d.ts"/>
 import * as React from 'react';
 import axios from 'axios';
 import { API } from 'aws-amplify';
@@ -8,13 +7,16 @@ import "./FormList.scss";
 import FormNew from "../FormNew/FormNew";
 import { connect } from 'react-redux';
 import dataLoadingView from "../util/DataLoadingView";
+import {IFormListProps, IFormListState} from "./FormList.d";
+import { loadFormList } from '../../store/admin/actions';
 
 const mapStateToProps = state => ({
-    ...state.auth
+    ...state.auth,
+    ...state.admin
 });
   
 const mapDispatchToProps = (dispatch, ownProps) => ({
-
+    loadFormList: () => dispatch(loadFormList())
 });
 
 
@@ -24,18 +26,20 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         this.render = this.render.bind(this);
         console.log(props);
         this.state = {
-            formList: props.data.res
+            formList: []
         }
     }
-    loadFormList() {
-    }
     componentDidMount() {
+        this.props.loadFormList();
     }
     showEmbedCode(formId) {
 
     }
     render() {
-        let formList = this.props.selectedForm ? [this.props.selectedForm] : this.state.formList;
+        let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
+        if (!formList) {
+            return <div>Loading</div>;
+        }
         return (
             <table className="ccmt-cff-form-list table table-sm table-responsive-sm">
                 <thead>
@@ -160,7 +164,5 @@ function hasPermission(cff_permissions, permissionNames, userId) {
     return false;
 }
 
-const FormListWrapper = dataLoadingView(connect(mapStateToProps, mapDispatchToProps)(FormList), (props) => {
-    return API.get("CFF", `forms`, {});
-});
+const FormListWrapper = connect(mapStateToProps, mapDispatchToProps)(FormList);
 export default FormListWrapper;

@@ -1,7 +1,7 @@
-/// <reference path="./FormEmbed.d.ts"/>
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
 import "./FormEmbed.scss";
+import {IFormEmbedProps, IFormEmbedState} from "./FormEmbed.d";
 
 class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
     constructor(props:any) {

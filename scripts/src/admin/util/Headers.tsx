@@ -1,4 +1,3 @@
-/// <reference path="../admin.d.ts"/>
 import * as React from 'react';
 import { assign, get } from "lodash-es";
 

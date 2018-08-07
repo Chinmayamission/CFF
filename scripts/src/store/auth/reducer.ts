@@ -1,5 +1,5 @@
-/// <reference path="./types.d.ts" />
 import { Reducer } from 'redux';
+import { IAuthState } from './types';
 
 const initialState: IAuthState = {
   loggedIn: false,

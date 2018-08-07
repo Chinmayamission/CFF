@@ -1,9 +1,10 @@
-/// <reference path="./FormShare.d.ts"/>
 import * as React from 'react';
 import { API } from "aws-amplify";
 import dataLoadingView from "../util/DataLoadingView";
 import { forOwn, set, get } from "lodash-es";
 import UserRow from "./UserRow";
+import { IFormShareProps } from './FormShare.d';
+import { IFormShareState } from './FormShare.d';
 
 class FormShare extends React.Component<IFormShareProps, IFormShareState> {
     constructor(props: any) {

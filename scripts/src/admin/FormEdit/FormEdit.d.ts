@@ -1,8 +1,4 @@
-/// <reference path="../admin.d.ts"/>
-/// <reference path="../../form/interfaces.d.ts"/>
-
-
-interface IFormEditProps {
+export interface IFormEditProps {
     data: any,
     match: {
         params: {
@@ -11,7 +7,7 @@ interface IFormEditProps {
     }
 }
 
-interface IFormEditState {
+export interface IFormEditState {
     schema: Schema,
     uiSchema: UiSchema,
     formOptions: any,
@@ -19,11 +15,11 @@ interface IFormEditState {
     loading: boolean
 }
 
-interface IFormEditPropsOld {
+export interface IFormEditPropsOld {
     formId: string,
     data: {res: IFormDBEntry}
 }
-interface IFormDBEntry {
+export interface IFormDBEntry {
     id: string,
     version: number,
     name: string,
@@ -41,7 +37,7 @@ interface IFormDBEntry {
         res: IFormDBEntry
     }
 }
-interface IConfirmationEmailInfo {
+export interface IConfirmationEmailInfo {
     toField: string,
     from: string,
     fromName: string,
@@ -60,25 +56,25 @@ interface IConfirmationEmailInfo {
     columnOrder?: any
 }
 
-interface IFormEditStateOld {
+export interface IFormEditStateOld {
     form: IFormDBEntry,
     original_form: IFormDBEntry,
     input_form: IFormDBEntry,
     ajaxLoading: boolean
 }
-interface ICouponCode {
+export interface ICouponCode {
     amount: string,
     max: number,
     responses: string[],
     responsesPending: string[]
 }
-interface IVersion {
+export interface IVersion {
     version: number,
     date_created: string,
     date_last_modified: string
 }
 
-interface IResponseDBEntry extends IDBEntry {
+export interface IResponseDBEntry extends IDBEntry {
     value: IResponse,
     form: string,
     user?: string,
@@ -92,17 +88,17 @@ interface IResponseDBEntry extends IDBEntry {
     paid: boolean
 }
 
-interface IDBEntry {
+export interface IDBEntry {
     date_created: string,
     date_last_modified: string
 }
 
-interface ISchemaDBEntry extends IDBEntry {
+export interface ISchemaDBEntry extends IDBEntry {
     value: Schema,
     version: number,
     id: string
 }
-interface ISchemaModifierDBEntry extends IDBEntry {
+export interface ISchemaModifierDBEntry extends IDBEntry {
     value: SchemaModifier,
     paymentMethods: IPaymentMethods,
     confirmationEmailInfo: ConfirmationEmailInfo,
@@ -112,7 +108,7 @@ interface ISchemaModifierDBEntry extends IDBEntry {
     version: number,
     id: string
 }
-interface IDataOptions {
+export interface IDataOptions {
     exportRows?: string[],
     mainTable?: {
         columnOrder?: string[],

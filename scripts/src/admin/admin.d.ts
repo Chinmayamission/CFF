@@ -1,19 +1,21 @@
-interface IWithAuthenticatorProps {
+import { IFormListItem } from "./FormList/FormList";
+
+export interface IWithAuthenticatorProps {
     authState?: string,
     authData?: {
         id: string,
         name: string
     }
 }
-interface IFormAdminPageProps extends IWithAuthenticatorProps {
+export interface IFormAdminPageProps extends IWithAuthenticatorProps {
     match?: {
         url: string
     }
 }
-interface ISharedAdminProps {
+export interface ISharedAdminProps {
 }
 
-interface ISharedFormAdminPageProps {
+export interface ISharedFormAdminPageProps {
  match: {
     params: {
         formId?: string
@@ -22,7 +24,8 @@ interface ISharedFormAdminPageProps {
  onError: (any) => void
 }
 
-interface IFormAdminPageState {
+
+export interface IFormAdminPageState {
     formList: IFormListItem[],
     centerList: {id: number, name: string}[],
     center: {id: number, name: string},

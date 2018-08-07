@@ -1,7 +1,7 @@
-/// <reference path="../interfaces.d.ts"/>
-/// <reference path="./PaymentTable.d.ts"/>
 import * as React from 'react';
 import ReactTable from 'react-table';
+import { IPaymentTableProps } from "./PaymentTable.d";
+import {IPaymentInfo} from "../interfaces";
 
 class PaymentTable extends React.Component<IPaymentTableProps, any> {
     constructor(props: any) {

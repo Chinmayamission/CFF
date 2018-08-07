@@ -1,9 +1,7 @@
 import * as React from 'react';
 import FormAdminPage from './admin/FormAdminPage';
-import FormPage from "./form/FormPage";
 import FormStandalone from "./form/FormStandalone/FormStandalone";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import * as queryString from 'query-string';
 import "./app.scss";
 import * as DOMPurify from 'dompurify';
 import Loading from "src/common/Loading/Loading";

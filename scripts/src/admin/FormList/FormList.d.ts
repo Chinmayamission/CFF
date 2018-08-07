@@ -1,4 +1,7 @@
-interface IFormListItem {
+import { IAuthState } from "../../store/auth/types";
+import { IAdminState } from "../../store/admin/types";
+
+export interface IFormListItem {
     name: string,
     _id: {$oid: string},
     version: number,
@@ -8,16 +11,18 @@ interface IFormListItem {
 }
 
 
-interface IFormListState {
+export interface IFormListState {
     formList: IFormListItem[]
 }
 
 
-interface IFormListProps extends IAuthState {
+export interface IFormListProps extends IAuthState, IAdminState {
     match: {
         url: string
     },
     selectedForm?: IFormListItem
     onError: (any) => void,
-    userId: string
+    userId: string,
+    data: any,
+    loadFormList: () => void
 }

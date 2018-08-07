@@ -1,4 +1,3 @@
-/// <reference path="./interfaces.d.ts"/>
 import React from 'react';
 import Form from 'react-jsonschema-form';
 import {API} from "aws-amplify";
@@ -17,6 +16,7 @@ import {setFormLoading} from "src/store/form/actions";
 import {Helmet} from "react-helmet";
 import htmlToText from "html-to-text";
 import Login from "src/common/Login/Login";
+import { IFormPageProps, IFormPageState, IPaymentInfoReceived } from './interfaces';
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;

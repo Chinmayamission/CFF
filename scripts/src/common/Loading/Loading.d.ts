@@ -1,7 +1,7 @@
-interface ILoadingProps {
+export interface ILoadingProps {
     hasError?: boolean
     onClose?: () => void
 }
-interface ILoadingState {
+export interface ILoadingState {
     open: boolean
 }
