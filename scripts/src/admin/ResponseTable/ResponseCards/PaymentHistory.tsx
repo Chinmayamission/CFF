@@ -72,7 +72,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
                 Footer: <div><button className="btn btn-sm btn-primary cff-payment-history-btn-add" onClick={e => this.submitNewPayment()} >Add</button></div>
             }
         ];
-        let data = this.props.responseData.payment_status_detail || [{ "currency": "USD", "amount": "123.00", "date": { "$date": "2018-07-04T15:19:38.697Z" }, "method": "paypal_ipn", "_cls": "chalicelib.models.PaymentStatusDetailItem" }, { "currency": "USD", "amount": "223.00", "date": { "$date": "2018-07-04T16:28:52.857Z" }, "method": "paypal_ipn", "_cls": "chalicelib.models.PaymentStatusDetailItem" }];
+        let data = this.props.responseData.payment_status_detail;
         if (!data) { return <div>No payments yet.</div> };
         return <div className="cff-response-payment-history">
             <ReactTable data={data} columns={headers} minRows={0} showPagination={data.length > 5} />
