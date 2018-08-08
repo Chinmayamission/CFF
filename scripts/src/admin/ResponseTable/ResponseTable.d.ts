@@ -1,6 +1,7 @@
 import { IRenderedForm } from "../FormEdit/FormEdit.d";
 import { ResponsesState, IFormResponseTableDisplayData } from "../../store/responses/types";
 import { IFormListItem } from "../FormList/FormList.d";
+import { FormState } from "../../store/form/types";
 
 export interface IResponseTableProps extends ResponsesState {
     match: {
@@ -14,7 +15,7 @@ export interface IResponseTableProps extends ResponsesState {
     editMode?: boolean,
     checkinMode?: boolean,
     selectedForm: IFormListItem,
-    form: IRenderedForm,
+    form: FormState,
     fetchRenderedForm: (x: string) => void,
     fetchResponses: (x: string) => void,
     setFormResponseTableDisplayData: (e: IFormResponseTableDisplayData) => void

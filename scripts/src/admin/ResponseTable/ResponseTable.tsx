@@ -41,21 +41,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
     }
 
     showUnwindTable(rowToUnwind) {
-        if (rowToUnwind) {
-            // If select box was changed.
-            this.props.setFormResponseTableDisplayData({
-                rowToUnwind: rowToUnwind,
-                tableDataDisplayed: this.props.tableDataDisplayed,
-                tableHeadersDisplayed: this.props.tableHeadersDisplayed,
-                colsToAggregate: this.props.colsToAggregate,
-                tableHeaders: this.props.tableHeaders,
-                tableData: this.props.tableData,
-                possibleFieldsToUnwind: this.props.possibleFieldsToUnwind,
-                dataOptions: this.props.dataOptions,
-                tableDataOrigObject: this.props.tableDataOrigObject
-            });
-        }
-        else {
+        if (!rowToUnwind) {
             rowToUnwind = this.props.rowToUnwind;
         }
         let origData = this.props.tableDataOrigObject.map(e => e.value);
@@ -72,10 +58,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         }
         let headerObjs = concat(
             // Headers.makeHeaderObjsFromKeys(["ID", "PAID"]),
-            Headers.makeHeaders(this.props.form.schema.properties[rowToUnwind].items.properties),
+            Headers.makeHeaders(this.props.form.renderedForm.schema.properties[rowToUnwind].items.properties),
             this.props.tableHeaders // concat original table headers with this.
         );
-        let dataOptions = this.props.form.dataOptions;
+        let dataOptions = this.props.form.renderedForm.dataOptions;
         let colsToAggregate = [];
         if (dataOptions.unwindTables && dataOptions.unwindTables[rowToUnwind]) {
             headerObjs = filterHeaderObjs(headerObjs, dataOptions.unwindTables[rowToUnwind]);
@@ -90,7 +76,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
             tableData: this.props.tableData,
             possibleFieldsToUnwind: this.props.possibleFieldsToUnwind,
             dataOptions: this.props.dataOptions,
-            rowToUnwind: this.props.rowToUnwind,
+            rowToUnwind: rowToUnwind,
             tableDataOrigObject: this.props.tableDataOrigObject
         });
     }
@@ -129,7 +115,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 defaultFiltered={[{ "id": "PAID", "value": "all" }]}
                 defaultFilterMethod={filterCaseInsensitive}
                 freezeWhenExpanded={true}
-                SubComponent={({ original, row }) => <ResponseDetail checkInMode={this.props.checkinMode} responseId={original.ID} formId={this.props.match.params.formId} dataOptions={this.props.form.dataOptions} />}
+                SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
                 getTrProps={(state, rowInfo, column, instance) => {
                     return {
                         style: {
