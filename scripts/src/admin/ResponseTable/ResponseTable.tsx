@@ -118,7 +118,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
     }
 
     render() {
-        console.log(this.props);
         return (!this.props.responses || !this.props.form || !this.props.tableDataDisplayed) ? <Loading /> : (
             <ReactTable
                 data={this.props.tableDataDisplayed}
