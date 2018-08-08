@@ -8,8 +8,8 @@ import JSONEditor from "./JSONEditor";
 import { get, set, assign, pick } from "lodash-es";
 import Modal from 'react-responsive-modal';
 import dataLoadingView from "../util/DataLoadingView";
-import {API} from "aws-amplify";
-import {IFormEditProps, IFormEditState} from "./FormEdit.d";
+import { API } from "aws-amplify";
+import { IFormEditProps, IFormEditState } from "./FormEdit.d";
 
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
@@ -19,27 +19,13 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         this.state = {
             schema: get(form, "schema", {}),
             uiSchema: get(form, "uiSchema", {}),
-            formOptions: get(form, "formOptions", {"paymentInfo": {}, "confirmationEmailInfo": {}, "paymentMethods": {} }),
+            formOptions: get(form, "formOptions", { "paymentInfo": {}, "confirmationEmailInfo": {}, "paymentMethods": {} }),
             formName: get(form, "name", "None"),
             loading: false
         }
     }
-
-    componentWillMount() {
-        
-
-    }
-    getPath(params) {
-
-    }
     onChange(path, data) {
-        //console.log(path, data);
-        //if (isObject(get(this.state, path))) {
-            this.setState(set(assign({}, this.state), path, data));
-        //}
-        //else {
-        //    alert("Error: " + path + " not found or not an object in state.");
-        //}
+        this.setState(set(assign({}, this.state), path, data));
     }
     saveForm() {
         this.setState({ loading: true });
@@ -55,7 +41,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             if (!(res.success == true && res.updated_values)) {
                 throw "Response not formatted correctly: " + JSON.stringify(res);
             }
-            this.setState({loading: false});
+            this.setState({ loading: false });
             // this.setState({
             //     loading: false,
             //     formName: formName,
@@ -71,7 +57,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
         })
 
     }
-    
+
     changeFormName(newName) {
         this.setState({ formName: newName });
     }
