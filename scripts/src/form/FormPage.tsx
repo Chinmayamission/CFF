@@ -16,21 +16,13 @@ import {Helmet} from "react-helmet";
 import htmlToText from "html-to-text";
 import Login from "src/common/Login/Login";
 import { IFormPageProps, IFormPageState, IPaymentInfoReceived } from './interfaces';
+import { fetchRenderedForm } from '../store/form/actions';
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
 const STATUS_FORM_CONFIRMATION = 4;
 const STATUS_FORM_PAYMENT_SUCCESS = 6;
 const STATUS_FORM_DONE = 8;
-
-const mapStateToProps = state => ({
-  ...state.form,
-  auth: state.auth
-});
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  logout: () => dispatch(logout())
-});
 
 
 var This;
@@ -88,7 +80,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.props.logout();
     this.setState({"hasError": true});
   }
-  componentDidMount() {
+  componentDidMount() {    
     this.loadForm();
   }
   loadForm() {
@@ -286,5 +278,15 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     return formToReturn;
   }
 }
+
+const mapStateToProps = state => ({
+  ...state.form,
+  auth: state.auth
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  fetchRenderedForm: formId => dispatch(fetchRenderedForm(formId)),
+  logout: () => dispatch(logout())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormPage);

@@ -1,3 +1,6 @@
+import { IAuthState } from "../store/auth/types";
+import { IFormDBEntry } from "../admin/FormEdit/FormEdit.d";
+import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 
 export interface Window {
     paypal: any
@@ -87,7 +90,8 @@ export interface IFormPageProps { // extends FormState
     form_preloaded?: IFormDBEntry,
     logout: () => void,
     auth: IAuthState,
-    loading: boolean
+    loading: boolean,
+    fetchRenderedForm: () => void
 }
 
 export interface IFormConfirmationPageProps {
