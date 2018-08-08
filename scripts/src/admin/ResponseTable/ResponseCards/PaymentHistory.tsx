@@ -18,6 +18,15 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
             return total + " " + currency;
         }
     }
+    submitNewPayment() {
+        const item = this.props.paymentStatusDetailItem;
+        if (item.amount && item.id && item.method) {
+            return this.props.submitNewPayment();
+        }
+        else {
+            alert("Please fill out all fields before submitting.");
+        }
+    }
     render() {
         let headers = [
             {
@@ -28,7 +37,6 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
                     <input value={this.props.paymentStatusDetailItem.amount}
                         onChange={e => this.props.onChange("amount", e.target.value)}
                         className="form-control form-control-sm" placeholder="Amount" />
-
                 </div>
             },
             {
@@ -61,7 +69,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
                 Header: "Submit",
                 id: "submit",
                 accessor: e => null,
-                Footer: <div><button className="btn btn-sm btn-primary" onClick={e => this.props.submitNewPayment()} >Add</button></div>
+                Footer: <div><button className="btn btn-sm btn-primary cff-payment-history-btn-add" onClick={e => this.submitNewPayment()} >Add</button></div>
             }
         ];
         let data = this.props.responseData.payment_status_detail || [{ "currency": "USD", "amount": "123.00", "date": { "$date": "2018-07-04T15:19:38.697Z" }, "method": "paypal_ipn", "_cls": "chalicelib.models.PaymentStatusDetailItem" }, { "currency": "USD", "amount": "223.00", "date": { "$date": "2018-07-04T16:28:52.857Z" }, "method": "paypal_ipn", "_cls": "chalicelib.models.PaymentStatusDetailItem" }];

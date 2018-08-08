@@ -1,214 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`no payments found 1`] = `
-<div
-  class="cff-response-payment-history"
->
-  <div
-    class="ReactTable"
-  >
-    <div
-      class="rt-table"
-      role="grid"
-    >
-      <div
-        class="rt-thead -header"
-        style="min-width:500px"
-      >
-        <div
-          class="rt-tr"
-          role="row"
-        >
-          <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
-            role="columnheader"
-            style="flex:100 0 auto;width:100px"
-            tabindex="-1"
-          >
-            <div
-              class="rt-resizable-header-content"
-            >
-              Amount
-            </div>
-            <div
-              class="rt-resizer"
-            />
-          </div>
-          <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
-            role="columnheader"
-            style="flex:100 0 auto;width:100px"
-            tabindex="-1"
-          >
-            <div
-              class="rt-resizable-header-content"
-            >
-              Method
-            </div>
-            <div
-              class="rt-resizer"
-            />
-          </div>
-          <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
-            role="columnheader"
-            style="flex:100 0 auto;width:100px"
-            tabindex="-1"
-          >
-            <div
-              class="rt-resizable-header-content"
-            >
-              ID
-            </div>
-            <div
-              class="rt-resizer"
-            />
-          </div>
-          <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
-            role="columnheader"
-            style="flex:100 0 auto;width:100px"
-            tabindex="-1"
-          >
-            <div
-              class="rt-resizable-header-content"
-            >
-              Date
-            </div>
-            <div
-              class="rt-resizer"
-            />
-          </div>
-          <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
-            role="columnheader"
-            style="flex:100 0 auto;width:100px"
-            tabindex="-1"
-          >
-            <div
-              class="rt-resizable-header-content"
-            >
-              Submit
-            </div>
-            <div
-              class="rt-resizer"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="rt-tbody"
-        style="min-width:500px"
-      />
-      <div
-        class="rt-tfoot"
-        style="min-width:500px"
-      >
-        <div
-          class="rt-tr"
-          role="row"
-        >
-          <div
-            class="rt-td"
-            role="gridcell"
-            style="flex:100 0 auto;width:100px"
-          >
-            <div>
-              <input
-                class="form-control form-control-sm"
-                placeholder="Amount"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            class="rt-td"
-            role="gridcell"
-            style="flex:100 0 auto;width:100px"
-          >
-            <div>
-              <select
-                class="form-control form-control-sm"
-              >
-                <option
-                  disabled=""
-                  selected=""
-                  value=""
-                >
-                  Method
-                </option>
-                <option
-                  value="manual_check"
-                >
-                  Check
-                </option>
-                <option
-                  value="manual_cash"
-                >
-                  Cash
-                </option>
-                <option
-                  value="manual_credit_card"
-                >
-                  Credit Card
-                </option>
-              </select>
-            </div>
-          </div>
-          <div
-            class="rt-td"
-            role="gridcell"
-            style="flex:100 0 auto;width:100px"
-          >
-            <div>
-              <input
-                class="form-control form-control-sm"
-                placeholder="ID"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            class="rt-td"
-            role="gridcell"
-            style="flex:100 0 auto;width:100px"
-          >
-            <div />
-          </div>
-          <div
-            class="rt-td"
-            role="gridcell"
-            style="flex:100 0 auto;width:100px"
-          >
-            <div>
-              <button
-                class="btn btn-sm btn-primary"
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="rt-noData"
-    >
-      No rows found
-    </div>
-    <div
-      class="-loading"
-    >
-      <div
-        class="-loading-inner"
-      >
-        Loading...
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`render several types of payments 1`] = `
 <div
   class="cff-response-payment-history"
@@ -478,7 +269,7 @@ exports[`render several types of payments 1`] = `
           >
             <div>
               <button
-                class="btn btn-sm btn-primary"
+                class="btn btn-sm btn-primary cff-payment-history-btn-add"
               >
                 Add
               </button>
@@ -486,6 +277,215 @@ exports[`render several types of payments 1`] = `
           </div>
         </div>
       </div>
+    </div>
+    <div
+      class="-loading"
+    >
+      <div
+        class="-loading-inner"
+      >
+        Loading...
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders table with no payments found 1`] = `
+<div
+  class="cff-response-payment-history"
+>
+  <div
+    class="ReactTable"
+  >
+    <div
+      class="rt-table"
+      role="grid"
+    >
+      <div
+        class="rt-thead -header"
+        style="min-width:500px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Amount
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Method
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              ID
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Date
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Submit
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-tbody"
+        style="min-width:500px"
+      />
+      <div
+        class="rt-tfoot"
+        style="min-width:500px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-td"
+            role="gridcell"
+            style="flex:100 0 auto;width:100px"
+          >
+            <div>
+              <input
+                class="form-control form-control-sm"
+                placeholder="Amount"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="rt-td"
+            role="gridcell"
+            style="flex:100 0 auto;width:100px"
+          >
+            <div>
+              <select
+                class="form-control form-control-sm"
+              >
+                <option
+                  disabled=""
+                  selected=""
+                  value=""
+                >
+                  Method
+                </option>
+                <option
+                  value="manual_check"
+                >
+                  Check
+                </option>
+                <option
+                  value="manual_cash"
+                >
+                  Cash
+                </option>
+                <option
+                  value="manual_credit_card"
+                >
+                  Credit Card
+                </option>
+              </select>
+            </div>
+          </div>
+          <div
+            class="rt-td"
+            role="gridcell"
+            style="flex:100 0 auto;width:100px"
+          >
+            <div>
+              <input
+                class="form-control form-control-sm"
+                placeholder="ID"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="rt-td"
+            role="gridcell"
+            style="flex:100 0 auto;width:100px"
+          >
+            <div />
+          </div>
+          <div
+            class="rt-td"
+            role="gridcell"
+            style="flex:100 0 auto;width:100px"
+          >
+            <div>
+              <button
+                class="btn btn-sm btn-primary cff-payment-history-btn-add"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rt-noData"
+    >
+      No rows found
     </div>
     <div
       class="-loading"
