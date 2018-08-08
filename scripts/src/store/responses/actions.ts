@@ -21,6 +21,15 @@ export const editResponse = (responseId, path, value) => (dispatch, getState) =>
   });
 };
 
+export const fetchResponseDetail = (responseId) => (dispatch, getState) => {
+  return API.get("CFF", `responses/${responseId}`, {}).then(e => {
+    dispatch(setResponseDetail(e.res));
+  }).catch(e => {
+    console.error(e);
+    alert("Error updating value. " + e);
+  });
+};
+
 export const setResponseDetail = (responseData: any) => ({
   type: 'SET_RESPONSE_DATA',
   responseData

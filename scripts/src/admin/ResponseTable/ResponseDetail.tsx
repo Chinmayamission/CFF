@@ -10,16 +10,14 @@ import ValueEdit from './ResponseCards/ValueEdit';
 import { connect } from "react-redux";
 import { setResponseDetail } from "src/store/responses/actions";
 import PaymentHistory from "./ResponseCards/PaymentHistory";
+import { fetchResponseDetail } from "../../store/responses/actions";
 
 class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDetailState> {
     constructor(props: any) {
         super(props);
-        this.state = {
-            data: this.props.data.res
-        };
     }
     componentDidMount() {
-        this.props.setResponseDetail(this.state.data);
+        this.props.fetchResponseDetail(this.props.responseId);
     }
     sendConfirmationEmail() {
         API.post("CFF", `responses/${this.props.responseId}/sendConfirmationEmail`, {
@@ -49,7 +47,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
             return <div>Loading...</div>;
         }
         return (
-            <div className="container-fluid cff-response-detail" key={this.props.responseId}>
+            <div className="container-fluid cff-response-detail" key={this.props.responseData._id.$oid}>
                 <div className="row">
                     <div className="card col-12 col-sm-6">
                         <div className="card-body">
@@ -66,7 +64,7 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
                     <div className="card col-12 col-sm-6">
                         <div className="card-body">
                             <h5 className="card-title">Inspector (for debug purposes)</h5>
-                            <ReactJson src={this.state.data}
+                            <ReactJson src={this.props.responseData}
                                 displayObjectSize={false}
                                 displayDataTypes={false}
                                 onEdit={false}
@@ -92,16 +90,13 @@ class ResponseDetail extends React.Component<IResponseDetailProps, IResponseDeta
 
 // export default ResponseDetail;
 
-const ResponseDetailDataLoaded = dataLoadingView(ResponseDetail, (props) => {
-    return API.get("CFF", `responses/${props.responseId}`, {});
-});
-
 const mapStateToProps = state => ({
     ...state.responses
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+    fetchResponseDetail: e => dispatch(fetchResponseDetail(e)),
     setResponseDetail: e => dispatch(setResponseDetail(e))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResponseDetailDataLoaded);
+export default connect(mapStateToProps, mapDispatchToProps)(ResponseDetail);
