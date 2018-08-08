@@ -1,18 +1,18 @@
 import * as React from 'react';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
-import {assign, concat, get, isArray, find, filter, set} from 'lodash-es';
+import {assign, concat, get, isArray} from 'lodash-es';
 import {CSVLink} from 'react-csv';
 import FormLoader from "src/common/FormLoader";
 import Headers from "src/admin/util/Headers";
 import {API} from "aws-amplify";
 import Loading from "src/common/Loading/Loading";
 import ResponseDetail from "./ResponseDetail";
-import InlineEdit from "react-edit-inline";
 import filterHeaderObjs from "./filterHeaderObjs";
 import { NavLink } from "react-router-dom";
 import {flatten} from 'flat';
 import {IResponseTableProps, IResponseTableState} from "./ResponseTable.d";
+import { connect } from 'react-redux';
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
@@ -245,14 +245,10 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                   },
                   onClick: (e) => {
                     const { expanded } = state;
-                    // const expanded = {};
                     const path = rowInfo.nestingPath[0];
-                    const diff = { [path]: expanded[path] ? false : true };
             
                     instance.setState({
-                      expanded: {
-                        ...diff
-                      }
+                      expanded: { [path]: expanded[path] ? false : true }
                     });
                   }
                 }
@@ -273,8 +269,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                                     <li className="nav-item" key={e} onClick={() => this.showUnwindTable(e)}>
                                         <NavLink className="nav-link" to={{pathname: e }}>
                                             Unwind by {e}
-                                        </NavLink>
-                                        
+                                        </NavLink>         
                                     </li>
                                 )}
                             </ul>
@@ -304,4 +299,12 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
     }
 }
 
-export default ResponseTable;
+const mapStateToProps = state => ({
+    ...state.responses
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResponseTable);

@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders default response table 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(ResponseTable)
+    match={
+      Object {
+        "params": Object {
+          "formId": 123,
+        },
+      }
+    }
+  >
+    <ResponseTable
+      checkinMode={false}
+      editMode={false}
+      match={
+        Object {
+          "params": Object {
+            "formId": 123,
+          },
+        }
+      }
+      paymentStatusDetailItem={
+        Object {
+          "amount": "",
+          "currency": "USD",
+          "date": null,
+          "id": "",
+          "method": "",
+        }
+      }
+      responseData={null}
+    >
+      <Loading
+        hasError={false}
+      >
+        <div
+          className="ccmt-cff-loading-container"
+        >
+          <div
+            className="ccmt-cff-loading"
+          >
+            <svg
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 0 A16 16 0 0 0 16 32 A16 16 0 0 0 16 0 M16 4 A12 12 0 0 1 16 28 A12 12 0 0 1 16 4"
+                opacity=".25"
+              />
+              <path
+                d="M16 0 A16 16 0 0 1 32 16 L28 16 A12 12 0 0 0 16 4z"
+                transform="rotate(152.678 16 16)"
+              >
+                <animateTransform
+                  attributeName="transform"
+                  dur="5.3s"
+                  from="0 16 16"
+                  repeatCount="indefinite"
+                  to="360 16 16"
+                  type="rotate"
+                />
+              </path>
+            </svg>
+          </div>
+        </div>
+      </Loading>
+    </ResponseTable>
+  </Connect(ResponseTable)>
+</Provider>
+`;
