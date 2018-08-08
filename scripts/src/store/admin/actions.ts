@@ -4,7 +4,7 @@ import { IFormListItem } from "../../admin/FormList/FormList.d";
 
 export const loadFormList = () => (dispatch, getState) => {
   return API.get("CFF", `forms`, {}).then(e => {
-    dispatch(setFormList(e.res.data));
+    dispatch(setFormList(e.res));
   }).catch(e => {
     console.error(e);
     alert("Error getting form list. " + e);

@@ -12,7 +12,6 @@ import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import {connect} from "react-redux";
 import {logout} from "src/store/auth/actions";
-import {setFormLoading} from "src/store/form/actions";
 import {Helmet} from "react-helmet";
 import htmlToText from "html-to-text";
 import Login from "src/common/Login/Login";
@@ -30,8 +29,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  logout: () => dispatch(logout()),
-  setFormLoading: (e) => dispatch(setFormLoading(e))
+  logout: () => dispatch(logout())
 });
 
 

@@ -87,8 +87,7 @@ export interface IFormPageProps { // extends FormState
     form_preloaded?: IFormDBEntry,
     logout: () => void,
     auth: IAuthState,
-    loading: boolean,
-    setFormLoading: (boolean) => void
+    loading: boolean
 }
 
 export interface IFormConfirmationPageProps {

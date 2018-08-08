@@ -13,7 +13,7 @@ export interface IFormEditProps {
 export interface IFormEditState {
     schema: Schema,
     uiSchema: UiSchema,
-    formOptions: any,
+    formOptions: IFormOptions,
     formName: string,
     loading: boolean
 }
@@ -30,15 +30,22 @@ export interface IFormDBEntry {
     date_created: string,
     schema: {[x: string]: any}
     uiSchema: {[x: string]: any},
-    formOptions: {
-        paymentInfo: IPaymentInfo,
-        paymentMethods: IPaymentMethods,
-        confirmationEmailInfo: IConfirmationEmailInfo,
-        dataOptions: IDataOptions
-    },
+    formOptions: IFormOptions,
     data: {
         res: IFormDBEntry
     }
+}
+export interface IFormOptions {
+    paymentInfo: IPaymentInfo,
+    paymentMethods: IPaymentMethods,
+    confirmationEmailInfo: IConfirmationEmailInfo,
+    dataOptions: IDataOptions
+}
+export interface IRenderedForm {
+    schema: {[x: string]: any},
+    uiSchema: {[x: string]: any},
+    formOptions: IFormOptions
+    dataOptions: IDataOptions
 }
 export interface IConfirmationEmailInfo {
     toField: string,

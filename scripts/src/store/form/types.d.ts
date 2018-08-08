@@ -1,4 +1,5 @@
+import { IRenderedForm } from "../../admin/FormEdit/FormEdit.d";
+
 export interface FormState {
-  formData: {[x:string]: any},
-  loading: boolean
+  renderedForm: IRenderedForm
 }

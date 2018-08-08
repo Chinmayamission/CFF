@@ -23,7 +23,16 @@ exports[`renders default response table 1`] = `
   >
     <ResponseTable
       checkinMode={false}
+      colsToAggregate={null}
+      dataOptions={null}
       editMode={false}
+      fetchRenderedForm={[Function]}
+      fetchResponses={[Function]}
+      form={
+        Object {
+          "renderedForm": null,
+        }
+      }
       match={
         Object {
           "params": Object {
@@ -40,11 +49,18 @@ exports[`renders default response table 1`] = `
           "method": "",
         }
       }
+      possibleFieldsToUnwind={null}
       responseData={null}
+      responses={null}
+      rowToUnwind={null}
+      setFormResponseTableDisplayData={[Function]}
+      tableData={null}
+      tableDataDisplayed={null}
+      tableDataOrigObject={null}
+      tableHeaders={null}
+      tableHeadersDisplayed={null}
     >
-      <Loading
-        hasError={false}
-      >
+      <Loading>
         <div
           className="ccmt-cff-loading-container"
         >

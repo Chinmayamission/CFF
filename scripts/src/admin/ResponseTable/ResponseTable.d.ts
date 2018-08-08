@@ -1,4 +1,8 @@
-export interface IResponseTableProps {
+import { IRenderedForm } from "../FormEdit/FormEdit.d";
+import { ResponsesState, IFormResponseTableDisplayData } from "../../store/responses/types";
+import { IFormListItem } from "../FormList/FormList.d";
+
+export interface IResponseTableProps extends ResponsesState {
     match: {
         params: {
             formId: string,
@@ -9,22 +13,12 @@ export interface IResponseTableProps {
     onError: (any) => void,
     editMode?: boolean,
     checkinMode?: boolean,
-    selectedForm: IFormListItem
+    selectedForm: IFormListItem,
+    form: IRenderedForm,
+    fetchRenderedForm: (x: string) => void,
+    fetchResponses: (x: string) => void,
+    setFormResponseTableDisplayData: (e: IFormResponseTableDisplayData) => void
 }
 
 export interface IResponseTableState {
-    status: number,
-    tableData: any[],
-    tableHeaders: any[],
-    tableDataOrigObject: any,
-    tableDataDisplayed: any[],
-    tableHeadersDisplayed: any[],
-    pivotCols: any[],
-    schema: Schema,
-    dataOptions: IDataOptions,
-    possibleFieldsToUnwind: string[],
-    rowToUnwind: string,
-    colsToAggregate: any[],
-    loading: boolean,
-    hasError: boolean
 }

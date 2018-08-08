@@ -1,7 +1,6 @@
 
 import { API, Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
-import { setFormLoading } from "src/store/form/actions";
 import { loadingStart, loadingEnd } from "src/store/base/actions";
 import { IUserAttributes } from "./types";
 

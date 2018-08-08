@@ -2,22 +2,16 @@ import { Reducer } from 'redux';
 import {FormState} from "./types.d";
 
 const initialState: FormState = {
-  formData: null,
-  loading: false
+  renderedForm: null
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
-    case 'SET_FORM_DATA':
+    case 'SET_RENDERED_FORM':
       return {
         ...state,
-        formData: action.formData
+        renderedForm: action.renderedForm
       };
-    case "SET_FORM_LOADING":
-      return {
-        ...state,
-        loading: action.loading
-      }
     default:
       return state;
   }

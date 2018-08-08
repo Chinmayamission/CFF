@@ -6,9 +6,10 @@ const initialState: IAdminState = {
   formList: []
 };
 
-const form: Reducer<any> = (state: any = initialState, action): any => {
+const admin: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
     case 'SET_FORM_LIST':
+    console.log(action);
       return {
         ...state,
         formList: action.formList
@@ -18,4 +19,4 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
   }
 };
 
-export default form;
+export default admin;
