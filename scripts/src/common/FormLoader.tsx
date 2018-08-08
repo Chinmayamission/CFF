@@ -1,12 +1,12 @@
 import {get} from 'lodash-es';
 import {API} from "aws-amplify";
 import createSchemas from "./CreateSchemas";
-import { IResponseDBEntry } from '../admin/FormEdit/FormEdit.d';
+import { IResponse } from '../store/responses/types';
 
 interface IGetFormResponse {
     res: any,
     responseId: string,
-    response: IResponseDBEntry
+    response: IResponse
 }
 
 export module FormLoader {

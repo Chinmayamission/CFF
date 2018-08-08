@@ -1,8 +1,6 @@
 import React from "react";
-import ReactJson from "react-json-view";
 import { connect } from "react-redux";
 import ReactTable from "react-table";
-// import { editResponse } from "src/store/responses/actions";
 import { ResponsesState } from "../../../store/responses/types";
 import "./PaymentHistory.scss";
 import { onPaymentStatusDetailChange, submitNewPayment } from "../../../store/responses/actions";

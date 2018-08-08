@@ -1,3 +1,6 @@
+import { IResponse } from "../../store/responses/types";
+import { IPaymentInfo, ConfirmationEmailInfo, Schema, SchemaModifier, IPaymentMethods } from "../../form/interfaces";
+
 export interface IFormEditProps {
     data: any,
     match: {
@@ -72,20 +75,6 @@ export interface IVersion {
     version: number,
     date_created: string,
     date_last_modified: string
-}
-
-export interface IResponseDBEntry extends IDBEntry {
-    value: IResponse,
-    form: string,
-    user?: string,
-    paymentInfo: IPaymentInfo,
-    confirmationEmailInfo: ConfirmationEmailInfo,
-    update_trail: any,
-    payment_trail: any,
-    payment_status_detail: any,
-    amount_paid: any,
-    modifyLink: string,
-    paid: boolean
 }
 
 export interface IDBEntry {
