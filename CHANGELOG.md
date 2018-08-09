@@ -42,6 +42,14 @@ todo:
 - 
 - user login/signup
 
+## 2.1.6 (8/10/18)
+Front end and back end
+Front end:
+- Fix bug: remove default dummy payment history of $123 and $223 shown on response detail.
+- Use redux for a lot of loading data on the admin pages.
+Back end:
+- Fix [bug](https://jira.mongodb.org/browse/PYMODM-107) in which payment_trail, etc. picked up random entries from old responses, by initializing these fields to empty list manually.
+
 ## 2.1.5 (8/6/18)
 Front end and back end
 - Allow form editing functionality, more features on response detail view page.
