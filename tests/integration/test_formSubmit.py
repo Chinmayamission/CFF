@@ -10,7 +10,7 @@ from app import app
 from pydash.objects import set_
 from tests.integration.baseTestCase import BaseTestCase
 from chalicelib.routes.responseIpnListener import mark_successful_payment
-from chalicelib.models import Form, Response
+from chalicelib.models import Form, Response, serialize_model
 from bson.objectid import ObjectId
 import time
 
@@ -83,15 +83,17 @@ class FormSubmit(BaseTestCase):
     
     def test_mark_successful_payment(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
+        response = Response.objects.get({"_id": ObjectId(responseId)})
         paid = mark_successful_payment(
             form=Form.objects.get({"_id": ObjectId(self.formId)}),
-            response=Response.objects.get({"_id": ObjectId(responseId)}),
+            response=response,
             full_value={"a":"b","c":"d"},
             method_name="unittest_ipn",
             amount=0.5,
             currency="USD",
             id="payment1"
         )
+        response.save()
         self.assertEqual(paid, True)
         response = self.view_response(responseId)
         response['payment_trail'][0].pop("date")
@@ -99,12 +101,32 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['paid'], True)
         self.assertEqual(response['amount_paid'], "0.5")
 
+    def test_mark_successful_payment_2(self):
+        responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        paid = mark_successful_payment(
+            form=Form.objects.get({"_id": ObjectId(self.formId)}),
+            response=response,
+            full_value={"a2":"b2","c2":"d2"},
+            method_name="unittest_ipn2",
+            amount=0.6,
+            currency="USD",
+            id="payment2"
+        )
+        response.save()
+        self.assertEqual(paid, True)
+        response = self.view_response(responseId)
+        response['payment_trail'][0].pop("date")
+        self.assertEqual(response['payment_trail'], [{'value': {'a2': 'b2', 'c2': 'd2'}, 'method': 'unittest_ipn2', 'status': 'SUCCESS', 'id': 'payment2', '_cls': 'chalicelib.models.PaymentTrailItem'}])
+        self.assertEqual(response['paid'], True)
+        self.assertEqual(response['amount_paid'], "0.6")
+
     @unittest.skip("Need to make this test later.")
     def test_mark_successful_payment_not_full(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
         paid = mark_successful_payment(
             form=Form.objects.get({"_id": ObjectId(self.formId)}),
-            response=Response.objects.get({"_id": ObjectId(responseId)}),
+            responseId=responseId,
             full_value={"a":"b","c":"d"},
             method_name="unittest_ipn",
             amount=0.4,

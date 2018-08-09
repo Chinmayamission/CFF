@@ -44,6 +44,7 @@ def response_payment(responseId):
     id = app.current_request.json_body["id"]
     method = app.current_request.json_body["method"]
     paid = mark_successful_payment(response.form, response, {"type": "manual", "method": method, "id": id}, method, amount, currency, id)
+    response.save()
     return {"res": {"success": True, "paid": paid, "response": serialize_model(response)}}
 
 def response_delete(responseId):

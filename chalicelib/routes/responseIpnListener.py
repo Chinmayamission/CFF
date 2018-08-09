@@ -23,7 +23,6 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
             response.update_trail.append(UpdateTrailItem(date=datetime.datetime.now(), update_type="apply_update"))
     if response.paid and form.formOptions.confirmationEmailInfo:
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
-    response.save()
     return response.paid
 
 def response_ipn_listener(responseId):
@@ -82,6 +81,7 @@ def response_ipn_listener(responseId):
             currency=paramDict["mc_currency"],
             id=txn_id
         )
+        response.save()
         # Has user paid the amount owed? Checks the PENDING_UPDATE for the total amount owed, else the response itself (when not updating).
         # fullyPaid = response["IPN_TOTAL_AMOUNT"] >= response.get("PENDING_UPDATE", response)["paymentInfo"]["total"]
 
