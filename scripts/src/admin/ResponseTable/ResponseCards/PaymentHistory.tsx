@@ -72,8 +72,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
                 Footer: <div><button className="btn btn-sm btn-primary cff-payment-history-btn-add" onClick={e => this.submitNewPayment()} >Add</button></div>
             }
         ];
-        let data = this.props.responseData.payment_status_detail;
-        if (!data) { return <div>No payments yet.</div> };
+        let data = this.props.responseData.payment_status_detail || [];
         return <div className="cff-response-payment-history">
             <ReactTable data={data} columns={headers} minRows={0} showPagination={data.length > 5} />
         </div>;
