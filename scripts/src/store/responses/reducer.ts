@@ -2,10 +2,12 @@ import { Reducer } from 'redux';
 import { ResponsesState } from "./types.d";
 import { set, cloneDeep } from "lodash-es";
 
+
+const defaultPaymentStatusDetailItem = { "amount": "", "currency": "USD", "date": null, "id": "", "method": "" };
 const initialState: ResponsesState = {
   responseData: null,
   responses: null,
-  paymentStatusDetailItem: { "amount": "", "currency": "USD", "date": null, "id": "", "method": "" },
+  paymentStatusDetailItem: defaultPaymentStatusDetailItem,
   tableHeaders: null,
   tableHeadersDisplayed: null,
   tableData: null,
@@ -40,6 +42,11 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         paymentStatusDetailItem: item
+      }
+    case "CLEAR_PAYMENT_STATUS_DETAIL":
+      return {
+        ...state,
+        paymentStatusDetailItem: defaultPaymentStatusDetailItem
       }
     default:
       return state;
