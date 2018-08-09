@@ -57,7 +57,7 @@ def email_to_html_text(msgBody):
     return BODY_TEXT, BODY_HTML
 
 def send_email(
-    toEmail="aramaswamis@gmail.com",
+    toEmail="success@simulator.amazonses.com",
     fromEmail="webmaster@chinmayamission.com",
     ccEmail="",
     bccEmail="",
@@ -80,7 +80,7 @@ def send_email(
     toEmail = [email for email in toEmail if email] if toEmail else []
     ccEmail = [email for email in ccEmail if email] if ccEmail else []
     bccEmail = [email for email in bccEmail if email] if bccEmail else []
-
+    
     try:
         response = client.send_email(
             Source=SENDER,
