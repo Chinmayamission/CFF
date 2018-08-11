@@ -42,7 +42,11 @@ todo:
 - 
 - user login/signup
 
-## 2.1.6 (8/10/18)
+## 2.1.7 (8/11/18)
+Front end only
+- Fix responses table race condition error -- load the form first, then load the responses for that form.
+
+## 2.1.6 (8/11/18)
 Front end and back end
 Front end:
 - Fix bug: remove default dummy payment history of $123 and $223 shown on response detail.

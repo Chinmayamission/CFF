@@ -16,8 +16,8 @@ export interface IResponseTableProps extends ResponsesState {
     checkinMode?: boolean,
     selectedForm: IFormListItem,
     form: FormState,
-    fetchRenderedForm: (x: string) => void,
-    fetchResponses: (x: string) => void,
+    fetchRenderedForm: (x: string) => Promise<any>,
+    fetchResponses: (x: string) => Promise<any>,
     setFormResponseTableDisplayData: (e: IFormResponseTableDisplayData) => void
 }
 

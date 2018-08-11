@@ -36,8 +36,8 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
     }
 
     componentDidMount() {
-        this.props.fetchRenderedForm(this.props.match.params.formId),
-            this.props.fetchResponses(this.props.match.params.formId);
+        this.props.fetchRenderedForm(this.props.match.params.formId).then(e =>
+            this.props.fetchResponses(this.props.match.params.formId));
     }
 
     showUnwindTable(rowToUnwind) {
