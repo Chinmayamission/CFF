@@ -13,21 +13,10 @@ import filterHeaderObjs from "./filterHeaderObjs";
 import ResponseDetail from "./ResponseDetail";
 import { IResponseTableProps, IResponseTableState } from "./ResponseTable.d";
 import { IFormResponseTableDisplayData } from '../../store/responses/types';
+import { filterCaseInsensitive } from "./filters";
 
 const STATUS_RESPONSES_LOADING = 0;
 const STATUS_RESPONSES_RENDERED = 2;
-
-const filterCaseInsensitive = (filter, row) => {
-    const id = filter.pivotId || filter.id;
-    if (row[id] !== null) {
-        return (
-            row[id] !== undefined ?
-                String(row[id]).toLowerCase().startsWith(filter.value.toLowerCase())
-                :
-                true
-        );
-    }
-};
 
 class ResponseTable extends React.Component<IResponseTableProps, IResponseTableState> {
     static defaultProps = {

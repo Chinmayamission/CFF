@@ -42,6 +42,9 @@ todo:
 - 
 - user login/signup
 
+## 2.1.8 (pending)
+- Filter in any position in word in response table.
+
 ## 2.1.7 (8/11/18)
 Front end only
 - Fix responses table race condition error -- load the form first, then load the responses for that form.
