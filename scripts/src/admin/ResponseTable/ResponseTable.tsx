@@ -125,7 +125,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 {(state, makeTable, instance) => {
                     return (
                         <div>
-                            {!this.props.checkinMode && <div>
+                            <div>
                                 <ul className="nav nav-pills">
                                     <li onClick={() => this.showResponsesTable()} className="nav-item">
                                         <NavLink className="nav-link" to={{ pathname: `all` }}>
@@ -147,7 +147,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                                                 e[header.key] = "";
                                             }
                                             if (typeof e[header.key] == 'string') {
-                                                e[header.key] = e[header.key].replace(/\n/g, "  ");
+                                                e[header.key] = e[header.key].replace(/\n/g, "  ").replace(/\"/g, "");
                                             }
                                         }
                                         return e;
@@ -155,7 +155,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                                     headers={this.props.tableHeadersDisplayed}>
                                     <button className="btn btn-outline-primary">Download CSV</button>
                                 </CSVLink>
-                            </div>}
+                            </div>
                             {makeTable()}
                         </div>
                     )
