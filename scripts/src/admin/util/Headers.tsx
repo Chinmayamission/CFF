@@ -41,6 +41,12 @@ export module Headers {
             case "object":
                 return JSON.stringify(value);
             case "string":
+                if (value.match(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/)) {
+                    let date = new Date(value);
+                    if (date.getDate()) {
+                        return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+                    }
+                }
             default:
                 return value;
         }
