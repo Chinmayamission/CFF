@@ -3,7 +3,7 @@ export const filterCaseInsensitive = (filter, row) => {
     if (row[id] !== null){
         return (
             row[id] !== undefined ?
-                ~String(row[id]).toLowerCase().indexOf(filter.value.toLowerCase())
+                ~String(row[id]).toLowerCase().indexOf(filter.value.toLowerCase().trim())
                 :
                 true
         );
