@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders custom columns for main view in response table 1`] = `
+Array [
+  Object {
+    "Cell": [Function],
+    "Header": "First Names",
+    "accessor": [Function],
+    "id": "parents.name.first",
+    "key": "parents.name.first",
+    "label": "First Names",
+  },
+]
+`;
+
+exports[`renders default columns for main view in response table 1`] = `
+Array [
+  Object {
+    "Cell": [Function],
+    "Header": "ID",
+    "accessor": [Function],
+    "id": "ID",
+    "key": "ID",
+    "label": "ID",
+  },
+  Object {
+    "Cell": [Function],
+    "Filter": [Function],
+    "Header": "PAID",
+    "accessor": [Function],
+    "filterMethod": [Function],
+    "id": "PAID",
+    "key": "PAID",
+    "label": "PAID",
+  },
+  Object {
+    "Cell": [Function],
+    "Header": "DATE_CREATED",
+    "accessor": [Function],
+    "id": "DATE_CREATED",
+    "key": "DATE_CREATED",
+    "label": "DATE_CREATED",
+  },
+  Object {
+    "Cell": [Function],
+    "Header": "Name.first",
+    "accessor": [Function],
+    "id": "name.first",
+    "key": "name.first",
+    "label": "Name.first",
+  },
+  Object {
+    "Cell": [Function],
+    "Header": "Name.last",
+    "accessor": [Function],
+    "id": "name.last",
+    "key": "name.last",
+    "label": "Name.last",
+  },
+  Object {
+    "Cell": [Function],
+    "Header": "Parents.age",
+    "accessor": [Function],
+    "id": "parents.age",
+    "key": "parents.age",
+    "label": "Parents.age",
+  },
+]
+`;

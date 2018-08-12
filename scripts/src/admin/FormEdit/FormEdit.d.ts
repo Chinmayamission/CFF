@@ -44,8 +44,8 @@ export interface IFormOptions {
 export interface IRenderedForm {
     schema: {[x: string]: any},
     uiSchema: {[x: string]: any},
+    name: string
     formOptions: IFormOptions
-    dataOptions: IDataOptions
 }
 export interface IConfirmationEmailInfo {
     toField: string,
@@ -119,5 +119,29 @@ export interface IDataOptions {
             columnOrder?: string[],
             aggregateCols?: string[]
         }
-    }[]
+    }[],
+    views: IDataOptionView[]
 }
+interface IDataOptionView {
+    unwindBy?: string,
+    displayName: string,
+    id: string,
+    columns?: ({
+        label: string,
+        value: string
+    } | string)[]
+}
+/*
+{
+    "unwindBy": ".",
+    "columns": ["address", "participants", "subscribe", "email", "phone"],
+    "display_name": "All Responses",
+    "id": "all"
+},
+{
+    "unwindBy": "participants",
+    "columns": ["name.last name.first", "age", "orig.email", "orig.phone"],
+    "columnNames": ["Name", "Age"]
+},
+
+*/

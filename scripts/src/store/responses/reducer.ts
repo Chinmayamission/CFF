@@ -8,15 +8,7 @@ const initialState: ResponsesState = {
   responseData: null,
   responses: null,
   paymentStatusDetailItem: defaultPaymentStatusDetailItem,
-  tableHeaders: null,
-  tableHeadersDisplayed: null,
-  tableData: null,
-  tableDataDisplayed: null,
-  possibleFieldsToUnwind: null,
-  dataOptions: null,
-  colsToAggregate: null,
-  rowToUnwind: null,
-  tableDataOrigObject: null
+  selectedView: "main"
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {
@@ -31,10 +23,10 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
         ...state,
         responseData: action.responseData
       };
-    case "SET_FORM_RESPONSES_TABLE_DISPLAY_DATA":
+    case "SET_RESPONSES_SELECTED_VIEW":
       return {
         ...state,
-        ...action
+        viewName: action.viewName
       };
     case "CHANGE_PAYMENT_STATUS_DETAIL":
       let item = cloneDeep(state.paymentStatusDetailItem);

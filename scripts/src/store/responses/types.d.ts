@@ -1,9 +1,10 @@
 import { IDataOptions } from "../../admin/FormEdit/FormEdit.d";
 
-export interface ResponsesState extends IFormResponseTableDisplayData {
+export interface ResponsesState {
     responseData: IResponse,
     paymentStatusDetailItem: IPaymentStatusDetailItem,
-    responses: IResponse[]
+    responses: IResponse[],
+    selectedView: string
 }
 
 
@@ -32,16 +33,4 @@ export interface IPaymentStatusDetailItem {
     date: { "$date": string };
     method: string,
     id: string;
-}
-
-export interface IFormResponseTableDisplayData {
-    tableHeaders: any[],
-    tableHeadersDisplayed: any[],
-    tableData: any[],
-    tableDataDisplayed: any[],
-    possibleFieldsToUnwind: string[],
-    dataOptions: IDataOptions,
-    colsToAggregate: any[],
-    rowToUnwind: string,
-    tableDataOrigObject: any
 }

@@ -1,7 +1,8 @@
 import FormLoader from "../../common/FormLoader";
 import { loadingStart, loadingEnd } from "../base/actions";
+import { IRenderedForm } from "../../admin/FormEdit/FormEdit.d";
 
-export const setRenderedForm = (renderedForm) => ({
+export const setRenderedForm = (renderedForm: IRenderedForm) => ({
   type: 'SET_RENDERED_FORM',
   renderedForm
 });

@@ -1,7 +1,8 @@
 import { IRenderedForm } from "../FormEdit/FormEdit.d";
-import { ResponsesState, IFormResponseTableDisplayData } from "../../store/responses/types";
+import { ResponsesState } from "../../store/responses/types";
 import { IFormListItem } from "../FormList/FormList.d";
 import { FormState } from "../../store/form/types";
+import { setResponsesSelectedView } from "../../store/responses/actions";
 
 export interface IResponseTableProps extends ResponsesState {
     match: {
@@ -18,7 +19,7 @@ export interface IResponseTableProps extends ResponsesState {
     form: FormState,
     fetchRenderedForm: (x: string) => Promise<any>,
     fetchResponses: (x: string) => Promise<any>,
-    setFormResponseTableDisplayData: (e: IFormResponseTableDisplayData) => void
+    setResponsesSelectedView: (x: string) => any
 }
 
 export interface IResponseTableState {

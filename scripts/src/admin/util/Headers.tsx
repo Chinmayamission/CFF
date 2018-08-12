@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { assign, get } from "lodash-es";
+import { IDataOptionView } from '../FormEdit/FormEdit.d';
+import { Schema } from '../../form/interfaces';
 
 export module Headers {
 
@@ -27,7 +29,12 @@ export module Headers {
         // Add a specified list of headers.
         let headerObjs = [];
         for (let header of keys) {
-            headerObjs.push(Headers.makeHeaderObj(header));
+            if (header.label && header.value) {
+                headerObjs.push(Headers.makeHeaderObj(header.value, header.label));
+            }
+            else {
+                headerObjs.push(Headers.makeHeaderObj(header));
+            }            
         }
         return headerObjs;
     }
@@ -52,7 +59,28 @@ export module Headers {
         }
     }
 
+    function headerAccessorSingle(formData, headerName, schema) {
+        let value = get(formData, headerName);
+        if (value) {
+            return value;
+        }
+        let components = headerName.split(".");
+        if (components.length >= 2 && schema.properties[components[0]].type == "array") {
+            const arrayPath = components[0];
+            components.shift();
+            const arrayAccessor = components.join(".");
+            return get(formData, arrayPath, []).map(e => e[arrayAccessor]).join(", ");
+        }
+        return "";
+    }
+
+    export function headerAccessor(formData, headerName, schema) {
+        const headerNameList = headerName.split(" ");
+        return headerNameList.map(e => headerAccessorSingle(formData, e, schema)).join(" ");
+    }
+
     export function makeHeaderObj(headerName, headerLabel = "") {
+        headerName = headerName + "";
         if (!headerLabel) {
             headerLabel = headerName.replace(/^([a-z])/, t => t.toUpperCase());
         }
@@ -61,7 +89,7 @@ export module Headers {
             // For react table js:
             Header: headerLabel,
             id: headerName,
-            accessor: headerName,
+            accessor: headerLabel,
             Cell: row => formatValue(row.value),
             // For csv export:
             label: headerLabel,
@@ -93,6 +121,42 @@ export module Headers {
         }
         return headerObj;
     }
+
+    function getHeaderNamesFromSchemaHelper(schemaProperties, headerNames, prefix = "") {
+        for (let key in schemaProperties) {
+            // if (key == "type" || key == "properties" || !schemaProperties[key]) {
+            //     continue;
+            // }
+            if (schemaProperties[key].type == "object") {
+                getHeaderNamesFromSchemaHelper(schemaProperties[key].properties, headerNames, key);
+                continue;
+            }
+            else if (schemaProperties[key].type == "array") {
+                continue;
+            }
+            let headerName = prefix ? prefix + "." + key : key;
+            headerNames.push(headerName);
+        }
+    }
+
+    function getHeaderNamesFromSchema(schema) {
+        let headerNames = [];
+        getHeaderNamesFromSchemaHelper(schema.properties, headerNames);
+        return headerNames;
+    }
+
+    export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema) {
+        const columns = dataOptionView.columns ||
+            ["ID", "PAID", "DATE_CREATED"].concat(getHeaderNamesFromSchema(schema));
+
+        const headerObjs = makeHeaderObjsFromKeys(columns).map(e => {
+            e.accessor = formData => headerAccessor(formData, e.id, schema);
+            return e;
+            // e.key = headerAccessor(data, e.id); // todo: how will we deal with csv export???
+        });
+        return headerObjs;
+    }
+    
 
 }
 

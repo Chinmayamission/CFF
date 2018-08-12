@@ -84,7 +84,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         if (this.state.hasError) {
             return <Loading hasError={true} />;
         }
-        return (<ConnectedRouter history={history}>
+        return (
             <div className="App FormAdminPage">
                 <Route path="/admin/:formId" component={FormPages} />
                 <Switch>
@@ -92,8 +92,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
                         <FormList onError={e => this.onError(e)} {...props} />
                     } />
                 </Switch>
-            </div>
-        </ConnectedRouter>);
+            </div>);
     }
 
 }

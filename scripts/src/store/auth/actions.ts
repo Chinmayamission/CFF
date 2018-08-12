@@ -3,6 +3,7 @@ import { API, Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
 import { loadingStart, loadingEnd } from "src/store/base/actions";
 import { IUserAttributes } from "./types";
+import { resolve } from "path";
 
 export const loggedIn = (userId, attributes) => ({
   type: 'LOGIN_SUCCESS',
@@ -68,6 +69,10 @@ function getCurrentUser() {
     return Auth.currentAuthenticatedUser();
   }
 }
+// function getCurrentUser() {
+//   localStorage.setItem("jwt", "jwt");
+//   return new Promise((resolve) => resolve({ "username": "f31c1cb8-681c-4d3e-9749-d7c074ffd7f6", "attributes": { "name": "Local Host", "email": "email@email.com", "email_verified": true } }));
+// }
 
 export function checkLoginStatus() {
   return (dispatch, getState) => {
@@ -75,6 +80,7 @@ export function checkLoginStatus() {
     getCurrentUser()
       .then((user: { username: string, attributes: IUserAttributes }) => {
         if (!user) throw "No credentials";
+        console.log("creds", user);
         dispatch(loggedIn(user.username, user.attributes));
       }).catch(e => {
         console.error(e);
