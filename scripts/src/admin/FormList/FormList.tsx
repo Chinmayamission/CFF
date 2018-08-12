@@ -68,20 +68,20 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     />
                                 <ActionButton form={form}
                                     permissionName="Forms_Embed"
-                                    url={`./${form["_id"]["$oid"]}/embed`}
+                                    url={`./${form["_id"]["$oid"]}/embed/`}
                                     icon="oi-document"
                                     text="Embed"
                                     userId={this.props.userId}
                                     />
                                 <ActionButton form={form}
                                     permissionName="Forms_Edit"
-                                    url={`./${form["_id"]["$oid"]}/edit`}
+                                    url={`./${form["_id"]["$oid"]}/edit/`}
                                     icon="oi-pencil"
                                     text="Edit"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Responses_View"
-                                    url={`./${form["_id"]["$oid"]}/responses`}
+                                    url={`./${form["_id"]["$oid"]}/responses/`}
                                     icon="oi-sort-ascending"
                                     text="Responses"
                                     userId={this.props.userId} />
@@ -93,13 +93,13 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     userId={this.props.userId} /> */}
                                 <ActionButton form={form}
                                     permissionName="Responses_ViewSummary"
-                                    url={`./${form["_id"]["$oid"]}/summary`}
+                                    url={`./${form["_id"]["$oid"]}/summary/`}
                                     icon="oi-list"
                                     text="Summary"
                                     userId={this.props.userId} />
                                 <ActionButton form={form}
                                     permissionName="Forms_PermissionsView"
-                                    url={`./${form["_id"]["$oid"]}/share`}
+                                    url={`./${form["_id"]["$oid"]}/share/`}
                                     icon="oi-share-boxed"
                                     text="Share"
                                     userId={this.props.userId}

@@ -98,29 +98,27 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
 }
 function FormPages() {
     return (<Switch>
-        <Route path='/admin/:formId/responses' exact render={({ match, location }) =>
-            <Redirect to={{ pathname: `/admin/${match.params.formId}/responses/all` }} />} />
-        <Route path='/admin/:formId/responsesEdit' exact render={({ match, location }) =>
-            <Redirect to={{ pathname: `/admin/${match.params.formId}/responsesEdit/all` }} />} />
-        <Route path="/admin/:formId/responses/:tableViewName" render={props =>
+        {/* <Route path='/admin/:formId/responses' exact render={({ match, location }) =>
+            <Redirect to={{ pathname: `/admin/${match.params.formId}/responses/` }} />} /> */}
+        {/* <Route path="/admin/:formId/responses/:tableViewName" render={props =>
             <ResponseTable selectedForm={null} key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
+        } /> */}
+        <Route path="/admin/:formId/responses/" strict render={props =>
+            <ResponseTable selectedForm={null} key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         } />
-        <Route path="/admin/:formId/responsesEdit" render={props =>
-            <ResponseTable selectedForm={null} key={props.match.params.formId} editMode={true} onError={e => this.onError(e)} {...props} />
-        } />
-        <Route path="/admin/:formId/embed" render={props =>
+        <Route path="/admin/:formId/embed/" render={props =>
             <FormEmbed form={null} formId={props.match.params.formId} onError={e => this.onError(e)} />
         } />
-        <Route path="/admin/:formId/edit" render={props =>
+        <Route path="/admin/:formId/edit/" render={props =>
             <FormEdit formId={props.match.params.formId} key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         } />
-        <Route path="/admin/:formId/summary" render={props =>
+        <Route path="/admin/:formId/summary/" render={props =>
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         } />
-        <Route path="/admin/:formId/checkin" render={props =>
+        <Route path="/admin/:formId/checkin/" render={props =>
             <ResponseTable key={props.match.params.formId} checkinMode={true} editMode={false} onError={e => this.onError(e)} {...props} />
         } />
-        <Route path="/admin/:formId/share" render={props =>
+        <Route path="/admin/:formId/share/" render={props =>
             <FormShare key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         } />
     </Switch>);
