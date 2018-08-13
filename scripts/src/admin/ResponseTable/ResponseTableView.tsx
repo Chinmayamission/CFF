@@ -57,7 +57,6 @@ let ResponseTableView = (props: IReactTableViewProps) => {
             data = unwind(data, dataOptionView.unwindBy);
         }
     }
-    console.log(props.renderedForm, props.renderedForm.name);
     return (<div>
 
         <ul className="nav nav-pills">

@@ -3,6 +3,7 @@ import { assign, get } from "lodash-es";
 import { IDataOptionView } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
 import { isArray } from 'util';
+import { Object } from 'core-js';
 
 export interface IHeaderObject {
     Header: string,
@@ -67,6 +68,13 @@ export module Headers {
         }
     }
 
+    function formatObj(value) {
+        if (typeof value === "object") {
+            return Object.values(value).join(" ");
+        }
+        return value;
+    }
+
     function headerAccessorSingle(formData, headerName, schema) {
         let value = get(formData, headerName);
         if (value) {
@@ -78,7 +86,7 @@ export module Headers {
             components.shift();
             const arrayAccessor = components.join(".");
             if (isArray(get(formData, arrayPath))) {
-                return get(formData, arrayPath).map(e => e[arrayAccessor]).join(", ");
+                return get(formData, arrayPath).map(e => formatObj(get(e, arrayAccessor))).join(", ");
             }
             else {
                 // if unwindBy value, just revert to the original value.
