@@ -1,14 +1,8 @@
+import { API } from "aws-amplify";
 import * as React from 'react';
-import axios from 'axios';
-import 'react-table/react-table.css';
 import ReactTable from 'react-table';
-import ReactJson from 'react-json-view';
-import {flatten} from 'flat';
-import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith, find, union, filter} from 'lodash-es';
-import Loading from "src/common/Loading/Loading";
-import FormLoader from "src/common/FormLoader";
+import 'react-table/react-table.css';
 import Headers from "src/admin/util/Headers";
-import {API} from "aws-amplify";
 import dataLoadingView from "../util/DataLoadingView";
 
 const STATUS_RESPONSES_LOADING = 0;
