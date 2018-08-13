@@ -8,8 +8,9 @@ import { IDataOptions, IFormDBEntry, IRenderedForm, IDataOptionView } from '../F
 import { IResponse } from '../../store/responses/types';
 import { connect } from 'react-redux';
 import Headers from "../util/Headers";
-import { get, find } from "lodash-es";
+import { get, set, find } from "lodash-es";
 import { push } from "connected-react-router";
+import unwind from "javascript-unwind";
 
 interface IReactTableViewProps {
     responses: IResponse[],
@@ -19,7 +20,6 @@ interface IReactTableViewProps {
 }
 
 let ResponseTableView = (props: IReactTableViewProps) => {
-    let data = props.responses;
     // let headers = Headers.makeHeaderObjsFromKeys(["ID", "PAID", "DATE_CREATED"]);
     const defaultDataOptions: IDataOptions = {
         "views": [{
@@ -27,15 +27,34 @@ let ResponseTableView = (props: IReactTableViewProps) => {
             "displayName": "All View"
         }]
     };
-    const dataOptions: IDataOptions = get(props.renderedForm.formOptions, "dataOptions.views") ? props.renderedForm.formOptions.dataOptions : defaultDataOptions;
+    let dataOptions: IDataOptions = get(props.renderedForm.formOptions, "dataOptions.views") ? props.renderedForm.formOptions.dataOptions : defaultDataOptions;
+    for (let i in dataOptions.views) {
+        let view = dataOptions.views[i];
+        if (!view.displayName) {
+            view.displayName = view.unwindBy ? `Unwind by ${view.unwindBy}` : "All responses";
+        }
+        if (!view.id) {
+            view.id = "view" + i;
+        }
+    }
     const dataOptionView = find(dataOptions.views, { "id": props.tableViewName });
+    if (!props.tableViewName) {
+        // Redirect to first view on default.
+        props.push(dataOptions.views[0].id);
+    }
+
     let headers = [];
+    let data = props.responses;
     if (dataOptionView) {
         headers = Headers.makeHeadersFromDataOption(dataOptionView, props.renderedForm.schema);
-    }
-    console.log("TVN", props.tableViewName);
-    if (!props.tableViewName) {
-        props.push(dataOptions.views[0].id);
+        if (dataOptionView.unwindBy) {
+            for (let item of data) {
+                if (!get(item, dataOptionView.unwindBy)) {
+                    set(item, dataOptionView.unwindBy, []);
+                }
+            }
+            data = unwind(data, dataOptionView.unwindBy);
+        }
     }
     return (<div>
 
@@ -43,7 +62,7 @@ let ResponseTableView = (props: IReactTableViewProps) => {
             {dataOptions.views.map(e =>
                 <li className="nav-item" key={e.id}>
                     <NavLink className="nav-link" to={`./${e.id}`}>
-                        {e.displayName || (e.unwindBy ? "Unwind by " + e.unwindBy : "All responses")}
+                        {e.displayName}
                     </NavLink>
                 </li>
             )}

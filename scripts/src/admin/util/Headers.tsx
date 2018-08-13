@@ -2,6 +2,7 @@ import * as React from 'react';
 import { assign, get } from "lodash-es";
 import { IDataOptionView } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
+import { isArray } from 'util';
 
 export module Headers {
 
@@ -34,7 +35,7 @@ export module Headers {
             }
             else {
                 headerObjs.push(Headers.makeHeaderObj(header));
-            }            
+            }
         }
         return headerObjs;
     }
@@ -65,11 +66,17 @@ export module Headers {
             return value;
         }
         let components = headerName.split(".");
-        if (components.length >= 2 && schema.properties[components[0]].type == "array") {
+        if (components.length >= 2 && get(schema.properties, `${components[0]}.type`) == "array") {
             const arrayPath = components[0];
             components.shift();
             const arrayAccessor = components.join(".");
-            return get(formData, arrayPath, []).map(e => e[arrayAccessor]).join(", ");
+            if (isArray(get(formData, arrayPath))) {
+                return get(formData, arrayPath).map(e => e[arrayAccessor]).join(", ");
+            }
+            else {
+                // if unwindBy value, just revert to the original value.
+                return value;
+            }
         }
         return "";
     }
@@ -146,9 +153,18 @@ export module Headers {
     }
 
     export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema) {
-        const columns = dataOptionView.columns ||
-            ["ID", "PAID", "DATE_CREATED"].concat(getHeaderNamesFromSchema(schema));
+        let columns = dataOptionView.columns;
 
+        if (!columns) {
+            columns = ["ID", "PAID", "DATE_CREATED"].concat(getHeaderNamesFromSchema(schema));
+            if (dataOptionView.unwindBy) {
+                // todo: fix property path.
+                let unwindBySchema = get(schema, dataOptionView.unwindBy);
+                if (unwindBySchema && unwindBySchema.type == "object") {
+                    columns = columns.concat(getHeaderNamesFromSchema(unwindBySchema).map(e => `${dataOptionView.unwindBy}.${e}`));
+                }
+            }
+        }
         const headerObjs = makeHeaderObjsFromKeys(columns).map(e => {
             e.accessor = formData => headerAccessor(formData, e.id, schema);
             return e;
@@ -156,7 +172,7 @@ export module Headers {
         });
         return headerObjs;
     }
-    
+
 
 }
 

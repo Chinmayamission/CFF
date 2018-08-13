@@ -57,3 +57,35 @@ it('renders custom columns for main view in response table', () => {
     const result = Headers.makeHeadersFromDataOption(dataOptionView, schema);
     expect(result).toMatchSnapshot();
 });
+
+it('renders custom columns for unwind by view in response table', () => {
+    const dataOptionView: IDataOptionView = {
+        "id": "main",
+        "displayName": "Main",
+        "columns": [
+            { "label": "First Names", "value": "parents.name.first" },
+            "name.last"
+        ],
+        "unwindBy": "parents"
+    };
+    const schema = {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "object",
+                "properties": {
+                    "first": { "type": "string" },
+                    "last": { "type": "string" }
+                }
+            },
+            "parents": {
+                "type": "object",
+                "properties": {
+                    "age": { "type": "number" }
+                }
+            }
+        }
+    };
+    const result = Headers.makeHeadersFromDataOption(dataOptionView, schema);
+    expect(result).toMatchSnapshot();
+});

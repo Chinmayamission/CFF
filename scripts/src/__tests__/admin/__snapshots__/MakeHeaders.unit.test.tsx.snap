@@ -13,6 +13,27 @@ Array [
 ]
 `;
 
+exports[`renders custom columns for unwind by view in response table 1`] = `
+Array [
+  Object {
+    "Cell": [Function],
+    "Header": "First Names",
+    "accessor": [Function],
+    "id": "parents.name.first",
+    "key": "parents.name.first",
+    "label": "First Names",
+  },
+  Object {
+    "Cell": [Function],
+    "Header": "Name.last",
+    "accessor": [Function],
+    "id": "name.last",
+    "key": "name.last",
+    "label": "Name.last",
+  },
+]
+`;
+
 exports[`renders default columns for main view in response table 1`] = `
 Array [
   Object {
