@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "concurrently": "^3.6.0",
-    "mongodb-memory-server": "^1.9.0"
+    "mongodb-memory-server": "^1.9.0",
+    "mongonaut": "^3.0.0"
   }
 }

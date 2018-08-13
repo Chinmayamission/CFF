@@ -11,6 +11,9 @@ cd ccmt-cff-rest-api
 Install Microsoft Visual C++ Build Tools: http://landinghub.visualstudio.com/visual-cpp-build-tools
 
 ## Run locally
+Run database with:
+```npm run mongo```
+
 ```npm start```
 
 ## Deploy
@@ -20,6 +23,10 @@ Install Microsoft Visual C++ Build Tools: http://landinghub.visualstudio.com/vis
 ## Debug
 View logs:
 ```npm run logs```
+
+## Update database fixtures:
+Usually, all changes to the database are removed after the `npm run mongo` process exits. To update the default local db fixtures, run the following:
+```mongoexport --uri=mongodb://localhost:10255/admin --collection=cff_dev --out=tools/mongoFixtures.json```
 
 NEW:
 
