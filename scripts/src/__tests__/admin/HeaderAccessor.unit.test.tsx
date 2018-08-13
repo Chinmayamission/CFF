@@ -30,13 +30,11 @@ it('accessors with arrays are working properly', () => {
 });
 
 it('regular accessors are working properly', () => {
-
     const result = Headers.headerAccessor(formData, "name.first", schema);
     expect(result).toEqual("John");
 });
 
 it('accessors with spaces are working properly', () => {
-
     const result = Headers.headerAccessor(formData, "name.last name.first", schema);
     expect(result).toEqual("Doe John");
 });

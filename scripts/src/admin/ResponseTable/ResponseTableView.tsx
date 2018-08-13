@@ -4,70 +4,51 @@ import ResponseDetail from "./ResponseDetail";
 import { filterCaseInsensitive } from "./filters";
 import { CSVLink } from 'react-csv';
 import { NavLink } from "react-router-dom";
-import { IDataOptions } from '../FormEdit/FormEdit.d';
+import { IDataOptions, IFormDBEntry, IRenderedForm, IDataOptionView } from '../FormEdit/FormEdit.d';
 import { IResponse } from '../../store/responses/types';
 import { connect } from 'react-redux';
 import Headers from "../util/Headers";
+import { get, find } from "lodash-es";
+import { push } from "connected-react-router";
 
 interface IReactTableViewProps {
     responses: IResponse[],
-    selectedView: string,
-    dataOptions: IDataOptions,
-    formName: string
+    renderedForm: IRenderedForm,
+    tableViewName: string,
+    push: (e: string) => void
 }
 
 let ResponseTableView = (props: IReactTableViewProps) => {
     let data = props.responses;
-    let headers = Headers.makeHeaderObjsFromKeys(["ID", "PAID", "DATE_CREATED"]);
-    return (<ReactTable
-        data={data}
-        columns={headers}
-        minRows={0}
-        filterable
-        //pivotBy={props.pivotCols}
-        defaultSorted={[{ "id": "DATE_LAST_MODIFIED", "desc": true }]}
-        defaultFiltered={[{ "id": "PAID", "value": "all" }]}
-        defaultFilterMethod={filterCaseInsensitive}
-        freezeWhenExpanded={true}
-        filename={`${props.formName}-${new Date().getTime()}.csv`}
-        SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
-        getTrProps={(state, rowInfo, column, instance) => {
-            return {
-                style: {
-                    color: rowInfo.row["CFF_REACT_TABLE_STATUS"] == "updating" ? 'grey' : 'black'
-                },
-                onClick: (e) => {
-                    const { expanded } = state;
-                    const path = rowInfo.nestingPath[0];
+    // let headers = Headers.makeHeaderObjsFromKeys(["ID", "PAID", "DATE_CREATED"]);
+    const defaultDataOptions: IDataOptions = {
+        "views": [{
+            "id": "all",
+            "displayName": "All View"
+        }]
+    };
+    const dataOptions: IDataOptions = get(props.renderedForm.formOptions, "dataOptions.views") ? props.renderedForm.formOptions.dataOptions : defaultDataOptions;
+    const dataOptionView = find(dataOptions.views, { "id": props.tableViewName });
+    let headers = [];
+    if (dataOptionView) {
+        headers = Headers.makeHeadersFromDataOption(dataOptionView, props.renderedForm.schema);
+    }
+    console.log("TVN", props.tableViewName);
+    if (!props.tableViewName) {
+        props.push(dataOptions.views[0].id);
+    }
+    return (<div>
 
-                    instance.setState({
-                        expanded: { [path]: expanded[path] ? false : true }
-                    });
-                }
-            }
-        }
-        }
-    >
-        {(state, makeTable, instance) => {
-            return (
-                <div>
-                    <div>
-                        <ul className="nav nav-pills">
-                            <li className="nav-item">
-                                <NavLink className="nav-link" to={{ pathname: `all` }}>
-                                    All Responses
-                            </NavLink>
-                            </li>
-                            {/* {props.possibleFieldsToUnwind.map(e =>
-                        <li className="nav-item" key={e} onClick={() => this.showUnwindTable(e)}>
-                            <NavLink className="nav-link" to={{ pathname: e }}>
-                                Unwind by {e}
-                            </NavLink>
-                        </li>
-                        )} */}
-                            {/* {props.form.renderedForm.dataOptions.views} */}
-                        </ul>
-                        <CSVLink
+        <ul className="nav nav-pills">
+            {dataOptions.views.map(e =>
+                <li className="nav-item" key={e.id}>
+                    <NavLink className="nav-link" to={`./${e.id}`}>
+                        {e.displayName || (e.unwindBy ? "Unwind by " + e.unwindBy : "All responses")}
+                    </NavLink>
+                </li>
+            )}
+        </ul>
+        {/* <CSVLink
                             data={state.sortedData.map(e => {
                                 for (let header of headers) {
                                     if (typeof e[header.key] == 'undefined') {
@@ -81,24 +62,50 @@ let ResponseTableView = (props: IReactTableViewProps) => {
                             })}
                             headers={headers}>
                             <button className="btn btn-outline-primary">Download CSV</button>
-                        </CSVLink>
-                    </div>
-                    {makeTable()}
-                </div>
-            )
-        }}
-    </ReactTable>);
+                        </CSVLink> */}
+
+        {dataOptionView && <ReactTable
+            data={data}
+            columns={headers}
+            minRows={0}
+            filterable
+            //pivotBy={props.pivotCols}
+            defaultSorted={[{ "id": "DATE_LAST_MODIFIED", "desc": true }]}
+            defaultFiltered={[{ "id": "PAID", "value": "all" }]}
+            defaultFilterMethod={filterCaseInsensitive}
+            freezeWhenExpanded={true}
+            filename={`${props.renderedForm.name}-${new Date().getTime()}.csv`}
+            SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
+            getTrProps={(state, rowInfo, column, instance) => {
+                return {
+                    style: {
+                        color: rowInfo.row["CFF_REACT_TABLE_STATUS"] == "updating" ? 'grey' : 'black'
+                    },
+                    onClick: (e) => {
+                        const { expanded } = state;
+                        const path = rowInfo.nestingPath[0];
+
+                        instance.setState({
+                            expanded: { [path]: expanded[path] ? false : true }
+                        });
+                    }
+                }
+            }
+            }
+        />}
+        {!dataOptionView && <div>No view selected. Please select a view to continue.</div>}
+    </div>
+    );
 }
 
 const mapStateToProps = state => ({
     responses: state.responses.responses,
-    selectedView: state.responses.selectedView,
-    dataOptions: state.form.renderedForm.dataOptions,
-    formName: state.form.renderedForm.name
+    renderedForm: state.form.renderedForm,
+    tableViewName: (state.router.location.pathname.match(/\/(.[a-zA-Z_]*?)$/) || [null, null])[1]
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+    push: (e: string) => dispatch(push(`./${e}`))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResponseTableView);

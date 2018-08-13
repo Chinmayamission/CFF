@@ -41,7 +41,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
     //         Headers.makeHeaders(this.props.form.renderedForm.schema.properties[rowToUnwind].items.properties),
     //         this.props.tableHeaders // concat original table headers with this.
     //     );
-    //     let dataOptions = this.props.form.renderedForm.dataOptions;
+    //     let dataOptions = this.props.form.renderedForm.formOptions.dataOptions;
     //     let colsToAggregate = [];
     //     if (dataOptions.unwindTables && dataOptions.unwindTables[rowToUnwind]) {
     //         headerObjs = filterHeaderObjs(headerObjs, dataOptions.unwindTables[rowToUnwind]);
@@ -63,7 +63,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
 
     render() {
         return (!this.props.responses || !this.props.form) ? <Loading /> : <ResponseTableView />;
-
     }
 }
 

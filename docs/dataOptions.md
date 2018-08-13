@@ -1,6 +1,26 @@
 # Data Options
 Stored in schemaModifier.
 
+Data options v2.0 (with custom views):
+Columns: ID, PAID, DATE_CREATED, DATE_LAST_MODIFIED, AMOUNT_OWED, AMOUNT_PAID
+id must match regex [a-zA-Z_]*?
+```json
+views: [
+  {
+    "displayName": "View 1",
+    "id": "one",
+    "columns": ["ID", "PAID", "DATE_LAST_MODIFIED", "name", "interests"]
+  },
+  {
+    "displayName": "View 1",
+    "id": "one",
+    "columns": ["first", "last", "ID"]
+  }
+]
+```
+
+
+
 Sample value:
 ```json
 {

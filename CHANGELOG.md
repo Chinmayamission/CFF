@@ -26,12 +26,6 @@ todo:
 }
 ```
 
-BUGS:
-- ui:cff:removeButtonText not working.
-
-Current versions:
-clients: (omrun, cmatej, ccmt staging) - wp plugin: 1.1.14
-
 Todo:
 - hide title "Payment" in form loading
 - Let minItems be specified dynamically based on other values.
@@ -43,7 +37,10 @@ todo:
 - user login/signup
 
 ## 2.1.8 (pending)
+Front end only:
 - Filter in any position in word in response table.
+- Allow custom views to be specified in dataOptions
+- CSV export gives a meaningful file name with form name + timestamp
 
 ## 2.1.7 (8/11/18)
 Front end only
@@ -55,7 +52,7 @@ Front end:
 - Fix bug: remove default dummy payment history of $123 and $223 shown on response detail.
 - Use redux for a lot of loading data on the admin pages.
 Back end:
-- Fix [bug](https://jira.mongodb.org/browse/PYMODM-107) in which payment_trail, etc. picked up random entries from old responses, by initializing these fields to empty list manually.
+- Fix critical [bug](https://jira.mongodb.org/browse/PYMODM-107) in which payment_trail, update_trail, payment_status_detail, and email_trail for a single response picked up random entries from other responses, by initializing these fields to empty list manually. The data cleanup for this cleaned up payment_trail and payment_status_detail and just removed all existing update_trail and email_trail and is located in tests/tools/SpuriousPayments.py.
 
 ## 2.1.5 (8/6/18)
 Front end and back end

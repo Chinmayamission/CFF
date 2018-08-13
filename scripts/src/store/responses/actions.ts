@@ -4,6 +4,7 @@ import { get, concat, assign } from "lodash-es";
 import { flatten } from "flat";
 import Headers from "../../admin/util/Headers";
 import { loadingStart, loadingEnd } from "../base/actions";
+import { push } from 'connected-react-router';
 
 export const editResponse = (responseId, path, value) => (dispatch, getState) => {
   return API.patch("CFF", `responses/${responseId}`, {
@@ -102,19 +103,7 @@ export const fetchResponses = (formId) => (dispatch, getState) => {
       assign(e.value, valueToAssign);
       return e.value;
     });
-    let dataOptions = getState().form.renderedForm.dataOptions; // this.props.form.dataOptions;
-    let tableName = "mainTable";
-
-    // let defaultHeaders = concat(
-    //   ["ID", "PAID"],
-    //   propertyHeaders,
-    //   headerNamesToShow
-    // );
-    // let headerObjs = Headers.makeHeaderObjsFromKeys(
-    //   get(dataOptions, `${tableName}.columnOrder`, defaultHeaders)
-    // );
     dispatch(setResponses(data));
-    dispatch(setResponsesSelectedView("main"));
 
   }).catch(e => {
     console.error(e);
