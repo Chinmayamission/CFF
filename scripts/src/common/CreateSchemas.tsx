@@ -12,6 +12,7 @@ export default function createSchemas(data, specifiedShowFields={}, responseId=n
         dataOptions: get(data, "formOptions.dataOptions", {}),
         formOptions: get(data, "formOptions", {}),
         responseId,
-        responseData
+        responseData,
+        name: data["name"]
     };
 }

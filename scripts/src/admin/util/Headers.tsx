@@ -4,6 +4,13 @@ import { IDataOptionView } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
 import { isArray } from 'util';
 
+export interface IHeaderObject {
+    Header: string,
+    id: string,
+    accessor: (e: any) => any,
+    Cell: (e: any) => any
+}
+
 export module Headers {
 
     export function makeHeaders(schemaProperties, headerObjs = []) {
@@ -92,15 +99,12 @@ export module Headers {
             headerLabel = headerName.replace(/^([a-z])/, t => t.toUpperCase());
         }
         // Makes a single header object.
-        let headerObj = {
+        let headerObj: IHeaderObject = {
             // For react table js:
             Header: headerLabel,
             id: headerName,
-            accessor: headerLabel,
-            Cell: row => formatValue(row.value),
-            // For csv export:
-            label: headerLabel,
-            key: headerName
+            accessor: formData => headerLabel,
+            Cell: row => formatValue(row.value)
         };
 
         if (headerName == "PAID") {

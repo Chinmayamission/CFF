@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactTable from "react-table";
-import ResponseDetail from "./ResponseDetail";
-import { filterCaseInsensitive } from "./filters";
-import { CSVLink } from 'react-csv';
-import { NavLink } from "react-router-dom";
-import { IDataOptions, IFormDBEntry, IRenderedForm, IDataOptionView } from '../FormEdit/FormEdit.d';
-import { IResponse } from '../../store/responses/types';
-import { connect } from 'react-redux';
-import Headers from "../util/Headers";
-import { get, set, find } from "lodash-es";
 import { push } from "connected-react-router";
 import unwind from "javascript-unwind";
+import { find, get, set } from "lodash-es";
+import React from 'react';
+import { connect } from 'react-redux';
+import { NavLink } from "react-router-dom";
+import ReactTable from "react-table";
+import { IResponse } from '../../store/responses/types';
+import { IDataOptions, IRenderedForm } from '../FormEdit/FormEdit.d';
+import Headers from "../util/Headers";
+import downloadCSV from "./downloadCSV";
+import { filterCaseInsensitive } from "./filters";
+import ResponseDetail from "./ResponseDetail";
 
 interface IReactTableViewProps {
     responses: IResponse[],
@@ -18,6 +18,7 @@ interface IReactTableViewProps {
     tableViewName: string,
     push: (e: string) => void
 }
+
 
 let ResponseTableView = (props: IReactTableViewProps) => {
     // let headers = Headers.makeHeaderObjsFromKeys(["ID", "PAID", "DATE_CREATED"]);
@@ -56,32 +57,19 @@ let ResponseTableView = (props: IReactTableViewProps) => {
             data = unwind(data, dataOptionView.unwindBy);
         }
     }
+    console.log(props.renderedForm, props.renderedForm.name);
     return (<div>
 
         <ul className="nav nav-pills">
             {dataOptions.views.map(e =>
-                <li className="nav-item" key={e.id}>
+                <li className="nav-item btn-outline-primary" key={e.id}>
                     <NavLink className="nav-link" to={`./${e.id}`}>
                         {e.displayName}
                     </NavLink>
                 </li>
             )}
         </ul>
-        {/* <CSVLink
-                            data={state.sortedData.map(e => {
-                                for (let header of headers) {
-                                    if (typeof e[header.key] == 'undefined') {
-                                        e[header.key] = "";
-                                    }
-                                    if (typeof e[header.key] == 'string') {
-                                        e[header.key] = e[header.key].replace(/\n/g, "  ").replace(/\"/g, "");
-                                    }
-                                }
-                                return e;
-                            })}
-                            headers={headers}>
-                            <button className="btn btn-outline-primary">Download CSV</button>
-                        </CSVLink> */}
+        <button className="btn btn-outline-primary" onClick={() => downloadCSV(headers, data, `Responses - ${props.renderedForm.name} - at ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)}>Download CSV</button>
 
         {dataOptionView && <ReactTable
             data={data}
@@ -93,7 +81,6 @@ let ResponseTableView = (props: IReactTableViewProps) => {
             defaultFiltered={[{ "id": "PAID", "value": "all" }]}
             defaultFilterMethod={filterCaseInsensitive}
             freezeWhenExpanded={true}
-            filename={`${props.renderedForm.name}-${new Date().getTime()}.csv`}
             SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
             getTrProps={(state, rowInfo, column, instance) => {
                 return {
