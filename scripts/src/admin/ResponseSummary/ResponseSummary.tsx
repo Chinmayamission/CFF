@@ -5,7 +5,6 @@ import ReactTable from 'react-table';
 import ReactJson from 'react-json-view';
 import {flatten} from 'flat';
 import {assign, concat, groupBy, get, map, keys, isArray, intersectionWith, find, union, filter} from 'lodash-es';
-import {CSVLink} from 'react-csv';
 import Loading from "src/common/Loading/Loading";
 import FormLoader from "src/common/FormLoader";
 import Headers from "src/admin/util/Headers";
