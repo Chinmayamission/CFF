@@ -14,6 +14,7 @@ module.exports = {
     app: ["whatwg-fetch", "babel-polyfill", SRC_URL + '/index']
   },
   optimization: {
+    runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
         commons: {
