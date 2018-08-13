@@ -39,7 +39,7 @@ else:
   raise Exception("No deploy to selected! Set the CFF_DEPLOY_TO variable to beta or prod.")
 
 print("=====")
-print("Deploying to cloudfront...")
+print("Uploading to S3...")
 
 CLOUDFRONT_ORIGIN_PATH = "/{}".format(version)
 CLOUDFRONT_INDEX_PAGE_PATH = "/index.{}.html".format(version)
@@ -82,7 +82,8 @@ for root, dirs, files in os.walk(SCRIPT_PATH):
           print("Setting content type of {} to {}".format(s3_path, mimeType))
         client.upload_file(local_path, BUCKET, s3_path, ExtraArgs=args)
 
-
+print("Upload to S3 complete.")
+print("Deploying to cloudfront...")
 client = boto3.client("cloudfront")
 # UPDATE CLOUDFRONT DISTRIBUTION
 response = client.get_distribution_config(
@@ -96,6 +97,9 @@ if DistributionConfig["CustomErrorResponses"]["Quantity"] != 1:
   raise Exception("More than one custom error response detected. Script cannot automatically update custom error page.")
 DistributionConfig["Origins"]["Items"][0]["OriginPath"] = CLOUDFRONT_ORIGIN_PATH
 DistributionConfig["CustomErrorResponses"]["Items"][0]["ResponsePagePath"] = CLOUDFRONT_INDEX_PAGE_PATH
+
+print("Upload to cloudfront complete.")
+print("Updating cloudfront distribution config...")
 
 response = client.update_distribution(
   DistributionConfig=DistributionConfig,
