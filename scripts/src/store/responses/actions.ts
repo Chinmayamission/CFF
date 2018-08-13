@@ -81,7 +81,7 @@ export const submitNewPayment = () => (dispatch, getState) => {
 
 export const fetchResponses = (formId) => (dispatch, getState) => {
   return API.get("CFF", `forms/${formId}/responses`, {}).then(e => {
-    let data = e.res.sort((a, b) => Date.parse(a.date_created) - Date.parse(b.date_created));
+    let data = e.res.sort((a, b) => Date.parse(a.date_created.$date) - Date.parse(b.date_created.$date));
 
     let headerNamesToShow = ["DATE_LAST_MODIFIED", "DATE_CREATED", "PAYMENT_INFO_TOTAL", "AMOUNT_PAID"];
 
@@ -89,16 +89,10 @@ export const fetchResponses = (formId) => (dispatch, getState) => {
       let valueToAssign = {
         "ID": e["_id"]["$oid"],
         "PAID": e.paid,
-        // "PAYMENT_HISTORY": e.PAYMENT_HISTORY,
-        // "IPN_HISTORY": e.IPN_HISTORY,
         "DATE_CREATED": e.date_created.$date,
-        // "NUMERIC_ID": index + 1,
         "DATE_LAST_MODIFIED": e.date_modified.$date,
         "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
-        "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency),
-        // "UPDATE_HISTORY": e.UPDATE_HISTORY,
-        //"PAYMENT_INFO_ITEMS": '"' + JSON.stringify(e.paymentInfo.items) + '"',
-        // "CONFIRMATION_EMAIL_INFO": e.confirmationEmailInfo
+        "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency)
       };
       assign(e.value, valueToAssign);
       return e.value;
