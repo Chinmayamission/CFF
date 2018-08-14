@@ -533,7 +533,7 @@ it('responses with default data', () => {
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("Adults Display Name");
   expect(wrapper.text()).toContain("Amount paid");
-  expect(wrapper.text()).toContain("Loading..."); // todo fix? should have data instead.
+  expect(wrapper.text()).toContain("mom@chinmayamission.com, dad@chinmayamission.com");
   expect(spy.calledOnce).toBe(false);
 });
 
@@ -551,6 +551,6 @@ it('responses with unwind data', () => {
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("Children Display Name");
   expect(wrapper.text()).toContain("Grade");
-  expect(wrapper.text()).toContain("Loading..."); // todo fix? should have data instead.
+  expect(wrapper.text()).toContain("mom ram, dad ram");
   expect(spy.calledOnce).toBe(false);
 });

@@ -1,5 +1,5 @@
 import { assign, concat, isArray } from 'lodash-es';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import 'react-table/react-table.css';
 import Headers from "src/admin/util/Headers";

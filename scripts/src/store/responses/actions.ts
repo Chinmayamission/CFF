@@ -1,5 +1,5 @@
 import { API } from "aws-amplify";
-import { ResponsesState } from "./types";
+import { ResponsesState, IResponse } from "./types";
 import { get, concat, assign } from "lodash-es";
 import { flatten } from "flat";
 import Headers from "../../admin/util/Headers";
@@ -50,7 +50,7 @@ export const clearPaymentStatusDetail = () => ({
   type: "CLEAR_PAYMENT_STATUS_DETAIL"
 });
 
-export const setResponses = (responses: any[]) => ({
+export const setResponses = (responses: IResponse[]) => ({
   type: "SET_RESPONSES",
   responses
 });
@@ -81,36 +81,10 @@ export const submitNewPayment = () => (dispatch, getState) => {
 
 export const fetchResponses = (formId) => (dispatch, getState) => {
   return API.get("CFF", `forms/${formId}/responses`, {}).then(e => {
-    let data = e.res.sort((a, b) => Date.parse(a.date_created.$date) - Date.parse(b.date_created.$date));
-
-    let headerNamesToShow = ["DATE_LAST_MODIFIED", "DATE_CREATED", "PAYMENT_INFO_TOTAL", "AMOUNT_PAID"];
-
-    data = data.map((e, index) => {
-      let valueToAssign = {
-        "ID": e["_id"]["$oid"],
-        "PAID": e.paid,
-        "DATE_CREATED": e.date_created.$date,
-        "DATE_LAST_MODIFIED": e.date_modified.$date,
-        "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
-        "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency)
-      };
-      assign(e.value, valueToAssign);
-      return e.value;
-    });
-    dispatch(setResponses(data));
+    dispatch(setResponses(e.res));
 
   }).catch(e => {
     console.error(e);
     alert("Error fetching form responses. " + e);
   });
 };
-
-function formatPayment(total, currency = "USD") {
-  if (!total) total = 0;
-  if (Intl && Intl.NumberFormat) {
-    return Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(total);
-  }
-  else {
-    return total + " " + currency;
-  }
-}

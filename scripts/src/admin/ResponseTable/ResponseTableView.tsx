@@ -1,6 +1,6 @@
 import { push } from "connected-react-router";
 import unwind from "javascript-unwind";
-import { find, get, set } from "lodash-es";
+import { find, get, set, assign } from "lodash-es";
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from "react-router-dom";
@@ -11,8 +11,9 @@ import Headers from "../util/Headers";
 import downloadCSV from "./downloadCSV";
 import { filterCaseInsensitive } from "./filters";
 import ResponseDetail from "./ResponseDetail";
+import { formatPayment } from "../util/formatPayment";
 
-interface IReactTableViewProps {
+interface IResponseTableViewProps {
     responses: IResponse[],
     renderedForm: IRenderedForm,
     tableViewName: string,
@@ -20,7 +21,7 @@ interface IReactTableViewProps {
 }
 
 
-export default (props: IReactTableViewProps) => {
+export default (props: IResponseTableViewProps) => {
     // let headers = Headers.makeHeaderObjsFromKeys(["ID", "PAID", "DATE_CREATED"]);
     const defaultDataOptions: IDataOptions = {
         "views": [{
@@ -41,11 +42,22 @@ export default (props: IReactTableViewProps) => {
     const dataOptionView = find(dataOptions.views, { "id": props.tableViewName });
     if (!props.tableViewName) {
         // Redirect to first view on default.
-        props.push(dataOptions.views[0].id);
+        props.push && props.push(dataOptions.views[0].id);
     }
 
     let headers = [];
-    let data = props.responses;
+    let data = props.responses.map((e, index) => {
+        assign(e.value, {
+            "ID": e["_id"]["$oid"],
+            "PAID": e.paid,
+            "DATE_CREATED": e.date_created.$date,
+            "DATE_LAST_MODIFIED": e.date_modified.$date,
+            "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
+            "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency)
+        });
+        return e.value;
+    });
+    
     if (dataOptionView) {
         headers = Headers.makeHeadersFromDataOption(dataOptionView, props.renderedForm.schema);
         if (dataOptionView.unwindBy) {
@@ -61,7 +73,7 @@ export default (props: IReactTableViewProps) => {
         <ul className="nav nav-pills">
             {dataOptions.views.map(e =>
                 <li className="nav-item btn-outline-primary" key={e.id}>
-                    <a className="nav-link" onClick={() => props.push(e.id)}>
+                    <a className="nav-link" onClick={() => props.push && props.push(e.id)}>
                         {e.displayName}
                     </a>
                 </li>
