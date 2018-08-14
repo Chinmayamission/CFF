@@ -13,13 +13,12 @@ export interface IResponseTableProps extends ResponsesState {
         url: string
     },
     onError: (any) => void,
-    editMode?: boolean,
-    checkinMode?: boolean,
-    selectedForm: IFormListItem,
+    tableViewName: string,
     form: FormState,
     fetchRenderedForm: (x: string) => Promise<any>,
     fetchResponses: (x: string) => Promise<any>,
-    setResponsesSelectedView: (x: string) => any
+    setResponsesSelectedView: (x: string) => any,
+    push: (x: string) => void
 }
 
 export interface IResponseTableState {

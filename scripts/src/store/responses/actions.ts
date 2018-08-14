@@ -50,7 +50,7 @@ export const clearPaymentStatusDetail = () => ({
   type: "CLEAR_PAYMENT_STATUS_DETAIL"
 });
 
-export const setResponses = (responses: Response[]) => ({
+export const setResponses = (responses: any[]) => ({
   type: "SET_RESPONSES",
   responses
 });

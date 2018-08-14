@@ -20,7 +20,7 @@ interface IReactTableViewProps {
 }
 
 
-let ResponseTableView = (props: IReactTableViewProps) => {
+export default (props: IReactTableViewProps) => {
     // let headers = Headers.makeHeaderObjsFromKeys(["ID", "PAID", "DATE_CREATED"]);
     const defaultDataOptions: IDataOptions = {
         "views": [{
@@ -58,13 +58,12 @@ let ResponseTableView = (props: IReactTableViewProps) => {
         }
     }
     return (<div>
-
         <ul className="nav nav-pills">
             {dataOptions.views.map(e =>
                 <li className="nav-item btn-outline-primary" key={e.id}>
-                    <NavLink className="nav-link" to={`./${e.id}`}>
+                    <a className="nav-link" onClick={() => props.push(e.id)}>
                         {e.displayName}
-                    </NavLink>
+                    </a>
                 </li>
             )}
         </ul>
@@ -102,15 +101,3 @@ let ResponseTableView = (props: IReactTableViewProps) => {
     </div>
     );
 }
-
-const mapStateToProps = state => ({
-    responses: state.responses.responses,
-    renderedForm: state.form.renderedForm,
-    tableViewName: (state.router.location.pathname.match(/\/(.[a-zA-Z_]*?)$/) || [null, null])[1]
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    push: (e: string) => dispatch(push(`./${e}`))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResponseTableView);

@@ -41,6 +41,7 @@ Front end only:
 - Allow custom views to be specified in dataOptions
 - Filter in any position in word in response table.
 - CSV export gives a meaningful file name with form name + timestamp
+- Format dates nicely on responses page.
 
 ## 2.1.7 (8/11/18)
 Front end only
