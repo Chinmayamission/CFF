@@ -43,6 +43,8 @@ class FormIpn(BaseTestCase):
 
         detail_payment_one = response["payment_status_detail"][0]
         detail_payment_one.pop("date")
+        detail_payment_one.pop("date_created")
+        detail_payment_one.pop("date_modified")
         self.assertEqual(detail_payment_one, {'currency': 'USD', 'amount': '0.50', 'method': 'paypal_ipn', 'id': '6TS1068787252245S', '_cls': 'chalicelib.models.PaymentStatusDetailItem'})
         detail_history_one = response["payment_trail"][0]
         detail_history_one.pop("date")

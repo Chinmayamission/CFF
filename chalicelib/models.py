@@ -56,12 +56,16 @@ class PaymentStatusDetailItem(EmbeddedMongoModel):
   amount = money_field
   currency = currency_field
   date = fields.DateTimeField(required=True)
+  date_created = fields.DateTimeField()
+  date_modified = fields.DateTimeField()
   method = fields.CharField(required=True)
   id = fields.CharField(blank=True)
 
 class PaymentTrailItem(EmbeddedMongoModel):
   value = fields.DictField()
   date = fields.DateTimeField(required=True)
+  date_created = fields.DateTimeField()
+  date_modified = fields.DateTimeField()
   method = fields.CharField(required=True)
   status = fields.CharField()
   id = fields.CharField()
