@@ -36,11 +36,15 @@ todo:
 - 
 - user login/signup
 
+## 2.1.9 (8/18/18)
+Front end and back end:
+- [Responses] Let custom payments be entered with a specified date. Payments now have date, date_modified, date_created to allow for this.
+
 ## 2.1.8 (8/13/18)
 Front end only:
-- Allow custom views to be specified in dataOptions
-- Filter in any position in word in response table.
-- CSV export gives a meaningful file name with form name + timestamp
+- Allow custom views to be shown in the response table, such as a children view, parents view, etc. with custom columns shown in each. Custom views are specified in formOptions.dataOptions. See docs/dataOptions.md for details and examples.
+- When filtering for responses in the response table, search with in any position in the word.
+- CSV export gives a meaningful file name with form name + timestamp. Uses papa parse library instead of react-csv.
 - Format dates nicely on responses page.
 
 ## 2.1.7 (8/11/18)

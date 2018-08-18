@@ -4,6 +4,10 @@ import ReactTable from "react-table";
 import { ResponsesState } from "../../../store/responses/types";
 import "./PaymentHistory.scss";
 import { onPaymentStatusDetailChange, submitNewPayment } from "../../../store/responses/actions";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from "moment";
+import Headers from "../../util/Headers";
 
 interface IValueEditProps extends ResponsesState {
     onChange: (a, b) => void,
@@ -28,7 +32,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
         }
     }
     render() {
-        let headers = [
+        let headers: any = [
             {
                 Header: "Amount",
                 id: "amount",
@@ -63,7 +67,11 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
             {
                 Header: "Date",
                 accessor: "date.$date",
-                Footer: <div></div>
+                Cell: row => Headers.formatValue(row.value),
+                Footer: <div><DatePicker
+                    selected={moment(this.props.paymentStatusDetailItem.date.$date)}
+                    onChange={e => this.props.onChange("date", { "$date": e.toISOString() })}
+                /></div>
             },
             {
                 Header: "Submit",

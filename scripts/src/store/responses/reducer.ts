@@ -1,9 +1,10 @@
 import { Reducer } from 'redux';
-import { ResponsesState } from "./types.d";
+import { ResponsesState, IPaymentStatusDetailItem } from "./types.d";
 import { set, cloneDeep } from "lodash-es";
+import moment from 'moment';
 
 
-const defaultPaymentStatusDetailItem = { "amount": "", "currency": "USD", "date": null, "id": "", "method": "" };
+const defaultPaymentStatusDetailItem: IPaymentStatusDetailItem = { "amount": "", "currency": "USD", "date": {"$date": moment().toISOString()}, "id": "", "method": "" };
 const initialState: ResponsesState = {
   responseData: null,
   responses: null,
