@@ -369,7 +369,9 @@ exports[`responses with default data 1`] = `
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
-            />
+            >
+              NO
+            </div>
             <div
               class="rt-td"
               role="gridcell"
