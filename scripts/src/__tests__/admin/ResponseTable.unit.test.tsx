@@ -1,13 +1,8 @@
-import { mount, shallow, render } from 'enzyme';
+import { render } from 'enzyme';
 import React from "react";
-import { Provider } from "react-redux";
-import ResponseTable from "../../admin/ResponseTable/ResponseTable";
-import store from "../../store";
-import { IRenderedForm } from '../../admin/FormEdit/FormEdit.d';
-import { setRenderedForm } from '../../store/form/actions';
-import { setResponses } from '../../store/responses/actions';
-import ResponseTableView from '../../admin/ResponseTable/ResponseTableView';
 import sinon from "sinon";
+import { IRenderedForm } from '../../admin/FormEdit/FormEdit.d';
+import ResponseTableView from '../../admin/ResponseTable/ResponseTableView';
 
 const schema = {
   "description": "Description",
@@ -236,6 +231,9 @@ const uiSchema = {};
 const formOptions = {
   "paymentInfo": null, "paymentMethods": null, "confirmationEmailInfo": null,
   "dataOptions": {
+    "groups": [
+      { "id": "class", "displayName": "Classes", "enum": ["4 - A", "4 - B", "4 - C", "4 - D"] }
+    ],
     "views": [
       {
         "id": "all",
@@ -359,6 +357,16 @@ const formOptions = {
             "label": "Volunteering",
             "value": "parents.volunteer"
           }
+        ]
+      },
+      {
+        "id": "children_class_assign",
+        "displayName": "Children Class Assign Display Name",
+        "unwindBy": "children",
+        "columns": [
+          { "label": "Name", "value": "children.name.first children.name.last" },
+          { "label": "Grade", "value": "children.grade" },
+          { "label": "Class", "value": "children.class", "groupAssign": "class" }
         ]
       }
     ]
@@ -554,3 +562,21 @@ it('responses with unwind data', () => {
   expect(wrapper.text()).toContain("mom ram, dad ram");
   expect(spy.calledOnce).toBe(false);
 });
+
+
+// it('renders response table with group assign', () => {
+//   const spy = sinon.spy();
+//   const wrapper = render(
+//     <ResponseTableView
+//       responses={responses}
+//       renderedForm={renderedForm}
+//       tableViewName={"children_class_assign"}
+//       push={spy}
+//     />
+//   );
+//   expect(wrapper).toMatchSnapshot();
+//   expect(wrapper.text()).toContain("Children Class Assign Display Name");
+//   expect(wrapper.find("select")).toHaveLength(4);
+//   expect(wrapper.find("select").text()).toContain("4 - A");
+//   expect(spy.calledOnce).toBe(false);
+// });

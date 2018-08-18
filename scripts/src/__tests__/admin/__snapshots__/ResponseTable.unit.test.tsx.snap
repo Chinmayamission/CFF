@@ -32,6 +32,15 @@ exports[`responses with default data 1`] = `
         Children Display Name
       </a>
     </li>
+    <li
+      class="nav-item btn-outline-primary"
+    >
+      <a
+        class="nav-link"
+      >
+        Children Class Assign Display Name
+      </a>
+    </li>
   </ul>
   <button
     class="btn btn-outline-primary"
@@ -512,6 +521,15 @@ exports[`responses with unwind data 1`] = `
         class="nav-link"
       >
         Children Display Name
+      </a>
+    </li>
+    <li
+      class="nav-item btn-outline-primary"
+    >
+      <a
+        class="nav-link"
+      >
+        Children Class Assign Display Name
       </a>
     </li>
   </ul>
