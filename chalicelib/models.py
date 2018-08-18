@@ -95,7 +95,7 @@ class EmailTrailItem(EmbeddedMongoModel):
 #   currency = currency_field
 #   total = money_field
 #   redirectUrl = fields.URLField()
-#   items = fields.EmbeddedDocumentListField(PaymentInfoItem, blank=True, default=[])
+#   items = fields.EmbeddedDocumentListField(PaymentInfoItem, blank=True, default=list)
 
 
 class Response(BaseMongoModel):
@@ -104,12 +104,12 @@ class Response(BaseMongoModel):
   user = fields.ReferenceField(User, on_delete=fields.ReferenceField.CASCADE, blank=True)
   # paymentInfo = fields.EmbeddedDocumentField(PaymentInfo)
   paymentInfo = fields.DictField()
-  payment_status_detail = fields.EmbeddedDocumentListField(PaymentStatusDetailItem, blank=True, default=[])
+  payment_status_detail = fields.EmbeddedDocumentListField(PaymentStatusDetailItem, blank=True, default=list)
   paid = fields.BooleanField(default=False)
   amount_paid = fields.CharField(default="0")
-  payment_trail = fields.EmbeddedDocumentListField(PaymentTrailItem, blank=True, default=[])
-  update_trail = fields.EmbeddedDocumentListField(UpdateTrailItem, blank=True, default=[])
-  email_trail = fields.EmbeddedDocumentListField(EmailTrailItem, blank=True, default=[])
+  payment_trail = fields.EmbeddedDocumentListField(PaymentTrailItem, blank=True, default=list)
+  update_trail = fields.EmbeddedDocumentListField(UpdateTrailItem, blank=True, default=list)
+  email_trail = fields.EmbeddedDocumentListField(EmailTrailItem, blank=True, default=list)
   value = fields.DictField()
   date_created = fields.DateTimeField(required=True)
   date_modified = fields.DateTimeField(required=True)

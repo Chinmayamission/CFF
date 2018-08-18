@@ -101,11 +101,7 @@ def form_response_new(formId):
         response = Response(
             form=form,
             id=responseId,
-            date_created=datetime.datetime.now(),
-            payment_trail=[],
-            payment_status_detail=[],
-            update_trail=[],
-            email_trail=[]
+            date_created=datetime.datetime.now()
         )
         if get(form, "formOptions.loginRequired", False) is True and userId is not "cm:cognitoUserPool:anonymousUser":
             user = get_user_or_create_one(userId)
