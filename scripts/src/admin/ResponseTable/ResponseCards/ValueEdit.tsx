@@ -1,7 +1,7 @@
 import React from "react";
 import ReactJson from "react-json-view";
 import { connect } from "react-redux";
-import { editResponse } from "src/store/responses/actions";
+import { editResponse } from "../../../store/responses/actions";
 import { ResponsesState } from "../../../store/responses/types";
 import "./ValueEdit.scss";
 

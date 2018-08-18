@@ -77,7 +77,7 @@ export module Headers {
 
     function headerAccessorSingle(formData, headerName, schema) {
         let value = get(formData, headerName);
-        if (value) {
+        if (typeof value !== "undefined") {
             return value;
         }
         let components = headerName.split(".");
@@ -97,8 +97,13 @@ export module Headers {
     }
 
     export function headerAccessor(formData, headerName, schema) {
-        const headerNameList = headerName.split(" ");
-        return headerNameList.map(e => headerAccessorSingle(formData, e, schema)).join(" ");
+        const headerNameList = headerName.split(" ").map(e => headerAccessorSingle(formData, e, schema));
+        if (headerNameList.length === 1) {
+            return headerNameList[0];
+        }
+        else {
+            return headerNameList.join(" ");
+        }
     }
 
     export function makeHeaderObj(headerName, headerLabel = "") {
@@ -111,7 +116,7 @@ export module Headers {
             // For react table js:
             Header: headerLabel,
             id: headerName,
-            accessor: formData => headerLabel,
+            accessor: formData => headerLabel, // change this, may be unnecessary
             Cell: row => formatValue(row.value)
         };
 
@@ -122,9 +127,9 @@ export module Headers {
                         return true;
                     }
                     if (filter.value === "paid") {
-                        return row[filter.id] === true;
+                        return row.PAID === true;
                     }
-                    return row[filter.id] === false; // || row[filter.id] == false;
+                    return row.PAID === false;
                 },
                 "Filter": ({ filter, onChange }) =>
                     (<select
