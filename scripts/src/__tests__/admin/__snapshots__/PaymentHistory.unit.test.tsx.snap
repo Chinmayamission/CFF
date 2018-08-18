@@ -260,7 +260,23 @@ exports[`render several types of payments 1`] = `
             role="gridcell"
             style="flex:100 0 auto;width:100px"
           >
-            <div />
+            <div>
+              <div>
+                <div
+                  class="react-datepicker-wrapper"
+                >
+                  <div
+                    class="react-datepicker__input-container"
+                  >
+                    <input
+                      class=""
+                      type="text"
+                      value="08/18/2018"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="rt-td"
@@ -464,7 +480,23 @@ exports[`renders table with no payments found 1`] = `
             role="gridcell"
             style="flex:100 0 auto;width:100px"
           >
-            <div />
+            <div>
+              <div>
+                <div
+                  class="react-datepicker-wrapper"
+                >
+                  <div
+                    class="react-datepicker__input-container"
+                  >
+                    <input
+                      class=""
+                      type="text"
+                      value="08/18/2018"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="rt-td"
