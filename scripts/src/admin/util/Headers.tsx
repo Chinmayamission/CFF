@@ -12,6 +12,12 @@ export interface IHeaderObject {
     Cell: (e: any) => any
 }
 
+export interface IHeaderOption {
+    label?: string,
+    value: string,
+    groupAssign?: string
+}
+
 export module Headers {
 
     export function makeHeaders(schemaProperties, headerObjs = []) {
@@ -30,7 +36,7 @@ export module Headers {
             // Label according to schema's title.
             let headerLabel = get(schemaProperties, header).title || header;
             header = prefix ? prefix + "." + header : header;
-            headerObjs.push(Headers.makeHeaderObj(header, headerLabel));
+            headerObjs.push(Headers.makeHeaderObj({value: header, label: headerLabel}));
         }
     }
 
@@ -38,12 +44,7 @@ export module Headers {
         // Add a specified list of headers.
         let headerObjs = [];
         for (let header of keys) {
-            if (header.label && header.value) {
-                headerObjs.push(Headers.makeHeaderObj(header.value, header.label));
-            }
-            else {
-                headerObjs.push(Headers.makeHeaderObj(header));
-            }
+            headerObjs.push(Headers.makeHeaderObj(header));
         }
         return headerObjs;
     }
@@ -106,11 +107,9 @@ export module Headers {
         }
     }
 
-    export function makeHeaderObj(headerName, headerLabel = "") {
-        headerName = headerName + "";
-        if (!headerLabel) {
-            headerLabel = headerName.replace(/^([a-z])/, t => t.toUpperCase());
-        }
+    export function makeHeaderObj(header: IHeaderOption) {
+        let headerName = "" + (header.value || header);
+        let headerLabel =  "" + (header.label || headerName.replace(/^([a-z])/, t => t.toUpperCase()));
         // Makes a single header object.
         let headerObj: IHeaderObject = {
             // For react table js:
