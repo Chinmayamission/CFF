@@ -36,9 +36,15 @@ todo:
 - 
 - user login/signup
 
+## 2.1.10 (8/18/18)
+Back end:
+- [Payment] Fix payment randomly appending lists, by upgrading chalice and pymodm
+
 ## 2.1.9 (8/18/18)
 Front end and back end:
 - [Responses] Let custom payments be entered with a specified date. Payments now have date, date_modified, date_created to allow for this.
+- [Refactoring] Some refactoring and better tests of response table.
+- [Refactoring] Add webpack runtime chunk to speed up loading times.
 
 ## 2.1.8 (8/13/18)
 Front end only:
