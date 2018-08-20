@@ -1,11 +1,11 @@
 export const filterCaseInsensitive = (filter, row) => {
     const id = filter.pivotId || filter.id;
     if (row[id] !== null){
-        return (
+        let res =
             row[id] !== undefined ?
                 ~String(row[id]).toLowerCase().indexOf(filter.value.toLowerCase().trim())
                 :
-                true
-        );
+                true;
+        return !!res;
     }
 };
