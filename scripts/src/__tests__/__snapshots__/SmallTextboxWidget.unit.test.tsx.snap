@@ -24,7 +24,7 @@ exports[`renders small text box widget correctly 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-string  col-12"
+            class="form-group field field-string  col"
           >
             <label
               class="control-label"

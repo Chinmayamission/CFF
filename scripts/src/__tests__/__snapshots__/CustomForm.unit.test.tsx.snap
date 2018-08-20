@@ -24,7 +24,7 @@ exports[`renders default form without payment 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-string  col-12"
+            class="form-group field field-string  col"
           >
             <label
               class="control-label"
@@ -95,7 +95,7 @@ exports[`renders title and description with html 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-string  col-12"
+            class="form-group field field-string  col"
           >
             <label
               class="control-label"

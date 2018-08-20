@@ -20,7 +20,7 @@ exports[`custom title for one and two 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col-12"
+            class="form-group field field-array  col"
           >
             <fieldset
               class="field field-array field-array-of-string"
@@ -45,7 +45,7 @@ exports[`custom title for one and two 1`] = `
                       Parent Info
                     </h2>
                     <div
-                      class="form-group field field-string  col-12"
+                      class="form-group field field-string  col"
                     >
                       <div />
                       <input
@@ -76,7 +76,7 @@ exports[`custom title for one and two 1`] = `
                       Spouse Info
                     </h2>
                     <div
-                      class="form-group field field-string  col-12"
+                      class="form-group field field-string  col"
                     >
                       <div />
                       <input
@@ -147,7 +147,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col-12"
+            class="form-group field field-array  col"
           >
             <fieldset
               class="field field-array field-array-of-object"
@@ -167,7 +167,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                     class="col-9"
                   >
                     <div
-                      class="form-group field field-object  col-12"
+                      class="form-group field field-object  col"
                     >
                       <div
                         class="container-fluid"
@@ -178,7 +178,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                           class="row"
                         >
                           <div
-                            class="form-group field field-string  col-12"
+                            class="form-group field field-string  col"
                           >
                             <label
                               class="control-label"
@@ -220,7 +220,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                     class="col-9"
                   >
                     <div
-                      class="form-group field field-object  col-12"
+                      class="form-group field field-object  col"
                     >
                       <div
                         class="container-fluid"
@@ -231,7 +231,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                           class="row"
                         >
                           <div
-                            class="form-group field field-string  col-12"
+                            class="form-group field field-string  col"
                           >
                             <label
                               class="control-label"
@@ -319,7 +319,7 @@ exports[`renders regular checkboxes correctly 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col-12"
+            class="form-group field field-array  col"
           >
             <label
               class="control-label"
@@ -504,7 +504,7 @@ exports[`renders regular object array 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col-12"
+            class="form-group field field-array  col"
           >
             <fieldset
               class="field field-array field-array-of-object"
@@ -524,7 +524,7 @@ exports[`renders regular object array 1`] = `
                     class="col-9"
                   >
                     <div
-                      class="form-group field field-object  col-12"
+                      class="form-group field field-object  col"
                     >
                       <div
                         class="container-fluid"
@@ -535,7 +535,7 @@ exports[`renders regular object array 1`] = `
                           class="row"
                         >
                           <div
-                            class="form-group field field-string  col-12"
+                            class="form-group field field-string  col"
                           >
                             <label
                               class="control-label"
@@ -618,7 +618,7 @@ exports[`shows add button when minItems is zero 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col-12"
+            class="form-group field field-array  col"
           >
             <fieldset
               class="field field-array field-array-of-string"
@@ -679,7 +679,7 @@ exports[`shows one child which can be removed 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col-12"
+            class="form-group field field-array  col"
           >
             <fieldset
               class="field field-array field-array-of-string"
@@ -699,7 +699,7 @@ exports[`shows one child which can be removed 1`] = `
                     class="col-9"
                   >
                     <div
-                      class="form-group field field-string  col-12"
+                      class="form-group field field-string  col"
                     >
                       <label
                         class="control-label"
