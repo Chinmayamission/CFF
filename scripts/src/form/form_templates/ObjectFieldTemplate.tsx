@@ -21,7 +21,7 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
                         "full": "col-12"
                     };
                     if (!prop.content.props.uiSchema.classNames) {
-                        prop.content.props.uiSchema.classNames = "col-12";
+                        prop.content.props.uiSchema.classNames = "col";
                     }
                     for (let customClass in customClasses) {
                         prop.content.props.uiSchema.classNames = prop.content.props.uiSchema.classNames.replace(customClass, customClasses[customClass]);
