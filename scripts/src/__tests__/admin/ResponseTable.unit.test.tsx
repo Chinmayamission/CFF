@@ -235,143 +235,22 @@ const formOptions = {
   "paymentInfo": null, "paymentMethods": null, "confirmationEmailInfo": null,
   "dataOptions": {
     "groups": [
-      { "id": "class", "displayName": "Classes",  }
+      {
+        "id": "class", "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "room": { "type": "string" },
+              "grade": { "type": "string" },
+              "teacher": { "type": "string" }
+            }
+          }
+        }
+      }
     ],
     "views": [
-      {
-        "id": "all",
-        "displayName": "All Responses",
-        "columns": [
-          {
-            "label": "Parent Names",
-            "value": "parents.name"
-          },
-          {
-            "label": "Phone numbers",
-            "value": "home_phone parents.phone"
-          },
-          {
-            "label": "Parent email addresses",
-            "value": "parents.email"
-          },
-          {
-            "label": "Home address",
-            "value": "address.line1 address.line2 address.city address.state address.zipcode"
-          },
-          {
-            "label": "Child first names",
-            "value": "children.name.first"
-          },
-          {
-            "label": "Returning family",
-            "value": "returning_family"
-          },
-          {
-            "label": "Fees due",
-            "value": "AMOUNT_OWED"
-          },
-          {
-            "label": "Amount paid",
-            "value": "AMOUNT_PAID"
-          }
-        ]
-      },
-      {
-        "id": "adults",
-        "displayName": "Adults Display Name",
-        "unwindBy": "parents",
-        "columns": [
-          {
-            "label": "First Name",
-            "value": "parents.name.first"
-          },
-          {
-            "label": "Last Name",
-            "value": "parents.name.last"
-          },
-          {
-            "label": "Gender",
-            "value": "parents.gender"
-          },
-          {
-            "label": "Mobile Phone",
-            "value": "parents.phone"
-          },
-          {
-            "label": "Home Phone",
-            "value": "home_phone"
-          },
-          {
-            "label": "Email",
-            "value": "parents.email"
-          }
-        ]
-      },
-      {
-        "id": "children",
-        "displayName": "Children Display Name",
-        "unwindBy": "children",
-        "columns": [
-          {
-            "label": "First Name",
-            "value": "children.name.first"
-          },
-          {
-            "label": "Last Name",
-            "value": "children.name.last"
-          },
-          {
-            "label": "Gender",
-            "value": "children.gender"
-          },
-          {
-            "label": "Date of Birth",
-            "value": "children.dob"
-          },
-          {
-            "label": "Grade",
-            "value": "children.grade"
-          },
-          {
-            "label": "Email",
-            "value": "children.email"
-          },
-          {
-            "label": "Allergies",
-            "value": "children.allergies"
-          },
-          {
-            "label": "Parent Names",
-            "value": "parents.name"
-          },
-          {
-            "label": "Phone numbers",
-            "value": "home_phone parents.phone"
-          },
-          {
-            "label": "Parent email addresses",
-            "value": "parents.email"
-          },
-          {
-            "label": "Home address",
-            "value": "address.line1 address.line2 address.city address.state address.zipcode"
-          },
-          {
-            "label": "Volunteering",
-            "value": "parents.volunteer"
-          }
-        ]
-      },
-      {
-        "id": "children_class_assign",
-        "displayName": "Children Class Assign Display Name",
-        "unwindBy": "children",
-        "columns": [
-          { "label": "Name", "value": "children.name.first children.name.last" },
-          { "label": "Grade", "value": "children.grade" },
-          { "label": "Class", "value": "children.class" }
-        ]
-      }
     ]
   }
 }
@@ -517,69 +396,179 @@ const responses = [
 ];
 const renderedForm: IRenderedForm = { name: "Unit Test BV Registration Form", schema, uiSchema, formOptions };
 
-it('pushes to default view when no table view name specified', () => {
-  const spy = sinon.spy();
-  const wrapper = render(
-    <ResponseTableView
-      responses={responses}
-      renderedForm={renderedForm}
-      tableViewName={null}
-      push={spy}
-    />
-  );
-  expect(spy.calledOnceWith("all")).toBe(true);
-});
-
-
-it('responses with default data', () => {
-  const spy = sinon.spy();
-  const wrapper = render(
-    <ResponseTableView
-      responses={responses}
-      renderedForm={renderedForm}
-      tableViewName={"all"}
-      push={spy}
-    />
-  );
-  expect(wrapper).toMatchSnapshot();
-  expect(wrapper.text()).toContain("Adults Display Name");
-  expect(wrapper.text()).toContain("Amount paid");
-  expect(wrapper.text()).toContain("mom@chinmayamission.com, dad@chinmayamission.com");
-  expect(spy.calledOnce).toBe(false);
-});
-
-
-it('responses with unwind data', () => {
-  const spy = sinon.spy();
-  const wrapper = render(
-    <ResponseTableView
-      responses={responses}
-      renderedForm={renderedForm}
-      tableViewName={"children"}
-      push={spy}
-    />
-  );
-  expect(wrapper).toMatchSnapshot();
-  expect(wrapper.text()).toContain("Children Display Name");
-  expect(wrapper.text()).toContain("Grade");
-  expect(wrapper.text()).toContain("mom ram, dad ram");
-  expect(spy.calledOnce).toBe(false);
-});
-
-
-// it('renders response table with group assign', () => {
+// it('pushes to default view when no table view name specified', () => {
 //   const spy = sinon.spy();
 //   const wrapper = render(
 //     <ResponseTableView
 //       responses={responses}
 //       renderedForm={renderedForm}
-//       tableViewName={"children_class_assign"}
 //       push={spy}
+//     />
+//   );
+//   expect(spy.calledOnceWith("all")).toBe(true);
+// });
+
+
+it('responses with default data', () => {
+  const dataOptionView = {
+    "id": "all",
+    "displayName": "All Responses",
+    "columns": [
+      {
+        "label": "Parent Names",
+        "value": "parents.name"
+      },
+      {
+        "label": "Phone numbers",
+        "value": "home_phone parents.phone"
+      },
+      {
+        "label": "Parent email addresses",
+        "value": "parents.email"
+      },
+      {
+        "label": "Home address",
+        "value": "address.line1 address.line2 address.city address.state address.zipcode"
+      },
+      {
+        "label": "Child first names",
+        "value": "children.name.first"
+      },
+      {
+        "label": "Returning family",
+        "value": "returning_family"
+      },
+      {
+        "label": "Fees due",
+        "value": "AMOUNT_OWED"
+      },
+      {
+        "label": "Amount paid",
+        "value": "AMOUNT_PAID"
+      }
+    ]
+  };
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  // expect(wrapper.text()).toContain("Adults Display Name");
+  expect(wrapper.text()).toContain("Amount paid");
+  expect(wrapper.text()).toContain("mom@chinmayamission.com, dad@chinmayamission.com");
+});
+
+
+it('responses with unwind data', () => {
+  const dataOptionView = {
+    "id": "children",
+    "displayName": "Children Display Name",
+    "unwindBy": "children",
+    "columns": [
+      {
+        "label": "First Name",
+        "value": "children.name.first"
+      },
+      {
+        "label": "Last Name",
+        "value": "children.name.last"
+      },
+      {
+        "label": "Gender",
+        "value": "children.gender"
+      },
+      {
+        "label": "Date of Birth",
+        "value": "children.dob"
+      },
+      {
+        "label": "Grade",
+        "value": "children.grade"
+      },
+      {
+        "label": "Email",
+        "value": "children.email"
+      },
+      {
+        "label": "Allergies",
+        "value": "children.allergies"
+      },
+      {
+        "label": "Parent Names",
+        "value": "parents.name"
+      },
+      {
+        "label": "Phone numbers",
+        "value": "home_phone parents.phone"
+      },
+      {
+        "label": "Parent email addresses",
+        "value": "parents.email"
+      },
+      {
+        "label": "Home address",
+        "value": "address.line1 address.line2 address.city address.state address.zipcode"
+      },
+      {
+        "label": "Volunteering",
+        "value": "parents.volunteer"
+      }
+    ]
+  };
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  // expect(wrapper.text()).toContain("Children Display Name");
+  expect(wrapper.text()).toContain("Grade");
+  expect(wrapper.text()).toContain("mom ram, dad ram");
+});
+
+it('renders class edit form', () => {
+  const dataOptionView = {
+    "id": "class_edit",
+    "displayName": "Edit Classes",
+    "groupEdit": "class"
+  };
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  // expect(wrapper.text()).toContain("Children Class Edit");
+});
+
+
+// it('renders response table with group assign', () => {
+//   const dataOptionView = {
+//     "id": "children_class_assign",
+//     "displayName": "Children Class Assign Display Name",
+//     "unwindBy": "children",
+//     "columns": [
+//       { "label": "Name", "value": "children.name.first children.name.last" },
+//       { "label": "Grade", "value": "children.grade" },
+//       { "label": "Class", "value": "children.class" }
+//     ]
+//   };
+//   const wrapper = render(
+//     <ResponseTableView
+//       responses={responses}
+//       renderedForm={renderedForm}
+//       dataOptionView={dataOptionView}
 //     />
 //   );
 //   expect(wrapper).toMatchSnapshot();
 //   expect(wrapper.text()).toContain("Children Class Assign Display Name");
 //   expect(wrapper.find(".ccmt-cff-Page-FormPage select")).toHaveLength(1);
 //   expect(wrapper.find(".ccmt-cff-Page-FormPage select").text()).toContain("4 - A");
-//   expect(spy.calledOnce).toBe(false);
 // });

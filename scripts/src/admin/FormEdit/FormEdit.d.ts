@@ -120,7 +120,8 @@ export interface IDataOptions {
             aggregateCols?: string[]
         }
     }[],
-    views: IDataOptionView[]
+    views: IDataOptionView[],
+    groups: IGroupOption[]
 }
 interface IDataOptionView {
     unwindBy?: string,
@@ -129,7 +130,11 @@ interface IDataOptionView {
     columns?: ({
         label: string,
         value: string
-    } | string)[]
+    } | string)[],
+    groupEdit?: string
+}
+interface IGroupOption {
+
 }
 /*
 {
