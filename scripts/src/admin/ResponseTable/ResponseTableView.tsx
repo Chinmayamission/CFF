@@ -61,11 +61,11 @@ export default (props: IResponseTableViewProps) => {
             defaultFilterMethod={filterCaseInsensitive}
             freezeWhenExpanded={true}
             SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
-            getTrProps={(state, rowInfo, column, instance) => {
+            getTdProps={(state, rowInfo, column, instance) => {
+                if (column.headerClassName.match(/ccmt-cff-no-click/)) {
+                    return {};
+                }
                 return {
-                    style: {
-                        color: rowInfo.row["CFF_REACT_TABLE_STATUS"] == "updating" ? 'grey' : 'black'
-                    },
                     onClick: (e) => {
                         const { expanded } = state;
                         const path = rowInfo.nestingPath[0];

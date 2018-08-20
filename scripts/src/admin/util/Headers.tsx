@@ -14,7 +14,8 @@ export interface IHeaderObject {
     accessor: (e: any) => any,
     Cell: (e: any) => any,
     filterMethod?: (a, b) => any,
-    Filter?: ({ filter, onChange }) => any
+    Filter?: ({ filter, onChange }) => any,
+    headerClassName?: string
 }
 
 export interface IHeaderOption {
@@ -115,6 +116,7 @@ export module Headers {
             const selectSchemaFilter = cloneDeep(selectSchema);
             selectSchemaFilter.enum.unshift("All");
             selectSchemaFilter.enumNames.unshift("All");
+            headerObj.headerClassName = "ccmt-cff-no-click";
             headerObj.Cell = row =>
                 <Form schema={selectSchema} uiSchema={{}} formData={row.value}
                 // onChange={e => onAssign(row.value)}

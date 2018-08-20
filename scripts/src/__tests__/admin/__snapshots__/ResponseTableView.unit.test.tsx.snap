@@ -63,7 +63,7 @@ exports[`renders response table with group assign 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th ccmt-cff-no-click rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -118,7 +118,7 @@ exports[`renders response table with group assign 1`] = `
             />
           </div>
           <div
-            class="rt-th"
+            class="rt-th ccmt-cff-no-click"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -176,7 +176,6 @@ exports[`renders response table with group assign 1`] = `
           <div
             class="rt-tr -odd"
             role="row"
-            style="color:black"
           >
             <div
               class="rt-td  rt-expandable"
@@ -252,7 +251,6 @@ exports[`renders response table with group assign 1`] = `
           <div
             class="rt-tr -even"
             role="row"
-            style="color:black"
           >
             <div
               class="rt-td  rt-expandable"
@@ -703,7 +701,6 @@ exports[`responses with default data 1`] = `
           <div
             class="rt-tr -odd"
             role="row"
-            style="color:black"
           >
             <div
               class="rt-td  rt-expandable"
@@ -1264,7 +1261,6 @@ exports[`responses with unwind data 1`] = `
           <div
             class="rt-tr -odd"
             role="row"
-            style="color:black"
           >
             <div
               class="rt-td  rt-expandable"
@@ -1370,7 +1366,6 @@ exports[`responses with unwind data 1`] = `
           <div
             class="rt-tr -even"
             role="row"
-            style="color:black"
           >
             <div
               class="rt-td  rt-expandable"
