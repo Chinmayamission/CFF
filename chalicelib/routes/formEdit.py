@@ -16,6 +16,7 @@ def form_edit(formId):
   if form.schema:
     form.schema = renameKey(form.schema, "$ref", "__$ref")
   form.save()
+  form = Form.objects.get({"_id":ObjectId(formId)})
   return {
     "res": {
       "success": True,
