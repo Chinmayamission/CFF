@@ -45,7 +45,8 @@ export interface IRenderedForm {
     schema: {[x: string]: any},
     uiSchema: {[x: string]: any},
     name: string
-    formOptions: IFormOptions
+    formOptions: IFormOptions,
+    _id: {"$oid": string}
 }
 export interface IConfirmationEmailInfo {
     toField: string,
@@ -134,7 +135,9 @@ interface IDataOptionView {
     groupEdit?: string
 }
 interface IGroupOption {
-
+    schema: any,
+    id: string,
+    data?: any
 }
 /*
 {

@@ -1,0 +1,419 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders class edit form 1`] = `
+<div
+  class="ccmt-cff-Page-FormPage"
+>
+  <form
+    autocomplete="false"
+    class="rjsf"
+  >
+    <div
+      class="form-group field field-array"
+    >
+      <fieldset
+        class="field field-array field-array-of-object"
+      >
+        <h2
+          class="ccmt-cff-form-title"
+        >
+          Edit Classes
+        </h2>
+        <div
+          class="array-item-list"
+        >
+          <div
+            class="row mb-4"
+          >
+            <div
+              class="col-9"
+            >
+              <div
+                class="form-group field field-object"
+              >
+                <div
+                  class="container-fluid"
+                >
+                  <span />
+                  <div />
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_name"
+                      >
+                        name
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_name"
+                        label="name"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_room"
+                      >
+                        room
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_room"
+                        label="room"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_grade"
+                      >
+                        grade
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_grade"
+                        label="grade"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_teacher"
+                      >
+                        teacher
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_teacher"
+                        label="teacher"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                  </div>
+                </div>
+                <div />
+                <div />
+              </div>
+            </div>
+            <div
+              class="col-3 ccmt-cff-array-button-container"
+            />
+          </div>
+          <button
+            class="btn btn-info col-12 ccmt-cff-btn-array-add"
+            type="button"
+          >
+            Add
+          </button>
+        </div>
+      </fieldset>
+      <div />
+      <div />
+    </div>
+    <p>
+      <button
+        class="btn btn-info"
+        type="submit"
+      >
+        Submit
+      </button>
+    </p>
+  </form>
+</div>
+`;
+
+exports[`renders class edit form with default data 1`] = `
+<div
+  class="ccmt-cff-Page-FormPage"
+>
+  <form
+    autocomplete="false"
+    class="rjsf"
+  >
+    <div
+      class="form-group field field-array"
+    >
+      <fieldset
+        class="field field-array field-array-of-object"
+      >
+        <h2
+          class="ccmt-cff-form-title"
+        >
+          Edit Classes
+        </h2>
+        <div
+          class="array-item-list"
+        >
+          <div
+            class="row mb-4"
+          >
+            <div
+              class="col-9"
+            >
+              <div
+                class="form-group field field-object  col"
+              >
+                <div
+                  class="container-fluid"
+                >
+                  <span />
+                  <div />
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_name"
+                      >
+                        name
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_name"
+                        label="name"
+                        placeholder=""
+                        type="text"
+                        value="Class 1"
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_room"
+                      >
+                        room
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_room"
+                        label="room"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_grade"
+                      >
+                        grade
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_grade"
+                        label="grade"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_0_teacher"
+                      >
+                        teacher
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_0_teacher"
+                        label="teacher"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                  </div>
+                </div>
+                <div />
+                <div />
+              </div>
+            </div>
+            <div
+              class="col-3 ccmt-cff-array-button-container"
+            />
+          </div>
+          <div
+            class="row mb-4"
+          >
+            <div
+              class="col-9"
+            >
+              <div
+                class="form-group field field-object  col"
+              >
+                <div
+                  class="container-fluid"
+                >
+                  <span />
+                  <div />
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_1_name"
+                      >
+                        name
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_1_name"
+                        label="name"
+                        placeholder=""
+                        type="text"
+                        value="Class 2"
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_1_room"
+                      >
+                        room
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_1_room"
+                        label="room"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_1_grade"
+                      >
+                        grade
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_1_grade"
+                        label="grade"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                    <div
+                      class="form-group field field-string  col"
+                    >
+                      <label
+                        class="control-label"
+                        for="root_1_teacher"
+                      >
+                        teacher
+                      </label>
+                      <input
+                        class="form-control"
+                        id="root_1_teacher"
+                        label="teacher"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                      <div />
+                      <div />
+                    </div>
+                  </div>
+                </div>
+                <div />
+                <div />
+              </div>
+            </div>
+            <div
+              class="col-3 ccmt-cff-array-button-container"
+            >
+              <button
+                class="btn btn-danger col-12 ccmt-cff-btn-array-remove"
+                type="button"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+          <button
+            class="btn btn-info col-12 ccmt-cff-btn-array-add"
+            type="button"
+          >
+            Add
+          </button>
+        </div>
+      </fieldset>
+      <div />
+      <div />
+    </div>
+    <p>
+      <button
+        class="btn btn-info"
+        type="submit"
+      >
+        Submit
+      </button>
+    </p>
+  </form>
+</div>
+`;

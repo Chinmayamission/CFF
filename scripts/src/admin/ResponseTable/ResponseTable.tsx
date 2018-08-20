@@ -1,22 +1,28 @@
-import { get, find } from 'lodash-es';
+import { get, find, cloneDeep } from 'lodash-es';
 import React from 'react';
 import { connect } from 'react-redux';
 import 'react-table/react-table.css';
-import Headers from "src/admin/util/Headers";
 import Loading from "src/common/Loading/Loading";
 import { IDataOptions, IDataOptionView } from '../FormEdit/FormEdit.d';
-import { fetchRenderedForm } from '../../store/form/actions';
+import { fetchRenderedForm, editGroups } from '../../store/form/actions';
 import { fetchResponses, setResponsesSelectedView } from '../../store/responses/actions';
 import { IResponseTableProps, IResponseTableState } from "./ResponseTable.d";
 import ResponseTableView from "./ResponseTableView";
 import "./ResponseTable.scss";
 import { push } from 'connected-react-router';
-
+import GroupEdit from "./GroupEdit";
 
 class ResponseTable extends React.Component<IResponseTableProps, IResponseTableState> {
 
     componentDidMount() {
         this.props.fetchRenderedForm(this.props.match.params.formId).then(() => this.props.fetchResponses(this.props.match.params.formId));
+    }
+
+    editGroups(id, e) {
+        let groups = cloneDeep(this.props.form.renderedForm.formOptions.dataOptions.groups);
+        let group = find(groups, { "id": id });
+        group.data = e;
+        this.props.editGroups(groups);
     }
 
     render() {
@@ -60,6 +66,13 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                 <div>No view selected. Please select a view to continue.</div>
             </div>);
         }
+        if (dataOptionView.groupEdit) {
+            const groupOption = find(dataOptions.groups, { "id": dataOptionView.groupEdit });
+            return <div><Nav />
+                <GroupEdit groupOption={groupOption}
+                    dataOptionView={dataOptionView}
+                    onSubmit={(i, e) => this.editGroups(i, e)} /></div>;
+        }
         return (
             <div>
                 <Nav />
@@ -82,7 +95,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchResponses: formId => dispatch(fetchResponses(formId)),
     fetchRenderedForm: formId => dispatch(fetchRenderedForm(formId)),
     setResponsesSelectedView: (e: string) => dispatch(setResponsesSelectedView(e)),
-    push: (e: string) => dispatch(push(`./${e}`))
+    push: (e: string) => dispatch(push(`./${e}`)),
+    editGroups: (e: any) => dispatch(editGroups(e))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResponseTable);

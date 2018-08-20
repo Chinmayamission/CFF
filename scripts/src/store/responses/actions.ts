@@ -4,7 +4,7 @@ import { get, concat, assign } from "lodash-es";
 import { flatten } from "flat";
 import Headers from "../../admin/util/Headers";
 import { loadingStart, loadingEnd } from "../base/actions";
-import { push } from 'connected-react-router';
+import { FormState } from "../form/types";
 
 export const editResponse = (responseId, path, value) => (dispatch, getState) => {
   return API.patch("CFF", `responses/${responseId}`, {

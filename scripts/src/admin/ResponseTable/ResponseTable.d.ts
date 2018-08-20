@@ -18,7 +18,8 @@ export interface IResponseTableProps extends ResponsesState {
     fetchRenderedForm: (x: string) => Promise<any>,
     fetchResponses: (x: string) => Promise<any>,
     setResponsesSelectedView: (x: string) => any,
-    push: (x: string) => void
+    push: (x: string) => void,
+    editGroups: (x: any) => any
 }
 
 export interface IResponseTableState {
