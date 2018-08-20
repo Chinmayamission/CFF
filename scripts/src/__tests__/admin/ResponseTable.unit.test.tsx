@@ -121,6 +121,9 @@ const schema = {
             "title": "Allergies (any we should know of)?",
             "type": "string"
           },
+          "class": {
+            "type": "string"
+          },
           "name": {
             "$ref": "#/definitions/name"
           },
@@ -232,7 +235,7 @@ const formOptions = {
   "paymentInfo": null, "paymentMethods": null, "confirmationEmailInfo": null,
   "dataOptions": {
     "groups": [
-      { "id": "class", "displayName": "Classes", "enum": ["4 - A", "4 - B", "4 - C", "4 - D"] }
+      { "id": "class", "displayName": "Classes",  }
     ],
     "views": [
       {
@@ -366,7 +369,7 @@ const formOptions = {
         "columns": [
           { "label": "Name", "value": "children.name.first children.name.last" },
           { "label": "Grade", "value": "children.grade" },
-          { "label": "Class", "value": "children.class", "groupAssign": "class" }
+          { "label": "Class", "value": "children.class" }
         ]
       }
     ]
@@ -576,7 +579,7 @@ it('responses with unwind data', () => {
 //   );
 //   expect(wrapper).toMatchSnapshot();
 //   expect(wrapper.text()).toContain("Children Class Assign Display Name");
-//   expect(wrapper.find("select")).toHaveLength(4);
-//   expect(wrapper.find("select").text()).toContain("4 - A");
+//   expect(wrapper.find(".ccmt-cff-Page-FormPage select")).toHaveLength(1);
+//   expect(wrapper.find(".ccmt-cff-Page-FormPage select").text()).toContain("4 - A");
 //   expect(spy.calledOnce).toBe(false);
 // });

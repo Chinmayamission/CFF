@@ -40,7 +40,7 @@ class ResponseSummary extends React.Component<any, any> {
             let tableData = Object.keys(tbl[tableName]).map(e => ({"Value": e, "Count": tbl[tableName][e]}));
             tables.push({
                 title: `Aggregated by ${tableName}`,
-                headers: Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
+                headers: [], // Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
                 data: tableData
             });
         }
@@ -50,7 +50,7 @@ class ResponseSummary extends React.Component<any, any> {
                 let tableData = Object.keys(tbl[tableName]).map(e => ({"Value": e, "Count": tbl[tableName][e]}));
                 tables.push({
                     title: `${unwindName} aggregated by ${tableName}`,
-                    headers: Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
+                    headers: [], //Headers.makeHeaderObjsFromKeys(["Value", "Count"]),
                     data: tableData
                 });
             }

@@ -1,50 +1,35 @@
 import * as React from 'react';
-import { assign, get } from "lodash-es";
+import { assign, get, cloneDeep } from "lodash-es";
 import { IDataOptionView } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
 import { isArray } from 'util';
 import { Object } from 'core-js';
+import { dataToSchemaPath } from './SchemaUtil';
+import Form from "react-jsonschema-form";
+import CustomForm from '../../form/CustomForm';
 
 export interface IHeaderObject {
     Header: string,
     id: string,
     accessor: (e: any) => any,
-    Cell: (e: any) => any
+    Cell: (e: any) => any,
+    filterMethod?: (a, b) => any,
+    Filter?: ({ filter, onChange }) => any
 }
 
 export interface IHeaderOption {
     label?: string,
     value: string,
-    groupAssign?: string
+    groupAssign?: boolean
 }
 
 export module Headers {
 
-    export function makeHeaders(schemaProperties, headerObjs = []) {
-        Headers.makeHeadersHelper(schemaProperties, headerObjs);
-        return headerObjs;
-    }
-    export function makeHeadersHelper(schemaProperties, headerObjs, prefix = "") {
-        for (let header in schemaProperties) {
-            if (schemaProperties[header]["type"] == "object") {
-                Headers.makeHeadersHelper(schemaProperties[header]["properties"], headerObjs, header);
-                continue;
-            }
-            else if (schemaProperties[header]["type"] == "array") {
-                continue;
-            }
-            // Label according to schema's title.
-            let headerLabel = get(schemaProperties, header).title || header;
-            header = prefix ? prefix + "." + header : header;
-            headerObjs.push(Headers.makeHeaderObj({value: header, label: headerLabel}));
-        }
-    }
-
-    export function makeHeaderObjsFromKeys(keys) {
+    export function makeHeaderObjsFromKeys(keys, schema) {
         // Add a specified list of headers.
         let headerObjs = [];
         for (let header of keys) {
-            headerObjs.push(Headers.makeHeaderObj(header));
+            headerObjs.push(Headers.makeHeaderObj(header, schema));
         }
         return headerObjs;
     }
@@ -107,17 +92,44 @@ export module Headers {
         }
     }
 
-    export function makeHeaderObj(header: IHeaderOption) {
+    export function makeHeaderObj(header: IHeaderOption, schema: any) {
         let headerName = "" + (header.value || header);
-        let headerLabel =  "" + (header.label || headerName.replace(/^([a-z])/, t => t.toUpperCase()));
+        let headerLabel = "" + (header.label || headerName.replace(/^([a-z])/, t => t.toUpperCase()));
         // Makes a single header object.
         let headerObj: IHeaderObject = {
             // For react table js:
             Header: headerLabel,
             id: headerName,
-            accessor: formData => headerLabel, // change this, may be unnecessary
+            accessor: formData => headerAccessor(formData, headerName, schema),
             Cell: row => formatValue(row.value)
         };
+        if (header.groupAssign) {
+            // const path = dataToSchemaPath(headerName, schema);
+            // const selectSchema = get(schema, path);
+
+            // const selectSchemaFilter = cloneDeep(selectSchema);
+            // selectSchemaFilter.enum.unshift("All");
+            // if (selectSchemaFilter.enumNames) {
+            //     selectSchemaFilter.enumNames.unshift("All");
+            // }
+            // headerObj.Cell = row =>
+            //     <Form schema={selectSchema} uiSchema={{}} formData={row.value}
+            //         // onChange={e => onAssign(row.value)}
+            //     >
+            //         <div className="d-none"></div>
+            //     </Form>;
+            // headerObj.filterMethod = (filter, row) => {
+            //     if (filter.value == "All") {
+            //         return true;
+            //     }
+            //     return get(row, filter.id) == filter.value;
+            // }
+            // headerObj.Filter = ({ filter, onChange }) =>
+            //     <Form schema={selectSchemaFilter} uiSchema={{}} formData={"All"}
+            //         onChange={e => onChange(e.formData)}>
+            //         <div className="d-none"></div>
+            //     </Form>;
+        }
 
         if (headerName == "PAID") {
             headerObj = assign(headerObj, {
@@ -181,11 +193,7 @@ export module Headers {
                 }
             }
         }
-        const headerObjs = makeHeaderObjsFromKeys(columns).map(e => {
-            e.accessor = formData => headerAccessor(formData, e.id, schema);
-            return e;
-            // e.key = headerAccessor(data, e.id); // todo: how will we deal with csv export???
-        });
+        const headerObjs = makeHeaderObjsFromKeys(columns, schema);
         return headerObjs;
     }
 

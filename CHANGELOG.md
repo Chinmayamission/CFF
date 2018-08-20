@@ -36,6 +36,10 @@ todo:
 - 
 - user login/signup
 
+## 2.1.11
+- [Responses] Properly format booleans and fix filter by paid
+- [Responses] Group assign
+
 ## 2.1.10 (8/18/18)
 Back end:
 - [Payment] Fix payment randomly appending lists, by upgrading chalice and pymodm
