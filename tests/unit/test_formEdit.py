@@ -36,9 +36,9 @@ class FormEdit(unittest.TestCase):
     self.assertEqual(form.schema, {"new": "schema"})
   def test_group_edit(self):
     app.current_request.json_body = {
-      "groups": ["1","2","3"]
+      "groups": {"new": "new2"}
     }
     group_edit(self.formId)
     form = Form.objects.get({"_id": self.formId})
     self.assertEqual(form.name, "Name")
-    self.assertEqual(form.formOptions.dataOptions["groups"], ["1","2","3"])
+    self.assertEqual(form.formOptions.dataOptions["groups"], {"new": "new2"})
