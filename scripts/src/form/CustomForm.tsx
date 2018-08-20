@@ -12,7 +12,7 @@ import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
 import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
-import {get} from "lodash-es";
+import { get } from "lodash-es";
 import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 
 
@@ -75,7 +75,8 @@ interface ICustomFormProps {
   onChange?: (e) => void,
   onSubmit?: (e) => void,
   showPaymentTable?: boolean,
-  paymentCalcInfo?: IPaymentCalcInfo
+  paymentCalcInfo?: IPaymentCalcInfo,
+  className?: string
 }
 
 function CustomForm(props: ICustomFormProps) {
@@ -94,14 +95,14 @@ function CustomForm(props: ICustomFormProps) {
     });
   }
   return (
-    <div className="ccmt-cff-Page-FormPage">
+    <div className={`ccmt-cff-Page-FormPage${props.className ? " " + props.className : ""}`}>
       <Form
         schema={props.schema}
         uiSchema={props.uiSchema}
         formData={props.formData}
         widgets={widgets}
         fields={fields}
-        autocomplete={props.uiSchema["ui:cff:autocomplete"] ? "true": "false"}
+        autocomplete={props.uiSchema["ui:cff:autocomplete"] ? "true" : "false"}
         noHtml5Validate={false}
         // FieldTemplate={CustomFieldTemplate}
         ArrayFieldTemplate={ArrayFieldTemplate}
