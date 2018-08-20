@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { assign, get, cloneDeep } from "lodash-es";
-import { IDataOptionView } from '../FormEdit/FormEdit.d';
+import { assign, get, cloneDeep, find } from "lodash-es";
+import { IDataOptionView, IGroupOption } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
 import { isArray } from 'util';
 import { Object } from 'core-js';
@@ -20,16 +20,16 @@ export interface IHeaderObject {
 export interface IHeaderOption {
     label?: string,
     value: string,
-    groupAssign?: boolean
+    groupAssign?: string
 }
 
 export module Headers {
 
-    export function makeHeaderObjsFromKeys(keys, schema) {
+    export function makeHeaderObjsFromKeys(keys, schema, groups: IGroupOption[]) {
         // Add a specified list of headers.
         let headerObjs = [];
         for (let header of keys) {
-            headerObjs.push(Headers.makeHeaderObj(header, schema));
+            headerObjs.push(Headers.makeHeaderObj(header, schema, groups));
         }
         return headerObjs;
     }
@@ -92,7 +92,7 @@ export module Headers {
         }
     }
 
-    export function makeHeaderObj(header: IHeaderOption, schema: any) {
+    export function makeHeaderObj(header: IHeaderOption, schema: any, groups: IGroupOption[]) {
         let headerName = "" + (header.value || header);
         let headerLabel = "" + (header.label || headerName.replace(/^([a-z])/, t => t.toUpperCase()));
         // Makes a single header object.
@@ -104,31 +104,34 @@ export module Headers {
             Cell: row => formatValue(row.value)
         };
         if (header.groupAssign) {
+            const currentGroup = find(groups, {"id": header.groupAssign});
             // const path = dataToSchemaPath(headerName, schema);
-            // const selectSchema = get(schema, path);
+            const selectSchema = {
+                "type": "string",
+                "enum": currentGroup.data.map(g => g.id),
+                "enumNames": currentGroup.data.map(g => g.displayName || g.id)
+            };
 
-            // const selectSchemaFilter = cloneDeep(selectSchema);
-            // selectSchemaFilter.enum.unshift("All");
-            // if (selectSchemaFilter.enumNames) {
-            //     selectSchemaFilter.enumNames.unshift("All");
-            // }
-            // headerObj.Cell = row =>
-            //     <Form schema={selectSchema} uiSchema={{}} formData={row.value}
-            //         // onChange={e => onAssign(row.value)}
-            //     >
-            //         <div className="d-none"></div>
-            //     </Form>;
-            // headerObj.filterMethod = (filter, row) => {
-            //     if (filter.value == "All") {
-            //         return true;
-            //     }
-            //     return get(row, filter.id) == filter.value;
-            // }
-            // headerObj.Filter = ({ filter, onChange }) =>
-            //     <Form schema={selectSchemaFilter} uiSchema={{}} formData={"All"}
-            //         onChange={e => onChange(e.formData)}>
-            //         <div className="d-none"></div>
-            //     </Form>;
+            const selectSchemaFilter = cloneDeep(selectSchema);
+            selectSchemaFilter.enum.unshift("All");
+            selectSchemaFilter.enumNames.unshift("All");
+            headerObj.Cell = row =>
+                <Form schema={selectSchema} uiSchema={{}} formData={row.value}
+                // onChange={e => onAssign(row.value)}
+                >
+                    <div className="d-none"></div>
+                </Form>;
+            headerObj.filterMethod = (filter, row) => {
+                if (filter.value == "All") {
+                    return true;
+                }
+                return get(row, filter.id) == filter.value;
+            }
+            headerObj.Filter = ({ filter, onChange }) =>
+                <Form schema={selectSchemaFilter} uiSchema={{}} formData={"All"}
+                    onChange={e => onChange(e.formData)}>
+                    <div className="d-none"></div>
+                </Form>;
         }
 
         if (headerName == "PAID") {
@@ -180,7 +183,7 @@ export module Headers {
         return headerNames;
     }
 
-    export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema) {
+    export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema, groups: IGroupOption[] = []) {
         let columns = dataOptionView.columns;
 
         if (!columns) {
@@ -193,7 +196,7 @@ export module Headers {
                 }
             }
         }
-        const headerObjs = makeHeaderObjsFromKeys(columns, schema);
+        const headerObjs = makeHeaderObjsFromKeys(columns, schema, groups);
         return headerObjs;
     }
 

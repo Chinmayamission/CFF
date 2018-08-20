@@ -230,6 +230,11 @@ export const formOptions = {
     "paymentInfo": null, "paymentMethods": null, "confirmationEmailInfo": null,
     "dataOptions": {
         "groups": [
+            {
+                "id": "class",
+                "data": [{ "id": "1st", "name": "asdad", "room": "123", "teacher": "abc123" },
+                        { "id": "2nd", "name": "asdad2", "room": "124", "teacher": "abc124" }]
+            }
         ],
         "views": [
         ]
@@ -375,4 +380,4 @@ export const responses = [
         }
     }
 ];
-export const renderedForm: IRenderedForm = { name: "Unit Test BV Registration Form", schema, uiSchema, formOptions, _id: {$oid: "123"} };
+export const renderedForm: IRenderedForm = { name: "Unit Test BV Registration Form", schema, uiSchema, formOptions, _id: { $oid: "123" } };

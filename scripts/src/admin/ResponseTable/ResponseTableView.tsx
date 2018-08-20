@@ -38,7 +38,7 @@ export default (props: IResponseTableViewProps) => {
         });
         return e.value;
     });
-    headers = Headers.makeHeadersFromDataOption(props.dataOptionView, props.renderedForm.schema);
+    headers = Headers.makeHeadersFromDataOption(props.dataOptionView, props.renderedForm.schema, get(props.renderedForm, "formOptions.dataOptions.groups", []));
     if (props.dataOptionView.unwindBy) {
         for (let item of data) {
             if (!get(item, props.dataOptionView.unwindBy)) {

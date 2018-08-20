@@ -140,26 +140,27 @@ it('responses with unwind data', () => {
 });
 
 
-// it('renders response table with group assign', () => {
-//   const dataOptionView = {
-//     "id": "children_class_assign",
-//     "displayName": "Children Class Assign Display Name",
-//     "unwindBy": "children",
-//     "columns": [
-//       { "label": "Name", "value": "children.name.first children.name.last" },
-//       { "label": "Grade", "value": "children.grade" },
-//       { "label": "Class", "value": "children.class" }
-//     ]
-//   };
-//   const wrapper = render(
-//     <ResponseTableView
-//       responses={responses}
-//       renderedForm={renderedForm}
-//       dataOptionView={dataOptionView}
-//     />
-//   );
-//   expect(wrapper).toMatchSnapshot();
-//   expect(wrapper.text()).toContain("Children Class Assign Display Name");
-//   expect(wrapper.find(".ccmt-cff-Page-FormPage select")).toHaveLength(1);
-//   expect(wrapper.find(".ccmt-cff-Page-FormPage select").text()).toContain("4 - A");
-// });
+it('renders response table with group assign', () => {
+  const dataOptionView = {
+    "id": "children_class_assign",
+    "displayName": "Children Class Assign Display Name",
+    "unwindBy": "children",
+    "columns": [
+      { "label": "Name", "value": "children.name.first children.name.last" },
+      { "label": "Grade", "value": "children.grade" },
+      { "label": "Class", "value": "children.class", "groupAssign": "class" }
+    ]
+  };
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  
+  // Selects contain group ids
+  expect(wrapper.find("select").text()).toContain("1st");
+  expect(wrapper.find("select").text()).toContain("2nd");
+});
