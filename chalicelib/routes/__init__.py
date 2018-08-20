@@ -1,7 +1,7 @@
 from .centerList import center_list
 from .formList import form_list
 from .formCreate import form_create
-from .formEdit import form_edit
+from .formEdit import form_edit, group_edit
 from .formDelete import form_delete
 from .formRender import form_render, form_render_response
 from .formResponseExport import form_response_export
