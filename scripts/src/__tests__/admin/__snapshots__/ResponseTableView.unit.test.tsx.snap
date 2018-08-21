@@ -16,22 +16,12 @@ exports[`renders response table with an undefined group assign 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:335px"
+        style="min-width:300px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          >
-            <div
-              class=""
-            />
-          </div>
           <div
             class="rt-th  rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -81,18 +71,12 @@ exports[`renders response table with an undefined group assign 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:335px"
+        style="min-width:300px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          />
           <div
             class="rt-th"
             role="columnheader"
@@ -133,7 +117,7 @@ exports[`renders response table with an undefined group assign 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:335px"
+        style="min-width:300px"
       >
         <div
           class="rt-tr-group"
@@ -143,17 +127,6 @@ exports[`renders response table with an undefined group assign 1`] = `
             class="rt-tr -odd"
             role="row"
           >
-            <div
-              class="rt-td  rt-expandable"
-              role="gridcell"
-              style="flex:35 0 auto;width:35px;max-width:35px"
-            >
-              <div
-                class="rt-expander"
-              >
-                •
-              </div>
-            </div>
             <div
               class="rt-td"
               role="gridcell"
@@ -183,17 +156,6 @@ exports[`renders response table with an undefined group assign 1`] = `
             class="rt-tr -even"
             role="row"
           >
-            <div
-              class="rt-td  rt-expandable"
-              role="gridcell"
-              style="flex:35 0 auto;width:35px;max-width:35px"
-            >
-              <div
-                class="rt-expander"
-              >
-                •
-              </div>
-            </div>
             <div
               class="rt-td"
               role="gridcell"
@@ -336,22 +298,12 @@ exports[`renders response table with group assign 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:335px"
+        style="min-width:300px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          >
-            <div
-              class=""
-            />
-          </div>
           <div
             class="rt-th  rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -401,18 +353,12 @@ exports[`renders response table with group assign 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:335px"
+        style="min-width:300px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          />
           <div
             class="rt-th"
             role="columnheader"
@@ -456,11 +402,8 @@ exports[`renders response table with group assign 1`] = `
                   id="root"
                 >
                   <option
-                    value=""
-                  />
-                  <option
                     selected=""
-                    value="All"
+                    value=""
                   >
                     All
                   </option>
@@ -487,7 +430,7 @@ exports[`renders response table with group assign 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:335px"
+        style="min-width:300px"
       >
         <div
           class="rt-tr-group"
@@ -497,17 +440,6 @@ exports[`renders response table with group assign 1`] = `
             class="rt-tr -odd"
             role="row"
           >
-            <div
-              class="rt-td  rt-expandable"
-              role="gridcell"
-              style="flex:35 0 auto;width:35px;max-width:35px"
-            >
-              <div
-                class="rt-expander"
-              >
-                •
-              </div>
-            </div>
             <div
               class="rt-td"
               role="gridcell"
@@ -572,17 +504,6 @@ exports[`renders response table with group assign 1`] = `
             class="rt-tr -even"
             role="row"
           >
-            <div
-              class="rt-td  rt-expandable"
-              role="gridcell"
-              style="flex:35 0 auto;width:35px;max-width:35px"
-            >
-              <div
-                class="rt-expander"
-              >
-                •
-              </div>
-            </div>
             <div
               class="rt-td"
               role="gridcell"
@@ -760,22 +681,12 @@ exports[`responses with default data 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:835px"
+        style="min-width:800px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          >
-            <div
-              class=""
-            />
-          </div>
           <div
             class="rt-th  rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -900,18 +811,12 @@ exports[`responses with default data 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:835px"
+        style="min-width:800px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          />
           <div
             class="rt-th"
             role="columnheader"
@@ -1012,7 +917,7 @@ exports[`responses with default data 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:835px"
+        style="min-width:800px"
       >
         <div
           class="rt-tr-group"
@@ -1022,17 +927,6 @@ exports[`responses with default data 1`] = `
             class="rt-tr -odd"
             role="row"
           >
-            <div
-              class="rt-td  rt-expandable"
-              role="gridcell"
-              style="flex:35 0 auto;width:35px;max-width:35px"
-            >
-              <div
-                class="rt-expander"
-              >
-                •
-              </div>
-            </div>
             <div
               class="rt-td"
               role="gridcell"
@@ -1212,22 +1106,12 @@ exports[`responses with unwind data 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:1235px"
+        style="min-width:1200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          >
-            <div
-              class=""
-            />
-          </div>
           <div
             class="rt-th  rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -1412,18 +1296,12 @@ exports[`responses with unwind data 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:1235px"
+        style="min-width:1200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
-          <div
-            class="rt-th"
-            role="columnheader"
-            style="flex:35 0 auto;width:35px;max-width:35px"
-            tabindex="-1"
-          />
           <div
             class="rt-th"
             role="columnheader"
@@ -1572,7 +1450,7 @@ exports[`responses with unwind data 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:1235px"
+        style="min-width:1200px"
       >
         <div
           class="rt-tr-group"
@@ -1582,17 +1460,6 @@ exports[`responses with unwind data 1`] = `
             class="rt-tr -odd"
             role="row"
           >
-            <div
-              class="rt-td  rt-expandable"
-              role="gridcell"
-              style="flex:35 0 auto;width:35px;max-width:35px"
-            >
-              <div
-                class="rt-expander"
-              >
-                •
-              </div>
-            </div>
             <div
               class="rt-td"
               role="gridcell"
@@ -1687,17 +1554,6 @@ exports[`responses with unwind data 1`] = `
             class="rt-tr -even"
             role="row"
           >
-            <div
-              class="rt-td  rt-expandable"
-              role="gridcell"
-              style="flex:35 0 auto;width:35px;max-width:35px"
-            >
-              <div
-                class="rt-expander"
-              >
-                •
-              </div>
-            </div>
             <div
               class="rt-td"
               role="gridcell"
