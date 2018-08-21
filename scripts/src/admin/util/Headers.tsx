@@ -105,35 +105,37 @@ export module Headers {
             Cell: row => formatValue(row.value)
         };
         if (header.groupAssign) {
-            const currentGroup = find(groups, {"id": header.groupAssign});
-            // const path = dataToSchemaPath(headerName, schema);
-            const selectSchema = {
-                "type": "string",
-                "enum": currentGroup.data.map(g => g.id),
-                "enumNames": currentGroup.data.map(g => g.displayName || g.id)
-            };
+            const currentGroup = find(groups, { "id": header.groupAssign });
+            if (currentGroup && currentGroup.data) {
+                // const path = dataToSchemaPath(headerName, schema);
+                const selectSchema = {
+                    "type": "string",
+                    "enum": currentGroup.data.map(g => g.id),
+                    "enumNames": currentGroup.data.map(g => g.displayName || g.id)
+                };
 
-            const selectSchemaFilter = cloneDeep(selectSchema);
-            selectSchemaFilter.enum.unshift("All");
-            selectSchemaFilter.enumNames.unshift("All");
-            headerObj.headerClassName = "ccmt-cff-no-click";
-            headerObj.Cell = row =>
-                <Form schema={selectSchema} uiSchema={{}} formData={row.value}
-                // onChange={e => onAssign(row.value)}
-                >
-                    <div className="d-none"></div>
-                </Form>;
-            headerObj.filterMethod = (filter, row) => {
-                if (filter.value == "All") {
-                    return true;
+                const selectSchemaFilter = cloneDeep(selectSchema);
+                selectSchemaFilter.enum.unshift("All");
+                selectSchemaFilter.enumNames.unshift("All");
+                headerObj.headerClassName = "ccmt-cff-no-click";
+                headerObj.Cell = row =>
+                    <Form schema={selectSchema} uiSchema={{}} formData={row.value}
+                    // onChange={e => onAssign(row.value)}
+                    >
+                        <div className="d-none"></div>
+                    </Form>;
+                headerObj.filterMethod = (filter, row) => {
+                    if (filter.value == "All") {
+                        return true;
+                    }
+                    return get(row, filter.id) == filter.value;
                 }
-                return get(row, filter.id) == filter.value;
+                headerObj.Filter = ({ filter, onChange }) =>
+                    <Form schema={selectSchemaFilter} uiSchema={{}} formData={"All"}
+                        onChange={e => onChange(e.formData)}>
+                        <div className="d-none"></div>
+                    </Form>;
             }
-            headerObj.Filter = ({ filter, onChange }) =>
-                <Form schema={selectSchemaFilter} uiSchema={{}} formData={"All"}
-                    onChange={e => onChange(e.formData)}>
-                    <div className="d-none"></div>
-                </Form>;
         }
 
         if (headerName == "PAID") {
