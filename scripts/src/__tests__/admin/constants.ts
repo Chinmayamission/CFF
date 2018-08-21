@@ -232,8 +232,8 @@ export const formOptions = {
         "groups": [
             {
                 "id": "class",
-                "data": [{ "id": "1st", "name": "asdad", "room": "123", "teacher": "abc123" },
-                        { "id": "2nd", "name": "asdad2", "room": "124", "teacher": "abc124" }],
+                "data": [{ "id": "CLASS1", "displayName": "Class Name One", "room": "Class Room One", "teacher": "Teacher ID One" },
+                        { "id": "CLASS2", "displayName": "Class Name Two", "room": "Class Room Two", "teacher": "Teacher ID Two" }],
                 "schema": {}
             }
         ],
@@ -326,7 +326,8 @@ export const responses = [
                     },
                     "gender": "M",
                     "dob": "1996-07-12",
-                    "grade": "Pre K"
+                    "grade": "Pre K",
+                    "class": "CLASS1"
                 },
                 {
                     "allergies": "onions and garlic",
@@ -337,7 +338,8 @@ export const responses = [
                     "gender": "M",
                     "dob": "9301-01-14",
                     "email": "sib@chinmayamission.com",
-                    "grade": "Toddler"
+                    "grade": "Toddler",
+                    "class": "CLASS2"
                 }
             ],
             "donation": false,

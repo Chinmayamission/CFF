@@ -53,7 +53,7 @@ exports[`renders response table with an undefined group assign 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th ccmt-cff-no-click rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -102,16 +102,52 @@ exports[`renders response table with an undefined group assign 1`] = `
             />
           </div>
           <div
-            class="rt-th"
+            class="rt-th ccmt-cff-no-click"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
+            <form
+              class="rjsf"
+            >
+              <div
+                class="form-group field field-string"
+              >
+                <div />
+                <div />
+                <select
+                  class="form-control"
+                  id="root"
+                >
+                  <option
+                    selected=""
+                    value=""
+                  >
+                    All
+                  </option>
+                  <option
+                    value="CFF_FILTER_NONE"
+                  >
+                    None
+                  </option>
+                  <option
+                    value="CLASS1"
+                  >
+                    Class Name One
+                  </option>
+                  <option
+                    value="CLASS2"
+                  >
+                    Class Name Two
+                  </option>
+                </select>
+                <div />
+                <div />
+              </div>
+              <div
+                class="d-none"
+              />
+            </form>
           </div>
         </div>
       </div>
@@ -145,7 +181,42 @@ exports[`renders response table with an undefined group assign 1`] = `
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
-            />
+            >
+              <form
+                class="rjsf"
+              >
+                <div
+                  class="form-group field field-string"
+                >
+                  <div />
+                  <div />
+                  <select
+                    class="form-control"
+                    id="root"
+                  >
+                    <option
+                      value=""
+                    />
+                    <option
+                      value="CLASS1"
+                    >
+                      Class Name One
+                    </option>
+                    <option
+                      selected=""
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
+                  <div />
+                  <div />
+                </div>
+                <div
+                  class="d-none"
+                />
+              </form>
+            </div>
           </div>
         </div>
         <div
@@ -174,7 +245,369 @@ exports[`renders response table with an undefined group assign 1`] = `
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
+            >
+              <form
+                class="rjsf"
+              >
+                <div
+                  class="form-group field field-string"
+                >
+                  <div />
+                  <div />
+                  <select
+                    class="form-control"
+                    id="root"
+                  >
+                    <option
+                      value=""
+                    />
+                    <option
+                      selected=""
+                      value="CLASS1"
+                    >
+                      Class Name One
+                    </option>
+                    <option
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
+                  <div />
+                  <div />
+                </div>
+                <div
+                  class="d-none"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="pagination-bottom"
+    >
+      <div
+        class="-pagination"
+      >
+        <div
+          class="-previous"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Previous
+          </button>
+        </div>
+        <div
+          class="-center"
+        >
+          <span
+            class="-pageInfo"
+          >
+            Page 
+            <div
+              class="-pageJump"
+            >
+              <input
+                type="number"
+                value="1"
+              />
+            </div>
+             of 
+            <span
+              class="-totalPages"
+            >
+              1
+            </span>
+          </span>
+          <span
+            class="select-wrap -pageSizeOptions"
+          >
+            <select>
+              <option
+                value="5"
+              >
+                5 rows
+              </option>
+              <option
+                value="10"
+              >
+                10 rows
+              </option>
+              <option
+                selected=""
+                value="20"
+              >
+                20 rows
+              </option>
+              <option
+                value="25"
+              >
+                25 rows
+              </option>
+              <option
+                value="50"
+              >
+                50 rows
+              </option>
+              <option
+                value="100"
+              >
+                100 rows
+              </option>
+            </select>
+          </span>
+        </div>
+        <div
+          class="-next"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="-loading"
+    >
+      <div
+        class="-loading-inner"
+      >
+        Loading...
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders response table with extra columns from the group 1`] = `
+<div>
+  <button
+    class="btn btn-outline-primary"
+  >
+    Download CSV
+  </button>
+  <div
+    class="ReactTable"
+  >
+    <div
+      class="rt-table"
+      role="grid"
+    >
+      <div
+        class="rt-thead -header"
+        style="min-width:400px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Name
+            </div>
+            <div
+              class="rt-resizer"
             />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Grade
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Class Name
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Class Room
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-thead -filters"
+        style="min-width:400px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-tbody"
+        style="min-width:400px"
+      >
+        <div
+          class="rt-tr-group"
+          role="rowgroup"
+        >
+          <div
+            class="rt-tr -odd"
+            role="row"
+          >
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              ash2 ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Toddler
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Name Two
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Room Two
+            </div>
+          </div>
+        </div>
+        <div
+          class="rt-tr-group"
+          role="rowgroup"
+        >
+          <div
+            class="rt-tr -even"
+            role="row"
+          >
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              ash ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Pre K
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Name One
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Room One
+            </div>
           </div>
         </div>
       </div>
@@ -408,14 +841,19 @@ exports[`renders response table with group assign 1`] = `
                     All
                   </option>
                   <option
-                    value="1st"
+                    value="CFF_FILTER_NONE"
                   >
-                    1st
+                    None
                   </option>
                   <option
-                    value="2nd"
+                    value="CLASS1"
                   >
-                    2nd
+                    Class Name One
+                  </option>
+                  <option
+                    value="CLASS2"
+                  >
+                    Class Name Two
                   </option>
                 </select>
                 <div />
@@ -472,18 +910,18 @@ exports[`renders response table with group assign 1`] = `
                     id="root"
                   >
                     <option
-                      selected=""
                       value=""
                     />
                     <option
-                      value="1st"
+                      value="CLASS1"
                     >
-                      1st
+                      Class Name One
                     </option>
                     <option
-                      value="2nd"
+                      selected=""
+                      value="CLASS2"
                     >
-                      2nd
+                      Class Name Two
                     </option>
                   </select>
                   <div />
@@ -536,18 +974,18 @@ exports[`renders response table with group assign 1`] = `
                     id="root"
                   >
                     <option
-                      selected=""
                       value=""
                     />
                     <option
-                      value="1st"
+                      selected=""
+                      value="CLASS1"
                     >
-                      1st
+                      Class Name One
                     </option>
                     <option
-                      value="2nd"
+                      value="CLASS2"
                     >
-                      2nd
+                      Class Name Two
                     </option>
                   </select>
                   <div />

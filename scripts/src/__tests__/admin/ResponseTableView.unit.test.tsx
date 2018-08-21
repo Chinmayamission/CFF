@@ -160,9 +160,9 @@ it('renders response table with group assign', () => {
   );
   expect(wrapper).toMatchSnapshot();
   
-  // Selects contain group ids
-  expect(wrapper.find("select").text()).toContain("1st");
-  expect(wrapper.find("select").text()).toContain("2nd");
+  // Selects contain group names
+  expect(wrapper.find("select").text()).toContain("Class Name One");
+  expect(wrapper.find("select").text()).toContain("Class Name Two");
 });
 
 
@@ -174,7 +174,7 @@ it('renders response table with an undefined group assign', () => {
     "columns": [
       { "label": "Name", "value": "children.name.first children.name.last" },
       { "label": "Grade", "value": "children.grade" },
-      { "label": "Class", "value": "children.class", "groupAssign": "class_undefined" }
+      { "label": "Class", "value": "children.class", "groupAssign": "class" }
     ]
   };
   const wrapper = render(
@@ -185,4 +185,32 @@ it('renders response table with an undefined group assign', () => {
     />
   );
   expect(wrapper).toMatchSnapshot();
+});
+
+it('renders response table with extra columns from the group', () => {
+  const dataOptionView = {
+    "id": "children_class_assign",
+    "displayName": "Children Class Assign Display Name",
+    "unwindBy": "children",
+    "columns": [
+      { "label": "Name", "value": "children.name.first children.name.last" },
+      { "label": "Grade", "value": "children.grade" },
+      { "label": "Class Name", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "displayName" },
+      { "label": "Class Room", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "room" }
+    ]
+  };
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  
+  expect(wrapper.find("select").text()).not.toContain("Class Name One");
+  expect(wrapper.text()).toContain("Class Name One");
+  expect(wrapper.text()).toContain("Class Name Two");
+  expect(wrapper.text()).toContain("Class Room One");
+  expect(wrapper.text()).toContain("Class Room Two");
 });

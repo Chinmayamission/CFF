@@ -21,7 +21,8 @@ export interface IHeaderObject {
 export interface IHeaderOption {
     label?: string,
     value: string,
-    groupAssign?: string
+    groupAssign?: string,
+    groupAssignDisplayPath?: string
 }
 
 export module Headers {
@@ -105,47 +106,14 @@ export module Headers {
             Cell: row => formatValue(row.value)
         };
         if (header.groupAssign) {
-            const currentGroup = find(groups, { "id": header.groupAssign });
+            const currentGroup: IGroupOption = find(groups, { "id": header.groupAssign });
             if (currentGroup && currentGroup.data) {
-                // const path = dataToSchemaPath(headerName, schema);
-                const selectSchema = {
-                    "type": "string",
-                    "enum": currentGroup.data.map(g => g.id),
-                    "enumNames": currentGroup.data.map(g => g.displayName || g.id)
-                };
-
-                headerObj.headerClassName = "ccmt-cff-no-click";
-                headerObj.Cell = row =>
-                    <Form schema={selectSchema} uiSchema={{}} formData={row.value}
-                        onChange={e => {
-                            let path = headerObj.id; // children.class
-                            if (row.original.CFF_UNWIND_BY) {
-                                path = path.replace(row.original.CFF_UNWIND_BY + ".", ""); // class
-                                path = `${row.original.CFF_UNWIND_ACCESSOR}.${path}`; // children.0.class
-                            }
-                            editResponse(row.original.ID, path, e.formData);
-                        }}
-                    >
-                        <div className="d-none"></div>
-                    </Form>;
-                headerObj.filterMethod = (filter, row) => {
-                    if (!filter.value) { // "All"
-                        return true;
-                    }
-                    const rowValue = get(row, filter.id);
-                    if (filter.value == "CFF_FILTER_NONE") {
-                        return !rowValue && rowValue !== 0;
-                    }
-                    return rowValue == filter.value;
+                if (header.groupAssignDisplayPath) {
+                    renderGroupDisplay(currentGroup, headerObj, header.groupAssignDisplayPath);
                 }
-                let selectSchemaFilter = cloneDeep(selectSchema);
-                selectSchemaFilter.enum.unshift("CFF_FILTER_NONE");
-                selectSchemaFilter.enumNames.unshift("None");
-                headerObj.Filter = ({ filter, onChange }) =>
-                    <Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }} formData={filter && filter.value}
-                        onChange={e => onChange(e.formData)}>
-                        <div className="d-none"></div>
-                    </Form>;
+                else {
+                    renderGroupSelect(currentGroup, headerObj, editResponse);
+                }
             }
         }
 
@@ -173,6 +141,48 @@ export module Headers {
             });
         }
         return headerObj;
+    }
+
+    function renderGroupDisplay(currentGroup: IGroupOption, headerObj: IHeaderObject, groupAssignDisplayPath: string) {
+        headerObj.Cell = row => {
+            const groupData = find(currentGroup.data, { "id": row.value });
+            return get(groupData, groupAssignDisplayPath);
+        };
+    }
+
+    function renderGroupSelect(currentGroup: IGroupOption, headerObj: IHeaderObject, editResponse: (a: any, b: any, c: any) => any) {
+        const selectSchema = {
+            "type": "string",
+            "enum": currentGroup.data.map(g => g.id),
+            "enumNames": currentGroup.data.map(g => g.displayName || g.id)
+        };
+        headerObj.headerClassName = "ccmt-cff-no-click";
+        headerObj.Cell = row => <Form schema={selectSchema} uiSchema={{}} formData={row.value} onChange={e => {
+            let path = headerObj.id; // children.class
+            if (row.original.CFF_UNWIND_BY) {
+                path = path.replace(row.original.CFF_UNWIND_BY + ".", ""); // class
+                path = `${row.original.CFF_UNWIND_ACCESSOR}.${path}`; // children.0.class
+            }
+            editResponse(row.original.ID, path, e.formData);
+        }}>
+            <div className="d-none"></div>
+        </Form>;
+        headerObj.filterMethod = (filter, row) => {
+            if (!filter.value) { // "All"
+                return true;
+            }
+            const rowValue = get(row, filter.id);
+            if (filter.value == "CFF_FILTER_NONE") {
+                return !rowValue && rowValue !== 0;
+            }
+            return rowValue == filter.value;
+        };
+        let selectSchemaFilter = cloneDeep(selectSchema);
+        selectSchemaFilter.enum.unshift("CFF_FILTER_NONE");
+        selectSchemaFilter.enumNames.unshift("None");
+        headerObj.Filter = ({ filter, onChange }) => <Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }} formData={filter && filter.value} onChange={e => onChange(e.formData)}>
+            <div className="d-none"></div>
+        </Form>;
     }
 
     function getHeaderNamesFromSchemaHelper(schemaProperties, headerNames, prefix = "") {
