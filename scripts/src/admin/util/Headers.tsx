@@ -162,12 +162,12 @@ export module Headers {
             if (schemaProperty && isArray(schemaProperty.enum) && schemaProperty.enum.length && schemaProperty.type === "string") {
                 const enumNames = schemaProperty.enumNames || schemaProperty.enum;
                 headerObj.Filter = ({ filter, onChange }) =>
-                <Form schema={{"enum": ["CFF_FILTER_NONE", "CFF_FILTER_DEFINED", ...schemaProperty.enum], "enumNames": ["None", "Defined", ...enumNames] }}
-                    uiSchema={{ "ui:placeholder": "All" }}
-                    formData={filter && filter.value}
-                    onChange={e => onChange(e.formData)}>
-                    <div className="d-none"></div>
-                </Form>;
+                    <Form schema={{ "enum": ["CFF_FILTER_NONE", "CFF_FILTER_DEFINED", ...schemaProperty.enum], "enumNames": ["None", "Defined", ...enumNames] }}
+                        uiSchema={{ "ui:placeholder": "All" }}
+                        formData={filter && filter.value}
+                        onChange={e => onChange(e.formData)}>
+                        <div className="d-none"></div>
+                    </Form>;
                 headerObj.filterMethod = filterMethodAllNone;
             }
         }
@@ -206,10 +206,23 @@ export module Headers {
         selectSchemaFilter.enumNames.unshift("None");
         selectSchemaFilter.enum.unshift("CFF_FILTER_DEFINED");
         selectSchemaFilter.enumNames.unshift("Defined");
-        headerObj.Filter = ({ filter, onChange }) => <Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }}
-            formData={filter ? filter.value: headerOption.defaultFilter} onChange={e => onChange(e.formData)}>
-            <div className="d-none"></div>
-        </Form>;
+        headerObj.Filter = ({ filter, onChange }) => {
+            if (!filter && headerOption.defaultFilter) {
+                class Loader extends React.Component {
+                    componentDidMount() {
+                        onChange(headerOption.defaultFilter);
+                    }
+                    render() {
+                        return null;
+                    }
+                }
+                return <Loader />;
+            }
+            return (<Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }}
+                formData={filter && filter.value} onChange={e => onChange(e.formData)}>
+                <div className="d-none"></div>
+            </Form>);
+        }
     }
 
     function getHeaderNamesFromSchemaHelper(schemaProperties, headerNames, prefix = "") {
