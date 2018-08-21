@@ -1,3 +1,13 @@
+@import "../../form/bootstrap-4.min.scss";
+// todo: don't import bootstrap twice here.
+
 .ReactTable .rt-tbody {
     min-height: 60px;
+}
+
+.ReactTable .form-group {
+    margin-bottom: 0px;
+    .form-control {
+        @extend .form-control-sm;
+    }
 }
