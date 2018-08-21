@@ -119,6 +119,11 @@ exports[`renders response table with an undefined group assign 1`] = `
                     None
                   </option>
                   <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
+                  </option>
+                  <option
                     value="Toddler"
                   >
                     Toddler
@@ -225,6 +230,11 @@ exports[`renders response table with an undefined group assign 1`] = `
                     value=""
                   >
                     All
+                  </option>
+                  <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
                   </option>
                   <option
                     value="CFF_FILTER_NONE"
@@ -621,6 +631,11 @@ exports[`renders response table with extra columns from the group 1`] = `
                     value="CFF_FILTER_NONE"
                   >
                     None
+                  </option>
+                  <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
                   </option>
                   <option
                     value="Toddler"
@@ -1024,6 +1039,11 @@ exports[`renders response table with group assign 1`] = `
                     None
                   </option>
                   <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
+                  </option>
+                  <option
                     value="Toddler"
                   >
                     Toddler
@@ -1130,6 +1150,11 @@ exports[`renders response table with group assign 1`] = `
                     value=""
                   >
                     All
+                  </option>
+                  <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
                   </option>
                   <option
                     value="CFF_FILTER_NONE"
@@ -2109,6 +2134,11 @@ exports[`responses with unwind data 1`] = `
                     None
                   </option>
                   <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
+                  </option>
+                  <option
                     value="Toddler"
                   >
                     Toddler
@@ -2292,6 +2322,11 @@ exports[`responses with unwind data 1`] = `
                     value="CFF_FILTER_NONE"
                   >
                     None
+                  </option>
+                  <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
                   </option>
                   <option
                     value="Teaching"
