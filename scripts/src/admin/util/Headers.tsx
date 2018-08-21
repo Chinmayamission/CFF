@@ -23,7 +23,8 @@ export interface IHeaderOption {
     label?: string,
     value: string,
     groupAssign?: string,
-    groupAssignDisplayPath?: string
+    groupAssignDisplayPath?: string,
+    defaultFilter?: string
 }
 
 const filterMethodAllNone = (filter, row) => {
@@ -124,10 +125,10 @@ export module Headers {
             const currentGroup: IGroupOption = find(groups, { "id": header.groupAssign });
             if (currentGroup && currentGroup.data) {
                 if (header.groupAssignDisplayPath) {
-                    renderGroupDisplay(currentGroup, headerObj, header.groupAssignDisplayPath);
+                    renderGroupDisplay(currentGroup, headerObj, header.groupAssignDisplayPath, header);
                 }
                 else {
-                    renderGroupSelect(currentGroup, headerObj, editResponse);
+                    renderGroupSelect(currentGroup, headerObj, editResponse, header);
                 }
             }
         }
@@ -173,16 +174,16 @@ export module Headers {
         return headerObj;
     }
 
-    function renderGroupDisplay(currentGroup: IGroupOption, headerObj: IHeaderObject, groupAssignDisplayPath: string) {
+    function renderGroupDisplay(currentGroup: IGroupOption, headerObj: IHeaderObject, groupAssignDisplayPath: string, headerOption: IHeaderOption) {
         headerObj.Cell = row => {
             const groupData = find(currentGroup.data, { "id": row.value });
             return get(groupData, groupAssignDisplayPath);
         };
         headerObj.filterMethod = filterCaseInsensitive;
-        headerObj.Filter = () => null;
+        headerObj.Filter = () => null; // Todo: implement filter here.
     }
 
-    function renderGroupSelect(currentGroup: IGroupOption, headerObj: IHeaderObject, editResponse: (a: any, b: any, c: any) => any) {
+    function renderGroupSelect(currentGroup: IGroupOption, headerObj: IHeaderObject, editResponse: (a: any, b: any, c: any) => any, headerOption: IHeaderOption) {
         const selectSchema = {
             "type": "string",
             "enum": currentGroup.data.map(g => g.id),
@@ -205,7 +206,8 @@ export module Headers {
         selectSchemaFilter.enumNames.unshift("None");
         selectSchemaFilter.enum.unshift("CFF_FILTER_DEFINED");
         selectSchemaFilter.enumNames.unshift("Defined");
-        headerObj.Filter = ({ filter, onChange }) => <Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }} formData={filter && filter.value} onChange={e => onChange(e.formData)}>
+        headerObj.Filter = ({ filter, onChange }) => <Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }}
+            formData={filter ? filter.value: headerOption.defaultFilter} onChange={e => onChange(e.formData)}>
             <div className="d-none"></div>
         </Form>;
     }

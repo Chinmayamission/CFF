@@ -214,3 +214,25 @@ it('renders response table with extra columns from the group', () => {
   expect(wrapper.text()).toContain("Class Room One");
   expect(wrapper.text()).toContain("Class Room Two");
 });
+
+
+it('renders response table with default filter', () => {
+  const dataOptionView = {
+    "id": "children_class_assign",
+    "displayName": "Children Class Assign Display Name",
+    "unwindBy": "children",
+    "columns": [
+      { "label": "Class", "value": "children.class", "groupAssign": "class", "defaultFilter": "CLASS1" }
+    ]
+  };
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  
+  expect(wrapper.find(".rt-th option:selected").text()).toEqual("Class Name One");
+});
