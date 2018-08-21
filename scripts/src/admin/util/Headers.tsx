@@ -132,10 +132,17 @@ export module Headers {
                     if (!filter.value) { // "All"
                         return true;
                     }
-                    return get(row, filter.id) == filter.value;
+                    const rowValue = get(row, filter.id);
+                    if (filter.value == "CFF_FILTER_NONE") {
+                        return !rowValue && rowValue !== 0;
+                    }
+                    return rowValue == filter.value;
                 }
+                let selectSchemaFilter = cloneDeep(selectSchema);
+                selectSchemaFilter.enum.unshift("CFF_FILTER_NONE");
+                selectSchemaFilter.enumNames.unshift("None");
                 headerObj.Filter = ({ filter, onChange }) =>
-                    <Form schema={selectSchema} uiSchema={{ "ui:placeholder": "All" }} formData={filter && filter.value}
+                    <Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }} formData={filter && filter.value}
                         onChange={e => onChange(e.formData)}>
                         <div className="d-none"></div>
                     </Form>;
