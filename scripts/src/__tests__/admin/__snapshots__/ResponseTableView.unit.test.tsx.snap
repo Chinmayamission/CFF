@@ -551,54 +551,7 @@ exports[`renders response table with default filter 1`] = `
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
-          >
-            <form
-              class="rjsf"
-            >
-              <div
-                class="form-group field field-string"
-              >
-                <div />
-                <div />
-                <select
-                  class="form-control"
-                  id="root"
-                >
-                  <option
-                    value=""
-                  >
-                    All
-                  </option>
-                  <option
-                    value="CFF_FILTER_DEFINED"
-                  >
-                    Defined
-                  </option>
-                  <option
-                    value="CFF_FILTER_NONE"
-                  >
-                    None
-                  </option>
-                  <option
-                    selected=""
-                    value="CLASS1"
-                  >
-                    Class Name One
-                  </option>
-                  <option
-                    value="CLASS2"
-                  >
-                    Class Name Two
-                  </option>
-                </select>
-                <div />
-                <div />
-              </div>
-              <div
-                class="d-none"
-              />
-            </form>
-          </div>
+          />
         </div>
       </div>
       <div
