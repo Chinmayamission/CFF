@@ -1683,6 +1683,458 @@ exports[`renders response table with group assign 1`] = `
 </div>
 `;
 
+exports[`renders response table with groups and displaying another model 1`] = `
+<div>
+  <button
+    class="btn btn-outline-primary"
+  >
+    Download CSV
+  </button>
+  <div
+    class="ReactTable"
+  >
+    <div
+      class="rt-table"
+      role="grid"
+    >
+      <div
+        class="rt-thead -header"
+        style="min-width:500px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Name
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Grade
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Class Name
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Teacher Name
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+          <div
+            class="rt-th  rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Teacher Email
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-thead -filters"
+        style="min-width:500px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <form
+              class="rjsf"
+            >
+              <div
+                class="form-group field field-undefined"
+              >
+                <div />
+                <div />
+                <select
+                  class="form-control"
+                  id="root"
+                >
+                  <option
+                    selected=""
+                    value=""
+                  >
+                    All
+                  </option>
+                  <option
+                    value="CFF_FILTER_NONE"
+                  >
+                    None
+                  </option>
+                  <option
+                    value="CFF_FILTER_DEFINED"
+                  >
+                    Defined
+                  </option>
+                  <option
+                    value="Toddler"
+                  >
+                    Toddler
+                  </option>
+                  <option
+                    value="Pre K"
+                  >
+                    Pre K
+                  </option>
+                  <option
+                    value="KG"
+                  >
+                    KG
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="2"
+                  >
+                    2
+                  </option>
+                  <option
+                    value="3"
+                  >
+                    3
+                  </option>
+                  <option
+                    value="4"
+                  >
+                    4
+                  </option>
+                  <option
+                    value="5"
+                  >
+                    5
+                  </option>
+                  <option
+                    value="6"
+                  >
+                    6
+                  </option>
+                  <option
+                    value="7"
+                  >
+                    7
+                  </option>
+                  <option
+                    value="8"
+                  >
+                    8
+                  </option>
+                  <option
+                    value="9"
+                  >
+                    9
+                  </option>
+                  <option
+                    value="10"
+                  >
+                    10
+                  </option>
+                  <option
+                    value="11"
+                  >
+                    11
+                  </option>
+                  <option
+                    value="12"
+                  >
+                    12
+                  </option>
+                </select>
+                <div />
+                <div />
+              </div>
+              <div
+                class="d-none"
+              />
+            </form>
+          </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          />
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          />
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          />
+        </div>
+      </div>
+      <div
+        class="rt-tbody"
+        style="min-width:500px"
+      >
+        <div
+          class="rt-tr-group"
+          role="rowgroup"
+        >
+          <div
+            class="rt-tr -odd"
+            role="row"
+          >
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              ash2 ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Toddler
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Name Two
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            />
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            />
+          </div>
+        </div>
+        <div
+          class="rt-tr-group"
+          role="rowgroup"
+        >
+          <div
+            class="rt-tr -even"
+            role="row"
+          >
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              ash ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Pre K
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Name One
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              TeacherClass1First TeacherClass1Last
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              teacherclass1first@m.com
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="pagination-bottom"
+    >
+      <div
+        class="-pagination"
+      >
+        <div
+          class="-previous"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Previous
+          </button>
+        </div>
+        <div
+          class="-center"
+        >
+          <span
+            class="-pageInfo"
+          >
+            Page 
+            <div
+              class="-pageJump"
+            >
+              <input
+                type="number"
+                value="1"
+              />
+            </div>
+             of 
+            <span
+              class="-totalPages"
+            >
+              1
+            </span>
+          </span>
+          <span
+            class="select-wrap -pageSizeOptions"
+          >
+            <select>
+              <option
+                value="5"
+              >
+                5 rows
+              </option>
+              <option
+                value="10"
+              >
+                10 rows
+              </option>
+              <option
+                selected=""
+                value="20"
+              >
+                20 rows
+              </option>
+              <option
+                value="25"
+              >
+                25 rows
+              </option>
+              <option
+                value="50"
+              >
+                50 rows
+              </option>
+              <option
+                value="100"
+              >
+                100 rows
+              </option>
+            </select>
+          </span>
+        </div>
+        <div
+          class="-next"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="-loading"
+    >
+      <div
+        class="-loading-inner"
+      >
+        Loading...
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`responses with default data 1`] = `
 <div>
   <button

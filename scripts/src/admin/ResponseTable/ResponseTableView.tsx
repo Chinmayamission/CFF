@@ -10,8 +10,7 @@ import downloadCSV from "./downloadCSV";
 import { filterCaseInsensitive } from "./filters";
 import Modal from "react-responsive-modal";
 import ResponseDetail from "./ResponseDetail";
-import { fetchResponseDetail, displayResponseDetail } from "../../store/responses/actions";
-import { isArray } from "util";
+import unwind from "../util/unwind";
 
 interface IResponseTableViewProps {
     responses: IResponse[],
@@ -20,23 +19,6 @@ interface IResponseTableViewProps {
     shownResponseDetailId?: string,
     displayResponseDetail?: (e: string) => void,
     editResponse?: (a: string, b: string, c: string) => void
-}
-
-function unwind(data, unwindBy) {
-    let unwoundData = [];
-    for (const row of data) {
-        const unwindArray = get(row, unwindBy, []);
-        if (isArray(unwindArray)) {
-            for (const index in unwindArray) {
-                let unwoundRow = cloneDeep(row);
-                set(unwoundRow, unwindBy, unwindArray[index]);
-                set(unwoundRow, "CFF_UNWIND_BY", unwindBy);
-                set(unwoundRow, "CFF_UNWIND_ACCESSOR", `${unwindBy}.${index}`);
-                unwoundData.push(unwoundRow);
-            }
-        }
-    }
-    return unwoundData;
 }
 
 export default (props: IResponseTableViewProps) => {
@@ -56,11 +38,13 @@ export default (props: IResponseTableViewProps) => {
         props.dataOptionView,
         props.renderedForm.schema,
         get(props.renderedForm, "formOptions.dataOptions.groups", []),
-        (a, b, c) => props.editResponse(a, b, c)
+        (a, b, c) => props.editResponse(a, b, c),
+        (unwindBy: string) => unwind(data, unwindBy)
     );
     for (let header of headers) {
         if (header.Cell == (() => "ccmt-cff-group-assign-editable")) {}
     }
+    let dataFinal = data;
     if (props.dataOptionView.unwindBy) {
         for (let item of data) {
             if (!get(item, props.dataOptionView.unwindBy)) {
@@ -68,13 +52,13 @@ export default (props: IResponseTableViewProps) => {
             }
         }
         // Todo: keep track of which index each item is in, so that it can be edited properly.
-        data = unwind(data, props.dataOptionView.unwindBy);
+        dataFinal = unwind(data, props.dataOptionView.unwindBy);
     }
     return (<div>
-        <button className="btn btn-outline-primary" onClick={() => downloadCSV(headers, data, `Responses - ${props.renderedForm.name} - at ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)}>Download CSV</button>
+        <button className="btn btn-outline-primary" onClick={() => downloadCSV(headers, dataFinal, `Responses - ${props.renderedForm.name} - at ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)}>Download CSV</button>
 
         <ReactTable
-            data={data}
+            data={dataFinal}
             columns={headers}
             minRows={0}
             filterable

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { assign, get, cloneDeep, find } from "lodash-es";
+import { filter, assign, get, cloneDeep, find } from "lodash-es";
 import { IDataOptionView, IGroupOption } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
 import { isArray } from 'util';
@@ -8,6 +8,7 @@ import Form from "react-jsonschema-form";
 import CustomForm from '../../form/CustomForm';
 import { filterCaseInsensitive } from '../ResponseTable/filters';
 import { dataToSchemaPath } from "../util/SchemaUtil";
+import unwind from "../util/unwind";
 
 export interface IHeaderObject {
     Header: string,
@@ -24,6 +25,7 @@ export interface IHeaderOption {
     value: string,
     groupAssign?: string,
     groupAssignDisplayPath?: string,
+    groupAssignDisplayModel?: string,
     defaultFilter?: string
 }
 
@@ -43,11 +45,11 @@ const filterMethodAllNone = (filter, row) => {
 
 export module Headers {
 
-    export function makeHeaderObjsFromKeys(keys, schema, groups: IGroupOption[], editResponse: (a, b, c) => any = () => null) {
+    export function makeHeaderObjsFromKeys(keys, schema, groups: IGroupOption[], editResponse: (a, b, c) => any = () => null, getUnwoundResponseList: (e: string) => any = () => null) {
         // Add a specified list of headers.
         let headerObjs = [];
         for (let header of keys) {
-            headerObjs.push(Headers.makeHeaderObj(header, schema, groups, editResponse));
+            headerObjs.push(Headers.makeHeaderObj(header, schema, groups, editResponse, getUnwoundResponseList));
         }
         return headerObjs;
     }
@@ -79,13 +81,13 @@ export module Headers {
         return value;
     }
 
-    function headerAccessorSingle(formData, headerName, schema) {
+    function headerAccessorSingle(formData, headerName, schema={}) {
         let value = get(formData, headerName);
         if (typeof value !== "undefined") {
             return value;
         }
         let components = headerName.split(".");
-        if (components.length >= 2 && get(schema.properties, `${components[0]}.type`) == "array") {
+        if (components.length >= 2 && get(schema, `properties.${components[0]}.type`) == "array") {
             const arrayPath = components[0];
             components.shift();
             const arrayAccessor = components.join(".");
@@ -100,7 +102,7 @@ export module Headers {
         return "";
     }
 
-    export function headerAccessor(formData, headerName, schema) {
+    export function headerAccessor(formData, headerName, schema={}) {
         const headerNameList = headerName.split(" ").map(e => headerAccessorSingle(formData, e, schema));
         if (headerNameList.length === 1) {
             return headerNameList[0];
@@ -110,7 +112,7 @@ export module Headers {
         }
     }
 
-    export function makeHeaderObj(header: IHeaderOption, schema: any, groups: IGroupOption[], editResponse: (a, b, c) => any = () => null) {
+    export function makeHeaderObj(header: IHeaderOption, schema: any, groups: IGroupOption[], editResponse: (a, b, c) => any = () => null, getUnwoundResponseList: (e: string) => any = () => null) {
         let headerName = "" + (header.value || header);
         let headerLabel = "" + (header.label || headerName.replace(/^([a-z])/, t => t.toUpperCase()));
         // Makes a single header object.
@@ -125,7 +127,7 @@ export module Headers {
             const currentGroup: IGroupOption = find(groups, { "id": header.groupAssign });
             if (currentGroup && currentGroup.data) {
                 if (header.groupAssignDisplayPath) {
-                    renderGroupDisplay(currentGroup, headerObj, header.groupAssignDisplayPath, header);
+                    renderGroupDisplay(currentGroup, headerObj, header, getUnwoundResponseList);
                 }
                 else {
                     renderGroupSelect(currentGroup, headerObj, editResponse, header);
@@ -174,11 +176,28 @@ export module Headers {
         return headerObj;
     }
 
-    function renderGroupDisplay(currentGroup: IGroupOption, headerObj: IHeaderObject, groupAssignDisplayPath: string, headerOption: IHeaderOption) {
-        headerObj.Cell = row => {
-            const groupData = find(currentGroup.data, { "id": row.value });
-            return get(groupData, groupAssignDisplayPath);
-        };
+    function renderGroupDisplay(currentGroup: IGroupOption, headerObj: IHeaderObject, headerOption: IHeaderOption, getUnwoundResponseList: (e: string) => any = () => null) {
+        if (headerOption.groupAssignDisplayModel) {
+            headerObj.Cell = row => {
+                const unwindBy = headerOption.groupAssignDisplayModel;
+                const unwoundData = getUnwoundResponseList(unwindBy);
+                const matchingUnwoundItems = filter(unwoundData, e =>
+                    // console.log(e, `${unwindBy}.${currentGroup.id}`, row.value)
+                    get(e, `${unwindBy}.${currentGroup.id}`) === row.value
+                );
+                const value = matchingUnwoundItems.map(e =>
+                    headerAccessor(get(e, unwindBy, {}), headerOption.groupAssignDisplayPath)
+                ).join(", ");
+                return formatValue(value);
+            };
+        }
+        else {
+            headerObj.Cell = row => {
+                const groupData = find(currentGroup.data, { "id": row.value });
+                const value = headerAccessor(groupData, headerOption.groupAssignDisplayPath);
+                return formatValue(value);
+            };
+        }
         headerObj.filterMethod = filterCaseInsensitive;
         headerObj.Filter = () => null; // Todo: implement filter here.
     }
@@ -187,7 +206,7 @@ export module Headers {
         const selectSchema = {
             "type": "string",
             "enum": currentGroup.data.map(g => g.id),
-            "enumNames": currentGroup.data.map(g => g.displayName || g.id)
+            "enumNames": currentGroup.data.map(g => g.displayName || g.id).map(e => formatValue(e))
         };
         headerObj.headerClassName = "ccmt-cff-no-click";
         headerObj.Cell = row => <Form schema={selectSchema} uiSchema={{}} formData={row.value} onChange={e => {
@@ -248,7 +267,7 @@ export module Headers {
         return headerNames;
     }
 
-    export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema, groups: IGroupOption[] = [], editResponse: (a, b, c) => any = () => null) {
+    export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema, groups: IGroupOption[] = [], editResponse: (a, b, c) => any = () => null, getUnwoundResponseList: (e: string) => any = () => null) {
         let columns = dataOptionView.columns;
 
         if (!columns) {
@@ -261,7 +280,7 @@ export module Headers {
                 }
             }
         }
-        const headerObjs = makeHeaderObjsFromKeys(columns, schema, groups, editResponse);
+        const headerObjs = makeHeaderObjsFromKeys(columns, schema, groups, editResponse, getUnwoundResponseList);
         return headerObjs;
     }
 

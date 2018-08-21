@@ -2,7 +2,7 @@ import { render } from 'enzyme';
 import React from "react";
 import sinon from "sinon";
 import ResponseTableView from '../../admin/ResponseTable/ResponseTableView';
-import {responses, renderedForm} from "./constants";
+import { responses, renderedForm } from "./constants";
 
 // it('pushes to default view when no table view name specified', () => {
 //   const spy = sinon.spy();
@@ -159,7 +159,7 @@ it('renders response table with group assign', () => {
     />
   );
   expect(wrapper).toMatchSnapshot();
-  
+
   // Selects contain group names
   expect(wrapper.find("select").text()).toContain("Class Name One");
   expect(wrapper.find("select").text()).toContain("Class Name Two");
@@ -207,7 +207,7 @@ it('renders response table with extra columns from the group', () => {
     />
   );
   expect(wrapper).toMatchSnapshot();
-  
+
   expect(wrapper.find("select").text()).not.toContain("Class Name One");
   expect(wrapper.text()).toContain("Class Name One");
   expect(wrapper.text()).toContain("Class Name Two");
@@ -235,4 +235,49 @@ it('renders response table with default filter', () => {
   expect(wrapper).toMatchSnapshot();
   // Todo fix. Can't test this way, because it takes a second to actually update the default filter to equal this.
   // expect(wrapper.find(".rt-th option:selected").text()).toEqual("Class Name One");
+});
+
+it('renders response table with groups and displaying another model', () => {
+  const dataOptionView = {
+    "id": "children_class_assign",
+    "displayName": "Children Class Assign Display Name",
+    "unwindBy": "children",
+    "columns": [
+      { "label": "Name", "value": "children.name.first children.name.last" },
+      { "label": "Grade", "value": "children.grade" },
+      { "label": "Class Name", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "displayName" },
+      { "label": "Teacher Name", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "name.first name.last", "groupAssignDisplayModel": "parents" },
+      { "label": "Teacher Email", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "email", "groupAssignDisplayModel": "parents" }
+    ]
+  };
+  const responses_ = [
+    ...responses,
+    {
+      "payment_trail": [], "update_trail": [], "payment_status_detail": [], "paymentInfo": { "total": 12, "currency": "USD" },
+      "amount_paid": "100.0", "paid": true, "_id": { "$oid": "1232143" },
+      "date_created": { "$date": "2018-08-13T16:17:22.146Z" },
+      "date_modified": { "$date": "2018-08-13T16:17:22.146Z" },
+      "value": {
+        "parents": [
+          {
+            "name": { "first": "TeacherClass1First", "last": "TeacherClass1Last" },
+            "email": "teacherclass1first@m.com",
+            "class": "CLASS1"
+          }
+        ]
+      }
+    }
+  ];
+
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses_}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+
+  expect(wrapper.text()).toContain("TeacherClass1First TeacherClass1Last");
+  expect(wrapper.text()).toContain("teacherclass1first@m.com");
 });
