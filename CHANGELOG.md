@@ -36,9 +36,16 @@ todo:
 - 
 - user login/signup
 
-## 2.1.11
+## 2.2.0 (8/21/18)
+Front end:
+- [Responses] Group assign functionality
+- [Responses] Response detail now opens up in a modal, updates table when response updated.
 - [Responses] Properly format booleans and fix filter by paid
-- [Responses] Group assign
+
+Back end:
+- Add group edit endpoint
+- Return edited form when editing it.
+- Allow setting a null value when editing a response with PATCH.
 
 ## 2.1.10 (8/18/18)
 Back end:
