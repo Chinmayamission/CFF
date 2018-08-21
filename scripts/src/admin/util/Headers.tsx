@@ -34,6 +34,9 @@ const filterMethodAllNone = (filter, row) => {
     if (filter.value == "CFF_FILTER_NONE") {
         return !rowValue && rowValue !== 0;
     }
+    if (filter.value == "CFF_FILTER_DEFINED") {
+        return !(!rowValue && rowValue !== 0);
+    }
     return rowValue == filter.value;
 };
 
@@ -158,7 +161,7 @@ export module Headers {
             if (schemaProperty && isArray(schemaProperty.enum) && schemaProperty.enum.length && schemaProperty.type === "string") {
                 const enumNames = schemaProperty.enumNames || schemaProperty.enum;
                 headerObj.Filter = ({ filter, onChange }) =>
-                <Form schema={{"enum": ["CFF_FILTER_NONE", ...schemaProperty.enum], "enumNames": ["None", ...enumNames] }}
+                <Form schema={{"enum": ["CFF_FILTER_NONE", "CFF_FILTER_DEFINED", ...schemaProperty.enum], "enumNames": ["None", "Defined", ...enumNames] }}
                     uiSchema={{ "ui:placeholder": "All" }}
                     formData={filter && filter.value}
                     onChange={e => onChange(e.formData)}>
@@ -200,6 +203,8 @@ export module Headers {
         let selectSchemaFilter = cloneDeep(selectSchema);
         selectSchemaFilter.enum.unshift("CFF_FILTER_NONE");
         selectSchemaFilter.enumNames.unshift("None");
+        selectSchemaFilter.enum.unshift("CFF_FILTER_DEFINED");
+        selectSchemaFilter.enumNames.unshift("Defined");
         headerObj.Filter = ({ filter, onChange }) => <Form schema={selectSchemaFilter} uiSchema={{ "ui:placeholder": "All" }} formData={filter && filter.value} onChange={e => onChange(e.formData)}>
             <div className="d-none"></div>
         </Form>;
