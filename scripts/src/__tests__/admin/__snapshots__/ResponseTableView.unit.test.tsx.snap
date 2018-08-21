@@ -95,11 +95,112 @@ exports[`renders response table with an undefined group assign 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
+            <form
+              class="rjsf"
+            >
+              <div
+                class="form-group field field-undefined"
+              >
+                <div />
+                <div />
+                <select
+                  class="form-control"
+                  id="root"
+                >
+                  <option
+                    selected=""
+                    value=""
+                  >
+                    All
+                  </option>
+                  <option
+                    value="CFF_FILTER_NONE"
+                  >
+                    None
+                  </option>
+                  <option
+                    value="Toddler"
+                  >
+                    Toddler
+                  </option>
+                  <option
+                    value="Pre K"
+                  >
+                    Pre K
+                  </option>
+                  <option
+                    value="KG"
+                  >
+                    KG
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="2"
+                  >
+                    2
+                  </option>
+                  <option
+                    value="3"
+                  >
+                    3
+                  </option>
+                  <option
+                    value="4"
+                  >
+                    4
+                  </option>
+                  <option
+                    value="5"
+                  >
+                    5
+                  </option>
+                  <option
+                    value="6"
+                  >
+                    6
+                  </option>
+                  <option
+                    value="7"
+                  >
+                    7
+                  </option>
+                  <option
+                    value="8"
+                  >
+                    8
+                  </option>
+                  <option
+                    value="9"
+                  >
+                    9
+                  </option>
+                  <option
+                    value="10"
+                  >
+                    10
+                  </option>
+                  <option
+                    value="11"
+                  >
+                    11
+                  </option>
+                  <option
+                    value="12"
+                  >
+                    12
+                  </option>
+                </select>
+                <div />
+                <div />
+              </div>
+              <div
+                class="d-none"
+              />
+            </form>
           </div>
           <div
             class="rt-th ccmt-cff-no-click"
@@ -498,36 +599,125 @@ exports[`renders response table with extra columns from the group 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
+            <form
+              class="rjsf"
+            >
+              <div
+                class="form-group field field-undefined"
+              >
+                <div />
+                <div />
+                <select
+                  class="form-control"
+                  id="root"
+                >
+                  <option
+                    selected=""
+                    value=""
+                  >
+                    All
+                  </option>
+                  <option
+                    value="CFF_FILTER_NONE"
+                  >
+                    None
+                  </option>
+                  <option
+                    value="Toddler"
+                  >
+                    Toddler
+                  </option>
+                  <option
+                    value="Pre K"
+                  >
+                    Pre K
+                  </option>
+                  <option
+                    value="KG"
+                  >
+                    KG
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="2"
+                  >
+                    2
+                  </option>
+                  <option
+                    value="3"
+                  >
+                    3
+                  </option>
+                  <option
+                    value="4"
+                  >
+                    4
+                  </option>
+                  <option
+                    value="5"
+                  >
+                    5
+                  </option>
+                  <option
+                    value="6"
+                  >
+                    6
+                  </option>
+                  <option
+                    value="7"
+                  >
+                    7
+                  </option>
+                  <option
+                    value="8"
+                  >
+                    8
+                  </option>
+                  <option
+                    value="9"
+                  >
+                    9
+                  </option>
+                  <option
+                    value="10"
+                  >
+                    10
+                  </option>
+                  <option
+                    value="11"
+                  >
+                    11
+                  </option>
+                  <option
+                    value="12"
+                  >
+                    12
+                  </option>
+                </select>
+                <div />
+                <div />
+              </div>
+              <div
+                class="d-none"
+              />
+            </form>
           </div>
           <div
             class="rt-th"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
-          >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
-          </div>
+          />
           <div
             class="rt-th"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
-          >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
-          </div>
+          />
         </div>
       </div>
       <div
@@ -810,11 +1000,112 @@ exports[`renders response table with group assign 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
+            <form
+              class="rjsf"
+            >
+              <div
+                class="form-group field field-undefined"
+              >
+                <div />
+                <div />
+                <select
+                  class="form-control"
+                  id="root"
+                >
+                  <option
+                    selected=""
+                    value=""
+                  >
+                    All
+                  </option>
+                  <option
+                    value="CFF_FILTER_NONE"
+                  >
+                    None
+                  </option>
+                  <option
+                    value="Toddler"
+                  >
+                    Toddler
+                  </option>
+                  <option
+                    value="Pre K"
+                  >
+                    Pre K
+                  </option>
+                  <option
+                    value="KG"
+                  >
+                    KG
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="2"
+                  >
+                    2
+                  </option>
+                  <option
+                    value="3"
+                  >
+                    3
+                  </option>
+                  <option
+                    value="4"
+                  >
+                    4
+                  </option>
+                  <option
+                    value="5"
+                  >
+                    5
+                  </option>
+                  <option
+                    value="6"
+                  >
+                    6
+                  </option>
+                  <option
+                    value="7"
+                  >
+                    7
+                  </option>
+                  <option
+                    value="8"
+                  >
+                    8
+                  </option>
+                  <option
+                    value="9"
+                  >
+                    9
+                  </option>
+                  <option
+                    value="10"
+                  >
+                    10
+                  </option>
+                  <option
+                    value="11"
+                  >
+                    11
+                  </option>
+                  <option
+                    value="12"
+                  >
+                    12
+                  </option>
+                </select>
+                <div />
+                <div />
+              </div>
+              <div
+                class="d-none"
+              />
+            </form>
           </div>
           <div
             class="rt-th ccmt-cff-no-click"
@@ -1794,11 +2085,112 @@ exports[`responses with unwind data 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
+            <form
+              class="rjsf"
+            >
+              <div
+                class="form-group field field-undefined"
+              >
+                <div />
+                <div />
+                <select
+                  class="form-control"
+                  id="root"
+                >
+                  <option
+                    selected=""
+                    value=""
+                  >
+                    All
+                  </option>
+                  <option
+                    value="CFF_FILTER_NONE"
+                  >
+                    None
+                  </option>
+                  <option
+                    value="Toddler"
+                  >
+                    Toddler
+                  </option>
+                  <option
+                    value="Pre K"
+                  >
+                    Pre K
+                  </option>
+                  <option
+                    value="KG"
+                  >
+                    KG
+                  </option>
+                  <option
+                    value="1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="2"
+                  >
+                    2
+                  </option>
+                  <option
+                    value="3"
+                  >
+                    3
+                  </option>
+                  <option
+                    value="4"
+                  >
+                    4
+                  </option>
+                  <option
+                    value="5"
+                  >
+                    5
+                  </option>
+                  <option
+                    value="6"
+                  >
+                    6
+                  </option>
+                  <option
+                    value="7"
+                  >
+                    7
+                  </option>
+                  <option
+                    value="8"
+                  >
+                    8
+                  </option>
+                  <option
+                    value="9"
+                  >
+                    9
+                  </option>
+                  <option
+                    value="10"
+                  >
+                    10
+                  </option>
+                  <option
+                    value="11"
+                  >
+                    11
+                  </option>
+                  <option
+                    value="12"
+                  >
+                    12
+                  </option>
+                </select>
+                <div />
+                <div />
+              </div>
+              <div
+                class="d-none"
+              />
+            </form>
           </div>
           <div
             class="rt-th"
@@ -1878,11 +2270,82 @@ exports[`responses with unwind data 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <input
-              style="width:100%"
-              type="text"
-              value=""
-            />
+            <form
+              class="rjsf"
+            >
+              <div
+                class="form-group field field-undefined"
+              >
+                <div />
+                <div />
+                <select
+                  class="form-control"
+                  id="root"
+                >
+                  <option
+                    selected=""
+                    value=""
+                  >
+                    All
+                  </option>
+                  <option
+                    value="CFF_FILTER_NONE"
+                  >
+                    None
+                  </option>
+                  <option
+                    value="Teaching"
+                  >
+                    Teaching
+                  </option>
+                  <option
+                    value="Backup teacher"
+                  >
+                    Backup teacher
+                  </option>
+                  <option
+                    value="Art activity"
+                  >
+                    Art activity
+                  </option>
+                  <option
+                    value="Music"
+                  >
+                    Music
+                  </option>
+                  <option
+                    value="Dance"
+                  >
+                    Dance
+                  </option>
+                  <option
+                    value="Technology"
+                  >
+                    Technology
+                  </option>
+                  <option
+                    value="Cooking"
+                  >
+                    Cooking
+                  </option>
+                  <option
+                    value="Event organization"
+                  >
+                    Event organization
+                  </option>
+                  <option
+                    value="General"
+                  >
+                    General
+                  </option>
+                </select>
+                <div />
+                <div />
+              </div>
+              <div
+                class="d-none"
+              />
+            </form>
           </div>
         </div>
       </div>

@@ -4,10 +4,10 @@ import { IDataOptionView, IGroupOption } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
 import { isArray } from 'util';
 import { Object } from 'core-js';
-import { dataToSchemaPath } from './SchemaUtil';
 import Form from "react-jsonschema-form";
 import CustomForm from '../../form/CustomForm';
 import { filterCaseInsensitive } from '../ResponseTable/filters';
+import { dataToSchemaPath } from "../util/SchemaUtil";
 
 export interface IHeaderObject {
     Header: string,
@@ -25,6 +25,17 @@ export interface IHeaderOption {
     groupAssign?: string,
     groupAssignDisplayPath?: string
 }
+
+const filterMethodAllNone = (filter, row) => {
+    if (!filter.value) { // "All"
+        return true;
+    }
+    const rowValue = get(row, filter.id);
+    if (filter.value == "CFF_FILTER_NONE") {
+        return !rowValue && rowValue !== 0;
+    }
+    return rowValue == filter.value;
+};
 
 export module Headers {
 
@@ -118,7 +129,7 @@ export module Headers {
             }
         }
 
-        if (headerName == "PAID") {
+        else if (headerName == "PAID") {
             headerObj = assign(headerObj, {
                 "filterMethod": (filter, row) => {
                     if (filter.value === "all") {
@@ -140,6 +151,21 @@ export module Headers {
                         <option value="all">Show All</option>
                     </select>)
             });
+        }
+        else {
+            const schemaProperty = get(schema, `${dataToSchemaPath(headerName, schema)}`);
+            // Default filter dropdown with enum properties. (TODO: follow $ref's.)
+            if (schemaProperty && isArray(schemaProperty.enum) && schemaProperty.enum.length && schemaProperty.type === "string") {
+                const enumNames = schemaProperty.enumNames || schemaProperty.enum;
+                headerObj.Filter = ({ filter, onChange }) =>
+                <Form schema={{"enum": ["CFF_FILTER_NONE", ...schemaProperty.enum], "enumNames": ["None", ...enumNames] }}
+                    uiSchema={{ "ui:placeholder": "All" }}
+                    formData={filter && filter.value}
+                    onChange={e => onChange(e.formData)}>
+                    <div className="d-none"></div>
+                </Form>;
+                headerObj.filterMethod = filterMethodAllNone;
+            }
         }
         return headerObj;
     }
@@ -170,16 +196,7 @@ export module Headers {
         }}>
             <div className="d-none"></div>
         </Form>;
-        headerObj.filterMethod = (filter, row) => {
-            if (!filter.value) { // "All"
-                return true;
-            }
-            const rowValue = get(row, filter.id);
-            if (filter.value == "CFF_FILTER_NONE") {
-                return !rowValue && rowValue !== 0;
-            }
-            return rowValue == filter.value;
-        };
+        headerObj.filterMethod = filterMethodAllNone;
         let selectSchemaFilter = cloneDeep(selectSchema);
         selectSchemaFilter.enum.unshift("CFF_FILTER_NONE");
         selectSchemaFilter.enumNames.unshift("None");
