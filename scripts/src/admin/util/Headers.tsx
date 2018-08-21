@@ -159,7 +159,8 @@ export module Headers {
             });
         }
         else {
-            const schemaProperty = get(schema, `${dataToSchemaPath(headerName, schema)}`);
+            const schemaProperty = get(schema, dataToSchemaPath(headerName, schema));
+            // todo: fix, volunteering, when it's a string array field it shouldn't go through this.
             // Default filter dropdown with enum properties. (TODO: follow $ref's.)
             if (schemaProperty && isArray(schemaProperty.enum) && schemaProperty.enum.length && schemaProperty.type === "string") {
                 const enumNames = schemaProperty.enumNames || schemaProperty.enum;
@@ -183,6 +184,7 @@ export module Headers {
                 const unwoundData = getUnwoundResponseList(unwindBy);
                 const matchingUnwoundItems = filter(unwoundData, e =>
                     // console.log(e, `${unwindBy}.${currentGroup.id}`, row.value)
+                    (row.value || row.value === 0) && 
                     get(e, `${unwindBy}.${currentGroup.id}`) === row.value
                 );
                 const value = matchingUnwoundItems.map(e =>

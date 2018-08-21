@@ -36,6 +36,10 @@ todo:
 - 
 - user login/signup
 
+## 2.2.1 (8/21/18)
+Front end:
+- [Groups] Fix bug: showing random data for groupAssignDisplayModel when it should be blank
+
 ## 2.2.0 (8/21/18)
 Front end:
 - [Responses] Group assign functionality
