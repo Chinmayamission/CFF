@@ -11,7 +11,7 @@ def response_edit(responseId):
     response = Response.objects.get({"_id": ObjectId(responseId)})
     app.check_permissions(response.form, "Responses_Edit")
     path = app.current_request.json_body["path"]
-    value = app.current_request.json_body["value"]
+    value = app.current_request.json_body.get("value", None)
     existing_value = get(response.value, path, value)
     if type(existing_value) is bool and value.lower() in ("true", "false"):
         value = value.lower() == "true"
