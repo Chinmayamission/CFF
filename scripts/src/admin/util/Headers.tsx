@@ -114,9 +114,6 @@ export module Headers {
                     "enumNames": currentGroup.data.map(g => g.displayName || g.id)
                 };
 
-                const selectSchemaFilter = cloneDeep(selectSchema);
-                selectSchemaFilter.enum.unshift("All");
-                selectSchemaFilter.enumNames.unshift("All");
                 headerObj.headerClassName = "ccmt-cff-no-click";
                 headerObj.Cell = row =>
                     <Form schema={selectSchema} uiSchema={{}} formData={row.value}
@@ -125,13 +122,13 @@ export module Headers {
                         <div className="d-none"></div>
                     </Form>;
                 headerObj.filterMethod = (filter, row) => {
-                    if (filter.value == "All") {
+                    if (!filter.value) { // "All"
                         return true;
                     }
                     return get(row, filter.id) == filter.value;
                 }
                 headerObj.Filter = ({ filter, onChange }) =>
-                    <Form schema={selectSchemaFilter} uiSchema={{}} formData={"All"}
+                    <Form schema={selectSchema} uiSchema={{"ui:placeholder": "All"}} formData={filter && filter.value}
                         onChange={e => onChange(e.formData)}>
                         <div className="d-none"></div>
                     </Form>;
