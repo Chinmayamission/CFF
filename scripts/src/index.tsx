@@ -75,7 +75,6 @@ function receiveMessage(event)
 {
     let jwt = event.data.jwt;
     if (!jwt || typeof jwt !== "string") {
-        console.error("JWT is not string", jwt);
         return;
     }
     localStorage.setItem("jwt", jwt);
