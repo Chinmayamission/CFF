@@ -1,5 +1,5 @@
-import unwind from "javascript-unwind";
-import { get, set } from "lodash-es";
+// import unwind from "javascript-unwind";
+import { get, set, cloneDeep } from "lodash-es";
 import React from 'react';
 import ReactTable from "react-table";
 import { IResponse } from '../../store/responses/types';
@@ -11,6 +11,7 @@ import { filterCaseInsensitive } from "./filters";
 import Modal from "react-responsive-modal";
 import ResponseDetail from "./ResponseDetail";
 import { fetchResponseDetail, displayResponseDetail } from "../../store/responses/actions";
+import { isArray } from "util";
 
 interface IResponseTableViewProps {
     responses: IResponse[],
@@ -20,9 +21,22 @@ interface IResponseTableViewProps {
     displayResponseDetail?: (e: string) => void
 }
 
-// function unwind(data, unwindBy) {
-
-// }
+function unwind(data, unwindBy) {
+    let unwoundData = [];
+    for (const row of data) {
+        const unwindArray = get(row, unwindBy, []);
+        if (isArray(unwindArray)) {
+            for (const index in unwindArray) {
+                let unwoundRow = cloneDeep(row);
+                set(unwoundRow, unwindBy, unwindArray[index]);
+                set(unwoundRow, "CFF_UNWIND_BY", unwindBy);
+                set(unwoundRow, "CFF_UNWIND_ACCESSOR", `${unwindBy}.${index}`);
+                unwoundData.push(unwoundRow);
+            }
+        }
+    }
+    return unwoundData;
+}
 
 export default (props: IResponseTableViewProps) => {
 
@@ -58,23 +72,12 @@ export default (props: IResponseTableViewProps) => {
             defaultSorted={[{ "id": "DATE_LAST_MODIFIED", "desc": true }]}
             defaultFiltered={[{ "id": "PAID", "value": "all" }]}
             defaultFilterMethod={filterCaseInsensitive}
-            // freezeWhenExpanded={true}
-            // collapseOnDataChange={true}
-            // SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
             getTdProps={(state, rowInfo, column, instance) => {
-                if (column.headerClassName.match(/ccmt-cff-no-click/)) {
-                    return {};
-                }
                 return {
                     onClick: (e) => {
-                        props.displayResponseDetail(rowInfo.original.ID);
-
-                        // const { expanded } = state;
-                        // const path = rowInfo.nestingPath[0];
-
-                        // instance.setState({
-                        //     expanded: { [path]: expanded[path] ? false : true }
-                        // });
+                        if (!column.headerClassName.match(/ccmt-cff-no-click/)) {
+                            props.displayResponseDetail(rowInfo.original.ID);
+                        }
                     }
                 }
             }
@@ -83,7 +86,7 @@ export default (props: IResponseTableViewProps) => {
         <Modal
             open={!!props.shownResponseDetailId} onClose={() => props.displayResponseDetail(null)}>
             <div className="ccmt-cff-Wrapper-Bootstrap">
-                <h5 className="card-title">Response Detail</h5>
+                <h5 className="card-title">Response Detail - {props.shownResponseDetailId}</h5>
                 <div className="card-text">
                     <ResponseDetail responseId={props.shownResponseDetailId} />
                 </div>
