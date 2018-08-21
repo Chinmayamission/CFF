@@ -18,7 +18,11 @@
       ]
     },
     "uiSchema": {
+      "email": {
+        "classNames": "col-12"
+      },
       "password": {
+        "classNames": "col-12",
         "ui:widget": "password"
       },
       "ui:cff:submitButtonText": "Sign In"
@@ -50,10 +54,15 @@
       ]
     },
     "uiSchema": {
+      "email": {
+        "classNames": "col-12"
+      },
       "password": {
+        "classNames": "col-12",
         "ui:widget": "password"
       },
       "password2": {
+        "classNames": "col-12",
         "ui:widget": "password"
       },
       "ui:cff:submitButtonText": "Sign Up"
@@ -72,7 +81,11 @@
         "email"
       ]
     },
-    "uiSchema": {}
+    "uiSchema": {
+      "email": {
+        "classNames": "col-12"
+      }
+    }
   },
   "forgotPasswordSubmit": {
     "schema": {
@@ -103,10 +116,15 @@
       ]
     },
     "uiSchema": {
+      "email": {
+        "classNames": "col-12"
+      },
       "password": {
+        "classNames": "col-12",
         "ui:widget": "password"
       },
       "password2": {
+        "classNames": "col-12",
         "ui:widget": "password"
       }
     }
