@@ -7,6 +7,7 @@ import { Object } from 'core-js';
 import { dataToSchemaPath } from './SchemaUtil';
 import Form from "react-jsonschema-form";
 import CustomForm from '../../form/CustomForm';
+import { filterCaseInsensitive } from '../ResponseTable/filters';
 
 export interface IHeaderObject {
     Header: string,
@@ -148,6 +149,8 @@ export module Headers {
             const groupData = find(currentGroup.data, { "id": row.value });
             return get(groupData, groupAssignDisplayPath);
         };
+        headerObj.filterMethod = filterCaseInsensitive;
+        headerObj.Filter = () => null;
     }
 
     function renderGroupSelect(currentGroup: IGroupOption, headerObj: IHeaderObject, editResponse: (a: any, b: any, c: any) => any) {
