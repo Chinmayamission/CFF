@@ -4,7 +4,8 @@ export interface ResponsesState {
     responseData: IResponse,
     paymentStatusDetailItem: IPaymentStatusDetailItem,
     responses: IResponse[],
-    selectedView: string
+    selectedView: string,
+    shownResponseDetailId: string
 }
 
 

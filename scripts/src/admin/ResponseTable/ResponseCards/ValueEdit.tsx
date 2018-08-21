@@ -40,7 +40,8 @@ class ValueEdit extends React.Component<IValueEditProps, {}> {
             onEdit={e => this.onEdit(e)}
             onAdd={false}
             onDelete={false}
-            collapsed={false}
+            enableClipboard={false}
+            collapsed={1}
             style={{ "fontFamily": "Arial, sans-serif", "marginLeft": "30px" }}
         />;
     }

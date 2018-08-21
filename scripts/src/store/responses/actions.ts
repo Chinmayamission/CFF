@@ -1,12 +1,10 @@
 import { API } from "aws-amplify";
 import { ResponsesState, IResponse } from "./types";
-import { get, concat, assign } from "lodash-es";
-import { flatten } from "flat";
-import Headers from "../../admin/util/Headers";
+import { findIndex, cloneDeep } from "lodash-es";
 import { loadingStart, loadingEnd } from "../base/actions";
-import { FormState } from "../form/types";
 
 export const editResponse = (responseId, path, value) => (dispatch, getState) => {
+  dispatch(loadingStart());
   return API.patch("CFF", `responses/${responseId}`, {
     "body":
     {
@@ -15,11 +13,18 @@ export const editResponse = (responseId, path, value) => (dispatch, getState) =>
     }
   }).then(e => {
     if (e.res.success === true) {
+      // Update corresponding response in responses table, too.
+      let responses = cloneDeep((getState().responses as ResponsesState).responses);
+      let responseIndex = findIndex(responses, {"_id": {"$oid": responseId}});
+      responses[responseIndex] = e.res.response;
+      dispatch(setResponses(responses));
       dispatch(setResponseDetail(e.res.response));
+      dispatch(loadingEnd());
     }
   }).catch(e => {
     console.error(e);
     alert("Error updating value. " + e);
+    dispatch(loadingEnd());
   });
 };
 
@@ -58,6 +63,11 @@ export const setResponses = (responses: IResponse[]) => ({
 export const setResponsesSelectedView = (viewName: string) => ({
   type: "SET_RESPONSES_SELECTED_VIEW",
   viewName
+});
+
+export const displayResponseDetail = (shownResponseDetailId: string) => ({
+  type: "DISPLAY_RESPONSE_DETAIL",
+  shownResponseDetailId
 })
 
 

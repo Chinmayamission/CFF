@@ -1,23 +1,23 @@
-import { push } from "connected-react-router";
 import unwind from "javascript-unwind";
-import { find, get, set, assign } from "lodash-es";
+import { get, set } from "lodash-es";
 import React from 'react';
-import { connect } from 'react-redux';
-import { NavLink } from "react-router-dom";
 import ReactTable from "react-table";
 import { IResponse } from '../../store/responses/types';
-import { IDataOptions, IRenderedForm, IDataOptionView } from '../FormEdit/FormEdit.d';
+import { IDataOptionView, IRenderedForm } from '../FormEdit/FormEdit.d';
+import { formatPayment } from "../util/formatPayment";
 import Headers from "../util/Headers";
 import downloadCSV from "./downloadCSV";
 import { filterCaseInsensitive } from "./filters";
+import Modal from "react-responsive-modal";
 import ResponseDetail from "./ResponseDetail";
-import { formatPayment } from "../util/formatPayment";
-import Form from "react-jsonschema-form";
+import { fetchResponseDetail, displayResponseDetail } from "../../store/responses/actions";
 
 interface IResponseTableViewProps {
     responses: IResponse[],
     renderedForm: IRenderedForm,
-    dataOptionView: IDataOptionView
+    dataOptionView: IDataOptionView,
+    shownResponseDetailId?: string,
+    displayResponseDetail?: (e: string) => void
 }
 
 // function unwind(data, unwindBy) {
@@ -27,17 +27,16 @@ interface IResponseTableViewProps {
 export default (props: IResponseTableViewProps) => {
 
     let headers = [];
-    let data = props.responses.map((e, index) => {
-        assign(e.value, {
-            "ID": e["_id"]["$oid"],
-            "PAID": e.paid,
-            "DATE_CREATED": e.date_created.$date,
-            "DATE_LAST_MODIFIED": e.date_modified.$date,
-            "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
-            "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency)
-        });
-        return e.value;
-    });
+    let data = props.responses.map(e => ({
+        ...e.value,
+        "ID": e["_id"]["$oid"],
+        "PAID": e.paid,
+        "DATE_CREATED": e.date_created.$date,
+        "DATE_LAST_MODIFIED": e.date_modified.$date,
+        "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
+        "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency)
+    })
+    );
     headers = Headers.makeHeadersFromDataOption(props.dataOptionView, props.renderedForm.schema, get(props.renderedForm, "formOptions.dataOptions.groups", []));
     if (props.dataOptionView.unwindBy) {
         for (let item of data) {
@@ -59,25 +58,37 @@ export default (props: IResponseTableViewProps) => {
             defaultSorted={[{ "id": "DATE_LAST_MODIFIED", "desc": true }]}
             defaultFiltered={[{ "id": "PAID", "value": "all" }]}
             defaultFilterMethod={filterCaseInsensitive}
-            freezeWhenExpanded={true}
-            SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
+            // freezeWhenExpanded={true}
+            // collapseOnDataChange={true}
+            // SubComponent={({ original, row }) => <ResponseDetail responseId={original.ID} />}
             getTdProps={(state, rowInfo, column, instance) => {
                 if (column.headerClassName.match(/ccmt-cff-no-click/)) {
                     return {};
                 }
                 return {
                     onClick: (e) => {
-                        const { expanded } = state;
-                        const path = rowInfo.nestingPath[0];
+                        props.displayResponseDetail(rowInfo.original.ID);
 
-                        instance.setState({
-                            expanded: { [path]: expanded[path] ? false : true }
-                        });
+                        // const { expanded } = state;
+                        // const path = rowInfo.nestingPath[0];
+
+                        // instance.setState({
+                        //     expanded: { [path]: expanded[path] ? false : true }
+                        // });
                     }
                 }
             }
             }
         />
+        <Modal
+            open={!!props.shownResponseDetailId} onClose={() => props.displayResponseDetail(null)}>
+            <div className="ccmt-cff-Wrapper-Bootstrap">
+                <h5 className="card-title">Response Detail</h5>
+                <div className="card-text">
+                    <ResponseDetail responseId={props.shownResponseDetailId} />
+                </div>
+            </div>
+        </Modal>
     </div>
     );
 }

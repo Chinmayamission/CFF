@@ -233,7 +233,8 @@ export const formOptions = {
             {
                 "id": "class",
                 "data": [{ "id": "1st", "name": "asdad", "room": "123", "teacher": "abc123" },
-                        { "id": "2nd", "name": "asdad2", "room": "124", "teacher": "abc124" }]
+                        { "id": "2nd", "name": "asdad2", "room": "124", "teacher": "abc124" }],
+                "schema": {}
             }
         ],
         "views": [

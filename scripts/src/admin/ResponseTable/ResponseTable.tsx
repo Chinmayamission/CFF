@@ -5,7 +5,7 @@ import 'react-table/react-table.css';
 import Loading from "src/common/Loading/Loading";
 import { IDataOptions, IDataOptionView } from '../FormEdit/FormEdit.d';
 import { fetchRenderedForm, editGroups } from '../../store/form/actions';
-import { fetchResponses, setResponsesSelectedView } from '../../store/responses/actions';
+import { fetchResponses, setResponsesSelectedView, displayResponseDetail } from '../../store/responses/actions';
 import { IResponseTableProps, IResponseTableState } from "./ResponseTable.d";
 import ResponseTableView from "./ResponseTableView";
 import "./ResponseTable.scss";
@@ -80,6 +80,8 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
                     responses={this.props.responses}
                     renderedForm={this.props.form.renderedForm}
                     dataOptionView={dataOptionView}
+                    shownResponseDetailId={this.props.shownResponseDetailId}
+                    displayResponseDetail={e => this.props.displayResponseDetail(e)}
                 />
             </div>);
     }
@@ -96,7 +98,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchRenderedForm: formId => dispatch(fetchRenderedForm(formId)),
     setResponsesSelectedView: (e: string) => dispatch(setResponsesSelectedView(e)),
     push: (e: string) => dispatch(push(`./${e}`)),
-    editGroups: (e: any) => dispatch(editGroups(e))
+    editGroups: (e: any) => dispatch(editGroups(e)),
+    displayResponseDetail: (e: string) => dispatch(displayResponseDetail(e))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResponseTable);

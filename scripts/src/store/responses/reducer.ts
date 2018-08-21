@@ -9,17 +9,23 @@ const initialState: ResponsesState = {
   responseData: null,
   responses: null,
   paymentStatusDetailItem: defaultPaymentStatusDetailItem,
-  selectedView: "main"
+  selectedView: "main",
+  shownResponseDetailId: null
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
+    case "DISPLAY_RESPONSE_DETAIL":
+    return {
+      ...state,
+      shownResponseDetailId: action.shownResponseDetailId
+    }
     case "SET_RESPONSES":
       return {
         ...state,
         responses: action.responses
       };
-    case 'SET_RESPONSE_DATA':
+    case "SET_RESPONSE_DATA":
       return {
         ...state,
         responseData: action.responseData
