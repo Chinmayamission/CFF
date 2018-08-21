@@ -18,7 +18,8 @@ interface IResponseTableViewProps {
     renderedForm: IRenderedForm,
     dataOptionView: IDataOptionView,
     shownResponseDetailId?: string,
-    displayResponseDetail?: (e: string) => void
+    displayResponseDetail?: (e: string) => void,
+    editResponse?: (a: string, b: string, c: string) => void
 }
 
 function unwind(data, unwindBy) {
@@ -51,7 +52,15 @@ export default (props: IResponseTableViewProps) => {
         "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency)
     })
     );
-    headers = Headers.makeHeadersFromDataOption(props.dataOptionView, props.renderedForm.schema, get(props.renderedForm, "formOptions.dataOptions.groups", []));
+    headers = Headers.makeHeadersFromDataOption(
+        props.dataOptionView,
+        props.renderedForm.schema,
+        get(props.renderedForm, "formOptions.dataOptions.groups", []),
+        (a, b, c) => props.editResponse(a, b, c)
+    );
+    for (let header of headers) {
+        if (header.Cell == (() => "ccmt-cff-group-assign-editable")) {}
+    }
     if (props.dataOptionView.unwindBy) {
         for (let item of data) {
             if (!get(item, props.dataOptionView.unwindBy)) {

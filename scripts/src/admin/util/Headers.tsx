@@ -26,11 +26,11 @@ export interface IHeaderOption {
 
 export module Headers {
 
-    export function makeHeaderObjsFromKeys(keys, schema, groups: IGroupOption[]) {
+    export function makeHeaderObjsFromKeys(keys, schema, groups: IGroupOption[], editResponse: (a, b, c) => any = () => null) {
         // Add a specified list of headers.
         let headerObjs = [];
         for (let header of keys) {
-            headerObjs.push(Headers.makeHeaderObj(header, schema, groups));
+            headerObjs.push(Headers.makeHeaderObj(header, schema, groups, editResponse));
         }
         return headerObjs;
     }
@@ -93,7 +93,7 @@ export module Headers {
         }
     }
 
-    export function makeHeaderObj(header: IHeaderOption, schema: any, groups: IGroupOption[]) {
+    export function makeHeaderObj(header: IHeaderOption, schema: any, groups: IGroupOption[], editResponse: (a, b, c) => any = () => null) {
         let headerName = "" + (header.value || header);
         let headerLabel = "" + (header.label || headerName.replace(/^([a-z])/, t => t.toUpperCase()));
         // Makes a single header object.
@@ -117,7 +117,14 @@ export module Headers {
                 headerObj.headerClassName = "ccmt-cff-no-click";
                 headerObj.Cell = row =>
                     <Form schema={selectSchema} uiSchema={{}} formData={row.value}
-                    // onChange={e => onAssign(row.value)}
+                        onChange={e => {
+                            let path = headerObj.id; // children.class
+                            if (row.original.CFF_UNWIND_BY) {
+                                path = path.replace(row.original.CFF_UNWIND_BY + ".", ""); // class
+                                path = `${row.original.CFF_UNWIND_ACCESSOR}.${path}`; // children.0.class
+                            }
+                            editResponse(row.original.ID, path, e.formData);
+                        }}
                     >
                         <div className="d-none"></div>
                     </Form>;
@@ -128,7 +135,7 @@ export module Headers {
                     return get(row, filter.id) == filter.value;
                 }
                 headerObj.Filter = ({ filter, onChange }) =>
-                    <Form schema={selectSchema} uiSchema={{"ui:placeholder": "All"}} formData={filter && filter.value}
+                    <Form schema={selectSchema} uiSchema={{ "ui:placeholder": "All" }} formData={filter && filter.value}
                         onChange={e => onChange(e.formData)}>
                         <div className="d-none"></div>
                     </Form>;
@@ -184,7 +191,7 @@ export module Headers {
         return headerNames;
     }
 
-    export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema, groups: IGroupOption[] = []) {
+    export function makeHeadersFromDataOption(dataOptionView: IDataOptionView, schema: Schema, groups: IGroupOption[] = [], editResponse: (a, b, c) => any = () => null) {
         let columns = dataOptionView.columns;
 
         if (!columns) {
@@ -197,7 +204,7 @@ export module Headers {
                 }
             }
         }
-        const headerObjs = makeHeaderObjsFromKeys(columns, schema, groups);
+        const headerObjs = makeHeaderObjsFromKeys(columns, schema, groups, editResponse);
         return headerObjs;
     }
 

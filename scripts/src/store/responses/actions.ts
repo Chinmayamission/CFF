@@ -3,7 +3,7 @@ import { ResponsesState, IResponse } from "./types";
 import { findIndex, cloneDeep } from "lodash-es";
 import { loadingStart, loadingEnd } from "../base/actions";
 
-export const editResponse = (responseId, path, value) => (dispatch, getState) => {
+export const editResponse = (responseId: string, path: string, value: any) => (dispatch, getState) => {
   dispatch(loadingStart());
   return API.patch("CFF", `responses/${responseId}`, {
     "body":
