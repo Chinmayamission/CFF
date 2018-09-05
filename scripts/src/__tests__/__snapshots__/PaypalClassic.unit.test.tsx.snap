@@ -260,6 +260,153 @@ exports[`renders subscription payment form 1`] = `
       type="hidden"
       value="1"
     />
+    <input
+      name="src"
+      type="hidden"
+      value="1"
+    />
+  </div>
+</form>
+`;
+
+exports[`renders subscription payment form with max number of recurrenceTimes 1`] = `
+<form
+  action="https://www.paypal.com/cgi-bin/webscr"
+  method="post"
+>
+  <input
+    name="cmd"
+    type="hidden"
+    value="_xclick-subscriptions"
+  />
+  <input
+    name="custom"
+    type="hidden"
+    value="r123456"
+  />
+  <input
+    name="charset"
+    type="hidden"
+    value="utf-8"
+  />
+  <input
+    name="upload"
+    type="hidden"
+    value="1"
+  />
+  <input
+    name="business"
+    type="hidden"
+  />
+  <input
+    name="currency_code"
+    type="hidden"
+    value="USD"
+  />
+  <input
+    name="notify_url"
+    type="hidden"
+    value="http://localhost:8001/responses/r123456/ipn"
+  />
+  <input
+    name="return"
+    type="hidden"
+    value="about:blank"
+  />
+  <input
+    name="cancel_return"
+    type="hidden"
+    value="about:blank"
+  />
+  <input
+    name="image_url"
+    type="hidden"
+  />
+  <input
+    name="first_name"
+    type="hidden"
+  />
+  <input
+    name="last_name"
+    type="hidden"
+  />
+  <input
+    name="address1"
+    type="hidden"
+  />
+  <input
+    name="address2"
+    type="hidden"
+  />
+  <input
+    name="city"
+    type="hidden"
+  />
+  <input
+    name="state"
+    type="hidden"
+  />
+  <input
+    name="zip"
+    type="hidden"
+  />
+  <input
+    name="night_phone_a"
+    type="hidden"
+  />
+  <input
+    name="night_phone_b"
+    type="hidden"
+  />
+  <input
+    name="night_phone_c"
+    type="hidden"
+  />
+  <input
+    name="email"
+    type="hidden"
+  />
+  <input
+    class="btn btn-primary"
+    type="submit"
+    value="Pay Now with Paypal"
+  />
+  <div>
+    <input
+      name="item_name"
+      type="hidden"
+      value="Name"
+    />
+    <input
+      name="a3"
+      type="hidden"
+      value="40"
+    />
+    <input
+      name="p3"
+      type="hidden"
+      value="1"
+    />
+    <input
+      name="t3"
+      type="hidden"
+      value="M"
+    />
+    <input
+      name="srt"
+      type="hidden"
+      value="12"
+    />
+    <input
+      name="no_note"
+      type="hidden"
+      value="1"
+    />
+    <input
+      name="src"
+      type="hidden"
+      value="1"
+    />
   </div>
 </form>
 `;

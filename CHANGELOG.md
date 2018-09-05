@@ -36,6 +36,12 @@ todo:
 - 
 - user login/signup
 
+## 2.2.2 (9/5/18? - tbd)
+Front end only:
+- Fix bug: recurring payments in paypal now will actually recur.
+  - srt is always set to 1 so recurring payments will always recur by default
+  - recurrenceTimes can be specified to set the srt variable, which gives the max number of recurrence times (for example, a monthly subscription for a year would give you srt = 12).
+
 ## 2.2.1 (8/21/18)
 Front end only:
 - [Groups] Fix bug: showing random data for groupAssignDisplayModel when it should be blank

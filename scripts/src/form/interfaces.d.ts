@@ -218,7 +218,8 @@ export interface IPaypalClassicState extends PaypalClassicSharedAttrs {
         a3: string,
         p3: string,
         t3: string,
-        item_name: string
+        item_name: string,
+        srt?: string
     }
 }
 export interface IPaymentMethodInfoSharedProps {
