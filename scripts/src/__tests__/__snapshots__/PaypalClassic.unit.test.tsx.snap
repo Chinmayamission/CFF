@@ -393,11 +393,6 @@ exports[`renders subscription payment form with max number of recurrenceTimes 1`
       value="M"
     />
     <input
-      name="srt"
-      type="hidden"
-      value="12"
-    />
-    <input
       name="no_note"
       type="hidden"
       value="1"
@@ -406,6 +401,11 @@ exports[`renders subscription payment form with max number of recurrenceTimes 1`
       name="src"
       type="hidden"
       value="1"
+    />
+    <input
+      name="srt"
+      type="hidden"
+      value="12"
     />
   </div>
 </form>
