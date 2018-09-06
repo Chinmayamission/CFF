@@ -18,7 +18,7 @@ keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.forma
 # we download them only on cold start
 # https://aws.amazon.com/blogs/compute/container-reuse-in-lambda/
 response = requests.get(keys_url)
-keys = response.json()['keys']
+keys = response.json().get('keys', [])
 
 def get_claims(token, verify_audience=True):
     token = token
