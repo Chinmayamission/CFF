@@ -36,7 +36,12 @@ todo:
 - 
 - user login/signup
 
-## 2.2.2 (9/5/18? - tbd)
+## 2.2.3 (9/12/18)
+Front end only:
+- [Responses] Display arrays and filter them properly
+- [Form] Make add buttons small again
+
+## 2.2.2 (9/5/18)
 Front end only:
 - Fix bug: recurring payments in paypal now will actually recur.
   - srt is always set to 1 so recurring payments will always recur by default
