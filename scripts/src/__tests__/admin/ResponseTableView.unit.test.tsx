@@ -139,7 +139,6 @@ it('responses with unwind data', () => {
   expect(wrapper.text()).toContain("mom ram, dad ram");
 });
 
-
 it('renders response table with group assign', () => {
   const dataOptionView = {
     "id": "children_class_assign",

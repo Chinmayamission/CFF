@@ -384,3 +384,11 @@ export const responses = [
     }
 ];
 export const renderedForm: IRenderedForm = { name: "Unit Test BV Registration Form", schema, uiSchema, formOptions, _id: { $oid: "123" } };
+
+export function createResponseWithValue(value) {
+    return {"payment_trail": [], "update_trail": [], "payment_status_detail": [], "paymentInfo": { "total": 12, "currency": "USD" },
+    "amount_paid": "100.0", "paid": true, "_id": { "$oid": "1232143" },
+    "date_created": { "$date": "2018-08-13T16:17:22.146Z" },
+    "date_modified": { "$date": "2018-08-13T16:17:22.146Z" },
+    "value": value}
+}

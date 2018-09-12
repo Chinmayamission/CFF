@@ -3194,7 +3194,7 @@ exports[`responses with unwind data 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              Art activity Dance, Teaching Dance Technology Cooking Event organization
+              Art activity, Dance, Teaching, Dance, Technology, Cooking, Event organization
             </div>
           </div>
         </div>
@@ -3284,7 +3284,7 @@ exports[`responses with unwind data 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              Art activity Dance, Teaching Dance Technology Cooking Event organization
+              Art activity, Dance, Teaching, Dance, Technology, Cooking, Event organization
             </div>
           </div>
         </div>

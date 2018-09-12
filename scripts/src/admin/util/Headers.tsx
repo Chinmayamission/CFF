@@ -40,6 +40,9 @@ const filterMethodAllNone = (filter, row) => {
     if (filter.value == "CFF_FILTER_DEFINED") {
         return !(!rowValue && rowValue !== 0);
     }
+    if (isArray(rowValue)) {
+        return ~rowValue.indexOf(filter.value);
+    }
     return rowValue == filter.value;
 };
 
@@ -61,7 +64,7 @@ export module Headers {
             case "boolean":
                 return value ? "YES" : "NO";
             case "object":
-                return JSON.stringify(value);
+                return isArray(value) ? value.join(", ") : Object.values(value).join(" ");
             case "string":
                 if (value.match(/(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/)) {
                     let date = new Date(value);
@@ -72,13 +75,6 @@ export module Headers {
             default:
                 return value;
         }
-    }
-
-    function formatObj(value) {
-        if (typeof value === "object") {
-            return Object.values(value).join(" ");
-        }
-        return value;
     }
 
     function headerAccessorSingle(formData, headerName, schema={}) {
@@ -92,7 +88,7 @@ export module Headers {
             components.shift();
             const arrayAccessor = components.join(".");
             if (isArray(get(formData, arrayPath))) {
-                return get(formData, arrayPath).map(e => formatObj(get(e, arrayAccessor))).join(", ");
+                return get(formData, arrayPath).map(e => formatValue(get(e, arrayAccessor))).join(", ");
             }
             else {
                 // if unwindBy value, just revert to the original value.
