@@ -1,7 +1,7 @@
 import React from "react";
 import DOMPurify from 'dompurify';
 import Form from "react-jsonschema-form";
-
+import "./form.scss";
 import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate";
 import ObjectFieldTemplate from "./form_templates/ObjectFieldTemplate";
 import CustomFieldTemplate from "./form_templates/CustomFieldTemplate";
