@@ -124,7 +124,7 @@ export const onAuthError = (error) => ({
 export function signIn(data) {
   return dispatch => {
     dispatch(loadingStart());
-    Auth.signIn(data.email, data.password)
+    Auth.signIn(data.email.toLowerCase(), data.password)
       .then(() => localStorage.removeItem("jwt"))
       .then(() => dispatch(checkLoginStatus()))
       .catch(e => dispatch(onAuthError(e.message)))
@@ -143,7 +143,7 @@ export function signUp(data) {
       username: data.email,
       password: data.password,
       attributes: {
-        email: data.email,
+        email: data.email.toLowerCase(),
         name: "User",
         website: (window.location != window.parent.location) ? document.referrer : window.location.href // Link for confirmation email
       }
