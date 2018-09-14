@@ -40,6 +40,10 @@ todo:
 Front end only:
 - Make emails lowercase when signing up and signing in. (This requires a backend fix which lowercases all emails -- see tools/lowercaseUsers.py)
 
+## 2.2.4 (9/14/18)
+Front end only:
+- [Auth] Fix bug -- allow user to sign up with lowercase email
+
 ## 2.2.3 (9/12/18)
 Front end only:
 - [Responses] Display arrays and filter them properly

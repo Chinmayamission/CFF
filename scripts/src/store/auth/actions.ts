@@ -140,7 +140,7 @@ export function signUp(data) {
     }
     dispatch(loadingStart());
     Auth.signUp({
-      username: data.email,
+      username: data.email.toLowerCase(),
       password: data.password,
       attributes: {
         email: data.email.toLowerCase(),
