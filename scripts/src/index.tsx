@@ -69,20 +69,6 @@ const authScreenLabels = {
 I18n.setLanguage('en');
 I18n.putVocabularies(authScreenLabels);
 
-window.addEventListener("message", receiveMessage, false);
-
-function receiveMessage(event)
-{
-    let jwt = event.data.jwt;
-    if (!jwt || typeof jwt !== "string") {
-        return;
-    }
-    localStorage.setItem("jwt", jwt);
-    //   if (event.origin !== "http://example.org:8080")
-    //     return;
-
-    //   // ...
-}
 
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('ccmt-cff-main'));

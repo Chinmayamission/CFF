@@ -65,14 +65,29 @@ interface ILoginProps extends IAuthState {
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
     this.props.checkLoginStatus();
+    window.addEventListener('message', (e) => this.receiveJWT(e));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', (e) => this.receiveJWT(e));
+  }
+
+  receiveJWT(event) {
+    let jwt = event.data.jwt;
+    if (!jwt || typeof jwt !== "string" || jwt == localStorage.getItem("jwt")) {
+      return;
+    }
+    localStorage.setItem("jwt", jwt);
+    this.props.checkLoginStatus();
   }
 
   render() {
     if (!this.props.loggedIn) {
       return (<div className="cff-login">
+
         {this.props.message && <div className="alert alert-info" role="alert">
           {this.props.message}
-          </div>
+        </div>
         }
         {this.props.error && <div className="alert alert-danger" role="alert">
           {this.props.error}
