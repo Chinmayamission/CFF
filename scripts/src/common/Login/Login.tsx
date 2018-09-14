@@ -64,8 +64,9 @@ interface ILoginProps extends IAuthState {
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
-    this.props.checkLoginStatus();
+    window.parent.postMessage({"action": "login_loaded"}, "*");
     window.addEventListener('message', (e) => this.receiveJWT(e));
+    this.props.checkLoginStatus();
   }
 
   componentWillUnmount() {
@@ -74,7 +75,7 @@ class Login extends React.Component<ILoginProps, {}> {
 
   receiveJWT(event) {
     let jwt = event.data.jwt;
-    if (!jwt || typeof jwt !== "string" || jwt == localStorage.getItem("jwt")) {
+    if (!jwt || typeof jwt !== "string" || jwt === localStorage.getItem("jwt")) {
       return;
     }
     localStorage.setItem("jwt", jwt);

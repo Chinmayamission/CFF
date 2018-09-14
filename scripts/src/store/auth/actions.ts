@@ -25,7 +25,7 @@ export const setCognitoUser = (cognitoUser) => ({
 
 export function logout() {
   return dispatch => {
-    (window as any).parent.postMessage({"action": "logout"}, "*");
+    (window as Window).parent.postMessage({"action": "logout"}, "*");
     loadingStart();
     console.log("signing out");
     Cache.removeItem("federatedInfo");
@@ -86,7 +86,7 @@ export function checkLoginStatus() {
         dispatch(loggedIn(user.username, user.attributes));
       }).catch(e => {
         console.error(e);
-        (window as any).parent.postMessage({"action": "login", "jwt": jwt}, "*");
+        (window as Window).parent.postMessage({"action": "login", "jwt": jwt}, "*");
         // TODO: is this a security vulnerability? Sends jwt so the parent iframe knows if problem is due to bad jwt or because jwt hasn't been sent yet.
       }).then(() => dispatch(loadingEnd()));
   }
