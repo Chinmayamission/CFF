@@ -79,10 +79,10 @@ class Login extends React.Component<ILoginProps, {}> {
       window.parent.postMessage({ "ccmt_login_height": document.body.scrollHeight }, "*");
     }
     if (prevProps.authPage !== this.props.authPage) {
-      window.parent.postMessage({ "ccmt_auth_page": this.props.authPage }, "*");
+      window.parent.postMessage({ "ccmt_auth_page": this.props.authPage, "ccmt_login_error": this.props.error, "ccmt_login_message": this.props.message }, "*");
     }
     if (prevProps.loggedIn !== this.props.loggedIn) {
-      window.parent.postMessage({ "ccmt_logged_in": this.props.loggedIn }, "*");
+      window.parent.postMessage({ "ccmt_logged_in": this.props.loggedIn}, "*");
     }
   }
 
