@@ -1,5 +1,5 @@
 .ccmt-cff-wordpress-login-form {
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     label.control-label {
         color: #72777c;
         font-size: 14px;
@@ -54,5 +54,30 @@
     button[type=submit] {
         margin-top: 0px;
     }
-    
+    label.control-label+div {
+        // Description
+        display: none;
+    }
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+    .alert-info {
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+    }
+    .alert {
+        position: relative;
+        padding: .75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: .25rem;
+        font-size: small;
+    }
+    h2.ccmt-cff-form-title {
+        text-align: center;
+        font-weight: normal;
+    }
 }

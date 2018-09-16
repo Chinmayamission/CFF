@@ -1,6 +1,7 @@
 {
   "signIn": {
     "schema": {
+      "title": "Sign In",
       "type": "object",
       "properties": {
         "email": {
@@ -30,6 +31,7 @@
   },
   "signUp": {
     "schema": {
+      "title": "Sign Up",
       "type": "object",
       "properties": {
         "email": {
@@ -70,6 +72,7 @@
   },
   "forgotPassword": {
     "schema": {
+      "title": "Forgot Password",
       "type": "object",
       "properties": {
         "email": {
@@ -89,6 +92,7 @@
   },
   "forgotPasswordSubmit": {
     "schema": {
+      "title": "Reset Password",
       "type": "object",
       "properties": {
         "email": {
