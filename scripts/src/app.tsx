@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import history from "./history";
 import { IBaseState } from "./store/base/types";
+import WordpressLoginForm from './common/Login/WordpressLoginForm/WordpressLoginForm';
 
 // Make all external links in form open in a new tab.
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {
@@ -28,11 +29,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 });
 
-const App = (props: IBaseState) => (
+interface AppProps extends IBaseState {
+
+}
+
+const App = (props: AppProps) => (
   <ConnectedRouter history={history}>
-    <div className="ccmt-cff-Wrapper-Bootstrap">
+    <div className={props.bootstrap ? "ccmt-cff-Wrapper-Bootstrap" : ""}>
       {props.loading && <Loading />}
       <Switch>
+        <Route path="/login-forms/wp/register" render={() => <WordpressLoginForm authPage={"signUp"} />} />
+        <Route path="/login-forms/wp/lostpassword" render={() => <WordpressLoginForm authPage={"forgotPassword"} />} />
         <Route path="/admin/" render={(props) =>
           <FormAdminPage
             {...props}

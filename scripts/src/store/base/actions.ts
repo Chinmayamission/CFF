@@ -5,3 +5,8 @@ export const loadingStart = () => ({
 export const loadingEnd = () => ({
   type: 'LOADING_END'
 });
+
+export const setBootstrap = (bootstrap: boolean) => ({
+  type: 'SET_BOOTSTRAP',
+  bootstrap
+});
