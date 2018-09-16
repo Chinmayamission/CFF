@@ -75,7 +75,7 @@ class Login extends React.Component<ILoginProps, {}> {
     if (prevProps.authPage !== this.props.authPage ||
         prevProps.error !== this.props.error ||
         prevProps.message !== this.props.message) {
-      window.parent.postMessage({ "height": document.body.scrollHeight }, "*");
+      window.parent.postMessage({ "ccmt_login_height": document.body.scrollHeight }, "*");
     }
   }
 
