@@ -64,6 +64,7 @@ interface ILoginProps extends IAuthState {
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
+    window.parent.postMessage({"action": "login_loaded"}, "*");
     window.addEventListener('message', (e) => this.receiveJWT(e));
     this.props.checkLoginStatus();
   }
@@ -76,6 +77,12 @@ class Login extends React.Component<ILoginProps, {}> {
         prevProps.error !== this.props.error ||
         prevProps.message !== this.props.message) {
       window.parent.postMessage({ "ccmt_login_height": document.body.scrollHeight }, "*");
+    }
+    if (prevProps.authPage !== this.props.authPage) {
+      window.parent.postMessage({ "ccmt_auth_page": this.props.authPage }, "*");
+    }
+    if (prevProps.loggedIn !== this.props.loggedIn) {
+      window.parent.postMessage({ "ccmt_logged_in": this.props.loggedIn }, "*");
     }
   }
 
