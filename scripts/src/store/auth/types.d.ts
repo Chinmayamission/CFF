@@ -30,5 +30,6 @@ export interface IAuthState {
   error: string,
   message: string,
   authPage: "forgotPassword" | "forgotPasswordSubmit" | "signIn" | "signUp",
-  cognitoUser: any
+  cognitoUser: any,
+  loginUrl: string
 }

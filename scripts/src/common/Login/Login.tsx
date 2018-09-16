@@ -6,6 +6,7 @@ import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgot
 import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
 import { IAuthState } from "../../store/auth/types";
+import { setLoginUrl } from "../../store/auth/actions";
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -19,6 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   signUp: data => dispatch(signUp(data)),
   forgotPassword: data => dispatch(forgotPassword(data)),
   forgotPasswordSubmit: data => dispatch(forgotPasswordSubmit(data)),
+  setLoginUrl: url => dispatch(setLoginUrl(url))
 });
 
 const Buttons = (props) => (
@@ -60,39 +62,45 @@ interface ILoginProps extends IAuthState {
   signIn: (e) => void,
   signUp: (e) => void,
   forgotPassword: (e) => void,
-  forgotPasswordSubmit: (e) => void
+  forgotPasswordSubmit: (e) => void,
+  setLoginUrl: (e: string) => void
 };
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
-    window.parent.postMessage({"action": "login_loaded"}, "*");
-    window.addEventListener('message', (e) => this.receiveJWT(e));
+    window.parent.postMessage({ "action": "login_loaded" }, "*");
+    window.addEventListener('message', (e) => this.receiveMessage(e));
     this.props.checkLoginStatus();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('message', (e) => this.receiveJWT(e));
+    window.removeEventListener('message', (e) => this.receiveMessage(e));
   }
   componentDidUpdate(prevProps: ILoginProps) {
     if (prevProps.authPage !== this.props.authPage ||
-        prevProps.error !== this.props.error ||
-        prevProps.message !== this.props.message) {
+      prevProps.error !== this.props.error ||
+      prevProps.message !== this.props.message) {
       window.parent.postMessage({ "ccmt_login_height": document.body.scrollHeight }, "*");
     }
     if (prevProps.authPage !== this.props.authPage) {
       window.parent.postMessage({ "ccmt_auth_page": this.props.authPage, "ccmt_login_error": this.props.error, "ccmt_login_message": this.props.message }, "*");
     }
     if (prevProps.loggedIn !== this.props.loggedIn) {
-      window.parent.postMessage({ "ccmt_logged_in": this.props.loggedIn}, "*");
+      window.parent.postMessage({ "ccmt_logged_in": this.props.loggedIn }, "*");
     }
   }
 
-  receiveJWT(event) {
-    let jwt = event.data.jwt;
-    if (!jwt || typeof jwt !== "string" || jwt === localStorage.getItem("jwt")) {
-      return;
+  receiveMessage(event) {
+    if (event.data.jwt) {
+      let jwt = event.data.jwt;
+      if (!jwt || typeof jwt !== "string" || jwt === localStorage.getItem("jwt")) {
+        return;
+      }
+      localStorage.setItem("jwt", jwt);
+      this.props.checkLoginStatus();
     }
-    localStorage.setItem("jwt", jwt);
-    this.props.checkLoginStatus();
+    if (event.data.loginUrl) {
+      this.props.setLoginUrl(event.data.loginUrl);
+    }
   }
 
   render() {

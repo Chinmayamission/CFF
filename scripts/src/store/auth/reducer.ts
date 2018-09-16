@@ -9,7 +9,8 @@ const initialState: IAuthState = {
   error: null,
   message: null,
   authPage: 'signIn',
-  cognitoUser: null
+  cognitoUser: null,
+  loginUrl: (window.location != window.parent.location) ? document.referrer : window.location.href
 };
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {
@@ -42,6 +43,11 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         error: action.error
+      }
+    case "SET_LOGIN_URL":
+      return {
+        ...state,
+        loginUrl: action.loginUrl
       }
     case "SET_COGNITO_USER":
       return {

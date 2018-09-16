@@ -2,7 +2,7 @@
 import { API, Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
 import { loadingStart, loadingEnd } from "src/store/base/actions";
-import { IUserAttributes } from "./types";
+import { IUserAttributes, IAuthState } from "./types";
 import { resolve } from "path";
 
 export const loggedIn = (userId, attributes) => ({
@@ -125,6 +125,11 @@ export const onAuthError = (error) => ({
   error: error
 })
 
+export const setLoginUrl = (loginUrl: string) => ({
+  type: 'SET_LOGIN_URL',
+  loginUrl
+})
+
 export function signIn(data) {
   return dispatch => {
     dispatch(loadingStart());
@@ -137,7 +142,7 @@ export function signIn(data) {
 }
 
 export function signUp(data) {
-  return dispatch => {
+  return (dispatch, getState) => {
     if (data.password != data.password2) {
       dispatch(onAuthError("Passwords do not match."));
       return;
@@ -149,7 +154,7 @@ export function signUp(data) {
       attributes: {
         email: data.email.toLowerCase(),
         name: "User",
-        website: (window.location != window.parent.location) ? document.referrer : window.location.href // Link for confirmation email
+        website: (getState().auth as IAuthState).loginUrl // Link for confirmation email
       }
     })
       .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below. If you don't see the email, please check your spam folder.")))
@@ -176,7 +181,7 @@ export function forgotPasswordSubmit(data) {
     }
     dispatch(loadingStart());
     Auth.forgotPasswordSubmit(data.email, data.code, data.password)
-      .then(() => dispatch(setAuthPage("signIn", "Password changed successfully! Please log in with your new password:")))
+      .then(() => dispatch(setAuthPage("signIn", "Password changed successfully! Please log in with your new password.")))
       .catch(e => dispatch(onAuthError(e.message)))
       .then(() => dispatch(loadingEnd()))
   }
