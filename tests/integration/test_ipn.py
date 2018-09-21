@@ -59,6 +59,8 @@ class FormIpn(BaseTestCase):
         self.assertEqual(response["amount_paid"], "0.5")
     def test_ipn_reject(self):
         pass
+    def test_ipn_subscription_started(self):
+        pass
         # todo: should this be 4xx instead?
     # def test_ipn_success(self):
     #     # asd
