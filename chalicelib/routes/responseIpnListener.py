@@ -65,6 +65,9 @@ def response_ipn_listener(responseId):
         # payment_status completed.
         form = Form.objects.only("formOptions").get({"_id":response.form.id})
         expected_receiver_email = form.formOptions.paymentMethods["paypal_classic"]["business"]
+        if paramDict.get('txn_type', '') == "subscr_signup":
+            # Don't handle subscription signups.
+            return
         if paramDict["receiver_email"] != expected_receiver_email:
             raise_ipn_error("Emails do not match.".format(paramDict["receiver_email"], expected_receiver_email))
         if paramDict["payment_status"] != "Completed":
