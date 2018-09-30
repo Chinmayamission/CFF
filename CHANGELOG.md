@@ -36,12 +36,18 @@ todo:
 - 
 - user login/signup
 
+## 2.3 (tbd)
+Front end only:
+- Integration with wordpress login through iframe messages.
+
+## 2.2.5 (9/20/18)
+Back end only:
+- Fix bug: don't error on subscription signups for the IPN handler
+- Add various tests and utils
+
 ## 2.2.4 (9/13/18)
 Front end only:
 - Make emails lowercase when signing up and signing in. (This requires a backend fix which lowercases all emails -- see tools/lowercaseUsers.py)
-
-## 2.2.4 (9/14/18)
-Front end only:
 - [Auth] Fix bug -- allow user to sign up with lowercase email
 
 ## 2.2.3 (9/12/18)

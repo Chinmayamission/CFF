@@ -109,7 +109,7 @@
     "node-sass": "^4.9.2",
     "open-iconic": "^1.1.1",
     "papaparse": "^4.6.0",
-    "query-string": "^5.0.1",
+    "query-string": "^5.1.1",
     "react-datepicker": "^1.6.0",
     "react-edit-inline": "https://github.com/chukitow/ReactInlineEdit/tarball/feature/deprecated-protypes",
     "react-helmet": "^5.2.0",
