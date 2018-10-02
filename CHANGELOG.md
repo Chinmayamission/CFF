@@ -36,9 +36,11 @@ todo:
 - 
 - user login/signup
 
-## 2.3 (tbd)
+## 2.3 (10/2/18)
 Front end only:
 - Integration with wordpress login through iframe messages.
+- Fix bug: allow sign in when email has capital letters in it
+- Fix bug: show the bottom-most "add user" row in the Share page.
 
 ## 2.2.5 (9/20/18)
 Back end only:
