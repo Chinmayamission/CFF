@@ -63,22 +63,26 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
                                 permissions={this.state.permissions[userId] || {}}
                                 onPermissionsChange={(a, b, c) => this.onPermissionsChange(a, b, c)} />
                         )}
-                        <form style={{ "display": "table-row" }}
-                            onSubmit={e => { e.preventDefault(); this.addUser() }}>
-                            <td colSpan={3}>
-                                <input placeholder="Enter new user ID" type="text"
-                                    value={this.state.newUserId}
-                                    onChange={e => this.setState({ newUserId: e.target.value })}
-                                    className="form-control form-control-sm"
-                                />
-                            </td>
-                            <td>
-                                <button
-                                    type="submit"
-                                    className="form-control form-control-sm"
-                                >Submit</button>
-                            </td>
-                        </form>
+                        <tr>
+                            <td colSpan={4}>
+                            <form style={{"display": "flex"}}
+                                onSubmit={e => { e.preventDefault(); this.addUser() }}>
+                                <div style={{"flex": "3"}}>
+                                    <input placeholder="Enter new user ID" type="text"
+                                        value={this.state.newUserId}
+                                        onChange={e => this.setState({ newUserId: e.target.value })}
+                                        className="form-control form-control-sm"
+                                    />
+                                </div>
+                                <div style={{"flex": "1"}}>
+                                    <button
+                                        type="submit"
+                                        className="form-control form-control-sm"
+                                    >Submit</button>
+                                </div>
+                            </form>
+                        </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
