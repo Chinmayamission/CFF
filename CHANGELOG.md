@@ -36,7 +36,11 @@ todo:
 - 
 - user login/signup
 
-## 2.3 (10/2/18)
+## 2.3.1 (10/20/18)
+Front end only:
+- Fix logo
+
+## 2.3.0 (10/2/18)
 Front end only:
 - Integration with wordpress login through iframe messages.
 - Fix bug: allow sign in when email has capital letters in it
