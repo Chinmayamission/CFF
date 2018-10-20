@@ -147,7 +147,7 @@ const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
         <div className="col-12 text-center">
             {!props.loggedIn &&
                 <div>
-                    <img src={require("src/img/logo.png")} />
+                    <img style={{maxHeight: 200, marginBottom: 20}} src={require("src/img/logo.png")} />
                     <h3 className="mb-4">
                         Please log in to your <br />
                         <strong>Chinmaya Mission Account</strong><br />
