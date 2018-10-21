@@ -36,6 +36,10 @@ todo:
 - 
 - user login/signup
 
+## 2.3.2 (10/21/18)
+Front end only:
+- Remove parent iframe login action to temporarily disable wordpress login
+
 ## 2.3.1 (10/20/18)
 Front end only:
 - Fix logo
