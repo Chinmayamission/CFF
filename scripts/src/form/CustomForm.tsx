@@ -11,9 +11,10 @@ import PhoneWidget from "./form_widgets/PhoneWidget";
 import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
-import PaymentCalcTable from "src/form/payment/PaymentCalcTable";
+import PaymentCalcTable from "./payment/PaymentCalcTable";
 import { get } from "lodash-es";
 import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
+import ExpressionParser from "../common/ExpressionParser";
 
 
 const FormattedDescriptionField = ({ id, description }) => {
@@ -64,7 +65,13 @@ const fields = {
   TitleField: CustomTitleField
 };
 
-function validate(formData, errors) {
+function validate(formData, errors, validationSchema) {
+  for (let item of validationSchema) {
+    if (ExpressionParser.calculate_price(item["if"], formData)) {
+      errors.addError(item["then"]);
+    }
+  }
+  alert("Errors: \n" + errors.map(e => e.stack).join("\n"))
   return errors;
 }
 
@@ -110,7 +117,7 @@ function CustomForm(props: ICustomFormProps) {
         transformErrors={transformErrors}
         onChange={(e) => { props.onChange && props.onChange(e) }}
         onSubmit={(e) => props.onSubmit && props.onSubmit(e)}
-        validate={validate}
+        validate={(d, e) => validate(d, e, props.uiSchema["ui:cff:validate"])}
         onError={(e) => { console.error(e); window.scrollTo(0, 0); }}
         showErrorList={true}
         ErrorList={ErrorListTemplate}

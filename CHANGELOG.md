@@ -36,9 +36,21 @@ todo:
 - 
 - user login/signup
 
+## 2.2.3 (12/13/18)
+Front end only:
+- Add ui:cff:validate option which allows for custom validation. Example: 
+```
+  "ui:cff:validate": [
+    {
+      "if": "phone == 1231231233",
+      "then": "Phone Number cannot be '1231231233'."
+    }
+  ]
+```
+
 ## 2.3.2 (10/21/18)
 Front end only:
-- Remove parent iframe login action to temporarily disable wordpress login
+- Remove parent iframe login action to temporarily disable wordpress login integration
 
 ## 2.3.1 (10/20/18)
 Front end only:
