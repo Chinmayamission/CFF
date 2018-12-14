@@ -71,7 +71,9 @@ function validate(formData, errors, validationSchema) {
       errors.addError(item["then"]);
     }
   }
-  alert("Errors: \n" + errors.map(e => e.stack).join("\n"))
+  // if (errors && errors.length) {
+  //   alert("Errors: \n" + errors.map(e => e.stack).join("\n"));
+  // }
   return errors;
 }
 
@@ -117,7 +119,7 @@ function CustomForm(props: ICustomFormProps) {
         transformErrors={transformErrors}
         onChange={(e) => { props.onChange && props.onChange(e) }}
         onSubmit={(e) => props.onSubmit && props.onSubmit(e)}
-        validate={(d, e) => validate(d, e, props.uiSchema["ui:cff:validate"])}
+        validate={(d, e) => validate(d, e, get(props.uiSchema, "ui:cff:validate", []))}
         onError={(e) => { console.error(e); window.scrollTo(0, 0); }}
         showErrorList={true}
         ErrorList={ErrorListTemplate}
