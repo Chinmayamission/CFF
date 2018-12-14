@@ -14,14 +14,16 @@ from decimal import Decimal
 os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
 os.environ["MODE"] = "PROD"
 os.environ["DB_NAME"] = "cff_prod"
+os.environ["USER_POOL_ID"] = "n/a"
+os.environ["COGNITO_CLIENT_ID"] = "n/a"
 
 from chalicelib.main import app, MODE
 print("MODE", MODE)
 from chalicelib.models import Response, Form, PaymentTrailItem, PaymentStatusDetailItem
 
 table_responses = boto3.resource('dynamodb').Table("cff_prod.responses")
-formIdOld = "asdkljaskldjasd"
-formIdNew = "askldaskldjas"
+formIdOld = ""
+formIdNew = ""
 
 query = table_responses.query(
   KeyConditionExpression=Key('formId').eq(formIdOld)
