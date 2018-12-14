@@ -47,6 +47,7 @@ Front end only:
     }
   ]
 ```
+- Alert all errors that come so it's obvious.
 
 ## 2.3.2 (10/21/18)
 Front end only:
