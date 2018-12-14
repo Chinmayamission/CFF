@@ -36,6 +36,11 @@ todo:
 - 
 - user login/signup
 
+## 2.2.4 (12/14/18)
+Front end only:
+- Fix bug: make forms without ui:cff:validate defined still work.
+- Remove error alerts.
+
 ## 2.2.3 (12/13/18)
 Front end only:
 - Add ui:cff:validate option which allows for custom validation. Example: 
