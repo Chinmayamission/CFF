@@ -56,7 +56,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                     {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
                     {formList && formList.map((form) =>
                         <tr key={form["_id"]["$oid"]}>
-                            <td>{form["name"]}<br />
+                            <td className="ccmt-cff-form-list-name">{form["name"]}<br />
                                 <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
                                     <code>{form["_id"]["$oid"]}</code>
                                 </small>

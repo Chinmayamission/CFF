@@ -9,4 +9,8 @@
     a.active > .ccmt-cff-btn-action {
         @extend .btn-primary;
     }
+    .ccmt-cff-form-list-name {
+        max-width: 500px;
+        overflow: auto;
+    }
 }
