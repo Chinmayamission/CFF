@@ -62,10 +62,6 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                 </small>
                             </td>
                             <td>
-                                <button className="ccmt-cff-btn-action" onClick={() => this.props.createForm(form._id.$oid)}>
-                                    <span className="oi oi-plus" />&nbsp;
-                                    Duplicate
-                                </button>
                                 <ActionButton form={form}
                                     url={`/v2/forms/${form["_id"]["$oid"]}`}
                                     icon="oi-document"
@@ -124,6 +120,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     userId={this.props.userId}
                                     disabled={false}
                                 />*/}
+                                <button className="ccmt-cff-btn-action" onClick={() => this.props.createForm(form._id.$oid)}>
+                                    <span className="oi oi-plus" />&nbsp;
+                                    Duplicate
+                                </button>
                             </td>
                         </tr>
                     )}
