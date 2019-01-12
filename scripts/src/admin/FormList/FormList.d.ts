@@ -24,5 +24,6 @@ export interface IFormListProps extends IAuthState, IAdminState {
     onError: (any) => void,
     userId: string,
     data: any,
-    loadFormList: () => void
+    loadFormList: () => void,
+    createForm: (e?: string) => void
 }

@@ -26,7 +26,8 @@ export const createForm = (formId?: string) => (dispatch, getState) => {
   if (formId) {
     postBody = { "formId": formId };
   }
-  return API.post("CFF", 'forms', postBody).then(e => {
+  console.log(postBody);
+  return API.post("CFF", 'forms', {body: postBody}).then(e => {
     dispatch(loadFormList());
   }).catch(e => {
     dispatch(loadingEnd());

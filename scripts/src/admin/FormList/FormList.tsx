@@ -8,7 +8,7 @@ import FormNew from "../FormNew/FormNew";
 import { connect } from 'react-redux';
 import dataLoadingView from "../util/DataLoadingView";
 import {IFormListProps, IFormListState} from "./FormList.d";
-import { loadFormList } from '../../store/admin/actions';
+import { loadFormList, createForm } from '../../store/admin/actions';
 
 const mapStateToProps = state => ({
     ...state.auth,
@@ -16,7 +16,8 @@ const mapStateToProps = state => ({
 });
   
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    loadFormList: () => dispatch(loadFormList())
+    loadFormList: () => dispatch(loadFormList()),
+    createForm: (e) => dispatch(createForm(e))
 });
 
 
@@ -61,6 +62,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                 </small>
                             </td>
                             <td>
+                                <button className="ccmt-cff-btn-action" onClick={() => this.props.createForm(form._id.$oid)}>
+                                    <span className="oi oi-plus" />&nbsp;
+                                    Duplicate
+                                </button>
                                 <ActionButton form={form}
                                     url={`/v2/forms/${form["_id"]["$oid"]}`}
                                     icon="oi-document"
