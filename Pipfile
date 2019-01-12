@@ -26,7 +26,6 @@ pynliner = "==0.8.0"
 python-dateutil = "==2.6.1"
 pytz = "==2018.3"
 requests = "==2.18.4"
-"s3transfer" = "==0.1.13"
 shortuuid = "==0.5.0"
 six = "==1.11.0"
 typing = "==3.6.4"
@@ -35,6 +34,7 @@ pymongo = {extras = ["tls"]}
 pymodm = "==0.4.1"
 python-jose = "*"
 pycryptodomex = "*"
+pip = "==10"
 
 [dev-packages]
 
