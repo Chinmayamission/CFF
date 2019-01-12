@@ -9,7 +9,6 @@
 }
 
 .ccmt-cff-Page-FormPage {
-    padding: 0px 20px;
     .ccmt-cff-form-title span.required {
         display: none;
     }
@@ -33,9 +32,6 @@
         font-size: 120%;
         text-decoration: underline;
     }
-    .form-group {
-        padding: 0 !important;
-    }
     .error-detail::first-letter {
         text-transform: uppercase;
     }
@@ -48,7 +44,7 @@
     .field-object {
         transition: transform .5s ease-in-out;
         //border: 1px solid transparent;
-        padding: 0;
+        padding: 0 !important;
     }
     .field-object:hover {
         transform: rotate3d(1,2,3);
