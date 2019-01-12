@@ -1,28 +1,46 @@
 import * as React from 'react';
 import { API } from 'aws-amplify';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import "./FormNew.scss";
 import {IFormNewProps} from "./FormNew.d";
+import { createForm } from '../../store/admin/actions';
+import {connect} from "react-redux";
 
-class FormNew extends React.Component<IFormNewProps, {}> {
+class FormNew extends React.Component<IFormNewProps, {dropdownOpen: boolean}> {
     constructor(props: any) {
         super(props);
         this.state = {
+          dropdownOpen: false
         }
     }
-    createForm() {
-      return API.post("CFF", 'forms', {"a":"b"
-      }).then(e => {
-        console.log(e.res);
-        alert("Form created! Please refresh the page to see the form.");
-      }).catch(e => this.props.onError(e));
+    toggle() {
+      this.setState(prevState => ({
+        dropdownOpen: !prevState.dropdownOpen
+      }));
     }
     componentDidMount() {
     }
     render() {
-      return (<button className="btn btn-primary btn-sm"
-        onClick={e => this.createForm()}>
-        Create new form
-      </button>);
+      return (<Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
+        <DropdownToggle caret>
+          Create form
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem onClick={() => this.props.createForm()}>Blank</DropdownItem>
+          {/* <DropdownItem>Balavihar</DropdownItem>
+          <DropdownItem>Camp Registration</DropdownItem>
+          <DropdownItem>Walkathon</DropdownItem> */}
+        </DropdownMenu>
+      </Dropdown>);
     }
 }
-export default FormNew;
+
+const mapStateToProps = state => ({
+  ...state.admin
+});
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  createForm: (e) => dispatch(createForm(e))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormNew);

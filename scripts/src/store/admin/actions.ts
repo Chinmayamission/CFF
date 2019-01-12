@@ -19,3 +19,18 @@ export const setFormList = (formList: IFormListItem[]) => ({
   type: 'SET_FORM_LIST',
   formList
 });
+
+export const createForm = (formId?: string) => (dispatch, getState) => {
+  dispatch(loadingStart());
+  let postBody = {};
+  if (formId) {
+    postBody = { "formId": formId };
+  }
+  return API.post("CFF", 'forms', postBody).then(e => {
+    dispatch(loadFormList());
+  }).catch(e => {
+    dispatch(loadingEnd());
+    console.error(e);
+    alert("Error creating form. " + e);
+  });
+}
