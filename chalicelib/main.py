@@ -266,7 +266,7 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 # app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
 # app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
 app.route('/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
-app.route('/forms', methods=['POST'], cors=True, authorizer=iamAuthorizer, content_types=['application/x-www-form-urlencoded'])(routes.form_create)
+app.route('/forms', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_create)
 app.route('/forms/{formId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.form_delete)
 app.route('/forms/{formId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.form_edit)
 app.route('/forms/{formId}/groups', methods=['PUT'], cors=True, authorizer=iamAuthorizer)(routes.group_edit)
