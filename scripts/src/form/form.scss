@@ -9,7 +9,7 @@
 }
 
 .ccmt-cff-Page-FormPage {
-    // padding: 0px 10px;
+    padding: 0px 20px;
     .ccmt-cff-form-title span.required {
         display: none;
     }
@@ -34,8 +34,7 @@
         text-decoration: underline;
     }
     .form-group {
-        padding: 0px 10px;
-        //padding: 0;
+        padding: 0 !important;
     }
     .error-detail::first-letter {
         text-transform: uppercase;
@@ -95,7 +94,6 @@
     .field-array-of-object > .array-item-list > .row {
         .form-group {
             margin-bottom: 0px;
-            padding: 0;
         }
         .ccmt-cff-array-row-number {
             position: absolute;
