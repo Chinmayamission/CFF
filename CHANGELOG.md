@@ -36,6 +36,13 @@ todo:
 - 
 - user login/signup
 
+## 2.3.5 (1/12/19)
+Front end and back end:
+- Remove "Form Summary" button
+- Add "Form Duplicate" button (and backend functionality to do so)
+- Fix spacing for objects, i.e.:
+![image](https://user-images.githubusercontent.com/1689183/51076186-ffb53480-1649-11e9-8800-275997458d71.png).
+
 ## 2.3.4 (12/14/18)
 Front end only:
 - Fix bug: make forms without ui:cff:validate defined still work.
