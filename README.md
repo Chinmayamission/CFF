@@ -32,8 +32,7 @@ NEW:
 
 Beta:  https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/
 
+API URL     User pool id            Client id
+xpqeqfjgwd  us-east-1_kcpcLxLzn     77mcm1k9ll2ge68806h5kncfus
 
-OLD:
-Dev: https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/
-Beta: https://jl6kpo0pd3.execute-api.us-east-1.amazonaws.com/api/
-Prod: https://229eg98pb5.execute-api.us-east-1.amazonaws.com/api/
+5fd3dqj2dc  us-east-1_U9ls8R6E3     2511g7rmn8p70losdlh9gi9j0
