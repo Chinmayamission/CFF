@@ -96,12 +96,12 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     icon="oi-check"
                                     text="Check in"
                                     userId={this.props.userId} /> */}
-                                <ActionButton form={form}
+                                {/* <ActionButton form={form}
                                     permissionName="Responses_ViewSummary"
                                     url={`./${form["_id"]["$oid"]}/summary/`}
                                     icon="oi-list"
                                     text="Summary"
-                                    userId={this.props.userId} />
+                                    userId={this.props.userId} /> */}
                                 <ActionButton form={form}
                                     permissionName="Forms_PermissionsView"
                                     url={`./${form["_id"]["$oid"]}/share/`}
