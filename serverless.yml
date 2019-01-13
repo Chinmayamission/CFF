@@ -64,7 +64,7 @@ functions:
 
 custom:
   webpack:
-    webpackConfig: webpack.server.js
+    webpackConfig: webpack.backend.js
 
 plugins:
   - serverless-webpack
