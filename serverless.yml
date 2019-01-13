@@ -64,6 +64,8 @@ provider:
 functions:
   sheets:
     handler: scripts/backend/handler.hello
+    events:
+      - schedule: rate(1 hour)
 
 custom:
   webpack:
