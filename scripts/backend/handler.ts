@@ -183,11 +183,11 @@ module.exports.hello = async (event, context) => {
   }
   catch (e) {
     console.error(e);
-    throw {
+    throw JSON.stringify({
       message: "Error.",
-      error: String(e),
+      error: e,
       input: event,
       success: false
-    };
+    });
   }
 };

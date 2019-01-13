@@ -20,7 +20,6 @@ service: ccmt-cff-backend-js # NOTE: update this with your service name
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
 
-
 provider:
   name: aws
   runtime: nodejs8.10
@@ -36,8 +35,8 @@ provider:
       Action:
         - "ssm:GetParameter"
       Resource:
-        - "arn:aws:ssm:*:*:parameter/${self:custom.mongoConnStr.${self:provider.stage}}"
-        - "arn:aws:ssm:*:*:parameter/${self:custom.googleKey.${self:provider.stage}}"
+        - "arn:aws:ssm:*:*:parameter/${self:custom.mongoConnStr.${opt:stage}}"
+        - "arn:aws:ssm:*:*:parameter/${self:custom.googleKey.${opt:stage}}"
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"
@@ -77,8 +76,8 @@ custom:
   googleKey:
     dev: none
     beta: CFF_GOOGLE_SHEETS_KEY_BETA
-    prod: CFF_GOOGLE_SHEETS_KEY_PROD
-    
+    prod: CFF_GOOGLE_SHEETS_KEY_PROD  
+
 plugins:
   - serverless-webpack
   - serverless-offline
