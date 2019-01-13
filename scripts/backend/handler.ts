@@ -185,7 +185,7 @@ module.exports.hello = async (event, context) => {
     console.error(e);
     throw JSON.stringify({
       message: "Error.",
-      error: e,
+      error: e.errors ? e.errors.map(i => i.message): e,
       input: event,
       success: false
     });
