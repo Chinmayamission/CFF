@@ -46,3 +46,4 @@ beta
 # Serverless
 .serverless
 .build
+.webpack
