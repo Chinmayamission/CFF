@@ -12,8 +12,6 @@ import { find, findIndex } from "lodash";
 import Headers from "../src/admin/util/Headers";
 declare const STAGE: any;
 
-// Todo: add IAM policies, scheduling, remove HTTP response.
-
 var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
 AWS.config.credentials = credentials;
 AWS.config.update({ region: 'us-east-1' });
@@ -66,7 +64,7 @@ module.exports.hello = async (event, context) => {
           "type": "anyone",
           "allowFileDiscovery": false
         }
-      })
+      });
       console.log(response.data.spreadsheetUrl);
       return spreadsheetId;
     }
@@ -177,25 +175,18 @@ module.exports.hello = async (event, context) => {
     }
 
     return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'Go! Google sheets sync completed successfully.',
-        input: event,
-      }),
+      message: 'Go! Google sheets sync completed successfully.',
+      input: event,
+      success: true
     };
   }
   catch (e) {
     console.error(e);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: "Error.",
-        error: e,
-        input: event
-      })
-    }
+    throw {
+      message: "Error.",
+      error: e,
+      input: event,
+      success: false
+    };
   }
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
