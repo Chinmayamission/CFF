@@ -1,6 +1,6 @@
 import * as React from 'react';
-import PaymentTable from "src/form/confirmation/PaymentTable";
-import ExpressionParser from "src/common/ExpressionParser";
+import PaymentTable from "../../form/confirmation/PaymentTable";
+import ExpressionParser from "../../common/ExpressionParser";
 import {cloneDeep} from "lodash";
 import {IPaymentCalcTableProps, IPaymentCalcTableState} from "./PaymentCalcTable.d";
 

@@ -1,5 +1,5 @@
 import { IResponse } from "../../store/responses/types";
-import { IPaymentInfo, ConfirmationEmailInfo, Schema, SchemaModifier, IPaymentMethods } from "../../form/interfaces";
+import { IPaymentInfo, ConfirmationEmailInfo, Schema, SchemaModifier, IPaymentMethods, UiSchema } from "../../form/interfaces";
 
 export interface IFormEditProps {
     data: any,

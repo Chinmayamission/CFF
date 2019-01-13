@@ -1,8 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
-import FormLoader from "src/common/FormLoader";
-import FormPage from "src/form/FormPage";
-import Loading from "src/common/Loading/Loading";
+import FormLoader from "../../common/FormLoader";
+import FormPage from "../../form/FormPage";
+import Loading from "../../common/Loading/Loading";
 // import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor";
 import { get, set, assign, pick } from "lodash";

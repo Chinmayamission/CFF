@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {API} from "aws-amplify";
 import * as DOMPurify from 'dompurify';
-import Loading from "src/common/Loading/Loading";
+import Loading from "../../common/Loading/Loading";
 
 class ManualApproval extends React.Component<any, any> {
  constructor(props) {

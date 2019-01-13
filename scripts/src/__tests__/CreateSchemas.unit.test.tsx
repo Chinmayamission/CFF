@@ -1,4 +1,4 @@
-import createSchemas from "src/common/CreateSchemas";
+import createSchemas from "../common/CreateSchemas";
 
 it('create schemas normally', () => {
   let data = {

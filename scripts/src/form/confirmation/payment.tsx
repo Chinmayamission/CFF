@@ -5,7 +5,7 @@ import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import ManualApproval from "./ManualApproval";
 import * as DOMPurify from 'dompurify';
-import ExpressionParser from "src/common/ExpressionParser";
+import ExpressionParser from "../../common/ExpressionParser";
 import { IPaymentProps, IPaymentInfo } from '../interfaces';
 
 let Components = {

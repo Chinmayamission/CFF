@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setAuthPage } from "src/store/auth/actions";
+import { setAuthPage } from "../../store/auth/actions";
 
 const mapStateToProps = state => ({
   currentPage: state.auth.authPage

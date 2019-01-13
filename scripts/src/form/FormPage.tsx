@@ -1,19 +1,19 @@
 import React from 'react';
 import Form from 'react-jsonschema-form';
 import {API} from "aws-amplify";
-import createSchemas from "src/common/CreateSchemas"
+import createSchemas from "../common/CreateSchemas"
 
 import DOMPurify from 'dompurify';
 import { get, set, unset } from "lodash";
 import CustomForm from "./CustomForm";
 import FormConfirmationPage from "./FormConfirmationPage";
-import Loading from "src/common/Loading/Loading";
-import FormLoader from "src/common/FormLoader";
+import Loading from "../common/Loading/Loading";
+import FormLoader from "../common/FormLoader";
 import {connect} from "react-redux";
-import {logout} from "src/store/auth/actions";
+import {logout} from "../store/auth/actions";
 import {Helmet} from "react-helmet";
 import htmlToText from "html-to-text";
-import Login from "src/common/Login/Login";
+import Login from "../common/Login/Login";
 import { IFormPageProps, IFormPageState, IPaymentInfoReceived } from './interfaces';
 import { fetchRenderedForm } from '../store/form/actions';
 

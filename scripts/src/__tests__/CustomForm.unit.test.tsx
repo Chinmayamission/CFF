@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount, render } from 'enzyme';
-import CustomForm from "src/form/CustomForm";
+import CustomForm from "../form/CustomForm";
 import sinon from "sinon";
 
 it('renders default form without payment', () => {

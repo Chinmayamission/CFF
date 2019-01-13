@@ -1,8 +1,8 @@
 import React from "react";
 import { shallow, mount, render } from 'enzyme';
-import PaypalClassic from "src/form/confirmation/PaypalClassic";
+import PaypalClassic from "../form/confirmation/PaypalClassic";
 import { Provider } from "react-redux";
-import store from "src/store";
+import store from "../store";
 
 it('renders default payment form', () => {
   let props = {

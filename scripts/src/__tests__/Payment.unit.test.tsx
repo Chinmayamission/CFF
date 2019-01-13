@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount, render } from 'enzyme';
-import Payment from "src/form/confirmation/payment";
+import Payment from "../form/confirmation/payment";
 
 it('renders payment table on new response', () => {
   const wrapper = render(

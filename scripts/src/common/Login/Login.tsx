@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import "./Login.scss";
-import CustomForm from "src/form/CustomForm";
-import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword, forgotPasswordSubmit } from "src/store/auth/actions";
+import CustomForm from "../../form/CustomForm";
+import { checkLoginStatus, logout, handleAuthStateChange, signIn, signUp, forgotPassword, forgotPasswordSubmit } from "../../store/auth/actions";
 import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
 import { IAuthState } from "../../store/auth/types";
@@ -147,7 +147,7 @@ class Login extends React.Component<ILoginProps, {}> {
     }
     else {
       return (<div className="text-left">
-        <img src={require("src/img/logo.png")} style={{ "width": 40, "marginRight": 40 }} />
+        <img src={require("../../img/logo.png")} style={{ "width": 40, "marginRight": 40 }} />
         <div style={{ "display": "inline-block", "verticalAlign": "middle" }}>
           {/* <strong>Chinmaya Forms Framework</strong><br /> */}
           Welcome, {this.props.user.email}

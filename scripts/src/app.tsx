@@ -4,7 +4,7 @@ import FormStandalone from "./form/FormStandalone/FormStandalone";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import "./app.scss";
 import * as DOMPurify from 'dompurify';
-import Loading from "src/common/Loading/Loading";
+import Loading from "./common/Loading/Loading";
 
 import { connect } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';

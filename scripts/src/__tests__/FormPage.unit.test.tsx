@@ -1,5 +1,5 @@
 // import React from 'react';
-// import store from "src/store";
+// import store from "../../store";
 // import FormPage from 'src/form/FormPage';
 // import schema from './schema.json';
 // import uiSchema from './uiSchema';

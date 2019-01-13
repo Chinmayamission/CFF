@@ -2,7 +2,7 @@ import { API } from "aws-amplify";
 import * as React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import Headers from "src/admin/util/Headers";
+import Headers from "../../admin/util/Headers";
 import dataLoadingView from "../util/DataLoadingView";
 
 const STATUS_RESPONSES_LOADING = 0;

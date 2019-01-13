@@ -6,15 +6,15 @@ import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable/ResponseTable";
 import ResponseSummary from "./ResponseSummary/ResponseSummary"
 import FormShare from "./FormShare/FormShare"
-import Loading from "src/common/Loading/Loading";
+import Loading from "../common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
-import history from "src/history.ts";
+import history from "../history";
 import { connect } from 'react-redux';
 
-import Login from "src/common/Login/Login";
+import Login from "../common/Login/Login";
 import { IFormAdminPageProps, IFormAdminPageState } from './admin';
 
 
@@ -147,7 +147,7 @@ const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
         <div className="col-12 text-center">
             {!props.loggedIn &&
                 <div>
-                    <img style={{maxHeight: 200, marginBottom: 20}} src={require("src/img/logo.png")} />
+                    <img style={{maxHeight: 200, marginBottom: 20}} src={require("../img/logo.png")} />
                     <h3 className="mb-4">
                         Please log in to your <br />
                         <strong>Chinmaya Mission Account</strong><br />

@@ -1,7 +1,7 @@
 
 import { API, Auth } from "aws-amplify";
 import { Cache } from 'aws-amplify';
-import { loadingStart, loadingEnd } from "src/store/base/actions";
+import { loadingStart, loadingEnd } from "../../store/base/actions";
 import { IUserAttributes, IAuthState } from "./types";
 import { resolve } from "path";
 

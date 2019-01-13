@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import "./FormStandalone.scss";
-import FormPage from "src/form/FormPage";
+import FormPage from "../../form/FormPage";
 import * as queryString from "query-string";
 import {get, pick} from "lodash";
 import {IFormStandaloneProps, IFormStandaloneState} from "./FormStandalone.d";

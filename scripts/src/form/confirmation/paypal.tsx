@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
-import Loading from "src/common/Loading/Loading";
+import Loading from "../../common/Loading/Loading";
 import { IPaypalProps, IPaypalState } from '../interfaces';
 declare var ENDPOINT_URL: string;
 /*

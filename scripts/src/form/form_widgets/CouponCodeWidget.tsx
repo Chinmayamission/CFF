@@ -1,5 +1,5 @@
 import * as React from "react";
-// import FormLoader from "src/common/FormLoader";
+// import FormLoader from "../../common/FormLoader";
 
 class CouponCodeWidget extends React.Component<any, any> {
     constructor(props: any) {

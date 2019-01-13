@@ -1,5 +1,5 @@
 import * as React from "react";
-import Loading from "src/common/Loading/Loading";
+import Loading from "../../common/Loading/Loading";
 function dataLoadingView(WrappedComponent: any, loadData: (any) => any) {
     return class extends React.Component<any, {loading: boolean, hasError: boolean, data: any}> {
         constructor(props) {

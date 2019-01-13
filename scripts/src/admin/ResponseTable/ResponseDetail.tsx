@@ -8,7 +8,7 @@ import { get, set } from "lodash";
 import "./ResponseDetail.scss";
 import ValueEdit from './ResponseCards/ValueEdit';
 import { connect } from "react-redux";
-import { setResponseDetail } from "src/store/responses/actions";
+import { setResponseDetail } from "../../store/responses/actions";
 import PaymentHistory from "./ResponseCards/PaymentHistory";
 import { fetchResponseDetail } from "../../store/responses/actions";
 
