@@ -21,22 +21,17 @@ AWS.config.update({ region: 'us-east-1' });
 module.exports.hello = async (event, context) => {
   try {
     var ssm = new AWS.SSM();
-    let mongo_conn_credentials_name = "";
-    let google_credentials_name = "";
-    if (STAGE === "prod") {
-      mongo_conn_credentials_name = 'CFF_COSMOS_CONN_STR_WRITE_PROD';
-      google_credentials_name = 'CFF_GOOGLE_SHEETS_KEY_PROD';
-    }
-    else if (STAGE === "beta") {
-      mongo_conn_credentials_name = 'CFF_COSMOS_CONN_STR_WRITE_BETA';
-      google_credentials_name = 'CFF_GOOGLE_SHEETS_KEY_BETA';
+    let mongo_conn_str = "";
+    let google_key: any = "";
+    if (STAGE === "dev") {
+      // todo: set to local.
+      mongo_conn_str = "";
+      google_key = "";
     }
     else {
-      throw "STAGE is not prod or beta";
+      mongo_conn_str = (await ssm.getParameter({ Name: process.env.mongoConnStr, WithDecryption: true }).promise()).Parameter.Value;
+      google_key = (await ssm.getParameter({ Name: process.env.googleKey, WithDecryption: true }).promise()).Parameter.Value;
     }
-    let mongo_conn_str = (await ssm.getParameter({ Name: mongo_conn_credentials_name, WithDecryption: true }).promise()).Parameter.Value;
-    let google_key = (await ssm.getParameter({ Name: google_credentials_name, WithDecryption: true }).promise()).Parameter.Value;
-
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
     let db = await MongoClient.connect(mongo_conn_str);
     let coll = db.db('cm').collection('cff_beta');

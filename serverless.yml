@@ -20,6 +20,7 @@ service: ccmt-cff-backend-js # NOTE: update this with your service name
 # Check out our docs for more details
 # frameworkVersion: "=X.X.X"
 
+
 provider:
   name: aws
   runtime: nodejs8.10
@@ -30,11 +31,13 @@ provider:
 #  region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ssm:GetParameter"
+      Resource:
+        - "arn:aws:ssm:*:*:parameter/${self:custom.mongoConnStr.${self:provider.stage}}"
+        - "arn:aws:ssm:*:*:parameter/${self:custom.googleKey.${self:provider.stage}}"
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"
@@ -45,9 +48,9 @@ provider:
 #            - "Ref" : "ServerlessDeploymentBucket"
 #            - "/*"
 
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+  environment:
+    mongoConnStr: ${self:custom.mongoConnStr.${opt:stage}}
+    googleKey: ${self:custom.googleKey.${opt:stage}}
 
 # you can add packaging information here
 #package:
@@ -65,7 +68,15 @@ functions:
 custom:
   webpack:
     webpackConfig: webpack.backend.js
-
+  mongoConnStr:
+    dev: none
+    beta: CFF_COSMOS_CONN_STR_WRITE_BETA
+    prod: CFF_COSMOS_CONN_STR_WRITE_PROD
+  googleKey:
+    dev: none
+    beta: CFF_GOOGLE_SHEETS_KEY_BETA
+    prod: CFF_GOOGLE_SHEETS_KEY_PROD
+    
 plugins:
   - serverless-webpack
   - serverless-offline
@@ -99,10 +110,6 @@ plugins:
 #      - cognitoUserPool:
 #          pool: MyUserPool
 #          trigger: PreSignUp
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
 
 # you can add CloudFormation resource templates here
 #resources:
