@@ -1,6 +1,6 @@
 import { API } from "aws-amplify";
 import { ResponsesState, IResponse } from "./types";
-import { findIndex, cloneDeep } from "lodash-es";
+import { findIndex, cloneDeep } from "lodash";
 import { loadingStart, loadingEnd } from "../base/actions";
 
 export const editResponse = (responseId: string, path: string, value: any) => (dispatch, getState) => {

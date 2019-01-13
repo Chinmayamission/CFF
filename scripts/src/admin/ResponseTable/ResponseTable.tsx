@@ -1,9 +1,9 @@
-import { get, find, cloneDeep } from 'lodash-es';
+import { find, cloneDeep } from 'lodash-es';
 import React from 'react';
 import { connect } from 'react-redux';
 import 'react-table/react-table.css';
-import Loading from "src/common/Loading/Loading";
-import { IDataOptions, IDataOptionView } from '../FormEdit/FormEdit.d';
+import Loading from "../../common/Loading/Loading";
+import { IDataOptions, IDataOptionView, IRenderedForm } from '../FormEdit/FormEdit.d';
 import { fetchRenderedForm, editGroups } from '../../store/form/actions';
 import { editResponse } from "../../store/responses/actions";
 import { fetchResponses, setResponsesSelectedView, displayResponseDetail } from '../../store/responses/actions';
@@ -12,6 +12,7 @@ import ResponseTableView from "./ResponseTableView";
 import "./ResponseTable.scss";
 import { push } from 'connected-react-router';
 import GroupEdit from "./GroupEdit";
+import { getOrDefaultDataOptions } from '../util/dataOptionUtil';
 
 class ResponseTable extends React.Component<IResponseTableProps, IResponseTableState> {
 
@@ -30,23 +31,7 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         if (!this.props.responses || !this.props.form) {
             return <Loading />;
         }
-        const defaultDataOptions: IDataOptions = {
-            "views": [{
-                "id": "all",
-                "displayName": "All View"
-            }],
-            "groups": []
-        };
-        let dataOptions: IDataOptions = get(this.props.form.renderedForm.formOptions, "dataOptions.views") ? this.props.form.renderedForm.formOptions.dataOptions : defaultDataOptions;
-        for (let i in dataOptions.views) {
-            let view = dataOptions.views[i];
-            if (!view.displayName) {
-                view.displayName = view.unwindBy ? `Unwind by ${view.unwindBy}` : "All responses";
-            }
-            if (!view.id) {
-                view.id = "view" + i;
-            }
-        }
+        let dataOptions: IDataOptions = getOrDefaultDataOptions(this.props.form.renderedForm);
         const dataOptionView: IDataOptionView = find(dataOptions.views, { "id": this.props.tableViewName });
         if (!this.props.tableViewName) {
             // Redirect to first view on default.

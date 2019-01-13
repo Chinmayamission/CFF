@@ -122,7 +122,8 @@ export interface IDataOptions {
         }
     }[],
     views: IDataOptionView[],
-    groups: IGroupOption[]
+    groups: IGroupOption[],
+    export?: {type: string, spreadsheetId?: string}[]
 }
 interface IDataOptionView {
     unwindBy?: string,

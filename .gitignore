@@ -42,3 +42,5 @@ dist
 *.zip
 prod
 beta
+
+.serverless

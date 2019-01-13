@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { IAdminState } from "./types.d";
-import { set, cloneDeep } from "lodash-es";
+import { set, cloneDeep } from "lodash";
 
 const initialState: IAdminState = {
   formList: []

@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { ResponsesState, IPaymentStatusDetailItem } from "./types.d";
-import { set, cloneDeep } from "lodash-es";
+import { set, cloneDeep } from "lodash";
 import moment from 'moment';
 
 

@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { filter, assign, get, cloneDeep, find } from "lodash-es";
+import { filter, assign, get, cloneDeep, find } from "lodash";
 import { IDataOptionView, IGroupOption } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
 import { isArray } from 'util';
 import { Object } from 'core-js';
 import Form from "react-jsonschema-form";
-import CustomForm from '../../form/CustomForm';
 import { filterCaseInsensitive } from '../ResponseTable/filters';
 import { dataToSchemaPath } from "../util/SchemaUtil";
-import unwind from "../util/unwind";
 
 export interface IHeaderObject {
     Header: string,
@@ -60,6 +58,9 @@ export module Headers {
      * Format a value for display on the header table.
      */
     export function formatValue(value) {
+        if (value === null || value === undefined) {
+            return "";
+        }
         switch (typeof value) {
             case "boolean":
                 return value ? "YES" : "NO";
@@ -73,7 +74,7 @@ export module Headers {
                     }
                 }
             default:
-                return value;
+                return String(value);
         }
     }
 
