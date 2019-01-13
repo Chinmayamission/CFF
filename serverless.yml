@@ -57,7 +57,7 @@ provider:
 
 functions:
   sheets:
-    handler: scripts/backend/sheets.hello
+    handler: scripts/backend/handler.ts
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

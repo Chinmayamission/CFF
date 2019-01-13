@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient;
 const { google } = require('googleapis');
 const { promisify } = require('util');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
-import { find } from "lodash";
+import { find, findIndex } from "lodash";
 import Headers from "../src/admin/util/Headers";
 
 
@@ -65,31 +65,55 @@ module.exports.hello = async (event, context) => {
     let forms = await coll.find({ '_cls': 'chalicelib.models.Form', 'formOptions.dataOptions.export': { '$exists': true } }).toArray();
     for (let form of forms) {
       const dataOptions = getOrDefaultDataOptions(form);
-      let googleSheetsDataOption = find(dataOptions.export, { "type": "google_sheets" });
-      if (!googleSheetsDataOption) {
+      let googleSheetsDataOptionIndex = findIndex(dataOptions.export, { "type": "google_sheets" });
+      if (googleSheetsDataOptionIndex === -1) {
         continue;
       }
+      let googleSheetsDataOption = dataOptions.export[googleSheetsDataOptionIndex];
+      
       const responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id }).toArray();
-      const spreadsheetId = googleSheetsDataOption.spreadsheetId || await createSpreadsheet(`CFF - ${form.name} - exported ${new Date()}`);
-      console.log("starting");
+      let spreadsheetId = googleSheetsDataOption.spreadsheetId;
+      let newSpreadsheet = false;
+      if (!spreadsheetId) {
+        newSpreadsheet = true;
+        spreadsheetId = await createSpreadsheet(`CFF - ${form.name} - exported ${new Date()}`);
+        await coll.updateOne({_id: form._id}, {"$set": {[`formOptions.dataOptions.export.${googleSheetsDataOptionIndex}.spreadsheetId`]: spreadsheetId } } );
+      }
+      const spreadsheet = await promisify(sheets.spreadsheets.get)({spreadsheetId});
+      const existingSheets: {properties: {sheetId: number, title: string, index: number}} = spreadsheet.data.sheets;
+
       let requests = [];
       for (const i in dataOptions.views) {
         const dataOptionView = dataOptions.views[i];
         let sheetId = i + 1;
+        let title = dataOptionView.id;
         let { headers, dataFinal } = createHeadersAndDataFromDataOption(responses, form, dataOptionView, null);
-        requests.push(...[{
-          addSheet: {
+        let rowCount = dataFinal.length + 1;
+        let columnCount = headers.length;
+        let existingSheet = find(existingSheets, e => e.properties.title === title);
+        if (!existingSheet) {
+          requests.push({
+            addSheet: {
+              properties: {
+                sheetId,
+                title
+              }
+            }
+          });
+        }
+        requests.push({
+          updateSheetProperties: {
+            fields: 'gridProperties.rowCount, gridProperties.columnCount',
             properties: {
               sheetId,
-              title: dataOptionView.id,
               gridProperties: {
-                rowCount: dataFinal.length + 1,
-                columnCount: headers.length,
-                frozenRowCount: 1
+                rowCount,
+                columnCount
               }
             }
           }
-        }, {
+        });
+        requests.push({
           updateCells: {
             rows: [
               {
@@ -110,7 +134,8 @@ module.exports.hello = async (event, context) => {
               columnIndex: 0
             }
           }
-        }, {
+        });
+        requests.push({
           autoResizeDimensions: {
             dimensions: {
               sheetId,
@@ -119,14 +144,16 @@ module.exports.hello = async (event, context) => {
               endIndex: headers.length
             }
           }
-        }]);
+        });
       }
-      // Delete Sheet1
-      requests.push({
-        deleteSheet: {
-          sheetId: 0
-        }
-      });
+      if (newSpreadsheet) {
+        // Delete Sheet1
+        requests.push({
+          deleteSheet: {
+            sheetId: 0
+          }
+        });
+      }
 
       let response = await promisify(sheets.spreadsheets.batchUpdate)({
         spreadsheetId,
@@ -134,24 +161,29 @@ module.exports.hello = async (event, context) => {
           requests
         }
       });
-      console.log(response.status);
+      if (response.status !== 200) {
+        throw response;
+      }
     }
 
-    // let res = await coll.find({}).limit(1).toArray();
-    // console.log(res);
-
-
-    // console.log(await coll.find({}).limit(1)); //.cm.cff_beta.find({}).limit(1));
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: 'Go Serverless v1.0! Your function executed successfully!',
+        message: 'Go! Google sheets sync completed successfully.',
         input: event,
       }),
     };
   }
   catch (e) {
     console.error(e);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        message: "Error.",
+        error: e,
+        input: event
+      })
+    }
   }
 
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
