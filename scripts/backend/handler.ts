@@ -10,7 +10,9 @@ const { promisify } = require('util');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
 import { find, findIndex } from "lodash";
 import Headers from "../src/admin/util/Headers";
+declare const STAGE: any;
 
+// Todo: add IAM policies, scheduling, remove HTTP response.
 
 var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
 AWS.config.credentials = credentials;
@@ -19,14 +21,26 @@ AWS.config.update({ region: 'us-east-1' });
 module.exports.hello = async (event, context) => {
   try {
     var ssm = new AWS.SSM();
-
-    let mongo_conn_str = (await ssm.getParameter({ Name: 'CFF_COSMOS_CONN_STR_WRITE_BETA', WithDecryption: true }).promise()).Parameter.Value;
-    let google_key = (await ssm.getParameter({ Name: 'CFF_GOOGLE_SHEETS_KEY_BETA', WithDecryption: true }).promise()).Parameter.Value;
+    let mongo_conn_credentials_name = "";
+    let google_credentials_name = "";
+    if (STAGE === "prod") {
+      mongo_conn_credentials_name = 'CFF_COSMOS_CONN_STR_WRITE_PROD';
+      google_credentials_name = 'CFF_GOOGLE_SHEETS_KEY_PROD';
+    }
+    else if (STAGE === "beta") {
+      mongo_conn_credentials_name = 'CFF_COSMOS_CONN_STR_WRITE_BETA';
+      google_credentials_name = 'CFF_GOOGLE_SHEETS_KEY_BETA';
+    }
+    else {
+      throw "STAGE is not prod or beta";
+    }
+    let mongo_conn_str = (await ssm.getParameter({ Name: mongo_conn_credentials_name, WithDecryption: true }).promise()).Parameter.Value;
+    let google_key = (await ssm.getParameter({ Name: google_credentials_name, WithDecryption: true }).promise()).Parameter.Value;
 
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
     let db = await MongoClient.connect(mongo_conn_str);
     let coll = db.db('cm').collection('cff_beta');
-
+  
     google_key = JSON.parse(google_key);
     // let gapi = await google.client.load(google_key);
     let jwtClient = new google.auth.JWT(
@@ -63,6 +77,7 @@ module.exports.hello = async (event, context) => {
     }
 
     let forms = await coll.find({ '_cls': 'chalicelib.models.Form', 'formOptions.dataOptions.export': { '$exists': true } }).toArray();
+    
     for (let form of forms) {
       const dataOptions = getOrDefaultDataOptions(form);
       let googleSheetsDataOptionIndex = findIndex(dataOptions.export, { "type": "google_sheets" });
@@ -189,4 +204,3 @@ module.exports.hello = async (event, context) => {
   // Use this code if you don't use the http event with the LAMBDA-PROXY integration
   // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
-module.exports.hello();

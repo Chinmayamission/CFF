@@ -43,4 +43,6 @@ dist
 prod
 beta
 
+# Serverless
 .serverless
+.build

@@ -11,6 +11,9 @@
 #
 # Happy Coding!
 
+# sls invoke local --function sheets --stage beta
+# sls deploy --stage beta
+
 service: ccmt-cff-backend-js # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
@@ -57,7 +60,16 @@ provider:
 
 functions:
   sheets:
-    handler: scripts/backend/handler.ts
+    handler: scripts/backend/handler.hello
+
+custom:
+  webpack:
+    webpackConfig: webpack.server.js
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  # - serverless-plugin-typescript
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
