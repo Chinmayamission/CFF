@@ -1,4 +1,4 @@
-import {isArray, findIndex, cloneDeep, concat} from "lodash-es";
+import {isArray, findIndex, cloneDeep, concat} from "lodash";
 
 function filterHeaderObjs(headerObjsOrig, dataOption) {
   let filtered = [];

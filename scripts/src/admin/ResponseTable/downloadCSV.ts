@@ -1,7 +1,7 @@
 import { IHeaderObject } from "../util/Headers";
 import Papa from "papaparse";
 import FileSaver from "file-saver";
-import { isPlainObject, values } from "lodash-es";
+import { isPlainObject, values } from "lodash";
 import ReactDOMServer from "react-dom/server";
 
 export default function downloadCSV(headers: IHeaderObject[], data, filename: string) {

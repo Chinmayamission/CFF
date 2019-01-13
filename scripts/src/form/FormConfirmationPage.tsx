@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Payment from './confirmation/payment';
-import {get, cloneDeep} from "lodash-es";
+import {get, cloneDeep} from "lodash";
 import { IFormConfirmationPageProps, IFormConfirmationPageState, IPaymentInfoReceived } from './interfaces';
 
 var This;

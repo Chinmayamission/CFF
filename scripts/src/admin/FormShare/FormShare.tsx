@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { API } from "aws-amplify";
 import dataLoadingView from "../util/DataLoadingView";
-import { forOwn, set, get } from "lodash-es";
+import { forOwn, set, get } from "lodash";
 import UserRow from "./UserRow";
 import { IFormShareProps } from './FormShare.d';
 import { IFormShareState } from './FormShare.d';

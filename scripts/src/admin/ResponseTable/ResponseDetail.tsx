@@ -4,7 +4,7 @@ import * as React from 'react';
 import { API } from "aws-amplify";
 import ReactTable from "react-table";
 import dataLoadingView from "../util/DataLoadingView";
-import { get, set } from "lodash-es";
+import { get, set } from "lodash";
 import "./ResponseDetail.scss";
 import ValueEdit from './ResponseCards/ValueEdit';
 import { connect } from "react-redux";

@@ -1,5 +1,5 @@
 import {Parser} from "expr-eval";
-import {get} from "lodash-es";
+import {get} from "lodash";
 import {unflatten} from 'flat';
 const DELIM_VALUE = "ASKLDJAKSLDJ12903812";
 const SPACE_VALUE = "AJSID2309483ASFSDLJF";

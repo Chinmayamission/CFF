@@ -1,4 +1,4 @@
-import { get } from "lodash-es";
+import { get } from "lodash";
 export function dataToSchemaPath(dataPath, schema) {
     const dataPathParts = ("." + dataPath).split(".");
     dataPath = "";

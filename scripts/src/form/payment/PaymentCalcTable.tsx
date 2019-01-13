@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PaymentTable from "src/form/confirmation/PaymentTable";
 import ExpressionParser from "src/common/ExpressionParser";
-import {cloneDeep} from "lodash-es";
+import {cloneDeep} from "lodash";
 import {IPaymentCalcTableProps, IPaymentCalcTableState} from "./PaymentCalcTable.d";
 
 class PaymentCalcTable extends React.Component<IPaymentCalcTableProps, IPaymentCalcTableState> {

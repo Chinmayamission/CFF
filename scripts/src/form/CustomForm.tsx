@@ -12,7 +12,7 @@ import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
 import PaymentCalcTable from "./payment/PaymentCalcTable";
-import { get } from "lodash-es";
+import { get } from "lodash";
 import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 import ExpressionParser from "../common/ExpressionParser";
 

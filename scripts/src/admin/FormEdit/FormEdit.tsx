@@ -5,7 +5,7 @@ import FormPage from "src/form/FormPage";
 import Loading from "src/common/Loading/Loading";
 // import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor";
-import { get, set, assign, pick } from "lodash-es";
+import { get, set, assign, pick } from "lodash";
 import Modal from 'react-responsive-modal';
 import dataLoadingView from "../util/DataLoadingView";
 import { API } from "aws-amplify";

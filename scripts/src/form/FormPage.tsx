@@ -4,7 +4,7 @@ import {API} from "aws-amplify";
 import createSchemas from "src/common/CreateSchemas"
 
 import DOMPurify from 'dompurify';
-import { get, set, unset } from "lodash-es";
+import { get, set, unset } from "lodash";
 import CustomForm from "./CustomForm";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "src/common/Loading/Loading";

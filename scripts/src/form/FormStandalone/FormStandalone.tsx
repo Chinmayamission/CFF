@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import "./FormStandalone.scss";
 import FormPage from "src/form/FormPage";
 import * as queryString from "query-string";
-import {get, pick} from "lodash-es";
+import {get, pick} from "lodash";
 import {IFormStandaloneProps, IFormStandaloneState} from "./FormStandalone.d";
 
 /* Standalone form page, displayed in /forms/{formId}

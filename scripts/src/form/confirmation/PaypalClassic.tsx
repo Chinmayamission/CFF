@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { find, get, sumBy } from "lodash-es";
+import { find, get, sumBy } from "lodash";
 import { connect } from "react-redux";
 import { IPaypalClassicProps, IPaypalClassicState } from '../interfaces';
 

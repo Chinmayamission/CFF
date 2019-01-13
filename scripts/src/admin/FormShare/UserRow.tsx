@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {get} from "lodash-es";
+import {get} from "lodash";
 import Switch from 'react-toggle-switch';
 import "react-toggle-switch/dist/css/switch.min.css";
 import { IUserRowState, IUserRowProps } from './FormShare.d';

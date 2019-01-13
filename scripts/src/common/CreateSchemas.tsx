@@ -1,4 +1,4 @@
-import {get, set} from "lodash-es";
+import {get, set} from "lodash";
 export default function createSchemas(data, specifiedShowFields={}, responseId=null, responseData=null) {
     for (let i in specifiedShowFields) {
         set(data["schema"], i, specifiedShowFields[i]);

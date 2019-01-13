@@ -2,7 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { API } from 'aws-amplify';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
-import {isArray} from "lodash-es";
+import {isArray} from "lodash";
 import "./FormList.scss";
 import FormNew from "../FormNew/FormNew";
 import { connect } from 'react-redux';

@@ -1,4 +1,4 @@
-import { isArray, get, set, cloneDeep } from "lodash-es";
+import { isArray, get, set, cloneDeep } from "lodash";
 
 export default function unwind(data, unwindBy) {
     let unwoundData = [];
