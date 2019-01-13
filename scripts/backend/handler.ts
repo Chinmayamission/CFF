@@ -66,14 +66,15 @@ module.exports.hello = async (event, context) => {
           "allowFileDiscovery": false
         }
       });
-      await promisify(drive.permissions.create)({
-        "fileId": spreadsheetId,
-        "resource": {
-          "role": "owner",
-          "type": "user",
-          "emailAddress": "ccmt.dev@gmail.com"
-        }
-      });
+      // await promisify(drive.permissions.create)({
+      //   "fileId": spreadsheetId,
+      //   "transferOwnership": true,
+      //   "resource": {
+      //     "role": "owner",
+      //     "type": "user",
+      //     "emailAddress": "ccmt.dev@gmail.com"
+      //   }
+      // });
       console.log(response.data.spreadsheetUrl);
       return spreadsheetId;
     }
