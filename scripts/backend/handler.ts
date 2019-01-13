@@ -13,9 +13,9 @@ import { find, findIndex } from "lodash";
 import Headers from "../src/admin/util/Headers";
 declare const STAGE: any;
 
-var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
-AWS.config.credentials = credentials;
-AWS.config.update({ region: 'us-east-1' });
+// var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
+// AWS.config.credentials = credentials;
+// AWS.config.update({ region: 'us-east-1' });
 
 module.exports.hello = async (event, context) => {
   try {
