@@ -33,7 +33,7 @@ module.exports.hello = async (event, context) => {
     }
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
     let db = await MongoClient.connect(mongo_conn_str);
-    let coll = db.db('cm').collection('cff_beta');
+    let coll = db.db('cm').collection(process.env.mongoCollectionName);
   
     google_key = JSON.parse(google_key);
     // let gapi = await google.client.load(google_key);

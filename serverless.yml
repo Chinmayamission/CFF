@@ -49,6 +49,7 @@ provider:
 
   environment:
     mongoConnStr: ${self:custom.mongoConnStr.${opt:stage}}
+    mongoCollectionName: ${self:custom.mongoCollectionName.${opt:stage}}
     googleKey: ${self:custom.googleKey.${opt:stage}}
 
 # you can add packaging information here
@@ -78,6 +79,10 @@ custom:
     dev: none
     beta: CFF_GOOGLE_SHEETS_KEY_BETA
     prod: CFF_GOOGLE_SHEETS_KEY_PROD  
+  mongoCollectionName:
+    dev: cff_dev
+    beta: cff_beta
+    prod: cff_prod  
 
 plugins:
   - serverless-webpack
