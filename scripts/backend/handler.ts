@@ -1,6 +1,7 @@
 'use strict';
 /*
  * ts-node scripts/backend/handler.ts
+ * dataOptions: {export: [{{ "type": "google_sheets" }}]}
  */
 
 const AWS = require('aws-sdk');
@@ -33,6 +34,8 @@ module.exports.hello = async (event, context) => {
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
     let db = await MongoClient.connect(mongo_conn_str);
     let coll = db.db('cm').collection('cff_beta');
+
+    await coll.updateOne({_id: {$oid: "5b33b15fe3b9160001fe68f1"}}, {"$set": {[`formOptions.dataOptions`]: [] } } );
   
     google_key = JSON.parse(google_key);
     // let gapi = await google.client.load(google_key);
@@ -84,7 +87,7 @@ module.exports.hello = async (event, context) => {
       let newSpreadsheet = false;
       if (!spreadsheetId) {
         newSpreadsheet = true;
-        spreadsheetId = await createSpreadsheet(`CFF - ${form.name} - exported ${new Date()}`);
+        spreadsheetId = await createSpreadsheet(`CFF Export - ${form.name}`);
         await coll.updateOne({_id: form._id}, {"$set": {[`formOptions.dataOptions.export.${googleSheetsDataOptionIndex}.spreadsheetId`]: spreadsheetId } } );
       }
       const spreadsheet = await promisify(sheets.spreadsheets.get)({spreadsheetId});
@@ -184,7 +187,7 @@ module.exports.hello = async (event, context) => {
     console.error(e);
     throw {
       message: "Error.",
-      error: e,
+      error: String(e),
       input: event,
       success: false
     };
