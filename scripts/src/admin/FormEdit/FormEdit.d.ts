@@ -123,7 +123,11 @@ export interface IDataOptions {
     }[],
     views: IDataOptionView[],
     groups: IGroupOption[],
-    export?: {type: string, spreadsheetId?: string}[]
+    export?: {
+        type: 'google_sheets',
+        spreadsheetId?: string,
+        filter?: {[x: string]: any}, // {"paid": true}
+    }[]
 }
 interface IDataOptionView {
     unwindBy?: string,

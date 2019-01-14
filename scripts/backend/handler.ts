@@ -1,7 +1,18 @@
 'use strict';
 /*
  * ts-node scripts/backend/handler.ts
- * dataOptions: {export: [{{ "type": "google_sheets" }}]}
+
+"dataOptions": {
+  "export": [
+    {
+      {
+        "type": "google_sheets",
+        "spreadsheetId": "123456",
+        "filter": {"paid": true} // todo - move "filter" to within a dataOptionView
+      }
+    }
+  ]}
+
  */
 
 const AWS = require('aws-sdk');
@@ -9,7 +20,7 @@ const MongoClient = require('mongodb').MongoClient;
 const { google } = require('googleapis');
 const { promisify } = require('util');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
-import { find, findIndex } from "lodash";
+import { get, find, findIndex } from "lodash";
 import Headers from "../src/admin/util/Headers";
 declare const STAGE: any;
 
@@ -89,7 +100,8 @@ module.exports.hello = async (event, context) => {
       }
       let googleSheetsDataOption = dataOptions.export[googleSheetsDataOptionIndex];
       
-      const responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id }).toArray();
+      let filter = get(googleSheetsDataOption, "filter", {});
+      const responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id, ...filter }).toArray();
       let spreadsheetId = googleSheetsDataOption.spreadsheetId;
       let newSpreadsheet = false;
       if (!spreadsheetId) {

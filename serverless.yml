@@ -11,8 +11,11 @@
 #
 # Happy Coding!
 
+# AWS_PROFILE=ashwin-cff-lambda
 # sls invoke local --function sheets --stage beta
 # sls deploy --stage beta
+
+# sls deploy --stage prod
 
 service: ccmt-cff-backend-js # NOTE: update this with your service name
 
