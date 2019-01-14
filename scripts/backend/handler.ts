@@ -8,6 +8,7 @@
       {
         "type": "google_sheets",
         "spreadsheetId": "123456",
+        "viewsToShow": ["participants"],
         "filter": {"paid": true}, // todo - move "filter" to within a dataOptionView
         "enableOrderId": true,
         "enableNearestLocation": true
@@ -30,6 +31,8 @@ declare const STAGE: any;
 // var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
 // AWS.config.credentials = credentials;
 // AWS.config.update({ region: 'us-east-1' });
+
+interface ISheet {properties: {sheetId: number, title: string, index: number}}
 
 module.exports.hello = async (event, context) => {
   try {
@@ -146,18 +149,21 @@ module.exports.hello = async (event, context) => {
     */
 
       let spreadsheetId = googleSheetsDataOption.spreadsheetId;
-      let newSpreadsheet = false;
       if (!spreadsheetId) {
-        newSpreadsheet = true;
         spreadsheetId = await createSpreadsheet(`CFF Export - ${form.name}`);
         await coll.updateOne({_id: form._id}, {"$set": {[`formOptions.dataOptions.export.${googleSheetsDataOptionIndex}.spreadsheetId`]: spreadsheetId } } );
       }
       const spreadsheet = await promisify(sheets.spreadsheets.get)({spreadsheetId});
-      const existingSheets: {properties: {sheetId: number, title: string, index: number}} = spreadsheet.data.sheets;
+      const existingSheets: ISheet[] = spreadsheet.data.sheets;
 
       let requests = [];
+      let viewsToShow = googleSheetsDataOption.viewsToShow || dataOptions.views.map(e => e.id);
+      let sheetsToDelete: ISheet[] = existingSheets.filter(e => viewsToShow.indexOf(e.properties.title) === -1);
       for (const i in dataOptions.views) {
         const dataOptionView = dataOptions.views[i];
+        if (viewsToShow.indexOf(dataOptionView.id) === -1) {
+          continue;
+        }
         let sheetId = i + 1;
         let title = dataOptionView.id;
         let { headers, dataFinal } = createHeadersAndDataFromDataOption(responses, form, dataOptionView, null);
@@ -220,11 +226,10 @@ module.exports.hello = async (event, context) => {
           }
         });
       }
-      if (newSpreadsheet) {
-        // Delete Sheet1
+      for (let sheetToDelete of sheetsToDelete) {
         requests.push({
           deleteSheet: {
-            sheetId: 0
+            sheetId: sheetToDelete.properties.sheetId
           }
         });
       }

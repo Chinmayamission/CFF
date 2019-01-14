@@ -128,6 +128,7 @@ export interface IDataOptions {
         spreadsheetId?: string,
         filter?: {[x: string]: any}, // {"paid": true}
         enableOrderId?: boolean,
+        viewsToShow?: string[],
         enableNearestLocation?: boolean,
         nearestLocationOptions?: {
             addressAccessor?: string, // todo
