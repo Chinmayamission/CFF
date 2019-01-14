@@ -119,10 +119,10 @@ module.exports.hello = async (event, context) => {
           let orderId = get(e, "admin_info.order_id", "");
           return e.CFF_UNWIND_INDEX ? `${orderId}.${e.CFF_UNWIND_INDEX}` : `${orderId}`;
         }});
-        let maxId = maxBy(responses, e => get(e, "admin_info.order_id")) || 0;
+        let maxId = get(maxBy(responses, e => get(e, "admin_info.order_id")), "admin_info.order_id", 0);
         for (let i = responses.length - 1; i >= 0; i--) {
           let response = responses[i];
-          if (!has(response, "admin_info.order_id")) {
+          if (!get(response, "admin_info.order_id")) {
             maxId++;
             coll.updateOne({_id: response._id}, {$set: {"admin_info.order_id": maxId}});
             set(response, "admin_info.order_id", maxId);
