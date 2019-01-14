@@ -37,7 +37,8 @@ export function createHeadersAndDataFromDataOption(responses: IResponse[], form:
         "DATE_CREATED": e.date_created.$date || String(e.date_created),
         "DATE_LAST_MODIFIED": e.date_modified.$date || String(e.date_modified),
         "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
-        "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency)
+        "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency),
+        "admin_info": e.admin_info
     })
     );
     headers = Headers.makeHeadersFromDataOption(

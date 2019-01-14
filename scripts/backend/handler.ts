@@ -8,7 +8,8 @@
       {
         "type": "google_sheets",
         "spreadsheetId": "123456",
-        "filter": {"paid": true} // todo - move "filter" to within a dataOptionView
+        "filter": {"paid": true}, // todo - move "filter" to within a dataOptionView
+        "enableOrderId": true
       }
     }
   ]}
@@ -19,8 +20,9 @@ const AWS = require('aws-sdk');
 const MongoClient = require('mongodb').MongoClient;
 const { google } = require('googleapis');
 const { promisify } = require('util');
+const googleMaps = require('@google/maps');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
-import { get, find, findIndex } from "lodash";
+import { get, find, findIndex, has, maxBy, set } from "lodash";
 import Headers from "../src/admin/util/Headers";
 declare const STAGE: any;
 
@@ -33,14 +35,17 @@ module.exports.hello = async (event, context) => {
     var ssm = new AWS.SSM();
     let mongo_conn_str = "";
     let google_key: any = "";
+    let maps_api_key = "";
     if (STAGE === "dev") {
       // todo: set to local.
       mongo_conn_str = "";
       google_key = "";
+      maps_api_key = "";
     }
     else {
       mongo_conn_str = (await ssm.getParameter({ Name: process.env.mongoConnStr, WithDecryption: true }).promise()).Parameter.Value;
       google_key = (await ssm.getParameter({ Name: process.env.googleKey, WithDecryption: true }).promise()).Parameter.Value;
+      maps_api_key = (await ssm.getParameter({ Name: process.env.mapsApiKey, WithDecryption: true }).promise()).Parameter.Value;
     }
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
     let db = await MongoClient.connect(mongo_conn_str);
@@ -59,6 +64,7 @@ module.exports.hello = async (event, context) => {
     await promisify(jwtClient.authorize);
     const sheets = google.sheets({ version: 'v4', auth: jwtClient });
     const drive = google.drive({ version: 'v3', auth: jwtClient });
+    const googleMapsClient = googleMaps.createClient({key: maps_api_key});
 
     const createSpreadsheet = async (title) => {
       const response = await promisify(sheets.spreadsheets.create)({
@@ -101,7 +107,35 @@ module.exports.hello = async (event, context) => {
       let googleSheetsDataOption = dataOptions.export[googleSheetsDataOptionIndex];
       
       let filter = get(googleSheetsDataOption, "filter", {});
-      const responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id, ...filter }).toArray();
+      let responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id, ...filter }).sort({date_created: -1}).toArray();
+      let extraHeaders = [];
+
+      if (googleSheetsDataOption.enableOrderId) {
+        extraHeaders.push({Header: "Order ID", accessor: e => {
+          let orderId = get(e, "admin_info.order_id", "");
+          return e.CFF_UNWIND_INDEX ? `${orderId}.${e.CFF_UNWIND_INDEX}` : `${orderId}`;
+        }});
+        let maxId = maxBy(responses, e => get(e, "admin_info.order_id")) || 0;
+        for (let i = responses.length - 1; i >= 0; i--) {
+          let response = responses[i];
+          if (!has(response, "admin_info.order_id")) {
+            maxId++;
+            coll.updateOne({_id: response._id}, {$set: {"admin_info.order_id": maxId}});
+            set(response, "admin_info.order_id", maxId);
+          }
+        }
+      }
+/*
+      const locations = 
+      for (let response of responses) {
+        let address = `${response.value.address.line1} ${response.value.address.line2} ${response.value.city} ${response.value.state} ${response.value.zipcode}`;
+        let res = googleMapsClient.distanceMatrix({
+
+        }).asPromise();
+        console.log(res.json.results);
+      }
+*/
+
       let spreadsheetId = googleSheetsDataOption.spreadsheetId;
       let newSpreadsheet = false;
       if (!spreadsheetId) {
@@ -118,6 +152,7 @@ module.exports.hello = async (event, context) => {
         let sheetId = i + 1;
         let title = dataOptionView.id;
         let { headers, dataFinal } = createHeadersAndDataFromDataOption(responses, form, dataOptionView, null);
+        headers = [...extraHeaders, ...headers];
         let rowCount = dataFinal.length + 1;
         let columnCount = headers.length;
         let existingSheet = find(existingSheets, e => e.properties.title === title);

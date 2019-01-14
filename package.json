@@ -82,6 +82,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "@google/maps": "^0.5.5",
     "auth0-js": "^9.6.1",
     "auth0-lock": "^11.7.2",
     "aws-amplify": "^0.4.8",

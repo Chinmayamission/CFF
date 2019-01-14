@@ -127,6 +127,12 @@ export interface IDataOptions {
         type: 'google_sheets',
         spreadsheetId?: string,
         filter?: {[x: string]: any}, // {"paid": true}
+        enableOrderId?: boolean,
+        enableGeolocation?: boolean,
+        geolocationOptions?: {
+            addressAccessor?: string, // todo
+            locations: {latitude: number, longitude: number, name: string }[]
+        }
     }[]
 }
 interface IDataOptionView {

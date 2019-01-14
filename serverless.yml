@@ -40,6 +40,8 @@ provider:
       Resource:
         - "arn:aws:ssm:*:*:parameter/${self:custom.mongoConnStr.${opt:stage}}"
         - "arn:aws:ssm:*:*:parameter/${self:custom.googleKey.${opt:stage}}"
+        - "arn:aws:ssm:*:*:parameter/${self:custom.mapsApiKey.${opt:stage}}"
+
 #    - Effect: "Allow"
 #      Action:
 #        - "s3:PutObject"
@@ -54,6 +56,7 @@ provider:
     mongoConnStr: ${self:custom.mongoConnStr.${opt:stage}}
     mongoCollectionName: ${self:custom.mongoCollectionName.${opt:stage}}
     googleKey: ${self:custom.googleKey.${opt:stage}}
+    mapsApiKey: ${self:custom.mapsApiKey.${opt:stage}}
 
 # you can add packaging information here
 #package:
@@ -82,6 +85,10 @@ custom:
     dev: none
     beta: CFF_GOOGLE_SHEETS_KEY_BETA
     prod: CFF_GOOGLE_SHEETS_KEY_PROD  
+  mapsApiKey:
+    dev: none
+    beta: CFF_MAPS_API_KEY_BETA
+    prod: CFF_MAPS_API_KEY_PROD
   mongoCollectionName:
     dev: cff_dev
     beta: cff_beta
