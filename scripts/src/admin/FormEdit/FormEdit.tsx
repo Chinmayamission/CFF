@@ -73,6 +73,10 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 <div className="col-6 col-sm-3 p-4">
                     <button className="btn btn-lg btn-primary"
                         onClick={(e) => this.saveForm()} >Save Form</button>
+                    {get(this.state.formOptions, "dataOptions.export") && this.state.formOptions.dataOptions.export.map(e =>
+                        e.type === "google_sheets" && e.spreadsheetId && (
+                            <div><a target="_blank" href={`https://docs.google.com/spreadsheets/d/${e.spreadsheetId}`}>Export {e.type} link</a></div>
+                        ))}
                 </div>
             </div>
         );
