@@ -36,6 +36,12 @@ todo:
 - 
 - user login/signup
 
+## 2.3.6 (1/14/19)
+Front end, back end, and lambda js:
+- lambda js runs every hour and exports to google sheets
+- Google sheets export functionality
+- Back end - allow for "admin info"
+
 ## 2.3.5 (1/12/19)
 Front end and back end:
 - Remove "Form Summary" button
