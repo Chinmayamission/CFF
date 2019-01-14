@@ -15,7 +15,7 @@ class BaseTestCase(unittest.TestCase):
   def create_form(self):
     response = self.lg.handle_request(method='POST',
                                       path='/forms',
-                                      headers={"authorization": "auth","Content-Type": "application/x-www-form-urlencoded"},
+                                      headers={"authorization": "auth"},
                                       body="")
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
