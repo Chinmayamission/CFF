@@ -9,7 +9,8 @@
         "type": "google_sheets",
         "spreadsheetId": "123456",
         "filter": {"paid": true}, // todo - move "filter" to within a dataOptionView
-        "enableOrderId": true
+        "enableOrderId": true,
+        "enableNearestLocation": true
       }
     }
   ]}
@@ -64,7 +65,7 @@ module.exports.hello = async (event, context) => {
     await promisify(jwtClient.authorize);
     const sheets = google.sheets({ version: 'v4', auth: jwtClient });
     const drive = google.drive({ version: 'v3', auth: jwtClient });
-    const googleMapsClient = googleMaps.createClient({key: maps_api_key});
+    const googleMapsClient = googleMaps.createClient({Promise: Promise, key: maps_api_key});
 
     const createSpreadsheet = async (title) => {
       const response = await promisify(sheets.spreadsheets.create)({
@@ -125,16 +126,24 @@ module.exports.hello = async (event, context) => {
           }
         }
       }
-/*
-      const locations = 
-      for (let response of responses) {
-        let address = `${response.value.address.line1} ${response.value.address.line2} ${response.value.city} ${response.value.state} ${response.value.zipcode}`;
-        let res = googleMapsClient.distanceMatrix({
-
-        }).asPromise();
-        console.log(res.json.results);
-      }
-*/
+      /*
+      if (googleSheetsDataOption.enableNearestLocation) {
+        const locations = googleSheetsDataOption.nearestLocationOptions.locations;
+        // const addressAccessor = googleSheetsDataOption.nearestLocationOptions.addressAccessor;
+        for (let response of responses) {
+          if (!has(response, "admin_info.nearest_location")) {
+            let address = `${response.value.address.line1} ${response.value.address.city} ${response.value.address.state} ${response.value.address.zipcode}`;
+            let results = (await googleMapsClient.distanceMatrix({
+              origins: [address],
+              destinations: [locations.map(e => [e.latitude, e.longitude])]
+            }).asPromise()).json.results;
+            console.warn(results);
+            throw "Error";
+            return;
+          }
+        }
+    }
+    */
 
       let spreadsheetId = googleSheetsDataOption.spreadsheetId;
       let newSpreadsheet = false;

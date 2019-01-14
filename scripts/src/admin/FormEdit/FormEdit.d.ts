@@ -128,8 +128,8 @@ export interface IDataOptions {
         spreadsheetId?: string,
         filter?: {[x: string]: any}, // {"paid": true}
         enableOrderId?: boolean,
-        enableGeolocation?: boolean,
-        geolocationOptions?: {
+        enableNearestLocation?: boolean,
+        nearestLocationOptions?: {
             addressAccessor?: string, // todo
             locations: {latitude: number, longitude: number, name: string }[]
         }
