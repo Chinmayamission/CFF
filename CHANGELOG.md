@@ -36,6 +36,10 @@ todo:
 - 
 - user login/signup
 
+## 2.3.7 (1/15/19)
+Lambda js:
+- Add "find closest location" functionality for google sheets export
+
 ## 2.3.6 (1/14/19)
 Front end, back end, and lambda js:
 - lambda js runs every hour and exports to google sheets
