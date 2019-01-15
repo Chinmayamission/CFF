@@ -158,12 +158,17 @@ module.exports.hello = async (event, context) => {
         });
         // const addressAccessor = googleSheetsDataOption.nearestLocationOptions.addressAccessor;
         let responsesToCalculate = responses.filter(response => !get(response, "admin_info.nearest_location"));
-        let results = (await googleMapsClient.distanceMatrix({
-          origins: responsesToCalculate.map(response => `${response.value.address.line1} ${response.value.address.city} ${response.value.address.state} ${response.value.address.zipcode}`),
-          destinations: locations.map(e => [e.latitude, e.longitude])
-        }).asPromise());
-        let distanceRows: IDistanceMatrixRow[] = results.json.rows;
-        console.log(JSON.stringify(distanceRows, null, 2));
+
+        // Todo: Google limits to 100 elements -- find a better way to do it in batch rather than each one individually https://developers.google.com/maps/documentation/javascript/distancematrix#usage_limits_and_requirements
+        let distanceRows: IDistanceMatrixRow[] = [];
+        for (let response of responsesToCalculate) {
+          let results = (await googleMapsClient.distanceMatrix({
+            origins: [`${response.value.address.line1} ${response.value.address.city} ${response.value.address.state} ${response.value.address.zipcode}`],
+            destinations: locations.map(e => [e.latitude, e.longitude])
+          }).asPromise());
+          distanceRows.push(results.json.rows[0]);
+        }
+
         for (const i in responsesToCalculate) {
           const distanceRow: IDistanceMatrixRow = distanceRows[i];
           let response = responsesToCalculate[i];
