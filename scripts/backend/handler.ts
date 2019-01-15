@@ -11,7 +11,21 @@
         "viewsToShow": ["participants"],
         "filter": {"paid": true}, // todo - move "filter" to within a dataOptionView
         "enableOrderId": true,
-        "enableNearestLocation": true
+        "enableNearestLocation": true,
+        "nearestLocationOptions": {
+          "locations": [
+            {
+              "latitude": 33,
+              "longitude": -84,
+              "name": "Test1"
+            },
+            {
+              "latitude": 37,
+              "longitude": -122,
+              "name": "Test2"
+            }
+          ]
+        }
       }
     }
   ]}
@@ -24,15 +38,21 @@ const { google } = require('googleapis');
 const { promisify } = require('util');
 const googleMaps = require('@google/maps');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
-import { get, find, findIndex, has, maxBy, set } from "lodash";
+import { get, find, findIndex, maxBy, minBy, set } from "lodash";
 import Headers from "../src/admin/util/Headers";
+import { ConsoleLogger } from "aws-amplify/lib/Common";
 declare const STAGE: any;
 
 // var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
 // AWS.config.credentials = credentials;
 // AWS.config.update({ region: 'us-east-1' });
 
-interface ISheet {properties: {sheetId: number, title: string, index: number}}
+interface ISheet { properties: { sheetId: number, title: string, index: number } }
+interface IDistanceMatrixRow {
+  elements: {
+    distance: { text: string, value: number }, duration: { text: string, value: number }, status: string
+  }[]
+}
 
 module.exports.hello = async (event, context) => {
   try {
@@ -54,7 +74,7 @@ module.exports.hello = async (event, context) => {
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
     let db = await MongoClient.connect(mongo_conn_str);
     let coll = db.db('cm').collection(process.env.mongoCollectionName);
-  
+
     google_key = JSON.parse(google_key);
     // let gapi = await google.client.load(google_key);
     let jwtClient = new google.auth.JWT(
@@ -68,7 +88,7 @@ module.exports.hello = async (event, context) => {
     await promisify(jwtClient.authorize);
     const sheets = google.sheets({ version: 'v4', auth: jwtClient });
     const drive = google.drive({ version: 'v3', auth: jwtClient });
-    const googleMapsClient = googleMaps.createClient({Promise: Promise, key: maps_api_key});
+    const googleMapsClient = googleMaps.createClient({ Promise: Promise, key: maps_api_key });
 
     const createSpreadsheet = async (title) => {
       const response = await promisify(sheets.spreadsheets.create)({
@@ -101,7 +121,7 @@ module.exports.hello = async (event, context) => {
     }
 
     let forms = await coll.find({ '_cls': 'chalicelib.models.Form', 'formOptions.dataOptions.export': { '$exists': true } }).toArray();
-    
+
     for (let form of forms) {
       const dataOptions = getOrDefaultDataOptions(form);
       let googleSheetsDataOptionIndex = findIndex(dataOptions.export, { "type": "google_sheets" });
@@ -109,51 +129,62 @@ module.exports.hello = async (event, context) => {
         continue;
       }
       let googleSheetsDataOption = dataOptions.export[googleSheetsDataOptionIndex];
-      
+
       let filter = get(googleSheetsDataOption, "filter", {});
-      let responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id, ...filter }).sort({date_created: -1}).toArray();
+      let responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id, ...filter }).sort({ date_created: -1 }).toArray();
       let extraHeaders = [];
 
       if (googleSheetsDataOption.enableOrderId) {
-        extraHeaders.push({Header: "Order ID", accessor: e => {
-          let orderId = get(e, "admin_info.order_id", "");
-          return e.CFF_UNWIND_INDEX ? `${orderId}.${e.CFF_UNWIND_INDEX}` : `${orderId}`;
-        }});
+        extraHeaders.push({
+          Header: "Order ID", accessor: e => {
+            let orderId = get(e, "admin_info.order_id", "");
+            return e.CFF_UNWIND_INDEX ? `${orderId}.${e.CFF_UNWIND_INDEX}` : `${orderId}`;
+          }
+        });
         let maxId = get(maxBy(responses, e => get(e, "admin_info.order_id")), "admin_info.order_id", 0);
         for (let i = responses.length - 1; i >= 0; i--) {
           let response = responses[i];
           if (!get(response, "admin_info.order_id")) {
             maxId++;
-            coll.updateOne({_id: response._id}, {$set: {"admin_info.order_id": maxId}});
+            await coll.updateOne({ _id: response._id }, { $set: { "admin_info.order_id": maxId } });
             set(response, "admin_info.order_id", maxId);
           }
         }
       }
-      /*
       if (googleSheetsDataOption.enableNearestLocation) {
         const locations = googleSheetsDataOption.nearestLocationOptions.locations;
+        extraHeaders.push({
+          Header: "Nearest Location", accessor: e => get(e, "admin_info.nearest_location", "")
+        });
         // const addressAccessor = googleSheetsDataOption.nearestLocationOptions.addressAccessor;
-        for (let response of responses) {
-          if (!has(response, "admin_info.nearest_location")) {
-            let address = `${response.value.address.line1} ${response.value.address.city} ${response.value.address.state} ${response.value.address.zipcode}`;
-            let results = (await googleMapsClient.distanceMatrix({
-              origins: [address],
-              destinations: [locations.map(e => [e.latitude, e.longitude])]
-            }).asPromise()).json.results;
-            console.warn(results);
-            throw "Error";
-            return;
+        let responsesToCalculate = responses.filter(response => !get(response, "admin_info.nearest_location"));
+        let results = (await googleMapsClient.distanceMatrix({
+          origins: responsesToCalculate.map(response => `${response.value.address.line1} ${response.value.address.city} ${response.value.address.state} ${response.value.address.zipcode}`),
+          destinations: locations.map(e => [e.latitude, e.longitude])
+        }).asPromise());
+        let distanceRows: IDistanceMatrixRow[] = results.json.rows;
+        console.log(JSON.stringify(distanceRows, null, 2));
+        for (const i in responsesToCalculate) {
+          const distanceRow: IDistanceMatrixRow = distanceRows[i];
+          let response = responsesToCalculate[i];
+          const nearestLocation = minBy(distanceRow.elements, e => get(e, "duration.value", Number.MAX_SAFE_INTEGER));
+          if (nearestLocation.status !== "OK") { // Status is OK or NOT_FOUND.
+            continue;
           }
+          const nearestLocationIndex = distanceRow.elements.indexOf(nearestLocation);
+          const nearestLocationName = locations[nearestLocationIndex].name;
+          console.log(nearestLocationName);
+          set(response, "admin_info.nearest_location", nearestLocationName);
+          await coll.updateOne({ _id: response._id }, { $set: { "admin_info.nearest_location": nearestLocationName } });
         }
-    }
-    */
+      }
 
       let spreadsheetId = googleSheetsDataOption.spreadsheetId;
       if (!spreadsheetId) {
         spreadsheetId = await createSpreadsheet(`CFF Export - ${form.name}`);
-        await coll.updateOne({_id: form._id}, {"$set": {[`formOptions.dataOptions.export.${googleSheetsDataOptionIndex}.spreadsheetId`]: spreadsheetId } } );
+        await coll.updateOne({ _id: form._id }, { "$set": { [`formOptions.dataOptions.export.${googleSheetsDataOptionIndex}.spreadsheetId`]: spreadsheetId } });
       }
-      const spreadsheet = await promisify(sheets.spreadsheets.get)({spreadsheetId});
+      const spreadsheet = await promisify(sheets.spreadsheets.get)({ spreadsheetId });
       const existingSheets: ISheet[] = spreadsheet.data.sheets;
 
       let requests = [];
@@ -255,7 +286,7 @@ module.exports.hello = async (event, context) => {
     console.error(e);
     throw JSON.stringify({
       message: "Error.",
-      error: e.errors ? e.errors.map(i => i.message): e,
+      error: e.errors ? e.errors.map(i => i.message) : e,
       input: event,
       success: false
     });
