@@ -298,7 +298,11 @@ app.route('/confirmSignUp', methods=['GET'], cors=True)(routes.confirm_sign_up)
 @app.route('/authorize', methods=['POST'], cors=True)
 def authorize():
     token = app.current_request.json_body["token"]
-    claims = get_claims(token, verify_audience=False)
+    app_client_id = app.current_request.json_body.get("app_client_id", "")
+    if app_client_id:
+        claims = get_claims(token, verify_audience=False, app_client_id)
+    else:
+        claims = get_claims(token, verify_audience=False)
     if claims:
         return claims
     else:
