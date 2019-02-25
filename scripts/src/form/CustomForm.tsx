@@ -10,6 +10,7 @@ import SmallTextboxWidget from "./form_widgets/SmallTextboxWidget";
 import PhoneWidget from "./form_widgets/PhoneWidget";
 import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
+import SameAsField from "./form_widgets/SameAsField"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
 import PaymentCalcTable from "./payment/PaymentCalcTable";
 import { get } from "lodash";
@@ -62,7 +63,8 @@ const widgets = {
 
 const fields = {
   DescriptionField: FormattedDescriptionField,
-  TitleField: CustomTitleField
+  TitleField: CustomTitleField,
+  "cff:sameAs": SameAsField
 };
 
 function validate(formData, errors, validationSchema) {
@@ -123,6 +125,7 @@ function CustomForm(props: ICustomFormProps) {
         onError={(e) => { console.error(e); window.scrollTo(0, 0); }}
         showErrorList={true}
         ErrorList={ErrorListTemplate}
+        formContext={{formData: props.formData}}
       >
         {props.showPaymentTable &&
           <div>
