@@ -28,7 +28,15 @@
         }
       }
     }
-  ]}
+  ],
+  "views": [
+    {
+      "id": "all",
+      "displayName": "Number of people paid",
+      "aggregate": [{"|group": {"_id": "$paid", "count": {"|sum": 1} } }]
+    }
+  ]
+}
 
  */
 
@@ -37,6 +45,7 @@ const MongoClient = require('mongodb').MongoClient;
 const { google } = require('googleapis');
 const { promisify } = require('util');
 const googleMaps = require('@google/maps');
+const renameKeys = require('deep-rename-keys');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
 import { get, find, findIndex, maxBy, minBy, set } from "lodash";
 import Headers from "../src/admin/util/Headers";
@@ -132,6 +141,7 @@ module.exports.hello = async (event, context) => {
 
       let filter = get(googleSheetsDataOption, "filter", {});
       let responses = await coll.find({ '_cls': 'chalicelib.models.Response', form: form._id, ...filter }).sort({ date_created: -1 }).toArray();
+      let queryCache = {}; // keys: stringified versions of queries, values: list of responses
       let extraHeaders = [];
 
       if (googleSheetsDataOption.enableOrderId) {
@@ -202,7 +212,22 @@ module.exports.hello = async (event, context) => {
         }
         let sheetId = i + 1;
         let title = dataOptionView.id;
-        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responses, form, dataOptionView, null);
+        let responsesToUse = responses;
+        if (dataOptionView.aggregate) {
+          let cacheKey = JSON.stringify(dataOptionView.aggregate);
+          let aggregateQuery = dataOptionView.aggregate.map(obj => renameKeys(obj, key => key.replace("|", "$")));
+          if (queryCache[cacheKey]) {
+            responsesToUse = queryCache[cacheKey];
+          } else {
+            responsesToUse = await coll.aggregate([
+              {'$match': { '_cls': 'chalicelib.models.Response', form: form._id}},
+              ...aggregateQuery
+            ]).toArray();
+            queryCache[cacheKey] = responsesToUse;
+          }
+        }
+        
+        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null);
         headers = [...extraHeaders, ...headers];
         let rowCount = dataFinal.length + 1;
         let columnCount = headers.length;

@@ -144,7 +144,8 @@ interface IDataOptionView {
         label: string,
         value: string
     } | string)[],
-    groupEdit?: string
+    groupEdit?: string,
+    aggregate?: {[x: string]: any}[]
 }
 interface IGroupOption {
     schema: any,

@@ -1,5 +1,5 @@
 import { formatPayment } from "./formatPayment";
-import Headers from "./Headers";
+import Headers, { IHeaderObject } from "./Headers";
 import {get, set, has, cloneDeep} from "lodash";
 import unwind from "./unwind";
 import { IRenderedForm, IDataOptions, IDataOptionView } from "../FormEdit/FormEdit.d";
@@ -28,7 +28,17 @@ export function getOrDefaultDataOptions(form: IRenderedForm): IDataOptions {
     return dataOptions;
 }
 
-export function createHeadersAndDataFromDataOption(responses: IResponse[], form: IRenderedForm, dataOptionView: IDataOptionView, editResponse?: (a, b, c) => void) {
+export function createHeadersAndDataFromDataOption(responses: IResponse[], form: IRenderedForm, dataOptionView: IDataOptionView, editResponse?: (a, b, c) => void)
+: {headers: IHeaderObject[], dataFinal: any[]}
+{
+    if (responses && responses[0] && !responses[0].paid) {
+        let headers = [
+            {"Header": "_id", "id": "_id", "accessor": e => e._id, "Cell": e => e},
+            {"Header": "count", "id": "count", "accessor": e => e.count, "Cell": e => e},
+        ];
+        let dataFinal = responses;
+        return {headers, dataFinal};
+    }
     let headers = [];
     let data = responses.map(e => ({
         ...e.value,
