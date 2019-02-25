@@ -32,6 +32,7 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
     update_response_paid_status(response)
     if response.paid and form.formOptions.confirmationEmailInfo:
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
+    return response.paid
 
 def response_ipn_listener(responseId):
     from ..main import app, PROD
