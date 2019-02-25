@@ -105,6 +105,18 @@
             }
         }
     }
+    .ccmt-cff-sameAs {
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+    .ccmt-cff-array-sameAs-showFirst {
+        .ccmt-cff-sameAs {
+            display: none;
+        }
+        .array-item-list > .row:first-child .ccmt-cff-sameAs {
+            display: block;
+        }
+    }
 }
 
 .ccmt-cff-Page-FormPage-readonly.ccmt-cff-Page-FormPage {

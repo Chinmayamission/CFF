@@ -2,6 +2,28 @@ import * as React from "react";
 import ObjectField from "react-jsonschema-form/lib/components/fields/ObjectField";
 import {get} from "lodash-es";
 
+
+/*
+DESCRIPTION:
+This will render a checkbox saying something like, "same as first participant's name".
+
+USAGE: 
+in the ui schema:
+{
+    "ui:field": "cff:sameAs",
+    "ui:options": {
+      "cff:sameAsFieldPath": "participants.0.name",
+      "cff:sameAsFieldName": "first participant's name"
+    }
+}
+
+If you want an array to show sameAs only for the first one, add the following to the uiSchema in the array:
+
+{
+    "classNames": "ccmt-cff-array-sameAs-showFirst"
+}
+
+*/
 class SameAsField extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -29,9 +51,12 @@ class SameAsField extends React.Component<any, any> {
         props.onChange = (a, b) => this.onEdit(a, b);
         const name = this.props.uiSchema["ui:options"]["cff:sameAsFieldName"] || this.props.uiSchema["ui:options"]["cff:sameAsFieldPath"];
         return (<div>
-            <input type="checkbox" id={id} onChange={e => this.onCheck()} checked={this.state.checked} />
-            <label htmlFor={id}>Same as {name}</label>
-            <ObjectField {...props} />
+            <this.props.registry.fields.ObjectField {...props} />
+            <div className="ccmt-cff-sameAs">
+                <input type="checkbox" id={id} onChange={e => this.onCheck()} checked={this.state.checked} />
+                <label htmlFor={id}>Same as {name}</label>
+            </div>
+            
         </div>);
     }
 };

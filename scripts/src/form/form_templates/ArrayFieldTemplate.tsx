@@ -26,7 +26,6 @@ function ArrayFieldDescription({ DescriptionField, idSchema, description }) {
 class ArrayFieldTemplate extends React.Component<any, any> {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
     }
   }
