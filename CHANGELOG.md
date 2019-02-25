@@ -36,6 +36,10 @@ todo:
 - 
 - user login/signup
 
+## 2.3.8 (2/18/19)
+Backend python lambda:
+- /authorize endpoint now supports JSON body with two keys, "app_client_id" and "token". This will validate the specific JWT which belongs to the specific client id.
+
 ## 2.3.7 (1/15/19)
 Lambda js:
 - Add "find closest location" functionality for google sheets export
@@ -44,7 +48,7 @@ Lambda js:
 Front end, back end, and lambda js:
 - lambda js runs every hour and exports to google sheets
 - Google sheets export functionality
-- Back end - allow for "admin info"
+- Back end - allow for "admin_info" attribute on Form model
 
 ## 2.3.5 (1/12/19)
 Front end and back end:
