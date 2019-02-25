@@ -79,7 +79,7 @@ class FormSubmit(BaseTestCase):
         set_(expected_data, "contact_name.last", "NEW_LAST!")
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        self.assertEqual(body['res']['value'], expected_data)
+        self.assertEqual(body['res']['response']['value'], expected_data)
     
     def test_mark_successful_payment(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
