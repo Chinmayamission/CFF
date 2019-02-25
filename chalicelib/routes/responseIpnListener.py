@@ -9,12 +9,10 @@ from bson.objectid import ObjectId
 from bson.decimal128 import Decimal128
 from decimal import Decimal
 
-def mark_successful_payment(form, response, full_value, method_name, amount, currency, id, date=None):
-    if not date:
-        date = datetime.datetime.now()
-    response.payment_trail.append(PaymentTrailItem(value=full_value, status="SUCCESS", date=date, date_created=date, date_modified=date, method=method_name, id=id))
-    response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=date, date_created=date, date_modified=date, method=method_name, id=id))
-    response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
+def update_response_paid_status(response):
+    """
+    Update response paid status and apply updates, as necessary.
+    """
     response.paid = float(response.amount_paid) >= float(response.paymentInfo.get("total", 0))
     if response.pending_update:
         response.paid = float(response.amount_paid) >= float(response.pending_update["paymentInfo"].get("total", 0))
@@ -23,9 +21,17 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
             response.paymentInfo = response.pending_update["paymentInfo"]
             response.pending_update = None
             response.update_trail.append(UpdateTrailItem(date=datetime.datetime.now(), update_type="apply_update"))
+    return response.paid
+
+def mark_successful_payment(form, response, full_value, method_name, amount, currency, id, date=None):
+    if not date:
+        date = datetime.datetime.now()
+    response.payment_trail.append(PaymentTrailItem(value=full_value, status="SUCCESS", date=date, date_created=date, date_modified=date, method=method_name, id=id))
+    response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=date, date_created=date, date_modified=date, method=method_name, id=id))
+    response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
+    update_response_paid_status(response)
     if response.paid and form.formOptions.confirmationEmailInfo:
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
-    return response.paid
 
 def response_ipn_listener(responseId):
     from ..main import app, PROD
