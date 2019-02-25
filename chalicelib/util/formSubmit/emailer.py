@@ -108,7 +108,7 @@ def send_email(
             # ReplyToAddresses=[
             #     'string',
             # ],
-            # ReturnPath='aramaswamis@gmail.com',
+            # ReturnPath='success@simulator.amazonses.com',
             # SourceArn='string',
             # ReturnPathArn='string',
             # Tags=[

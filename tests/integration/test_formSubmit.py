@@ -14,7 +14,7 @@ from chalicelib.models import Form, Response, serialize_model
 from bson.objectid import ObjectId
 import time
 
-ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'aramaswamis@gmail.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
+ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
 
 class FormSubmit(BaseTestCase):
     maxDiff = None
@@ -67,19 +67,19 @@ class FormSubmit(BaseTestCase):
 
         responseIdNew, submit_res = self.submit_form(self.formId, ONE_FORMDATA, responseId)
         self.assertEqual(responseIdNew, responseId)
-        self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'aramaswamis@gmail.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
+        self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
         
-        # """Edit response."""
-        # body = {"path": "value.contact_name.last", "value": "NEW_LAST!"}
-        # response = self.lg.handle_request(method='PATCH',
-        #                                   path=f'/responses/{responseId}',
-        #                                     headers={"authorization": "auth","Content-Type": "application/json"},
-        #                                   body=json.dumps(body))
-        # expected_data = dict(ONE_FORMDATA)
-        # set_(expected_data, "contact_name.last", "NEW_LAST!")
-        # self.assertEqual(response['statusCode'], 200, response)
-        # body = json.loads(response['body'])
-        # self.assertEqual(body['res']['value'], expected_data)
+        """Edit response."""
+        body = {"path": "contact_name.last", "value": "NEW_LAST!"}
+        response = self.lg.handle_request(method='PATCH',
+                                          path=f'/responses/{responseId}',
+                                            headers={"authorization": "auth","Content-Type": "application/json"},
+                                          body=json.dumps(body))
+        expected_data = dict(ONE_FORMDATA)
+        set_(expected_data, "contact_name.last", "NEW_LAST!")
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertEqual(body['res']['value'], expected_data)
     
     def test_mark_successful_payment(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)

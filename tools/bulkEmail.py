@@ -79,7 +79,7 @@ print("Got responses.")
 response = responses[0]
 EMAIL_CONTENT += "<h2>Your lookup ID: <strong>{}</strong></h2><br><br>{}".format(response["responseId"][:6], display_form_dict(response["value"]))
 BODY_TEXT, BODY_HTML = email_to_html_text(EMAIL_CONTENT)
-recipient = "aramaswamis@gmail.com"
+recipient = "success@simulator.amazonses.com"
 response = client.send_bulk_templated_email(
   Source="omrun@cmsj.org",
   Template="Basic",

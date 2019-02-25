@@ -77,7 +77,7 @@ self.current_request.context
             'name': 'Ashwin Ramaswami',
             'exp': 'Fri Jul 13 15:15:16 UTC 2018',
             'iat': 'Fri Jul 13 14:15:16 UTC 2018',
-            'email': 'aramaswamis@gmail.com'
+            'email': 'success@simulator.amazonses.com'
         }
     },
     'resourcePath': '/forms',
@@ -229,7 +229,7 @@ COGNITO_CLIENT_ID = os.environ["COGNITO_CLIENT_ID"]
 @app.authorizer()
 def iamAuthorizer(auth_request):
     """
-    {'sub': 'f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'email_verified': True, 'iss': 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_kcpcLxLzn', 'cognito:username': 'f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'aud': '77mcm1k9ll2ge68806h5kncfus', 'event_id': '1dc969c8-861e-11e8-b29e-336c6c2ce302', 'token_use': 'id', 'custom:center': 'CCMT', 'auth_time': 1531432454, 'name': 'Ashwin Ramaswami', 'exp': 1532273519, 'iat': 1532269919, 'email': 'aramaswamis@gmail.com'}
+    {'sub': 'f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'email_verified': True, 'iss': 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_kcpcLxLzn', 'cognito:username': 'f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'aud': '77mcm1k9ll2ge68806h5kncfus', 'event_id': '1dc969c8-861e-11e8-b29e-336c6c2ce302', 'token_use': 'id', 'custom:center': 'CCMT', 'auth_time': 1531432454, 'name': 'Ashwin Ramaswami', 'exp': 1532273519, 'iat': 1532269919, 'email': 'success@simulator.amazonses.com'}
     """
     claims = get_claims(auth_request.token)
     if not claims and not app.test_user_id:
@@ -300,9 +300,9 @@ def authorize():
     token = app.current_request.json_body["token"]
     app_client_id = app.current_request.json_body.get("app_client_id", "")
     if app_client_id:
-        claims = get_claims(token, verify_audience=False, app_client_id)
+        claims = get_claims(token, verify_audience=True, app_client_id=app_client_id)
     else:
-        claims = get_claims(token, verify_audience=False)
+        claims = get_claims(token, verify_audience=True)
     if claims:
         return claims
     else:

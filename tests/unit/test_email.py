@@ -34,7 +34,7 @@ CONFIRMATION_EMAIL_INFO_TEMPLATE = {
 #     data=myfile.read()
 #     CONFIRMATION_EMAIL_INFO_TEMPLATE["template"]["html"] = data
 # # TO_EMAIL = "success@simulator.amazonses.com"
-# TO_EMAIL = "aramaswamis@gmail.com"
+# TO_EMAIL = "success@simulator.amazonses.com"
 TO_EMAIL = "success@simulator.amazonses.com"
 
 RESPONSE = {
