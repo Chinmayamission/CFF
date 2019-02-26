@@ -52,7 +52,7 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
         return (
             <div className={this.props.large ? "col-12 col-sm-6 col-md-6 p-0 m-0": "col-12 col-sm-6 col-md-4 p-0 m-0"} style={{ "float": "left", "height": "auto", "minHeight": "500px" }}>
                 <h2>{this.props.title}</h2>
-                <div style={{"height":"90%"}} ref={(e) => { this.editorElement = e; }} />
+                <div style={{"height":"500px"}} ref={(e) => { this.editorElement = e; }} />
             </div>);
     }
 }
