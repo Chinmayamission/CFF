@@ -4,8 +4,7 @@ import "jsoneditor/dist/jsoneditor.min.css";
 
 interface IJSONEditorProps {
     data: any,
-    title: string,
-    disabled: boolean,
+    disabled?: boolean,
     onChange?: (any) => any,
     large?: boolean
 }
@@ -21,7 +20,7 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
     }
 
     onChange() {
-       if (this.props.disabled) {
+       if (this.props.disabled === true) {
            alert("This editor is disabled; its contents are read-only.");
            return;
        }
@@ -50,9 +49,8 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
         //this.editor && this.editor.set(this.props.data);
         // <div></div>
         return (
-            <div className={this.props.large ? "col-12 col-sm-6 col-md-6 p-0 m-0": "col-12 col-sm-6 col-md-4 p-0 m-0"} style={{ "float": "left", "height": "auto", "minHeight": "500px" }}>
-                <h2>{this.props.title}</h2>
-                <div style={{"height":"500px"}} ref={(e) => { this.editorElement = e; }} />
+            <div className={"col-12"} style={{"height": "100%"}}>
+                <div style={{"height":"100%"}} ref={(e) => { this.editorElement = e; }} />
             </div>);
     }
 }

@@ -10,7 +10,9 @@ import Modal from 'react-responsive-modal';
 import dataLoadingView from "../util/DataLoadingView";
 import { API } from "aws-amplify";
 import { IFormEditProps, IFormEditState } from "./FormEdit.d";
-
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import "react-tabs/style/react-tabs.css";
+import "./FormEdit.scss";
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
         super(props);
@@ -63,15 +65,12 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
     renderTopPane() {
         return (
-            <div className="row">
-                <div className="col-12 col-sm-6">
-                    <label>Form Name</label>
-                    <input className="form-control" value={this.state.formName}
+            <div>
+                <div className="form-inline">
+                    <input className="form-control form-control-sm" value={this.state.formName}
+                        placeholder="Form Name"
                         onChange={(e) => this.changeFormName(e.target.value)} />
-                    <label>Form Id</label><input className="form-control" disabled value={this.props.match.params.formId} />
-                </div>
-                <div className="col-6 col-sm-3 p-4">
-                    <button className="btn btn-lg btn-primary"
+                    <button className="btn btn-sm btn-outline-primary"
                         onClick={(e) => this.saveForm()} >Save Form</button>
                     {get(this.state.formOptions, "dataOptions.export") && this.state.formOptions.dataOptions.export.map(e =>
                         e.type === "google_sheets" && e.spreadsheetId && (
@@ -86,34 +85,42 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             <div className="ccmt-cff-page-FormEdit">
                 {this.state.loading && <Loading />}
                 <div className="container-fluid">
-                    {this.renderTopPane()}
                     <div className="row">
-                        <JSONEditor
-                            title={"Form Options"}
-                            data={this.state.formOptions}
-                            disabled={false}
-                            large={true}
-                            onChange={(e) => this.onChange("formOptions", e)}
-                        />
-                        <JSONEditor
-                            title={"UiSchema Value"}
-                            data={this.state.uiSchema}
-                            disabled={false}
-                            large={true}
-                            onChange={(e) => this.onChange("uiSchema", e)}
-                        />
-                        <JSONEditor
-                            title={"Schema Value"}
-                            data={this.state.schema}
-                            disabled={false}
-                            large={true}
-                            onChange={(e) => this.onChange("schema", e)}
-                        />
-                        <div className="col-12 col-sm-6">
-                            <FormPage formId={this.props.match.params.formId} key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
+                        <div className="col-12">
+                            <Tabs>
+                                <TabList>
+                                    <Tab>formOptions</Tab>
+                                    <Tab>schema</Tab>
+                                    <Tab>uiSchema</Tab>
+                                    <li className="react-tabs__tab">
+                                    {this.renderTopPane()}
+                                    </li>
+                                </TabList>
+
+                                <TabPanel>
+                                    <JSONEditor
+                                        data={this.state.formOptions}
+                                        onChange={(e) => this.onChange("formOptions", e)}
+                                    />
+                                </TabPanel>
+                                <TabPanel>
+                                    <JSONEditor
+                                        data={this.state.schema}
+                                        onChange={(e) => this.onChange("schema", e)}
+                                    />
+                                </TabPanel>
+                                <TabPanel>
+                                    <JSONEditor
+                                        data={this.state.uiSchema}
+                                        onChange={(e) => this.onChange("uiSchema", e)}
+                                    />
+                                </TabPanel>
+                            </Tabs>
                         </div>
                     </div>
-                    {this.renderTopPane()}
+                    <div className="ccmt-cff-formedit-preview col-12 mt-4">
+                        <FormPage formId={this.props.match.params.formId} key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
+                    </div>
                 </div>
             </div>);
     }

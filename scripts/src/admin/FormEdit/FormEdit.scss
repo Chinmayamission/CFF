@@ -1,4 +1,8 @@
-.ccmt-cff-FormEdit-half {
-  max-height: 90vh;
+.ccmt-cff-formedit-preview {
+  max-height: 50vh;
   overflow: auto;
+  padding: 0px 15px;
+  > .ccmt-cff-Page-FormPage {
+    border: 1px solid blue;
+  }
 }
