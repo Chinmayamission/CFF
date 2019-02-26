@@ -87,7 +87,9 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 {this.state.loading && <Loading />}
                 <div className="container-fluid">
                     <div className="row">
-                        <SplitterLayout vertical={true} customClassName="ccmt-cff-editpage-splitter">
+                        <SplitterLayout vertical={true} customClassName="ccmt-cff-editpage-splitter"
+                        onSecondaryPaneSizeChange={() => window.dispatchEvent(new Event('resize'))}
+                        >
                             <div className="col-12 ccmt-cff-editpage-jsoneditor-container">
                                 <Tabs>
                                     <TabList>
