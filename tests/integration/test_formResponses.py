@@ -18,7 +18,6 @@ class FormResponses(BaseTestCase):
         form = Form.objects.get({"_id": ObjectId(self.formId)})
         to_create = [Response(form=form) for i in range(0,50)]
         Response.objects.bulk_create(to_create)
-        print("bulk create done")
     def test_form_responses_list(self):
         """View the entire response list."""
         response = self.lg.handle_request(method='GET', headers={"authorization": "auth",}, body='',

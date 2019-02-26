@@ -44,12 +44,19 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['value'], ONE_FORMDATA)
         self.assertTrue(response.get("user", None) == None)
 
+        expected_data = copy.deepcopy(ONE_FORMDATA)
+        set_(expected_data, "contact_name.last", "NEW_LAST2")
         
         response = self.lg.handle_request(method='POST',
                                     path=f'/forms/{self.formId}',
                                     headers={"authorization": "auth","Content-Type": "application/json"},
-                                    body=json.dumps({"data": ONE_FORMDATA, "responseId": responseId}))
+                                    body=json.dumps({"data": expected_data, "responseId": responseId}))
         self.assertEqual(response['statusCode'], 200, response)
+        response = self.view_response(responseId)
+        self.assertEqual(response['value'], expected_data)
+        self.assertEqual(response['paid'], False)
+
+
 
 
     def test_edit_response(self):

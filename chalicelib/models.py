@@ -16,7 +16,6 @@ class BaseMongoModel(MongoModel):
       self.id = ObjectId()
       self.date_created = datetime.datetime.now()
     self.date_modified = datetime.datetime.now()
-    # print(self.to_son().to_dict())
     super(BaseMongoModel, self).save(*args, **kwargs)
   class Meta:
     collection_name = os.getenv("DB_NAME", "cff_dev")

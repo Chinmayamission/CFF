@@ -32,7 +32,6 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     for i in flat:
         flat[human_readable_key(i)] = flat.pop(i)
     kwargs = dict(serialize_model(response), response=flat)
-    # print("KWAA", kwargs)
     msgBody = env.from_string(templateText).render(**kwargs)
     addCSS = False
     
@@ -124,7 +123,7 @@ def send_email(
         print('Error sending email to {}. Error message: {}'.format(toEmail, e.response['Error']['Message']))
         raise
     else:
-        print('Email sent successfully to {}.'.format(toEmail))
+        pass
 
 def send_confirmation_email(response, confirmationEmailInfo):
     """ Actually send confirmation email"""
