@@ -83,6 +83,7 @@ export interface IFormPageState {
 
 export interface IFormPageProps { // extends FormState
     formId?: any,
+    responseId?: string,
     initialFormData?: any,
     readonly?: boolean,
     specifiedShowFields?: any[],

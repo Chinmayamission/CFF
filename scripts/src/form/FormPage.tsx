@@ -2,7 +2,7 @@ import React from 'react';
 import Form from 'react-jsonschema-form';
 import {API} from "aws-amplify";
 import createSchemas from "../common/CreateSchemas"
-
+import queryString from "query-string";
 import DOMPurify from 'dompurify';
 import { get, set, unset } from "lodash";
 import CustomForm from "./CustomForm";
@@ -47,7 +47,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentCalcInfo: null,
       paymentStarted: false,
       data: null,
-      responseId: undefined,
+      responseId: props.responseId || undefined,
       ajaxLoading: false,
       responseData: undefined
     };
@@ -79,7 +79,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.props.logout();
     this.setState({"hasError": true});
   }
-  componentDidMount() {    
+  async componentDidMount() {
+    if (this.state.responseId) {
+      await this.loadResponse(this.state.responseId);
+    }
     this.loadForm();
   }
   loadForm() {
@@ -89,7 +92,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo } = cs;
         this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
-          data: defaultFormData,
+          data: this.state.data || defaultFormData,
           paymentCalcInfo
         });
         this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
@@ -99,7 +102,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions }) => {
         this.setState({ schemaMetadata, uiSchema, schema,
           status: STATUS_FORM_RENDERED,
-          data: defaultFormData,
+          data: this.state.data || defaultFormData,
           paymentCalcInfo,
           formOptions
         });
@@ -108,17 +111,28 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     // }
 
   }
-  loadResponse() {
+  async loadResponse(responseId=null) {
     this.setState({status: STATUS_FORM_LOADING});
-    API.get("CFF", `forms/${this.props.formId}/response`, {}).then(e => {
-      let res = e.res;
-      this.setState({
-        status: STATUS_FORM_RENDERED,
+    if (!responseId) {
+      return API.get("CFF", `forms/${this.props.formId}/response`, {}).then(e => {
+        let res = e.res;
+        this.setState({
+          status: STATUS_FORM_RENDERED,
+          responseId: res ? res._id.$oid : null,
+          responseData: res ? res.value: null,
+          data: res ? res.value: this.state.data
+        })
+      });
+    }
+    else {
+      let response = await API.get("CFF", `responses/${responseId}`, {});
+      let res = response.res;
+      return new Promise((resolve, reject) => this.setState({
         responseId: res ? res._id.$oid : null,
         responseData: res ? res.value: null,
         data: res ? res.value: this.state.data
-      })
-    });
+      }, resolve));
+    }
   }
   goBackToFormPage() {
     This.setState({ status: STATUS_FORM_RENDERED });
@@ -129,11 +143,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     });
   }
   onSubmit(data: { formData: {} }) {
+
     let formData = data.formData;
     let payload = {
       "data": formData,
       "modifyLink": (window.location != window.parent.location) ? document.referrer : window.location.href
-    } // todo: include repsonse id for update.
+    }
 
     if (this.state.responseId) {
       payload["responseId"] = this.state.responseId;
@@ -190,6 +205,14 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         paymentInfo_received: paymentInfo_received,
         paymentMethods: res.paymentMethods
       });
+
+      // Update query string with the new response id, if form allows anonymous submissions.
+      if (!this.state.formOptions.loginRequired && history.pushState) {
+        const qs = queryString.parse(window.location.search);
+        const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + queryString.stringify({...qs, "responseId": res.responseId});
+        window.history.pushState({path:newurl},'',newurl);
+      }
+
       window.scrollTo(0,0);
     }).catch((err) => {
       alert("Error. " + err);

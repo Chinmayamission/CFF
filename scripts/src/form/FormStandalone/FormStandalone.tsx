@@ -27,6 +27,7 @@ class FormStandalone extends React.Component<IFormStandaloneProps, IFormStandalo
     return (<div className="App ccmt-cff-page-form" style={this.state.background && { background: this.state.background }}>
       <div className="container ccmt-cff-paper-outline">
         <FormPage formId={this.props.formId}
+          responseId={qs.responseId}
           onFormLoad={(a, b) => this.onFormLoad(a, b)}
           specifiedShowFields={JSON.parse((qs && qs["specifiedShowFields"]) || "{}")} />
       </div>
