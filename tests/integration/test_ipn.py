@@ -28,6 +28,7 @@ class FormIpn(BaseTestCase):
         return response['body']
 
     def test_ipn_success(self):
+        # TODO: mock out paypal with the "responses" library.
         responseId = "5b378702df89af000136319d"
         response = Response(
             id=ObjectId(responseId),

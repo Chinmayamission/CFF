@@ -114,6 +114,7 @@ class Response(BaseMongoModel):
   date_modified = fields.DateTimeField(required=True)
   pending_update = fields.DictField(blank=True)
   admin_info = fields.DictField()
+  modify_link = fields.CharField()
 
 def serialize_model(model):
   """Serializes model so it is OK to send back as a JSON response.

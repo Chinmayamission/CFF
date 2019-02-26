@@ -42,7 +42,7 @@ def form_response_new(formId):
         newResponse = False
 
     response_data = app.current_request.json_body["data"]
-    modifyLink = app.current_request.json_body.get('modifyLink', '') # todo fix
+    modify_link = app.current_request.json_body.get('modifyLink', '')
     form = Form.objects.only("name", "schema", "uiSchema", "formOptions", "cff_permissions").get({"_id":ObjectId(formId)}) #couponCodes
     paymentInfo = form.formOptions.paymentInfo
     confirmationEmailInfo = form.formOptions.confirmationEmailInfo
@@ -99,7 +99,8 @@ def form_response_new(formId):
         response = Response(
             form=form,
             id=responseId,
-            date_created=datetime.datetime.now()
+            date_created=datetime.datetime.now(),
+            modify_link=modify_link + "?responseId=" + str(responseId) if modify_link else ""
         )
         if get(form, "formOptions.loginRequired", False) is True and userId is not "cm:cognitoUserPool:anonymousUser":
             user = get_user_or_create_one(userId)
