@@ -56,7 +56,6 @@ const widgets = {
   phone: PhoneWidget,
   CheckboxWidget: CheckboxWidget,
   "cff:smallTextbox": SmallTextboxWidget,
-  "cff:roundOff": RoundOffWidget,
   "cff:money": MoneyWidget,
   "cff:couponCode": CouponCodeWidget
 };
