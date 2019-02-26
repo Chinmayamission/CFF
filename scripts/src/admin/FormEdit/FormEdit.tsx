@@ -13,6 +13,7 @@ import { IFormEditProps, IFormEditState } from "./FormEdit.d";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 import "./FormEdit.scss";
+import SplitterLayout from 'react-splitter-layout';
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
         super(props);
@@ -86,40 +87,42 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 {this.state.loading && <Loading />}
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-12">
-                            <Tabs>
-                                <TabList>
-                                    <Tab>formOptions</Tab>
-                                    <Tab>schema</Tab>
-                                    <Tab>uiSchema</Tab>
-                                    <li className="react-tabs__tab">
-                                    {this.renderTopPane()}
-                                    </li>
-                                </TabList>
+                        <SplitterLayout vertical={true} customClassName="ccmt-cff-editpage-splitter">
+                            <div className="col-12 ccmt-cff-editpage-jsoneditor-container">
+                                <Tabs>
+                                    <TabList>
+                                        <Tab>formOptions</Tab>
+                                        <Tab>schema</Tab>
+                                        <Tab>uiSchema</Tab>
+                                        <li className="react-tabs__tab">
+                                        {this.renderTopPane()}
+                                        </li>
+                                    </TabList>
 
-                                <TabPanel>
-                                    <JSONEditor
-                                        data={this.state.formOptions}
-                                        onChange={(e) => this.onChange("formOptions", e)}
-                                    />
-                                </TabPanel>
-                                <TabPanel>
-                                    <JSONEditor
-                                        data={this.state.schema}
-                                        onChange={(e) => this.onChange("schema", e)}
-                                    />
-                                </TabPanel>
-                                <TabPanel>
-                                    <JSONEditor
-                                        data={this.state.uiSchema}
-                                        onChange={(e) => this.onChange("uiSchema", e)}
-                                    />
-                                </TabPanel>
-                            </Tabs>
-                        </div>
-                    </div>
-                    <div className="ccmt-cff-formedit-preview col-12 mt-4">
-                        <FormPage formId={this.props.match.params.formId} key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
+                                    <TabPanel>
+                                        <JSONEditor
+                                            data={this.state.formOptions}
+                                            onChange={(e) => this.onChange("formOptions", e)}
+                                        />
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <JSONEditor
+                                            data={this.state.schema}
+                                            onChange={(e) => this.onChange("schema", e)}
+                                        />
+                                    </TabPanel>
+                                    <TabPanel>
+                                        <JSONEditor
+                                            data={this.state.uiSchema}
+                                            onChange={(e) => this.onChange("uiSchema", e)}
+                                        />
+                                    </TabPanel>
+                                </Tabs>
+                            </div>
+                            <div className="ccmt-cff-formedit-preview col-12 mt-4">
+                                <FormPage formId={this.props.match.params.formId} key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
+                            </div>
+                        </SplitterLayout>
                     </div>
                 </div>
             </div>);

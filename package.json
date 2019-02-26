@@ -127,6 +127,7 @@
     "react-responsive-modal": "^2.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-splitter-layout": "^3.0.1",
     "react-table": "^6.8.0",
     "react-tabs": "^3.0.0",
     "react-toggle-switch": "^3.0.4",
