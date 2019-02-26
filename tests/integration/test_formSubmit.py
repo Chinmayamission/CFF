@@ -1,6 +1,7 @@
 """
 pipenv run python -m unittest tests.integration.test_formSubmit
 """
+import copy
 import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
@@ -51,7 +52,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['statusCode'], 200, response)
 
 
-    def test_submit_form_with_update(self):
+    def test_edit_response(self):
         """Create form."""
         self.formId = self.create_form()
         self.edit_form(self.formId, {"schema": ONE_SCHEMA, "uiSchema": ONE_UISCHEMA, "formOptions": dict(ONE_FORMOPTIONS, loginRequired=True)})
@@ -75,7 +76,7 @@ class FormSubmit(BaseTestCase):
                                           path=f'/responses/{responseId}',
                                             headers={"authorization": "auth","Content-Type": "application/json"},
                                           body=json.dumps(body))
-        expected_data = dict(ONE_FORMDATA)
+        expected_data = copy.deepcopy(ONE_FORMDATA)
         set_(expected_data, "contact_name.last", "NEW_LAST!")
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
