@@ -36,6 +36,24 @@ todo:
 - 
 - user login/signup
 
+## 2.4.0 (2/26/19)
+### Features
+- Allow responses to be modified by clicking a link.
+
+### Frontend
+- "sameAs" form field functionality
+- Remove "cff:roundOff" widget
+- Form Edit: give jsoneditor fixed height to fix height bug
+- Form Edit: improve form edit experience with tabs, splitter layout
+
+### Backend
+- Fix tests
+- Upgrade chalice
+- Backend for anonymous modification of responses
+
+### Lambda JS
+- Aggregation functionality for google sheets export
+
 ## 2.3.8 (2/18/19)
 Backend python lambda:
 - /authorize endpoint now supports JSON body with two keys, "app_client_id" and "token". This will validate the specific JWT which belongs to the specific client id.
