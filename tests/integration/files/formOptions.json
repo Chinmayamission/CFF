@@ -9,10 +9,10 @@
         "quantity": "1"
       },
       {
-        "amount": "0.50",
-        "description": "$25 for each additional child",
+        "amount": "25",
+        "description": "$25 for each child",
         "name": "Additional Registration",
-        "quantity": "(children > 2)*(children - 2)"
+        "quantity": "children"
       }
     ]
   },

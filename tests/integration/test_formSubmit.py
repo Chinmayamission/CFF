@@ -42,6 +42,7 @@ class FormSubmit(BaseTestCase):
         """View response."""
         response = self.view_response(responseId)
         self.assertEqual(response['value'], ONE_FORMDATA)
+        self.assertEqual(response['paid'], False)
         self.assertTrue(response.get("user", None) == None)
 
         expected_data = copy.deepcopy(ONE_FORMDATA)
@@ -56,6 +57,68 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['value'], expected_data)
         self.assertEqual(response['paid'], False)
 
+    def test_submit_form_update_unpaid_to_paid(self):
+        """Submit form."""
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
+        self.assertIn("paymentMethods", submit_res)
+
+        """View response."""
+        response = self.view_response(responseId)
+        self.assertEqual(response['value'], ONE_FORMDATA)
+        self.assertEqual(response['paid'], False)
+        self.assertTrue(response.get("user", None) == None)
+        
+        # Pay response.
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        paid = mark_successful_payment(
+            form=Form.objects.get({"_id": ObjectId(self.formId)}),
+            response=response,
+            full_value={"a2":"b2","c2":"d2"},
+            method_name="unittest_ipn",
+            amount=0.5,
+            currency="USD",
+            id="payment1"
+        )
+        response.save()
+
+        response = self.view_response(responseId)
+        self.assertEqual(response['paid'], True)
+        self.assertEqual(response['amount_paid'], '0.5')
+        self.assertEqual(response['paymentInfo']['total'], 0.5)
+
+        new_data = dict(ONE_FORMDATA, children=[{}])
+        
+        response = self.lg.handle_request(method='POST',
+                                    path=f'/forms/{self.formId}',
+                                    headers={"authorization": "auth","Content-Type": "application/json"},
+                                    body=json.dumps({"data": new_data, "responseId": responseId}))
+        
+        self.assertEqual(response['statusCode'], 200, response)
+        response = self.view_response(responseId)
+        self.assertEqual(response['value'], new_data)
+        self.assertEqual(response['paid'], False)
+        self.assertEqual(response['amount_paid'], '0.5')
+        self.assertEqual(response['paymentInfo']['total'], 25.5)
+
+        # Pay response.
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        paid = mark_successful_payment(
+            form=Form.objects.get({"_id": ObjectId(self.formId)}),
+            response=response,
+            full_value={"a2":"b2","c2":"d2"},
+            method_name="unittest_ipn",
+            amount=25,
+            currency="USD",
+            id="payment2"
+        )
+        response.save()
+        
+        response = self.view_response(responseId)
+        self.assertEqual(response['value'], new_data)
+        self.assertEqual(response['paid'], True)
+        self.assertEqual(response['amount_paid'], '25.5')
+        self.assertEqual(response['paymentInfo']['total'], 25.5)
 
 
 
