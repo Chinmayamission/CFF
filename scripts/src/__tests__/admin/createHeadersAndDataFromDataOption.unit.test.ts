@@ -1,7 +1,7 @@
 import { renderedForm } from "./constants";
 import { createHeadersAndDataFromDataOption } from '../../../src/admin/util/dataOptionUtil';
 
-describe('test clientSideFilter of responses', () => {
+describe.skip('test clientSideFilter of responses', () => {
     const responses_ = [
         {
             "_id": { "$oid": "id_paid" },
@@ -56,7 +56,7 @@ describe('test clientSideFilter of responses', () => {
     });
 });
 
-describe('test aggregation of responses', () => {
+describe.skip('test aggregation of responses', () => {
     it('aggregation with PAID column', () => {
         const responses_ = [
             {
