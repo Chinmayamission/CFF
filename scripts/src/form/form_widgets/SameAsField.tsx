@@ -12,8 +12,8 @@ in the ui schema:
 {
     "ui:field": "cff:sameAs",
     "ui:options": {
-      "cff:sameAsFieldPath": "participants.0.name",
-      "cff:sameAsFieldName": "first participant's name"
+      "cff:sameAsFieldPath": "contact_name",
+      "cff:sameAsFieldName": "contact name"
     }
 }
 
