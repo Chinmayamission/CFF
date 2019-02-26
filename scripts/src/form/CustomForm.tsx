@@ -8,7 +8,6 @@ import CustomFieldTemplate from "./form_templates/CustomFieldTemplate";
 import CheckboxWidget from "./form_widgets/CheckboxWidget";
 import SmallTextboxWidget from "./form_widgets/SmallTextboxWidget";
 import PhoneWidget from "./form_widgets/PhoneWidget";
-import RoundOffWidget from "./form_widgets/RoundOffWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
 import SameAsField from "./form_widgets/SameAsField"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
