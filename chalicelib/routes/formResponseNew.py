@@ -15,9 +15,7 @@ def get_user_or_create_one(userId):
     user = None
     try:
         user = User.objects.get({"_id": userId})
-        print(f"User is {userId}")
     except DoesNotExist:
-        print(f"Creating user {userId}")
         user = User(id=userId)
         user.save()
     return user
@@ -34,7 +32,6 @@ def form_response_new(formId):
     Otherwise, it is an existing submission.
     """
     from ..main import app
-    newResponse = False
     email_sent = False
     responseId = app.current_request.json_body.get("responseId", None)
     if not responseId:
@@ -42,6 +39,7 @@ def form_response_new(formId):
         newResponse = True
     else:
         responseId = ObjectId(responseId)
+        newResponse = False
 
     response_data = app.current_request.json_body["data"]
     modifyLink = app.current_request.json_body.get('modifyLink', '') # todo fix
