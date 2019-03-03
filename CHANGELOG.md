@@ -36,6 +36,10 @@ todo:
 - 
 - user login/signup
 
+## 2.4.1 (3/2/19)
+### Backend
+- Minor fixes: allow format_payment in the email confirmation to accept a string, not just a number (so that it can be used with amount_paid).
+
 ## 2.4.0 (2/26/19)
 ### Features
 - Allow responses to be modified by clicking a link.
