@@ -153,7 +153,8 @@ def calculate_price(expressionString, data):
     return expr.evaluate(context)
 
 def format_payment(total, currency='USD'):
-    if not total: return ""
+    if total is None: return
+    total = float(total)
     if currency == "USD":
         return "${:,.2f}".format(total)
     if currency == "INR":
