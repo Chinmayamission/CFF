@@ -43,7 +43,7 @@ export function createHeadersAndDataFromDataOption(responses: IResponse[], form:
     let data = responses.map(e => ({
         ...e.value,
         "ID": e["_id"]["$oid"] || String(e._id),
-        "PAID": e.paid,
+        "PAID": e.paid === false && parseFloat(e.amount_paid) > 0 ? "PARTLY PAID": e.paid === false ? "NOT PAID": "PAID",
         "DATE_CREATED": e.date_created.$date || String(e.date_created),
         "DATE_LAST_MODIFIED": e.date_modified.$date || String(e.date_modified),
         "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),

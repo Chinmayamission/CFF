@@ -142,10 +142,7 @@ export module Headers {
                     if (filter.value === "all") {
                         return true;
                     }
-                    if (filter.value === "paid") {
-                        return row.PAID === true;
-                    }
-                    return row.PAID === false;
+                    return row.PAID === filter.value;
                 },
                 "Filter": ({ filter, onChange }) =>
                     (<select
@@ -153,8 +150,9 @@ export module Headers {
                         style={{ width: "100%" }}
                         value={filter ? filter.value : "all"}
                     >
-                        <option value="paid">Paid</option>
-                        <option value="notpaid">Not Paid</option>
+                        <option>PAID</option>
+                        <option>NOT PAID</option>
+                        <option>PARTLY PAID</option>
                         <option value="all">Show All</option>
                     </select>)
             });
