@@ -28,7 +28,7 @@ it('responses with default data', () => {
       },
       {
         "label": "Phone numbers",
-        "value": "home_phone parents.phone"
+        "value": ["home_phone", "parents.phone"]
       },
       {
         "label": "Parent email addresses",
@@ -36,7 +36,7 @@ it('responses with default data', () => {
       },
       {
         "label": "Home address",
-        "value": "address.line1 address.line2 address.city address.state address.zipcode"
+        "value": ["address.line1", "address.line2", "address.city", "address.state", "address.zipcode"]
       },
       {
         "label": "Child first names",
@@ -110,7 +110,7 @@ it('responses with unwind data', () => {
       },
       {
         "label": "Phone numbers",
-        "value": "home_phone parents.phone"
+        "value": ["home_phone", "parents.phone"]
       },
       {
         "label": "Parent email addresses",
@@ -118,7 +118,7 @@ it('responses with unwind data', () => {
       },
       {
         "label": "Home address",
-        "value": "address.line1 address.line2 address.city address.state address.zipcode"
+        "value": ["address.line1", "address.line2", "address.city", "address.state", "address.zipcode"]
       },
       {
         "label": "Volunteering",
@@ -145,7 +145,7 @@ it('renders response table with group assign', () => {
     "displayName": "Children Class Assign Display Name",
     "unwindBy": "children",
     "columns": [
-      { "label": "Name", "value": "children.name.first children.name.last" },
+      { "label": "Name", "value": ["children.name.first", "children.name.last"] },
       { "label": "Grade", "value": "children.grade" },
       { "label": "Class", "value": "children.class", "groupAssign": "class" }
     ]
@@ -171,7 +171,7 @@ it('renders response table with an undefined group assign', () => {
     "displayName": "Children Class Assign Display Name",
     "unwindBy": "children",
     "columns": [
-      { "label": "Name", "value": "children.name.first children.name.last" },
+      { "label": "Name", "value": ["children.name.first", "children.name.last"] },
       { "label": "Grade", "value": "children.grade" },
       { "label": "Class", "value": "children.class", "groupAssign": "class" }
     ]
@@ -192,7 +192,7 @@ it('renders response table with extra columns from the group', () => {
     "displayName": "Children Class Assign Display Name",
     "unwindBy": "children",
     "columns": [
-      { "label": "Name", "value": "children.name.first children.name.last" },
+      { "label": "Name", "value": ["children.name.first", "children.name.last"] },
       { "label": "Grade", "value": "children.grade" },
       { "label": "Class Name", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "displayName" },
       { "label": "Class Room", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "room" }
@@ -242,10 +242,10 @@ it('renders response table with groups and displaying another model', () => {
     "displayName": "Children Class Assign Display Name",
     "unwindBy": "children",
     "columns": [
-      { "label": "Name", "value": "children.name.first children.name.last" },
+      { "label": "Name", "value": ["children.name.first", "children.name.last"] },
       { "label": "Grade", "value": "children.grade" },
       { "label": "Class Name", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "displayName" },
-      { "label": "Teacher Name", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "name.first name.last", "groupAssignDisplayModel": "parents" },
+      { "label": "Teacher Name", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": ["name.first", "name.last"], "groupAssignDisplayModel": "parents" },
       { "label": "Teacher Email", "value": "children.class", "groupAssign": "class", "groupAssignDisplayPath": "email", "groupAssignDisplayModel": "parents" }
     ]
   };

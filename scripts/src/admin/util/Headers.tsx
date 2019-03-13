@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { filter, assign, get, cloneDeep, find } from "lodash";
+import { filter, assign, get, cloneDeep, find, isArray } from "lodash";
 import { IDataOptionView, IGroupOption } from '../FormEdit/FormEdit.d';
 import { Schema } from '../../form/interfaces';
-import { isArray } from 'util';
 import { Object } from 'core-js';
 import Form from "react-jsonschema-form";
 import { filterCaseInsensitive } from '../ResponseTable/filters';
@@ -99,25 +98,30 @@ export module Headers {
         return "";
     }
 
+    /*
+    * Returns the accessor corresponding to the header name if it is a string;
+    * if header name is a list, then apply the accessor to each value in the list
+    * and return the results separated by a space.
+    */
     export function headerAccessor(formData, headerName, schema={}) {
-        const headerNameList = headerName.split(" ").map(e => headerAccessorSingle(formData, e, schema));
-        if (headerNameList.length === 1) {
-            return headerNameList[0];
+        if (isArray(headerName)) {
+            return headerName.map(e => headerAccessorSingle(formData, e, schema)).join(" ");
         }
         else {
-            return headerNameList.join(" ");
+            return headerAccessorSingle(formData, headerName, schema)
         }
     }
 
     export function makeHeaderObj(header: IHeaderOption, schema: any, groups: IGroupOption[], editResponse: (a, b, c) => any = () => null, getUnwoundResponseList: (e: string) => any = () => null) {
-        let headerName = "" + (header.value || header);
+        let headerValue: any = header.value || header;
+        let headerName = isArray(headerValue) ? headerValue.join(", "): String(headerValue);
         let headerLabel = "" + (header.label || headerName.replace(/^([a-z])/, t => t.toUpperCase()));
         // Makes a single header object.
         let headerObj: IHeaderObject = {
             // For react table js:
             Header: headerLabel,
             id: headerName,
-            accessor: formData => headerAccessor(formData, headerName, schema),
+            accessor: formData => headerAccessor(formData, headerValue, schema),
             Cell: row => formatValue(row.value)
         };
         if (header.groupAssign) {

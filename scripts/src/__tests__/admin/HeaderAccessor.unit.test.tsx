@@ -34,13 +34,17 @@ it('regular accessors are working properly', () => {
     expect(result).toEqual("John");
 });
 
-it('accessors with spaces are working properly', () => {
-    const result = Headers.headerAccessor(formData, "name.last name.first", schema);
+it('accessors for properties with spaces in names', () => {
+    const result = Headers.headerAccessor({"First Name": "John"}, "First Name", {"properties": {"First Name": {"type": "string"}}});
+    expect(result).toEqual("John");
+});
+
+it('multi-property accessors are working properly', () => {
+    const result = Headers.headerAccessor(formData, ["name.last", "name.first"], schema);
     expect(result).toEqual("Doe John");
 });
 
-
-it('array accessors with spaces', () => {
-    const result = Headers.headerAccessor(formData, "parents.age parents.gender", schema);
+it('multi-property accessors for properties in an array', () => {
+    const result = Headers.headerAccessor(formData, ["parents.age", "parents.gender"], schema);
     expect(result).toEqual("12, 44, 73 M, F, ");
 });

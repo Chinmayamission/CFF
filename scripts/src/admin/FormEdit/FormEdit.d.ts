@@ -142,8 +142,8 @@ interface IDataOptionView {
     id: string,
     columns?: ({
         label: string,
-        value: string
-    } | string)[],
+        value: string | string[]
+    } | string | string[])[],
     groupEdit?: string,
     aggregate?: {[x: string]: any}[]
 }
