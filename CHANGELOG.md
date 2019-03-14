@@ -17,6 +17,7 @@ todo:
 - allow people to select "paid by check" instead of paypal.
 - contact_name: true should work, not contact_name: {first: true, last: true}
 - (todo): add ui-widget called "cff:checkShow":
+
 ```
 {
   "ui:widget": "cff:checkShow",
@@ -35,6 +36,14 @@ todo:
 - details problem
 - 
 - user login/signup
+
+## 3.0.0 (3/14/19)
+### Frontend
+- Fix bug -- having spaces in the key name makes it not show up in the response table. This introduces a **breaking change**; if you earlier had a column name in `dataOptions.views` that had spaces in it (such as `"name.first name.last"`), you will need to change it to an array (`["name.first", "name.last"]`).
+- Custom Om Run logic - show validation error when age < 13 and "half marathon" is selected
+- Show PAID, NOT PAID, PARTLY PAID
+- Add "cff:confirm" widget which allows a field (such as an email) to be "confirmed".
+- Fix alignment of "Remove" button in arrays
 
 ## 2.4.1 (3/2/19)
 ### Backend
@@ -92,6 +101,13 @@ Front end only:
     {
       "if": "phone == 1231231233",
       "then": "Phone Number cannot be '1231231233'."
+    }
+  ]
+
+  "ui:cff:validate": [
+    {
+      "if": "age < 13 and race:'Half Marathon'==1",
+      "then": "Participants under 13 cannot register for Half Marathon."
     }
   ]
 ```
