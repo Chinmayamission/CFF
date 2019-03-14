@@ -31,9 +31,11 @@
   ],
   "views": [
     {
-      "id": "all",
-      "displayName": "Number of people paid",
-      "aggregate": [{"|group": {"_id": "$paid", "count": {"|sum": 1} } }]
+      "id": "aggregate",
+      "displayName": "Aggregate",
+      "aggregate": [
+        {"|group": {"_id": "$paid", "count": {"|sum": 1} } }
+      ]
     }
   ]
 }
@@ -226,8 +228,7 @@ module.exports.hello = async (event, context) => {
             queryCache[cacheKey] = responsesToUse;
           }
         }
-        
-        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null);
+        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null, true);
         headers = [...extraHeaders, ...headers];
         let rowCount = dataFinal.length + 1;
         let columnCount = headers.length;
@@ -302,6 +303,7 @@ module.exports.hello = async (event, context) => {
         }
       });
       if (response.status !== 200) {
+        // todo: error handling/logging here.
         throw response;
       }
     }
