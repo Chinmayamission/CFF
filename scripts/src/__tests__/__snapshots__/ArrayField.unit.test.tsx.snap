@@ -61,7 +61,7 @@ exports[`custom title for one and two 1`] = `
                     </div>
                   </div>
                   <div
-                    class="col-3 ccmt-cff-array-button-container"
+                    class="col-3 mt-4 ccmt-cff-array-button-container"
                   />
                 </div>
                 <div
@@ -92,7 +92,7 @@ exports[`custom title for one and two 1`] = `
                     </div>
                   </div>
                   <div
-                    class="col-3 ccmt-cff-array-button-container"
+                    class="col-3 mt-4 ccmt-cff-array-button-container"
                   />
                 </div>
                 <button
@@ -210,7 +210,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                     </div>
                   </div>
                   <div
-                    class="col-3 ccmt-cff-array-button-container"
+                    class="col-3 mt-4 ccmt-cff-array-button-container"
                   />
                 </div>
                 <div
@@ -263,7 +263,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                     </div>
                   </div>
                   <div
-                    class="col-3 ccmt-cff-array-button-container"
+                    class="col-3 mt-4 ccmt-cff-array-button-container"
                   >
                     <button
                       class="btn btn-danger col-12 ccmt-cff-btn-array-remove"
@@ -567,7 +567,7 @@ exports[`renders regular object array 1`] = `
                     </div>
                   </div>
                   <div
-                    class="col-3 ccmt-cff-array-button-container"
+                    class="col-3 mt-4 ccmt-cff-array-button-container"
                   />
                 </div>
                 <button
@@ -726,7 +726,7 @@ exports[`shows one child which can be removed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="col-3 ccmt-cff-array-button-container"
+                    class="col-3 mt-4 ccmt-cff-array-button-container"
                   >
                     <button
                       class="btn btn-danger col-12 ccmt-cff-btn-array-remove"

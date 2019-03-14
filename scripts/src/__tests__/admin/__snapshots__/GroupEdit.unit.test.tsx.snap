@@ -126,7 +126,7 @@ exports[`renders class edit form 1`] = `
               </div>
             </div>
             <div
-              class="col-3 ccmt-cff-array-button-container"
+              class="col-3 mt-4 ccmt-cff-array-button-container"
             />
           </div>
           <button
