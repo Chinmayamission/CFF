@@ -73,6 +73,14 @@ function validate(formData, errors, validationSchema) {
       errors.addError(item["then"]);
     }
   }
+  if (formData.participants && formData.participants.length && formData.participants[0] && formData.participants[0].race && formData.participants[0].shirt_size) {
+    for (let participant of formData.participants) {
+      if (participant.race === "Half Marathon" && participant.age < 13) {
+        console.log(errors);
+        errors.participants.addError("Participants under age 13 cannot register for Half Marathon.");
+      }
+    }
+  }
   // if (errors && errors.length) {
   //   alert("Errors: \n" + errors.map(e => e.stack).join("\n"));
   // }
