@@ -62,7 +62,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
                 }
                 {element.children}
               </div>
-              <div className="col-3 ccmt-cff-array-button-container">
+              <div className="col-3 mt-4 ccmt-cff-array-button-container">
                 {(element.hasRemove && i >= (this.props.schema.minItems || 0)) &&
                   <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" onClick={element.onDropIndexClick(element.index)}>{this.props.uiSchema["ui:cff:removeButtonText"] || "Remove"}</button>
                 }
