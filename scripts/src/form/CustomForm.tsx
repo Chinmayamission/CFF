@@ -15,6 +15,7 @@ import PaymentCalcTable from "./payment/PaymentCalcTable";
 import { get } from "lodash";
 import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 import ExpressionParser from "../common/ExpressionParser";
+import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
 
 
 const FormattedDescriptionField = ({ id, description }) => {
@@ -56,7 +57,8 @@ const widgets = {
   CheckboxWidget: CheckboxWidget,
   "cff:smallTextbox": SmallTextboxWidget,
   "cff:money": MoneyWidget,
-  "cff:couponCode": CouponCodeWidget
+  "cff:couponCode": CouponCodeWidget,
+  "cff:confirm": ConfirmWidget
 };
 
 const fields = {
