@@ -27,27 +27,27 @@ export class ConfirmWidget extends React.Component<any, any> {
     render() {
         const props = this.props;
         return (
-            <div>
-                <label>
+            <div className="row">
+                <div className="col-6">
                     <input type={props.schema.format === "email" ? "email": "text"}
                         className="form-control"
                         value={this.state.valueOne}
                         required={props.required}
                         placeholder={props.placeholder}
                         onChange={(event) => this.onChangeOne(event.target.value)} />
-                </label>
-                <label>
+                </div>
+                <div className="col-6">
                     <input type={props.schema.format === "email" ? "email": "text"}
                         className="form-control"
                         value={this.state.valueTwo}
                         required={props.required}
                         placeholder={"Confirm " + props.label}
                         onChange={(event) => this.onChangeTwo(event.target.value)} />
-                </label>
-                {this.state.error && <label><ul
+                </div>
+                {this.state.error && <div><ul
                     className="error-detail bs-callout bs-callout-info">
                     <li className="text-danger">Values must match.</li></ul>
-                </label>}
+                </div>}
             </div>
         );
     }
