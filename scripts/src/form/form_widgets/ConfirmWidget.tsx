@@ -26,11 +26,10 @@ export class ConfirmWidget extends React.Component<any, any> {
     }
     render() {
         const props = this.props;
-        console.log(props);
         return (
             <div>
                 <label>
-                    <input type="text"
+                    <input type={props.schema.format === "email" ? "email": "text"}
                         className="form-control"
                         value={this.state.valueOne}
                         required={props.required}
@@ -38,7 +37,7 @@ export class ConfirmWidget extends React.Component<any, any> {
                         onChange={(event) => this.onChangeOne(event.target.value)} />
                 </label>
                 <label>
-                    <input type="text"
+                    <input type={props.schema.format === "email" ? "email": "text"}
                         className="form-control"
                         value={this.state.valueTwo}
                         required={props.required}
