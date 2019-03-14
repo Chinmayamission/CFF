@@ -28,17 +28,18 @@ export function getOrDefaultDataOptions(form: IRenderedForm): IDataOptions {
     return dataOptions;
 }
 
-export function createHeadersAndDataFromDataOption(responses: IResponse[], form: IRenderedForm, dataOptionView: IDataOptionView, editResponse?: (a, b, c) => void)
+// TODO: add type for aggregation.
+export function createHeadersAndDataFromDataOption(responses: (IResponse | any)[], form: IRenderedForm, dataOptionView: IDataOptionView, editResponse?: (a, b, c) => void, aggregate = false)
 : {headers: IHeaderObject[], dataFinal: any[]}
 {
-    // if (responses && responses[0] && !responses[0].paid) {
-    //     let headers = [
-    //         {"Header": "_id", "id": "_id", "accessor": e => e._id, "Cell": e => e},
-    //         {"Header": "count", "id": "count", "accessor": e => e.count, "Cell": e => e},
-    //     ];
-    //     let dataFinal = responses;
-    //     return {headers, dataFinal};
-    // }
+    if (aggregate) {
+        let headers = [
+            {"Header": "_id", "id": "_id", "accessor": e => e._id, "Cell": e => e},
+            {"Header": "count", "id": "count", "accessor": e => e.count, "Cell": e => e},
+        ];
+        let dataFinal = responses;
+        return {headers, dataFinal};
+    }
     let headers = [];
     let data = responses.map(e => ({
         ...e.value,
