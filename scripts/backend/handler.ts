@@ -51,7 +51,7 @@ const renameKeys = require('deep-rename-keys');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
 import { get, find, findIndex, maxBy, minBy, set } from "lodash";
 import Headers from "../src/admin/util/Headers";
-import { ConsoleLogger } from "aws-amplify/lib/Common";
+import stringHash from "string-hash";
 declare const STAGE: any;
 
 // var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
@@ -212,7 +212,7 @@ module.exports.hello = async (event, context) => {
         if (viewsToShow.indexOf(dataOptionView.id) === -1) {
           continue;
         }
-        let sheetId = i + 1;
+        let sheetId = stringHash(dataOptionView.id);
         let title = dataOptionView.id;
         let responsesToUse = responses;
         if (dataOptionView.aggregate) {
@@ -242,6 +242,9 @@ module.exports.hello = async (event, context) => {
               }
             }
           });
+        }
+        else {
+          sheetId = existingSheet.properties.sheetId;
         }
         requests.push({
           updateSheetProperties: {
