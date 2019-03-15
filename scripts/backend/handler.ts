@@ -217,7 +217,7 @@ module.exports.hello = async (event, context) => {
         let responsesToUse = responses;
         if (dataOptionView.aggregate) {
           let cacheKey = JSON.stringify(dataOptionView.aggregate);
-          let aggregateQuery = dataOptionView.aggregate.map(obj => renameKeys(obj, key => key.replace("|", "$")));
+          let aggregateQuery = dataOptionView.aggregate.map(obj => renameKeys(obj, key => key.replace("||", ".").replace("|", "$") ));
           if (queryCache[cacheKey]) {
             responsesToUse = queryCache[cacheKey];
           } else {
