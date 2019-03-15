@@ -227,6 +227,11 @@ module.exports.hello = async (event, context) => {
             ]).toArray();
             queryCache[cacheKey] = responsesToUse;
           }
+          // Debug
+          // console.log(JSON.stringify(aggregateQuery), responsesToUse);
+        }
+        if (responsesToUse.length === 0) {
+          continue;
         }
         let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null, dataOptionView.aggregate ? true: false);
         if (!dataOptionView.aggregate) {
@@ -300,7 +305,9 @@ module.exports.hello = async (event, context) => {
           }
         });
       }
-
+      if (requests.length === 0) {
+        continue;
+      }
       let response = await promisify(sheets.spreadsheets.batchUpdate)({
         spreadsheetId,
         resource: {
