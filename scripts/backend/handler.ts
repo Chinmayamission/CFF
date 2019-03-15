@@ -31,9 +31,11 @@
   ],
   "views": [
     {
-      "id": "all",
-      "displayName": "Number of people paid",
-      "aggregate": [{"|group": {"_id": "$paid", "count": {"|sum": 1} } }]
+      "id": "aggregate",
+      "displayName": "Aggregate",
+      "aggregate": [
+        {"|group": {"_id": "$paid", "count": {"|sum": 1} } }
+      ]
     }
   ]
 }
@@ -49,7 +51,7 @@ const renameKeys = require('deep-rename-keys');
 import { getOrDefaultDataOptions, createHeadersAndDataFromDataOption } from "../src/admin/util/dataOptionUtil";
 import { get, find, findIndex, maxBy, minBy, set } from "lodash";
 import Headers from "../src/admin/util/Headers";
-import { ConsoleLogger } from "aws-amplify/lib/Common";
+import stringHash from "string-hash";
 declare const STAGE: any;
 
 // var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
@@ -210,12 +212,12 @@ module.exports.hello = async (event, context) => {
         if (viewsToShow.indexOf(dataOptionView.id) === -1) {
           continue;
         }
-        let sheetId = i + 1;
+        let sheetId = Math.floor(stringHash(dataOptionView.id) / 10);
         let title = dataOptionView.id;
         let responsesToUse = responses;
         if (dataOptionView.aggregate) {
           let cacheKey = JSON.stringify(dataOptionView.aggregate);
-          let aggregateQuery = dataOptionView.aggregate.map(obj => renameKeys(obj, key => key.replace("|", "$")));
+          let aggregateQuery = dataOptionView.aggregate.map(obj => renameKeys(obj, key => key.replace(/\|\|/g, ".").replace(/\|/g, "$") ));
           if (queryCache[cacheKey]) {
             responsesToUse = queryCache[cacheKey];
           } else {
@@ -225,10 +227,16 @@ module.exports.hello = async (event, context) => {
             ]).toArray();
             queryCache[cacheKey] = responsesToUse;
           }
+          // Debug
+          // console.log(JSON.stringify(aggregateQuery), responsesToUse);
         }
-        
-        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null);
-        headers = [...extraHeaders, ...headers];
+        if (responsesToUse.length === 0) {
+          continue;
+        }
+        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null, dataOptionView.aggregate ? true: false);
+        if (!dataOptionView.aggregate) {
+          headers = [...extraHeaders, ...headers];
+        }
         let rowCount = dataFinal.length + 1;
         let columnCount = headers.length;
         let existingSheet = find(existingSheets, e => e.properties.title === title);
@@ -241,6 +249,9 @@ module.exports.hello = async (event, context) => {
               }
             }
           });
+        }
+        else {
+          sheetId = existingSheet.properties.sheetId;
         }
         requests.push({
           updateSheetProperties: {
@@ -294,7 +305,9 @@ module.exports.hello = async (event, context) => {
           }
         });
       }
-
+      if (requests.length === 0) {
+        continue;
+      }
       let response = await promisify(sheets.spreadsheets.batchUpdate)({
         spreadsheetId,
         resource: {
@@ -302,6 +315,7 @@ module.exports.hello = async (event, context) => {
         }
       });
       if (response.status !== 200) {
+        // todo: error handling/logging here.
         throw response;
       }
     }

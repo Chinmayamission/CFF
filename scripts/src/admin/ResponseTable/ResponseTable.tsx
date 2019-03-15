@@ -1,4 +1,4 @@
-import { find, cloneDeep } from 'lodash-es';
+import { find, cloneDeep } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import 'react-table/react-table.css';

@@ -1,6 +1,6 @@
 import * as React from "react";
 import ObjectField from "react-jsonschema-form/lib/components/fields/ObjectField";
-import {get} from "lodash-es";
+import {get} from "lodash";
 
 
 /*

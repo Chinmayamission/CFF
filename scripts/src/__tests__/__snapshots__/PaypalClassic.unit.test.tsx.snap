@@ -42,12 +42,12 @@ exports[`renders default payment form 1`] = `
   <input
     name="return"
     type="hidden"
-    value="about:blank"
+    value="http://localhost/"
   />
   <input
     name="cancel_return"
     type="hidden"
-    value="about:blank"
+    value="http://localhost/"
   />
   <div>
     <input
@@ -174,12 +174,12 @@ exports[`renders subscription payment form 1`] = `
   <input
     name="return"
     type="hidden"
-    value="about:blank"
+    value="http://localhost/"
   />
   <input
     name="cancel_return"
     type="hidden"
-    value="about:blank"
+    value="http://localhost/"
   />
   <input
     name="image_url"
@@ -311,12 +311,12 @@ exports[`renders subscription payment form with max number of recurrenceTimes 1`
   <input
     name="return"
     type="hidden"
-    value="about:blank"
+    value="http://localhost/"
   />
   <input
     name="cancel_return"
     type="hidden"
-    value="about:blank"
+    value="http://localhost/"
   />
   <input
     name="image_url"
