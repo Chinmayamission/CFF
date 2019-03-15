@@ -33,10 +33,12 @@ export function createHeadersAndDataFromDataOption(responses: (IResponse | any)[
 : {headers: IHeaderObject[], dataFinal: any[]}
 {
     if (aggregate) {
-        let headers = [
-            {"Header": "_id", "id": "_id", "accessor": e => e._id, "Cell": e => e},
-            {"Header": "count", "id": "count", "accessor": e => e.count, "Cell": e => e},
-        ];
+        let headers = [];
+        if (responses[0]) {
+            headers = Object.keys(responses[0]).map(key => ({
+                "Header": key, "id": key, "accessor": e => e[key], "Cell": e => e
+            }))
+        }
         let dataFinal = responses;
         return {headers, dataFinal};
     }
