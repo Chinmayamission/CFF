@@ -37,6 +37,12 @@ todo:
 - 
 - user login/signup
 
+## 3.1.0 (3/14/19)
+### Lambda js
+- Add aggregate functionality. Add a dataOption view such as:
+- Keys can be escaped.
+- Update jest.
+
 ## 3.0.0 (3/14/19)
 ### Frontend
 - Fix bug -- having spaces in the key name makes it not show up in the response table. This introduces a **breaking change**; if you earlier had a column name in `dataOptions.views` that had spaces in it (such as `"name.first name.last"`), you will need to change it to an array (`["name.first", "name.last"]`).
