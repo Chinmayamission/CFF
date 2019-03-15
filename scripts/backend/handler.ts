@@ -212,7 +212,7 @@ module.exports.hello = async (event, context) => {
         if (viewsToShow.indexOf(dataOptionView.id) === -1) {
           continue;
         }
-        let sheetId = stringHash(dataOptionView.id);
+        let sheetId = Math.floor(stringHash(dataOptionView.id) / 10);
         let title = dataOptionView.id;
         let responsesToUse = responses;
         if (dataOptionView.aggregate) {
