@@ -228,7 +228,7 @@ module.exports.hello = async (event, context) => {
             queryCache[cacheKey] = responsesToUse;
           }
         }
-        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null, true);
+        let { headers, dataFinal } = createHeadersAndDataFromDataOption(responsesToUse, form, dataOptionView, null, dataOptionView.aggregate ? true: false);
         headers = [...extraHeaders, ...headers];
         let rowCount = dataFinal.length + 1;
         let columnCount = headers.length;
