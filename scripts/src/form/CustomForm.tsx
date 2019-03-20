@@ -16,6 +16,7 @@ import { get } from "lodash";
 import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 import ExpressionParser from "../common/ExpressionParser";
 import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
+import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget";
 
 
 const FormattedDescriptionField = ({ id, description }) => {
@@ -55,6 +56,7 @@ function ErrorListTemplate(props) {
 const widgets = {
   phone: PhoneWidget,
   CheckboxWidget: CheckboxWidget,
+  FileWidget: FileInputAndPreviewWidget,
   "cff:smallTextbox": SmallTextboxWidget,
   "cff:money": MoneyWidget,
   "cff:couponCode": CouponCodeWidget,
