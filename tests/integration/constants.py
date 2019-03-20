@@ -11,6 +11,7 @@ os.environ["DEV_COGNITO_IDENTITY_ID"] = "cm:cognitoUserPool:f31c1cb8-681c-4d3e-9
 os.environ["UNIT_TEST"] = "TRUE"
 os.environ["USER_POOL_ID"] = "us-east-1_U9ls8R6E3"
 os.environ["COGNITO_CLIENT_ID"] = "2511g7rmn8p70losdlh9gi9j0"
+os.environ["S3_UPLOADS_BUCKET_NAME"] = "cff-uploads-beta"
 
 COGNITO_IDENTITY_ID = "ccm:cognitoUserPool:1e3aa7b7-b042-4834-98f1-7915985c39a5"
 COGNITO_IDENTITY_ID_NO_PERMISSIONS = "cm:cognitoUserPool:no-permissions"
