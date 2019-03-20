@@ -37,6 +37,12 @@ todo:
 - 
 - user login/signup
 
+## 3.2.0 (3/19/19)
+### Backend python
+- Upload data url images to s3 on backend. S3 object key will be stored instead of the entire data url. This is only currently enabled when response.value has an array with key "images", and is applied to each element of the "images" array.
+### Frontend
+- When a modifying a response, show "File uploaded." when a file is uploaded to s3 rather than crashing.
+
 ## 3.1.0 (3/14/19)
 ### Lambda js
 - Add aggregate functionality. Add a dataOption view such as:
