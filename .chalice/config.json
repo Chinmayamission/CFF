@@ -9,7 +9,8 @@
         "DB_NAME": "cff_dev",
         "MODE": "DEV",
         "USER_POOL_ID": "us-east-1_U9ls8R6E3",
-        "COGNITO_CLIENT_ID": "2511g7rmn8p70losdlh9gi9j0"
+        "COGNITO_CLIENT_ID": "2511g7rmn8p70losdlh9gi9j0",
+        "S3_UPLOADS_BUCKET_NAME": ""
       }
     },
     "beta": {
@@ -19,7 +20,8 @@
         "DB_NAME": "cff_beta",
         "MODE": "BETA",
         "USER_POOL_ID": "us-east-1_U9ls8R6E3",
-        "COGNITO_CLIENT_ID": "2511g7rmn8p70losdlh9gi9j0"
+        "COGNITO_CLIENT_ID": "2511g7rmn8p70losdlh9gi9j0",
+        "S3_UPLOADS_BUCKET_NAME": "cff-uploads-beta"
       }
     },
     "prod": {
@@ -29,7 +31,8 @@
         "DB_NAME": "cff_prod",
         "MODE": "PROD",
         "USER_POOL_ID": "us-east-1_kcpcLxLzn",
-        "COGNITO_CLIENT_ID": "77mcm1k9ll2ge68806h5kncfus"
+        "COGNITO_CLIENT_ID": "77mcm1k9ll2ge68806h5kncfus",
+        "S3_UPLOADS_BUCKET_NAME": "cff-uploads-prod"
       }
     }
   }

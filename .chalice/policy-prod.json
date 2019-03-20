@@ -34,6 +34,13 @@
       "Resource": [
           "arn:aws:cognito-idp:us-east-1:131049698002:userpool/us-east-1_kcpcLxLzn"
       ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+          "arn:aws:s3:::cff-uploads-prod/*"
+      ]
     }
   ]
 }
