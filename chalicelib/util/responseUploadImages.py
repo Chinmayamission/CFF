@@ -8,6 +8,9 @@ s3_client = boto3.client('s3', "us-east-1")
 S3_UPLOADS_BUCKET_NAME = os.environ["S3_UPLOADS_BUCKET_NAME"]
 
 
+# def generate_signed_url(image_name):
+#     return s3_client.generate_presigned_url('get_object', Params = {'Bucket': S3_UPLOADS_BUCKET_NAME, 'Key': 'hello.txt'}, ExpiresIn = 100)
+
 def upload_image_to_s3(image):
     if image.startswith("data:"):
         content_type = re.findall("^data:([^;]+);", image)[0]
@@ -21,6 +24,7 @@ def upload_image_to_s3(image):
             ContentEncoding='base64'
         )
         return name
+    return image
 
 def process_response_data_images(response_data):
     if "images" in response_data:
