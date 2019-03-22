@@ -7,6 +7,7 @@ import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
 import { IAuthState } from "../../store/auth/types";
 import { setLoginUrl } from "../../store/auth/actions";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -147,7 +148,7 @@ class Login extends React.Component<ILoginProps, {}> {
     }
     else {
       return (<div className="text-left">
-        <a href="http://Forms.chinmayamission.com"> <img src={require("../../img/logo.png")} style={{ "width": 40, "marginRight": 40 }}  />  </a>
+        <Link to="/admin"> <img src={require("../../img/logo.png")} style={{ "width": 40, "marginRight": 40 }}  />  </Link>
         <div style={{ "display": "inline-block", "verticalAlign": "middle" }}>
           {/* <strong>Chinmaya Forms Framework</strong><br /> */}
           Welcome, {this.props.user.email}
