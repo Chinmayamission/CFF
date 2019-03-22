@@ -37,6 +37,12 @@ todo:
 - 
 - user login/signup
 
+## 3.2.1 (3/22/19)
+### Lambda js
+- Allow export to multiple spreadsheets. Just specify multiple options with `{"value": "google_sheets"}` in `dataOptions.export`.
+  - This was done in the context of Om Run needing to export *just* a summary, which is in a separate Google sheet than the Google sheet for all the participants.
+- Fix a small bug in which creating a new google sheet fails because the sheet delete request was not performed after the sheet insert request.
+
 ## 3.2.0 (3/19/19)
 ### Backend python
 - Upload data url images to s3 on backend. S3 object key will be stored instead of the entire data url. This is only currently enabled when response.value has an array with key "images", and is applied to each element of the "images" array.
