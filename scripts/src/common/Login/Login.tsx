@@ -7,7 +7,7 @@ import { withFederated } from 'aws-amplify-react';
 import AuthPageNavButton from "./AuthPageNavButton";
 import { IAuthState } from "../../store/auth/types";
 import { setLoginUrl } from "../../store/auth/actions";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = state => ({
   ...state.auth
