@@ -299,6 +299,22 @@ module.exports.hello = async (event, context) => {
             }
           });
         }
+        if (requests.length === 0) {
+          continue;
+        }
+        let response = await promisify(sheets.spreadsheets.batchUpdate)({
+          spreadsheetId,
+          resource: {
+            requests
+          }
+        });
+        if (response.status !== 200) {
+          // todo: error handling/logging here.
+          throw response;
+        }
+
+        // Sheets to delete request -- must be done separately.
+        requests = [];
         for (let sheetToDelete of sheetsToDelete) {
           requests.push({
             deleteSheet: {
@@ -309,7 +325,7 @@ module.exports.hello = async (event, context) => {
         if (requests.length === 0) {
           continue;
         }
-        let response = await promisify(sheets.spreadsheets.batchUpdate)({
+        response = await promisify(sheets.spreadsheets.batchUpdate)({
           spreadsheetId,
           resource: {
             requests
