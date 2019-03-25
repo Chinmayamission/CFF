@@ -1,7 +1,7 @@
 **Chinmaya Mission Web Dev Notes and Links**
 
 1. **_Setup your Development environment as per this document:_** [https://github.com/epicfaace/CFF/wiki/Dev-environment-setup](url)
-2. **Beta forms site:** [https://forms.chinmayamission.com/admin/ ](url)
+2. **Beta forms site:** [https://forms.beta.chinmayamission.com/admin/ ](url)
 3. **Learning links:** If you need help to understand forms development / React Development you can go to these links:
 [https://react-jsonschema-form.readthedocs.io/en/latest/ ](url)
 [https://reacttraining.com/](url)
@@ -23,6 +23,7 @@ You can edit the form using the "Form Options", "Schema" and "UI Schema" tabs. R
 ![image](https://user-images.githubusercontent.com/29865785/54936434-d7bf3880-4ef8-11e9-8d66-94e8a2d7eba6.png)
 9. **Adding Payment History:**  When viewing the responses after clicking the **"Response"** button, you can click on individual response to make any changes needed to the payment history (for example cash payment updates etc...). Once you are done updating the data, you can click on  **"Send Confirmation Email"** button on that screen to send an updated email to the applicant
 
-![image](https://user-images.githubusercontent.com/29865785/54936671-56b47100-4ef9-11e9-962e-972f29103684.png)
+![image](https://user-images.githubusercontent.com/29865785/54938022-f5da6800-4efb-11e9-8b33-eac51d429870.png)
+
 
 
