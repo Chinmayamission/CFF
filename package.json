@@ -10,7 +10,9 @@
     "build": "webpack --progress --config webpack.beta.js",
     "deploy": "cross-env CFF_DEPLOY_TO=beta pipenv run python deploy.py",
     "build-prod": "webpack --progress --config webpack.prod.js",
-    "deploy-prod": "cross-env CFF_DEPLOY_TO=prod pipenv run python deploy.py"
+    "deploy-prod": "cross-env CFF_DEPLOY_TO=prod pipenv run python deploy.py",
+    "docs": "mkdocs serve",
+    "deploy-docs": "AWS_PROFILE=ashwin-cff-lambda ant build-docs"
   },
   "keywords": [],
   "author": "",
