@@ -3,6 +3,7 @@ import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
 import "./ArrayFieldTemplate.scss";
+import { FormattedDescriptionField } from '../CustomForm';
 
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
   if (!title) {
@@ -44,7 +45,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
           <div
             className="field-description"
             key={`field-description-${this.props.idSchema.$id}`}>
-            {this.props.uiSchema["ui:description"] || this.props.schema.description}
+            <FormattedDescriptionField id={`field-description-${this.props.idSchema.$id}`} description={this.props.uiSchema["ui:description"] || this.props.schema.description} />
           </div>
         )}
 

@@ -19,7 +19,7 @@ import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
 import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget";
 
 
-const FormattedDescriptionField = ({ id, description }) => {
+export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
   return <div id={id} className="my-2">
     <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
