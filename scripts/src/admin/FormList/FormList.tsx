@@ -84,6 +84,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/edit/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-pencil" />&nbsp;Edit
                             </MenuItem>
+                            <MenuItem data={{ foo: 'Edit' }} onClick={() =>
+                                    history.push({ pathname: `./${form["_id"]["$oid"]}/editvisual/`, state: { selectedForm: form } })}>
+                                    <span className="oi oi-pencil" />&nbsp;Visual Edit
+                            </MenuItem>
                                 <MenuItem data={{ foo: 'Responses' }} onClick={() =>
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/responses/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-sort-ascending" />&nbsp;Responses

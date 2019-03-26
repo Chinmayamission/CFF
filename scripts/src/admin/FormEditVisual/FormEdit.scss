@@ -1,0 +1,25 @@
+.ccmt-cff-formedit-preview {
+  // max-height: 50vh;
+  overflow: auto;
+  padding: 0px 15px;
+  > .ccmt-cff-Page-FormPage {
+    border: 1px solid blue;
+  }
+}
+.splitter-layout.ccmt-cff-editpage-splitter {
+  height: 80vh;
+  height: calc(100vh - 120px);
+}
+
+.ccmt-cff-editpage-jsoneditor-container {
+  overflow: visible;
+  ul.react-tabs__tab-list {
+    margin-bottom: 0;
+  }
+  &, .react-tabs, .react-tabs__tab-panel {
+    height: 100%;
+  }
+  .react-tabs__tab-panel {
+    height: calc(100% - 45px);
+  }
+}
