@@ -1,58 +1,86 @@
-import React from 'react';
-import jsoneditor from 'jsoneditor';
-import "jsoneditor/dist/jsoneditor.min.css";
+import React, { Ref, RefObject } from 'react';
+import MonacoEditor from 'react-monaco-editor';
+
 
 interface IJSONEditorProps {
     data: any,
     disabled?: boolean,
     onChange?: (any) => any,
-    large?: boolean
+    large?: boolean,
+    changeFromEditor: boolean,
+    onJSONError: (x: string) => void
 }
 
+const options = {
+    selectOnLineNumbers: true,
+    wordWrap: "on" as any
+};
+
 class JSONEditor extends React.Component<IJSONEditorProps, any> {
-    private editorElement: HTMLDivElement;
+    // private editorElement: any;
     private editor: any;
+    private monaco: RefObject<MonacoEditor>;
+
     constructor(props: any) {
         super(props);
+        this.monaco = React.createRef();
         this.state = {
-          data: props.data
+            value: JSON.stringify(this.props.data, null, 2)
         }
     }
 
-    onChange() {
-       if (this.props.disabled === true) {
-           alert("This editor is disabled; its contents are read-only.");
-           return;
-       }
-       try {
-        this.props.onChange(this.editor.get());
-       }
-       catch (e) {
-           console.error(e);
-       }
+    componentDidMount() {
     }
 
-    componentDidMount() {
-        var options = {
-            "modes": this.props.disabled ? ["view"] : ["code", "form", "tree"],
-            "onChange": () => this.onChange()
-            //"modes": ['tree', 'view', 'form', 'code', 'text']
-            //"onEditable": d=>false
-        };
-        this.editor = new jsoneditor(this.editorElement, options);
-        this.editor.set(this.props.data || {});
+    editorWillMount(monaco) {
+        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+            allowComments: false
+        });
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.changeFromEditor) {
+            return false;
+        }
+        if (JSON.stringify(nextProps.data) == JSON.stringify(this.props.data)) {
+            return false;
+        }
+        return true;
+    }
+
+    onChange(value) {
+        // console.log(this.monaco.current.editor); //({}));
+        try {
+            this.props.onChange(JSON.parse(value));
+        }
+        catch (e) {
+            this.props.onJSONError(e);
+        }
+        
+    }
+
+    editorDidMount(monaco) {
+        console.log(monaco);
     }
 
     render() {
-      // console.log('hello')
-        // console.log(this.props.data)
-        //this.editor && this.editor.set(this.props.data);
-        // <div></div>
         return (
-            <div className={"col-12"} style={{"height": "100%"}}>
-                <div style={{"height":"100%"}} ref={(e) => { this.editorElement = e; }} />
-            </div>);
-    }
+          <MonacoEditor
+            width="800"
+            height="600"
+            language="json"
+            // theme="vs-dark" 
+            value={this.state.value}
+            options={options}
+            onChange={e => this.onChange(e)}
+            // editorDidMount={this.editorDidMount}
+            ref={this.monaco}
+            editorWillMount={this.editorWillMount}
+          />
+        );
+      }
+
+   
 }
 
 export default JSONEditor;

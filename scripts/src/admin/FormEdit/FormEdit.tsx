@@ -5,7 +5,7 @@ import FormPage from "../../form/FormPage";
 import Loading from "../../common/Loading/Loading";
 // import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor";
-import { get, set, assign, pick } from "lodash";
+import { get, set, assign, cloneDeep } from "lodash";
 import Modal from 'react-responsive-modal';
 import dataLoadingView from "../util/DataLoadingView";
 import { API } from "aws-amplify";
@@ -24,12 +24,27 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             uiSchema: get(form, "uiSchema", {}),
             formOptions: get(form, "formOptions", { "paymentInfo": {}, "confirmationEmailInfo": {}, "paymentMethods": {} }),
             formName: get(form, "name", "None"),
-            loading: false
+            loading: false,
+            changeFromEditor: false,
+            hasError: false,
+            errorMessage: ""
         }
     }
-    onChange(path, data) {
-        this.setState(set(assign({}, this.state), path, data));
+    onChange(path, data, changeFromEditor=false) {
+        let state = cloneDeep(this.state);
+        set(state, path, data);
+        state.changeFromEditor = changeFromEditor;
+        state.hasError = false;
+        state.errorMessage = "";
+        this.setState(state);
     }
+    onJSONError(path, message) {
+        this.setState({
+            hasError: true,
+            errorMessage: `Error in ${path}: ${message}`
+        });
+    }
+
     saveForm() {
         this.setState({ loading: true });
         API.patch("CFF", `forms/${this.props.match.params.formId}`, {
@@ -71,7 +86,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                     <input className="form-control form-control-sm" value={this.state.formName}
                         placeholder="Form Name"
                         onChange={(e) => this.changeFormName(e.target.value)} />
-                    <button className="btn btn-sm btn-outline-primary"
+                    <button className="btn btn-sm btn-outline-primary" disabled={this.state.hasError}
                         onClick={(e) => this.saveForm()} >Save Form</button>
                     {get(this.state.formOptions, "dataOptions.export") && this.state.formOptions.dataOptions.export.map(e =>
                         e.type === "google_sheets" && e.spreadsheetId && (
@@ -104,25 +119,28 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.formOptions}
-                                            onChange={(e) => this.onChange("formOptions", e)}
+                                            changeFromEditor={this.state.changeFromEditor}
+                                            onChange={(e) => this.onChange("formOptions", e, true)}
+                                            onJSONError={e => this.onJSONError("formOptions", e)}
                                         />
                                     </TabPanel>
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.schema}
-                                            onChange={(e) => this.onChange("schema", e)}
+                                            changeFromEditor={this.state.changeFromEditor}
+                                            onChange={(e) => this.onChange("schema", e, true)}
+                                            onJSONError={e => this.onJSONError("schema", e)}
                                         />
                                     </TabPanel>
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.uiSchema}
-                                            onChange={(e) => this.onChange("uiSchema", e)}
+                                            changeFromEditor={this.state.changeFromEditor}
+                                            onChange={(e) => this.onChange("uiSchema", e, true)}
+                                            onJSONError={e => this.onJSONError("uiSchema", e)}
                                         />
                                     </TabPanel>
                                 </Tabs>
-                            </div>
-                            <div className="ccmt-cff-formedit-preview col-12 mt-4">
-                                <FormPage formId={this.props.match.params.formId} key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
                             </div>
                         </SplitterLayout>
                     </div>
