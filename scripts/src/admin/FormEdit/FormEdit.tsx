@@ -1,12 +1,8 @@
 import * as React from 'react';
-import axios from 'axios';
-import FormLoader from "../../common/FormLoader";
 import FormPage from "../../form/FormPage";
 import Loading from "../../common/Loading/Loading";
-// import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor";
-import { get, set, assign, cloneDeep } from "lodash";
-import Modal from 'react-responsive-modal';
+import { get, merge, cloneDeep } from "lodash";
 import dataLoadingView from "../util/DataLoadingView";
 import { API } from "aws-amplify";
 import { IFormEditProps, IFormEditState } from "./FormEdit.d";
@@ -14,6 +10,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 import "./FormEdit.scss";
 import SplitterLayout from 'react-splitter-layout';
+import CustomForm from '../../form/CustomForm';
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
         super(props);
@@ -30,9 +27,14 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             errorMessage: ""
         }
     }
-    onChange(path, data, changeFromEditor=false) {
+    onChange(path, data, {changeFromEditor=false, partial=false}) {
         let state = cloneDeep(this.state);
-        set(state, path, data);
+        if (partial) {
+            state[path] = merge(state[path], data);
+        }
+        else {
+            state[path] = data;
+        }
         state.changeFromEditor = changeFromEditor;
         state.hasError = false;
         state.errorMessage = "";
@@ -112,19 +114,26 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             <div className="col-12 ccmt-cff-editpage-jsoneditor-container">
                                 <Tabs>
                                     <TabList>
-                                        <Tab>formOptions</Tab>
-                                        <Tab>schema</Tab>
-                                        <Tab>uiSchema</Tab>
+                                        <Tab>Form Options</Tab>
+                                        <Tab>Form Options (JSON)</Tab>
+                                        <Tab>Schema (JSON)</Tab>
+                                        <Tab>UiSchema (JSON)</Tab>
                                         <li className="react-tabs__tab">
                                         {this.renderTopPane()}
                                         </li>
                                     </TabList>
-
+                                    <TabPanel>
+                                        <CustomForm schema={require("./formOptions.schema.json")}
+                                            uiSchema={require("./formOptions.uiSchema.json")}
+                                            formData={this.state.formOptions}
+                                            onSubmit={(e) => this.onChange("formOptions", e, {partial: true})}
+                                        />
+                                    </TabPanel>
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.formOptions}
                                             changeFromEditor={this.state.changeFromEditor}
-                                            onChange={(e) => this.onChange("formOptions", e, true)}
+                                            onChange={(e) => this.onChange("formOptions", e, {changeFromEditor: true})}
                                             onJSONError={e => this.onJSONError("formOptions", e)}
                                         />
                                     </TabPanel>
@@ -132,7 +141,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                                         <JSONEditor
                                             data={this.state.schema}
                                             changeFromEditor={this.state.changeFromEditor}
-                                            onChange={(e) => this.onChange("schema", e, true)}
+                                            onChange={(e) => this.onChange("schema", e, {changeFromEditor: true})}
                                             onJSONError={e => this.onJSONError("schema", e)}
                                         />
                                     </TabPanel>
@@ -140,7 +149,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                                         <JSONEditor
                                             data={this.state.uiSchema}
                                             changeFromEditor={this.state.changeFromEditor}
-                                            onChange={(e) => this.onChange("uiSchema", e, true)}
+                                            onChange={(e) => this.onChange("uiSchema", e, {changeFromEditor: true})}
                                             onJSONError={e => this.onJSONError("uiSchema", e)}
                                         />
                                     </TabPanel>

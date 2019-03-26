@@ -1,0 +1,249 @@
+{
+    "type": "object",
+    "properties": {
+        "paymentInfo": {
+            "type": "object",
+            "properties": {
+                "currency": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "amount": {
+                                "type": "string"
+                            },
+                            "quantity": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "description",
+                            "amount",
+                            "quantity"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "currency",
+                "items"
+            ]
+        },
+        "confirmationEmailInfo": {
+            "type": "object",
+            "properties": {
+                "subject": {
+                    "type": "string"
+                },
+                "toField": {
+                    "type": "string"
+                },
+                "fromName": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "bcc": {
+                    "type": "string"
+                },
+                "template": {
+                    "type": "object",
+                    "properties": {
+                        "html": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "html"
+                    ]
+                }
+            },
+            "required": [
+                "subject",
+                "toField",
+                "fromName",
+                "from",
+                "bcc",
+                "template"
+            ]
+        },
+        "dataOptions": {
+            "type": "object"
+        },
+        "paymentMethods": {
+            "type": "object",
+            "properties": {
+                "paypal_classic": {
+                    "type": "object",
+                    "properties": {
+                        "zip": {
+                            "type": "string"
+                        },
+                        "business": {
+                            "type": "string"
+                        },
+                        "address2": {
+                            "type": "string"
+                        },
+                        "city": {
+                            "type": "string"
+                        },
+                        "address1": {
+                            "type": "string"
+                        },
+                        "image_url": {
+                            "type": "string"
+                        },
+                        "item_number": {
+                            "type": "string"
+                        },
+                        "sandbox": {
+                            "type": "boolean"
+                        },
+                        "last_name": {
+                            "type": "string"
+                        },
+                        "item_name": {
+                            "type": "string"
+                        },
+                        "cmd": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "first_name": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "payButtonText": {
+                            "type": "string"
+                        },
+                        "redirectUrl": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "zip",
+                        "business",
+                        "address2",
+                        "city",
+                        "address1",
+                        "image_url",
+                        "item_number",
+                        "sandbox",
+                        "last_name",
+                        "item_name",
+                        "cmd",
+                        "state",
+                        "first_name",
+                        "email",
+                        "payButtonText",
+                        "redirectUrl"
+                    ]
+                },
+                "manual_approval": {
+                    "type": "object",
+                    "properties": {
+                        "cff_show_when": {
+                            "type": "string"
+                        },
+                        "payButtonText": {
+                            "type": "string"
+                        },
+                        "successMessage": {
+                            "type": "string"
+                        },
+                        "confirmationEmailInfo": {
+                            "type": "object",
+                            "properties": {
+                                "template": {
+                                    "type": "object",
+                                    "properties": {
+                                        "html": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "html"
+                                    ]
+                                },
+                                "cc": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "bcc": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "subject": {
+                                    "type": "string"
+                                },
+                                "toField": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    ]
+                                },
+                                "fromName": {
+                                    "type": "string"
+                                },
+                                "from": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "template",
+                                "subject",
+                                "toField",
+                                "fromName",
+                                "from"
+                            ]
+                        }
+                    },
+                    "required": []
+                }
+            },
+            "required": []
+        },
+        "defaultFormData": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": {
+                "type": "string"
+            },
+            "required": []
+        }
+    },
+    "required": [
+        "paymentInfo",
+        "confirmationEmailInfo",
+        "dataOptions",
+        "paymentMethods",
+        "defaultFormData"
+    ]
+}

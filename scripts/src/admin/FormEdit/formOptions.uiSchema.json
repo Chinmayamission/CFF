@@ -1,0 +1,16 @@
+{
+    "confirmationEmailInfo": {
+        "template": {
+            "html": {
+                "ui:widget": "textarea"
+            }
+        }
+    },
+    "paymentMethods": {
+        "paypal_classic": {
+            "sandbox": {
+                "ui:widget": "radio"
+            }
+        }
+    }
+}
