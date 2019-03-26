@@ -228,21 +228,12 @@
                 }
             },
             "required": []
-        },
-        "defaultFormData": {
-            "type": "object",
-            "properties": {},
-            "additionalProperties": {
-                "type": "string"
-            },
-            "required": []
         }
     },
     "required": [
         "paymentInfo",
         "confirmationEmailInfo",
         "dataOptions",
-        "paymentMethods",
-        "defaultFormData"
+        "paymentMethods"
     ]
 }

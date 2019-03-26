@@ -15,8 +15,5 @@
                 "ui:widget": "radio"
             }
         }
-    },
-    "defaultFormData": {
-        "ui:widget": "cff:jsonEditor"
     }
 }
