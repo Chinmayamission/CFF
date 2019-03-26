@@ -27,9 +27,16 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             errorMessage: ""
         }
     }
-    onChange(path, data, {changeFromEditor=false} = {}) {
+    onChange(path, data, {changeFromEditor=false, partial=false}) {
         let state = cloneDeep(this.state);
-        state[path] = data;
+        if (partial) {
+            for (let key in data) {
+                state[path][key] = data[key];
+            }
+        }
+        else {
+            state[path] = data;
+        }
         state.changeFromEditor = changeFromEditor;
         state.hasError = false;
         state.errorMessage = "";
@@ -121,7 +128,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                                         <CustomForm schema={require("./formOptions.schema.json")}
                                             uiSchema={require("./formOptions.uiSchema.json")}
                                             formData={this.state.formOptions}
-                                            onSubmit={(e) => this.onChange("formOptions", e)}
+                                            onSubmit={(e) => this.onChange("formOptions", e, {partial: true})}
                                         />
                                     </TabPanel>
                                     <TabPanel>
