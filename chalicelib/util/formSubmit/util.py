@@ -5,7 +5,7 @@ from collections import defaultdict
 from pydash.objects import get
 """
 workon cff
-python -m doctest functions/forms/lib/util.py
+python -m doctest chalicelib/util/formSubmit/util.py
 """
 
 DELIM_VALUE = "ASKLDJAKSLDJ12903812"
@@ -98,6 +98,8 @@ def calculate_price(expressionString, data):
     12.0
     >>> calculate_price("participants * 25", {"participants": [1,2,3]})
     75.0
+    >>> calculate_price("rooms[0] * 25", {"rooms": [[1,2,3]] })
+    75.0
     >>> calculate_price("participant.x * 25", {"participant": {"x": 2}})
     50.0
     >>> calculate_price("participants.race:5K", {"participants": [{"name": "A", "race": "5K"}, {"name": "B", "race": "5K"}, {"name": "C", "race": "10K"}]})
@@ -125,7 +127,7 @@ def calculate_price(expressionString, data):
     >>> calculate_price("(participants - participants.race:10K) * 25", {"participants": [{"bib_name": "as", "race": "5K - OK"}, {"bib_name": "32", "race": "5K - OK"}, {"bib_name": "250", "race": "10K"}]})
     50.0
     >>> # Arbitrary strings (not working):
-    >>> calculate_price("(participants.race:'5K - OK') * 25", {"participants": [{"name": "A", "race": "5K - OK"}, {"name": "B", "race": "5K - OK"}, {"name": "C", "race": "10K"}]})
+    >>> # calculate_price("(participants.race:'5K - OK') * 25", {"participants": [{"name": "A", "race": "5K - OK"}, {"name": "B", "race": "5K - OK"}, {"name": "C", "race": "10K"}]})
     50.0
     """
     """Calculates price based on the expression. 
