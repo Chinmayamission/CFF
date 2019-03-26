@@ -2,19 +2,21 @@ import * as React from 'react';
 import axios from 'axios';
 import { API } from 'aws-amplify';
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
-import {isArray} from "lodash";
+import { isArray } from "lodash";
 import "./FormList.scss";
 import FormNew from "../FormNew/FormNew";
 import { connect } from 'react-redux';
 import dataLoadingView from "../util/DataLoadingView";
-import {IFormListProps, IFormListState} from "./FormList.d";
+import { IFormListProps, IFormListState } from "./FormList.d";
 import { loadFormList, createForm } from '../../store/admin/actions';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import history from "../../history";
 
 const mapStateToProps = state => ({
     ...state.auth,
     ...state.admin
 });
-  
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
     loadFormList: () => dispatch(loadFormList()),
     createForm: (e) => dispatch(createForm(e))
@@ -36,8 +38,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     showEmbedCode(formId) {
 
     }
+
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
+
         if (!formList) {
             return <div>Loading</div>;
         }
@@ -45,8 +49,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
             <table className="ccmt-cff-form-list table table-sm table-responsive-sm">
                 <thead>
                     <tr>
-                        <th>Form name</th>
-                        <th>Actions</th>
+                        <th>Right click on a form to perform an action.</th>
                         <th>
                             <FormNew onError={this.props.onError} />
                         </th>
@@ -55,83 +58,54 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 <tbody>
                     {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
                     {formList && formList.map((form) =>
-                        <tr key={form["_id"]["$oid"]}>
-                            <td className="ccmt-cff-form-list-name">{form["name"]}<br />
-                                <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
-                                    <code>{form["_id"]["$oid"]}</code>
-                                </small>
-                            </td>
-                            <td>
-                                <ActionButton form={form}
-                                    url={`/v2/forms/${form["_id"]["$oid"]}`}
-                                    icon="oi-document"
-                                    text="View"
-                                    />
-                                <ActionButton form={form}
-                                    permissionName="Forms_Embed"
-                                    url={`./${form["_id"]["$oid"]}/embed/`}
-                                    icon="oi-document"
-                                    text="Embed"
-                                    userId={this.props.userId}
-                                    />
-                                <ActionButton form={form}
-                                    permissionName="Forms_Edit"
-                                    url={`./${form["_id"]["$oid"]}/edit/`}
-                                    icon="oi-pencil"
-                                    text="Edit"
-                                    userId={this.props.userId} />
-                                <ActionButton form={form}
-                                    permissionName="Responses_View"
-                                    url={`./${form["_id"]["$oid"]}/responses/`}
-                                    icon="oi-sort-ascending"
-                                    text="Responses"
-                                    userId={this.props.userId} />
-                                {/* <ActionButton form={form}
-                                    permissionName="Responses_CheckIn"
-                                    url={`.${form["_id"]["$oid"]}/checkin`}
-                                    icon="oi-check"
-                                    text="Check in"
-                                    userId={this.props.userId} /> */}
-                                {/* <ActionButton form={form}
-                                    permissionName="Responses_ViewSummary"
-                                    url={`./${form["_id"]["$oid"]}/summary/`}
-                                    icon="oi-list"
-                                    text="Summary"
-                                    userId={this.props.userId} /> */}
-                                <ActionButton form={form}
-                                    permissionName="Forms_PermissionsView"
-                                    url={`./${form["_id"]["$oid"]}/share/`}
-                                    icon="oi-share-boxed"
-                                    text="Share"
-                                    userId={this.props.userId}
-                                />
-                               {/* <ActionButton form={form}
-                                    permissionName="Responses_Edit"
-                                    url={`./${form["_id"]["$oid"]}/responsesEdit`}
-                                    icon="oi-pencil"
-                                    text="Edit Responses"
-                                    userId={this.props.userId}
-                                />  */}
-                                {/*<ActionButton permissions={form.cff_permissions}
-                                    permissionName="Responses_View"
-                                    url={`./${form["_id"]["$oid"]}/lookup`}
-                                    icon="oi-magnifying-glass"
-                                    text="Check in"
-                                    userId={this.props.userId}
-                                    disabled={false}
-                                />*/}
-                                <button className="ccmt-cff-btn-action" onClick={() => this.props.createForm(form._id.$oid)}>
+                        <React.Fragment key={form["_id"]["$oid"]}>
+                            <ContextMenuTrigger id={form["_id"]["$oid"]}>
+                                <tr key={form["_id"]["$oid"]}>
+                                    <td className="ccmt-cff-form-list-name">{form["name"]}<br />
+                                        <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
+                                            <code>{form["_id"]["$oid"]}</code>
+                                        </small>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            </ContextMenuTrigger>
+                            <ContextMenu id={form["_id"]["$oid"]}>
+                                <MenuItem data={{ foo: 'View' }} onClick={() =>
+                                    history.push({ pathname: `/v2/forms/${form["_id"]["$oid"]}`, state: { selectedForm: form } })}>
+                                    <span className="oi oi-document" />&nbsp;View
+ 			                </MenuItem>
+                                <MenuItem data={{ foo: 'Embed' }} onClick={() => history.push({ pathname: `./${form["_id"]["$oid"]}/embed/`, state: { selectedForm: form } })}>
+                                    <span className="oi oi-document" />&nbsp;Embed
+                            </MenuItem>
+                                <MenuItem divider />
+                                <MenuItem data={{ foo: 'Edit' }} onClick={() =>
+                                    history.push({ pathname: `./${form["_id"]["$oid"]}/edit/`, state: { selectedForm: form } })}>
+                                    <span className="oi oi-pencil" />&nbsp;Edit
+                            </MenuItem>
+                                <MenuItem data={{ foo: 'Responses' }} onClick={() =>
+                                    history.push({ pathname: `./${form["_id"]["$oid"]}/responses/`, state: { selectedForm: form } })}>
+                                    <span className="oi oi-sort-ascending" />&nbsp;Responses
+                            </MenuItem>
+                                <MenuItem data={{ foo: 'Share' }} onClick={() =>
+                                    history.push({ pathname: `./${form["_id"]["$oid"]}/share/`, state: { selectedForm: form } })}>
+                                    <span className="oi oi-share-boxed" />&nbsp;Share
+                            </MenuItem>
+                                <MenuItem data={{ foo: 'Duplicate' }} onClick={() =>
+                                    this.props.createForm(form._id.$oid)}>
                                     <span className="oi oi-plus" />&nbsp;
                                     Duplicate
-                                </button>
-                            </td>
-                        </tr>
+                            </MenuItem>
+                            </ContextMenu>
+                        </React.Fragment>
                     )}
                 </tbody>
             </table>
         )
     }
 }
+
 function ActionButton(props) {
     let disabled = props.disabled || !hasPermission(props.form.cff_permissions, props.permissionName, props.userId);
     if (!props.permissionName) {
@@ -146,7 +120,7 @@ function ActionButton(props) {
         </a>);
     }
     else {
-        return (<NavLink to={{pathname: `${props.url}`, state: {selectedForm: props.form}}}>
+        return (<NavLink to={{ pathname: `${props.url}`, state: { selectedForm: props.form } }}>
             <button className="ccmt-cff-btn-action">
                 <span className={`oi ${props.icon}`}></span> {props.text}
             </button>
