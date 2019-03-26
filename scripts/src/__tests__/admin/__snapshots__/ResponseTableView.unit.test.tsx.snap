@@ -23,7 +23,7 @@ exports[`renders response table with an undefined group assign 1`] = `
           role="row"
         >
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -38,7 +38,7 @@ exports[`renders response table with an undefined group assign 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -424,6 +424,7 @@ exports[`renders response table with an undefined group assign 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -438,7 +439,9 @@ exports[`renders response table with an undefined group assign 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
@@ -688,6 +691,7 @@ exports[`renders response table with default filter 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -702,7 +706,9 @@ exports[`renders response table with default filter 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
@@ -786,7 +792,7 @@ exports[`renders response table with extra columns from the group 1`] = `
           role="row"
         >
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -801,7 +807,7 @@ exports[`renders response table with extra columns from the group 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -816,7 +822,7 @@ exports[`renders response table with extra columns from the group 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -831,7 +837,7 @@ exports[`renders response table with extra columns from the group 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -1109,6 +1115,7 @@ exports[`renders response table with extra columns from the group 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -1123,7 +1130,9 @@ exports[`renders response table with extra columns from the group 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
@@ -1207,7 +1216,7 @@ exports[`renders response table with group assign 1`] = `
           role="row"
         >
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -1222,7 +1231,7 @@ exports[`renders response table with group assign 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -1608,6 +1617,7 @@ exports[`renders response table with group assign 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -1622,7 +1632,9 @@ exports[`renders response table with group assign 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
@@ -1706,7 +1718,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
           role="row"
         >
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -1721,7 +1733,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -1736,7 +1748,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -1751,7 +1763,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -1766,7 +1778,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2060,6 +2072,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -2074,7 +2087,9 @@ exports[`renders response table with groups and displaying another model 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
@@ -2158,7 +2173,7 @@ exports[`responses with default data 1`] = `
           role="row"
         >
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2173,7 +2188,7 @@ exports[`responses with default data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2188,7 +2203,7 @@ exports[`responses with default data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2203,7 +2218,7 @@ exports[`responses with default data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2218,7 +2233,7 @@ exports[`responses with default data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2233,7 +2248,7 @@ exports[`responses with default data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2248,7 +2263,7 @@ exports[`responses with default data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2263,7 +2278,7 @@ exports[`responses with default data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2485,6 +2500,7 @@ exports[`responses with default data 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -2499,7 +2515,9 @@ exports[`responses with default data 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
@@ -2583,7 +2601,7 @@ exports[`responses with unwind data 1`] = `
           role="row"
         >
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2598,7 +2616,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2613,7 +2631,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2628,7 +2646,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2643,7 +2661,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2658,7 +2676,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2673,7 +2691,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2688,7 +2706,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2703,7 +2721,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2718,7 +2736,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2733,7 +2751,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -2748,7 +2766,7 @@ exports[`responses with unwind data 1`] = `
             />
           </div>
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -3318,6 +3336,7 @@ exports[`responses with unwind data 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -3332,7 +3351,9 @@ exports[`responses with unwind data 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
