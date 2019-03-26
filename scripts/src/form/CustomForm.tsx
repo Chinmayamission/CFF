@@ -108,7 +108,7 @@ function CustomForm(props: ICustomFormProps) {
       if (error.name === "pattern") {
         error.message = "Please enter a value in the correct format."
       }
-      if (error.message.match(/is a required property/)) {
+      if (error.message && error.message.match(/is a required property/)) {
         error.message = error.message.replace(/is a required property/, "is a required field");
       }
       return error;
