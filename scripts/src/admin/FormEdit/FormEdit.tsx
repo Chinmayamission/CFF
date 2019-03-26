@@ -46,6 +46,10 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     }
 
     saveForm() {
+        if (this.state.hasError) {
+            alert(`Can't save form. ${this.state.errorMessage}`);
+            return;
+        }
         this.setState({ loading: true });
         API.patch("CFF", `forms/${this.props.match.params.formId}`, {
             "body": {
@@ -86,7 +90,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                     <input className="form-control form-control-sm" value={this.state.formName}
                         placeholder="Form Name"
                         onChange={(e) => this.changeFormName(e.target.value)} />
-                    <button className="btn btn-sm btn-outline-primary" disabled={this.state.hasError}
+                    <button className="btn btn-sm btn-outline-primary"
                         onClick={(e) => this.saveForm()} >Save Form</button>
                     {get(this.state.formOptions, "dataOptions.export") && this.state.formOptions.dataOptions.export.map(e =>
                         e.type === "google_sheets" && e.spreadsheetId && (

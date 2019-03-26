@@ -34,7 +34,8 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
 
     editorWillMount(monaco) {
         monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-            allowComments: false
+            allowComments: false,
+            validate: true
         });
     }
 
@@ -66,8 +67,8 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
     render() {
         return (
           <MonacoEditor
-            width="800"
-            height="600"
+            width="100%"
+            height="100%"
             language="json"
             // theme="vs-dark" 
             value={this.state.value}
