@@ -30,7 +30,9 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     onChange(path, data, {changeFromEditor=false, partial=false}) {
         let state = cloneDeep(this.state);
         if (partial) {
-            state[path] = merge(state[path], data);
+            for (let key in data) {
+                state[path][key] = data[key];
+            }
         }
         else {
             state[path] = data;
