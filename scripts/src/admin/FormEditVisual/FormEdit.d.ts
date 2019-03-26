@@ -15,7 +15,10 @@ export interface IFormEditState {
     uiSchema: UiSchema,
     formOptions: IFormOptions,
     formName: string,
-    loading: boolean
+    loading: boolean,
+    changeFromEditor: boolean,
+    hasError: boolean,
+    errorMessage: string
 }
 
 export interface IFormEditPropsOld {
