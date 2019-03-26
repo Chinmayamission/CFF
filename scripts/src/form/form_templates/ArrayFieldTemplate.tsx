@@ -53,8 +53,8 @@ class ArrayFieldTemplate extends React.Component<any, any> {
           className="array-item-list"
           key={`array-item-list-${this.props.idSchema.$id}`}>
           {this.props.items.map((element, i) =>
-            <div className="row mb-4" key={i}>
-              <div className="col-9">
+            <div className="row" key={i}>
+              <div className="col-12">
                 {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
                 {this.props.uiSchema["ui:cff:arrayItemTitles"] && this.props.uiSchema["ui:cff:arrayItemTitles"][i] &&
                   <h2 className="ccmt-cff-form-title">
@@ -63,16 +63,22 @@ class ArrayFieldTemplate extends React.Component<any, any> {
                 }
                 {element.children}
               </div>
-              <div className="col-3 mt-4 ccmt-cff-array-button-container">
-                {(element.hasRemove && i >= (this.props.schema.minItems || 0)) &&
-                  <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" onClick={element.onDropIndexClick(element.index)}>{this.props.uiSchema["ui:cff:removeButtonText"] || "Remove"}</button>
-                }
+              <div className="col-12 mt-4 mb-4 ccmt-cff-array-button-container">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-12">
+                      {(element.hasRemove && i >= (this.props.schema.minItems || 0)) &&
+                        <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" onClick={element.onDropIndexClick(element.index)}>{this.props.uiSchema["ui:cff:removeButtonText"] || "Remove"}</button>
+                      }
+                      {this.props.canAdd &&
+                        <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>{this.props.uiSchema["ui:cff:addButtonText"] || "Add"}</button>
+                      }
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
-          {this.props.canAdd &&
-            <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>{this.props.uiSchema["ui:cff:addButtonText"] || "Add"}</button>
-          }
         </div>
       </fieldset>
 
