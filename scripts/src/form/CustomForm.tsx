@@ -17,6 +17,7 @@ import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 import ExpressionParser from "../common/ExpressionParser";
 import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
 import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget";
+import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
 
 
 export const FormattedDescriptionField = ({ id, description }) => {
@@ -60,7 +61,8 @@ const widgets = {
   "cff:smallTextbox": SmallTextboxWidget,
   "cff:money": MoneyWidget,
   "cff:couponCode": CouponCodeWidget,
-  "cff:confirm": ConfirmWidget
+  "cff:confirm": ConfirmWidget,
+  "cff:jsonEditor": JSONEditorWidget
 };
 
 const fields = {

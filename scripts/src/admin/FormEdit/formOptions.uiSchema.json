@@ -2,7 +2,10 @@
     "confirmationEmailInfo": {
         "template": {
             "html": {
-                "ui:widget": "textarea"
+                "ui:widget": "cff:jsonEditor",
+                "ui:options": {
+                    "language": "html"
+                }
             }
         }
     },
@@ -12,5 +15,8 @@
                 "ui:widget": "radio"
             }
         }
+    },
+    "defaultFormData": {
+        "ui:widget": "cff:jsonEditor"
     }
 }
