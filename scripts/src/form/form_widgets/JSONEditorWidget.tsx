@@ -1,5 +1,6 @@
 import React, { Ref, RefObject } from 'react';
 import MonacoEditor from 'react-monaco-editor';
+import Modal from "react-modal";
 
 interface IJSONEditorProps {
     value: any,
@@ -23,20 +24,8 @@ class JSONEditorWidget extends React.Component<IJSONEditorProps, any> {
         super(props);
         this.monaco = React.createRef();
         this.state = {
+            open: false
         }
-    }
-
-    componentDidMount() {
-        console.log(this.monaco.current.editor, this.monaco.current.editor.getAction('editor.action.formatDocument'));
-        // this.monaco.current.editor.getAction('editor.action.formatDocument').run();
-        // this.monaco.current.editor.getAction('editor.action.format').run();
-    }
-
-    editorWillMount(monaco) {
-        // monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-        //     allowComments: false,
-        //     validate: true
-        // });
     }
 
     onChange(value) {
@@ -50,22 +39,30 @@ class JSONEditorWidget extends React.Component<IJSONEditorProps, any> {
     }
     
     editorDidMount(monaco) {
-        setTimeout(() => this.monaco.current.editor.getAction('editor.action.formatDocument').run(), 100);
+        // this.monaco.current.editor.getAction('editor.action.formatDocument').run()
     }
 
     render() {
         return (
-          <MonacoEditor
-            width="100%"
-            height="300"
-            language={this.props.options.language || "html"}
-            // theme="vs-dark" 
-            value={this.props.value}
-            options={options}
-            onChange={e => this.onChange(e)}
-            ref={this.monaco}
-            editorDidMount={e => this.editorDidMount(e)}
-          />
+            <div>
+                <Modal isOpen={this.state.open} onRequestClose={() => this.setState({open: false})}>
+                    <span className="oi oi-circle-x"
+                        style={{position: "absolute", top: 10, right: 10}}
+                        onClick={() => this.setState({open: false})}></span>
+                    <MonacoEditor
+                        width="80vw"
+                        height="80vh"
+                        language={this.props.options.language || "html"}
+                        // theme="vs-dark" 
+                        value={this.props.value}
+                        options={options}
+                        onChange={e => this.onChange(e)}
+                        ref={this.monaco}
+                        editorDidMount={e => this.editorDidMount(e)}
+                    />
+                </Modal>
+                <button className="btn btn-primary" onClick={() => this.setState({open: true})}>Edit code</button>
+            </div>
         );
       }
 
