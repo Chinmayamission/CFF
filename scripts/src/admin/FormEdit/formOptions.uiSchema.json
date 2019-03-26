@@ -7,12 +7,36 @@
                     "language": "html"
                 }
             }
+        },
+        "cc": {
+            "classNames": "col"
+        },
+        "bcc": {
+            "classNames": "col"
         }
     },
     "paymentMethods": {
         "paypal_classic": {
             "sandbox": {
                 "ui:widget": "radio"
+            }
+        },
+        "manual_approval": {
+            "confirmationEmailInfo": {
+                "template": {
+                    "html": {
+                        "ui:widget": "cff:jsonEditor",
+                        "ui:options": {
+                            "language": "html"
+                        }
+                    }
+                },
+                "cc": {
+                    "classNames": "col-6"
+                },
+                "bcc": {
+                    "classNames": "col-6"
+                }
             }
         }
     }

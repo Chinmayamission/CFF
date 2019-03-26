@@ -86,6 +86,9 @@
                 "paypal_classic": {
                     "type": "object",
                     "properties": {
+                        "cff_show_when": {
+                            "type": "string"
+                        },
                         "zip": {
                             "type": "string"
                         },
@@ -104,19 +107,10 @@
                         "image_url": {
                             "type": "string"
                         },
-                        "item_number": {
-                            "type": "string"
-                        },
                         "sandbox": {
                             "type": "boolean"
                         },
                         "last_name": {
-                            "type": "string"
-                        },
-                        "item_name": {
-                            "type": "string"
-                        },
-                        "cmd": {
                             "type": "string"
                         },
                         "state": {
@@ -142,16 +136,11 @@
                         "city",
                         "address1",
                         "image_url",
-                        "item_number",
                         "sandbox",
                         "last_name",
-                        "item_name",
-                        "cmd",
                         "state",
                         "first_name",
-                        "email",
-                        "payButtonText",
-                        "redirectUrl"
+                        "email"
                     ]
                 },
                 "manual_approval": {
