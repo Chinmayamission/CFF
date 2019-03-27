@@ -26,25 +26,22 @@ const STATUS_CENTER_LIST = 31;
 
 function FormPageMenu() {
     return (<div>
-        <button  onClick={() =>
-                                    history.push({ pathname: `/admin/:formId/edit/`})}>
-                                    <span className="oi oi-pencil" />Edit</button>
         <button onClick={() =>
-                                    history.push({ pathname: `/admin/:formId/view/`})}>
-                                    <span className="oi oi-document" />View</button>
+            history.push({ pathname: `/admin/:formId/edit/` })}>
+            <span className="oi oi-pencil" />Edit</button>
         <button onClick={() =>
-                                    history.push({ pathname: `/admin/:formId/embed/`})}>
-                                    <span className="oi oi-document" />Embed</button>
+            history.push({ pathname: `/admin/:formId/view/` })}>
+            <span className="oi oi-document" />View</button>
         <button onClick={() =>
-                                    history.push({ pathname: `/admin/:formId/responses/`})}>
-                                    <span className="oi-sort-ascending" />Responses</button>
+            history.push({ pathname: `/admin/:formId/embed/` })}>
+            <span className="oi oi-document" />Embed</button>
         <button onClick={() =>
-                                    history.push({ pathname: `/admin/:formId/share/`})}>
-                                    <span className="oi oi-share-boxed" />Share</button>
+            history.push({ pathname: `/admin/:formId/responses/` })}>
+            <span className="oi-sort-ascending" />Responses</button>
         <button onClick={() =>
-                                    this.props.createForm(this.form._id.$oid)}>
-                                    <span className="oi oi-plus" />Duplicate</button>
-</div>);
+            history.push({ pathname: `/admin/:formId/share/` })}>
+            <span className="oi oi-share-boxed" />Share</button>
+    </div>);
 }
 
 class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
@@ -171,7 +168,7 @@ const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
         <div className="col-12 text-center">
             {!props.loggedIn &&
                 <div>
-                    <img style={{maxHeight: 200, marginBottom: 20}} src={require("../img/logo.png")} />
+                    <img style={{ maxHeight: 200, marginBottom: 20 }} src={require("../img/logo.png")} />
                     <h3 className="mb-4">
                         Please log in to your <br />
                         <strong>Chinmaya Mission Account</strong><br />
