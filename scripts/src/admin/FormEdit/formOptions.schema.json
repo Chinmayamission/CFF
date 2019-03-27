@@ -26,17 +26,11 @@
                             }
                         },
                         "required": [
-                            "name",
-                            "description",
-                            "amount",
-                            "quantity"
                         ]
                     }
                 }
             },
             "required": [
-                "currency",
-                "items"
             ]
         },
         "confirmationEmailInfo": {
@@ -70,11 +64,6 @@
                 }
             },
             "required": [
-                "subject",
-                "toField",
-                "fromName",
-                "from",
-                "template"
             ]
         },
         "dataOptions": {
@@ -130,17 +119,6 @@
                         }
                     },
                     "required": [
-                        "zip",
-                        "business",
-                        "address2",
-                        "city",
-                        "address1",
-                        "image_url",
-                        "sandbox",
-                        "last_name",
-                        "state",
-                        "first_name",
-                        "email"
                     ]
                 },
                 "manual_approval": {
@@ -185,17 +163,7 @@
                                     "type": "string"
                                 },
                                 "toField": {
-                                    "oneOf": [
-                                        {
-                                            "type": "string"
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    ]
+                                    "type": "string"
                                 },
                                 "fromName": {
                                     "type": "string"
@@ -205,11 +173,6 @@
                                 }
                             },
                             "required": [
-                                "template",
-                                "subject",
-                                "toField",
-                                "fromName",
-                                "from"
                             ]
                         }
                     },
@@ -220,9 +183,5 @@
         }
     },
     "required": [
-        "paymentInfo",
-        "confirmationEmailInfo",
-        "dataOptions",
-        "paymentMethods"
     ]
 }
