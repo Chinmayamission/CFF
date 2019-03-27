@@ -1,4 +1,56 @@
 {
+    "definitions": {
+        "singleMultipleStringField": {
+            "oneOf": [
+                {
+                    "title": "Single Value",
+                    "type": ["string", "null"]
+                },
+                {
+                    "title": "Multiple Values",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            ]
+        },
+        "confirmationEmailInfo": {
+            "type": "object",
+            "properties": {
+                "template": {
+                    "type": "object",
+                    "properties": {
+                        "html": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "html"
+                    ]
+                },
+                "cc": {
+                    "$ref": "#/definitions/singleMultipleStringField"
+                },
+                "bcc": {
+                    "$ref": "#/definitions/singleMultipleStringField"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "toField": {
+                    "$ref": "#/definitions/singleMultipleStringField"
+                },
+                "fromName": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                }
+            },
+            "required": []
+        }
+    },
     "type": "object",
     "properties": {
         "paymentInfo": {
@@ -25,46 +77,14 @@
                                 "type": "string"
                             }
                         },
-                        "required": [
-                        ]
+                        "required": []
                     }
                 }
             },
-            "required": [
-            ]
+            "required": []
         },
         "confirmationEmailInfo": {
-            "type": "object",
-            "properties": {
-                "subject": {
-                    "type": "string"
-                },
-                "toField": {
-                    "type": "string"
-                },
-                "fromName": {
-                    "type": "string"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "bcc": {
-                    "type": "string"
-                },
-                "template": {
-                    "type": "object",
-                    "properties": {
-                        "html": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "html"
-                    ]
-                }
-            },
-            "required": [
-            ]
+            "$ref": "#/definitions/confirmationEmailInfo"
         },
         "dataOptions": {
             "type": "object"
@@ -118,8 +138,7 @@
                             "type": "string"
                         }
                     },
-                    "required": [
-                    ]
+                    "required": []
                 },
                 "manual_approval": {
                     "type": "object",
@@ -134,46 +153,7 @@
                             "type": "string"
                         },
                         "confirmationEmailInfo": {
-                            "type": "object",
-                            "properties": {
-                                "template": {
-                                    "type": "object",
-                                    "properties": {
-                                        "html": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "html"
-                                    ]
-                                },
-                                "cc": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "bcc": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "subject": {
-                                    "type": "string"
-                                },
-                                "toField": {
-                                    "type": "string"
-                                },
-                                "fromName": {
-                                    "type": "string"
-                                },
-                                "from": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                            ]
+                            "$ref": "#/definitions/confirmationEmailInfo"
                         }
                     },
                     "required": []
@@ -182,6 +162,5 @@
             "required": []
         }
     },
-    "required": [
-    ]
+    "required": []
 }
