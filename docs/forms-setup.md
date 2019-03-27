@@ -1,9 +1,9 @@
 #Chinmaya Mission Web Dev Notes and Links#
 
- **_Setup your Development environment as per this document:_** [Dev Env Setup](#Dev-environment-setup.md)
+ **Setup your Development environment as per this document:** [Dev Env Setup](#Dev-environment-setup.md)
 
  **Beta forms site:** [https://forms.beta.chinmayamission.com/admin/](https://forms.beta.chinmayamission.com/admin/)
- 
+
  **Learning links:** If you need help to understand forms development / React Development you can go to these links:
 
 [https://react-jsonschema-form.readthedocs.io/en/latest/](https://react-jsonschema-form.readthedocs.io/en/latest/)
