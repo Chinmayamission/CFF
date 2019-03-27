@@ -1,8 +1,2 @@
 # CFF documentation
-asfkdslfjsdkfasla
-sdasj
-dajs
-djaskl
-djkljdk
-ljasdklj
-test
+Welcome to Chinmaya Mission Forms Framework Documentation! 
