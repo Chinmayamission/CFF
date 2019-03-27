@@ -1,10 +1,13 @@
 **Chinmaya Mission Web Dev Notes and Links**
 
-1. **_Setup your Development environment as per this document:_** [https://github.com/epicfaace/CFF/wiki/Dev-environment-setup](url)
-2. **Beta forms site:** [https://forms.beta.chinmayamission.com/admin/ ](url)
+1. **_Setup your Development environment as per this document:_** [Dev Env Setup](#Dev-environment-setup.md)
+2. **Beta forms site:** [https://forms.beta.chinmayamission.com/admin/](https://forms.beta.chinmayamission.com/admin/)
 3. **Learning links:** If you need help to understand forms development / React Development you can go to these links:
-[https://react-jsonschema-form.readthedocs.io/en/latest/ ](url)
-[https://reacttraining.com/](url)
+
+[https://react-jsonschema-form.readthedocs.io/en/latest/](https://react-jsonschema-form.readthedocs.io/en/latest/)
+
+[https://reacttraining.com/](https://reacttraining.com/)
+
 4. **Create/Duplicate a form:** Use this option to create a new Form. If your form is going to be similar to one of the forms that were already created, you can use the  "Duplicate" button to duplicate the form and rename
 ![image](https://user-images.githubusercontent.com/29865785/54937377-ab0c2080-4efa-11e9-93c4-2134a9fe88f2.png)
 ![image](https://user-images.githubusercontent.com/29865785/54935652-1b18a780-4ef7-11e9-9133-53aa06780869.png)

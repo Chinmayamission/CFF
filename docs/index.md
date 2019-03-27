@@ -1,5 +1,2 @@
 # CFF documentation
-Setup 
-test test test.
-test
-test
+Welcome to Chinmaya Mission Forms Framework Documentation! 
