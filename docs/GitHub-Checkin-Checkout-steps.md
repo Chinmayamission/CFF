@@ -1,4 +1,4 @@
-# Steps to check/checkout code using GitHub #
+# Steps to check/checkout code using GitHub 
 
 1. Open the CFF project using Visual Studio Code
 ![image](https://user-images.githubusercontent.com/29865785/55114563-a55c3980-50b8-11e9-99ba-b5e86d7eeaff.png)
