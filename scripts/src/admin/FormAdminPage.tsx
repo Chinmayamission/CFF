@@ -24,6 +24,29 @@ const STATUS_ERROR = 11;
 const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
 
+function FormPageMenu() {
+    return (<div>
+        <button  onClick={() =>
+                                    history.push({ pathname: `/admin/:formId/edit/`})}>
+                                    <span className="oi oi-pencil" />Edit</button>
+        <button onClick={() =>
+                                    history.push({ pathname: `/admin/:formId/view/`})}>
+                                    <span className="oi oi-document" />View</button>
+        <button onClick={() =>
+                                    history.push({ pathname: `/admin/:formId/embed/`})}>
+                                    <span className="oi oi-document" />Embed</button>
+        <button onClick={() =>
+                                    history.push({ pathname: `/admin/:formId/responses/`})}>
+                                    <span className="oi-sort-ascending" />Responses</button>
+        <button onClick={() =>
+                                    history.push({ pathname: `/admin/:formId/share/`})}>
+                                    <span className="oi oi-share-boxed" />Share</button>
+        <button onClick={() =>
+                                    this.props.createForm(this.form._id.$oid)}>
+                                    <span className="oi oi-plus" />Duplicate</button>
+</div>);
+}
+
 class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
     constructor(props: any) {
         super(props);
@@ -86,6 +109,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
         return (
             <div className="App FormAdminPage">
+                <Route path="/admin/:formId" component={FormPageMenu} />
                 <Route path="/admin/:formId" component={FormPages} />
                 <Switch>
                     <Route path="/admin/" exact render={props =>
