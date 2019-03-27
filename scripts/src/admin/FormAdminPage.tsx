@@ -24,23 +24,24 @@ const STATUS_ERROR = 11;
 const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
 
-function FormPageMenu() {
+function FormPageMenu(props) {
+    let formId = props.match.params.formId;
     return (<div>
-        <button onClick={() =>
-            history.push({ pathname: `/admin/:formId/edit/` })}>
+         <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/edit/`, state: props.location.state })}>
             <span className="oi oi-pencil" />Edit</button>
-        <button onClick={() =>
-            history.push({ pathname: `/admin/:formId/view/` })}>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/v2/forms/${formId}/`, state: props.location.state })}>
             <span className="oi oi-document" />View</button>
-        <button onClick={() =>
-            history.push({ pathname: `/admin/:formId/embed/` })}>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/embed/`, state: props.location.state })}>
             <span className="oi oi-document" />Embed</button>
-        <button onClick={() =>
-            history.push({ pathname: `/admin/:formId/responses/` })}>
-            <span className="oi-sort-ascending" />Responses</button>
-        <button onClick={() =>
-            history.push({ pathname: `/admin/:formId/share/` })}>
-            <span className="oi oi-share-boxed" />Share</button>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/responses/`, state: props.location.state })}>
+            <span className="oi oi-document" />Responses</button>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/share/`, state: props.location.state })}>
+            <span className="oi oi-share-boxed" />Share</button> 
     </div>);
 }
 
