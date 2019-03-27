@@ -53,6 +53,9 @@
     },
     "type": "object",
     "properties": {
+        "loginRequired": {"type": "boolean"},
+        "showConfirmationPage": {"type": "boolean"},
+        "successMessage": {"type": "string"},
         "paymentInfo": {
             "type": "object",
             "properties": {
@@ -87,7 +90,58 @@
             "$ref": "#/definitions/confirmationEmailInfo"
         },
         "dataOptions": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "export": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {"type": "string", "enum": ["google_sheets"]},
+                            "spreadsheetId": {"type": "string"}
+                        }
+                    }
+                },
+                "views": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {"type": "string"},
+                            "displayName": {"type": "string"},
+                            "columns": {"type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "label": {"type": "string"},
+                                        "value": {"$ref": "#/definitions/singleMultipleStringField"},
+                                        "defaultFilter": {"type": "string", "enum": ["CFF_FILTER_DEFINED", "CFF_FILTER_NONE"]},
+                                        "groupAssign": {"type": "string"},
+                                        "groupAssignDisplayPath": {"$ref": "#/definitions/singleMultipleStringField"},
+                                        "groupAssignDisplayModel": {"$ref": "#/definitions/singleMultipleStringField"},
+                                        "groupEdit": {"type": "string"}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "groups": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "schema": {
+                                "additionalProperties": true
+                            },
+                            "data": {
+                                "type": "array",
+                                "additionalItems": true
+                            }
+                        }
+                    }
+                }
+            }
         },
         "paymentMethods": {
             "type": "object",
