@@ -1,6 +1,7 @@
 #Chinmaya Mission Web Dev Notes and Links#
 
- **Setup your Development environment as per this document:** [Dev Env Setup](#Dev-environment-setup.md)
+ **Setup your Development environment as per this document:** [Dev Env Setup]
+ (#Dev-environment-setup.md)
 
  **Beta forms site:** [https://forms.beta.chinmayamission.com/admin/](https://forms.beta.chinmayamission.com/admin/)
 
