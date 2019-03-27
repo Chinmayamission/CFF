@@ -98,7 +98,8 @@ interface ICustomFormProps {
   onSubmit?: (e) => void,
   showPaymentTable?: boolean,
   paymentCalcInfo?: IPaymentCalcInfo,
-  className?: string
+  className?: string,
+  children?: any
 }
 
 function CustomForm(props: ICustomFormProps) {
@@ -138,16 +139,17 @@ function CustomForm(props: ICustomFormProps) {
         ErrorList={ErrorListTemplate}
         formContext={{formData: props.formData}}
       >
-        {props.showPaymentTable &&
+        {props.children}
+        {!props.children && props.showPaymentTable &&
           <div>
             {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
               <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
             }
           </div>
         }
-        <p>
+        {!props.children && <p>
           <button className="btn btn-info" type="submit">{props.uiSchema["ui:cff:submitButtonText"] || "Submit"}</button>
-        </p>
+        </p>}
       </Form>
     </div>);
 }
