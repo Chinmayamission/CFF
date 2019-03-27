@@ -12,7 +12,7 @@ import { loadFormList, createForm } from '../../store/admin/actions';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import history from "../../history";
 
-const mapStateToProps = state => ({
+const  mapStateToProps = state => ({
     ...state.auth,
     ...state.admin
 });
