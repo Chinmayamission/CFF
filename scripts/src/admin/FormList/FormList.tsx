@@ -83,7 +83,9 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     </div>
                                     <div className="col-sm">
                                         {console.log(form)}
-                                        {form["date_created"]["$date"]}
+                                        {new Date(form["date_modified"]["$date"]).toLocaleDateString()}
+                                        
+                                        
                                     </div>
                                     <div className="col-sm">
                                          {form["tags"].map((tag)=> <div className="badge badge-secondary" style={{backgroundColor: intToRGB(hashCode(tag))}}>{tag}</div>)}
