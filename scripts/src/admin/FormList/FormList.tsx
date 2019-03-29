@@ -22,6 +22,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     createForm: (e) => dispatch(createForm(e))
 });
 
+function hashCode(str) { // java String#hashCode
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+} 
+
+function intToRGB(number){
+    return "#"+((number)>>>0).toString(16).slice(-6);
+}
 
 class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
@@ -39,37 +50,45 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     }
 
+   
+
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
-
+        const colors = ['#0088FE', '#00C49F'];
         if (!formList) {
             return <div>Loading</div>;
         }
         return (
-            <table className="ccmt-cff-form-list table table-sm table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th>Right click on a form to perform an action.</th>
-                        <th>
+            <div className="container-fluid">
+                <div className="row">
+                        <div className="col-sm text-center">
+                            Right click on a form to perform an action.
+                        </div>
+                        <div className="col-sm text-center">
+                            Last Modified Date
+                        </div>
+                        <div className="col-sm text-center">
+                            Tags
+                        </div>
+                        <div className="col-sm text-center">
                             <FormNew onError={this.props.onError} />
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
-                    {formList && formList.map((form) =>
+                        </div>
+                </div>
+                {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
+                {formList && formList.map((form) =>
                         <React.Fragment key={form["_id"]["$oid"]}>
                             <ContextMenuTrigger id={form["_id"]["$oid"]}>
-                                <tr key={form["_id"]["$oid"]}>
-                                    <td className="ccmt-cff-form-list-name">{form["name"]}<br />
-                                        <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
-                                            <code>{form["_id"]["$oid"]}</code>
-                                        </small>
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
+                                <div className="row" key={form["_id"]["$oid"]}>
+                                    <div className="col-sm">{form["name"]}<br />
+                                    </div>
+                                    <div className="col-sm">
+                                        {console.log(form)}
+                                        {form["date_created"]["$date"]}
+                                    </div>
+                                    <div className="col-sm">
+                                         {form["tags"].map((tag)=> <div className="badge badge-secondary" style={{backgroundColor: intToRGB(hashCode(tag))}}>{tag}</div>)}
+                                    </div>
+                                </div>
                             </ContextMenuTrigger>
                             <ContextMenu id={form["_id"]["$oid"]}>
                                 <MenuItem data={{ foo: 'View' }} onClick={() =>
@@ -100,8 +119,8 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             </ContextMenu>
                         </React.Fragment>
                     )}
-                </tbody>
-            </table>
+                
+            </div>
         )
     }
 }

@@ -6,8 +6,9 @@ export interface IFormListItem {
     _id: {$oid: string},
     version: number,
     cff_permissions: {[x: string]: string[]},
-    date_last_modified: string,
-    date_created: string
+    date_modified: string,
+    date_created: string,
+    tags: string[]
 }
 
 
