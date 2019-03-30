@@ -65,10 +65,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             Right click on a form to perform an action.
                         </div>
                         <div className="col-sm">
-                            Last Modified Date
+                            Date Last Modified
                         </div>
                         <div className="col-sm">
-                            Created Date
+                            Date Created
                         </div>
                         {/* <div className="col-sm">
                             Tags
