@@ -61,16 +61,19 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         return (
             <div className="container-fluid">
                 <div className="row">
-                        <div className="col-sm text-center">
+                        <div className="col-sm">
                             Right click on a form to perform an action.
                         </div>
-                        <div className="col-sm text-center">
+                        <div className="col-sm">
                             Last Modified Date
                         </div>
-                        <div className="col-sm text-center">
-                            Tags
+                        <div className="col-sm">
+                            Created Date
                         </div>
-                        <div className="col-sm text-center">
+                        {/* <div className="col-sm">
+                            Tags
+                        </div> */}
+                        <div className="col-sm">
                             <FormNew onError={this.props.onError} />
                         </div>
                 </div>
@@ -79,13 +82,14 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                         <React.Fragment key={form["_id"]["$oid"]}>
                             <ContextMenuTrigger id={form["_id"]["$oid"]}>
                                 <div className="row" key={form["_id"]["$oid"]}>
-                                    <div className="col-sm">{form["name"]}<br />
+                                    <div className="col-sm">{form["name"]}
                                     </div>
                                     <div className="col-sm">
                                         {console.log(form)}
                                         {new Date(form["date_modified"]["$date"]).toLocaleDateString()}
-                                        
-                                        
+                                    </div>
+                                    <div className="col-sm">
+                                        {new Date(form["date_created"]["$date"]).toLocaleDateString()}
                                     </div>
                                     <div className="col-sm">
                                          {form["tags"].map((tag)=> <div className="badge badge-secondary" style={{backgroundColor: intToRGB(hashCode(tag))}}>{tag}</div>)}
