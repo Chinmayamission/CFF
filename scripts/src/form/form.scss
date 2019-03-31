@@ -59,12 +59,12 @@
         margin-right: 20px;
     }
     .field-object, .field-array {
-        &&:not([class*="col"]) {
+        &:not([class*="col"]) {
             flex: 0 0 100%;
         }
     }
     .field-string, .field-number, .field-boolean {
-        &&:not([class*="col"]) {
+        &:not([class*="col"]) {
             flex: 1;
         }
     }
