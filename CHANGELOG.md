@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.3.4 (3/31/19)
+- Fix - fix CSS selectors.
+
 ## 3.3.3 (3/31/19)
 - Hotfix to fix cloudfront caching.
 
