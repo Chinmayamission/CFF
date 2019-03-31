@@ -34,7 +34,7 @@ function intToRGB(number){
     return "#"+((number)>>>0).toString(16).slice(-6);
 }
 
-function     changeColor(){
+function changeColor(){
     var newColor = "#0088FE";
     this.setState({ color: newColor});
 }
