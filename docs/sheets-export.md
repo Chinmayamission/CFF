@@ -1,0 +1,1 @@
+The sheets export is currently run as an hourly job. The code for this can be found in the `ccmt-cff-client` repository, in the `scripts/backend` folder. It is deployed as a lambda js function.
