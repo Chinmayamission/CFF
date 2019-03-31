@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.3.2 (3/31/19)
+- Forms: Fix bug again in which "col" classes are not respected properly
+
 ## 3.3.1 (3/31/19)
 - Forms: Fix bug in which "col" classes are not respected properly
 
