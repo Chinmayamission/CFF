@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.3.3 (3/31/19)
+- Hotfix to fix cloudfront caching.
+
 ## 3.3.2 (3/31/19)
 - Forms: Fix bug again in which "col" classes are not respected properly
 
