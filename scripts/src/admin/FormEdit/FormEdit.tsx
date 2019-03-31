@@ -116,7 +116,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             <div className="col-12 ccmt-cff-editpage-jsoneditor-container">
                                 <Tabs>
                                     <TabList>
-                                        <Tab>Form Options</Tab>
+                                        {/* <Tab>Form Options</Tab> */}
                                         <Tab>Form Options (JSON)</Tab>
                                         <Tab>Schema (JSON)</Tab>
                                         <Tab>UiSchema (JSON)</Tab>
@@ -124,13 +124,13 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                                         {this.renderTopPane()}
                                         </li>
                                     </TabList>
-                                    <TabPanel>
+                                    {/* <TabPanel>
                                         <CustomForm schema={require("./formOptions.schema.json")}
                                             uiSchema={require("./formOptions.uiSchema.json")}
                                             formData={this.state.formOptions}
                                             onSubmit={(e) => this.onChange("formOptions", e, {partial: true})}
                                         />
-                                    </TabPanel>
+                                    </TabPanel> */}
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.formOptions}
