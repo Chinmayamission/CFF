@@ -16,7 +16,7 @@ class FormAdmin(BaseTestCase):
         response = self.lg.handle_request(method='GET', path='/forms', headers={"authorization": "auth",}, body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])      
-        self.assertEqual(set(("_id", "name", "cff_permissions")), set(body['res'][0].keys()))
+        self.assertEqual(set(("_id", "name", "cff_permissions", "date_created", "date_modified", "tags")), set(body['res'][0].keys()))
     def test_form_list_none(self):
         """When user can access no forms."""
         test_id_old = app.test_user_id 
