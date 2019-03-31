@@ -11,6 +11,7 @@ import { IFormListProps, IFormListState } from "./FormList.d";
 import { loadFormList, createForm } from '../../store/admin/actions';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import history from "../../history";
+import Loader from 'react-loader-spinner';
 
 const mapStateToProps = state => ({
     ...state.auth,
@@ -60,8 +61,14 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
+        formList = null;
         if (!formList) {
-            return <div>Loading</div>;
+            return(<Loader 
+                type="Bars"
+                color="#00BFFF"
+                height="100"	
+                 width="100"
+            />);  
         }
         return (
             <div className="container-fluid">
@@ -82,7 +89,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             <FormNew onError={this.props.onError} />
                         </div>
                 </div>
-                {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
+                {formList && formList.length == 0 && <tr><td>..Loading.</td></tr>}
                 {formList && formList.map((form) =>
                         <React.Fragment key={form["_id"]["$oid"]}>
                             <ContextMenuTrigger id={form["_id"]["$oid"]}>
