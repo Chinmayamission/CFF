@@ -62,7 +62,9 @@
         flex: 0 0 100%;
     }
     .field-string, .field-number, .field-boolean {
-        flex: 1;
+        &&:not([class*="border-radius"]) {
+            flex: 1;
+        }
     }
     .field-object, .field-array, .field-string, .field-number, .field-boolean {
         padding-left: 15px;

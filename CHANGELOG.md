@@ -37,7 +37,11 @@ todo:
 - 
 - user login/signup
 
+## 3.3.1 (3/31/19)
+- Forms: Fix bug in which "col" classes are not respected properly
+
 ## 3.3.0 (3/31/19)
+- Forms: upgrade react-jsonschema-form, fix column width logic
 - Form Admin: show loading spinner when form is loading (#51)
 - Form Admin: highlight rows when clicked, show last modified and last created dates, move action buttons to right click context menu (#35)
 - Form Admin: show form page menu when any of the pages (edit, responses) are viewed, for easier navigation (#42)
