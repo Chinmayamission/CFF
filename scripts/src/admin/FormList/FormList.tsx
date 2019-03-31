@@ -61,7 +61,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
-        formList = null;
+        
         if (!formList) {
             return(<Loader 
                 type="Bars"
