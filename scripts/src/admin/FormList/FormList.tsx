@@ -34,14 +34,23 @@ function intToRGB(number){
     return "#"+((number)>>>0).toString(16).slice(-6);
 }
 
+function     changeColor(){
+    var newColor = "#0088FE";
+    this.setState({ color: newColor});
+}
+
+
+
 class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);
         console.log(props);
         this.state = {
-            formList: []
+            formList: [],
+            highlightedForm : ''
         }
+        this.setState = this.setState.bind(this);
     }
     componentDidMount() {
         this.props.loadFormList();
@@ -50,11 +59,15 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     }
 
-   
+    highlightForm(formId){
+        this.setState({highlightedForm: formId})
+        
+    }
+
+
 
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
-        const colors = ['#0088FE', '#00C49F'];
         if (!formList) {
             return <div>Loading</div>;
         }
@@ -81,7 +94,8 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 {formList && formList.map((form) =>
                         <React.Fragment key={form["_id"]["$oid"]}>
                             <ContextMenuTrigger id={form["_id"]["$oid"]}>
-                                <div className="row" key={form["_id"]["$oid"]}>
+                                <div className="row" style={{padding: 10, backgroundColor: form["_id"]["$oid"] === this.state.highlightedForm ? "blue": "white"}} onClick={() => this.highlightForm(form["_id"]["$oid"])} key={form["_id"]["$oid"]}
+                                  onContextMenu={() => this.highlightForm(form["_id"]["$oid"])}>
                                     <div className="col-sm">{form["name"]}
                                     </div>
                                     <div className="col-sm">
@@ -95,6 +109,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                          {form["tags"].map((tag)=> <div className="badge badge-secondary" style={{backgroundColor: intToRGB(hashCode(tag))}}>{tag}</div>)}
                                     </div>
                                 </div>
+                             
                             </ContextMenuTrigger>
                             <ContextMenu id={form["_id"]["$oid"]}>
                                 <MenuItem data={{ foo: 'View' }} onClick={() =>
