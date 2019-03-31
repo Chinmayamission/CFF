@@ -37,7 +37,12 @@ todo:
 - 
 - user login/signup
 
-## 3.3.0 ()
+## 3.3.0 (3/31/19)
+- Form Admin: show loading spinner when form is loading (#51)
+- Form Admin: highlight rows when clicked, show last modified and last created dates, move action buttons to right click context menu (#35)
+- Form Admin: show form page menu when any of the pages (edit, responses) are viewed, for easier navigation (#42)
+- Form Edit: Use Monaco editor for better admin editing experience (#53)
+- Google Sheets: Add showCountTotal option to show total in aggregation (#52) (lambda js)
 
 ## 3.2.1 (3/22/19)
 ### Lambda js
