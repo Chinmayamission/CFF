@@ -35,7 +35,8 @@
       "displayName": "Aggregate",
       "aggregate": [
         {"|group": {"_id": "$paid", "count": {"|sum": 1} } }
-      ]
+      ],
+      "showCountTotal": true
     }
   ]
 }
@@ -227,6 +228,9 @@ module.exports.hello = async (event, context) => {
                 ...aggregateQuery
               ]).toArray();
               queryCache[cacheKey] = responsesToUse;
+            }
+            if (responsesToUse.length > 0 && dataOptionView.showCountTotal === true) {
+              responsesToUse.push({'_id': 'TOTAL', 'count': responsesToUse.map(e => e.count).reduce((a, b) => a + b)})
             }
             // Debug
             // console.log(JSON.stringify(aggregateQuery), responsesToUse);

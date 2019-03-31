@@ -145,7 +145,8 @@ interface IDataOptionView {
         value: string | string[]
     } | string | string[])[],
     groupEdit?: string,
-    aggregate?: {[x: string]: any}[]
+    aggregate?: {[x: string]: any}[],
+    showCountTotal?: boolean
 }
 interface IGroupOption {
     schema: any,
