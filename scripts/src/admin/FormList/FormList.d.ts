@@ -13,7 +13,6 @@ export interface IFormListItem {
 
 
 export interface IFormListState {
-    formList: IFormListItem[],
     highlightedForm: string
 }
 
