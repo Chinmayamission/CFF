@@ -1,12 +1,8 @@
 import * as React from 'react';
-import axios from 'axios';
-import FormLoader from "../../common/FormLoader";
 import FormPage from "../../form/FormPage";
 import Loading from "../../common/Loading/Loading";
-// import * as difflet from "difflet";
 import JSONEditor from "./JSONEditor";
-import { get, set, assign, pick } from "lodash";
-import Modal from 'react-responsive-modal';
+import { get, merge, cloneDeep } from "lodash";
 import dataLoadingView from "../util/DataLoadingView";
 import { API } from "aws-amplify";
 import { IFormEditProps, IFormEditState } from "./FormEdit.d";
@@ -14,6 +10,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 import "./FormEdit.scss";
 import SplitterLayout from 'react-splitter-layout';
+import CustomForm from '../../form/CustomForm';
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
         super(props);
@@ -24,13 +21,39 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             uiSchema: get(form, "uiSchema", {}),
             formOptions: get(form, "formOptions", { "paymentInfo": {}, "confirmationEmailInfo": {}, "paymentMethods": {} }),
             formName: get(form, "name", "None"),
-            loading: false
+            loading: false,
+            changeFromEditor: false,
+            hasError: false,
+            errorMessage: ""
         }
     }
-    onChange(path, data) {
-        this.setState(set(assign({}, this.state), path, data));
+    onChange(path, data, {changeFromEditor=false, partial=false}) {
+        let state = cloneDeep(this.state);
+        if (partial) {
+            for (let key in data) {
+                state[path][key] = data[key];
+            }
+        }
+        else {
+            state[path] = data;
+        }
+        state.changeFromEditor = changeFromEditor;
+        state.hasError = false;
+        state.errorMessage = "";
+        this.setState(state);
     }
+    onJSONError(path, message) {
+        this.setState({
+            hasError: true,
+            errorMessage: `Error in ${path}: ${message}`
+        });
+    }
+
     saveForm() {
+        if (this.state.hasError) {
+            alert(`Can't save form. ${this.state.errorMessage}`);
+            return;
+        }
         this.setState({ loading: true });
         API.patch("CFF", `forms/${this.props.match.params.formId}`, {
             "body": {
@@ -93,36 +116,46 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                             <div className="col-12 ccmt-cff-editpage-jsoneditor-container">
                                 <Tabs>
                                     <TabList>
-                                        <Tab>formOptions</Tab>
-                                        <Tab>schema</Tab>
-                                        <Tab>uiSchema</Tab>
+                                        <Tab>Form Options</Tab>
+                                        <Tab>Form Options (JSON)</Tab>
+                                        <Tab>Schema (JSON)</Tab>
+                                        <Tab>UiSchema (JSON)</Tab>
                                         <li className="react-tabs__tab">
                                         {this.renderTopPane()}
                                         </li>
                                     </TabList>
-
+                                    <TabPanel>
+                                        <CustomForm schema={require("./formOptions.schema.json")}
+                                            uiSchema={require("./formOptions.uiSchema.json")}
+                                            formData={this.state.formOptions}
+                                            onSubmit={(e) => this.onChange("formOptions", e, {partial: true})}
+                                        />
+                                    </TabPanel>
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.formOptions}
-                                            onChange={(e) => this.onChange("formOptions", e)}
+                                            changeFromEditor={this.state.changeFromEditor}
+                                            onChange={(e) => this.onChange("formOptions", e, {changeFromEditor: true})}
+                                            onJSONError={e => this.onJSONError("formOptions", e)}
                                         />
                                     </TabPanel>
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.schema}
-                                            onChange={(e) => this.onChange("schema", e)}
+                                            changeFromEditor={this.state.changeFromEditor}
+                                            onChange={(e) => this.onChange("schema", e, {changeFromEditor: true})}
+                                            onJSONError={e => this.onJSONError("schema", e)}
                                         />
                                     </TabPanel>
                                     <TabPanel>
                                         <JSONEditor
                                             data={this.state.uiSchema}
-                                            onChange={(e) => this.onChange("uiSchema", e)}
+                                            changeFromEditor={this.state.changeFromEditor}
+                                            onChange={(e) => this.onChange("uiSchema", e, {changeFromEditor: true})}
+                                            onJSONError={e => this.onJSONError("uiSchema", e)}
                                         />
                                     </TabPanel>
                                 </Tabs>
-                            </div>
-                            <div className="ccmt-cff-formedit-preview col-12 mt-4">
-                                <FormPage formId={this.props.match.params.formId} key={JSON.stringify(this.state)} form_preloaded={pick(this.state, ["schema", "uiSchema", "formOptions"])} />
                             </div>
                         </SplitterLayout>
                     </div>
