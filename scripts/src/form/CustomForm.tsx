@@ -17,6 +17,7 @@ import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 import ExpressionParser from "../common/ExpressionParser";
 import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
 import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget";
+import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
 
 
 export const FormattedDescriptionField = ({ id, description }) => {
@@ -60,7 +61,8 @@ const widgets = {
   "cff:smallTextbox": SmallTextboxWidget,
   "cff:money": MoneyWidget,
   "cff:couponCode": CouponCodeWidget,
-  "cff:confirm": ConfirmWidget
+  "cff:confirm": ConfirmWidget,
+  "cff:jsonEditor": JSONEditorWidget
 };
 
 const fields = {
@@ -96,7 +98,8 @@ interface ICustomFormProps {
   onSubmit?: (e) => void,
   showPaymentTable?: boolean,
   paymentCalcInfo?: IPaymentCalcInfo,
-  className?: string
+  className?: string,
+  children?: any
 }
 
 function CustomForm(props: ICustomFormProps) {
@@ -108,7 +111,7 @@ function CustomForm(props: ICustomFormProps) {
       if (error.name === "pattern") {
         error.message = "Please enter a value in the correct format."
       }
-      if (error.message.match(/is a required property/)) {
+      if (error.message && error.message.match(/is a required property/)) {
         error.message = error.message.replace(/is a required property/, "is a required field");
       }
       return error;
@@ -136,16 +139,17 @@ function CustomForm(props: ICustomFormProps) {
         ErrorList={ErrorListTemplate}
         formContext={{formData: props.formData}}
       >
-        {props.showPaymentTable &&
+        {props.children}
+        {!props.children && props.showPaymentTable &&
           <div>
             {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
               <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
             }
           </div>
         }
-        <p>
+        {!props.children && <p>
           <button className="btn btn-info" type="submit">{props.uiSchema["ui:cff:submitButtonText"] || "Submit"}</button>
-        </p>
+        </p>}
       </Form>
     </div>);
 }

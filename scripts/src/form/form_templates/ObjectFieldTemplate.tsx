@@ -11,26 +11,6 @@ function ObjectFieldTemplate({ TitleField, properties, title, description }) {
             <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
             <div className="row">
                 {properties.map(prop => {
-                    let customClasses = {
-                        "twoColumn": "col-12 col-sm-12 col-md-6",
-                        "threeColumn": "col-12 col-sm-6 col-md-4",
-                        "fourColumn": "col-6 col-sm-6 col-md-3",
-                        "fiveColumn": "col-6 col-sm-4 col-md-2",
-                        "sixColumn": "col-6 col-sm-4 col-md-2",
-                        "flex": "col",
-                        "full": "col-12"
-                    };
-                    if (!prop.content.props.uiSchema.classNames) {
-                        if (prop.content.props.schema.type === "string" || prop.content.props.schema.type === "number" || prop.content.props.schema.type === "boolean") {
-                            prop.content.props.uiSchema.classNames = "col";
-                        }
-                        else {
-                            prop.content.props.uiSchema.classNames = "col-12";
-                        }
-                    }
-                    for (let customClass in customClasses) {
-                        prop.content.props.uiSchema.classNames = prop.content.props.uiSchema.classNames.replace(customClass, customClasses[customClass]);
-                    }
                     return (prop.content);
                 })}
             </div>
