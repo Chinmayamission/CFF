@@ -126,7 +126,6 @@
     "react-json-view": "^1.15.2",
     "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#3afb5f9fd390f2c4806d3d6124983fb660c01146",
     "react-linkify": "^0.2.2",
-    "react-loader-spinner": "^2.3.0",
     "react-loading": "^1.0.3",
     "react-redux": "^5.0.7",
     "react-responsive-modal": "^2.0.0",
