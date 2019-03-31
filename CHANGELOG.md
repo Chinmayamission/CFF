@@ -43,6 +43,8 @@ todo:
 - Form Admin: show form page menu when any of the pages (edit, responses) are viewed, for easier navigation (#42)
 - Form Edit: Use Monaco editor for better admin editing experience (#53)
 - Google Sheets: Add showCountTotal option to show total in aggregation (#52) (lambda js)
+- Backend: allow forms to have $ref's nested in lists; return date_created and date_modified from form list endpoint.
+
 
 ## 3.2.1 (3/22/19)
 ### Lambda js
