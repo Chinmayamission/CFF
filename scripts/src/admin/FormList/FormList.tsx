@@ -22,6 +22,17 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     createForm: (e) => dispatch(createForm(e))
 });
 
+function hashCode(str) { // java String#hashCode
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+} 
+
+function intToRGB(number){
+    return "#"+((number)>>>0).toString(16).slice(-6);
+}
 
 class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
@@ -29,9 +40,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         this.render = this.render.bind(this);
         console.log(props);
         this.state = {
-            formList: []
+            formList: [],
+            highlightedForm : ''
         }
-    }
+}
     componentDidMount() {
         this.props.loadFormList();
     }
@@ -39,60 +51,79 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     }
 
+    highlightForm(formId){
+        this.setState({highlightedForm: formId})
+        
+    }
+
+
+
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
-
         if (!formList) {
             return <div>Loading</div>;
         }
         return (
-            <table className="ccmt-cff-form-list table table-sm table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th>Right click on a form to perform an action.</th>
-                        <th>
+            <div className="container-fluid">
+                <div className="row">
+                        <div className="col-sm">
+                            Right click on a form to perform an action.
+                        </div>
+                        <div className="col-sm">
+                            Date Last Modified
+                        </div>
+                        <div className="col-sm">
+                            Date Created
+                        </div>
+                        {/* <div className="col-sm">
+                            Tags
+                        </div> */}
+                        <div className="col-sm">
                             <FormNew onError={this.props.onError} />
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
-                    {formList && formList.map((form) =>
+                        </div>
+                </div>
+                {formList && formList.length == 0 && <tr><td>No forms found.</td></tr>}
+                {formList && formList.map((form) =>
                         <React.Fragment key={form["_id"]["$oid"]}>
                             <ContextMenuTrigger id={form["_id"]["$oid"]}>
-                                <tr key={form["_id"]["$oid"]}>
-                                    <td className="ccmt-cff-form-list-name">{form["name"]}<br />
-                                        <small title={form["schemaModifier"] ? `s: ${form["schema"]["id"]} v${form["schema"]["version"]};\n sM: ${form["schemaModifier"]["id"]} v${form["schemaModifier"]["version"]}` : ""}>
-                                            <code>{form["_id"]["$oid"]}</code>
-                                        </small>
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
+                                <div className="row" style={{padding: 10, backgroundColor: form["_id"]["$oid"] === this.state.highlightedForm ? "lightblue": "white"}} onClick={() => this.highlightForm(form["_id"]["$oid"])} key={form["_id"]["$oid"]}
+                                  onContextMenu={() => this.highlightForm(form["_id"]["$oid"])}>
+                                    <div className="col-sm">{form["name"]}
+                                    </div>
+                                    <div className="col-sm">
+                                        {new Date(form["date_modified"]["$date"]).toLocaleDateString()}
+                                    </div>
+                                    <div className="col-sm">
+                                        {new Date(form["date_created"]["$date"]).toLocaleDateString()}
+                                    </div>
+                                    <div className="col-sm">
+                                         {form["tags"] && form["tags"].map((tag)=> <div className="badge badge-secondary" style={{backgroundColor: intToRGB(hashCode(tag))}}>{tag}</div>)}
+                                    </div>
+                                </div>
+                             
                             </ContextMenuTrigger>
                             <ContextMenu id={form["_id"]["$oid"]}>
-                                <MenuItem data={{ foo: 'View' }} onClick={() =>
+                                <MenuItem  onClick={() =>
                                     history.push({ pathname: `/v2/forms/${form["_id"]["$oid"]}`, state: { selectedForm: form } })}>
                                     <span className="oi oi-document" />&nbsp;View
  			                </MenuItem>
-                                <MenuItem data={{ foo: 'Embed' }} onClick={() => history.push({ pathname: `./${form["_id"]["$oid"]}/embed/`, state: { selectedForm: form } })}>
+                                <MenuItem  onClick={() => history.push({ pathname: `./${form["_id"]["$oid"]}/embed/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-document" />&nbsp;Embed
                             </MenuItem>
                                 <MenuItem divider />
-                                <MenuItem data={{ foo: 'Edit' }} onClick={() =>
+                                <MenuItem  onClick={() =>
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/edit/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-pencil" />&nbsp;Edit
                             </MenuItem>
-                                <MenuItem data={{ foo: 'Responses' }} onClick={() =>
+                                <MenuItem  onClick={() =>
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/responses/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-sort-ascending" />&nbsp;Responses
                             </MenuItem>
-                                <MenuItem data={{ foo: 'Share' }} onClick={() =>
+                                <MenuItem  onClick={() =>
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/share/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-share-boxed" />&nbsp;Share
                             </MenuItem>
-                                <MenuItem data={{ foo: 'Duplicate' }} onClick={() =>
+                                <MenuItem  onClick={() =>
                                     this.props.createForm(form._id.$oid)}>
                                     <span className="oi oi-plus" />&nbsp;
                                     Duplicate
@@ -100,8 +131,8 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             </ContextMenu>
                         </React.Fragment>
                     )}
-                </tbody>
-            </table>
+                
+            </div>
         )
     }
 }
