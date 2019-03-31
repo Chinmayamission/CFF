@@ -13,7 +13,7 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import history from "../../history";
 import Loader from 'react-loader-spinner';
 
-const mapStateToProps = state => ({
+const  mapStateToProps = state => ({
     ...state.auth,
     ...state.admin
 });

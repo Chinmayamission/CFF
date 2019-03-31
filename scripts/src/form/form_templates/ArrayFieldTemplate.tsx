@@ -3,6 +3,7 @@ import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
 import DescriptionField from "react-jsonschema-form";
 import "./ArrayFieldTemplate.scss";
+import { FormattedDescriptionField } from '../CustomForm';
 
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
   if (!title) {
@@ -44,7 +45,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
           <div
             className="field-description"
             key={`field-description-${this.props.idSchema.$id}`}>
-            {this.props.uiSchema["ui:description"] || this.props.schema.description}
+            <FormattedDescriptionField id={`field-description-${this.props.idSchema.$id}`} description={this.props.uiSchema["ui:description"] || this.props.schema.description} />
           </div>
         )}
 
@@ -52,25 +53,29 @@ class ArrayFieldTemplate extends React.Component<any, any> {
           className="array-item-list"
           key={`array-item-list-${this.props.idSchema.$id}`}>
           {this.props.items.map((element, i) =>
-            <div className="row mb-4" key={i}>
-              <div className="col-9">
+            <div className="row" key={i}>
+              <div className="col-12 ccmt-cff-array-item-container">
                 {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
                 {this.props.uiSchema["ui:cff:arrayItemTitles"] && this.props.uiSchema["ui:cff:arrayItemTitles"][i] &&
                   <h2 className="ccmt-cff-form-title">
                     {this.props.uiSchema["ui:cff:arrayItemTitles"][i]}
                   </h2>
                 }
-                {element.children}
-              </div>
-              <div className="col-3 mt-4 ccmt-cff-array-button-container">
                 {(element.hasRemove && i >= (this.props.schema.minItems || 0)) &&
-                  <button type="button" className="btn btn-danger col-12 ccmt-cff-btn-array-remove" onClick={element.onDropIndexClick(element.index)}>{this.props.uiSchema["ui:cff:removeButtonText"] || "Remove"}</button>
+                  <span className="oi oi-circle-x ccmt-cff-array-close-button" onClick={() =>
+                    confirm( this.props.uiSchema["ui:cff:removeButtonText"] ? `Are you sure you want to ${this.props.uiSchema["ui:cff:removeButtonText"]}?`: 'Are you sure you want to remove this item?' ) &&
+                    element.onDropIndexClick(element.index)()
+                  }></span>
                 }
+                {element.children}
               </div>
             </div>
           )}
           {this.props.canAdd &&
-            <button type="button" className="btn btn-info col-12 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>{this.props.uiSchema["ui:cff:addButtonText"] || "Add"}</button>
+            <button type="button" className="btn btn-info col-12 mt-4 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>
+              <small><span className="oi oi-plus"></span></small>&nbsp;&nbsp;&nbsp;
+              {this.props.uiSchema["ui:cff:addButtonText"] || "Add"}
+            </button>
           }
         </div>
       </fieldset>

@@ -51,9 +51,21 @@
         // transform: scale(1.0001);
         //border: 1px dotted grey;
     }
-    .ccmt-cff-btn-array-remove {margin-top: 10px;}
-    .ccmt-cff-btn-array-add {
+    .checkbox-inline {
+        margin-right: 20px;
+    }
+    .ccmt-cff-btn-array-add, .ccmt-cff-btn-array-remove {
         max-width: 200px !important;
+        margin-right: 20px;
+    }
+    .ccmt-cff-array-item-container {
+        position: relative;
+        .ccmt-cff-array-close-button {
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            cursor: pointer;
+        }
     }
     input[type=radio], input[type=checkbox] {
         margin-right: 10px;
