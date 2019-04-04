@@ -28,6 +28,17 @@ Array [
 ]
 `;
 
+exports[`renders custom columns with constant values for main view in response table 1`] = `
+Array [
+  Object {
+    "Cell": [Function],
+    "Header": "Names",
+    "accessor": [Function],
+    "id": "parents.name.last, parents.name.first",
+  },
+]
+`;
+
 exports[`renders default columns for main view in response table 1`] = `
 Array [
   Object {
