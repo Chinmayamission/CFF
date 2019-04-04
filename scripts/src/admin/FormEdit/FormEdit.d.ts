@@ -1,5 +1,6 @@
 import { IResponse } from "../../store/responses/types";
 import { IPaymentInfo, ConfirmationEmailInfo, Schema, SchemaModifier, IPaymentMethods, UiSchema } from "../../form/interfaces";
+import { IHeaderOption } from "../util/Headers";
 
 export interface IFormEditProps {
     data: any,
@@ -143,10 +144,7 @@ interface IDataOptionView {
     unwindBy?: string,
     displayName: string,
     id: string,
-    columns?: ({
-        label: string,
-        value: string | string[]
-    } | string | string[])[],
+    columns?: (IHeaderOption | string | string[])[],
     groupEdit?: string,
     aggregate?: {[x: string]: any}[],
     showCountTotal?: boolean

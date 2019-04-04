@@ -19,7 +19,8 @@ export interface IHeaderObject {
 
 export interface IHeaderOption {
     label?: string,
-    value: string,
+    noSpace?: boolean,
+    value: string | (string | {mode: string, value: string})[],
     groupAssign?: string,
     groupAssignDisplayPath?: string,
     groupAssignDisplayModel?: string,
@@ -78,6 +79,12 @@ export module Headers {
     }
 
     function headerAccessorSingle(formData, headerName, schema={}) {
+        if (headerName.mode === "constant") {
+            return headerName.value;
+        }
+        if (headerName.value) {
+            return headerName.value;
+        }
         let value = get(formData, headerName);
         if (typeof value !== "undefined") {
             return value;
@@ -103,9 +110,9 @@ export module Headers {
     * if header name is a list, then apply the accessor to each value in the list
     * and return the results separated by a space.
     */
-    export function headerAccessor(formData, headerName, schema={}) {
+    export function headerAccessor(formData, headerName, schema={}, noSpace=false) {
         if (isArray(headerName)) {
-            return headerName.map(e => headerAccessorSingle(formData, e, schema)).join(" ");
+            return headerName.map(e => headerAccessorSingle(formData, e, schema)).join(noSpace ? "": " ");
         }
         else {
             return headerAccessorSingle(formData, headerName, schema)
@@ -121,7 +128,7 @@ export module Headers {
             // For react table js:
             Header: headerLabel,
             id: headerName,
-            accessor: formData => headerAccessor(formData, headerValue, schema),
+            accessor: formData => headerAccessor(formData, headerValue, schema, header.noSpace || false),
             Cell: row => formatValue(row.value)
         };
         if (header.groupAssign) {

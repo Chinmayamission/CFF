@@ -34,6 +34,28 @@ Array [
     "Cell": [Function],
     "Header": "Names",
     "accessor": [Function],
+    "id": "[object Object], parents.name.first",
+  },
+]
+`;
+
+exports[`renders custom columns with multiple values for main view in response table 1`] = `
+Array [
+  Object {
+    "Cell": [Function],
+    "Header": "Names",
+    "accessor": [Function],
+    "id": "parents.name.last, parents.name.first",
+  },
+]
+`;
+
+exports[`renders custom columns with no spaces for main view in response table 1`] = `
+Array [
+  Object {
+    "Cell": [Function],
+    "Header": "Names",
+    "accessor": [Function],
     "id": "parents.name.last, parents.name.first",
   },
 ]
