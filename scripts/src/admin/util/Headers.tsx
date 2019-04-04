@@ -22,7 +22,7 @@ export interface IHeaderOption {
     noSpace?: boolean,
     value: string | (string | {mode: string, value: string})[],
     groupAssign?: string,
-    groupAssignDisplayPath?: string,
+    groupAssignDisplayPath?: string | string[],
     groupAssignDisplayModel?: string,
     defaultFilter?: string
 }
@@ -83,7 +83,7 @@ export module Headers {
             return headerName.value;
         }
         if (headerName.value) {
-            return headerName.value;
+            headerName = headerName.value;
         }
         let value = get(formData, headerName);
         if (typeof value !== "undefined") {
