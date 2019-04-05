@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.4.2 (4/5/19)
+- Bug fix: fix problem where "coupon code maximum reached" message would come even in a normal form submission.
+
 ## 3.4.1 (4/5/19)
 - Responses Table: show AMOUNT_PAID column by default on responses view
 
