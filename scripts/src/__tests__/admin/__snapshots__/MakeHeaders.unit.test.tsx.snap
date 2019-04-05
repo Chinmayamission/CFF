@@ -79,6 +79,12 @@ Array [
   },
   Object {
     "Cell": [Function],
+    "Header": "AMOUNT_PAID",
+    "accessor": [Function],
+    "id": "AMOUNT_PAID",
+  },
+  Object {
+    "Cell": [Function],
     "Header": "DATE_CREATED",
     "accessor": [Function],
     "id": "DATE_CREATED",
