@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.4.0 (4/5/19)
+- Form Responses: Allow header values to be concatenated with no space (with the `noSpace` option) and also have constant values.
+- Add support for coupon codes with limits, with the used coupon codes stored in the `couponCodes_used` property on a Form.
+
 ## 3.3.4 (3/31/19)
 - Fix - fix CSS selectors.
 
