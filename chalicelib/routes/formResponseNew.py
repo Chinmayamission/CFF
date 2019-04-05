@@ -54,7 +54,7 @@ def form_response_new(formId):
         paymentInfoItem['amount'] = calculate_price(paymentInfoItem.get('amount', '0'), response_data)
         paymentInfoItem['quantity'] = calculate_price(paymentInfoItem.get('quantity', '0'), response_data)
         paymentInfo['total'] += paymentInfoItem['amount'] * paymentInfoItem['quantity']
-        if "couponCode" in paymentInfoItem and paymentInfoItem["amount"] * paymentInfoItem["quantity"] is not 0:
+        if "couponCode" in paymentInfoItem and paymentInfoItem["amount"] * paymentInfoItem["quantity"] != 0:
             slots_maximum = calculate_price(paymentInfoItem.get("couponCodeMaximum", "-1"), response_data)
             if slots_maximum != -1:
                 slots_requested = calculate_price(paymentInfoItem.get("couponCodeCount", "1"), response_data)
