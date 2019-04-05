@@ -44,6 +44,7 @@ class Form(BaseMongoModel):
   schema = fields.DictField(required=True)
   uiSchema = fields.DictField(required=True)
   formOptions = fields.EmbeddedDocumentField(FormOptions, required=True)
+  couponCodes_used = fields.DictField(required=False)
   cff_permissions = fields.DictField(required=True)
   center = fields.CharField()
   date_modified = fields.DateTimeField(required=True)
