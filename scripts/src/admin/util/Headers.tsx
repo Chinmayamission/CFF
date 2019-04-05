@@ -279,7 +279,7 @@ export module Headers {
         let columns = dataOptionView.columns;
 
         if (!columns) {
-            columns = ["ID", "PAID", "DATE_CREATED"].concat(getHeaderNamesFromSchema(schema));
+            columns = ["ID", "PAID", "AMOUNT_PAID", "DATE_CREATED"].concat(getHeaderNamesFromSchema(schema));
             if (dataOptionView.unwindBy) {
                 // todo: fix property path.
                 let unwindBySchema = get(schema, dataOptionView.unwindBy);
