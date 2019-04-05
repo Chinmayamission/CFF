@@ -65,9 +65,8 @@ def form_response_new(formId):
                     message = "Coupon code maximum reached.\nSubmitting this form will cause you to exceed the coupon code maximum.\nNumber of spots remaining: {}".format(slots_available)
                     return False, {"res": {"success": False, "message": message, "fields_to_clear": ["couponCode"]}}
                 form.couponCodes_used[paymentInfoItem["couponCode"]] = slots_used + slots_requested
-                form.save()
+                Form.objects.raw({"_id": form.id}).update({"$set": {f"couponCodes_used.{paymentInfoItem['couponCode']}": slots_used + slots_requested} })
         return True, {}
-
     paymentInfoItemsWithTotal = []
     paymentInfo['total'] = 0
     for paymentInfoItem in paymentInfo.setdefault('items', []):
