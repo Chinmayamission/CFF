@@ -10,6 +10,18 @@ Regular coupon code called CODE for 80% off the total price:
       }
 ```
 
+Regular coupon code called CODE that can only be used once:
+```
+      {
+        "name": "Coupon Code 80% off",
+        "description": "Coupon Code 80% off",
+        "amount": "-0.8 * $total",
+        "quantity": "$couponCode:CODE",
+        "couponCode": "CODE",
+        "couponCodeMaximum": "1"
+      }
+```
+
 Coupon code with three maximum 5K's:
 ```
       {
