@@ -45,7 +45,7 @@ def form_response_new(formId):
     response_data = app.current_request.json_body["data"]
     response_data = process_response_data_images(response_data)
     modify_link = app.current_request.json_body.get('modifyLink', '')
-    form = Form.objects.only("name", "schema", "uiSchema", "formOptions", "cff_permissions").get({"_id":ObjectId(formId)}) #couponCodes
+    form = Form.objects.only("name", "schema", "uiSchema", "formOptions", "cff_permissions", "couponCodes_used").get({"_id":ObjectId(formId)}) #couponCodes
     paymentInfo = form.formOptions.paymentInfo
     confirmationEmailInfo = form.formOptions.confirmationEmailInfo
     paymentMethods = fill_paymentMethods_with_data(form.formOptions.paymentMethods, response_data)
@@ -70,6 +70,15 @@ def form_response_new(formId):
     response_data["total"] = float(paymentInfo["total"])
     for paymentInfoItem in paymentInfoItemsWithTotal:
         calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo)
+        if paymentInfoItem["couponCode"] and paymentInfoItem["amount"] * paymentInfoItem["quantity"] > 0:
+            slots_requested = calculate_price(paymentInfoItem.get("count", "1"), response_data)
+            slots_used = form.couponCodes_used.get(paymentInfoItem["couponCode"], 0)
+            slots_remaining = slots_used - slots_requested
+            if slots_remaining < 0:
+                message = "Coupon code maximum reached.\nSubmitting this form will cause you to exceed the coupon code maximum.\nNumber of spots remaining: {}".format(slots_remaining)
+                return {"res": {"success": False, "message": message, "fields_to_clear": ["couponCode"]}}
+            form.couponCodes_used[paymentInfoItem["couponCode"]] = slots_used + slots_requested
+            form.save()
 
     # Redeem coupon codes.
     #   if "couponCode" in response_data and response_data["couponCode"]:
