@@ -85,7 +85,7 @@ def form_response_new(formId):
     # Now take care of items for round off, etc. -- which need the total value to work.
     response_data["total"] = float(paymentInfo["total"])
     for paymentInfoItem in paymentInfoItemsWithTotal:
-        calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo)
+        success, error = calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo)
         if success is False:
             return error
     
