@@ -120,6 +120,145 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['amount_paid'], '25.5')
         self.assertEqual(response['paymentInfo']['total'], 25.5)
 
+    def test_submit_form_coupon_codes_not_successful(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}}}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-1 * $total", "quantity": "couponCode:CODE", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "BLAH"})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paid'], False)
+        self.assertEqual(submit_res['email_sent'], False)
+        self.assertEqual(submit_res['paymentInfo']['total'], 1.0)
+        self.assertEqual(len(submit_res['paymentInfo']['items']), 1)
+        self.delete_form(formId)
+
+    def test_submit_form_coupon_codes_full_off_successful(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}}}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-1 * $total", "quantity": "couponCode:CODE", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paid'], True)
+        self.assertEqual(submit_res['email_sent'], False) # confirmationEmailInfo is undefined
+        self.assertEqual(submit_res['paymentInfo']['total'], 0)
+        self.assertEqual(len(submit_res['paymentInfo']['items']), 2)
+        self.delete_form(formId)
+
+    def test_submit_form_coupon_codes_partial_off_successful(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}}}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-0.5 * $total", "quantity": "couponCode:CODE", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paid'], False)
+        self.assertEqual(submit_res['email_sent'], False)
+        self.assertEqual(submit_res['paymentInfo']['total'], 0.5)
+        self.assertEqual(len(submit_res['paymentInfo']['items']), 2)
+        self.delete_form(formId)
+
+    def test_submit_form_coupon_codes_constant_off_successful(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}}}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-0.2", "quantity": "couponCode:CODE", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paid'], False)
+        self.assertEqual(submit_res['email_sent'], False)
+        self.assertEqual(submit_res['paymentInfo']['total'], 0.8)
+        self.assertEqual(len(submit_res['paymentInfo']['items']), 2)
+        self.delete_form(formId)
+
+    def test_submit_form_coupon_codes_limit_failure(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}}}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-0.2", "quantity": "couponCode:CODE", "couponCodeMaximum": "0", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        self.assertEqual(submit_res['success'], False)
+        self.assertEqual(submit_res['fields_to_clear'], ["couponCode"])
+        self.assertIn('Number of spots remaining: 0', submit_res['message'])
+        self.delete_form(formId)
+
+    def test_submit_form_coupon_codes_limit_success(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}}}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-0.2", "quantity": "couponCode:CODE", "couponCodeMaximum": "5", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paid'], False)
+        self.assertEqual(submit_res['email_sent'], False)
+        self.assertEqual(submit_res['paymentInfo']['total'], 0.8)
+        self.assertEqual(len(submit_res['paymentInfo']['items']), 2)
+        self.delete_form(formId)
+
+    def test_submit_form_coupon_codes_limit_with_count_fail(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-0.2", "quantity": "couponCode:CODE", "couponCodeMaximum": "2", "couponCodeCount": "$participants", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE", "participants": ["a", "b", "c"]})
+        self.assertEqual(submit_res['success'], False)
+        self.assertEqual(submit_res['fields_to_clear'], ["couponCode"])
+        self.assertIn('Number of spots remaining: 2', submit_res['message'])
+        self.delete_form(formId)
+
+    def test_submit_form_coupon_codes_limit_with_count_success(self):
+        formId = self.create_form()
+        schema = {"properties": {"couponCode": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
+        uiSchema = {"a":"b"}
+        formOptions = {"paymentInfo": {"items": [
+            {"amount": "1", "quantity": "1", "name": "Name", "description": "Description"},
+            {"amount": "-0.2", "quantity": "couponCode:CODE", "couponCodeMaximum": "10", "couponCodeCount": "$participants", "couponCode": "CODE", "name": "Coupon Code Name", "description": "Coupon Code Description"}
+        ]}}
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE", "participants": ["a", "b", "c"]})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paid'], False)
+        self.assertEqual(submit_res['email_sent'], False)
+        self.assertEqual(submit_res['paymentInfo']['total'], 0.8)
+        self.assertEqual(len(submit_res['paymentInfo']['items']), 2)
+        self.delete_form(formId)
 
 
     def test_edit_response(self):
