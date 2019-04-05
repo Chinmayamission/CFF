@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.4.1 (4/5/19)
+- Responses Table: show AMOUNT_PAID column by default on responses view
+
 ## 3.4.0 (4/5/19)
 - Form Responses: Allow header values to be concatenated with no space (with the `noSpace` option) and also have constant values.
 - Add support for coupon codes with limits, with the used coupon codes stored in the `couponCodes_used` property on a Form.
