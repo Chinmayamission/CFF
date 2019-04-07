@@ -3,7 +3,7 @@ import { IAdminState } from "./types.d";
 import { set, cloneDeep } from "lodash";
 
 const initialState: IAdminState = {
-  formList: []
+  formList: null
 };
 
 const admin: Reducer<any> = (state: any = initialState, action): any => {

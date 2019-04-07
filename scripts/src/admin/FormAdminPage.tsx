@@ -24,6 +24,27 @@ const STATUS_ERROR = 11;
 const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
 
+function FormPageMenu(props) {
+    let formId = props.match.params.formId;
+    return (<div>
+         <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/edit/`, state: props.location.state })}>
+            <span className="oi oi-pencil" />Edit</button>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/v2/forms/${formId}/`, state: props.location.state })}>
+            <span className="oi oi-document" />View</button>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/embed/`, state: props.location.state })}>
+            <span className="oi oi-document" />Embed</button>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/responses/`, state: props.location.state })}>
+            <span className="oi oi-document" />Responses</button>
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/share/`, state: props.location.state })}>
+            <span className="oi oi-share-boxed" />Share</button> 
+    </div>);
+}
+
 class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
     constructor(props: any) {
         super(props);
@@ -86,6 +107,7 @@ class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageS
         }
         return (
             <div className="App FormAdminPage">
+                <Route path="/admin/:formId" component={FormPageMenu} />
                 <Route path="/admin/:formId" component={FormPages} />
                 <Switch>
                     <Route path="/admin/" exact render={props =>
@@ -147,7 +169,7 @@ const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
         <div className="col-12 text-center">
             {!props.loggedIn &&
                 <div>
-                    <img style={{maxHeight: 200, marginBottom: 20}} src={require("../img/logo.png")} />
+                    <img style={{ maxHeight: 200, marginBottom: 20 }} src={require("../img/logo.png")} />
                     <h3 className="mb-4">
                         Please log in to your <br />
                         <strong>Chinmaya Mission Account</strong><br />

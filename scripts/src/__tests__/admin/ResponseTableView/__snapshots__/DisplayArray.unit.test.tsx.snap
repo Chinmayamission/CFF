@@ -23,7 +23,7 @@ exports[`displays array value properly 1`] = `
           role="row"
         >
           <div
-            class="rt-th  rt-resizable-header -cursor-pointer"
+            class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
@@ -112,6 +112,7 @@ exports[`displays array value properly 1`] = `
               class="-pageJump"
             >
               <input
+                aria-label="jump to page"
                 type="number"
                 value="1"
               />
@@ -126,7 +127,9 @@ exports[`displays array value properly 1`] = `
           <span
             class="select-wrap -pageSizeOptions"
           >
-            <select>
+            <select
+              aria-label="rows per page"
+            >
               <option
                 value="5"
               >
