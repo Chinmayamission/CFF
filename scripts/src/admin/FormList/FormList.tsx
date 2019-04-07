@@ -43,21 +43,27 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         this.state = {
             highlightedForm : ''
         }
-}
+    }
     componentDidMount() {
         this.props.loadFormList();
     }
     showEmbedCode(formId) {
 
     }
-
+    delete(forms,formId) {
+        if (confirm("Are you sure you want to delete this form (this cannot be undone)?")) {
+            API.del("CFF", `/forms/${formId}`, {}).then(e => {
+                alert("Form deleted!");
+                window.location.reload();
+            }).catch(e => {
+                alert(`Delete failed: ${e}`);
+            });
+        }
+    }
     highlightForm(formId){
         this.setState({highlightedForm: formId})
         
     }
-
-
-
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
         
@@ -128,6 +134,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     this.props.createForm(form._id.$oid)}>
                                     <span className="oi oi-plus" />&nbsp;
                                     Duplicate
+                            </MenuItem>
+                            <MenuItem data={{ foo: 'Delete' }} onClick={() => {this.delete(formList,form["_id"]["$oid"])}}>
+                                   <span className="oi oi-trash" />&nbsp;
+                                    Delete
                             </MenuItem>
                             </ContextMenu>
                         </React.Fragment>
