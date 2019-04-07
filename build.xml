@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ccmt-cff-client" default="build-docs">
+
+<target name="build-docs">
+	<exec executable="mkdocs">
+		<arg value="build" />
+		<arg value="--clean" />
+	</exec>
+	<exec executable="aws">
+		<arg value="s3" />
+		<arg value="sync" />
+		<arg value="./site" />
+		<arg value="s3://docs.chinmayamission.com/cff" />
+		<arg value="--delete" />
+		<arg value="--region" />
+		<arg value="us-east-1" />
+	</exec>
+</target>
+
+</project>

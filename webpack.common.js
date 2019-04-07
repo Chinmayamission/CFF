@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var pjson = require('./package.json');
 var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
 const SRC_URL = FORMBUILDER_URL + "/src";
@@ -42,6 +43,10 @@ module.exports = {
       title: 'Chinmaya Forms Framework',
       template: './scripts/src/index.html',
       filename: `index.${pjson.version}.html`
+    }),
+    new MonacoWebpackPlugin({
+      // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+      languages: ['json', 'html']
     })
   ],
   module: {

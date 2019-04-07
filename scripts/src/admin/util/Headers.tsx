@@ -19,9 +19,10 @@ export interface IHeaderObject {
 
 export interface IHeaderOption {
     label?: string,
-    value: string,
+    noSpace?: boolean,
+    value: string | (string | {mode: string, value: string})[],
     groupAssign?: string,
-    groupAssignDisplayPath?: string,
+    groupAssignDisplayPath?: string | string[],
     groupAssignDisplayModel?: string,
     defaultFilter?: string
 }
@@ -78,6 +79,12 @@ export module Headers {
     }
 
     function headerAccessorSingle(formData, headerName, schema={}) {
+        if (headerName.mode === "constant") {
+            return headerName.value;
+        }
+        if (headerName.value) {
+            headerName = headerName.value;
+        }
         let value = get(formData, headerName);
         if (typeof value !== "undefined") {
             return value;
@@ -103,9 +110,9 @@ export module Headers {
     * if header name is a list, then apply the accessor to each value in the list
     * and return the results separated by a space.
     */
-    export function headerAccessor(formData, headerName, schema={}) {
+    export function headerAccessor(formData, headerName, schema={}, noSpace=false) {
         if (isArray(headerName)) {
-            return headerName.map(e => headerAccessorSingle(formData, e, schema)).join(" ");
+            return headerName.map(e => headerAccessorSingle(formData, e, schema)).join(noSpace ? "": " ");
         }
         else {
             return headerAccessorSingle(formData, headerName, schema)
@@ -121,7 +128,7 @@ export module Headers {
             // For react table js:
             Header: headerLabel,
             id: headerName,
-            accessor: formData => headerAccessor(formData, headerValue, schema),
+            accessor: formData => headerAccessor(formData, headerValue, schema, header.noSpace || false),
             Cell: row => formatValue(row.value)
         };
         if (header.groupAssign) {
@@ -272,7 +279,7 @@ export module Headers {
         let columns = dataOptionView.columns;
 
         if (!columns) {
-            columns = ["ID", "PAID", "DATE_CREATED"].concat(getHeaderNamesFromSchema(schema));
+            columns = ["ID", "PAID", "AMOUNT_PAID", "DATE_CREATED"].concat(getHeaderNamesFromSchema(schema));
             if (dataOptionView.unwindBy) {
                 // todo: fix property path.
                 let unwindBySchema = get(schema, dataOptionView.unwindBy);

@@ -37,6 +37,44 @@ todo:
 - 
 - user login/signup
 
+## 3.4.2 (4/5/19)
+- Bug fix: fix problem where "coupon code maximum reached" message would come even in a normal form submission.
+
+## 3.4.1 (4/5/19)
+- Responses Table: show AMOUNT_PAID column by default on responses view
+
+## 3.4.0 (4/5/19)
+- Form Responses: Allow header values to be concatenated with no space (with the `noSpace` option) and also have constant values.
+- Add support for coupon codes with limits, with the used coupon codes stored in the `couponCodes_used` property on a Form.
+
+## 3.3.4 (3/31/19)
+- Fix - fix CSS selectors.
+
+## 3.3.3 (3/31/19)
+- Hotfix to fix cloudfront caching.
+
+## 3.3.2 (3/31/19)
+- Forms: Fix bug again in which "col" classes are not respected properly
+
+## 3.3.1 (3/31/19)
+- Forms: Fix bug in which "col" classes are not respected properly
+
+## 3.3.0 (3/31/19)
+- Forms: upgrade react-jsonschema-form, fix column width logic
+- Form Admin: show loading spinner when form is loading (#51)
+- Form Admin: highlight rows when clicked, show last modified and last created dates, move action buttons to right click context menu (#35)
+- Form Admin: show form page menu when any of the pages (edit, responses) are viewed, for easier navigation (#42)
+- Form Edit: Use Monaco editor for better admin editing experience (#53)
+- Google Sheets: Add showCountTotal option to show total in aggregation (#52) (lambda js)
+- Backend: allow forms to have $ref's nested in lists; return date_created and date_modified from form list endpoint.
+
+
+## 3.2.1 (3/22/19)
+### Lambda js
+- Allow export to multiple spreadsheets. Just specify multiple options with `{"value": "google_sheets"}` in `dataOptions.export`.
+  - This was done in the context of Om Run needing to export *just* a summary, which is in a separate Google sheet than the Google sheet for all the participants.
+- Fix a small bug in which creating a new google sheet fails because the sheet delete request was not performed after the sheet insert request.
+
 ## 3.2.0 (3/19/19)
 ### Backend python
 - Upload data url images to s3 on backend. S3 object key will be stored instead of the entire data url. This is only currently enabled when response.value has an array with key "images", and is applied to each element of the "images" array.

@@ -27,7 +27,7 @@ exports[`renders payment table on new response 1`] = `
                 role="row"
               >
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px"
                   tabindex="-1"
@@ -42,7 +42,7 @@ exports[`renders payment table on new response 1`] = `
                   />
                 </div>
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px"
                   tabindex="-1"
@@ -57,7 +57,7 @@ exports[`renders payment table on new response 1`] = `
                   />
                 </div>
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px;max-width:150px"
                   tabindex="-1"
@@ -72,7 +72,7 @@ exports[`renders payment table on new response 1`] = `
                   />
                 </div>
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px;max-width:100px"
                   tabindex="-1"
@@ -183,7 +183,7 @@ exports[`renders payment table with amount received 1`] = `
                 role="row"
               >
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px"
                   tabindex="-1"
@@ -198,7 +198,7 @@ exports[`renders payment table with amount received 1`] = `
                   />
                 </div>
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px"
                   tabindex="-1"
@@ -213,7 +213,7 @@ exports[`renders payment table with amount received 1`] = `
                   />
                 </div>
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px;max-width:150px"
                   tabindex="-1"
@@ -228,7 +228,7 @@ exports[`renders payment table with amount received 1`] = `
                   />
                 </div>
                 <div
-                  class="rt-th  rt-resizable-header -cursor-pointer"
+                  class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
                   style="flex:100 0 auto;width:100px;max-width:100px"
                   tabindex="-1"

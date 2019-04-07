@@ -16,6 +16,8 @@
 # sls deploy --stage beta
 
 # sls deploy --stage prod
+# Run it once:
+# sls invoke --function sheets --stage prod
 
 service: ccmt-cff-backend-js # NOTE: update this with your service name
 
