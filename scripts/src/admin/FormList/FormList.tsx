@@ -109,7 +109,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     Duplicate
                             </MenuItem>
                             <MenuItem data={{ foo: 'Delete' }} onClick={() => {this.delete(formList,form["_id"]["$oid"])}}>
-                                   <span className="oi oi-plus" />&nbsp;
+                                   <span className="oi oi-minus" />&nbsp;
                                     Delete
                             </MenuItem>
                             </ContextMenu>
