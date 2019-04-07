@@ -39,6 +39,17 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     }
 
+    delete(forms,formId) {
+        if (confirm("Are you sure you want to delete this form (this cannot be undone)?")) {
+            API.del("CFF", `/{forms}/{formId}`, {}).then(e => {
+                alert("Form deleted!");
+                window.location.reload();
+            }).catch(e => {
+                alert(`Delete failed: ${e}`);
+            });
+        }
+    }
+
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
 
@@ -92,10 +103,14 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/share/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-share-boxed" />&nbsp;Share
                             </MenuItem>
-                                <MenuItem data={{ foo: 'Duplicate' }} onClick={() =>
+                            <MenuItem data={{ foo: 'Duplicate' }} onClick={() =>
                                     this.props.createForm(form._id.$oid)}>
                                     <span className="oi oi-plus" />&nbsp;
                                     Duplicate
+                            </MenuItem>
+                            <MenuItem data={{ foo: 'Delete' }} onClick={() => {this.delete(formList,form["_id"]["$oid"])}}>
+                                   <span className="oi oi-plus" />&nbsp;
+                                    Delete
                             </MenuItem>
                             </ContextMenu>
                         </React.Fragment>
