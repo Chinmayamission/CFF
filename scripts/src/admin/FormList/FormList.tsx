@@ -41,7 +41,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
 
     delete(forms,formId) {
         if (confirm("Are you sure you want to delete this form (this cannot be undone)?")) {
-            API.del("CFF", `/{forms}/{formId}`, {}).then(e => {
+            API.del("CFF", `/forms/${formId}`, {}).then(e => {
                 alert("Form deleted!");
                 window.location.reload();
             }).catch(e => {
