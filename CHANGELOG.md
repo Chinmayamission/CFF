@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.5.0 (4/8/19)
+- Allow closing submissions and response editing with responseSubmissionEnabled and responseModificationEnabled options in formOptions.
+- Admin: Add "Delete" functionality for a form.
+
 ## 3.4.2 (4/5/19)
 - Bug fix: fix problem where "coupon code maximum reached" message would come even in a normal form submission.
 
