@@ -250,10 +250,19 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       return (
         <Loading hasError={this.state.hasError} />
       );
-    } // else if (this.state.status == STATUS_FORM_RENDERED) {
-    // return         <Form
-    // schema={this.state.schema}
-    // uiSchema={this.state.uiSchema} widgets={widgets} onChange={(e) => {this.onChange(e)}} />;
+    }
+    if (get(this.state.formOptions, "responseSubmissionEnabled", true) === false) {
+      return (<div>
+        <h1>Submissions Closed</h1>
+        <p>Submissions are closed for the form: {this.state.schema.title}</p>
+      </div>)
+    }
+    if (get(this.state.formOptions, "responseModificationEnabled", true) === false && this.state.responseId) {
+      return (<div>
+        <h1>Response Modifications Closed</h1>
+        <p>Response modifications are closed for the form: {this.state.schema.title}</p>
+      </div>)
+    }
     let formToReturn = (
       <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
         {this.state.formOptions.loginRequired && <Login />}
@@ -271,7 +280,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     );
     if (this.state.status == STATUS_FORM_CONFIRMATION) {
       return (<div>
-          {!this.state.paymentStarted && <div>
+          {!this.state.paymentStarted && get(this.state.formOptions, "responseModificationEnabled", true) === true && <div>
             <h1 className="text-center">Confirmation Page</h1>
             <div className="my-4 text-center">
               Please scroll down and review your registration details in order to continue.

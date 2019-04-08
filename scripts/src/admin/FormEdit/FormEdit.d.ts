@@ -43,7 +43,13 @@ export interface IFormOptions {
     paymentInfo: IPaymentInfo,
     paymentMethods: IPaymentMethods,
     confirmationEmailInfo: IConfirmationEmailInfo,
-    dataOptions: IDataOptions
+    dataOptions: IDataOptions,
+    defaultFormData?: boolean,
+    loginRequired?: boolean,
+    showConfirmationPage?: boolean,
+    successMessage?: string,
+    responseModificationEnabled?: boolean,
+    responseSubmissionEnabled?: boolean
 }
 export interface IRenderedForm {
     schema: {[x: string]: any},
