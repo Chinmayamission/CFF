@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.5.1 (4/9/19)
+- Fix modification bug
+
 ## 3.5.0 (4/8/19)
 - Allow closing submissions and response editing with responseSubmissionEnabled and responseModificationEnabled options in formOptions.
 - Admin: Add "Delete" functionality for a form.
