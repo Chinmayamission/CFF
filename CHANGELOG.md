@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.5.2 (4/9/19)
+- fix: fix modification button
+
 ## 3.5.1 (4/9/19)
 - Fix modification bug
 
