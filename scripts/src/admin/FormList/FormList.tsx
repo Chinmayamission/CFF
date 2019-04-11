@@ -13,6 +13,8 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import history from "../../history";
 import Loading from '../../common/Loading/Loading';
 
+  
+
 const  mapStateToProps = state => ({
     ...state.auth,
     ...state.admin
@@ -61,8 +63,8 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         }
     }
     highlightForm(formId){
-        this.setState({highlightedForm: formId})
-        
+        this.setState({highlightedForm: formId});
+        ActionButton(this.props);
     }
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
@@ -91,9 +93,11 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 </div>
                 {formList && formList.length == 0 && "No forms found."}
                 {formList && formList.map((form) =>
-                        <React.Fragment key={form["_id"]["$oid"]}>
-                            <ContextMenuTrigger id={form["_id"]["$oid"]}>
-                                <div className="row" style={{padding: 10, backgroundColor: form["_id"]["$oid"] === this.state.highlightedForm ? "lightblue": "white"}} onClick={() => this.highlightForm(form["_id"]["$oid"])} key={form["_id"]["$oid"]}
+                        
+                         <React.Fragment key={form["_id"]["$oid"]}>
+                              <ContextMenuTrigger  id={form["_id"]["$oid"]}>
+                                <div className="row" style={{padding: 10, backgroundColor: form["_id"]["$oid"] === this.state.highlightedForm ? "lightblue": "white"}} 
+                                  onClick={() => this.highlightForm(form["_id"]["$oid"])} key={form["_id"]["$oid"] }
                                   onContextMenu={() => this.highlightForm(form["_id"]["$oid"])}>
                                     <div className="col-sm">{form["name"]}
                                     </div>
@@ -107,21 +111,23 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                          {form["tags"] && form["tags"].map((tag)=> <div className="badge badge-secondary" style={{backgroundColor: intToRGB(hashCode(tag))}}>{tag}</div>)}
                                     </div>
                                 </div>
-                             
                             </ContextMenuTrigger>
-                            <ContextMenu id={form["_id"]["$oid"]}>
+                            <div className="d-block d-sm-none col-sm">
+                            <FormNew onError={this.props.onError} />
+                            </div>
+                            <ContextMenu className="d-none d-sm-block" id={form["_id"]["$oid"]}>
                                 <MenuItem  onClick={() =>
                                     history.push({ pathname: `/v2/forms/${form["_id"]["$oid"]}`, state: { selectedForm: form } })}>
                                     <span className="oi oi-document" />&nbsp;View
- 			                </MenuItem>
+ 			                    </MenuItem>
                                 <MenuItem  onClick={() => history.push({ pathname: `./${form["_id"]["$oid"]}/embed/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-document" />&nbsp;Embed
-                            </MenuItem>
+                                </MenuItem>
                                 <MenuItem divider />
                                 <MenuItem  onClick={() =>
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/edit/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-pencil" />&nbsp;Edit
-                            </MenuItem>
+                                </MenuItem>
                                 <MenuItem  onClick={() =>
                                     history.push({ pathname: `./${form["_id"]["$oid"]}/responses/`, state: { selectedForm: form } })}>
                                     <span className="oi oi-sort-ascending" />&nbsp;Responses
