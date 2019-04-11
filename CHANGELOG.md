@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.5.3 (4/11/19)
+- fix (om run): fix half marathon age validation bug
+
 ## 3.5.2 (4/9/19)
 - fix: fix modification button
 
