@@ -62,9 +62,52 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
             });
         }
     }
-    highlightForm(formId){
+    highlightForm(form,formId){
         this.setState({highlightedForm: formId});
-        ActionButton(this.props);
+        this.renderActionButtons(form);
+    }
+
+    renderActionButtons(form)
+    {
+        return (
+                             <div>
+                                <ActionButton form={form}
+                                    url={`/v2/forms/${form["_id"]["$oid"]}`}
+                                    icon="oi-document"
+                                    text="View"
+                                    />
+                                <ActionButton form={form}
+                                    permissionName="Forms_Embed"
+                                    url={`./${form["_id"]["$oid"]}/embed/`}
+                                    icon="oi-document"
+                                    text="Embed"
+                                    userId={this.props.userId}
+                                    />
+                                <ActionButton form={form}
+                                    permissionName="Forms_Edit"
+                                    url={`./${form["_id"]["$oid"]}/edit/`}
+                                    icon="oi-pencil"
+                                    text="Edit"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Responses_View"
+                                    url={`./${form["_id"]["$oid"]}/responses/`}
+                                    icon="oi-sort-ascending"
+                                    text="Responses"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Forms_PermissionsView"
+                                    url={`./${form["_id"]["$oid"]}/share/`}
+                                    icon="oi-share-boxed"
+                                    text="Share"
+                                    userId={this.props.userId}
+                                />
+                                <button className="ccmt-cff-btn-action" onClick={() => this.props.createForm(form._id.$oid)}>
+                                    <span className="oi oi-plus" />&nbsp;
+                                    Duplicate
+                                </button>
+                            </div>
+        );
     }
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
@@ -93,12 +136,49 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 </div>
                 {formList && formList.length == 0 && "No forms found."}
                 {formList && formList.map((form) =>
-                        
                          <React.Fragment key={form["_id"]["$oid"]}>
                               <ContextMenuTrigger  id={form["_id"]["$oid"]}>
                                 <div className="row" style={{padding: 10, backgroundColor: form["_id"]["$oid"] === this.state.highlightedForm ? "lightblue": "white"}} 
-                                  onClick={() => this.highlightForm(form["_id"]["$oid"])} key={form["_id"]["$oid"] }
-                                  onContextMenu={() => this.highlightForm(form["_id"]["$oid"])}>
+                                  onClick={() => this.highlightForm(form,form["_id"]["$oid"])} key={form["_id"]["$oid"] }
+                                  onContextMenu={() => this.highlightForm(form,form["_id"]["$oid"])}>
+                                    {this.state.highlightedForm === form._id.$oid && 
+                                        <div className="d-block d-sm-none">
+                                             <ActionButton form={form}
+                                                url={`/v2/forms/${form["_id"]["$oid"]}`}
+                                                icon="oi-document"
+                                                text="View"
+                                             />
+                                <ActionButton form={form}
+                                    permissionName="Forms_Embed"
+                                    url={`./${form["_id"]["$oid"]}/embed/`}
+                                    icon="oi-document"
+                                    text="Embed"
+                                    userId={this.props.userId}
+                                    />
+                                <ActionButton form={form}
+                                    permissionName="Forms_Edit"
+                                    url={`./${form["_id"]["$oid"]}/edit/`}
+                                    icon="oi-pencil"
+                                    text="Edit"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Responses_View"
+                                    url={`./${form["_id"]["$oid"]}/responses/`}
+                                    icon="oi-sort-ascending"
+                                    text="Responses"
+                                    userId={this.props.userId} />
+                                <ActionButton form={form}
+                                    permissionName="Forms_PermissionsView"
+                                    url={`./${form["_id"]["$oid"]}/share/`}
+                                    icon="oi-share-boxed"
+                                    text="Share"
+                                    userId={this.props.userId}
+                                />
+                                <button className="ccmt-cff-btn-action" onClick={() => this.props.createForm(form._id.$oid)}>
+                                    <span className="oi oi-plus" />&nbsp;
+                                    Duplicate
+                                </button>
+                                        </div>}
                                     <div className="col-sm">{form["name"]}
                                     </div>
                                     <div className="col-sm">
