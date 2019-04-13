@@ -143,11 +143,11 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     text="Share"
                                     userId={this.props.userId}
                                 />
-                                <button className="ccmt-cff-btn-action" onClick={() => this.props.createForm(form._id.$oid)}>
+                                <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => this.props.createForm(form._id.$oid)}>
                                     <span className="oi oi-plus" />&nbsp;
                                     Duplicate
                                 </button>
-                                <button className="ccmt-cff-btn-action" onClick={() => { this.delete(formList, form["_id"]["$oid"]) }}>
+                                <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => { this.delete(formList, form["_id"]["$oid"]) }}>
                                     <span className="oi oi-trash" />&nbsp;
                                     Delete
                                 </button>
