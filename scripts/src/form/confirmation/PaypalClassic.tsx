@@ -61,7 +61,7 @@ class PaypalClassic extends React.Component<IPaypalClassicProps, IPaypalClassicS
             "night_phone_c": this.props.paymentMethodInfo.night_phone_c,
             "email": this.props.paymentMethodInfo.email,
             "payButtonText": this.props.paymentMethodInfo.payButtonText || "Pay Now with Paypal",
-            "discount_amount_cart": Math.abs(sumBy(items, e => e.amount < 0 ? e.amount : 0)) +
+            "discount_amount_cart": Math.abs(sumBy(props.paymentInfo.items, e => e.amount < 0 ? e.amount : 0)) +
                 (this.props.paymentInfo_received ? this.props.paymentInfo_received.total : 0),
             "recurrence": null
         }
