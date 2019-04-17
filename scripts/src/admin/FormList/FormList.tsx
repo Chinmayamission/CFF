@@ -207,7 +207,7 @@ function ActionButton(props) {
     }
     else {
         return (<NavLink to={{ pathname: `${props.url}`, state: { selectedForm: props.form } }}>
-            <button className="ccmt-cff-btn-action  btn  btn-xs">
+            <button className="ccmt-cff-btn-action btn btn-xs">
                 <span className={`oi ${props.icon}`}></span> {props.text}
             </button>
         </NavLink>);
