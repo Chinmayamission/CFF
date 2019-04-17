@@ -57,6 +57,10 @@
     .ccmt-cff-btn-array-add, .ccmt-cff-btn-array-remove {
         max-width: 200px !important;
         margin-right: 20px;
+        margin-bottom: 20px;
+    }
+    .ccmt-cff-btn-array-add {
+        margin-left: 15px;
     }
     .field-object, .field-array {
         &:not([class*="col"]) {
@@ -71,6 +75,10 @@
     .field-object, .field-array, .field-string, .field-number, .field-boolean {
         padding-left: 15px;
         padding-right: 15px;
+    }
+    .field-array.field-array-of-object {
+        padding-left: 0px;
+        padding-right: 0px;
     }
     .ccmt-cff-array-item-container {
         position: relative;
