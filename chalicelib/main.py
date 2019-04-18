@@ -39,6 +39,7 @@ TABLES = TABLES_CLASS()
 # os.environ["MONGO_PASSWORD"] = "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
 
 ssm = boto3.client('ssm', 'us-east-1')
+s3_client = boto3.client('s3', "us-east-1")
 MODE = os.getenv("MODE", "DEV")
 print("MODE IS " + MODE)
 PROD = False
@@ -225,6 +226,7 @@ if test_user_id:
 #     'CCMT', provider_arns=['arn:aws:cognito-idp:us-east-1:131049698002:userpool/us-east-1_kcpcLxLzn'])
 USER_POOL_ID = os.environ["USER_POOL_ID"]
 COGNITO_CLIENT_ID = os.environ["COGNITO_CLIENT_ID"]
+S3_UPLOADS_BUCKET_NAME = os.environ["S3_UPLOADS_BUCKET_NAME"]
 
 @app.authorizer()
 def iamAuthorizer(auth_request):
