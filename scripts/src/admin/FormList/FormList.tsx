@@ -151,13 +151,18 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                     <span className="oi oi-trash" />&nbsp;
                                     Delete
                                 </button>
+                                <ActionButton form={form}
+                                    url={`./${form["_id"]["$oid"]}/checkin/`}
+                                    icon="oi-sort-ascending"
+                                    text="Check In"
+                                    userId={this.props.userId} />
                             </div>
                         }
                         <ContextMenu className="d-none d-sm-block" id={form["_id"]["$oid"]}>
                             <MenuItem onClick={() =>
                                 history.push({ pathname: `/v2/forms/${form["_id"]["$oid"]}`, state: { selectedForm: form } })}>
                                 <span className="oi oi-document" />&nbsp;View
- 			                    </MenuItem>
+ 			                </MenuItem>
                             <MenuItem onClick={() => history.push({ pathname: `./${form["_id"]["$oid"]}/embed/`, state: { selectedForm: form } })}>
                                 <span className="oi oi-document" />&nbsp;Embed
                                 </MenuItem>
@@ -183,6 +188,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                                 <span className="oi oi-trash" />&nbsp;
                                  Delete
                             </MenuItem>
+                            <MenuItem onClick={() =>
+                                history.push({ pathname: `./${form["_id"]["$oid"]}/checkin/`, state: { selectedForm: form } })}>
+                                <span className="oi oi-sort-ascending" />&nbsp;Checkin
+ 			                </MenuItem>
                         </ContextMenu>
                     </React.Fragment>
                 )}
