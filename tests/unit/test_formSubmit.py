@@ -7,7 +7,6 @@ from app import app
 from chalicelib.models import Response, User, Form, FormOptions
 import uuid
 import datetime
-import chalicelib.routes
 
 class FormSubmitUtil(unittest.TestCase):
   def test_form_update(self):

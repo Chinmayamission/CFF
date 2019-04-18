@@ -10,6 +10,7 @@ from .constants import ONE_SCHEMA, ONE_UISCHEMA, ONE_FORMOPTIONS, ONE_FORMDATA
 from app import app
 from pydash.objects import set_
 from tests.integration.baseTestCase import BaseTestCase
+from tests.integration.constants import _
 from chalicelib.routes.responseIpnListener import mark_successful_payment
 from chalicelib.models import Form, Response, serialize_model
 from bson.objectid import ObjectId
