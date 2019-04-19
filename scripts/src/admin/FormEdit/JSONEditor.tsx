@@ -68,7 +68,7 @@ class JSONEditor extends React.Component<IJSONEditorProps, any> {
         return (
           <MonacoEditor
             width="100%"
-            height="100%"
+            height="calc(100vh - 45px)"
             language="json"
             // theme="vs-dark" 
             value={this.state.value}

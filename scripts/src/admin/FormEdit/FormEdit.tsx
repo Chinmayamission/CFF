@@ -9,7 +9,6 @@ import { IFormEditProps, IFormEditState } from "./FormEdit.d";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 import "./FormEdit.scss";
-import SplitterLayout from 'react-splitter-layout';
 import CustomForm from '../../form/CustomForm';
 class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     constructor(props: any) {
@@ -27,7 +26,7 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
             errorMessage: ""
         }
     }
-    onChange(path, data, {changeFromEditor=false, partial=false}) {
+    onChange(path, data, { changeFromEditor = false, partial = false }) {
         let state = cloneDeep(this.state);
         if (partial) {
             for (let key in data) {
@@ -110,54 +109,50 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
                 {this.state.loading && <Loading />}
                 <div className="container-fluid">
                     <div className="row">
-                        <SplitterLayout vertical={true} customClassName="ccmt-cff-editpage-splitter"
-                        onSecondaryPaneSizeChange={() => window.dispatchEvent(new Event('resize'))}
-                        >
-                            <div className="col-12 ccmt-cff-editpage-jsoneditor-container">
-                                <Tabs>
-                                    <TabList>
-                                        {/* <Tab>Form Options</Tab> */}
-                                        <Tab>Form Options (JSON)</Tab>
-                                        <Tab>Schema (JSON)</Tab>
-                                        <Tab>UiSchema (JSON)</Tab>
-                                        <li className="react-tabs__tab">
+                        <div className="col-12 ccmt-cff-editpage-jsoneditor-container">
+                            <Tabs>
+                                <TabList>
+                                    {/* <Tab>Form Options</Tab> */}
+                                    <Tab>Form Options (JSON)</Tab>
+                                    <Tab>Schema (JSON)</Tab>
+                                    <Tab>UiSchema (JSON)</Tab>
+                                    <li className="react-tabs__tab">
                                         {this.renderTopPane()}
-                                        </li>
-                                    </TabList>
-                                    {/* <TabPanel>
+                                    </li>
+                                </TabList>
+                                {/* <TabPanel>
                                         <CustomForm schema={require("./formOptions.schema.json")}
                                             uiSchema={require("./formOptions.uiSchema.json")}
                                             formData={this.state.formOptions}
                                             onSubmit={(e) => this.onChange("formOptions", e, {partial: true})}
                                         />
                                     </TabPanel> */}
-                                    <TabPanel>
-                                        <JSONEditor
-                                            data={this.state.formOptions}
-                                            changeFromEditor={this.state.changeFromEditor}
-                                            onChange={(e) => this.onChange("formOptions", e, {changeFromEditor: true})}
-                                            onJSONError={e => this.onJSONError("formOptions", e)}
-                                        />
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <JSONEditor
-                                            data={this.state.schema}
-                                            changeFromEditor={this.state.changeFromEditor}
-                                            onChange={(e) => this.onChange("schema", e, {changeFromEditor: true})}
-                                            onJSONError={e => this.onJSONError("schema", e)}
-                                        />
-                                    </TabPanel>
-                                    <TabPanel>
-                                        <JSONEditor
-                                            data={this.state.uiSchema}
-                                            changeFromEditor={this.state.changeFromEditor}
-                                            onChange={(e) => this.onChange("uiSchema", e, {changeFromEditor: true})}
-                                            onJSONError={e => this.onJSONError("uiSchema", e)}
-                                        />
-                                    </TabPanel>
-                                </Tabs>
-                            </div>
-                        </SplitterLayout>
+                                <TabPanel>
+                                    <JSONEditor
+                                        data={this.state.formOptions}
+                                        changeFromEditor={this.state.changeFromEditor}
+                                        onChange={(e) => this.onChange("formOptions", e, { changeFromEditor: true })}
+                                        onJSONError={e => this.onJSONError("formOptions", e)}
+                                    />
+                                </TabPanel>
+                                <TabPanel>
+                                    <JSONEditor
+                                        data={this.state.schema}
+                                        changeFromEditor={this.state.changeFromEditor}
+                                        onChange={(e) => this.onChange("schema", e, { changeFromEditor: true })}
+                                        onJSONError={e => this.onJSONError("schema", e)}
+                                    />
+                                </TabPanel>
+                                <TabPanel>
+                                    <JSONEditor
+                                        data={this.state.uiSchema}
+                                        changeFromEditor={this.state.changeFromEditor}
+                                        onChange={(e) => this.onChange("uiSchema", e, { changeFromEditor: true })}
+                                        onJSONError={e => this.onJSONError("uiSchema", e)}
+                                    />
+                                </TabPanel>
+                            </Tabs>
+                        </div>
                     </div>
                 </div>
             </div>);
