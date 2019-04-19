@@ -15,9 +15,9 @@ def form_response_list(formId):
         search_fields = get(form.formOptions, "dataOptions.search.searchFields", ["_id"])
         result_limit = get(form.formOptions, "dataOptions.search.resultLimit", 10)
         result_fields = get(form.formOptions, "dataOptions.search.resultFields", ["_id"])
-        mongo_query = {}
+        mongo_query = {"$or": []}
         for field in search_fields:
-            mongo_query[field] = {"$regex": "^" + query}
+            mongo_query["$or"].append({"field": {"$regex": "^" + query}})
         mongo_query["form"] = form.id
         projection = {}
         for field in result_fields:
