@@ -15,7 +15,7 @@ export const editResponse = (responseId: string, path: string, value: any) => (d
     if (e.res.success === true) {
       // Update corresponding response in responses table, too.
       let responses = cloneDeep((getState().responses as ResponsesState).responses);
-      let responseIndex = findIndex(responses, {"_id": {"$oid": responseId}});
+      let responseIndex = findIndex(responses, { "_id": { "$oid": responseId } });
       responses[responseIndex] = e.res.response;
       dispatch(setResponses(responses));
       dispatch(setResponseDetail(e.res.response));
@@ -89,8 +89,12 @@ export const submitNewPayment = () => (dispatch, getState) => {
   });
 };
 
-export const fetchResponses = (formId) => (dispatch, getState) => {
-  return API.get("CFF", `forms/${formId}/responses`, {}).then(e => {
+/*
+ * Fetches (or searches for) responses.
+ */
+export const fetchResponses = (formId, searchQuery = "") => (dispatch, getState) => {
+  let queryStringParameters = searchQuery ? { "query": searchQuery } : {};
+  return API.get("CFF", `forms/${formId}/responses`, { queryStringParameters }).then(e => {
     dispatch(setResponses(e.res));
 
   }).catch(e => {
