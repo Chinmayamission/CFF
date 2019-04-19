@@ -12,9 +12,9 @@ def form_response_list(formId):
     query = app.current_request.query_params and app.current_request.query_params.get("query", None)
     if query:
         app.check_permissions(form, ["Responses_View", "Responses_Checkin"])
-        search_fields = get(form.formOptions, "dataOptions.search.searchFields", ["_id"])
-        result_limit = get(form.formOptions, "dataOptions.search.resultLimit", 10)
-        result_fields = get(form.formOptions, "dataOptions.search.resultFields", ["_id"])
+        search_fields = get(form.formOptions.dataOptions, "search.searchFields", ["_id"])
+        result_limit = get(form.formOptions.dataOptions, "search.resultLimit", 10)
+        result_fields = get(form.formOptions.dataOptions, "search.resultFields", ["_id"])
         mongo_query = {"$or": []}
         for field in search_fields:
             mongo_query["$or"].append({"field": {"$regex": "^" + query}})
