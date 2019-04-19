@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 
 import Login from "../common/Login/Login";
 import { IFormAdminPageProps, IFormAdminPageState } from './admin';
+import FormCheckin from './FormCheckin/FormCheckin';
 
 
 declare var VERSION: string;
@@ -42,6 +43,9 @@ function FormPageMenu(props) {
         <button className="btn btn-sm btn-outline-primary" onClick={() =>
             history.push({ pathname: `/admin/${formId}/share/`, state: props.location.state })}>
             <span className="oi oi-share-boxed" />Share</button> 
+        <button className="btn btn-sm btn-outline-primary" onClick={() =>
+            history.push({ pathname: `/admin/${formId}/checkin/`, state: props.location.state })}>
+            <span className="oi oi-sort-ascending" />Checkin</button> 
     </div>);
 }
 
@@ -138,7 +142,7 @@ function FormPages() {
             <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
         } />
         <Route path="/admin/:formId/checkin/" render={props =>
-            <ResponseTable key={props.match.params.formId} checkinMode={true} editMode={false} onError={e => this.onError(e)} {...props} />
+            <FormCheckin key={props.match.params.formId} checkinMode={true} editMode={false} onError={e => this.onError(e)} {...props} />
         } />
         <Route path="/admin/:formId/share/" render={props =>
             <FormShare key={props.match.params.formId} onError={e => this.onError(e)} {...props} />

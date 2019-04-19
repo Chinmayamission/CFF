@@ -144,7 +144,12 @@ export interface IDataOptions {
             addressAccessor?: string, // todo
             locations: {latitude: number, longitude: number, name: string }[]
         }
-    }[]
+    }[],
+    search?: {
+        searchFields?: string[],
+        resultLimit?: string[],
+        resultFields?: string[]
+    }
 }
 interface IDataOptionView {
     unwindBy?: string,

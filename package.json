@@ -115,6 +115,7 @@
     "lodash.get": "^4.4.2",
     "lodash.pick": "^4.4.0",
     "moment": "^2.22.2",
+    "mongo": "^0.1.0",
     "mongodb": "^3.1.10",
     "node-sass": "^4.9.2",
     "open-iconic": "^1.1.1",
