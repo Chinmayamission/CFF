@@ -9,9 +9,12 @@ import dateutil
 def response_edit(responseId):
     from ..main import app, TABLES
     response = Response.objects.get({"_id": ObjectId(responseId)})
-    app.check_permissions(response.form, "Responses_Edit")
     path = app.current_request.json_body["path"]
     value = app.current_request.json_body.get("value", None)
+    if path.endswith(".checkin"):
+        app.check_permissions(response.form, ["Responses_Checkin", "Responses_Edit"])
+    else:
+        app.check_permissions(response.form, "Responses_Edit")
     existing_value = get(response.value, path, value)
     if type(existing_value) is bool and value.lower() in ("true", "false"):
         value = value.lower() == "true"
