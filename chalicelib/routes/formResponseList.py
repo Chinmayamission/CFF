@@ -26,7 +26,7 @@ def form_response_list(formId):
                     except bson.errors.InvalidId:
                         pass
             else:
-                mongo_query["$or"].append({field: {"$regex": "^" + query}})
+                mongo_query["$or"].append({field: {"$regex": "^" + query, "$options" : "i"}})
         mongo_query["form"] = form.id
         if len(mongo_query["$or"]) == 0:
             del mongo_query["$or"]
