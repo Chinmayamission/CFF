@@ -37,6 +37,13 @@ todo:
 - 
 - user login/signup
 
+## 3.6.0 (4/19/19)
+- Form Search and Checkin functionality
+  - /responses endpoint now supports a ?query= parameter for searching, which can be configured by the dataOptions.
+  - Added a form view.
+- Admin: Disable context menu and show more mobile-friendly buttons for smaller screens
+- Admin: Fix editor height bug on mobile/Safari
+ 
 ## 3.5.4 (4/15/19)
 - Bug Fix: Allow coupon codes for partial payment to propagate over to PayPal.
 
