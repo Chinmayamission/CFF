@@ -16,12 +16,13 @@ def response_edit(responseId):
     else:
         app.check_permissions(response.form, "Responses_Edit")
     existing_value = get(response.value, path, value)
-    if type(existing_value) is bool and value.lower() in ("true", "false"):
-        value = value.lower() == "true"
-    elif type(existing_value) is float and value.isdigit():
-        value = float(value)
-    elif type(existing_value) is int and value.isdigit():
-        value = int(value)
+    if type(value) is str:
+        if type(existing_value) is bool and value.lower() in ("true", "false"):
+            value = value.lower() == "true"
+        elif type(existing_value) is float and value.isdigit():
+            value = float(value)
+        elif type(existing_value) is int and value.isdigit():
+            value = int(value)
     set_(response.value, path, value)
     response.update_trail.append(
         UpdateTrailItem(
