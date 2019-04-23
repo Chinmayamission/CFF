@@ -59,11 +59,11 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                 {/* <td>{participant.gender}</td> */}
                                 <td>{participant.race}</td>
                                 <td>{participant.bib_number}</td>
-                                {/* <td>
+                                <td>
                                         <input type="checkbox"
                                             checked={participant.checkin}
-                                            onChange={e => this.props.editResponse(response._id.$oid, `participants.${i}.checkin`, e.target.checked)} />
-                                    </td> */}
+                                            onChange={e => props.editResponse(props.response._id.$oid, `participants.${i}.checkin`, e.target.checked)} />
+                                    </td> 
                             </tr>)}
                         </tbody>
                     </table>
@@ -88,7 +88,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                         </div>
                     </div>
                     {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
-                        <this.renderCard response={response} />
+                        <this.renderCard response={response} editResponse={this.props.editResponse}/>
                     )}
                 </div>
                 <div className="d-block d-sm-none" >
@@ -102,7 +102,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                         </div>
                     </div>
                     {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
-                        <this.renderCard response={response} />
+                        <this.renderCard response={response} editResponse={this.props.editResponse}/>
                     )}
                 </div>
             </form>
