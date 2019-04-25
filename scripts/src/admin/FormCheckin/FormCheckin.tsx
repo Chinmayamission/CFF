@@ -10,7 +10,7 @@ import Headers from '../util/Headers';
 
 const raceRowStyle = {
     "Half Marathon": { "backgroundColor": "rgb(255, 78, 80)" },
-    "10K": { "backgroundColor": "rgb(252, 251, 227)", "color": "white" },
+    "10K": { "backgroundColor": "rgb(252, 251, 227)" },
     "5K": { "backgroundColor": "rgb(0, 255, 0)" },
     "Mela": { "backgroundColor": "rgb(164, 194, 244)" }
 
