@@ -20,7 +20,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
         super(props);
         let data = props.data;
         this.state = {
-            searchText: "",
+            searchText: ""
         };
     }
 
@@ -37,7 +37,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
     renderCard(props) {
          return (<div className="card" style={{ width: '100%' }}>
             <div className="card-body">
-                {/*<h5 className="card-title">{props.response.value.contact_name.first} {props.response.value.contact_name.last}</h5>*/}
+                <h5 className="card-title">{props.response.value.contact_name.first} {props.response.value.contact_name.last}</h5>
                 <div className="card-text">
                     <div>{props.response._id.$oid.substring(0, 4)}</div>
                     <div>{props.response.value.email}</div>
