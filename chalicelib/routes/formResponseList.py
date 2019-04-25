@@ -30,6 +30,11 @@ def form_response_list(formId):
         mongo_query["form"] = form.id
         if len(mongo_query["$or"]) == 0:
             del mongo_query["$or"]
+        # Default query paid = True
+        if mongo_query:
+            mongo_query = {"$and": [{"paid": True}, mongo_query]}
+        else:
+            {"paid": True}
         projection = {}
         for field in result_fields:
             projection[field] = 1
