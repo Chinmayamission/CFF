@@ -20,7 +20,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
         super(props);
         let data = props.data;
         this.state = {
-            searchText: ""
+            searchText: "",
         };
     }
 
@@ -34,18 +34,10 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
         }
     }
 
-    checkIn(responseId, index) {
-
-    }
-
-    checkInAll(responseId) {
-
-    }
-
     renderCard(props) {
-        return (<div className="card" style={{ width: '100%' }}>
+         return (<div className="card" style={{ width: '100%' }}>
             <div className="card-body">
-                <h5 className="card-title">{props.response.value.contact_name.first} {props.response.value.contact_name.last}</h5>
+                {/*<h5 className="card-title">{props.response.value.contact_name.first} {props.response.value.contact_name.last}</h5>*/}
                 <div className="card-text">
                     <div>{props.response._id.$oid.substring(0, 4)}</div>
                     <div>{props.response.value.email}</div>
@@ -63,12 +55,18 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                         <input type="checkbox"
                                             checked={participant.checkin}
                                             onChange={e => props.editResponse(props.response._id.$oid, `participants.${i}.checkin`, e.target.checked)} />
-                                    </td> 
+                                </td> 
                             </tr>)}
                         </tbody>
+                        
                     </table>
                 </div>
-                {/* <a className="btn btn-sm" onChange={e => this.checkInAll(response._id.$oid)}>Check in all</a> */}
+                <button onClick={()=> {
+                     props.response.value.participants.map((participant, i) =>
+                        props.editResponse(props.response._id.$oid, `participants.${i}.checkin`, true)
+                )
+                          
+                }}>Check in all</button>
             </div>
         </div>)
 
@@ -88,7 +86,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                         </div>
                     </div>
                     {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
-                        <this.renderCard response={response} editResponse={this.props.editResponse}/>
+                         <this.renderCard response={response} editResponse={this.props.editResponse}/>
                     )}
                 </div>
                 <div className="d-block d-sm-none" >
@@ -124,7 +122,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
     fetchResponses: (a, b) => dispatch(fetchResponses(a, b)),
     editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
-    fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a))
+    fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormCheckin);
