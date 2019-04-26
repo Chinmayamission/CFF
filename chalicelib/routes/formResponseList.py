@@ -20,7 +20,7 @@ def form_response_list(formId):
     search_by_id = app.current_request.query_params and app.current_request.query_params.get("search_by_id", None)
     if query:
         # autocomplete, participant name, assign bibs functionality
-        app.check_permissions(form, ["Responses_View", "Responses_Checkin"])
+        app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
         search_fields = get(form.formOptions.dataOptions, "search.searchFields", ["_id"])
         if search_by_id is not None:
             search_fields = ["_id"]
