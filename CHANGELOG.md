@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.6.7 (4/26/19)
+- Backend fix: use raw mongo query to get responses to fix speed issue
+
 ## 3.6.6 (4/26/19)
 - Bug fix: fix type so code compiles
 
