@@ -21,6 +21,10 @@ Add the following to dataOptions:
         "value.email",
         "value.participants"
       ],
+      "autocompleteFields": [
+        "value.contact_name.last",
+        "value.contact_name.first"
+      ],
       "resultLimit": 10
     }
 }
