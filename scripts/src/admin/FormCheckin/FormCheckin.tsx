@@ -107,7 +107,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                             </button>
                         </div>
                     </div>
-                    <div className="dropdown-menu" style={{display: this.state.searchFocus ? "block": "none", width: "100%", zIndex: 0}}>
+                    <div className="dropdown-menu" style={{display: this.state.searchFocus ? "none": "none", width: "100%", zIndex: 0}}>
                         {this.state.autocompleteResults.map(result => 
                             result.value.participants.map((participant, i) =>
                                 <a key={result._id.$oid + "_" + i} className="dropdown-item"
