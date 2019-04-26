@@ -62,7 +62,7 @@ def response_edit(responseId):
     if batch is None:
         batch = [{"path": path, "value": value}]
     if all(item["path"].endswith(".checkin") for item in batch):
-        app.check_permissions(response.form, ["Responses_Checkin", "Responses_Edit"])
+        app.check_permissions(response.form, ["Responses_CheckIn", "Responses_Edit"])
     else:
         app.check_permissions(response.form, "Responses_Edit")
     for item in batch:
