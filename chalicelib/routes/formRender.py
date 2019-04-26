@@ -10,7 +10,7 @@ def form_render(formId):
     """Render single form."""
     form = None
     try:
-        form = Form.objects.only("name", "schema", "uiSchema", "formOptions").get({"_id": ObjectId(formId)})
+        form = Form.objects.only("name", "schema", "uiSchema", "formOptions", "cff_permissions").get({"_id": ObjectId(formId)})
         # Convert __$ref back to $ref.
         if form.schema:
             form.schema = renameKey(form.schema, "__$ref", "$ref")
