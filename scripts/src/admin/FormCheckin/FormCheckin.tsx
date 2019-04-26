@@ -34,16 +34,8 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
         }
     }
 
-    checkIn(responseId, index) {
-
-    }
-
-    checkInAll(responseId) {
-
-    }
-
     renderCard(props) {
-        return (<div className="card" style={{ width: '100%' }}>
+         return (<div className="card" style={{ width: '100%' }}>
             <div className="card-body">
                 <h5 className="card-title">{props.response.value.contact_name.first} {props.response.value.contact_name.last}</h5>
                 <div className="card-text">
@@ -63,12 +55,18 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                         <input type="checkbox"
                                             checked={participant.checkin}
                                             onChange={e => props.editResponse(props.response._id.$oid, `participants.${i}.checkin`, e.target.checked)} />
-                                    </td> 
+                                </td> 
                             </tr>)}
                         </tbody>
+                        
                     </table>
                 </div>
-                {/* <a className="btn btn-sm" onChange={e => this.checkInAll(response._id.$oid)}>Check in all</a> */}
+                <button onClick={()=> {
+                     props.response.value.participants.map((participant, i) =>
+                        props.editResponse(props.response._id.$oid, `participants.${i}.checkin`, true)
+                )
+                          
+                }}>Check in all</button>
             </div>
         </div>)
 
@@ -152,7 +150,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
     fetchResponses: (a, b) => dispatch(fetchResponses(a, b)),
     editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
-    fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a))
+    fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormCheckin);
