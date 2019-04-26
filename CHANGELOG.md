@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.6.5 (4/26/19)
+- Bug fix for checkin: fix InlineEdit view, fix permissions check
+- Form Render viewpoint now returns cff_permissions
+
 ## 3.6.4 (4/26/19)
 - Disable autocomplete for form checkin
 - Restrict form checkin and mobile menu only to people with permissions
