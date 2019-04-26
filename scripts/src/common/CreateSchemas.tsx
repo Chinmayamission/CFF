@@ -11,6 +11,7 @@ export default function createSchemas(data, specifiedShowFields={}, responseId=n
         paymentCalcInfo: get(data, "formOptions.paymentInfo", {}),
         dataOptions: get(data, "formOptions.dataOptions", {}),
         formOptions: get(data, "formOptions", {}),
+        cff_permissions: get(data, "cff_permissions", {}),
         responseId,
         responseData,
         name: data["name"],

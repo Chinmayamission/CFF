@@ -32,7 +32,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
     async componentDidMount() {
         await this.props.fetchRenderedForm(this.props.match.params.formId);
         this.setState({
-            isEditor: hasPermission(this.props.formState.renderedForm, "Forms_Edit", this.props.authState.userId)
+            isEditor: hasPermission(this.props.formState.renderedForm.cff_permissions, "Responses_Edit", this.props.authState.userId)
         })
     }
 
@@ -73,6 +73,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                 <td>{participant.race}</td>
                                 <td>
                                     {this.state.isEditor ? <InlineEdit text={participant.bib_number || "None"} paramName={"data"}
+                                        style={{display: "inline", maxWidth: 40}}
                                         change={({data}) => this.props.editResponse(response._id.$oid, `participants.${i}.bib_number`, parseInt(data))} /> : 
                                     <div>{participant.bib_number}</div>}
                                 </td>
