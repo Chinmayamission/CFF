@@ -27,7 +27,7 @@ def form_response_list(formId):
         for word in query.split(" "):
             for field in search_fields:
                 if field == "_id":
-                    if len(word) <= 23:
+                    if len(word) <= 24:
                         try:
                             queryObjectIdStart = ObjectId(word + "0" * (24 - len(word))) # fill in zeroes to create object id, e.g. 5cba --> 5cba0000000000000000000
                             queryObjectIdEnd = ObjectId(word + "e" * (24 - len(word)))
