@@ -7,6 +7,7 @@ import ReactTable from "react-table";
 import { get } from "lodash";
 import { fetchRenderedForm } from '../../store/form/actions';
 import Headers from '../util/Headers';
+import { API } from "aws-amplify";
 
 const raceRowStyle = {
     "Half Marathon": { "backgroundColor": "rgb(255, 78, 80)" },
@@ -18,9 +19,10 @@ const raceRowStyle = {
 class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> {
     constructor(props: any) {
         super(props);
-        let data = props.data;
         this.state = {
-            searchText: ""
+            searchText: "",
+            searchFocus: false,
+            autocompleteResults: []
         };
     }
 
@@ -28,9 +30,24 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
         await this.props.fetchRenderedForm(this.props.match.params.formId);
     }
 
-    search() {
+    componentDidUpdate(prevProps: IFormCheckinProps) {
+        if (prevProps.responsesState.responses !== this.props.responsesState.responses) {
+            this.setState({searchFocus: false});
+        }
+    }
+
+    search(search_by_id) {
         if (this.state.searchText) {
-            this.props.fetchResponses(this.props.match.params.formId, this.state.searchText);
+            this.props.fetchResponses(this.props.match.params.formId, this.state.searchText, search_by_id);
+        }
+    }
+
+    async onSearchTextChange(value) {
+        this.setState({ searchText: value });
+        if (value) {
+            let queryStringParameters = { "query": value, "autocomplete": "1" };
+            let results = await API.get("CFF", `forms/${this.props.match.params.formId}/responses`, { queryStringParameters });
+            this.setState({ autocompleteResults: results.res || [] });
         }
     }
 
@@ -41,7 +58,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                 <div className="card-text">
                     <div>{response._id.$oid.substring(0, 6)}</div>
                     <div>{response.value.email}</div>
-                    <table className="table table-sm table-responsive" style={{wordBreak: "break-word"}}>
+                    <table className="table table-sm table-responsive" style={{ wordBreak: "break-word" }}>
                         <tbody>
                             {response.value.participants.map((participant, i) => <tr style={raceRowStyle[participant.race]}>
                                 <td>{participant.name.last}</td>
@@ -60,45 +77,42 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                 </div>
                 <button className="btn btn-sm btn-outline-primary" onClick={() => this.props.editResponseBatch(
                     response._id.$oid,
-                    response.value.participants.map((p, i) => ({"path": `participants.${i}.checkin`, "value": true}) )
-                ) }>Check in all</button>
+                    response.value.participants.map((p, i) => ({ "path": `participants.${i}.checkin`, "value": true }))
+                )}>Check in all</button>
             </div>
         </div>;
 
         return (<div>
-            <form onSubmit={e => { e.preventDefault(); this.search(); return false; }}>
-                <div className=" d-none d-sm-block">
+            <form onSubmit={e => { e.preventDefault(); this.search(false); return false; }}>
+                <div className="dropdown show"  style={{ position: 'sticky', top: 0, zIndex: 99999 }}
+                onFocus={e => this.setState({searchFocus: true})}
+                >
                     <div className="input-group">
                         <input type="text" className="form-control cff-input-search" placeholder="Search..." autoComplete="off"
-                            value={this.state.searchText} onChange={e => this.setState({ searchText: e.target.value })} />
+                            value={this.state.searchText} onChange={e => this.onSearchTextChange(e.target.value)}
+                            />
                         <div className="input-group-append">
                             <button className="btn btn-primary" type="submit">
                                 <i className="oi oi-magnifying-glass"></i>
                             </button>
                         </div>
                     </div>
-                    {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
-                        <Card response={response} />
-                    )}
-
-                </div>
-                <div className="d-block d-sm-none" >
-                    <div className="input-group" style={{ position: 'sticky', top: 0, zIndex: 99999 }}>
-                        <input type="text" className="form-control cff-input-search" placeholder="Search..." autoComplete="off"
-                            value={this.state.searchText} onChange={e => this.setState({ searchText: e.target.value })} />
-                        <div className="input-group-append">
-                            <button className="btn btn-primary" type="submit">
-                                <i className="oi oi-magnifying-glass"></i>
-                            </button>
-                        </div>
+                    <div className="dropdown-menu" style={{display: this.state.searchFocus ? "block": "none", width: "100%", zIndex: 0}}>
+                        {this.state.autocompleteResults.map(result => 
+                            result.value.participants.map((participant, i) =>
+                                <a key={result._id.$oid + "_" + i} className="dropdown-item"
+                                    onClick={e => this.setState({searchText: result._id.$oid}, () => this.search(true))}>
+                                    {participant.name.first} {participant.name.last}
+                                </a>
+                            )
+                        )}
                     </div>
-                    {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
-                        <Card response={response} key={response._id.$oid} />
-                    )}
                 </div>
+                
+                {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
+                    <Card response={response} key={response._id.$oid} />
+                )}
             </form>
-            <div>
-            </div>
             {this.props.responsesState.responses && this.props.responsesState.responses.length === 0 &&
                 <div className="mt-4">
                     No results found.
@@ -113,7 +127,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    fetchResponses: (a, b) => dispatch(fetchResponses(a, b)),
+    fetchResponses: (a, b, c) => dispatch(fetchResponses(a, b, c)),
     editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
     editResponseBatch: (a, b) => dispatch(editResponseBatch(a, b)),
     fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a)),

@@ -96,9 +96,12 @@ export const submitNewPayment = () => (dispatch, getState) => {
 /*
  * Fetches (or searches for) responses.
  */
-export const fetchResponses = (formId, searchQuery = "") => (dispatch, getState) => {
+export const fetchResponses = (formId, searchQuery = "", search_by_id = false) => (dispatch, getState) => {
   dispatch(loadingStart());
   let queryStringParameters = searchQuery ? { "query": searchQuery } : {};
+  if (search_by_id) {
+    queryStringParameters["search_by_id"] = "1";
+  }
   return API.get("CFF", `forms/${formId}/responses`, { queryStringParameters }).then(e => {
     dispatch(setResponses(e.res));
     dispatch(loadingEnd());
