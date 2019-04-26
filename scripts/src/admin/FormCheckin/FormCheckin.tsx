@@ -2,7 +2,7 @@ import * as React from 'react';
 import "./FormCheckin.scss";
 import { IFormCheckinProps, IFormCheckinState } from './FormCheckin.d';
 import { connect } from "react-redux";
-import { fetchResponses, editResponse } from '../../store/responses/actions';
+import { fetchResponses, editResponse, editResponseBatch } from '../../store/responses/actions';
 import ReactTable from "react-table";
 import { get } from "lodash";
 import { fetchRenderedForm } from '../../store/form/actions';
@@ -58,12 +58,10 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                         </tbody>
                     </table>
                 </div>
-                <button className="btn btn-sm" onClick={() => {
-                    response.value.participants.map((participant, i) =>
-                        this.props.editResponse(response._id.$oid, `participants.${i}.checkin`, true)
-                    )
-
-                }}>Check in all</button>
+                <button className="btn btn-sm btn-outline-primary" onClick={() => this.props.editResponseBatch(
+                    response._id.$oid,
+                    response.value.participants.map((p, i) => ({"path": `participants.${i}.checkin`, "value": true}) )
+                ) }>Check in all</button>
             </div>
         </div>;
 
@@ -95,7 +93,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                         </div>
                     </div>
                     {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
-                        <Card response={response} />
+                        <Card response={response} key={response._id.$oid} />
                     )}
                 </div>
             </form>
@@ -117,6 +115,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
     fetchResponses: (a, b) => dispatch(fetchResponses(a, b)),
     editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
+    editResponseBatch: (a, b) => dispatch(editResponseBatch(a, b)),
     fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a)),
 });
 

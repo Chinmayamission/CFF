@@ -4,12 +4,15 @@ import { findIndex, cloneDeep } from "lodash";
 import { loadingStart, loadingEnd } from "../base/actions";
 
 export const editResponse = (responseId: string, path: string, value: any) => (dispatch, getState) => {
+  dispatch(editResponseBatch(responseId, [{ path, value }]));
+};
+
+export const editResponseBatch = (responseId: string, batch: any) => (dispatch, getState) => {
   dispatch(loadingStart());
   return API.patch("CFF", `responses/${responseId}`, {
     "body":
     {
-      "path": path,
-      "value": value
+      "batch": batch
     }
   }).then(e => {
     if (e.res.success === true) {
@@ -27,6 +30,7 @@ export const editResponse = (responseId: string, path: string, value: any) => (d
     dispatch(loadingEnd());
   });
 };
+
 
 export const fetchResponseDetail = (responseId) => (dispatch, getState) => {
   dispatch(loadingStart());
