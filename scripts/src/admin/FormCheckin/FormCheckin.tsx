@@ -105,7 +105,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                         {this.state.autocompleteResults.map(result => 
                             result.value.participants.map((participant, i) =>
                                 <a key={result._id.$oid + "_" + i} className="dropdown-item"
-                                    onClick={e => this.setState({searchText: result._id.$oid}, () => this.search(true))}>
+                                    onClick={e => this.setState({searchText: result._id.$oid, autocompleteResults: [], searchFocus: false}, () => this.search(true))}>
                                     {participant.name.first} {participant.name.last}
                                 </a>
                             )
