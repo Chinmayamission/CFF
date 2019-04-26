@@ -8,6 +8,7 @@ import { get } from "lodash";
 import { fetchRenderedForm } from '../../store/form/actions';
 import Headers from '../util/Headers';
 import { API } from "aws-amplify";
+import InlineEdit from 'react-edit-inline';
 
 const raceRowStyle = {
     "Half Marathon": { "backgroundColor": "rgb(255, 78, 80)" },
@@ -58,14 +59,17 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                 <div className="card-text">
                     <div>{response._id.$oid.substring(0, 6)}</div>
                     <div>{response.value.email}</div>
-                    <table className="table table-sm table-responsive" style={{ wordBreak: "break-word" }}>
+                    <table className="table table-sm" style={{ wordBreak: "break-word" }}>
                         <tbody>
                             {response.value.participants.map((participant, i) => <tr style={raceRowStyle[participant.race]}>
                                 <td>{participant.name.last}</td>
                                 <td>{participant.name.first}</td>
                                 <td>{participant.shirt_size}</td>
                                 <td>{participant.race}</td>
-                                <td>{participant.bib_number}</td>
+                                <td>
+                                    <InlineEdit text={participant.bib_number} paramName={"data"}
+                                        change={({data}) => this.props.editResponse(response._id.$oid, `participants.${i}.bib_number`, parseInt(data))} />
+                                </td>
                                 <td>
                                     <input type="checkbox"
                                         checked={participant.checkin}
