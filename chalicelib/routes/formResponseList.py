@@ -61,6 +61,7 @@ def form_response_list(formId):
             {"paid": True}
         if autocomplete is not None:
             projection = {field: 1 for field in autocomplete_fields}
+            result_limit = 5
         else:
             projection = {}
             for field in result_fields:
