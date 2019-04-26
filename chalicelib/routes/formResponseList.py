@@ -24,28 +24,29 @@ def form_response_list(formId):
         result_fields = get(form.formOptions.dataOptions, "search.resultFields", ["_id"])
         autocomplete_fields = get(form.formOptions.dataOptions, "search.autocompleteFields", ["_id"])
         mongo_query = {"$or": []}
-        for field in search_fields:
-            if field == "_id":
-                if len(query) <= 23:
-                    try:
-                        queryObjectIdStart = ObjectId(query + "0" * (24 - len(query))) # fill in zeroes to create object id, e.g. 5cba --> 5cba0000000000000000000
-                        queryObjectIdEnd = ObjectId(query + "e" * (24 - len(query)))
-                        mongo_query["$or"].append({field: {"$gte": queryObjectIdStart, "$lte": queryObjectIdEnd} })
-                    except bson.errors.InvalidId:
-                        pass
-            else:
-                if field.startswith("value.participants."):
-                    _, subfield = field.split("value.participants.")
-                    mongo_query["$or"].append({"value.participants": {
-                            "$elemMatch": {
-                                subfield: {
-                                    "$regex": '^' + query, "$options" : "i"
+        for word in query.split(" "):
+            for field in search_fields:
+                if field == "_id":
+                    if len(word) <= 23:
+                        try:
+                            queryObjectIdStart = ObjectId(word + "0" * (24 - len(word))) # fill in zeroes to create object id, e.g. 5cba --> 5cba0000000000000000000
+                            queryObjectIdEnd = ObjectId(word + "e" * (24 - len(word)))
+                            mongo_query["$or"].append({field: {"$gte": queryObjectIdStart, "$lte": queryObjectIdEnd} })
+                        except bson.errors.InvalidId:
+                            pass
+                else:
+                    if field.startswith("value.participants."):
+                        _, subfield = field.split("value.participants.")
+                        mongo_query["$or"].append({"value.participants": {
+                                "$elemMatch": {
+                                    subfield: {
+                                        "$regex": '^' + word, "$options" : "i"
+                                    }
                                 }
                             }
-                        }
-                    })
-                else:
-                    mongo_query["$or"].append({field: {"$regex": '^' + query, "$options" : "i"}})
+                        })
+                    else:
+                        mongo_query["$or"].append({field: {"$regex": '^' + word, "$options" : "i"}})
         mongo_query["form"] = form.id
         if len(mongo_query["$or"]) == 0:
             del mongo_query["$or"]
