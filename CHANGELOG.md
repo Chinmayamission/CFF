@@ -37,6 +37,15 @@ todo:
 - 
 - user login/signup
 
+## 3.6.2 (4/26/19)
+- Form Checkin enhancements:
+  - Autocomplete
+  - Inline bib edit
+  - Fix "check in all" button by adding a batch edit option on API
+  - Allow queries with multiple words
+  - Allow search_by_id option to speed up queries
+  - Fix issue with accounts only having Responses_checkIn permissions unable to checkin
+
 ## 3.6.1 (4/25/19)
 - Form Checkin enhancements:
   - Add "Check in all" button
