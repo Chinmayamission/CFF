@@ -9,6 +9,7 @@ import { fetchRenderedForm } from '../../store/form/actions';
 import Headers from '../util/Headers';
 import { API } from "aws-amplify";
 import InlineEdit from 'react-edit-inline';
+import { hasPermission } from '../FormList/FormList';
 
 const raceRowStyle = {
     "Half Marathon": { "backgroundColor": "rgb(255, 78, 80)" },
@@ -23,12 +24,16 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
         this.state = {
             searchText: "",
             searchFocus: false,
-            autocompleteResults: []
+            autocompleteResults: [],
+            isEditor: false
         };
     }
 
     async componentDidMount() {
         await this.props.fetchRenderedForm(this.props.match.params.formId);
+        this.setState({
+            isEditor: hasPermission(this.props.formState.renderedForm, "Forms_Edit", this.props.authState.userId)
+        })
     }
 
     componentDidUpdate(prevProps: IFormCheckinProps) {
@@ -45,11 +50,11 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
 
     async onSearchTextChange(value) {
         this.setState({ searchText: value });
-        if (value) {
-            let queryStringParameters = { "query": value, "autocomplete": "1" };
-            let results = await API.get("CFF", `forms/${this.props.match.params.formId}/responses`, { queryStringParameters });
-            this.setState({ autocompleteResults: results.res || [] });
-        }
+        // if (value) {
+        //     let queryStringParameters = { "query": value, "autocomplete": "1" };
+        //     let results = await API.get("CFF", `forms/${this.props.match.params.formId}/responses`, { queryStringParameters });
+        //     this.setState({ autocompleteResults: results.res || [] });
+        // }
     }
 
     render() {
@@ -67,8 +72,9 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                 <td>{participant.shirt_size}</td>
                                 <td>{participant.race}</td>
                                 <td>
-                                    <InlineEdit text={participant.bib_number} paramName={"data"}
-                                        change={({data}) => this.props.editResponse(response._id.$oid, `participants.${i}.bib_number`, parseInt(data))} />
+                                    {this.state.isEditor ? <InlineEdit text={participant.bib_number || "None"} paramName={"data"}
+                                        change={({data}) => this.props.editResponse(response._id.$oid, `participants.${i}.bib_number`, parseInt(data))} /> : 
+                                    <div>{participant.bib_number}</div>}
                                 </td>
                                 <td>
                                     <input type="checkbox"
@@ -127,7 +133,8 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
 
 const mapStateToProps = state => ({
     responsesState: state.responses,
-    formState: state.form
+    formState: state.form,
+    authState: state.auth
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

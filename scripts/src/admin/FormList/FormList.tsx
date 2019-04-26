@@ -162,18 +162,19 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     }
 }
 
-function ActionButton(props) {
+export function ActionButton(props) {
     let disabled = props.disabled || !hasPermission(props.form.cff_permissions, props.permissionName, props.userId);
     if (!props.permissionName) {
         disabled = false;
     }
 
     if (disabled) {
-        return (<a href="">
-            <button className="ccmt-cff-btn-action btn btn-xs" disabled={true}>
+        return null;
+    }
+    else if (props.onClick) {
+        return (<button className="ccmt-cff-btn-action btn btn-xs" onClick={e => props.onClick(e)}>
                 <span className={`oi ${props.icon}`}></span> {props.text}
-            </button>
-        </a>);
+            </button>);
     }
     else {
         return (<NavLink to={{ pathname: `${props.url}`, state: { selectedForm: props.form } }}>
@@ -183,11 +184,12 @@ function ActionButton(props) {
         </NavLink>);
     }
 }
-function hasPermission(cff_permissions, permissionNames, userId) {
+export function hasPermission(cff_permissions, permissionNames, userId) {
     if (!isArray(permissionNames)) {
         permissionNames = [permissionNames];
     }
     permissionNames.push("owner");
+    console.log(userId, cff_permissions[userId]);
     if (cff_permissions && cff_permissions[userId]) {
         for (let permissionName of permissionNames) {
             if (cff_permissions[userId][permissionName] == true) {
@@ -232,15 +234,22 @@ function ButtonList(props) {
                 text="Share"
                 userId={props.userId}
             />
-            <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => props.createForm(props.form["_id"]["$oid"])}>
-                <span className="oi oi-plus" />&nbsp;
-                Duplicate
-            </button>
-            <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => { props.delete(props.formList, props.form["_id"]["$oid"]) }}>
-                <span className="oi oi-trash" />&nbsp;
-                Delete
-            </button>
             <ActionButton form={props.form}
+                onClick={() => props.createForm(props.form["_id"]["$oid"])}
+                permissionName="Forms_Edit"
+                icon="oi-plus"
+                text="Duplicate"
+                userId={props.userId}
+            />
+            <ActionButton form={props.form}
+                permissionName="Forms_Delete"
+                onClick={() => { props.delete(props.formList, props.form["_id"]["$oid"]) }}
+                icon="oi-trash"
+                text="Delete"
+                userId={props.userId}
+            />
+            <ActionButton form={props.form}
+                permissionName={"Responses_CheckIn"}
                 url={`./${props.form["_id"]["$oid"]}/checkin/`}
                 icon="oi-sort-ascending"
                 text="Check In"

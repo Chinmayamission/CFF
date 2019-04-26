@@ -1,10 +1,12 @@
 import { ISharedFormAdminPageProps } from "../admin";
 import { ResponsesState, IResponse } from "../../store/responses/types";
 import { FormState } from "../../store/form/types";
+import { IAuthState } from "../../store/auth/types";
 
 export interface IFormCheckinProps extends ISharedFormAdminPageProps {
     fetchResponses: (a, b, c) => any,
     responsesState: ResponsesState,
+    authState: IAuthState,
     editResponse: (a, b, c) => any,
     editResponseBatch: (a, b) => any,
     fetchRenderedForm: (a) => Promise<any>,
@@ -14,5 +16,6 @@ export interface IFormCheckinProps extends ISharedFormAdminPageProps {
 export interface IFormCheckinState {
     searchText: string,
     autocompleteResults: IResponse[],
-    searchFocus: boolean
+    searchFocus: boolean,
+    isEditor: boolean
 }
