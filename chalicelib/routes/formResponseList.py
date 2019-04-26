@@ -21,8 +21,9 @@ def form_response_list(formId):
             if field == "_id":
                 if len(query) <= 23:
                     try:
-                        queryObjectId = ObjectId(query + "0" * (23 - len(query))) # fill in zeroes to create object id, e.g. 5cba --> 5cba0000000000000000000
-                        mongo_query["$or"].append({field: {"$gte": queryObjectId} })
+                        queryObjectIdStart = ObjectId(query + "0" * (24 - len(query))) # fill in zeroes to create object id, e.g. 5cba --> 5cba0000000000000000000
+                        queryObjectIdEnd = ObjectId(query + "9" * (24 - len(query)))
+                        mongo_query["$or"].append({field: {"$gte": queryObjectIdStart, "$lte": queryObjectIdEnd} })
                     except bson.errors.InvalidId:
                         pass
             else:
