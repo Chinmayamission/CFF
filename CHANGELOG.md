@@ -37,6 +37,11 @@ todo:
 - 
 - user login/signup
 
+## 3.6.4 (4/26/19)
+- Disable autocomplete for form checkin
+- Restrict form checkin and mobile menu only to people with permissions
+- Performance: return less fields in responses list endpoint
+
 ## 3.6.3 (4/26/19)
 - Backend only fix -- Fix another issue with accounts only having Responses_CheckIn permissions unable to checkin
 
