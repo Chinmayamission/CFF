@@ -6,15 +6,8 @@ from pydash.objects import get, set_
 from chalicelib.routes.responseIpnListener import mark_successful_payment
 import dateutil
 
-def response_edit(responseId):
-    from ..main import app, TABLES
-    response = Response.objects.get({"_id": ObjectId(responseId)})
-    path = app.current_request.json_body["path"]
-    value = app.current_request.json_body.get("value", None)
-    if path.endswith(".checkin"):
-        app.check_permissions(response.form, ["Responses_Checkin", "Responses_Edit"])
-    else:
-        app.check_permissions(response.form, "Responses_Edit")
+def update_response_path(response, path, value):
+    from ..main import app
     existing_value = get(response.value, path, value)
     if type(value) is str:
         if type(existing_value) is bool and value.lower() in ("true", "false"):
@@ -33,6 +26,47 @@ def response_edit(responseId):
             user=app.get_current_user_id()
         )
     )
+
+"""
+Edit a response.
+
+JSON body:
+1)
+{
+    path: "participants.0.age"
+    value: 12
+}
+
+2)
+{
+    batch: [
+        {
+            path: "participants.0.checkin",
+            value: true
+        },
+        {
+            path: "participants.1.checkin",
+            value: true
+        }
+    ]
+}
+
+
+"""
+def response_edit(responseId):
+    from ..main import app
+    response = Response.objects.get({"_id": ObjectId(responseId)})
+    path = app.current_request.json_body.get("path", None)
+    value = app.current_request.json_body.get("value", None)
+    batch = app.current_request.json_body.get("batch", None)
+    if batch is None:
+        batch = [{"path": path, "value": value}]
+    if all(item["path"].endswith(".checkin") for item in batch):
+        app.check_permissions(response.form, ["Responses_Checkin", "Responses_Edit"])
+    else:
+        app.check_permissions(response.form, "Responses_Edit")
+    for item in batch:
+        update_response_path(response, item["path"], item["value"])
     response.save()
     return {"res": {"success": True, "response": serialize_model(response)}}
 
