@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.6.6 (4/26/19)
+- Bug fix: fix type so code compiles
+
 ## 3.6.5 (4/26/19)
 - Bug fix for checkin: fix InlineEdit view, fix permissions check
 - Form Render viewpoint now returns cff_permissions
