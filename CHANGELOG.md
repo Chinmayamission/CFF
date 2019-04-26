@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.6.3 (4/26/19)
+- Backend only fix -- Fix another issue with accounts only having Responses_CheckIn permissions unable to checkin
+
 ## 3.6.2 (4/26/19)
 - Form Checkin enhancements:
   - Autocomplete
@@ -44,7 +47,7 @@ todo:
   - Fix "check in all" button by adding a batch edit option on API
   - Allow queries with multiple words
   - Allow search_by_id option to speed up queries
-  - Fix issue with accounts only having Responses_checkIn permissions unable to checkin
+  - Fix issue with accounts only having Responses_CheckIn permissions unable to checkin
 
 ## 3.6.1 (4/25/19)
 - Form Checkin enhancements:
