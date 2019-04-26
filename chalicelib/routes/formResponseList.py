@@ -22,7 +22,7 @@ def form_response_list(formId):
                 if len(query) <= 23:
                     try:
                         queryObjectIdStart = ObjectId(query + "0" * (24 - len(query))) # fill in zeroes to create object id, e.g. 5cba --> 5cba0000000000000000000
-                        queryObjectIdEnd = ObjectId(query + "9" * (24 - len(query)))
+                        queryObjectIdEnd = ObjectId(query + "e" * (24 - len(query)))
                         mongo_query["$or"].append({field: {"$gte": queryObjectIdStart, "$lte": queryObjectIdEnd} })
                     except bson.errors.InvalidId:
                         pass
@@ -39,6 +39,7 @@ def form_response_list(formId):
         projection = {}
         for field in result_fields:
             projection[field] = 1
+        print(mongo_query)
         responses = Response.objects.raw(mongo_query).limit(result_limit).project(projection)
     else:
         app.check_permissions(form, ["Responses_View"])
