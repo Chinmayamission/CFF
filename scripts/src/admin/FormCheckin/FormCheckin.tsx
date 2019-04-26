@@ -41,7 +41,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                 <div className="card-text">
                     <div>{response._id.$oid.substring(0, 4)}</div>
                     <div>{response.value.email}</div>
-                    <table className="table table-sm table-responsive">
+                    <table className="table table-sm table-responsive" style={{wordBreak: "break-word"}}>
                         <tbody>
                             {response.value.participants.map((participant, i) => <tr style={raceRowStyle[participant.race]}>
                                 <td>{participant.name.last}</td>
