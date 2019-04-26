@@ -66,58 +66,6 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         this.setState({ highlightedForm: formId });
     }
 
-    renderButtons(props)
-    {
-        return (
-            <div>
-            <ActionButton form={props.form}
-            url={`/v2/forms/${props.form["_id"]["$oid"]}`}
-            icon="oi-document"
-            text="View"
-        />
-        <ActionButton form={props.form}
-            permissionName="Forms_Embed"
-            url={`./${props.form["_id"]["$oid"]}/embed/`}
-            icon="oi-document"
-            text="Embed"
-            userId={props.userId}
-        />
-        <ActionButton form={props.form}
-            permissionName="Forms_Edit"
-            url={`./${props.form["_id"]["$oid"]}/edit/`}
-            icon="oi-pencil"
-            text="Edit"
-            userId={props.userId} />
-        <ActionButton form={props.form}
-            permissionName="Responses_View"
-            url={`./${props.form["_id"]["$oid"]}/responses/`}
-            icon="oi-sort-ascending"
-            text="Responses"
-            userId={props.userId} />
-        <ActionButton form={props.form}
-            permissionName="Forms_PermissionsView"
-            url={`./${props.form["_id"]["$oid"]}/share/`}
-            icon="oi-share-boxed"
-            text="Share"
-            userId={props.userId}
-        />
-        <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => props.createForm(props.form["_id"]["$oid"])}>
-            <span className="oi oi-plus" />&nbsp;
-            Duplicate
-        </button>
-        <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => { props.delete(props.formList, props.form["_id"]["$oid"]) }}>
-            <span className="oi oi-trash" />&nbsp;
-            Delete
-        </button>
-        <ActionButton form={props.form}
-            url={`./${props.form["_id"]["$oid"]}/checkin/`}
-            icon="oi-sort-ascending"
-            text="Check In"
-            userId={props.userId} />
-        </div>
-        )
-    }
-
 
     render() {
         let formList = this.props.selectedForm ? [this.props.selectedForm] : this.props.formList;
@@ -126,7 +74,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
             return (<Loading />);
         }
         return (
-             <div className="container-fluid">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm">
                         Right click on a form to perform an action.
@@ -163,13 +111,13 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                             </div>
                         </ContextMenuTrigger>
                         {this.state.highlightedForm === form._id.$oid &&
-                        
+
                             <div className="d-block d-sm-none">
-                              <this.renderButtons form={form} formList={formList} userId={this.props.userId} createForm= {this.props.createForm} 
-                              delete = {this.delete}
-                              />
+                                <ButtonList form={form} formList={formList} userId={this.props.userId} createForm={this.props.createForm}
+                                    delete={this.delete}
+                                />
                             </div>
-                           
+
                         }
                         <ContextMenu className="d-none d-sm-block" id={form["_id"]["$oid"]}>
                             <MenuItem onClick={() =>
@@ -249,6 +197,56 @@ function hasPermission(cff_permissions, permissionNames, userId) {
         return false;
     }
     return false;
+}
+function ButtonList(props) {
+    return (
+        <div>
+            <ActionButton form={props.form}
+                url={`/v2/forms/${props.form["_id"]["$oid"]}`}
+                icon="oi-document"
+                text="View"
+            />
+            <ActionButton form={props.form}
+                permissionName="Forms_Embed"
+                url={`./${props.form["_id"]["$oid"]}/embed/`}
+                icon="oi-document"
+                text="Embed"
+                userId={props.userId}
+            />
+            <ActionButton form={props.form}
+                permissionName="Forms_Edit"
+                url={`./${props.form["_id"]["$oid"]}/edit/`}
+                icon="oi-pencil"
+                text="Edit"
+                userId={props.userId} />
+            <ActionButton form={props.form}
+                permissionName="Responses_View"
+                url={`./${props.form["_id"]["$oid"]}/responses/`}
+                icon="oi-sort-ascending"
+                text="Responses"
+                userId={props.userId} />
+            <ActionButton form={props.form}
+                permissionName="Forms_PermissionsView"
+                url={`./${props.form["_id"]["$oid"]}/share/`}
+                icon="oi-share-boxed"
+                text="Share"
+                userId={props.userId}
+            />
+            <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => props.createForm(props.form["_id"]["$oid"])}>
+                <span className="oi oi-plus" />&nbsp;
+                Duplicate
+            </button>
+            <button className="ccmt-cff-btn-action btn  btn-xs" onClick={() => { props.delete(props.formList, props.form["_id"]["$oid"]) }}>
+                <span className="oi oi-trash" />&nbsp;
+                Delete
+            </button>
+            <ActionButton form={props.form}
+                url={`./${props.form["_id"]["$oid"]}/checkin/`}
+                icon="oi-sort-ascending"
+                text="Check In"
+                userId={props.userId} />
+        </div>
+    )
 }
 
 const FormListWrapper = connect(mapStateToProps, mapDispatchToProps)(FormList);
