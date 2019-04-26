@@ -21,7 +21,7 @@ class FormRender(BaseTestCase):
                                           body='')
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        self.assertEqual(set(("_id", "name", "schema", "uiSchema", "formOptions")), set(body['res'].keys()))
+        self.assertEqual(set(("_id", "name", "schema", "uiSchema", "formOptions", "cff_permissions")), set(body['res'].keys()))
         self.assertEqual(body['res']['_id']['$oid'], self.formId)
     def test_render_form_with_response_new_user(self):
         self.userId = os.environ["DEV_COGNITO_IDENTITY_ID"]
