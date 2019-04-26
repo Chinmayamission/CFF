@@ -39,7 +39,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
             <div className="card-body">
                 <h5 className="card-title">{response.value.contact_name.first} {response.value.contact_name.last}</h5>
                 <div className="card-text">
-                    <div>{response._id.$oid.substring(0, 4)}</div>
+                    <div>{response._id.$oid.substring(0, 6)}</div>
                     <div>{response.value.email}</div>
                     <table className="table table-sm table-responsive" style={{wordBreak: "break-word"}}>
                         <tbody>
