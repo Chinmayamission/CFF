@@ -69,5 +69,5 @@ def form_response_list(formId):
         responses = Response.objects.raw(mongo_query).limit(result_limit).project(projection)
     else:
         app.check_permissions(form, ["Responses_View"])
-        responses = Response.objects.raw({"form": form.id})
+        responses = Response.objects.raw({"form": form.id}).project({"value": 1, "_id": 1, "amount_paid": 1, "user": 1, "form": 1, "paymentInfo": 1, "date_created": 1, "date_modified": 1, "paid": 1})
     return {"res": [serialize_model(r) for r in responses]}
