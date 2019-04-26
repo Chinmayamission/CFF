@@ -37,6 +37,14 @@ todo:
 - 
 - user login/signup
 
+## 3.6.1 (4/25/19)
+- Form Checkin enhancements:
+  - Add "Check in all" button
+  - Color enhancements
+  - While scrolling in mobile, make search bar sticky.
+  - Fix search by object id.
+  - Filter responses in checkin view to only paid responses.
+
 ## 3.6.0 (4/19/19)
 - Form Search and Checkin functionality
   - /responses endpoint now supports a ?query= parameter for searching, which can be configured by the dataOptions.
