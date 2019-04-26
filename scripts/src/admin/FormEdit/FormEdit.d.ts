@@ -57,7 +57,7 @@ export interface IRenderedForm {
     name: string
     formOptions: IFormOptions,
     _id: {"$oid": string},
-    cff_permissions: {[x: string]: string[]}
+    cff_permissions?: {[x: string]: string[]}
 }
 export interface IConfirmationEmailInfo {
     toField: string,
