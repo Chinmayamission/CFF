@@ -71,6 +71,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                 <td>{participant.name.first}</td>
                                 <td>{participant.shirt_size}</td>
                                 <td>{participant.race}</td>
+                                <td>{participant.gender}</td>
                                 <td>
                                     {this.state.isEditor ? <InlineEdit text={participant.bib_number || "None"} paramName={"data"}
                                         style={{display: "inline", maxWidth: 40}}
