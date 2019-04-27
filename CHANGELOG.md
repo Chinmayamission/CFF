@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.6.8 (4/26/19)
+- Checkin: Add gender to checkin
+
 ## 3.6.7 (4/26/19)
 - Backend fix: use raw mongo query to get responses to fix speed issue
 
