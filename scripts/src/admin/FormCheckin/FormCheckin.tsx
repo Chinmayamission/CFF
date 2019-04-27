@@ -101,7 +101,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
 
         return (<div>
             <form onSubmit={e => { e.preventDefault(); this.search(false); return false; }}>
-                <div className="dropdown show" style={{ position: 'sticky', top: 0, zIndex: 99999 }}
+                <div className="dropdown show" style={{ position: 'sticky', top: 0, zIndex: 60 }}
                     onFocus={e => this.setState({ searchFocus: true })}
                 >
                     <div className="input-group">
