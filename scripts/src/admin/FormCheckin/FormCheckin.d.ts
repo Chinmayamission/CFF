@@ -10,7 +10,8 @@ export interface IFormCheckinProps extends ISharedFormAdminPageProps {
     editResponse: (a, b, c) => any,
     editResponseBatch: (a, b) => any,
     fetchRenderedForm: (a) => Promise<any>,
-    formState: FormState
+    formState: FormState,
+    displayResponseDetail: (e: string) => Promise<any>
 }
 
 export interface IFormCheckinState {

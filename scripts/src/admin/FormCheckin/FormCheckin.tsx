@@ -2,7 +2,8 @@ import * as React from 'react';
 import "./FormCheckin.scss";
 import { IFormCheckinProps, IFormCheckinState } from './FormCheckin.d';
 import { connect } from "react-redux";
-import { fetchResponses, editResponse, editResponseBatch } from '../../store/responses/actions';
+import Modal from "react-responsive-modal";
+import { fetchResponses, editResponse, editResponseBatch, displayResponseDetail } from '../../store/responses/actions';
 import ReactTable from "react-table";
 import { get } from "lodash";
 import { fetchRenderedForm } from '../../store/form/actions';
@@ -10,6 +11,7 @@ import Headers from '../util/Headers';
 import { API } from "aws-amplify";
 import InlineEdit from 'react-edit-inline';
 import { hasPermission } from '../FormList/FormList';
+import ResponseDetail from '../ResponseTable/ResponseDetail';
 
 const raceRowStyle = {
     "Half Marathon": { "backgroundColor": "rgb(255, 78, 80)" },
@@ -38,7 +40,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
 
     componentDidUpdate(prevProps: IFormCheckinProps) {
         if (prevProps.responsesState.responses !== this.props.responsesState.responses) {
-            this.setState({searchFocus: false});
+            this.setState({ searchFocus: false });
         }
     }
 
@@ -74,9 +76,9 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                 <td>{participant.gender}</td>
                                 <td>
                                     {this.state.isEditor ? <InlineEdit text={participant.bib_number || "None"} paramName={"data"}
-                                        style={{display: "inline", maxWidth: 40}}
-                                        change={({data}) => this.props.editResponse(response._id.$oid, `participants.${i}.bib_number`, parseInt(data))} /> : 
-                                    <div>{participant.bib_number}</div>}
+                                        style={{ display: "inline", maxWidth: 40 }}
+                                        change={({ data }) => this.props.editResponse(response._id.$oid, `participants.${i}.bib_number`, parseInt(data))} /> :
+                                        <div>{participant.bib_number}</div>}
                                 </td>
                                 <td>
                                     <input type="checkbox"
@@ -91,36 +93,39 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                     response._id.$oid,
                     response.value.participants.map((p, i) => ({ "path": `participants.${i}.checkin`, "value": true }))
                 )}>Check in all</button>
+                {this.state.isEditor && <button className="btn btn-sm btn-outline-primary" onClick={() => this.props.displayResponseDetail(
+                    response._id.$oid
+                )}>Edit Response</button>}
             </div>
         </div>;
 
         return (<div>
             <form onSubmit={e => { e.preventDefault(); this.search(false); return false; }}>
-                <div className="dropdown show"  style={{ position: 'sticky', top: 0, zIndex: 99999 }}
-                onFocus={e => this.setState({searchFocus: true})}
+                <div className="dropdown show" style={{ position: 'sticky', top: 0, zIndex: 99999 }}
+                    onFocus={e => this.setState({ searchFocus: true })}
                 >
                     <div className="input-group">
                         <input type="text" className="form-control cff-input-search" placeholder="Search..." autoComplete="off"
                             value={this.state.searchText} onChange={e => this.onSearchTextChange(e.target.value)}
-                            />
+                        />
                         <div className="input-group-append">
                             <button className="btn btn-primary" type="submit">
                                 <i className="oi oi-magnifying-glass"></i>
                             </button>
                         </div>
                     </div>
-                    <div className="dropdown-menu" style={{display: this.state.searchFocus ? "none": "none", width: "100%", zIndex: 0}}>
-                        {this.state.autocompleteResults.map(result => 
+                    <div className="dropdown-menu" style={{ display: this.state.searchFocus ? "none" : "none", width: "100%", zIndex: 0 }}>
+                        {this.state.autocompleteResults.map(result =>
                             result.value.participants.map((participant, i) =>
                                 <a key={result._id.$oid + "_" + i} className="dropdown-item"
-                                    onClick={e => this.setState({searchText: result._id.$oid, autocompleteResults: [], searchFocus: false}, () => this.search(true))}>
+                                    onClick={e => this.setState({ searchText: result._id.$oid, autocompleteResults: [], searchFocus: false }, () => this.search(true))}>
                                     {participant.name.first} {participant.name.last}
                                 </a>
                             )
                         )}
                     </div>
                 </div>
-                
+
                 {this.props.responsesState.responses && this.props.responsesState.responses.length > 0 && this.props.formState.renderedForm && this.props.responsesState.responses.map((response) =>
                     <Card response={response} key={response._id.$oid} />
                 )}
@@ -129,6 +134,15 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                 <div className="mt-4">
                     No results found.
                 </div>}
+            <Modal
+                open={!!this.props.responsesState.shownResponseDetailId} onClose={() => this.props.displayResponseDetail(null)}>
+                <div className="ccmt-cff-Wrapper-Bootstrap">
+                    <h5 className="card-title">Response Detail - {this.props.responsesState.shownResponseDetailId}</h5>
+                    <div className="card-text">
+                        <ResponseDetail responseId={this.props.responsesState.shownResponseDetailId} />
+                    </div>
+                </div>
+            </Modal>
         </div>);
     }
 }
@@ -144,6 +158,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
     editResponseBatch: (a, b) => dispatch(editResponseBatch(a, b)),
     fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a)),
+    displayResponseDetail: (e: string) => dispatch(displayResponseDetail(e)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormCheckin);

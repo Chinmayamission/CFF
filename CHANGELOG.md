@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.6.9 (4/26/19)
+- Checkin: Allow response editors to edit responses from the checkin tab
+
 ## 3.6.8 (4/26/19)
 - Checkin: Add gender to checkin
 
