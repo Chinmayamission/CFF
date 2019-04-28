@@ -65,7 +65,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
             <div className="card-body">
                 <h5 className="card-title">{response.value.contact_name.first} {response.value.contact_name.last}</h5>
                 <div className="card-text">
-                    <div>{response._id.$oid.substring(0, 6)}</div>
+                    <div>{response._id.$oid}</div>
                     <div>{response.value.email}</div>
                     <table className="table table-sm" style={{ wordBreak: "break-word" }}>
                         <tbody>
@@ -74,6 +74,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                                 <td>{participant.name.first}</td>
                                 <td>{participant.shirt_size}</td>
                                 <td>{participant.race}</td>
+                                <td>{participant.age}</td>
                                 <td>{participant.gender}</td>
                                 <td>
                                     {this.state.isEditor ? <InlineEdit text={participant.bib_number || "None"} paramName={"data"}

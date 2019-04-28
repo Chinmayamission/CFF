@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.7.1 (4/27/19)
+- Checkin: show full id and age
+
 ## 3.7.0 (4/27/19)
 - Checkin: Have a "show unpaid" option, accessible only to response editors, allowing one to search/checkin unpaid responses.
 
