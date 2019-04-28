@@ -27,7 +27,8 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
             searchText: "",
             searchFocus: false,
             autocompleteResults: [],
-            isEditor: false
+            isEditor: false,
+            showUnpaid: false
         };
     }
 
@@ -46,7 +47,7 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
 
     search(search_by_id) {
         if (this.state.searchText) {
-            this.props.fetchResponses(this.props.match.params.formId, this.state.searchText, search_by_id);
+            this.props.fetchResponses(this.props.match.params.formId, this.state.searchText, search_by_id, this.state.showUnpaid);
         }
     }
 
@@ -112,6 +113,9 @@ class FormCheckin extends React.Component<IFormCheckinProps, IFormCheckinState> 
                             <button className="btn btn-primary" type="submit">
                                 <i className="oi oi-magnifying-glass"></i>
                             </button>
+                            {this.state.isEditor && <label><input type="checkbox"
+                                checked={this.state.showUnpaid}
+                                onChange={e => this.setState({showUnpaid: !this.state.showUnpaid})} /> Show unpaid</label>}
                         </div>
                     </div>
                     <div className="dropdown-menu" style={{ display: this.state.searchFocus ? "none" : "none", width: "100%", zIndex: 0 }}>
@@ -154,7 +158,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    fetchResponses: (a, b, c) => dispatch(fetchResponses(a, b, c)),
+    fetchResponses: (a, b, c, d) => dispatch(fetchResponses(a, b, c, d)),
     editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
     editResponseBatch: (a, b) => dispatch(editResponseBatch(a, b)),
     fetchRenderedForm: (a) => dispatch(fetchRenderedForm(a)),

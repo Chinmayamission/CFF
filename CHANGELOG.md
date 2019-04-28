@@ -37,6 +37,9 @@ todo:
 - 
 - user login/signup
 
+## 3.7.0 (4/27/19)
+- Checkin: Have a "show unpaid" option, accessible only to response editors, allowing one to search/checkin unpaid responses.
+
 ## 3.6.9 (4/26/19)
 - Checkin: Allow response editors to edit responses from the checkin tab
 
