@@ -20,6 +20,7 @@ def form_response_list(formId):
     query = app.current_request.query_params and app.current_request.query_params.get("query", None)
     autocomplete = app.current_request.query_params and app.current_request.query_params.get("autocomplete", None)
     search_by_id = app.current_request.query_params and app.current_request.query_params.get("search_by_id", None)
+    show_unpaid = app.current_request.query_params and app.current_request.query_params.get("show_unpaid", None)
     if query:
         # autocomplete, participant name, assign bibs functionality
         app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
@@ -29,6 +30,10 @@ def form_response_list(formId):
         result_limit = get(form.formOptions.dataOptions, "search.resultLimit", 10)
         result_fields = get(form.formOptions.dataOptions, "search.resultFields", ["_id"])
         autocomplete_fields = get(form.formOptions.dataOptions, "search.autocompleteFields", ["_id"])
+        if show_unpaid is not None:
+            default_mongo_query = {"paid": False}
+        else:
+            default_mongo_query = {"paid": True}
         mongo_query = {"$or": []}
         for word in query.split(" "):
             for field in search_fields:
@@ -58,9 +63,9 @@ def form_response_list(formId):
             del mongo_query["$or"]
         # Default query paid = True
         if mongo_query:
-            mongo_query = {"$and": [{"paid": True}, mongo_query]}
+            mongo_query = {"$and": [default_mongo_query, mongo_query]}
         else:
-            {"paid": True}
+            mongo_query = default_mongo_query
         if autocomplete is not None:
             projection = {field: 1 for field in autocomplete_fields}
             result_limit = 5
