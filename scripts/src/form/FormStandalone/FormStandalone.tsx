@@ -5,7 +5,6 @@ import FormPage from "../../form/FormPage";
 import * as queryString from "query-string";
 import {get, pick} from "lodash";
 import {IFormStandaloneProps, IFormStandaloneState} from "./FormStandalone.d";
-import { OutputQuoteStyle } from 'uglify-js';
 
 /* Standalone form page, displayed in /forms/{formId}
  * Yes.

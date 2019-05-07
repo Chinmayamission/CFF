@@ -48,7 +48,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentStarted: false,
       data: null,
       responseId: props.responseId || undefined,
-      disabled: props.disabled || undefined,
+      disabled: props.disabled || false,
       ajaxLoading: false,
       responseData: undefined
     };
@@ -227,7 +227,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.setState({data: e.formData});
   }
   render() {
-    console.log("View form rendering ; value of disabled = "+this.state.disabled);
     if (this.state.hasError) {
       return <div><h1>Unexpected Error</h1><p>There was an error rendering the form. Please try again later.</p><code>{this.state.errorMessage}</code></div>; 
     }

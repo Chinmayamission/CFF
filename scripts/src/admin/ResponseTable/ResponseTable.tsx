@@ -35,7 +35,6 @@ class ResponseTable extends React.Component<IResponseTableProps, IResponseTableS
         const dataOptionView: IDataOptionView = find(dataOptions.views, { "id": this.props.tableViewName });
         if (!this.props.tableViewName) {
             // Redirect to first view on default.
-            console.log("taking me back to id "+dataOptions.views[0].id);
             this.props.push(dataOptions.views[0].id);
         }
         const Nav = () => <ul className="nav nav-pills">
