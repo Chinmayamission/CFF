@@ -32,6 +32,8 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     for i in flat:
         flat[human_readable_key(i)] = flat.pop(i)
     kwargs = dict(serialize_model(response), response=flat)
+    if kwargs.get("modify_link", None):
+        kwargs["view_link"] = kwargs["modify_link"] + "&mode=view"
     msgBody = env.from_string(templateText).render(**kwargs)
     addCSS = False
     
