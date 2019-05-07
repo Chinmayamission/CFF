@@ -70,7 +70,6 @@ export interface IFormPageState {
     step: number,
     data: Data,
     responseId: string,
-    disabled:boolean,
     responseData: any,
     hasError: boolean,
     errorMessage: string,
@@ -93,7 +92,8 @@ export interface IFormPageProps { // extends FormState
     logout: () => void,
     auth: IAuthState,
     loading: boolean,
-    fetchRenderedForm: () => void
+    fetchRenderedForm: () => void,
+    mode?: string
 }
 
 export interface IFormConfirmationPageProps {

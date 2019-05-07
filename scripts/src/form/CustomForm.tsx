@@ -91,7 +91,6 @@ function validate(formData, errors, validationSchema) {
 }
 
 interface ICustomFormProps {
-  disabled: boolean,
   schema: any,
   uiSchema: any,
   formData?: any,
@@ -124,7 +123,6 @@ function CustomForm(props: ICustomFormProps) {
     <div className={`ccmt-cff-Page-FormPage${props.className ? " " + props.className : ""}`}>
   
       <Form 
-         disabled={props.disabled}
          schema={props.schema}
         uiSchema={props.uiSchema}
         formData={props.formData}

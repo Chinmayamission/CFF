@@ -20,6 +20,7 @@ import { fetchRenderedForm } from '../store/form/actions';
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
 const STATUS_FORM_CONFIRMATION = 4;
+const STATUS_FORM_RESPONSE_VIEW = 3;
 const STATUS_FORM_PAYMENT_SUCCESS = 6;
 const STATUS_FORM_DONE = 8;
 
@@ -48,7 +49,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentStarted: false,
       data: null,
       responseId: props.responseId || undefined,
-      disabled: props.disabled || false,
       ajaxLoading: false,
       responseData: undefined
     };
@@ -92,7 +92,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         let cs = createSchemas(this.props.form_preloaded);
         let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo } = cs;
         this.setState({ schemaMetadata, uiSchema, schema,
-          status: STATUS_FORM_RENDERED,
+          status: this.props.mode === "view" ? STATUS_FORM_RESPONSE_VIEW: STATUS_FORM_RENDERED,
           data: this.state.data || defaultFormData,
           paymentCalcInfo
         });
@@ -102,7 +102,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e))
       .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions }) => {
         this.setState({ schemaMetadata, uiSchema, schema,
-          status: STATUS_FORM_RENDERED,
+          status: this.props.mode === "view" ? STATUS_FORM_RESPONSE_VIEW: STATUS_FORM_RENDERED,
           data: this.state.data || defaultFormData,
           paymentCalcInfo,
           formOptions
@@ -202,7 +202,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         data: formData,
         responseData: formData,
         responseId: res.responseId,
-        disabled:    res.disabled,
         paymentInfo: res.paymentInfo,
         paymentInfo_received: paymentInfo_received,
         paymentMethods: res.paymentMethods
@@ -260,7 +259,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         <p>Check omrun@cmsj.org ... </p>
       </div>)
     }
-    if (get(this.state.formOptions, "responseModificationEnabled", true) === false && this.state.status !== STATUS_FORM_CONFIRMATION && this.state.responseId) {
+    if (get(this.state.formOptions, "responseModificationEnabled", true) === false && this.state.status !== STATUS_FORM_CONFIRMATION && this.state.status !== STATUS_FORM_RESPONSE_VIEW && this.state.responseId) {
       return (<div>
         <h1>Response Modifications Closed</h1>
         <p>Response modifications are closed for the form.</p>
@@ -271,7 +270,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         {this.state.formOptions.loginRequired && <Login />}
         <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
         <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED || this.state.formOptions.paymentInfo.showPaymentTable === false}
-          disabled = {this.state.disabled}
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
           formData={this.state.data}
@@ -282,7 +280,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         {this.state.ajaxLoading && <Loading hasError={this.state.hasError} />}
       </div>
     );
-    if (this.state.status == STATUS_FORM_CONFIRMATION) {
+    if (this.state.status === STATUS_FORM_CONFIRMATION) {
       return (<div>
           {!this.state.paymentStarted && <div>
             <h1 className="text-center">Confirmation Page</h1>
@@ -309,6 +307,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             onPaymentComplete={(e) => this.onPaymentComplete(e)}
           />
         </div>);
+    }
+    if (this.state.status === STATUS_FORM_RESPONSE_VIEW) {
+      return formToReturn;
     }
     return formToReturn;
   }
