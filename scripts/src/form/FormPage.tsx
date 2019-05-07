@@ -48,6 +48,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentStarted: false,
       data: null,
       responseId: props.responseId || undefined,
+      disabled: props.disabled || undefined,
       ajaxLoading: false,
       responseData: undefined
     };
@@ -201,6 +202,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         data: formData,
         responseData: formData,
         responseId: res.responseId,
+        disabled:    res.disabled,
         paymentInfo: res.paymentInfo,
         paymentInfo_received: paymentInfo_received,
         paymentMethods: res.paymentMethods
@@ -225,6 +227,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.setState({data: e.formData});
   }
   render() {
+    console.log("View form rendering ; value of disabled = "+this.state.disabled);
     if (this.state.hasError) {
       return <div><h1>Unexpected Error</h1><p>There was an error rendering the form. Please try again later.</p><code>{this.state.errorMessage}</code></div>; 
     }
@@ -269,6 +272,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         {this.state.formOptions.loginRequired && <Login />}
         <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
         <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED || this.state.formOptions.paymentInfo.showPaymentTable === false}
+          disabled = {this.state.disabled}
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
           formData={this.state.data}

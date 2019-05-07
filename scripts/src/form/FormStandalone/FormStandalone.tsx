@@ -5,6 +5,7 @@ import FormPage from "../../form/FormPage";
 import * as queryString from "query-string";
 import {get, pick} from "lodash";
 import {IFormStandaloneProps, IFormStandaloneState} from "./FormStandalone.d";
+import { OutputQuoteStyle } from 'uglify-js';
 
 /* Standalone form page, displayed in /forms/{formId}
  * Yes.
@@ -23,11 +24,13 @@ class FormStandalone extends React.Component<IFormStandaloneProps, IFormStandalo
     this.setState(opts);
   }
   render() {
+    //this.props.location.search += "?disabled=true";
     let qs = queryString.parse(this.props.location.search);
     return (<div className="App ccmt-cff-page-form" style={this.state.background && { background: this.state.background }}>
       <div className="container ccmt-cff-paper-outline">
-        <FormPage formId={this.props.formId}
+        <FormPage  formId={this.props.formId}
           responseId={qs.responseId}
+          disabled={qs.disabled}
           onFormLoad={(a, b) => this.onFormLoad(a, b)}
           specifiedShowFields={JSON.parse((qs && qs["specifiedShowFields"]) || "{}")} />
       </div>

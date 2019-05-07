@@ -70,6 +70,7 @@ export interface IFormPageState {
     step: number,
     data: Data,
     responseId: string,
+    disabled:boolean,
     responseData: any,
     hasError: boolean,
     errorMessage: string,
