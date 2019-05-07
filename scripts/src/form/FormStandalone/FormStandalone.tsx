@@ -23,13 +23,12 @@ class FormStandalone extends React.Component<IFormStandaloneProps, IFormStandalo
     this.setState(opts);
   }
   render() {
-    //this.props.location.search += "?disabled=true";
     let qs = queryString.parse(this.props.location.search);
     return (<div className="App ccmt-cff-page-form" style={this.state.background && { background: this.state.background }}>
       <div className="container ccmt-cff-paper-outline">
         <FormPage  formId={this.props.formId}
           responseId={qs.responseId}
-          disabled={qs.disabled}
+          disabled={qs.mode === "view"}
           onFormLoad={(a, b) => this.onFormLoad(a, b)}
           specifiedShowFields={JSON.parse((qs && qs["specifiedShowFields"]) || "{}")} />
       </div>
