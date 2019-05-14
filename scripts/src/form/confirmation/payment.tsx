@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PaymentTable from "./PaymentTable";
-import Paypal from "./paypal";
 import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import ManualApproval from "./ManualApproval";
@@ -9,7 +8,6 @@ import ExpressionParser from "../../common/ExpressionParser";
 import { IPaymentProps, IPaymentInfo } from '../interfaces';
 
 let Components = {
-    "paypal_rest": Paypal,
     "paypal_classic": PaypalClassic,
     "ccavenue": CCAvenue,
     "manual_approval": ManualApproval,
