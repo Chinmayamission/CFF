@@ -79,7 +79,7 @@ def response_ipn_listener(responseId):
             raise_ipn_error("Emails do not match.".format(paramDict["receiver_email"], expected_receiver_email))
         if paramDict["payment_status"] != "Completed":
             raise_ipn_error("Payment status is not complete.")
-        
+        # TODO: handle Refunded
         txn_id = paramDict["txn_id"]
         if any(item.status == "SUCCESS" and item.id == txn_id for item in response.payment_trail):
             raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")      
