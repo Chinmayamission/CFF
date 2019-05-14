@@ -119,6 +119,12 @@ class Response(BaseMongoModel):
   admin_info = fields.DictField()
   modify_link = fields.CharField(blank=True)
 
+class CCAvenueConfig(BaseMongoModel):
+  id = fields.ObjectIdField(primary_key=True)
+  merchant_id = fields.CharField(required=True)
+  SECRET_working_key = fields.CharField(required=True)
+  access_code = fields.CharField(required=True)
+
 def serialize_model(model):
   """Serializes model so it is OK to send back as a JSON response.
   """

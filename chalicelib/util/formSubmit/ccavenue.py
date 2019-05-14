@@ -1,44 +1,44 @@
 from ..ccavutil import encrypt, decrypt
 from pydash.objects import get
 import time
+from bson.objectid import ObjectId
 import shortuuid
+from decimal import Decimal
 
-def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, centerId, response):
+def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
   from ...main import app, TABLES
-  center = TABLES.centers.get_item(
-    Key=dict(id=centerId),
-    ProjectionExpression="paymentInfo"
-  )["Item"]
-  access_code = center["paymentInfo"]["ccavenue"]["access_code"]
-  merchant_id = center["paymentInfo"]["ccavenue"]["merchant_id"]
-  SECRET_working_key = center["paymentInfo"]["ccavenue"]["working_key"]
+  merchant_id = ccavenuePaymentMethodInfo["merchant_id"]
+  
+  config = CCAvenueConfig.objects.get({"merchant_id": merchant_id})
+  if not config:
+    raise Exception(f"CCAvenue config not found for merchant id: {merchant_id}.")
+  
   """en - English
   hi - Hindi
   gu - Gujarati
   mr - Marathi
   bn - Bengali"""
-  responseId = response["responseId"]
-  orderId = shortuuid.uuid()
+  responseId = str(response.id)
+  orderId = str(ObjectId())
   data = {
     "merchant_id": merchant_id,
     "order_id": orderId,
-    "currency": response["paymentInfo"]["currency"],
-    "amount": response["paymentInfo"]["total"],
-    "redirect_url": app.get_url(f"/responses/{responseId}/ccavenueResponseHandler"),
-    "cancel_url": app.get_url(f"/responses/{responseId}/ccavenueResponseHandler"), # todo: fix this.
+    "currency": response.paymentInfo["currency"],
+    "amount": str(Decimal(response.paymentInfo["total"]) - Decimal(response.amount_paid)),
+    "redirect_url": app.get_url(f"responses/{responseId}/ccavenueResponseHandler"),
+    "cancel_url": "http://www.chinmayamission.com", # todo: fix this.
     "language": "en",
-    "integration_type": "iframe_normal",
-    "billing_name": ccavenuePaymentMethodInfo["billing_name"],
-    "billing_address": ccavenuePaymentMethodInfo["billing_address"],
-    "billing_city": ccavenuePaymentMethodInfo["billing_city"],
-    "billing_state": ccavenuePaymentMethodInfo["billing_state"],
-    "billing_zip": ccavenuePaymentMethodInfo["billing_zip"],
-    "billing_country": ccavenuePaymentMethodInfo["billing_country"],
-    "billing_tel": ccavenuePaymentMethodInfo["billing_tel"],
-    "billing_email": ccavenuePaymentMethodInfo["billing_email"],
+    "billing_name": ccavenuePaymentMethodInfo.get("billing_name", ""),
+    "billing_address": ccavenuePaymentMethodInfo.get("billing_address", ""),
+    "billing_city": ccavenuePaymentMethodInfo.get("billing_city", ""),
+    "billing_state": ccavenuePaymentMethodInfo.get("billing_state", ""),
+    "billing_zip": ccavenuePaymentMethodInfo.get("billing_zip", ""),
+    "billing_country": ccavenuePaymentMethodInfo.get("billing_country", ""),
+    "billing_tel": ccavenuePaymentMethodInfo.get("billing_tel", ""),
+    "billing_email": ccavenuePaymentMethodInfo.get("billing_email", ""),
     "merchant_param1": formId,
     "merchant_param2": responseId,
-    "merchant_param3": get(ccavenuePaymentMethodInfo, "redirectUrl", response["paymentInfo"]["redirectUrl"])
+    "merchant_param3": get(ccavenuePaymentMethodInfo, "redirectUrl", ccavenuePaymentMethodInfo.get("redirectUrl", "http://www.chinmayamission.com"))
   }
     # "delivery_name": "test",
     # "delivery_address": "test",
@@ -55,8 +55,8 @@ def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, centerId, response):
     # "integration_type": "test",
     # "promo_code": "test",
     # "customer_identifier": "test"
-  ccavenuePaymentMethodInfo["encRequest"] = encrypt(data, SECRET_working_key)
-  ccavenuePaymentMethodInfo["access_code"] = access_code
+  ccavenuePaymentMethodInfo["encRequest"] = encrypt(data, config.SECRET_working_key)
+  ccavenuePaymentMethodInfo["access_code"] = config.access_code
   ccavenuePaymentMethodInfo["merchant_id"] = merchant_id
   return ccavenuePaymentMethodInfo
 

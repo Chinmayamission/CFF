@@ -34,6 +34,11 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
     return response.paid
 
+def mark_error_payment(response, message, method_name, full_value):
+    response.payment_trail.append(PaymentTrailItem(value=full_value, status="ERROR", date=datetime.datetime.now(), method=method_name, id=message))
+    response.save()
+    raise Exception("IPN ERROR: " + message)
+
 def response_ipn_listener(responseId):
     from ..main import app, PROD
 
@@ -81,7 +86,7 @@ def response_ipn_listener(responseId):
             raise_ipn_error("Payment status is not complete.")
         # TODO: handle Refunded
         txn_id = paramDict["txn_id"]
-        if any(item.status == "SUCCESS" and item.id == txn_id for item in response.payment_trail):
+        if any(item.status == "SUCCESS" and item.id == txn_id and item.method == "paypal_ipn" for item in response.payment_trail):
             raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")      
         
         mark_successful_payment(
