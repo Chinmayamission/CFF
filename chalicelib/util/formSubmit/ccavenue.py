@@ -4,6 +4,7 @@ import time
 from bson.objectid import ObjectId
 import shortuuid
 from decimal import Decimal
+from chalicelib.models import CCAvenueConfig
 
 def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
   from ...main import app, TABLES
