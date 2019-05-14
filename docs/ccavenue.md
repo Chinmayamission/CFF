@@ -1,9 +1,10 @@
 Add the following in paymentMethods:
 ```
 "paymentMethods": {
-"ccavenue": {
-    "merchant_id": "..."
-},
+    "ccavenue": {
+        "merchant_id": "..."
+    }
+}
 ```
 
 Add a manual entry in the database (from Azure Cosmos DB portal):
