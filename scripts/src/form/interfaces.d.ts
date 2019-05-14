@@ -49,7 +49,6 @@ export interface PaymentMethod {
     [propName: string]: any;
 }
 export interface PaymentMethods {
-    paypal?: PaymentMethodPayPal;
     [propName: string]: PaymentMethod;
 }
 
@@ -138,34 +137,23 @@ export interface PaymentOptions {
 export interface IPaymentMethods { // list.
 
 }
-export interface PaymentMethodPayPal {
-    client: {
-        sandbox?: String,
-        production: String
-    },
-    env: "client" | "production"
-}
+
 export interface IScriptLoaderProps {
     isScriptLoaded: boolean,
     isScriptLoadSucceed: boolean,
     onScriptLoaded: any,
     onError: (error: any) => void
 }
-export interface IPaypalProps extends IScriptLoaderProps, IPaymentMethodProps {
-    onPaymentComplete: IPaymentProps["onPaymentComplete"],
-    onPaymentError: IPaymentProps["onPaymentError"],
-    onAuthorize: (data: any, actions: any) => void,
-    onCancel: (data: any, actions: any) => void,
-    onError: (err: any) => void,
-    onClick: () => void,
-    paymentMethodInfo: PaymentMethodPayPal
-}
+
 export interface IPaymentMethodProps {
     paymentInfo: IPaymentInfo,
     confirmationEmailInfo: ConfirmationEmailInfo,
     responseId: string,
     formId: string,
-    formData: Data
+    formData: Data,
+    paymentInfo_owed: IPaymentInfoReceived,
+    paymentInfo_received: IPaymentInfoReceived
+    apiEndpoint: string
 }
 export interface ConfirmationEmailInfo {
     from: string,
@@ -180,11 +168,18 @@ export interface IPaypalState {
 
 }
 export interface IPaypalClassicProps extends IPaymentMethodProps {
-    paymentMethodInfo: IPaymentMethodInfoPaypalClassic,
-    paymentInfo_owed: IPaymentInfoReceived,
-    paymentInfo_received: IPaymentInfoReceived
-    apiEndpoint: string
+    paymentMethodInfo: IPaymentMethodInfoPaypalClassic
 }
+
+export interface ICCAvenueProps extends IPaymentMethodProps {
+    paymentMethodInfo: IPaymentMethodInfoCCAvenue
+}
+
+export interface IPaymentMethodInfoCCAvenue extends IPaymentMethodInfoSharedProps {
+    encRequest: string,
+    access_code: string
+}
+
 export interface PaypalClassicSharedAttrs {
     "cmd": string,
     "business": string,
@@ -203,8 +198,7 @@ export interface PaypalClassicSharedAttrs {
     "email": string
 }
 export interface IPaymentMethodInfoPaypalClassic extends PaypalClassicSharedAttrs, IPaymentMethodInfoSharedProps {
-    "sandbox": boolean,
-    "payButtonText": string
+    "sandbox": boolean
 }
 export interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     "form_url": string,
@@ -225,5 +219,6 @@ export interface IPaypalClassicState extends PaypalClassicSharedAttrs {
     }
 }
 export interface IPaymentMethodInfoSharedProps {
-    "redirectUrl"?: string
+    "redirectUrl"?: string,
+    "payButtonText"?: string
 }

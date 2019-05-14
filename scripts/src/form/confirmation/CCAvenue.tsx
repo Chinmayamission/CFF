@@ -1,18 +1,14 @@
 import * as React from 'react';
-import CCAvenueFrame from "./CCAvenueFrame";
+import { IPaymentMethodProps, ICCAvenueProps } from '../interfaces';
 
-class CCAvenue extends React.Component<any, any> {
+declare var MODE: string;
 
- render() {
-     let ccAvenueInfo = {
-
-     };
-     return (<div>
-         <h2>CCAvenue Payment</h2>
-         <CCAvenueFrame {...this.props} />
-        </div>);
- }
-
+function CCAvenue(props: ICCAvenueProps) {
+    return <form method="post" action={(MODE !== 'prod') ? "https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction" : "https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction"}>
+        <input type="hidden" name="encRequest" value={props.paymentMethodInfo.encRequest} />
+        <input type="hidden" name="access_code" value={props.paymentMethodInfo.access_code} />
+        <input type="submit" className="btn btn-primary" value={props.paymentMethodInfo.payButtonText || "Pay Now with CCAvenue"} />
+    </form>
 }
 
 export default CCAvenue;
