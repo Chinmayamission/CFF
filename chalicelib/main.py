@@ -179,9 +179,12 @@ class CustomChalice(Chalice):
         if os.getenv("UNIT_TEST") == "TRUE":
             return f"dummy://{path}"
         headers = self.current_request.headers
+        stage = self.current_request.context.get('stage', '')
+        if stage:
+            stage += '/'
         return '%s://%s/%s%s' % (headers.get('x-forwarded-proto', 'http'),
                             headers['host'],
-                            self.current_request.context.get('stage', ''),
+                            stage,
                             path)
     def get_current_user_id(self):
         """Get current user id."""
