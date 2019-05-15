@@ -133,14 +133,13 @@ def form_response_new(formId):
         if paid and confirmationEmailInfo: # If total amount is zero (user uses coupon code to get for free)
             send_confirmation_email(response, confirmationEmailInfo)
             email_sent = True
-        # todo: fix this, ccavenue currently does not work with the new cosmosdb form format.
-        if "ccavenue" in paymentMethods: # todo: add this in update too.
-            paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], form["center"], response)
         # todo: fix this, should auto_email come even if not paid?
         if "auto_email" in paymentMethods and get(paymentMethods, "auto_email.enabled", True) == True and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict):
             send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
             email_sent = True
         response.save()
+        if "ccavenue" in paymentMethods and response.paid == False:
+            paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], response)
         return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
     elif not newResponse:
         # Update.
@@ -154,4 +153,6 @@ def form_response_new(formId):
         response.paymentInfo = paymentInfo
         response.paid = paid
         response.save()
+        if "ccavenue" in paymentMethods and response.paid == False:
+            paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], response)
         return {"res": {"paid": paid, "success": True, "action": "update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }
