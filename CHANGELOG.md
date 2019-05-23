@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.8.0 (5/22/19)
+- Add "view-only" option for forms -- can be created by including `{{view_link}}` in the confirmation email template.
+- Add CCAvenue integration.
+
 ## 3.7.1 (4/27/19)
 - Checkin: show full id and age
 
