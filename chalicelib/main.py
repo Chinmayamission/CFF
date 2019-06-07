@@ -34,10 +34,6 @@ class TABLES_CLASS:
     cm = None
 TABLES = TABLES_CLASS()
 
-# os.environ["MONGO_HOST"] = "mongodb://chinmayamission.documents.azure.com:10255/cm?ssl=true&replicaSet=globaldb"
-# os.environ["MONGO_USER"] = "chinmayamission"
-# os.environ["MONGO_PASSWORD"] = "uDZoH8UVbBLft8dUdpQTlImwNjHMWVW3w6UDGMBSxVtSgCmftIDYEJuhDL6F8RP8eyNKzccDlxPPYYsLoVHn9A=="
-
 ssm = boto3.client('ssm', 'us-east-1')
 s3_client = boto3.client('s3', "us-east-1")
 MODE = os.getenv("MODE", "DEV")
@@ -47,12 +43,10 @@ if MODE == "DEV":
     host = "mongodb://localhost:10255/admin?ssl=true"
     user = "localhost"
     password = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-    # pymodm.connection.connect(host, username=user, password=password)
     pymodm.connection.connect("mongodb://localhost:10255/admin")
 elif MODE == "BETA":
     mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_BETA', WithDecryption=True)['Parameter']['Value']
     pymodm.connection.connect(mongo_conn_str)
-    #pymodm.connection.connect
 elif MODE == "PROD":
     mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_PROD', WithDecryption=True)['Parameter']['Value']
     pymodm.connection.connect(mongo_conn_str)
