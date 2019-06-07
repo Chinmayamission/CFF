@@ -89,7 +89,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   loadForm() {
       this.setState({status: STATUS_FORM_LOADING});
       if (this.props.form_preloaded) {
-        let cs = createSchemas(this.props.form_preloaded);
+        let cs = createSchemas({...this.props.form_preloaded, user: this.props.auth.user});
         let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo } = cs;
         this.setState({ schemaMetadata, uiSchema, schema,
           status: this.props.mode === "view" ? STATUS_FORM_RESPONSE_VIEW: STATUS_FORM_RENDERED,
@@ -117,11 +117,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     if (!responseId) {
       return API.get("CFF", `forms/${this.props.formId}/response`, {}).then(e => {
         let res = e.res;
+        if (get(this.state.formOptions, "loginRequired") === true && get(this.state.schema, "properties.email")) {
+          if (!res) {
+            this.state.data.email = this.props.auth.user.email;
+          }
+          this.state.schema.properties.email.readOnly = true;
+        }
         this.setState({
           status: STATUS_FORM_RENDERED,
           responseId: res ? res._id.$oid : null,
           responseData: res ? res.value: null,
-          data: res ? res.value: this.state.data
+          data: res ? res.value: this.state.data,
+          schema: this.state.schema
         })
       });
     }
