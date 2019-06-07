@@ -33,7 +33,6 @@ class ArrayFieldTemplate extends React.Component<any, any> {
   }
   onNumItemsChange(e) {
     const newValue = parseInt(e);
-    console.log(e);
     const oldValue = this.props.items ? this.props.items.length : 0;
     if (newValue > oldValue) {
       for (let i = oldValue + 1; i <= newValue; i++) {
@@ -45,7 +44,6 @@ class ArrayFieldTemplate extends React.Component<any, any> {
         this.props.items[i].onDropIndexClick(i)();
       }
     }
-    // this.onNumItemsBlur();
   }
   renderNumItems() {
     const min = this.props.schema.minItems || 0;
