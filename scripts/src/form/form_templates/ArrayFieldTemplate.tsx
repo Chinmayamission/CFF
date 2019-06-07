@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SchemaField from "react-jsonschema-form";
 import TitleField from "react-jsonschema-form";
-import DescriptionField from "react-jsonschema-form";
+import SelectWidget from "react-jsonschema-form";
 import "./ArrayFieldTemplate.scss";
 import { FormattedDescriptionField } from '../CustomForm';
 
@@ -28,11 +28,41 @@ class ArrayFieldTemplate extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
+      numItems: 0
     }
+  }
+  onNumItemsChange(e) {
+    const newValue = parseInt(e);
+    const oldValue = this.props.items ? this.props.items.length : 0;
+    if (newValue > oldValue) {
+      for (let i = oldValue + 1; i <= newValue; i++) {
+        this.props.onAddClick({ preventDefault: () => null });
+      }
+    }
+    else if (newValue < oldValue) {
+      for (let i = oldValue - 1; i >= newValue; i--) {
+        this.props.items[i].onDropIndexClick(i)();
+      }
+    }
+  }
+  renderNumItems() {
+    const min = this.props.schema.minItems || 0;
+    const max = this.props.schema.maxItems || 999;
+    const range = Array.from(Array(max - min + 1).keys()).map(e => e + min);
+    return (<SelectWidget
+      schema={{ title: "Number of participants", type: "integer", enum: range, default: this.props.items ? this.props.items.length : 0 }}
+      className="form-control ccmt-cff-array-numitems-select"
+      disabled={this.props.disabled}
+      readonly={this.props.readonly}
+      onChange={({ formData }) => this.onNumItemsChange(formData)}
+    >&nbsp;</SelectWidget>)
   }
   render() {
     return (
       <fieldset className={this.props.className}>
+        {this.props.uiSchema["ui:cff:showArrayNumItems"] === true && <div className="col-12 col-sm-6 p-0">
+          {this.renderNumItems()}
+        </div>}
         <ArrayFieldTitle
           key={`array-field-title-${this.props.idSchema.$id}`}
           TitleField={this.props.TitleField}
@@ -63,7 +93,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
                 }
                 {(element.hasRemove && i >= (this.props.schema.minItems || 0)) &&
                   <span className="oi oi-circle-x ccmt-cff-array-close-button" onClick={() =>
-                    confirm( this.props.uiSchema["ui:cff:removeButtonText"] ? `Are you sure you want to ${this.props.uiSchema["ui:cff:removeButtonText"]}?`: 'Are you sure you want to remove this item?' ) &&
+                    confirm(this.props.uiSchema["ui:cff:removeButtonText"] ? `Are you sure you want to ${this.props.uiSchema["ui:cff:removeButtonText"]}?` : 'Are you sure you want to remove this item?') &&
                     element.onDropIndexClick(element.index)()
                   }></span>
                 }
