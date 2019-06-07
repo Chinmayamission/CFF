@@ -165,7 +165,8 @@
       "<rootDir>/node_modules/(?!lodash-es)"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|scss)$": "identity-obj-proxy"
+      "^.+\\.(css|scss)$": "identity-obj-proxy",
+      "monaco-editor": "<rootDir>/node_modules/react-monaco-editor"
     },
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
