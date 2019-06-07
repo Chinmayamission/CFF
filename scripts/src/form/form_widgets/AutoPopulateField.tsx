@@ -61,7 +61,7 @@ class AutoPopulateField extends React.Component<any, any> {
         }
         console.log(this.props);
         return (<div>
-            <Form schema={this.state.newSchema} onChange={e => this.props.onChange(e.formData)} />
+            <Form schema={this.state.newSchema} formData={this.props.formData} onChange={e => this.props.onChange(e.formData)} />
             {/* <this.props.registry.fields.ObjectField {...this.props} /> */}
         </div>);
     }
