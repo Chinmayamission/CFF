@@ -4,11 +4,7 @@ var typescript = require('gulp-tsc');
 var connect = require('gulp-connect');
 var pjson = require("./package.json");
 
-gulp.task('serve', ['dev', 'webserver']);
-
-gulp.task('dev', ['FormPage-js']);
-
-gulp.task('webserver', function() {
+gulp.task('webserver', function () {
     connect.server({
         port: 8000,
         // If this doesn't work on Windows, disable the "Web Deployment Agent Service"
@@ -19,7 +15,7 @@ gulp.task('webserver', function() {
     });
 });
 
-gulp.task('webserver-prod', function() {
+gulp.task('webserver-prod', function () {
     connect.server({
         port: 8000,
         root: "./scripts/prod",
@@ -32,3 +28,7 @@ gulp.task('webserver-prod', function() {
 gulp.task('FormPage-js', shell.task([
     'webpack --progress --watch --config webpack.dev.js'
 ]));
+
+gulp.task('dev', gulp.parallel('FormPage-js'));
+
+gulp.task('serve', gulp.parallel('dev', 'webserver'));
