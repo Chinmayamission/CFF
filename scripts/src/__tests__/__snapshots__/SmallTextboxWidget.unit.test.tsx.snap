@@ -24,7 +24,7 @@ exports[`renders small text box widget correctly 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-string  col"
+            class="form-group field field-string"
           >
             <label
               class="control-label"
@@ -40,13 +40,9 @@ exports[`renders small text box widget correctly 1`] = `
               type="text"
               value=""
             />
-            <div />
-            <div />
           </div>
         </div>
       </div>
-      <div />
-      <div />
     </div>
     <p>
       <button

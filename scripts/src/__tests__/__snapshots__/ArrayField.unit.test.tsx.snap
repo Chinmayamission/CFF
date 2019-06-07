@@ -20,7 +20,7 @@ exports[`custom title for one and two 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col"
+            class="form-group field field-array"
           >
             <fieldset
               class="field field-array field-array-of-string"
@@ -34,10 +34,10 @@ exports[`custom title for one and two 1`] = `
                 class="array-item-list"
               >
                 <div
-                  class="row mb-4"
+                  class="row"
                 >
                   <div
-                    class="col-9"
+                    class="col-12 ccmt-cff-array-item-container"
                   >
                     <h2
                       class="ccmt-cff-form-title"
@@ -45,9 +45,8 @@ exports[`custom title for one and two 1`] = `
                       Parent Info
                     </h2>
                     <div
-                      class="form-group field field-string  col"
+                      class="form-group field field-string"
                     >
-                      <div />
                       <input
                         class="form-control"
                         id="root_parents_0"
@@ -56,19 +55,14 @@ exports[`custom title for one and two 1`] = `
                         type="text"
                         value=""
                       />
-                      <div />
-                      <div />
                     </div>
                   </div>
-                  <div
-                    class="col-3 mt-4 ccmt-cff-array-button-container"
-                  />
                 </div>
                 <div
-                  class="row mb-4"
+                  class="row"
                 >
                   <div
-                    class="col-9"
+                    class="col-12 ccmt-cff-array-item-container"
                   >
                     <h2
                       class="ccmt-cff-form-title"
@@ -76,9 +70,8 @@ exports[`custom title for one and two 1`] = `
                       Spouse Info
                     </h2>
                     <div
-                      class="form-group field field-string  col"
+                      class="form-group field field-string"
                     >
-                      <div />
                       <input
                         class="form-control"
                         id="root_parents_1"
@@ -87,29 +80,25 @@ exports[`custom title for one and two 1`] = `
                         type="text"
                         value=""
                       />
-                      <div />
-                      <div />
                     </div>
                   </div>
-                  <div
-                    class="col-3 mt-4 ccmt-cff-array-button-container"
-                  />
                 </div>
                 <button
-                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  class="btn btn-info col-12 mt-4 ccmt-cff-btn-array-add"
                   type="button"
                 >
-                  Add
+                  <small>
+                    <span
+                      class="oi oi-plus"
+                    />
+                  </small>
+                     Add
                 </button>
               </div>
             </fieldset>
-            <div />
-            <div />
           </div>
         </div>
       </div>
-      <div />
-      <div />
     </div>
     <p>
       <button
@@ -147,7 +136,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col"
+            class="form-group field field-array"
           >
             <fieldset
               class="field field-array field-array-of-object"
@@ -161,13 +150,13 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                 class="array-item-list"
               >
                 <div
-                  class="row mb-4"
+                  class="row"
                 >
                   <div
-                    class="col-9"
+                    class="col-12 ccmt-cff-array-item-container"
                   >
                     <div
-                      class="form-group field field-object  col"
+                      class="form-group field field-object"
                     >
                       <div
                         class="container-fluid"
@@ -178,7 +167,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                           class="row"
                         >
                           <div
-                            class="form-group field field-string  col"
+                            class="form-group field field-string"
                           >
                             <label
                               class="control-label"
@@ -200,27 +189,23 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                               type="email"
                               value=""
                             />
-                            <div />
-                            <div />
                           </div>
                         </div>
                       </div>
-                      <div />
-                      <div />
                     </div>
                   </div>
-                  <div
-                    class="col-3 mt-4 ccmt-cff-array-button-container"
-                  />
                 </div>
                 <div
-                  class="row mb-4"
+                  class="row"
                 >
                   <div
-                    class="col-9"
+                    class="col-12 ccmt-cff-array-item-container"
                   >
+                    <span
+                      class="oi oi-circle-x ccmt-cff-array-close-button"
+                    />
                     <div
-                      class="form-group field field-object  col"
+                      class="form-group field field-object"
                     >
                       <div
                         class="container-fluid"
@@ -231,7 +216,7 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                           class="row"
                         >
                           <div
-                            class="form-group field field-string  col"
+                            class="form-group field field-string"
                           >
                             <label
                               class="control-label"
@@ -253,35 +238,17 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                               type="email"
                               value=""
                             />
-                            <div />
-                            <div />
                           </div>
                         </div>
                       </div>
-                      <div />
-                      <div />
                     </div>
-                  </div>
-                  <div
-                    class="col-3 mt-4 ccmt-cff-array-button-container"
-                  >
-                    <button
-                      class="btn btn-danger col-12 ccmt-cff-btn-array-remove"
-                      type="button"
-                    >
-                      Remove
-                    </button>
                   </div>
                 </div>
               </div>
             </fieldset>
-            <div />
-            <div />
           </div>
         </div>
       </div>
-      <div />
-      <div />
     </div>
     <p>
       <button
@@ -319,7 +286,7 @@ exports[`renders regular checkboxes correctly 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col"
+            class="form-group field field-array"
           >
             <label
               class="control-label"
@@ -460,13 +427,9 @@ exports[`renders regular checkboxes correctly 1`] = `
                 </label>
               </div>
             </div>
-            <div />
-            <div />
           </div>
         </div>
       </div>
-      <div />
-      <div />
     </div>
     <p>
       <button
@@ -504,7 +467,7 @@ exports[`renders regular object array 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col"
+            class="form-group field field-array"
           >
             <fieldset
               class="field field-array field-array-of-object"
@@ -518,13 +481,13 @@ exports[`renders regular object array 1`] = `
                 class="array-item-list"
               >
                 <div
-                  class="row mb-4"
+                  class="row"
                 >
                   <div
-                    class="col-9"
+                    class="col-12 ccmt-cff-array-item-container"
                   >
                     <div
-                      class="form-group field field-object  col"
+                      class="form-group field field-object"
                     >
                       <div
                         class="container-fluid"
@@ -535,7 +498,7 @@ exports[`renders regular object array 1`] = `
                           class="row"
                         >
                           <div
-                            class="form-group field field-string  col"
+                            class="form-group field field-string"
                           >
                             <label
                               class="control-label"
@@ -557,34 +520,28 @@ exports[`renders regular object array 1`] = `
                               type="email"
                               value=""
                             />
-                            <div />
-                            <div />
                           </div>
                         </div>
                       </div>
-                      <div />
-                      <div />
                     </div>
                   </div>
-                  <div
-                    class="col-3 mt-4 ccmt-cff-array-button-container"
-                  />
                 </div>
                 <button
-                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  class="btn btn-info col-12 mt-4 ccmt-cff-btn-array-add"
                   type="button"
                 >
-                  Add
+                  <small>
+                    <span
+                      class="oi oi-plus"
+                    />
+                  </small>
+                     Add
                 </button>
               </div>
             </fieldset>
-            <div />
-            <div />
           </div>
         </div>
       </div>
-      <div />
-      <div />
     </div>
     <p>
       <button
@@ -618,7 +575,7 @@ exports[`shows add button when minItems is zero 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col"
+            class="form-group field field-array"
           >
             <fieldset
               class="field field-array field-array-of-string"
@@ -632,20 +589,21 @@ exports[`shows add button when minItems is zero 1`] = `
                 class="array-item-list"
               >
                 <button
-                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  class="btn btn-info col-12 mt-4 ccmt-cff-btn-array-add"
                   type="button"
                 >
-                  Add
+                  <small>
+                    <span
+                      class="oi oi-plus"
+                    />
+                  </small>
+                     Add
                 </button>
               </div>
             </fieldset>
-            <div />
-            <div />
           </div>
         </div>
       </div>
-      <div />
-      <div />
     </div>
     <p>
       <button
@@ -679,7 +637,7 @@ exports[`shows one child which can be removed 1`] = `
           class="row"
         >
           <div
-            class="form-group field field-array  col"
+            class="form-group field field-array"
           >
             <fieldset
               class="field field-array field-array-of-string"
@@ -693,13 +651,16 @@ exports[`shows one child which can be removed 1`] = `
                 class="array-item-list"
               >
                 <div
-                  class="row mb-4"
+                  class="row"
                 >
                   <div
-                    class="col-9"
+                    class="col-12 ccmt-cff-array-item-container"
                   >
+                    <span
+                      class="oi oi-circle-x ccmt-cff-array-close-button"
+                    />
                     <div
-                      class="form-group field field-string  col"
+                      class="form-group field field-string"
                     >
                       <label
                         class="control-label"
@@ -721,36 +682,25 @@ exports[`shows one child which can be removed 1`] = `
                         type="text"
                         value="[object Object]"
                       />
-                      <div />
-                      <div />
                     </div>
-                  </div>
-                  <div
-                    class="col-3 mt-4 ccmt-cff-array-button-container"
-                  >
-                    <button
-                      class="btn btn-danger col-12 ccmt-cff-btn-array-remove"
-                      type="button"
-                    >
-                      Remove
-                    </button>
                   </div>
                 </div>
                 <button
-                  class="btn btn-info col-12 ccmt-cff-btn-array-add"
+                  class="btn btn-info col-12 mt-4 ccmt-cff-btn-array-add"
                   type="button"
                 >
-                  Add
+                  <small>
+                    <span
+                      class="oi oi-plus"
+                    />
+                  </small>
+                     Add
                 </button>
               </div>
             </fieldset>
-            <div />
-            <div />
           </div>
         </div>
       </div>
-      <div />
-      <div />
     </div>
     <p>
       <button

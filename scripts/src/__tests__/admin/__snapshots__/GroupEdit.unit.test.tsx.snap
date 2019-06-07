@@ -23,10 +23,10 @@ exports[`renders class edit form 1`] = `
           class="array-item-list"
         >
           <div
-            class="row mb-4"
+            class="row"
           >
             <div
-              class="col-9"
+              class="col-12 ccmt-cff-array-item-container"
             >
               <div
                 class="form-group field field-object"
@@ -40,7 +40,7 @@ exports[`renders class edit form 1`] = `
                     class="row"
                   >
                     <div
-                      class="form-group field field-string  col"
+                      class="form-group field field-string"
                     >
                       <label
                         class="control-label"
@@ -56,11 +56,9 @@ exports[`renders class edit form 1`] = `
                         type="text"
                         value=""
                       />
-                      <div />
-                      <div />
                     </div>
                     <div
-                      class="form-group field field-string  col"
+                      class="form-group field field-string"
                     >
                       <label
                         class="control-label"
@@ -76,11 +74,9 @@ exports[`renders class edit form 1`] = `
                         type="text"
                         value=""
                       />
-                      <div />
-                      <div />
                     </div>
                     <div
-                      class="form-group field field-string  col"
+                      class="form-group field field-string"
                     >
                       <label
                         class="control-label"
@@ -96,11 +92,9 @@ exports[`renders class edit form 1`] = `
                         type="text"
                         value=""
                       />
-                      <div />
-                      <div />
                     </div>
                     <div
-                      class="form-group field field-string  col"
+                      class="form-group field field-string"
                     >
                       <label
                         class="control-label"
@@ -116,29 +110,25 @@ exports[`renders class edit form 1`] = `
                         type="text"
                         value=""
                       />
-                      <div />
-                      <div />
                     </div>
                   </div>
                 </div>
-                <div />
-                <div />
               </div>
             </div>
-            <div
-              class="col-3 mt-4 ccmt-cff-array-button-container"
-            />
           </div>
           <button
-            class="btn btn-info col-12 ccmt-cff-btn-array-add"
+            class="btn btn-info col-12 mt-4 ccmt-cff-btn-array-add"
             type="button"
           >
-            Add
+            <small>
+              <span
+                class="oi oi-plus"
+              />
+            </small>
+               Add
           </button>
         </div>
       </fieldset>
-      <div />
-      <div />
     </div>
     <p>
       <button
