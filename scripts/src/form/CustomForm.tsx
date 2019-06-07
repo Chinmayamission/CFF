@@ -10,6 +10,7 @@ import SmallTextboxWidget from "./form_widgets/SmallTextboxWidget";
 import PhoneWidget from "./form_widgets/PhoneWidget";
 import MoneyWidget from "./form_widgets/MoneyWidget"
 import SameAsField from "./form_widgets/SameAsField"
+import AutoPopulateField from "./form_widgets/AutoPopulateField"
 import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
 import PaymentCalcTable from "./payment/PaymentCalcTable";
 import { get } from "lodash";
@@ -68,7 +69,8 @@ const widgets = {
 const fields = {
   DescriptionField: FormattedDescriptionField,
   TitleField: CustomTitleField,
-  "cff:sameAs": SameAsField
+  "cff:sameAs": SameAsField,
+  "cff:autoPopulate": AutoPopulateField
 };
 
 function validate(formData, errors, validationSchema) {
