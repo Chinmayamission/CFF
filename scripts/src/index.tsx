@@ -46,7 +46,7 @@ Amplify.configure({
             endpoint: ENDPOINT_URL,
             custom_header: async () => { 
                 try {
-                    return { Authorization: (await Auth.currentSession()).idToken.jwtToken }
+                    return { Authorization: (await Auth.currentSession() as any).idToken.jwtToken }
                 }
                 catch (e) {
                     console.error(e);
