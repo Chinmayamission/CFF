@@ -50,7 +50,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
     const max = this.props.schema.maxItems || 999;
     const range = Array.from(Array(max - min + 1).keys()).map(e => e + min);
     return (<SelectWidget
-      schema={{ title: "Number of participants", type: "integer", enum: range, default: this.props.items ? this.props.items.length : 0 }}
+      schema={{ title: `Number of ${this.props.uiSchema["ui:title"] || this.props.title}` || this.props.uiSchema["ui:cff:arrayNumItemsTitle"], type: "integer", enum: range, default: this.props.items ? this.props.items.length : 0 }}
       className="form-control ccmt-cff-array-numitems-select"
       disabled={this.props.disabled}
       readonly={this.props.readonly}
