@@ -218,6 +218,7 @@ export module Headers {
         };
         headerObj.headerClassName = "ccmt-cff-no-click";
         headerObj.Cell = row => <Form schema={selectSchema} uiSchema={{}} formData={row.value} onChange={e => {
+            if (typeof e.formData === "undefined") return;
             let path = headerObj.id; // children.class
             if (row.original.CFF_UNWIND_BY) {
                 path = path.replace(row.original.CFF_UNWIND_BY + ".", ""); // class
