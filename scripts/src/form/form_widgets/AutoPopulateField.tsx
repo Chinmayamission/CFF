@@ -2,7 +2,9 @@ import * as React from "react";
 import { get, cloneDeep } from "lodash";
 import Loading from "../../common/Loading/Loading";
 import Form from "react-jsonschema-form";
+import CustomForm from "../CustomForm";
 
+const cache = {};
 class AutoPopulateField extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -15,7 +17,8 @@ class AutoPopulateField extends React.Component<any, any> {
         try {
             let titleAccessor = this.props.uiSchema["ui:options"]["cff:autoPopulateTitleAccessor"];
             let endpoint = this.props.uiSchema["ui:options"]["cff:autoPopulateEndpoint"];
-            let results = await fetch(endpoint).then(e => e.json());
+            let results = cache[endpoint] || await fetch(endpoint).then(e => e.json());
+            cache[endpoint] = results;
             let options:any = [{"title": this.props.uiSchema["ui:placeholder"] || `Select ${this.props.name}` }];
             for (let result of results) {
                 let option = {"type": typeof result, "properties": {} };
@@ -59,10 +62,13 @@ class AutoPopulateField extends React.Component<any, any> {
         if (this.state.error) {
             return <div style={{ "color": "red" }}>{this.state.error}</div>
         }
-        console.log(this.props);
+        let {"ui:field": field, ...uiSchema} = this.props.uiSchema;
         return (<div>
-            <Form schema={this.state.newSchema} formData={this.props.formData} onChange={e => this.props.onChange(e.formData)}>&nbsp;</Form>
-            {/* <this.props.registry.fields.ObjectField {...this.props} /> */}
+            <CustomForm
+                schema={this.state.newSchema}
+                uiSchema={uiSchema}
+                formData={this.props.formData}
+                onChange={e => this.props.onChange(e.formData)}>&nbsp;</CustomForm>
         </div>);
     }
 };
