@@ -125,7 +125,7 @@
     "react-edit-inline": "https://github.com/chukitow/ReactInlineEdit/tarball/feature/deprecated-protypes",
     "react-helmet": "^5.2.0",
     "react-json-view": "^1.15.2",
-    "react-jsonschema-form": "^1.6.0",
+    "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#cb000604006e24ce41ca26db67c61f63adb07db8",
     "react-linkify": "^0.2.2",
     "react-loading": "^1.0.3",
     "react-modal": "^3.8.1",
