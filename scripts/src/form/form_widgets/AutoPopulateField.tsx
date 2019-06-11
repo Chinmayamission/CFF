@@ -16,7 +16,7 @@ class AutoPopulateField extends React.Component<any, any> {
             let titleAccessor = this.props.uiSchema["ui:options"]["cff:autoPopulateTitleAccessor"];
             let endpoint = this.props.uiSchema["ui:options"]["cff:autoPopulateEndpoint"];
             let results = await fetch(endpoint).then(e => e.json());
-            let options = [];
+            let options:any = [{"title": this.props.uiSchema["ui:placeholder"] || `Select ${this.props.name}` }];
             for (let result of results) {
                 let option = {"type": typeof result, "properties": {} };
                 if (titleAccessor) {
@@ -35,9 +35,9 @@ class AutoPopulateField extends React.Component<any, any> {
             }
             let newSchema = {
                 "type": "object",
-                "oneOf": options
+                "oneOf": options,
+                "default": options[0]
             };
-            console.log(this.props.schema, newSchema);
             // this.props.formContext.setSchema(newSchema);
             this.setState({
                 loading: false,
@@ -61,7 +61,7 @@ class AutoPopulateField extends React.Component<any, any> {
         }
         console.log(this.props);
         return (<div>
-            <Form schema={this.state.newSchema} formData={this.props.formData} onChange={e => this.props.onChange(e.formData)} />
+            <Form schema={this.state.newSchema} formData={this.props.formData} onChange={e => this.props.onChange(e.formData)}>&nbsp;</Form>
             {/* <this.props.registry.fields.ObjectField {...this.props} /> */}
         </div>);
     }
