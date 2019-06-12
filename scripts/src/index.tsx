@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from "./App";
+import App from "./app";
 import Amplify, {Auth} from "aws-amplify";
 import { I18n } from 'aws-amplify';
 
