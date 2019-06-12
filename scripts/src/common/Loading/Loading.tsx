@@ -1,5 +1,5 @@
 import * as React from 'react';
-import "./loading.scss";
+import "./Loading.scss";
 import Modal from 'react-responsive-modal';
 import { ILoadingProps, ILoadingState } from "./Loading.d";
 
