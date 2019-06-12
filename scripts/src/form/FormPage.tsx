@@ -262,13 +262,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     if (get(this.state.formOptions, "responseSubmissionEnabled", true) === false) {
       return (<div>
         <h1>Submissions Closed</h1>
-        <p>Submissions are closed for the form: {htmlToText(this.state.schema.title)}</p>
+        <p>Submissions are closed for the form: {htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</p>
       </div>)
     }
     if (get(this.state.formOptions, "responseModificationEnabled", true) === false && this.state.status !== STATUS_FORM_CONFIRMATION && this.state.status !== STATUS_FORM_RESPONSE_VIEW && this.state.responseId) {
       return (<div>
         <h1>Response Modifications Closed</h1>
-        <p>Response modifications are closed for the form: {htmlToText(this.state.schema.title)}</p>
+        <p>Response modifications are closed for the form: {htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</p>
       </div>)
     }
     let formToReturn = (
