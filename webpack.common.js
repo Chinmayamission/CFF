@@ -18,7 +18,10 @@ module.exports = {
     port: 8000,
     contentBase:__dirname + '/dist',
     publicPath: '/',
-    historyApiFallback: true
+    historyApiFallback: true,
+    watchOptions: {
+      poll: 1000
+    }
   },
   optimization: {
     runtimeChunk: 'single',
