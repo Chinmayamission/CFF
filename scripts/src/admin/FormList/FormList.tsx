@@ -40,7 +40,6 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     constructor(props: any) {
         super(props);
         this.render = this.render.bind(this);
-        console.log(props);
         this.state = {
             highlightedForm: ''
         }
