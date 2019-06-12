@@ -14,6 +14,11 @@ module.exports = {
   entry: {
     app: ["whatwg-fetch", "babel-polyfill", SRC_URL + '/index']
   },
+  devServer: {
+    port: 8000,
+    publicPath: '/',
+    historyApiFallback: true
+  },
   optimization: {
     runtimeChunk: 'single',
     splitChunks: {
@@ -38,11 +43,6 @@ module.exports = {
     // }),
     new webpack.DefinePlugin({
       VERSION: `"${pjson.version}"`
-    }),
-    new HtmlWebpackPlugin({
-      title: 'Chinmaya Forms Framework',
-      template: './scripts/src/index.html',
-      filename: `index.${pjson.version}.html`
     }),
     new MonacoWebpackPlugin({
       // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
