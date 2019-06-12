@@ -3,6 +3,7 @@ import { get, cloneDeep } from "lodash";
 import Loading from "../../common/Loading/Loading";
 import Form from "react-jsonschema-form";
 import CustomForm from "../CustomForm";
+import "./AutoPopulateField.scss";
 
 const cache = {};
 class AutoPopulateField extends React.Component<any, any> {
@@ -64,11 +65,12 @@ class AutoPopulateField extends React.Component<any, any> {
         }
         let {"ui:field": field, ...uiSchema} = this.props.uiSchema;
         return (<div>
+            <label className="control-label">{this.props.uiSchema["ui:title"] || this.props.schema.title || ""}</label>
             <CustomForm
                 schema={this.state.newSchema}
                 uiSchema={uiSchema}
                 formData={this.props.formData}
-                className={"col-12"}
+                className={"col-12 ccmt-cff-Page-SubFormPage-AutoPopulate"}
                 onChange={e => this.props.onChange(e.formData)}>&nbsp;</CustomForm>
         </div>);
     }
