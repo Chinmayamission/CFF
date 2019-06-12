@@ -1,5 +1,5 @@
 import * as React from "react";
-import { get, cloneDeep } from "lodash";
+import { get, every, isEqual, isEmpty, pick } from "lodash";
 import Loading from "../../common/Loading/Loading";
 import Form from "react-jsonschema-form";
 import CustomForm from "../CustomForm";
@@ -35,18 +35,22 @@ class AutoPopulateField extends React.Component<any, any> {
                 else {
                     option = result;
                 }
-                options.push(option);
+                // TODO: change this to pass in formData in a prop when bug in rjsf is fixed -- passing formData to OneOf does not select that option, and also defaults for oneOf do not work.
+                if (!every(this.props.formData, isEmpty) && isEqual(pick(result, Object.keys(this.props.schema.properties)), this.props.formData)) {
+                    options.unshift(option);
+                }
+                else {
+                    options.push(option);
+                }
             }
             let newSchema = {
                 "type": "object",
-                "oneOf": options,
-                "default": options[0]
+                "oneOf": options
             };
-            // this.props.formContext.setSchema(newSchema);
             this.setState({
                 loading: false,
                 newSchema
-            })
+            });
         }
         catch (e) {
             console.error(e);
