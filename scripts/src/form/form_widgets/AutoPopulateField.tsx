@@ -64,13 +64,13 @@ class AutoPopulateField extends React.Component<any, any> {
             return <div style={{ "color": "red" }}>{this.state.error}</div>
         }
         let {"ui:field": field, ...uiSchema} = this.props.uiSchema;
-        return (<div>
+        return (<div className="col-12">
             <label className="control-label">{this.props.uiSchema["ui:title"] || this.props.schema.title || ""}</label>
             <CustomForm
                 schema={this.state.newSchema}
                 uiSchema={uiSchema}
                 formData={this.props.formData}
-                className={"col-12 ccmt-cff-Page-SubFormPage-AutoPopulate"}
+                className={"ccmt-cff-Page-SubFormPage-AutoPopulate"}
                 onChange={e => this.props.onChange(e.formData)}>&nbsp;</CustomForm>
         </div>);
     }
