@@ -68,6 +68,7 @@ class AutoPopulateField extends React.Component<any, any> {
                 schema={this.state.newSchema}
                 uiSchema={uiSchema}
                 formData={this.props.formData}
+                className={"col-12"}
                 onChange={e => this.props.onChange(e.formData)}>&nbsp;</CustomForm>
         </div>);
     }
