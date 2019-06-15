@@ -19,6 +19,7 @@ import ExpressionParser from "../common/ExpressionParser";
 import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
 import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget";
 import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
+import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioWidget";
 
 
 export const FormattedDescriptionField = ({ id, description }) => {
@@ -63,7 +64,8 @@ const widgets = {
   "cff:money": MoneyWidget,
   "cff:couponCode": CouponCodeWidget,
   "cff:confirm": ConfirmWidget,
-  "cff:jsonEditor": JSONEditorWidget
+  "cff:jsonEditor": JSONEditorWidget,
+  "cff:conditionalHiddenRadio": ConditionalHiddenRadioWidget
 };
 
 const fields = {
