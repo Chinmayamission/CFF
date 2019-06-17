@@ -52,7 +52,7 @@ class Payment extends React.Component<IPaymentProps, any> {
                 !ExpressionParser.calculate_price(props.paymentMethodInfo.cff_show_when, props.formData)) {
                 return;
             }
-            return (<div className="col-12 col-sm-6 col-md-4 p-4" style={{ "margin": "0 auto" }}>
+            return (<div className="col-12 col-sm-6 p-4" style={{ "margin": "0 auto" }}>
                 <MyComponent key={paymentMethod} {...props} />
             </div>);
         });
