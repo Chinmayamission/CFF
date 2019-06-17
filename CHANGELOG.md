@@ -37,6 +37,17 @@ todo:
 - 
 - user login/signup
 
+## 3.9.0 (6/16/19)
+Features:
+- Add conditionalHiddenRadio widget -- which is hidden if it is set to a constant value and readonly.
+- Add autoPopulateField -- which fetches data from a particular endpoint and displays it.
+- Allow a "number of elements" field to be selected, which then sets the number of elements in an array.
+Bug fixes:
+- Fix form submissions closed blank screen issue
+- Upgrade rjsf to patch release, to fix various dependency and dependency default issues.
+Dev:
+- Use webpack-dev-server for builds
+
 ## 3.8.0 (5/22/19)
 - Add "view-only" option for forms -- can be created by including `{{view_link}}` in the confirmation email template.
 - Add CCAvenue integration.
