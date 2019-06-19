@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.10.0 (6/18/19)
+Features:
+- Add infoboxRadioWidget which allows for a description to be shown on hover of an "i" icon.
+
 ## 3.9.0 (6/16/19)
 Features:
 - Add conditionalHiddenRadio widget -- which is hidden if it is set to a constant value and readonly.
