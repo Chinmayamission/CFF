@@ -60,7 +60,7 @@ class RadioWidget extends React.Component<any, { open?: number }> {
                                 onMouseOver={e => this.setState({ open: this.state.open === i ? null : i })}
                                 onMouseLeave={e => this.state.open === i && this.setState({ open: null })}
                                 id={"Popover" + i}
-                                style={{"marginLeft": 20}}
+                                style={{"marginLeft": 10}}
                             />
                             <Popover placement="right" isOpen={this.state.open === i} target={"Popover" + i} toggle={e => this.setState({ open: this.state.open === i ? null : i })}>
                                 {/* <PopoverHeader>Popover Title</PopoverHeader> */}
