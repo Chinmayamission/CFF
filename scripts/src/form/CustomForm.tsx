@@ -20,7 +20,7 @@ import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
 import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget";
 import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
 import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioWidget";
-
+import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
@@ -65,7 +65,8 @@ const widgets = {
   "cff:couponCode": CouponCodeWidget,
   "cff:confirm": ConfirmWidget,
   "cff:jsonEditor": JSONEditorWidget,
-  "cff:conditionalHiddenRadio": ConditionalHiddenRadioWidget
+  "cff:conditionalHiddenRadio": ConditionalHiddenRadioWidget,
+  "cff:infoboxRadio": InfoboxRadioWidget
 };
 
 const fields = {
