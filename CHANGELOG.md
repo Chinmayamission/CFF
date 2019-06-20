@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.10.1 (6/19/19)
+Backend fix only:
+- Fix nested price issue: return 0, don't crash, when getting the nested price of undefined. (https://github.com/epicfaace/ccmt-cff-lambda/pull/4)
+
 ## 3.10.0 (6/18/19)
 Features:
 - Add infoboxRadioWidget which allows for a description to be shown on hover of an "i" icon.
