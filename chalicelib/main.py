@@ -8,6 +8,7 @@ import uuid
 import logging
 from pymodm.errors import DoesNotExist
 import mongomock
+from moto import mock_ses
 
 class CustomChalice(Chalice):
     test_user_id = None
@@ -67,7 +68,6 @@ def create_app(MODE):
     elif MODE == "PROD":
         mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_PROD', WithDecryption=True)['Parameter']['Value']
         pymodm.connection.connect(mongo_conn_str)
-        PROD = True
 
     app = CustomChalice(app_name='ccmt-cff-rest-api')
     if MODE != "PROD":
@@ -78,10 +78,6 @@ def create_app(MODE):
     test_user_id = os.getenv("DEV_COGNITO_IDENTITY_ID")
     if test_user_id:
         app.test_user_id = test_user_id
-
-    USER_POOL_ID = os.getenv("USER_POOL_ID")
-    COGNITO_CLIENT_ID = os.getenv("COGNITO_CLIENT_ID")
-    S3_UPLOADS_BUCKET_NAME = os.getenv("S3_UPLOADS_BUCKET_NAME")
 
     @app.authorizer()
     def iamAuthorizer(auth_request):
@@ -166,11 +162,36 @@ def create_app(MODE):
             raise BadRequestError(f"Bad request, token not valid. {claims}")
     return app
     
+def mocked_requests_get(*args, **kwargs):
+    class MockResponse:
+        def __init__(self, json_data, status_code):
+            self.json_data = json_data
+            self.status_code = status_code
+
+        def json(self):
+            return self.json_data
+
+    if args[0] == 'http://someurl.com/test.json':
+        return MockResponse({"key1": "value1"}, 200)
+    elif args[0] == 'http://someotherurl.com/anothertest.json':
+        return MockResponse({"key2": "value2"}, 200)
+
+    return MockResponse(None, 404)
+    
 MODE = os.getenv("MODE", "DEV")
 print("MODE IS " + MODE)
+USER_POOL_ID = os.getenv("USER_POOL_ID")
+COGNITO_CLIENT_ID = os.getenv("COGNITO_CLIENT_ID")
+S3_UPLOADS_BUCKET_NAME = os.getenv("S3_UPLOADS_BUCKET_NAME")
 app = None
+PROD = True if MODE == "PROD" else False
 if MODE != "TEST" or True:
     app = create_app(MODE)
 else:
-    print("MOCKING")
-    app = mongomock.patch(servers=(('localhost', 10255),))(create_app)(MODE)
+    # TODO fix this mocking later.
+    from unittest import mock
+    print("MOCKING") # todo this mocking isn't working right now.
+    fn = mongomock.patch(servers=(('localhost', 10255),))
+    fn = mock_ses(fn)
+    # fn = mock.patch('requests.get', side_effect=mocked_requests_get)(fn)
+    app = fn(create_app)(MODE)
