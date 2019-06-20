@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from chalice import NotFoundError
 from chalicelib.util.renameKey import renameKey
 from pydash.objects import get
+from chalicelib.util.patch import patch_predicate
 
 def form_render(formId):
     """Render single form."""
@@ -31,7 +32,8 @@ def form_render_response(formId):
                 return {"res": None}
             try:
                 response = Response.objects.get({"form": ObjectId(predicateFormId), "user": app.get_current_user_id()})
-                return {"res": serialize_model(response)}
+                value = patch_predicate(response.value, get(form, "formOptions.predicate.patches", []))
+                return {"res": None, "predicate": True, "value": value}
             except DoesNotExist:
                 return {"res": None}
     return {"res": None}
