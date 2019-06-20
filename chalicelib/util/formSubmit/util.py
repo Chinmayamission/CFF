@@ -93,43 +93,6 @@ def deep_access(x, keylist):
     return val 
 
 def calculate_price(expressionString, data):
-    """
-    >>> calculate_price("x * 12", {"x": 1})
-    12.0
-    >>> calculate_price("participants * 25", {"participants": [1,2,3]})
-    75.0
-    >>> calculate_price("rooms[0] * 25", {"rooms": [[1,2,3]] })
-    75.0
-    >>> calculate_price("participant.x * 25", {"participant": {"x": 2}})
-    50.0
-    >>> calculate_price("participants.race:5K", {"participants": [{"name": "A", "race": "5K"}, {"name": "B", "race": "5K"}, {"name": "C", "race": "10K"}]})
-    2.0
-    >>> calculate_price("(participants.race:5K) * 25", {"participants": [{"name": "A", "race": "5K"}, {"name": "B", "race": "5K"}, {"name": "C", "race": "10K"}]})
-    50.0
-    >>> calculate_price("(participants.race:None) * 25", {"participants": [{"name": "A", "race": "5K"}, {"name": "B", "race": "5K"}, {"name": "C", "race": "10K"}]})
-    0.0
-    >>> calculate_price("(participants.race:'5K OK') * 25", {"participants": [{"name": "A", "race": "5K OK"}, {"name": "B", "race": "5K OK"}, {"name": "C", "race": "10K"}]})
-    50.0
-    >>> calculate_price("$participants.race:5K", {"acceptTerms":True,"contact_name":{"last":"test","first":"test"},"address":{"zipcode":"test","state":"test","city":"test","line2":"test","line1":"test"},"phone":"7708182022","email":"aramaswamis+12@gmail.com","participants":[{"name":{"last":"test","first":"test"},"gender":"F","race":"5K","age":16,"shirt_size":"Youth M"}]})
-    1.0
-    >>> calculate_price("$roundOff * (16 + $total % 5)", {"roundOff": True, "total": 87})
-    18.0
-    >>> calculate_price("$roundOff * (16 + $total % 5)", {"roundOff": False, "total": 87})
-    0.0
-    >>> # Test for equality of strings:
-    >>> calculate_price("age < 13 and race:'Half Marathon'==1", {"age": 12, "race": "Half Marathon"})
-    True
-    >>> calculate_price("age < 13 and race:'Half Marathon'==1", {"age": 12, "race": "Full Marathon"})
-    False
-    >>> # Test for number:
-    >>> calculate_price("participants.has_bib_name", {"participants": [{"has_bib_name": True, "race": "5K - OK"}, {"has_bib_name": False, "race": "5K - OK"}, {"bib_name": "250", "race": "10K"}]})
-    1.0
-    >>> calculate_price("(participants - participants.race:10K) * 25", {"participants": [{"bib_name": "as", "race": "5K - OK"}, {"bib_name": "32", "race": "5K - OK"}, {"bib_name": "250", "race": "10K"}]})
-    50.0
-    >>> # Arbitrary strings (not working):
-    >>> # calculate_price("(participants.race:'5K - OK') * 25", {"participants": [{"name": "A", "race": "5K - OK"}, {"name": "B", "race": "5K - OK"}, {"name": "C", "race": "10K"}]})
-    50.0
-    """
     """Calculates price based on the expression. 
     For example, "participants.age * 12"
     "participants * 12" will use participants' length if it is an array.
