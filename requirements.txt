@@ -7,6 +7,7 @@ flatdict==3.0.0
 html2text==2018.1.9
 idna==2.6
 Jinja2==2.10
+jsonpatch==1.23
 MarkupSafe==1.0
 py-expression-eval==0.3.4
 pycryptodomex==3.6.4

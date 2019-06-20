@@ -35,6 +35,7 @@ pymodm = "==0.4.1"
 python-jose = "*"
 pycryptodomex = "*"
 pip = "==10"
+jsonpatch = "*"
 
 [dev-packages]
 
