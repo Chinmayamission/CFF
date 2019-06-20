@@ -75,7 +75,7 @@ def response_checkin(formId, responseId):
     pass
 
 def response_payment(responseId):
-    from ..main import app, TABLES
+    from ..main import app
     response = Response.objects.get({"_id": ObjectId(responseId)})
     app.check_permissions(response.form, "Responses_Edit")
     amount = app.current_request.json_body["amount"]
@@ -90,7 +90,7 @@ def response_payment(responseId):
     return {"res": {"success": True, "paid": paid, "response": serialize_model(response)}}
 
 def response_delete(responseId):
-    from ..main import app, TABLES
+    from ..main import app
     response = Response.objects.get({"_id": ObjectId(responseId)})
     app.check_permissions(response.form, "Responses_Delete")
     response.delete()

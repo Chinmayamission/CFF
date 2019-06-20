@@ -11,7 +11,7 @@ from jose.exceptions import JWTError
 from jose.utils import base64url_decode
 
 region = 'us-east-1'
-userpool_id = os.environ["USER_POOL_ID"]
+userpool_id = os.getenv("USER_POOL_ID")
 keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
 # instead of re-downloading the public keys every time
 # we download them only on cold start
@@ -19,7 +19,7 @@ keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.forma
 response = requests.get(keys_url)
 keys = response.json().get('keys', [])
 
-def get_claims(token, verify_audience=True, app_client_id=os.environ["COGNITO_CLIENT_ID"]):
+def get_claims(token, verify_audience=True, app_client_id=os.getenv("COGNITO_CLIENT_ID")):
     token = token
     # get the kid from the headers prior to verification
     try:

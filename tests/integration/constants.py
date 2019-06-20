@@ -2,10 +2,14 @@ import boto3
 import json
 import os
 import json
-AWS_PROFILE_NAME = os.getenv("CFF_AWS_PROFILE_NAME", "ashwin-cff-lambda")
-dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
-boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
-os.putenv("AWS_PROFILE", AWS_PROFILE_NAME)
+from moto import mock_s3
+
+with mock_s3():
+    dev = boto3.session.Session()
+    boto3.setup_default_session()
+
+os.unsetenv("AWS_PROFILE")
+os.environ["MODE"] = "TEST"
 os.environ["TABLE_PREFIX"] = "cff_beta"
 os.environ["DEV_COGNITO_IDENTITY_ID"] = "cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6"
 os.environ["UNIT_TEST"] = "TRUE"

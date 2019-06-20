@@ -7,7 +7,7 @@ from decimal import Decimal
 from chalicelib.models import CCAvenueConfig
 
 def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
-  from ...main import app, TABLES
+  from ...main import app
   merchant_id = ccavenuePaymentMethodInfo["merchant_id"]
   
   config = CCAvenueConfig.objects.get({"merchant_id": merchant_id})

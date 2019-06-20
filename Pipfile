@@ -36,6 +36,8 @@ python-jose = "*"
 pycryptodomex = "*"
 pip = "==10"
 jsonpatch = "*"
+moto = "*"
+mongomock = {editable = true,git = "https://github.com/mongomock/mongomock.git"}
 
 [dev-packages]
 

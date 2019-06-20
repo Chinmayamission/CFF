@@ -2,8 +2,6 @@ import hashlib
 import base64
 import re
 import os
-import boto3
-
 
 # def generate_signed_url(image_name):
 #     return s3_client.generate_presigned_url('get_object', Params = {'Bucket': S3_UPLOADS_BUCKET_NAME, 'Key': 'hello.txt'}, ExpiresIn = 100)

@@ -4,7 +4,7 @@ from chalicelib.models import Form, Response, serialize_model
 from bson.objectid import ObjectId
 
 def response_send_confirmation_email(responseId):
-  from ..main import app, TABLES
+  from ..main import app
   response = Response.objects.get({"_id":ObjectId(responseId)})
   form = Form.objects.only("formOptions").get({"_id":response.form.id})
   # todo: permissions here?

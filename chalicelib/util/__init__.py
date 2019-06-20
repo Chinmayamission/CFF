@@ -1,1 +1,0 @@
-from .getAllResponses import get_all_responses
