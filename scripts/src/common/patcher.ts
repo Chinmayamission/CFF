@@ -1,4 +1,5 @@
-import { applyPatch, deepClone } from 'fast-json-patch';
+import { applyPatch, applyReducer } from 'fast-json-patch';
+import { cloneDeep} from 'lodash';
 
 export class Patcher {
     _patches: any[]
@@ -6,8 +7,16 @@ export class Patcher {
         this._patches = patches;
     }
     applyPatches(data) {
+        data = cloneDeep(data);
         for (let patch of this._patches) {
-            data = applyPatch(patch, deepClone(data));
+            try {
+                patch.reduce(applyReducer, data);
+            }
+            catch(e) {
+                console.error(e);
+                continue;
+            }
+            break;
         }
         return data;
     }
