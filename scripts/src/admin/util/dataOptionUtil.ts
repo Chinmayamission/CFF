@@ -5,6 +5,12 @@ import unwind from "./unwind";
 import { IRenderedForm, IDataOptions, IDataOptionView } from "../FormEdit/FormEdit.d";
 import { IResponse } from "scripts/src/store/responses/types";
 
+function formattedDateTimeFromTimeStamp(timestamp) {
+    var d = new Date(timestamp);
+    const timeStampCon = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+    return timeStampCon;
+};
+
 export function getOrDefaultDataOptions(form: IRenderedForm): IDataOptions {
     let dataOptions: IDataOptions = cloneDeep(get(form, "formOptions.dataOptions", {}));
     if (!has(dataOptions, "views")) {
@@ -43,12 +49,13 @@ export function createHeadersAndDataFromDataOption(responses: (IResponse | any)[
         return {headers, dataFinal};
     }
     let headers = [];
+    
     let data = responses.map(e => ({
         ...e.value,
         "ID": e["_id"]["$oid"] || String(e._id),
         "PAID": e.paid === false && parseFloat(e.amount_paid) > 0 ? "PARTLY PAID": e.paid === false ? "NOT PAID": "PAID",
-        "DATE_CREATED": e.date_created.$date || String(e.date_created),
-        "DATE_LAST_MODIFIED": e.date_modified.$date || String(e.date_modified),
+        "DATE_CREATED":  e.date_created.$date ? formattedDateTimeFromTimeStamp(e.date_created.$date) : String(e.date_created),
+        "DATE_LAST_MODIFIED": e.date_modified.$date ? formattedDateTimeFromTimeStamp(e.date_modified.$date) : String(e.date_modified),
         "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
         "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency),
         "admin_info": e.admin_info
