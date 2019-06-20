@@ -7,7 +7,7 @@ import { IResponse } from "scripts/src/store/responses/types";
 
 function formattedDateTimeFromTimeStamp(timestamp) {
     var d = new Date(timestamp);
-    const timeStampCon = d.toLocaleDateString()+' '+ d.toLocaleTimeString();
+    const timeStampCon = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
     return timeStampCon;
 };
 
