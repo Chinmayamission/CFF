@@ -82,7 +82,7 @@ def deep_access_list(x, keylist, key_value_eq=None):
             val = dict_array_to_sum_dict(val, key_value_eq).get(key, 0.0)
         # 30
         else:
-            val = val.get(key, 0)
+            val = val.get(key, 0) if hasattr(val, "get") else 0
     return val
 
 def deep_access(x, keylist):

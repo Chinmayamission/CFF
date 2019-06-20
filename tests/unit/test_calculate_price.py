@@ -18,6 +18,9 @@ class TestCalculatePrice(unittest.TestCase):
     def test_nested_value(self):
         price = calculate_price("participant.x * 25", {"participant": {"x": 2}})
         self.assertEqual(price, 50.0)
+    def test_nested_value_return_zero_when_undefined(self):
+        price = calculate_price("participant.x * 25", {"a": "b"})
+        self.assertEqual(price, 0.0)
     def test_check_equality_of_array_item(self):
         price = calculate_price("participants.race:5K", {"participants": [{"name": "A", "race": "5K"}, {"name": "B", "race": "5K"}, {"name": "C", "race": "10K"}]})
         self.assertEqual(price, 2.0)
