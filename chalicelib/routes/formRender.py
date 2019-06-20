@@ -26,5 +26,12 @@ def form_render_response(formId):
             response = Response.objects.get({"form": ObjectId(formId), "user": app.get_current_user_id()})
             return {"res": serialize_model(response)}
         except DoesNotExist:
-            return {"res": None}
+            predicateFormId = get(form, "formOptions.predicate.formId")
+            if not predicateFormId:
+                return {"res": None}
+            try:
+                response = Response.objects.get({"form": ObjectId(predicateFormId), "user": app.get_current_user_id()})
+                return {"res": serialize_model(response)}
+            except DoesNotExist:
+                return {"res": None}
     return {"res": None}
