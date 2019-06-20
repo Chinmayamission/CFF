@@ -54,8 +54,8 @@ export function createHeadersAndDataFromDataOption(responses: (IResponse | any)[
         ...e.value,
         "ID": e["_id"]["$oid"] || String(e._id),
         "PAID": e.paid === false && parseFloat(e.amount_paid) > 0 ? "PARTLY PAID": e.paid === false ? "NOT PAID": "PAID",
-        "DATE_CREATED":  (e.date_created.$date !== null && formattedDateTimeFromTimeStamp(e.date_created.$date)) || String(e.date_created),
-        "DATE_LAST_MODIFIED": (e.date_created.$date !== null && formattedDateTimeFromTimeStamp(e.date_modified.$date)) || String(e.date_modified),
+        "DATE_CREATED":  e.date_created.$date ? formattedDateTimeFromTimeStamp(e.date_created.$date) : String(e.date_created),
+        "DATE_LAST_MODIFIED": e.date_created.$date ? formattedDateTimeFromTimeStamp(e.date_modified.$date) : String(e.date_modified),
         "AMOUNT_OWED": formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
         "AMOUNT_PAID": formatPayment(e.amount_paid, e.paymentInfo.currency),
         "admin_info": e.admin_info
