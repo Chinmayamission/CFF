@@ -50,7 +50,6 @@ class CustomChalice(Chalice):
         else:
             raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, actions))
 
-@mongomock.patch(servers=(('localhost', 10255),))
 def create_app(MODE):
     import pymodm
     from chalicelib.util.jwt import get_claims
