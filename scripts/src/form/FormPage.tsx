@@ -16,6 +16,7 @@ import htmlToText from "html-to-text";
 import Login from "../common/Login/Login";
 import { IFormPageProps, IFormPageState, IPaymentInfoReceived } from './interfaces';
 import { fetchRenderedForm } from '../store/form/actions';
+import update from "immutability-helper";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -113,33 +114,23 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
 
   }
   async loadResponse(responseId=null) {
-    this.setState({status: STATUS_FORM_LOADING});
-    if (!responseId) {
-      let response = await API.get("CFF", `forms/${this.props.formId}/response`, {});
-      let res = response.res;
-      if (get(this.state.formOptions, "loginRequired") === true && get(this.state.schema, "properties.email")) {
-        if (!res) {
-          this.state.data.email = this.props.auth.user.email;
-        }
-        this.state.schema.properties.email.readOnly = true;
+    await new Promise((resolve, reject) => this.setState({status: STATUS_FORM_LOADING}, resolve));
+    let request = responseId ? API.get("CFF", `responses/${responseId}`, {}): API.get("CFF", `forms/${this.props.formId}/response`, {})
+    const {res} = await request;
+    let data = this.state.data;
+    let schema = this.state.schema;
+    if (get(this.state.formOptions, "loginRequired") === true && get(this.state.schema, "properties.email")) {
+      if (!res) {
+        data = update(data, {email: {$set: this.props.auth.user.email } });
       }
-      this.setState({
-        status: STATUS_FORM_RENDERED,
-        responseId: res ? res._id.$oid : null,
-        responseData: res ? res.value: null,
-        data: res ? res.value: this.state.data,
-        schema: this.state.schema
-      })
+      schema = update(schema, {properties: {email: {readOnly: {$set: true} } } } );
     }
-    else {
-      let response = await API.get("CFF", `responses/${responseId}`, {});
-      let res = response.res;
-      return new Promise((resolve, reject) => this.setState({
-        responseId: res ? res._id.$oid : null,
-        responseData: res ? res.value: null,
-        data: res ? res.value: this.state.data
-      }, resolve));
-    }
+    return new Promise((resolve, reject) => this.setState({
+      responseId: res ? res._id.$oid : null,
+      responseData: res ? res.value: null,
+      data: res ? res.value: data,
+      schema
+    }, resolve));
   }
   goBackToFormPage() {
     This.setState({ status: STATUS_FORM_RENDERED });
