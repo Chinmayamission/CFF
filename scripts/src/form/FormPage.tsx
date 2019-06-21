@@ -115,29 +115,22 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   async loadResponse(responseId=null) {
     this.setState({status: STATUS_FORM_LOADING});
     if (!responseId) {
-      let {res, predicate} = await API.get("CFF", `forms/${this.props.formId}/response`, {});
-      if (get(this.state.formOptions, "loginRequired") === true && get(this.state.schema, "properties.email")) {
-        if (predicate === true) {
-          this.setState({
-            status: STATUS_FORM_RENDERED,
-            responseId: null,
-            responseData: res.value,
-            data: res.value
-          })
-        }
-        else {
+      return API.get("CFF", `forms/${this.props.formId}/response`, {}).then(e => {
+        let res = e.res;
+        if (get(this.state.formOptions, "loginRequired") === true && get(this.state.schema, "properties.email")) {
           if (!res) {
             this.state.data.email = this.props.auth.user.email;
           }
           this.state.schema.properties.email.readOnly = true;
-          this.setState({
-            status: STATUS_FORM_RENDERED,
-            responseId: res ? res._id.$oid : null,
-            responseData: res ? res.value: null,
-            data: res ? res.value: this.state.data
-          })
         }
-      }
+        this.setState({
+          status: STATUS_FORM_RENDERED,
+          responseId: res ? res._id.$oid : null,
+          responseData: res ? res.value: null,
+          data: res ? res.value: this.state.data,
+          schema: this.state.schema
+        })
+      });
     }
     else {
       let response = await API.get("CFF", `responses/${responseId}`, {});
