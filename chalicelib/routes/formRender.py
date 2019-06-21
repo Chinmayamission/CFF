@@ -30,7 +30,7 @@ def form_render_response(formId):
             if not predicateFormId:
                 return {"res": None}
             try:
-                response = Response.objects.get({"form": ObjectId(predicateFormId), "user": app.get_current_user_id()})
+                response = Response.objects.get({"form": ObjectId(predicateFormId), "paid": True, "user": app.get_current_user_id()})
                 value = patch_predicate(response.value, get(form, "formOptions.predicate.patches", []))
                 return {"res": {"value": value, "form": predicateFormId }, "predicate": True}
             except DoesNotExist:

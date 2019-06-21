@@ -77,3 +77,5 @@ class FormRender(BaseTestCase):
 
         self.assertEqual(body["res"]["value"], {"grade": "C", "age": 3})
         self.delete_form(predicate["formId"])
+    def test_should_not_include_unpaid_predicate(self):
+        pass
