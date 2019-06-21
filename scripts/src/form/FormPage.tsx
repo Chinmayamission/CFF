@@ -49,7 +49,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentCalcInfo: null,
       paymentStarted: false,
       data: null,
-      responseId: props.responseId || undefined,
+      responseId: null,
       ajaxLoading: false,
       responseData: undefined // TODO: not using, can we remove this?
     };
@@ -57,8 +57,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.auth.loggedIn && this.state.responseId === undefined && this.state.status != STATUS_FORM_LOADING) {
-      this.loadResponse();
+    // Reload form when logged in.
+    if (this.props.auth.loggedIn === true && prevProps.auth.loggedIn === false) {
+      this.loadForm();
     }
   }
   componentDidCatch(error, info) {
@@ -82,40 +83,25 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     this.setState({"hasError": true});
   }
   async componentDidMount() {
-    if (this.state.responseId) {
-      await this.loadResponse(this.state.responseId);
-    }
-    this.loadForm();
+    await this.loadForm();
   }
-  loadForm() {
-      this.setState({status: STATUS_FORM_LOADING});
-      if (this.props.form_preloaded) {
-        let cs = createSchemas({...this.props.form_preloaded, user: this.props.auth.user});
-        let { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo } = cs;
-        this.setState({ schemaMetadata, uiSchema, schema,
-          status: this.props.mode === "view" ? STATUS_FORM_RESPONSE_VIEW: STATUS_FORM_RENDERED,
-          data: this.state.data || defaultFormData,
-          paymentCalcInfo
-        });
-        this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
-        return;
-      }
-      FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e))
-      .then(({ schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions }) => {
-        this.setState({ schemaMetadata, uiSchema, schema,
-          status: this.props.mode === "view" ? STATUS_FORM_RESPONSE_VIEW: STATUS_FORM_RENDERED,
-          data: this.state.data || defaultFormData,
-          paymentCalcInfo,
-          formOptions
-        });
-        this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
-      });
-    // }
+  async loadForm() {
+    await new Promise((resolve, reject) => this.setState({status: STATUS_FORM_LOADING}, resolve));
+    const { schemaMetadata, uiSchema, schema, defaultFormData, paymentCalcInfo, formOptions } = await FormLoader.getFormAndCreateSchemas("", this.props.formId, "", this.props.specifiedShowFields, (e) => this.handleError(e));
+    if (this.props.responseId || get(this.state.formOptions, "loginRequired") === true) {
+      await this.loadResponse();
+    }
+    await new Promise((resolve, reject) => this.setState({ schemaMetadata, uiSchema, schema,
+      status: this.props.mode === "view" ? STATUS_FORM_RESPONSE_VIEW: STATUS_FORM_RENDERED,
+      data: this.state.data || defaultFormData,
+      paymentCalcInfo,
+      formOptions
+    }, resolve));
+    this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
 
   }
-  async loadResponse(responseId=null) {
-    await new Promise((resolve, reject) => this.setState({status: STATUS_FORM_LOADING}, resolve));
-    let request = responseId ? API.get("CFF", `responses/${responseId}`, {}): API.get("CFF", `forms/${this.props.formId}/response`, {})
+  async loadResponse() {
+    let request = this.props.responseId ? API.get("CFF", `responses/${this.props.responseId}`, {}): API.get("CFF", `forms/${this.props.formId}/response`, {})
     const {res} = await request;
     let data = this.state.data;
     let schema = this.state.schema;
