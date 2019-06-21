@@ -69,7 +69,6 @@ export interface IFormPageState {
     step: number,
     data: Data,
     responseId: string,
-    responseData: any,
     hasError: boolean,
     errorMessage: string,
     paymentInfo: IPaymentInfo,
@@ -77,7 +76,10 @@ export interface IFormPageState {
     paymentMethods: IPaymentMethods,
     paymentCalcInfo: IPaymentCalcInfo,
     ajaxLoading: boolean,
-    paymentStarted: boolean
+    paymentStarted: boolean,
+    predicate: {
+        id: boolean
+    }
 }
 
 export interface IFormPageProps { // extends FormState

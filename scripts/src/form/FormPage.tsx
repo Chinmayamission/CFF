@@ -51,7 +51,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       data: null,
       responseId: null,
       ajaxLoading: false,
-      responseData: undefined // TODO: not using, can we remove this?
+      predicate: null
     };
     
   }
@@ -102,7 +102,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   }
   async loadResponse() {
     let request = this.props.responseId ? API.get("CFF", `responses/${this.props.responseId}`, {}): API.get("CFF", `forms/${this.props.formId}/response`, {})
-    const {res} = await request;
+    const {res, predicate} = await request;
     let data = this.state.data;
     let schema = this.state.schema;
     if (get(this.state.formOptions, "loginRequired") === true && get(this.state.schema, "properties.email")) {
@@ -111,11 +111,14 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       }
       schema = update(schema, {properties: {email: {readOnly: {$set: true} } } } );
     }
+    if (predicate) {
+      // todo: handle payment info.
+    }
     return new Promise((resolve, reject) => this.setState({
-      responseId: res ? res._id.$oid : null,
-      responseData: res ? res.value: null,
+      responseId: res && !predicate ? res._id.$oid : null,
       data: res ? res.value: data,
-      schema
+      schema,
+      predicate: predicate || response.predicate // Return either 1) predicate info of a new response that is based on a predicate, or 2) existing predicate info of existing response.
     }, resolve));
   }
   goBackToFormPage() {
@@ -183,7 +186,6 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         ajaxLoading: false,
         status: STATUS_FORM_CONFIRMATION,
         data: formData,
-        responseData: formData,
         responseId: res.responseId,
         paymentInfo: res.paymentInfo,
         paymentInfo_received: paymentInfo_received,
@@ -250,6 +252,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let formToReturn = (
       <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
         {this.state.formOptions.loginRequired && <Login />}
+        {this.state.predicate && !this.state.responseId && <div className="alert alert-warning" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(get(this.state.formOptions, "predicate.warningText", "Note: This response is imported from one of your previous submissions. Please review the information and update any outdated information as necessary before submitting."))}} />}
         <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
         <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED || this.state.formOptions.paymentInfo.showPaymentTable === false}
           schema={this.state.schema}
