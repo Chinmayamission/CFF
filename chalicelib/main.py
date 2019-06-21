@@ -7,8 +7,6 @@ import re
 import uuid
 import logging
 from pymodm.errors import DoesNotExist
-import mongomock
-from moto import mock_ses
 
 class CustomChalice(Chalice):
     test_user_id = None
@@ -187,10 +185,11 @@ PROD = True if MODE == "PROD" else False
 if MODE != "TEST" or True:
     app = create_app(MODE)
 else:
-    # TODO fix this mocking later.
-    from unittest import mock
-    print("MOCKING") # todo this mocking isn't working right now.
-    fn = mongomock.patch(servers=(('localhost', 10255),))
-    fn = mock_ses(fn)
-    # fn = mock.patch('requests.get', side_effect=mocked_requests_get)(fn)
-    app = fn(create_app)(MODE)
+    pass
+    # # TODO fix this mocking later.
+    # from unittest import mock
+    # print("MOCKING") # todo this mocking isn't working right now.
+    # fn = mongomock.patch(servers=(('localhost', 10255),))
+    # fn = mock_ses(fn)
+    # # fn = mock.patch('requests.get', side_effect=mocked_requests_get)(fn)
+    # app = fn(create_app)(MODE)
