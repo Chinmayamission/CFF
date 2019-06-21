@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "29f3f711912b6cc0e0be09e091fdfd7263c0170780cd5ff95f30162f488ff1d9"
+            "sha256": "5af38241b72be7b86c26aa10d72d864a292f65b54f257321138841baf1d83790"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -69,18 +69,18 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:1a0cc76f91f1c46804da4c6486ab4b806a765eaa3470a2d6c1cc6c1a0f466057",
-                "sha256:1cd2f629a1340d217e8cc746e9241fe8d51cb4e654050921b2cdb22498978b4c"
+                "sha256:73b65793f12141e14393a4f321861f3f33b68f9dfe4f14b7e65cdbfda5c7ccdb",
+                "sha256:e6472861a88d0bb47844c7d03764b730c7fb9ab393a5f0a29f6b4dc0b20bee3d"
             ],
             "index": "pypi",
-            "version": "==1.9.173"
+            "version": "==1.9.174"
         },
         "botocore": {
             "hashes": [
-                "sha256:18903b5dabfc081ed7d00aac5365b46878f39ca4f4f5c91537510583697e4ae2",
-                "sha256:1b7adcd080fcb010831cbbbaa2e6de26b79401a021ad5462678a36711bf442ae"
+                "sha256:3356e72901d5a4259b8858785e415a895641454971e3fa67b4076b4c9bed543d",
+                "sha256:f7220c6dd551724d4af796fb7ddfef6d423bade92e78c3cc2282953b38dfb259"
             ],
-            "version": "==1.12.173"
+            "version": "==1.12.174"
         },
         "certifi": {
             "hashes": [
@@ -283,6 +283,7 @@
                 "sha256:c192ba86648e05fdae4f08a17ec25180a9aef5008d973407b581798a83975362",
                 "sha256:ff379fa021d1b81ab539f5ec467c7745beb1a5671463f9dcc2b2d458bd361c1e"
             ],
+            "index": "pypi",
             "version": "==2.0"
         },
         "jsonschema": {
@@ -335,6 +336,7 @@
         },
         "pycparser": {
             "hashes": [
+                "sha256:6f8d0102ccbbb206968368cd7314ec752f95f01ae3a64ff3f87064fa6ac88a8b",
                 "sha256:a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3"
             ],
             "version": "==2.19"
