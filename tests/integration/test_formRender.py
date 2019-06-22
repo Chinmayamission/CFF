@@ -67,6 +67,7 @@ class FormRender(BaseTestCase):
                                         body=json.dumps({"data": formData}))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
+        predicateInfo = body["res"]
 
         response = self.lg.handle_request(method='GET',
                                     path=f'/forms/{self.formId}/response',
@@ -76,6 +77,8 @@ class FormRender(BaseTestCase):
         body = json.loads(response['body'])
 
         self.assertEqual(body["res"]["value"], {"grade": "C", "age": 3})
+        self.assertEqual(body["res"]["predicate"], {"id": predicateInfo["_id"]["$oid"], "paid": predicateInfo["paid"], "recurring_active": predicaeInfo["recurring_active"] })
+
         self.delete_form(predicate["formId"])
     def test_should_not_include_unpaid_predicate(self):
         pass

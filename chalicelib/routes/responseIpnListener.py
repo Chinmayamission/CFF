@@ -9,6 +9,8 @@ from bson.objectid import ObjectId
 from bson.decimal128 import Decimal128
 from decimal import Decimal
 
+# Paypal IPN variables: https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#transaction-and-notification-related-variables
+
 def update_response_paid_status(response):
     """
     Update response paid status and apply updates, as necessary.
@@ -35,7 +37,7 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
     return response.paid
 
 def mark_error_payment(response, message, method_name, full_value):
-    response.payment_trail.append(PaymentTrailItem(value=full_value, status="ERROR", date=datetime.datetime.now(), method=method_name, id=message))
+    response.payment_trail.append(PaymentTrailItem(value=full_value, status="ERROR", date=datetime.datetime.now(), date_created=date, date_modified=date, method=method_name, id=message))
     response.save()
     raise Exception("IPN ERROR: " + message)
 
@@ -82,23 +84,34 @@ def response_ipn_listener(responseId):
             return
         if paramDict["receiver_email"] != expected_receiver_email:
             raise_ipn_error("Emails do not match.".format(paramDict["receiver_email"], expected_receiver_email))
-        if paramDict["payment_status"] != "Completed":
-            raise_ipn_error("Payment status is not complete.")
-        # TODO: handle Refunded
         txn_id = paramDict["txn_id"]
         if any(item.status == "SUCCESS" and item.id == txn_id and item.method == "paypal_ipn" for item in response.payment_trail):
-            raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")      
-        
-        mark_successful_payment(
-            form=form,
-            response=response,
-            full_value=paramDict,
-            method_name="paypal_ipn",
-            amount=paramDict["mc_gross"],
-            currency=paramDict["mc_currency"],
-            id=txn_id
-        )
-        response.save()
+            raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")
+        # TODO: add check for mc_currency
+        if paramDict["payment_status"] == "Completed":
+            mark_successful_payment(
+                form=form,
+                response=response,
+                full_value=paramDict,
+                method_name="paypal_ipn",
+                amount=paramDict["mc_gross"],
+                currency=paramDict["mc_currency"],
+                id=txn_id
+            )
+            response.save()
+        elif paramDict["payment_status"] == "Refunded":
+            mark_successful_payment(
+                form=form,
+                response=response,
+                full_value=paramDict,
+                method_name="paypal_ipn",
+                amount=paramDict["mc_gross"],
+                currency=paramDict["mc_currency"],
+                id=txn_id
+            )
+            response.save()
+        else:
+            raise_ipn_error("Payment_status is not supported. Only Completed and Refunded payment statuses are supported.")
         # Has user paid the amount owed? Checks the PENDING_UPDATE for the total amount owed, else the response itself (when not updating).
         # fullyPaid = response["IPN_TOTAL_AMOUNT"] >= response.get("PENDING_UPDATE", response)["paymentInfo"]["total"]
 
