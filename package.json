@@ -129,7 +129,7 @@
     "react-edit-inline": "https://github.com/chukitow/ReactInlineEdit/tarball/feature/deprecated-protypes",
     "react-helmet": "^5.2.0",
     "react-json-view": "^1.15.2",
-    "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#a9e950aefb0b2d27e5d38cb18974816837cdeb26",
+    "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#45f8f9ea983ca1cd4b4f3f99bb21bf9992c70b0b",
     "react-linkify": "^0.2.2",
     "react-loading": "^1.0.3",
     "react-modal": "^3.8.1",
