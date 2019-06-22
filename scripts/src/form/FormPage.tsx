@@ -118,7 +118,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       responseId: res && !predicate ? res._id.$oid : null,
       data: res ? res.value: data,
       schema,
-      predicate: predicate || res.predicate // Return either 1) predicate info of a new response that is based on a predicate, or 2) existing predicate info of existing response.
+      predicate: predicate || (res && res.predicate) // Return either 1) predicate info of a new response that is based on a predicate, or 2) existing predicate info of existing response.
     }, resolve));
   }
   goBackToFormPage() {

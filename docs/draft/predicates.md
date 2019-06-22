@@ -42,10 +42,10 @@ When the import happens, the `predicate` property of the response is set to the 
 "paymentInfo": {
     "items": [
         {
-            "name": "20% off discount returning members",
+            "name": "$50 new member fee",
             "description": "desc",
-            "amount": "-0.2 * $total",
-            "quantity": "$PREDICATE"
+            "amount": "50",
+            "quantity": "1 - $PREDICATE"
         }
     ]
 }

@@ -72,7 +72,7 @@
     "ts-jest": "^24.0.2",
     "ts-loader": "^4.1.0",
     "tsify": "^3.0.4",
-    "typescript": "^2.9.1",
+    "typescript": "^3.5.2",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
     "vinyl-buffer": "^1.0.0",
@@ -86,6 +86,7 @@
   },
   "dependencies": {
     "@google/maps": "^0.5.5",
+    "@types/immutability-helper": "^2.6.3",
     "auth0-js": "^9.6.1",
     "auth0-lock": "^11.7.2",
     "aws-amplify": "^1.1.28",
