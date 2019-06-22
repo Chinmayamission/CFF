@@ -104,7 +104,8 @@ interface ICustomFormProps {
   showPaymentTable?: boolean,
   paymentCalcInfo?: IPaymentCalcInfo,
   className?: string,
-  children?: any
+  children?: any,
+  omitExtraData?: boolean
 }
 
 function CustomForm(props: ICustomFormProps) {
@@ -146,6 +147,7 @@ function CustomForm(props: ICustomFormProps) {
         showErrorList={true}
         ErrorList={ErrorListTemplate}
         formContext={{formData: props.formData}}
+        omitExtraData={props.omitExtraData}
       >
         {props.children}
         {!props.children && props.showPaymentTable &&

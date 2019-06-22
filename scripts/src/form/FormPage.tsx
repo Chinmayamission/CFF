@@ -261,6 +261,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           paymentCalcInfo={this.state.paymentCalcInfo}
           onSubmit={e => this.onSubmit(e)}
           onChange={e => this.onChange(e)}
+          omitExtraData={get(this.state.formOptions, "omitExtraData", false)}
           />
         {this.state.ajaxLoading && <Loading hasError={this.state.hasError} />}
       </div>
