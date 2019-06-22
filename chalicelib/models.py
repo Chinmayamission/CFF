@@ -40,6 +40,7 @@ class FormOptions(EmbeddedMongoModel):
   responseModificationEnabled = fields.BooleanField()
   responseSubmissionEnabled = fields.BooleanField()
   predicate = fields.DictField(blank=True)
+  omitExtraData = fields.BooleanField()
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)
@@ -119,6 +120,7 @@ class Response(BaseMongoModel):
   pending_update = fields.DictField(blank=True)
   admin_info = fields.DictField()
   modify_link = fields.CharField(blank=True)
+  predicate = fields.DictField()
 
 class CCAvenueConfig(BaseMongoModel):
   id = fields.ObjectIdField(primary_key=True)
