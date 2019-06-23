@@ -101,7 +101,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
               </div>
             </div>
           )}
-          {this.props.canAdd &&
+          {this.props.canAdd && this.props.uiSchema["ui:cff:showAddButton"] !== false &&
             <button type="button" className="btn btn-info col-12 mt-4 ccmt-cff-btn-array-add" onClick={this.props.onAddClick}>
               <small><span className="oi oi-plus"></span></small>&nbsp;&nbsp;&nbsp;
               {this.props.uiSchema["ui:cff:addButtonText"] || "Add"}
