@@ -6,6 +6,7 @@ from chalice.app import UnauthorizedError
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
+# from ..integration.constants import _
 from app import app
 import uuid
 import os

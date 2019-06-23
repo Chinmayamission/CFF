@@ -1,4 +1,3 @@
-from boto3.dynamodb.conditions import Key
 import datetime
 import uuid
 from pydash.objects import pick
@@ -9,7 +8,7 @@ from bson import BSON
 def form_create():
     """Creates a new form with a blank schema and uiSchema.
     """
-    from ..main import app, TABLES
+    from ..main import app
     request_body = app.current_request.json_body or {}
     if request_body.get("formId", None):
         # todo: add permissions check -- some forms should not be able to be duplicated.

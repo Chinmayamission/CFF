@@ -1,10 +1,10 @@
-from boto3.dynamodb.conditions import Key
 from chalicelib.models import Form, Response, serialize_model
 from pymodm.errors import DoesNotExist
 from bson.objectid import ObjectId
 from chalice import NotFoundError
 from chalicelib.util.renameKey import renameKey
 from pydash.objects import get
+from chalicelib.util.patch import patch_predicate
 
 def form_render(formId):
     """Render single form."""
@@ -26,5 +26,13 @@ def form_render_response(formId):
             response = Response.objects.get({"form": ObjectId(formId), "user": app.get_current_user_id()})
             return {"res": serialize_model(response)}
         except DoesNotExist:
-            return {"res": None}
+            predicateFormId = get(form, "formOptions.predicate.formId")
+            if not predicateFormId:
+                return {"res": None}
+            try:
+                response = Response.objects.get({"form": ObjectId(predicateFormId), "paid": True, "user": app.get_current_user_id()})
+                value = patch_predicate(response.value, get(form, "formOptions.predicate.patches", []))
+                return {"res": {"value": value, "form": predicateFormId }, "predicate": True}
+            except DoesNotExist:
+                return {"res": None}
     return {"res": None}

@@ -412,3 +412,8 @@ class FormSubmit(BaseTestCase):
     #     self.assertEqual(response['statusCode'], 200, response)
     #     body = json.loads(response['body'])
     #     self.assertEqual(body['res']['value'], form_data['data'])
+    def test_mark_successful_payment_recurring(self):
+        # Should set recurring_active to true.
+        pass
+    def test_mark_successful_payment_refund(self):
+        pass

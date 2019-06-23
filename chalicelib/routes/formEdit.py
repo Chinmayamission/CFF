@@ -6,7 +6,7 @@ from chalicelib.util.renameKey import renameKey
 from pydash.objects import set_
 
 def form_edit(formId):
-  from ..main import app, TABLES
+  from ..main import app
   form = Form.objects.get({"_id":ObjectId(formId)})
   app.check_permissions(form, 'Forms_Edit')
   body = pick(app.current_request.json_body, ["schema", "uiSchema", "formOptions", "name"])
@@ -25,7 +25,7 @@ def form_edit(formId):
   }
 
 def group_edit(formId):
-  from ..main import app, TABLES
+  from ..main import app
   form = Form.objects.get({"_id":ObjectId(formId)})
   app.check_permissions(form, 'Forms_Edit')
   groups = app.current_request.json_body["groups"]

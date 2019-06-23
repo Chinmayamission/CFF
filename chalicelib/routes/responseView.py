@@ -1,4 +1,3 @@
-from boto3.dynamodb.conditions import Key
 from chalicelib.models import Response, serialize_model
 from pymodm.errors import DoesNotExist
 from bson.objectid import ObjectId
