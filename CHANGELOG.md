@@ -37,6 +37,13 @@ todo:
 - 
 - user login/signup
 
+## 3.11.0 (6/23/19)
+- Add predicates feature.
+- Add `formOptions.omitExtraData`.
+- UI improvements for infobox radio widget.
+- Upgrade to new rjsf patch to fix dependency update issue.
+- Handle paypal ipn refunds
+
 ## 3.10.1 (6/19/19)
 Backend fix only:
 - Fix nested price issue: return 0, don't crash, when getting the nested price of undefined. (https://github.com/epicfaace/ccmt-cff-lambda/pull/4)
