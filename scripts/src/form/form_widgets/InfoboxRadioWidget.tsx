@@ -53,21 +53,35 @@ class RadioWidget extends React.Component<any, { open?: number }> {
                                 onFocus={onFocus && (event => onFocus(id, event.target.value))}
                             />
                             <span>{option.label}</span>
-                            <img
-                                width={15}
-                                height={15}
-                                src="https://www.freeiconspng.com/uploads/cute-ball-info-icon--i-like-buttons-3a-iconset--mazenl77-8.png"
-                                onMouseOver={e => this.setState({ open: this.state.open === i ? null : i })}
-                                onMouseLeave={e => this.state.open === i && this.setState({ open: null })}
-                                id={"Popover" + i}
-                                style={{"marginLeft": 10}}
-                            />
-                            <Popover placement="right" isOpen={this.state.open === i} target={"Popover" + i} toggle={e => this.setState({ open: this.state.open === i ? null : i })}>
-                                {/* <PopoverHeader>Popover Title</PopoverHeader> */}
-                                <PopoverBody>
-                                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.props.schema["cff:radioDescription"] || "") }} />
-                                </PopoverBody>
-                            </Popover>
+                            <div
+                                style={{display: "inline-block"}}
+                                id={"Popover-container" + i}
+                                onMouseOver={e => this.setState({ open: i })}
+                                onMouseLeave={(event) => {
+                                    if (event.relatedTarget) {
+                                        let element = event.relatedTarget as HTMLDivElement;
+                                        if (element.id === "Popover-body" + i || element.className === "arrow" || element.className === "popover-body") {
+                                            return;
+                                        }
+                                        // console.log("nope", element);
+                                    }
+                                    this.state.open === i && this.setState({ open: null });
+                                }}
+                            >
+                                <img
+                                    width={15}
+                                    height={15}
+                                    src="https://www.freeiconspng.com/uploads/cute-ball-info-icon--i-like-buttons-3a-iconset--mazenl77-8.png"
+                                    id={"Popover" + i}
+                                    style={{"marginLeft": 10}}
+                                />
+                                <Popover placement="right" isOpen={this.state.open === i} container={"#" + "Popover-container" + i} target={"Popover" + i} >
+                                    {/* <PopoverHeader>Popover Title</PopoverHeader> */}
+                                    <PopoverBody>
+                                        <div id={"Popover-body" + i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(this.props.schema["cff:radioDescription"] || "") }} />
+                                    </PopoverBody>
+                                </Popover>
+                            </div>
                         </span>
                     );
 

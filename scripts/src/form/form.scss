@@ -9,6 +9,9 @@
 }
 
 .ccmt-cff-Page-FormPage {
+    .popover {
+        max-width: 80vw;
+    }
     .ccmt-cff-form-title span.required {
         display: none;
     }
