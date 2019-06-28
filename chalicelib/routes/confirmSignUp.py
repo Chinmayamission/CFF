@@ -1,5 +1,6 @@
 import boto3
 from chalice import Response
+from requests.models import PreparedRequest
 
 cognito_idp_client = boto3.client("cognito-idp", "us-east-1")
 
@@ -23,11 +24,14 @@ def confirm_sign_up():
       ConfirmationCode=confirmation_code
     )
   except Exception as e:
+    params = {'confirmSignupErrorMessage': e.response['Error']['Message'], 'confirmSignupErrorCode': e.response['Error']['Code']}
+    # Use PreparedRequest so it preserves the existing query string in redirect_url
+    req = PreparedRequest()
+    req.prepare_url(redirect_url, params)
     return Response(
-      status_code=200,
-      body=f"<h1>An error occurred</h1><strong>Error:</strong> {e}<br><br>Please email us at <a href='mailto:itsupport.ccmt@chinmayamission.com'>itsupport.ccmt@chinmayamission.com</a> if you continue to experience errors.",
-      headers={'Content-type': 'text/html'}
-    )
+        status_code=302,
+        body='',
+        headers={'Location': req.url})
   
   return Response(
       status_code=302,
