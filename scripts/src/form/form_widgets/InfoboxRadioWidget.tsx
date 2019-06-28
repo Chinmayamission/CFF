@@ -27,7 +27,7 @@ class RadioWidget extends React.Component<any, { open?: number }> {
                         return;
                     }
                 }
-                open === i && setOpen(null));
+                open === i && setOpen(null);
             }}
         >
             <img
