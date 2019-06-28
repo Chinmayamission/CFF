@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.11.1 (6/27/19)
+- Add cff:radioDescriptions option
+- Fix: when email is confirmed and there is an error, redirect to login page instead of showing an error page.
+
 ## 3.11.0 (6/23/19)
 - Add predicates feature.
 - Add `formOptions.omitExtraData`.
