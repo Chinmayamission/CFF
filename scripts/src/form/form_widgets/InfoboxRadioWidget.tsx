@@ -66,7 +66,7 @@ class RadioWidget extends React.Component<any, { open?: number }> {
         return (
             <div className="field-radio-group" id={id} style={{position: "relative"}}>
                 <div style={{position: "absolute", top: 0, right: 0}}>
-                    <this.Infobox open={this.state.open} setOpen={e => this.setState({open: e})} i={-1} description={get(this.props.schema, ["cff:radioDescription"])} />
+                    <this.Infobox open={this.state.open} setOpen={e => this.setState({open: e})} i={id + "|-1"} description={get(this.props.schema, ["cff:radioDescription"])} />
                 </div>
                 {enumOptions.map((option, i) => {
                     const checked = option.value === value;
@@ -89,7 +89,7 @@ class RadioWidget extends React.Component<any, { open?: number }> {
                                 onFocus={onFocus && (event => onFocus(id, event.target.value))}
                             />
                             <span>{option.label}</span>
-                            <this.Infobox open={this.state.open} setOpen={e => this.setState({open: e})} i={i} description={get(this.props.schema, ["cff:radioDescriptions", i])} />
+                            <this.Infobox open={this.state.open} setOpen={e => this.setState({open: e})} i={id + "|" + i} description={get(this.props.schema, ["cff:radioDescriptions", i])} />
                         </span>
                     );
 
