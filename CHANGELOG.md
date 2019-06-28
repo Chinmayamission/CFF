@@ -37,6 +37,10 @@ todo:
 - 
 - user login/signup
 
+## 3.11.3 (6/28/19)
+- fix: remove bar
+
+
 ## 3.11.2 (6/28/19)
 - fix: allow multiple infobox radio widgets on one page
 
