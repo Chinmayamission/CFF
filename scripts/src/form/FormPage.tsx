@@ -3,7 +3,7 @@ import Form from 'react-jsonschema-form';
 import {API} from "aws-amplify";
 import createSchemas from "../common/CreateSchemas"
 import queryString from "query-string";
-import DOMPurify from 'dompurify';
+import sanitize from "../sanitize";
 import { get, set, unset } from "lodash";
 import CustomForm from "./CustomForm";
 import FormConfirmationPage from "./FormConfirmationPage";
@@ -216,7 +216,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     if (get(this.state.formOptions, "loginRequired") === true && !this.props.auth.loggedIn) {
       return (<div className="text-center">
-          <h1 dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.state.schema.title)}} />
+          <h1 dangerouslySetInnerHTML={{ "__html": sanitize(this.state.schema.title)}} />
           <h2>Please log in or sign up for a new account.</h2>
           <Login />
       </div>);
@@ -229,7 +229,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     if (this.state.status == STATUS_FORM_DONE) {
       return (<div>
-        <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.state.schemaMetadata.successMessage || "Thank you for your form submission!") }} />
+        <div dangerouslySetInnerHTML={{ "__html": sanitize(this.state.schemaMetadata.successMessage || "Thank you for your form submission!") }} />
       </div>);
     }
     if (this.state.status == STATUS_FORM_LOADING || this.props.loading) {
@@ -252,7 +252,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let formToReturn = (
       <div className={"ccmt-cff-Page-FormPage " + ((this.state.status == STATUS_FORM_RENDERED) ? "" : "ccmt-cff-Page-FormPage-readonly")} >
         {this.state.formOptions.loginRequired && <Login />}
-        {this.state.predicate && !this.state.responseId && <div className="alert alert-warning" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(get(this.state.formOptions, "predicate.warningText", "Note: This response is imported from one of your previous submissions. Please review the information and update any outdated information as necessary before submitting."))}} />}
+        {this.state.predicate && !this.state.responseId && <div className="alert alert-warning" dangerouslySetInnerHTML={{__html: sanitize(get(this.state.formOptions, "predicate.warningText", "Note: This response is imported from one of your previous submissions. Please review the information and update any outdated information as necessary before submitting."))}} />}
         <Helmet><title>{htmlToText.fromString(get(this.state.schema, "title", "CFF Form"), {"ignoreImage": true, "ignoreHref": true})}</title></Helmet>
         <CustomForm showPaymentTable={this.state.status == STATUS_FORM_RENDERED || this.state.formOptions.paymentInfo.showPaymentTable === false}
           schema={this.state.schema}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as DOMPurify from 'dompurify';
+import sanitize from "../../sanitize";
 
 function CustomFieldTemplate(props) {
     const {id, classNames, label, help, required, hidden, description, errors, children, schema, uiSchema} = props;
@@ -8,7 +8,7 @@ function CustomFieldTemplate(props) {
         {!hidden &&
             (<div>
               <label htmlFor={id} className="control-label">
-                <span dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(label) }} />
+                <span dangerouslySetInnerHTML={{ "__html": sanitize(label) }} />
                 {required &&
                   <span className="ccmt_cff_required_asterisk"> *</span>}
               </label>

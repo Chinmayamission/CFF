@@ -3,7 +3,6 @@ import FormAdminPage from './admin/FormAdminPage';
 import FormStandalone from "./form/FormStandalone/FormStandalone";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import "./app.scss";
-import * as DOMPurify from 'dompurify';
 import Loading from "./common/Loading/Loading";
 
 import { connect } from 'react-redux';
@@ -11,6 +10,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import history from "./history";
 import { IBaseState } from "./store/base/types";
 import WordpressLoginForm from './common/Login/WordpressLoginForm/WordpressLoginForm';
+import * as DOMPurify from "dompurify";
 
 // Make all external links in form open in a new tab.
 DOMPurify.addHook('afterSanitizeAttributes', function (node) {

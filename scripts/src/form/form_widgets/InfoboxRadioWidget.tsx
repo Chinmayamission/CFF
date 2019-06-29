@@ -1,5 +1,5 @@
 import React from "react";
-import * as DOMPurify from 'dompurify';
+import sanitize from "../../sanitize";
 import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import {get} from "lodash";
 // From RJSF -- todo: add a patch to RJSF which allows us to customize this, rather than using a custom widget
@@ -39,7 +39,7 @@ class RadioWidget extends React.Component<any, { open?: number }> {
             />
             <Popover placement="right" isOpen={open === i} container={"#" + "Popover-container" + i} target={"Popover" + i} >
                 <PopoverBody>
-                    <div id={"Popover-body" + i} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description || "") }} />
+                    <div id={"Popover-body" + i} dangerouslySetInnerHTML={{ __html: sanitize(description || "") }} />
                 </PopoverBody>
             </Popover>
         </div>);

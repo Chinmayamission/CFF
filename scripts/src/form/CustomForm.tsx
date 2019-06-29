@@ -1,5 +1,5 @@
 import React from "react";
-import DOMPurify from 'dompurify';
+import sanitize from "../sanitize";
 import Form from "react-jsonschema-form";
 import "./form.scss";
 import ArrayFieldTemplate from "./form_templates/ArrayFieldTemplate";
@@ -25,7 +25,7 @@ import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
   return <div id={id} className="my-2">
-    <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(description) }} />
+    <div dangerouslySetInnerHTML={{ "__html": sanitize(description) }} />
   </div>;
 };
 
@@ -34,7 +34,7 @@ const CustomTitleField = ({ title, required }) => {
     return <span />;
   }
   const legend = required ? title + '*' : title;
-  return <h2 className="ccmt-cff-form-title" dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(legend) }} />;
+  return <h2 className="ccmt-cff-form-title" dangerouslySetInnerHTML={{ "__html": sanitize(legend) }} />;
 };
 
 function ErrorListTemplate(props) {

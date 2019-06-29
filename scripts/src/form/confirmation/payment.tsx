@@ -3,7 +3,7 @@ import PaymentTable from "./PaymentTable";
 import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import ManualApproval from "./ManualApproval";
-import * as DOMPurify from 'dompurify';
+import sanitize from "../../sanitize";
 import ExpressionParser from "../../common/ExpressionParser";
 import { IPaymentProps, IPaymentInfo } from '../interfaces';
 
@@ -105,7 +105,7 @@ class Payment extends React.Component<IPaymentProps, any> {
                 {this.props.paymentInfo_owed.total > 0 &&
                     <div className="container-fluid row">
                         {!this.state.paymentStarted &&
-                            <div dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(this.props.paymentInfo.description || "Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.") }} />
+                            <div dangerouslySetInnerHTML={{ "__html": sanitize(this.props.paymentInfo.description || "Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.") }} />
                         }
                         {this.getPaymentMethods()}
                     </div>

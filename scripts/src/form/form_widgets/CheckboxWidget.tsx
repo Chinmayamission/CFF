@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import * as DOMPurify from 'dompurify';
+import sanitize from "../../sanitize";
 import TitleField from "react-jsonschema-form";
 
 function CheckboxWidget(props) {
@@ -31,7 +31,7 @@ function CheckboxWidget(props) {
           style={{ "bottom": 0 }}
         />
         <label htmlFor={id} className="form-check-label"
-          dangerouslySetInnerHTML={{ "__html": DOMPurify.sanitize(schema.description) }} />
+          dangerouslySetInnerHTML={{ "__html": sanitize(schema.description) }} />
       </div>
     </div>
   );
