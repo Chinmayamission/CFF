@@ -29,13 +29,15 @@ todo:
 
 Todo:
 - hide title "Payment" in form loading
-- Let minItems be specified dynamically based on other values.
 - Bug: if paid amount > actual amount, it says amount paid = actual amount, not the actual paid amount!!!
 
 todo:
 - details problem
 - 
 - user login/signup
+
+## pending
+- fix: upgrade to rjsf patch which allows for minimum values for integers
 
 ## 3.11.4 (6/28/19)
 - allow for style tags in html descriptions by using css inlining
