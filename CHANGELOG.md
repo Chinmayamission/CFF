@@ -36,7 +36,7 @@ todo:
 - 
 - user login/signup
 
-## pending
+## 3.11.5 (6/30/19)
 - fix: upgrade to rjsf patch which allows for minimum values for integers
 - fix: properly align infobox title description (i) icon
 
