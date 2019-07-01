@@ -30,7 +30,10 @@ def parse_number_formula(data, variable, numeric=True):
         if not value:
             return 0
         if type(value) is list:
-            value = len(value)
+            if key_value_eq:
+                value = len([v for v in value if str(v).strip() == key_value_eq.strip()])
+            else:
+                value = len(value)
         if key_value_eq and type(value) is str:
             value = (value.strip() == key_value_eq.strip())
         if isinstance(value, bool):

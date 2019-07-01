@@ -1,5 +1,5 @@
 """
-python -m unittest tests.unit.test_calculate_price
+pipenv run python -m unittest tests.unit.test_calculate_price
 """
 from chalicelib.util.formSubmit.util import calculate_price
 import unittest
@@ -51,6 +51,10 @@ class TestCalculatePrice(unittest.TestCase):
     def test_other(self):
         price = calculate_price("(participants - participants.race:10K) * 25", {"participants": [{"bib_name": "as", "race": "5K - OK"}, {"bib_name": "32", "race": "5K - OK"}, {"bib_name": "250", "race": "10K"}]})
         self.assertEqual(price, 50.0)
+    def test_array_item_calculations(self):
+        data = {"sponsorshipAnnadaanam": [300, 600]}
+        price = calculate_price("2 * sponsorshipAnnadaanam:300 + sponsorshipAnnadaanam:600", data)
+        self.assertEqual(price, 3)
     @unittest.skip("not implemented yet")
     def test_arbitrary_strings(self):
         price = calculate_price("(participants.race:'5K - OK') * 25", {"participants": [{"name": "A", "race": "5K - OK"}, {"name": "B", "race": "5K - OK"}, {"name": "C", "race": "10K"}]})
