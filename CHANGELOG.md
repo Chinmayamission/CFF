@@ -38,6 +38,7 @@ todo:
 
 ## pending
 - fix: upgrade to rjsf patch which allows for minimum values for integers
+- fix: properly align infobox title description (i) icon
 
 ## 3.11.4 (6/28/19)
 - allow for style tags in html descriptions by using css inlining
