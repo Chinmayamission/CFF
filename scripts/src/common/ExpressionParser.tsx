@@ -1,5 +1,5 @@
 import {Parser} from "expr-eval";
-import {get} from "lodash";
+import {isArray} from "lodash";
 import {unflatten} from 'flat';
 const DELIM_VALUE = "ASKLDJAKSLDJ12903812";
 const SPACE_VALUE = "AJSID2309483ASFSDLJF";
@@ -56,13 +56,18 @@ export module ExpressionParser {
             if (!value) { // not entered yet.
                 return 0;
             }
-            if (value && typeof value == "object" && value.length) { // If value is an array, make it numeric.
-                value = value.length;
+            if (value && isArray(value)) { // If value is an array, make it numeric.
+                if (key_value_eq) {
+                    value = value.filter(v => String(v).trim() === key_value_eq.trim()).length;
+                }
+                else {
+                    value = value.length;
+                }
             }
             if (typeof value === "string" && key_value_eq) { // check for equality of strings.
-                value = (value.trim() == key_value_eq.trim());
+                value = (value.trim() === key_value_eq.trim());
             }
-            if (typeof value == "boolean") {
+            if (typeof value === "boolean") {
                 value = value ? 1 : 0;
             }
             if (isNaN(value)) {

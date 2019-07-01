@@ -36,6 +36,9 @@ todo:
 - 
 - user login/signup
 
+## 3.11.6 (6/30/19)
+- fix: allow amount expressions with array expression conditions in which items are not object, i.e. "sponsorshipAnnadanam:300".
+
 ## 3.11.5 (6/30/19)
 - fix: upgrade to rjsf patch which allows for minimum values for integers
 - fix: properly align infobox title description (i) icon
