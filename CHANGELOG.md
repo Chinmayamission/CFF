@@ -36,6 +36,9 @@ todo:
 - 
 - user login/signup
 
+## pending
+- Set up Google Analytics with Redux Beacon
+
 ## 3.11.6 (6/30/19)
 - fix: allow amount expressions with array expression conditions in which items are not object, i.e. "sponsorshipAnnadanam:300".
 

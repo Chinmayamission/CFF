@@ -86,6 +86,7 @@
   },
   "dependencies": {
     "@google/maps": "^0.5.5",
+    "@redux-beacon/google-analytics-gtag": "^1.0.5",
     "@types/immutability-helper": "^2.6.3",
     "auth0-js": "^9.6.1",
     "auth0-lock": "^11.7.2",
@@ -144,6 +145,7 @@
     "react-toggle-switch": "^3.0.4",
     "reactstrap": "^6.5.0",
     "redux": "^4.0.0",
+    "redux-beacon": "^2.1.0",
     "redux-thunk": "^2.3.0",
     "sass-loader": "^6.0.6",
     "string-hash": "^1.1.3",

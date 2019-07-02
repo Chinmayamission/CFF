@@ -31,7 +31,8 @@ module.exports = version => merge(common, {
         MODE: `"${MODE}"`,
         ENDPOINT_URL: `"https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"`,
         USER_POOL_ID: `"us-east-1_U9ls8R6E3"`,
-        COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`
+        COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`,
+        GA_TRACKING_ID: `"UA-28518772-10"`
     })
   ]
 });

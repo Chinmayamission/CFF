@@ -46,7 +46,8 @@ module.exports = {
     //   filename: "[name].[contenthash].css"
     // }),
     new webpack.DefinePlugin({
-      VERSION: `"${pjson.version}"`
+      VERSION: `"${pjson.version}"`,
+      GA_TRACKING_ID: `""`
     }),
     new MonacoWebpackPlugin({
       // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
