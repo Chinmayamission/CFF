@@ -28,8 +28,11 @@ def form_render_response(formId):
         except DoesNotExist:
             predicateFormId = get(form, "formOptions.predicate.formId")
             if not predicateFormId:
-                return {"res": None}
+                return {"res": None, "error": "No predicate formId."}
             try:
+                predicateForm = Form.objects.only("formOptions").get({"_id": ObjectId(predicateFormId)})
+                if get(predicateForm, "formOptions.successor.formId") != formId:
+                    return {"res": None, "error": "Successor formId doesn't match current formId."}
                 response = Response.objects.get({"form": ObjectId(predicateFormId), "paid": True, "user": app.get_current_user_id()})
                 value = patch_predicate(response.value, get(form, "formOptions.predicate.patches", []))
                 return {"res": {"value": value, "form": predicateFormId }, "predicate": True}
