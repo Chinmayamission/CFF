@@ -1,5 +1,5 @@
 beautifulsoup4==4.6.0
-boto3==1.9.78
+boto3==1.9.183
 certifi==2018.1.18
 chardet==3.0.4
 cssutils==1.0.2
