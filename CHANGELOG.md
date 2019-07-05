@@ -38,6 +38,7 @@ todo:
 
 ## pending
 - Set up Google Analytics with Redux Beacon
+- Require form to have a successor in order for a predicate to use it
 
 ## 3.11.6 (6/30/19)
 - fix: allow amount expressions with array expression conditions in which items are not object, i.e. "sponsorshipAnnadanam:300".

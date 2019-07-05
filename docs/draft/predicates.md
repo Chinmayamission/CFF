@@ -19,6 +19,15 @@ Just add the following to `formOptions`:
 
 Note that the backend endpoint (`/forms/{formId}/response`) only searches for predicates that are already paid; so unpaid predicates will not be found and sent back from this endpoint.
 
+You will also need to add the following to the predicate form's `formOptions`:
+```json
+"successor": {
+    "formId": "[form id of the successor]"
+}
+```
+
+This is required as a security precuation, so that any form cannot claim an arbitrary form as a "predicate" and thus access its data.
+
 ## Applying patches
 Sometimes you may want to modify the data to apply patches, such as promoting children up a grade. This is how you do so:
 
