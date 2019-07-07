@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "jest --silent",
-    "tdd": "jest --watch --silent",
+    "test": "jest",
+    "tdd": "jest --watch",
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --progress --config webpack.beta.js",
     "deploy": "cross-env CFF_DEPLOY_TO=beta pipenv run python deploy.py",
@@ -186,7 +186,10 @@
     ],
     "globals": {
       "MODE": "prod",
-      "ENDPOINT_URL": "http://localhost:8001/"
+      "ENDPOINT_URL": "http://localhost:8001/",
+      "GA_TRACKING_ID": "",
+      "USER_POOL_ID": "",
+      "COGNITO_CLIENT_ID": ""
     }
   }
 }
