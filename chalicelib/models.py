@@ -42,6 +42,7 @@ class FormOptions(EmbeddedMongoModel):
   predicate = fields.DictField(blank=True)
   successor = fields.DictField(blank=True)
   omitExtraData = fields.BooleanField()
+  theme = fields.DictField(blank=True)
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)
