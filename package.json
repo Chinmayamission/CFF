@@ -129,6 +129,7 @@
     "react-contextmenu": "^2.11.0",
     "react-datepicker": "^1.6.0",
     "react-edit-inline": "https://github.com/chukitow/ReactInlineEdit/tarball/feature/deprecated-protypes",
+    "react-google-font-loader": "^1.0.5",
     "react-helmet": "^5.2.0",
     "react-json-view": "^1.15.2",
     "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#efc45164fb399573ba1bd48f6f22b271ae973b79",

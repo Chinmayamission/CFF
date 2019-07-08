@@ -17,6 +17,7 @@ import Login from "../common/Login/Login";
 import { IFormPageProps, IFormPageState, IPaymentInfoReceived } from './interfaces';
 import { fetchRenderedForm } from '../store/form/actions';
 import update from "immutability-helper";
+import GoogleFontLoader from 'react-google-font-loader';
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -210,7 +211,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   onChange(e) {
     this.setState({data: e.formData});
   }
-  render() {
+  renderForm() {
     if (this.state.hasError) {
       return <div><h1>Unexpected Error</h1><p>There was an error rendering the form. Please try again later.</p><code>{this.state.errorMessage}</code></div>; 
     }
@@ -298,6 +299,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       return formToReturn;
     }
     return formToReturn;
+  }
+  render() {
+    return (<div style={get(this.state.formOptions, "theme.style.root", {})}>
+          <GoogleFontLoader
+            fonts={get(this.state.formOptions, "theme.fonts", [])} />
+          {this.renderForm()}
+      </div>);
   }
 }
 

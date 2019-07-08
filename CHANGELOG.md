@@ -41,6 +41,7 @@ todo:
 - Require form to have a successor (`formOptions.successor`) in order for another form to use it as its predicate.
 - Fix calculation of payments for formulas with nested objects in it, of the form `"$participants - $participants.age:1"`
 - Enhancement: Allow `ui:cff:arrayNumItemsTitle` to be specified in the schema (to allow for dynamically changing this value), in which case it overrides that specified in uiSchema.
+- Enhancement: Allow loading custom fonts from Google Web Fonts through `formOptions.theme.fonts`, and adding custom styling to the form through `formOptions.style.root`.
 
 ## 3.11.6 (6/30/19)
 - fix: allow amount expressions with array expression conditions in which items are not object, i.e. "sponsorshipAnnadanam:300".
