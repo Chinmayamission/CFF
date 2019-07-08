@@ -33,7 +33,7 @@ export module ExpressionParser {
         */
         let val = x;
         for (let key of keylist) {
-            if (val && val.length) {
+            if (val && isArray(val)) {
                 val = dict_array_to_sum_dict(val, key_value_eq)[key]
             }
             else {
@@ -44,6 +44,7 @@ export module ExpressionParser {
     }
     function parse_number_formula(data, variable, numeric=true) {
         variable = variable.replace(new RegExp(SPACE_VALUE, 'g'), " ");
+
         let key_value_eq = null;
         // console.log(variable);
         
@@ -106,10 +107,7 @@ export module ExpressionParser {
         for (let variable of expr.variables({withMembers: true})) {
             context[variable] = parse_number_formula(data, variable, numeric);
         }
-        context = unflatten(context);
-        // console.warn("context", expressionString, context);
-        // return parser.parse("x.y+2").evaluate({"x":{"y": 2}});
-        return expr.evaluate(context);
+        return expr.evaluate(unflatten(context));
 
     }
 }
