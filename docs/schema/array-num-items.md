@@ -20,3 +20,5 @@ You can also define the title (instead of "Number of participants" with the foll
     "ui:cff:arrayNumItemsTitle": "Enter the number of elements in the array"
   },
 ```
+
+Specifying `ui:cff:arrayNumItemsTitle` in the schema will override that which is specified in the uiSchema's `ui:cff:arrayNumItemsTitle`.
