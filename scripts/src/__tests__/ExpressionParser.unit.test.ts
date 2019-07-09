@@ -20,6 +20,9 @@ describe('calculate_price', () => {
     expect(ExpressionParser.calculate_price("1.0 * ($participants - $participants.age:1)", {"participants": [{age: 10}, {age: 1}]})).toEqual(1);
   });
   test('array calculations with multiple subtraction', () => {
+    expect(ExpressionParser.calculate_price("$participants - $participants.age:1 - $participants.age:2 - $participants.age:3 + $participants - $participants.age:1 - $participants.age:2 - $participants.age:3", {"participants": [{"age": 10}, {"age": 1}, {"age": 2}]} )).toEqual(2);
+  });
+  test('array calculations with multiple, repeated subtraction', () => {
     expect(ExpressionParser.calculate_price("$participants - $participants.age:1 - $participants.age:2 - $participants.age:3", {"participants": [{"age": 10}, {"age": 1}, {"age": 2}]} )).toEqual(1);
   })
   // todo: add more tests here.

@@ -109,7 +109,7 @@ export module ExpressionParser {
         for (let variable of expr.variables({withMembers: true})) {
             let escapedVariable = variable.replace(/\./g, DOT_VALUE);
             context[escapedVariable] = parse_number_formula(data, variable, numeric);
-            expressionString = expressionString.replace(variable, escapedVariable);
+            expressionString = expressionString.replace(new RegExp(variable, "g"), escapedVariable);
         }
         return parser.parse(expressionString).evaluate(context);
     }
