@@ -48,9 +48,12 @@ class TestCalculatePrice(unittest.TestCase):
     def test_boolean(self):
         price = calculate_price("participants.has_bib_name", {"participants": [{"has_bib_name": True, "race": "5K - OK"}, {"has_bib_name": False, "race": "5K - OK"}, {"bib_name": "250", "race": "10K"}]})
         self.assertEqual(price, 1.0)
-    def test_other(self):
+    def test_array_calc_subtraction(self):
         price = calculate_price("(participants - participants.race:10K) * 25", {"participants": [{"bib_name": "as", "race": "5K - OK"}, {"bib_name": "32", "race": "5K - OK"}, {"bib_name": "250", "race": "10K"}]})
         self.assertEqual(price, 50.0)
+    def test_array_calc_subtraction_2(self):
+        price = calculate_price("$participants - $participants.age:1",  {"participants": [{"age": 10}, {"age": 1}]})
+        self.assertEqual(price, 1.0)
     def test_array_item_calculations(self):
         data = {"sponsorshipAnnadaanam": [300, 600]}
         price = calculate_price("2 * sponsorshipAnnadaanam:300 + sponsorshipAnnadaanam:600", data)

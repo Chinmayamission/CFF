@@ -58,9 +58,9 @@ def dict_array_to_sum_dict(original, key_value_eq = None):
     dct = defaultdict(float)
     for d in original:
         for k, v in d.items():
-            if v == key_value_eq:
+            if str(v) == str(key_value_eq):
                 dct[k] += 1
-            elif isinstance(v, (int, float)):
+            elif isinstance(v, (int, float)) and key_value_eq is None:
                 dct[k] += float(v)
             #elif not key_value_eq and v: #count number of occurrences of a string.
             #    dct[k] += 1
