@@ -36,8 +36,8 @@ todo:
 - 
 - user login/signup
 
-## pending
-- Fix calculation of payments for formulas with nested objects in it, of the form `"$participants - $participants.age:1"`
+## 3.13.1 (7/8/19)
+- Fix calculation of payments for formulas with nested objects in it, of the form `"$participants - $participants.age:1"`. This fix also fixes the calculation of formulas with values equal to a number, i.e. `$participants.age:1` checks when `age` is equal to 1, whether it's a string or an integer.
 
 ## 3.13.0 (7/7/19)
 - Set up Google Analytics with Redux Beacon

@@ -1,8 +1,8 @@
 import {Parser} from "expr-eval";
 import {isArray} from "lodash";
-import {unflatten} from 'flat';
-const DELIM_VALUE = "ASKLDJAKSLDJ12903812";
-const SPACE_VALUE = "AJSID2309483ASFSDLJF";
+const DELIM_VALUE = "ASFASFSDF";
+const SPACE_VALUE = "SDSDGSDFS";
+const DOT_VALUE = "ADKLFJSFL";
 
 export module ExpressionParser {
     export function dict_array_to_sum_dict(original, key_value_eq=null) {
@@ -15,10 +15,10 @@ export module ExpressionParser {
         for (let d of original) {
             for (let k in d) {
                 let v = d[k];
-                if (v == key_value_eq) {
+                if (String(v) == String(key_value_eq)) {
                     dict[k] = dict[k] ? dict[k] + 1 : 1;
                 }
-                else if (!isNaN(v)) {
+                else if (!isNaN(v) && key_value_eq === null) {
                     let value = parseFloat(v);
                     dict[k] = dict[k] ? dict[k] + value : value;
                 }
@@ -33,7 +33,7 @@ export module ExpressionParser {
         */
         let val = x;
         for (let key of keylist) {
-            if (val && val.length) {
+            if (val && isArray(val)) {
                 val = dict_array_to_sum_dict(val, key_value_eq)[key]
             }
             else {
@@ -104,12 +104,9 @@ export module ExpressionParser {
         let expr = parser.parse(expressionString);
         let context = {};
         for (let variable of expr.variables({withMembers: true})) {
-            context[variable] = parse_number_formula(data, variable, numeric);
+            context[variable.replace(/\./g, DOT_VALUE)] = parse_number_formula(data, variable, numeric);
         }
-        context = unflatten(context);
-        // console.warn("context", expressionString, context);
-        // return parser.parse("x.y+2").evaluate({"x":{"y": 2}});
-        return expr.evaluate(context);
+        return parser.parse(expressionString.replace(/\./g, DOT_VALUE)).evaluate(context);
 
     }
 }

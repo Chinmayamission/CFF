@@ -15,7 +15,7 @@ describe('calculate_price', () => {
   test('array calculations', () => {
     expect(ExpressionParser.calculate_price("2 * sponsorshipAnnadaanam:300 + sponsorshipAnnadaanam:600", {"sponsorshipAnnadaanam": [300, 600]})).toEqual(3);
   });
-  test.skip('array calculations subtraction', () => {
+  test('array calculations subtraction', () => {
     expect(ExpressionParser.calculate_price("$participants - $participants.age:1", {"participants": [{age: 10}, {age: 1}]})).toEqual(1);
   });
   // todo: add more tests here.
