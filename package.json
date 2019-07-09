@@ -1,6 +1,6 @@
 {
   "name": "ccmt-cff-lambda",
-  "version": "3.12.0",
+  "version": "3.13.1",
   "description": "vim ~/.aws/config\r vim ~/.aws/credentials",
   "main": "index.js",
   "scripts": {
