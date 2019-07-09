@@ -1,9 +1,12 @@
-import {Parser} from "expr-eval";
+import {Parser} from "@epicfaace/expr-eval";
 import {isArray} from "lodash";
 const DELIM_VALUE = "ASFASFSDF";
 const SPACE_VALUE = "SDSDGSDFS";
 const DOT_VALUE = "ADKLFJSFL";
 
+const compare = (v, key_value_eq) => {
+    return String(v).trim() === String(key_value_eq).trim();
+}
 export module ExpressionParser {
     export function dict_array_to_sum_dict(original, key_value_eq=null) {
         /*
@@ -15,7 +18,7 @@ export module ExpressionParser {
         for (let d of original) {
             for (let k in d) {
                 let v = d[k];
-                if (String(v) == String(key_value_eq)) {
+                if (compare(v, key_value_eq)) {
                     dict[k] = dict[k] ? dict[k] + 1 : 1;
                 }
                 else if (!isNaN(v) && key_value_eq === null) {
@@ -58,7 +61,7 @@ export module ExpressionParser {
             }
             if (value && isArray(value)) { // If value is an array, make it numeric.
                 if (key_value_eq) {
-                    value = value.filter(v => String(v).trim() === key_value_eq.trim()).length;
+                    value = value.filter(v => compare(v, key_value_eq)).length;
                 }
                 else {
                     value = value.length;

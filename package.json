@@ -85,6 +85,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
+    "@epicfaace/expr-eval": "^1.2.3",
     "@google/maps": "^0.5.5",
     "@redux-beacon/google-analytics-gtag": "^1.0.5",
     "@types/immutability-helper": "^2.6.3",

@@ -36,6 +36,9 @@ todo:
 - 
 - user login/signup
 
+## 3.13.2 (7/9/19)
+- Fix calculation of payments with nested objects & multiple subtractions, i.e., `"$participants - $participants.age:1 - $participants.age:2"`. This involved changing the logic and also adding a patched version of expr-eval (@epicfaace/expr-eval@1.2.3).
+
 ## 3.13.1 (7/8/19)
 - Fix calculation of payments for formulas with nested objects in it, of the form `"$participants - $participants.age:1"`. This fix also fixes the calculation of formulas with values equal to a number, i.e. `$participants.age:1` checks when `age` is equal to 1, whether it's a string or an integer.
 
