@@ -54,6 +54,9 @@ class TestCalculatePrice(unittest.TestCase):
     def test_array_calc_subtraction_2(self):
         price = calculate_price("$participants - $participants.age:1",  {"participants": [{"age": 10}, {"age": 1}]})
         self.assertEqual(price, 1.0)
+    def test_array_calc_subtraction_multiple(self):
+        price = calculate_price("$participants - $participants.age:1 - $participants.age:2 - $participants.age:3",  {"participants": [{"age": 10}, {"age": 1}, {"age": 2}]})
+        self.assertEqual(price, 1.0)
     def test_array_item_calculations(self):
         data = {"sponsorshipAnnadaanam": [300, 600]}
         price = calculate_price("2 * sponsorshipAnnadaanam:300 + sponsorshipAnnadaanam:600", data)
