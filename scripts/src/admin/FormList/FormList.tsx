@@ -187,7 +187,6 @@ export function hasPermission(cff_permissions, permissionNames, userId) {
         permissionNames = [permissionNames];
     }
     permissionNames.push("owner");
-    console.log(userId, cff_permissions[userId]);
     if (cff_permissions && cff_permissions[userId]) {
         for (let permissionName of permissionNames) {
             if (cff_permissions[userId][permissionName] == true) {
