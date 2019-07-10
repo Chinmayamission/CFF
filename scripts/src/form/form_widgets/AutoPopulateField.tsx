@@ -72,6 +72,7 @@ class AutoPopulateField extends React.Component<any, any> {
             <label className="control-label">{this.props.uiSchema["ui:title"] || this.props.schema.title || ""}</label>
             <CustomForm
                 schema={this.state.newSchema}
+                tagName={"div"}
                 uiSchema={uiSchema}
                 formData={this.props.formData}
                 className={"ccmt-cff-Page-SubFormPage-AutoPopulate"}

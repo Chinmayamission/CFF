@@ -105,7 +105,8 @@ interface ICustomFormProps {
   paymentCalcInfo?: IPaymentCalcInfo,
   className?: string,
   children?: any,
-  omitExtraData?: boolean
+  omitExtraData?: boolean,
+  tagName?: string
 }
 
 function CustomForm(props: ICustomFormProps) {
@@ -129,7 +130,8 @@ function CustomForm(props: ICustomFormProps) {
     <div className={`ccmt-cff-Page-FormPage${props.className ? " " + props.className : ""}`}>
   
       <Form 
-         schema={props.schema}
+        tagName={props.tagName}
+        schema={props.schema}
         uiSchema={props.uiSchema}
         formData={props.formData}
         widgets={widgets}
