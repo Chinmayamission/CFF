@@ -1,5 +1,5 @@
-import { Reducer } from 'redux';
-import { IAuthState } from './types';
+import { Reducer } from "redux";
+import { IAuthState } from "./types";
 
 const initialState: IAuthState = {
   loggedIn: false,
@@ -8,21 +8,24 @@ const initialState: IAuthState = {
   schemas: require("./schemas.json"),
   error: null,
   message: null,
-  authPage: 'signIn',
+  authPage: "signIn",
   cognitoUser: null,
-  loginUrl: (window.location != window.parent.location) ? document.referrer : window.location.href
+  loginUrl:
+    window.location != window.parent.location
+      ? document.referrer
+      : window.location.href
 };
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case "LOGIN_SUCCESS":
       return {
         ...state,
         loggedIn: true,
         user: action.attributes,
         userId: `cm:cognitoUserPool:${action.userId}`
       };
-    case 'LOGOUT_SUCCESS':
+    case "LOGOUT_SUCCESS":
       return {
         ...state,
         loggedIn: false
@@ -33,27 +36,27 @@ const auth: Reducer<any> = (state: any = initialState, action): any => {
         authPage: action.authPage,
         message: action.message,
         error: action.error
-      }
+      };
     case "SET_MESSAGE":
       return {
         ...state,
         message: action.message
-      }
+      };
     case "SET_ERROR":
       return {
         ...state,
         error: action.error
-      }
+      };
     case "SET_LOGIN_URL":
       return {
         ...state,
         loginUrl: action.loginUrl
-      }
+      };
     case "SET_COGNITO_USER":
       return {
         ...state,
         cognitoUser: action.cognitoUser
-      }
+      };
     default:
       return state;
   }

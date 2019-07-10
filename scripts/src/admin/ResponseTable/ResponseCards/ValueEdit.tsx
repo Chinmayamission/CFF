@@ -6,11 +6,11 @@ import { ResponsesState } from "../../../store/responses/types";
 import "./ValueEdit.scss";
 
 interface IValueEditProps extends ResponsesState {
-    editResponse: (a: string, b: string, c: any) => any
+  editResponse: (a: string, b: string, c: any) => any;
 }
 class ValueEdit extends React.Component<IValueEditProps, {}> {
-    onEdit(e) {
-        /*
+  onEdit(e) {
+    /*
         {
             "existing_src": {
               "name": "old"
@@ -24,35 +24,41 @@ class ValueEdit extends React.Component<IValueEditProps, {}> {
             "existing_value": "old"
           }
         */
-        let path = e.namespace.join(".");
-        if (path != "") {
-            path += ".";
-        }
-        path += e.name;
-        let value = e.new_value;
-        this.props.editResponse(this.props.responseData._id.$oid, path, value);
-        return false;
+    let path = e.namespace.join(".");
+    if (path != "") {
+      path += ".";
     }
-    render() {
-        return <ReactJson src={this.props.responseData.value}
-            displayObjectSize={false}
-            displayDataTypes={false}
-            onEdit={e => this.onEdit(e)}
-            onAdd={false}
-            onDelete={false}
-            enableClipboard={false}
-            collapsed={1}
-            style={{ "fontFamily": "Arial, sans-serif", "marginLeft": "30px" }}
-        />;
-    }
+    path += e.name;
+    let value = e.new_value;
+    this.props.editResponse(this.props.responseData._id.$oid, path, value);
+    return false;
+  }
+  render() {
+    return (
+      <ReactJson
+        src={this.props.responseData.value}
+        displayObjectSize={false}
+        displayDataTypes={false}
+        onEdit={e => this.onEdit(e)}
+        onAdd={false}
+        onDelete={false}
+        enableClipboard={false}
+        collapsed={1}
+        style={{ fontFamily: "Arial, sans-serif", marginLeft: "30px" }}
+      />
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-    ...state.responses
+  ...state.responses
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    editResponse: (a, b, c) => dispatch(editResponse(a, b, c))
+  editResponse: (a, b, c) => dispatch(editResponse(a, b, c))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ValueEdit);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ValueEdit);

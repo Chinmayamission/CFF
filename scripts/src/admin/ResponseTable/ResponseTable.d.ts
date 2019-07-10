@@ -5,24 +5,23 @@ import { FormState } from "../../store/form/types";
 import { setResponsesSelectedView } from "../../store/responses/actions";
 
 export interface IResponseTableProps extends ResponsesState {
-    match: {
-        params: {
-            formId: string,
-            tableViewName: string
-        },
-        url: string
-    },
-    onError: (any) => void,
-    tableViewName: string,
-    form: FormState,
-    fetchRenderedForm: (x: string) => Promise<any>,
-    fetchResponses: (x: string) => Promise<any>,
-    setResponsesSelectedView: (x: string) => any,
-    push: (x: string) => void,
-    editGroups: (x: any) => any,
-    displayResponseDetail: (e: string) => void,
-    editResponse: (a, b, c) => void
+  match: {
+    params: {
+      formId: string;
+      tableViewName: string;
+    };
+    url: string;
+  };
+  onError: (any) => void;
+  tableViewName: string;
+  form: FormState;
+  fetchRenderedForm: (x: string) => Promise<any>;
+  fetchResponses: (x: string) => Promise<any>;
+  setResponsesSelectedView: (x: string) => any;
+  push: (x: string) => void;
+  editGroups: (x: any) => any;
+  displayResponseDetail: (e: string) => void;
+  editResponse: (a, b, c) => void;
 }
 
-export interface IResponseTableState {
-}
+export interface IResponseTableState {}

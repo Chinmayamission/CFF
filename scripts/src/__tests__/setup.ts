@@ -1,8 +1,8 @@
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Enzyme from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-it('setup test', () => {
-  expect(1+1).toEqual(2);
+it("setup test", () => {
+  expect(1 + 1).toEqual(2);
 });

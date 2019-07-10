@@ -1,5 +1,5 @@
-import {IBaseState} from "./types";
-import { Reducer } from 'redux';
+import { IBaseState } from "./types";
+import { Reducer } from "redux";
 
 const initialState: IBaseState = {
   loading: false,
@@ -8,17 +8,17 @@ const initialState: IBaseState = {
 
 const auth: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
-    case 'SET_BOOTSTRAP':
+    case "SET_BOOTSTRAP":
       return {
         ...state,
         bootstrap: action.bootstrap
       };
-    case 'LOADING_START':
+    case "LOADING_START":
       return {
         ...state,
         loading: true
       };
-    case 'LOADING_END':
+    case "LOADING_END":
       return {
         ...state,
         loading: false

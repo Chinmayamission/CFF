@@ -11,19 +11,28 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 interface IAuthPageNavButtonProps {
-  currentPage: string,
-  label: string,
-  page: string,
-  setAuthPage: (a, b?, c?) => void
+  currentPage: string;
+  label: string;
+  page: string;
+  setAuthPage: (a, b?, c?) => void;
 }
 
 function AuthPageNavButton(props: IAuthPageNavButtonProps) {
   if (props.currentPage != props.page) {
-    return <button className="btn btn-dark ccmt-cff-btn-auth-alt mx-2" onClick={() => props.setAuthPage(props.page)}>{props.label}</button>;
-  }
-  else {
+    return (
+      <button
+        className="btn btn-dark ccmt-cff-btn-auth-alt mx-2"
+        onClick={() => props.setAuthPage(props.page)}
+      >
+        {props.label}
+      </button>
+    );
+  } else {
     return null;
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthPageNavButton);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthPageNavButton);

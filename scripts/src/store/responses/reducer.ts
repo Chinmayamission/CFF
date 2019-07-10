@@ -1,10 +1,15 @@
-import { Reducer } from 'redux';
+import { Reducer } from "redux";
 import { ResponsesState, IPaymentStatusDetailItem } from "./types.d";
 import { set, cloneDeep } from "lodash";
-import moment from 'moment';
+import moment from "moment";
 
-
-const defaultPaymentStatusDetailItem: IPaymentStatusDetailItem = { "amount": "", "currency": "USD", "date": {"$date": moment().toISOString()}, "id": "", "method": "" };
+const defaultPaymentStatusDetailItem: IPaymentStatusDetailItem = {
+  amount: "",
+  currency: "USD",
+  date: { $date: moment().toISOString() },
+  id: "",
+  method: ""
+};
 const initialState: ResponsesState = {
   responseData: null,
   responses: null,
@@ -16,10 +21,10 @@ const initialState: ResponsesState = {
 const form: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
     case "DISPLAY_RESPONSE_DETAIL":
-    return {
-      ...state,
-      shownResponseDetailId: action.shownResponseDetailId
-    }
+      return {
+        ...state,
+        shownResponseDetailId: action.shownResponseDetailId
+      };
     case "SET_RESPONSES":
       return {
         ...state,
@@ -41,12 +46,12 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         paymentStatusDetailItem: item
-      }
+      };
     case "CLEAR_PAYMENT_STATUS_DETAIL":
       return {
         ...state,
         paymentStatusDetailItem: defaultPaymentStatusDetailItem
-      }
+      };
     default:
       return state;
   }

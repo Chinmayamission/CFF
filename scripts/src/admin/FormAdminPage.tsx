@@ -1,23 +1,21 @@
-
-import * as React from 'react';
+import * as React from "react";
 import FormEmbed from "./FormEmbed/FormEmbed";
 import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable/ResponseTable";
-import ResponseSummary from "./ResponseSummary/ResponseSummary"
-import FormShare from "./FormShare/FormShare"
+import ResponseSummary from "./ResponseSummary/ResponseSummary";
+import FormShare from "./FormShare/FormShare";
 import Loading from "../common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import history from "../history";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 import Login from "../common/Login/Login";
-import { IFormAdminPageProps, IFormAdminPageState } from './admin';
-import FormCheckin from './FormCheckin/FormCheckin';
-
+import { IFormAdminPageProps, IFormAdminPageState } from "./admin";
+import FormCheckin from "./FormCheckin/FormCheckin";
 
 declare var VERSION: string;
 const STATUS_LOADING = 0;
@@ -26,164 +24,290 @@ const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
 
 function FormPageMenu(props) {
-    let formId = props.match.params.formId;
-    return (<div>
-         <button className="btn btn-sm btn-outline-primary" onClick={() =>
-            history.push({ pathname: `/admin/${formId}/edit/`, state: props.location.state })}>
-            <span className="oi oi-pencil" />Edit</button>
-        <button className="btn btn-sm btn-outline-primary" onClick={() =>
-            history.push({ pathname: `/v2/forms/${formId}/`, state: props.location.state })}>
-            <span className="oi oi-document" />View</button>
-        <button className="btn btn-sm btn-outline-primary" onClick={() =>
-            history.push({ pathname: `/admin/${formId}/embed/`, state: props.location.state })}>
-            <span className="oi oi-document" />Embed</button>
-        <button className="btn btn-sm btn-outline-primary" onClick={() =>
-            history.push({ pathname: `/admin/${formId}/responses/`, state: props.location.state })}>
-            <span className="oi oi-document" />Responses</button>
-        <button className="btn btn-sm btn-outline-primary" onClick={() =>
-            history.push({ pathname: `/admin/${formId}/share/`, state: props.location.state })}>
-            <span className="oi oi-share-boxed" />Share</button> 
-        <button className="btn btn-sm btn-outline-primary" onClick={() =>
-            history.push({ pathname: `/admin/${formId}/checkin/`, state: props.location.state })}>
-            <span className="oi oi-sort-ascending" />Checkin</button> 
-    </div>);
+  let formId = props.match.params.formId;
+  return (
+    <div>
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() =>
+          history.push({
+            pathname: `/admin/${formId}/edit/`,
+            state: props.location.state
+          })
+        }
+      >
+        <span className="oi oi-pencil" />
+        Edit
+      </button>
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() =>
+          history.push({
+            pathname: `/v2/forms/${formId}/`,
+            state: props.location.state
+          })
+        }
+      >
+        <span className="oi oi-document" />
+        View
+      </button>
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() =>
+          history.push({
+            pathname: `/admin/${formId}/embed/`,
+            state: props.location.state
+          })
+        }
+      >
+        <span className="oi oi-document" />
+        Embed
+      </button>
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() =>
+          history.push({
+            pathname: `/admin/${formId}/responses/`,
+            state: props.location.state
+          })
+        }
+      >
+        <span className="oi oi-document" />
+        Responses
+      </button>
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() =>
+          history.push({
+            pathname: `/admin/${formId}/share/`,
+            state: props.location.state
+          })
+        }
+      >
+        <span className="oi oi-share-boxed" />
+        Share
+      </button>
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() =>
+          history.push({
+            pathname: `/admin/${formId}/checkin/`,
+            state: props.location.state
+          })
+        }
+      >
+        <span className="oi oi-sort-ascending" />
+        Checkin
+      </button>
+    </div>
+  );
 }
 
-class FormAdminPage extends React.Component<IFormAdminPageProps, IFormAdminPageState> {
-    constructor(props: any) {
-        super(props);
-        this.render = this.render.bind(this);
-        this.state = {
-            centerList: [],
-            formList: [],
-            center: null,
-            selectedForm: null,
-            status: STATUS_LOADING,
-            hasError: false,
-            errorMessage: "",
-            user: { id: "", name: "", email: "" },
-            apiKey: null,
-            loading: false
-        }
-    }
-    componentDidMount() {
-        // this.loadCenters();
-    }
-    loadCenters() {
-        this.setState({ "status": STATUS_CENTER_LIST });
-    }
-    handleError(e) {
-        console.error(e);
-        this.setState({ "hasError": true });
-    }
-    componentDidCatch(error, info) {
-        // Display fallback UI
-        console.error("ERROR", error);
-        this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
-        // You can also log the error to an error reporting service
-        // logErrorToMyService(error, info);
-    }
-    onUnauth(error) {
-        console.warn(error);
-        this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
-        // throw error;
-    }
-    onError(error) {
-        this.onLoadEnd();
-        this.setState({ hasError: true });
-        // if (error == "No credentials") {
+class FormAdminPage extends React.Component<
+  IFormAdminPageProps,
+  IFormAdminPageState
+> {
+  constructor(props: any) {
+    super(props);
+    this.render = this.render.bind(this);
+    this.state = {
+      centerList: [],
+      formList: [],
+      center: null,
+      selectedForm: null,
+      status: STATUS_LOADING,
+      hasError: false,
+      errorMessage: "",
+      user: { id: "", name: "", email: "" },
+      apiKey: null,
+      loading: false
+    };
+  }
+  componentDidMount() {
+    // this.loadCenters();
+  }
+  loadCenters() {
+    this.setState({ status: STATUS_CENTER_LIST });
+  }
+  handleError(e) {
+    console.error(e);
+    this.setState({ hasError: true });
+  }
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    console.error("ERROR", error);
+    this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
+    // You can also log the error to an error reporting service
+    // logErrorToMyService(error, info);
+  }
+  onUnauth(error) {
+    console.warn(error);
+    this.setState({ status: STATUS_ACCESS_DENIED, hasError: true });
+    // throw error;
+  }
+  onError(error) {
+    this.onLoadEnd();
+    this.setState({ hasError: true });
+    // if (error == "No credentials") {
 
-        // }
-        alert(error);
+    // }
+    alert(error);
+  }
+  onLoadStart(e = null) {
+    this.setState({ loading: true });
+  }
+  onLoadEnd(e = null) {
+    this.setState({ loading: false });
+  }
+  render() {
+    if (this.state.status == STATUS_ACCESS_DENIED) {
+      return <AccessDenied userId={this.state.user.id} />;
     }
-    onLoadStart(e = null) {
-        this.setState({ "loading": true });
+    if (this.state.hasError) {
+      return <Loading hasError={true} />;
     }
-    onLoadEnd(e = null) {
-        this.setState({ "loading": false });
-    }
-    render() {
-        if (this.state.status == STATUS_ACCESS_DENIED) {
-            return <AccessDenied userId={this.state.user.id} />;
-        }
-        if (this.state.hasError) {
-            return <Loading hasError={true} />;
-        }
-        return (
-            <div className="App FormAdminPage">
-                <Route path="/admin/:formId" component={FormPageMenu} />
-                <Route path="/admin/:formId" component={FormPages} />
-                <Switch>
-                    <Route path="/admin/" exact render={props =>
-                        <FormList onError={e => this.onError(e)} {...props} />
-                    } />
-                </Switch>
-            </div>);
-    }
-
+    return (
+      <div className="App FormAdminPage">
+        <Route path="/admin/:formId" component={FormPageMenu} />
+        <Route path="/admin/:formId" component={FormPages} />
+        <Switch>
+          <Route
+            path="/admin/"
+            exact
+            render={props => (
+              <FormList onError={e => this.onError(e)} {...props} />
+            )}
+          />
+        </Switch>
+      </div>
+    );
+  }
 }
 function FormPages() {
-    return (<Switch>
-        {/* <Route path='/admin/:formId/responses' exact render={({ match, location }) =>
+  return (
+    <Switch>
+      {/* <Route path='/admin/:formId/responses' exact render={({ match, location }) =>
             <Redirect to={{ pathname: `/admin/${match.params.formId}/responses/` }} />} /> */}
-        {/* <Route path="/admin/:formId/responses/:tableViewName" render={props =>
+      {/* <Route path="/admin/:formId/responses/:tableViewName" render={props =>
             <ResponseTable selectedForm={null} key={props.match.params.formId} editMode={false} onError={e => this.onError(e)} {...props} />
         } /> */}
-        <Route path="/admin/:formId/responses/" strict render={props =>
-            <ResponseTable selectedForm={null} key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-        } />
-        <Route path="/admin/:formId/embed/" render={props =>
-            <FormEmbed form={null} formId={props.match.params.formId} onError={e => this.onError(e)} />
-        } />
-        <Route path="/admin/:formId/edit/" render={props =>
-            <FormEdit formId={props.match.params.formId} key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-        } />
-        <Route path="/admin/:formId/summary/" render={props =>
-            <ResponseSummary key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-        } />
-        <Route path="/admin/:formId/checkin/" render={props =>
-            <FormCheckin key={props.match.params.formId} checkinMode={true} editMode={false} onError={e => this.onError(e)} {...props} />
-        } />
-        <Route path="/admin/:formId/share/" render={props =>
-            <FormShare key={props.match.params.formId} onError={e => this.onError(e)} {...props} />
-        } />
-    </Switch>);
+      <Route
+        path="/admin/:formId/responses/"
+        strict
+        render={props => (
+          <ResponseTable
+            selectedForm={null}
+            key={props.match.params.formId}
+            onError={e => this.onError(e)}
+            {...props}
+          />
+        )}
+      />
+      <Route
+        path="/admin/:formId/embed/"
+        render={props => (
+          <FormEmbed
+            form={null}
+            formId={props.match.params.formId}
+            onError={e => this.onError(e)}
+          />
+        )}
+      />
+      <Route
+        path="/admin/:formId/edit/"
+        render={props => (
+          <FormEdit
+            formId={props.match.params.formId}
+            key={props.match.params.formId}
+            onError={e => this.onError(e)}
+            {...props}
+          />
+        )}
+      />
+      <Route
+        path="/admin/:formId/summary/"
+        render={props => (
+          <ResponseSummary
+            key={props.match.params.formId}
+            onError={e => this.onError(e)}
+            {...props}
+          />
+        )}
+      />
+      <Route
+        path="/admin/:formId/checkin/"
+        render={props => (
+          <FormCheckin
+            key={props.match.params.formId}
+            checkinMode={true}
+            editMode={false}
+            onError={e => this.onError(e)}
+            {...props}
+          />
+        )}
+      />
+      <Route
+        path="/admin/:formId/share/"
+        render={props => (
+          <FormShare
+            key={props.match.params.formId}
+            onError={e => this.onError(e)}
+            {...props}
+          />
+        )}
+      />
+    </Switch>
+  );
 }
 function AccessDenied(props) {
-    return (<div>
-        <h4><b>Error</b></h4>
-        <p>There was an unknown error. Please contact itsupport@chinmayamission.com to get help with this issue.</p>
-    </div>);
+  return (
+    <div>
+      <h4>
+        <b>Error</b>
+      </h4>
+      <p>
+        There was an unknown error. Please contact itsupport@chinmayamission.com
+        to get help with this issue.
+      </p>
+    </div>
+  );
 }
 
 interface IFormAdminPageWrapperProps {
-    loggedIn: boolean
+  loggedIn: boolean;
 }
-
 
 const mapStateToProps = state => ({
-    ...state.auth
+  ...state.auth
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-
-});
+const mapDispatchToProps = (dispatch, ownProps) => ({});
 const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
-    return (<div>
-        <div className="col-12 text-center">
-            {!props.loggedIn &&
-                <div>
-                    <img style={{ maxHeight: 200, marginBottom: 20 }} src={require("../img/logo.png")} />
-                    <h3 className="mb-4">
-                        Please log in to your <br />
-                        <strong>Chinmaya Mission Account</strong><br />
-                    </h3>
-                </div>}
-            <Login />
-        </div>
-        <hr />
-        {props.loggedIn && <FormAdminPage />}
-    </div>);
-}
+  return (
+    <div>
+      <div className="col-12 text-center">
+        {!props.loggedIn && (
+          <div>
+            <img
+              style={{ maxHeight: 200, marginBottom: 20 }}
+              src={require("../img/logo.png")}
+            />
+            <h3 className="mb-4">
+              Please log in to your <br />
+              <strong>Chinmaya Mission Account</strong>
+              <br />
+            </h3>
+          </div>
+        )}
+        <Login />
+      </div>
+      <hr />
+      {props.loggedIn && <FormAdminPage />}
+    </div>
+  );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormAdminPageWrapper);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FormAdminPageWrapper);

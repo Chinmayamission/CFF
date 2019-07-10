@@ -16,7 +16,7 @@ function deselectValue(value, selected) {
 function CheckboxesOtherWidget(props) {
   const { id, disabled, options, value, autofocus, readonly, onChange } = props;
   const { enumOptions, inline } = options;
-  console.log('options', options);
+  console.log("options", options);
   return (
     <div className="checkboxes" id={id}>
       {enumOptions.map((option, index) => {
@@ -47,10 +47,10 @@ function CheckboxesOtherWidget(props) {
             {checkbox}
           </label>
         ) : (
-            <div key={index} className={`checkbox ${disabledCls}`}>
-              <label>{checkbox}</label>
-            </div>
-          );
+          <div key={index} className={`checkbox ${disabledCls}`}>
+            <label>{checkbox}</label>
+          </div>
+        );
       })}
     </div>
   );

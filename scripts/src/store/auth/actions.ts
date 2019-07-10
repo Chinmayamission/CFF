@@ -1,31 +1,30 @@
-
 import { API, Auth } from "aws-amplify";
-import { Cache } from 'aws-amplify';
+import { Cache } from "aws-amplify";
 import { loadingStart, loadingEnd } from "../../store/base/actions";
 import { IUserAttributes, IAuthState } from "./types";
 import { resolve } from "path";
 
 export const loggedIn = (userId, attributes) => ({
-  type: 'LOGIN_SUCCESS',
+  type: "LOGIN_SUCCESS",
   userId,
   attributes
 });
 
 export const loggedOut = () => ({
-  type: 'LOGOUT_SUCCESS'
+  type: "LOGOUT_SUCCESS"
 });
-export const renderProfile = (profileData) => ({
-  type: 'RENDER_PROFILE',
+export const renderProfile = profileData => ({
+  type: "RENDER_PROFILE",
   profileData
 });
-export const setCognitoUser = (cognitoUser) => ({
+export const setCognitoUser = cognitoUser => ({
   type: "SET_COGNITO_USER",
   cognitoUser
 });
 
 export function logout() {
   return dispatch => {
-    (window as Window).parent.postMessage({"action": "logout"}, "*");
+    (window as Window).parent.postMessage({ action: "logout" }, "*");
     loadingStart();
     console.log("signing out");
     Cache.removeItem("federatedInfo");
@@ -34,8 +33,8 @@ export function logout() {
     Auth.signOut().then(e => {
       loadingEnd();
       dispatch(loggedOut());
-    })
-  }
+    });
+  };
 }
 
 function getCurrentUser() {
@@ -56,17 +55,20 @@ function getCurrentUser() {
     token_use: "id"
     website: "http://localhost:8000/admin/"
     */
-    return API.post("CFF", "authorize", { "body": { "token": jwt } })
+    return API.post("CFF", "authorize", { body: { token: jwt } })
       .then(e => {
-        let attributes: IUserAttributes = { "name": e.name, "email": e.email, "email_verified": e.email_verified };
+        let attributes: IUserAttributes = {
+          name: e.name,
+          email: e.email,
+          email_verified: e.email_verified
+        };
         return {
-          "username": e["cognito:username"],
+          username: e["cognito:username"],
           attributes
-        }
+        };
       })
-      .catch(e => Auth.currentAuthenticatedUser())
-  }
-  else {
+      .catch(e => Auth.currentAuthenticatedUser());
+  } else {
     return Auth.currentAuthenticatedUser();
   }
 }
@@ -80,16 +82,18 @@ export function checkLoginStatus() {
     dispatch(loadingStart());
     const jwt = localStorage.getItem("jwt");
     getCurrentUser()
-      .then((user: { username: string, attributes: IUserAttributes }) => {
+      .then((user: { username: string; attributes: IUserAttributes }) => {
         if (!user) throw "No credentials";
         console.log("creds", user);
         dispatch(loggedIn(user.username, user.attributes));
-      }).catch(e => {
+      })
+      .catch(e => {
         console.error(e);
         // (window as Window).parent.postMessage({"action": "login", "jwt": jwt}, "*");
         // TODO: is this a security vulnerability? Sends jwt so the parent iframe knows if problem is due to bad jwt or because jwt hasn't been sent yet.
-      }).then(() => dispatch(loadingEnd()));
-  }
+      })
+      .then(() => dispatch(loadingEnd()));
+  };
 }
 export function handleAuthStateChange(state, data) {
   return dispatch => {
@@ -98,37 +102,36 @@ export function handleAuthStateChange(state, data) {
       if (data) {
         // user_pool
         dispatch(checkLoginStatus());
-      }
-      else {
+      } else {
         // federated_identity
         dispatch(checkLoginStatus());
       }
       // dispatch(loggedIn()); return;
     }
-  }
+  };
 }
 
 export const setAuthPage = (authPage, message = "", error = "") => ({
-  type: 'SET_AUTH_PAGE',
+  type: "SET_AUTH_PAGE",
   authPage: authPage,
   message: message,
   error: error
-})
+});
 
-export const setMessage = (message) => ({
-  type: 'SET_MESSAGE',
+export const setMessage = message => ({
+  type: "SET_MESSAGE",
   message: message
-})
+});
 
-export const onAuthError = (error) => ({
-  type: 'SET_ERROR',
+export const onAuthError = error => ({
+  type: "SET_ERROR",
   error: error
-})
+});
 
 export const setLoginUrl = (loginUrl: string) => ({
-  type: 'SET_LOGIN_URL',
+  type: "SET_LOGIN_URL",
   loginUrl
-})
+});
 
 export function signIn(data) {
   return dispatch => {
@@ -137,8 +140,8 @@ export function signIn(data) {
       .then(() => localStorage.removeItem("jwt"))
       .then(() => dispatch(checkLoginStatus()))
       .catch(e => dispatch(onAuthError(e.message)))
-      .then(() => dispatch(loadingEnd()))
-  }
+      .then(() => dispatch(loadingEnd()));
+  };
 }
 
 export function signUp(data) {
@@ -157,20 +160,34 @@ export function signUp(data) {
         website: (getState().auth as IAuthState).loginUrl // Link for confirmation email
       }
     })
-      .then(() => dispatch(setAuthPage("signIn", "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below. If you don't see the email, please check your spam folder.")))
+      .then(() =>
+        dispatch(
+          setAuthPage(
+            "signIn",
+            "Account creation complete. Please check your email for a confirmation link to confirm your email address, then sign in below. If you don't see the email, please check your spam folder."
+          )
+        )
+      )
       .catch(e => dispatch(onAuthError(e.message)))
-      .then(() => dispatch(loadingEnd()))
-  }
+      .then(() => dispatch(loadingEnd()));
+  };
 }
 
 export function forgotPassword(data) {
   return dispatch => {
     dispatch(loadingStart());
     Auth.forgotPassword(data.email)
-      .then(() => dispatch(setAuthPage("forgotPasswordSubmit", "Verification email sent. Please check your email for a code and enter the code below to change your password. If you don't see the email, please check your spam folder.")))
+      .then(() =>
+        dispatch(
+          setAuthPage(
+            "forgotPasswordSubmit",
+            "Verification email sent. Please check your email for a code and enter the code below to change your password. If you don't see the email, please check your spam folder."
+          )
+        )
+      )
       .catch(e => dispatch(onAuthError(e.message)))
-      .then(() => dispatch(loadingEnd()))
-  }
+      .then(() => dispatch(loadingEnd()));
+  };
 }
 
 export function forgotPasswordSubmit(data) {
@@ -181,8 +198,15 @@ export function forgotPasswordSubmit(data) {
     }
     dispatch(loadingStart());
     Auth.forgotPasswordSubmit(data.email, data.code, data.password)
-      .then(() => dispatch(setAuthPage("signIn", "Password changed successfully! Please log in with your new password.")))
+      .then(() =>
+        dispatch(
+          setAuthPage(
+            "signIn",
+            "Password changed successfully! Please log in with your new password."
+          )
+        )
+      )
       .catch(e => dispatch(onAuthError(e.message)))
-      .then(() => dispatch(loadingEnd()))
-  }
+      .then(() => dispatch(loadingEnd()));
+  };
 }

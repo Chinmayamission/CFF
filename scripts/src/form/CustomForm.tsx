@@ -8,10 +8,10 @@ import CustomFieldTemplate from "./form_templates/CustomFieldTemplate";
 import CheckboxWidget from "./form_widgets/CheckboxWidget";
 import SmallTextboxWidget from "./form_widgets/SmallTextboxWidget";
 import PhoneWidget from "./form_widgets/PhoneWidget";
-import MoneyWidget from "./form_widgets/MoneyWidget"
-import SameAsField from "./form_widgets/SameAsField"
-import AutoPopulateField from "./form_widgets/AutoPopulateField"
-import CouponCodeWidget from "./form_widgets/CouponCodeWidget"
+import MoneyWidget from "./form_widgets/MoneyWidget";
+import SameAsField from "./form_widgets/SameAsField";
+import AutoPopulateField from "./form_widgets/AutoPopulateField";
+import CouponCodeWidget from "./form_widgets/CouponCodeWidget";
 import PaymentCalcTable from "./payment/PaymentCalcTable";
 import { get } from "lodash";
 import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
@@ -24,17 +24,24 @@ import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
-  return <div id={id} className="my-2">
-    <div dangerouslySetInnerHTML={{ "__html": sanitize(description) }} />
-  </div>;
+  return (
+    <div id={id} className="my-2">
+      <div dangerouslySetInnerHTML={{ __html: sanitize(description) }} />
+    </div>
+  );
 };
 
 const CustomTitleField = ({ title, required }) => {
   if (!title || !title.trim()) {
     return <span />;
   }
-  const legend = required ? title + '*' : title;
-  return <h2 className="ccmt-cff-form-title" dangerouslySetInnerHTML={{ "__html": sanitize(legend) }} />;
+  const legend = required ? title + "*" : title;
+  return (
+    <h2
+      className="ccmt-cff-form-title"
+      dangerouslySetInnerHTML={{ __html: sanitize(legend) }}
+    />
+  );
 };
 
 function ErrorListTemplate(props) {
@@ -52,9 +59,7 @@ function ErrorListTemplate(props) {
       })}
     </div>
   );*/
-};
-
-
+}
 
 const widgets = {
   phone: PhoneWidget,
@@ -82,10 +87,17 @@ function validate(formData, errors, validationSchema) {
       errors.addError(item["then"]);
     }
   }
-  if (formData.participants && formData.participants.length && formData.participants[0] && formData.participants[0].race) {
+  if (
+    formData.participants &&
+    formData.participants.length &&
+    formData.participants[0] &&
+    formData.participants[0].race
+  ) {
     for (let participant of formData.participants) {
       if (participant.race === "Half Marathon" && participant.age < 13) {
-        errors.participants.addError("Participants under age 13 cannot register for Half Marathon.");
+        errors.participants.addError(
+          "Participants under age 13 cannot register for Half Marathon."
+        );
       }
     }
   }
@@ -96,40 +108,45 @@ function validate(formData, errors, validationSchema) {
 }
 
 interface ICustomFormProps {
-  schema: any,
-  uiSchema: any,
-  formData?: any,
-  onChange?: (e) => void,
-  onSubmit?: (e) => void,
-  showPaymentTable?: boolean,
-  paymentCalcInfo?: IPaymentCalcInfo,
-  className?: string,
-  children?: any,
-  omitExtraData?: boolean,
-  tagName?: string
+  schema: any;
+  uiSchema: any;
+  formData?: any;
+  onChange?: (e) => void;
+  onSubmit?: (e) => void;
+  showPaymentTable?: boolean;
+  paymentCalcInfo?: IPaymentCalcInfo;
+  className?: string;
+  children?: any;
+  omitExtraData?: boolean;
+  tagName?: string;
 }
 
 function CustomForm(props: ICustomFormProps) {
   /* Adds a custom error message for regex validation (especially for phone numbers).
- */
+   */
   function transformErrors(errors) {
     console.warn("transform", errors);
     return errors.map(error => {
       if (error.name === "pattern") {
-        error.message = "Please enter a value in the correct format."
+        error.message = "Please enter a value in the correct format.";
       }
       if (error.message && error.message.match(/is a required property/)) {
-        error.message = error.message.replace(/is a required property/, "is a required field");
+        error.message = error.message.replace(
+          /is a required property/,
+          "is a required field"
+        );
       }
       return error;
     });
   }
-  
+
   return (
-    
-    <div className={`ccmt-cff-Page-FormPage${props.className ? " " + props.className : ""}`}>
-  
-      <Form 
+    <div
+      className={`ccmt-cff-Page-FormPage${
+        props.className ? " " + props.className : ""
+      }`}
+    >
+      <Form
         tagName={props.tagName}
         schema={props.schema}
         uiSchema={props.uiSchema}
@@ -142,28 +159,45 @@ function CustomForm(props: ICustomFormProps) {
         ArrayFieldTemplate={ArrayFieldTemplate}
         ObjectFieldTemplate={ObjectFieldTemplate}
         transformErrors={transformErrors}
-        onChange={(e) => { props.onChange && props.onChange(e) }}
-        onSubmit={(e) => props.onSubmit && props.onSubmit(e)}
-        validate={(d, e) => validate(d, e, get(props.uiSchema, "ui:cff:validate", []))}
-        onError={(e) => { console.error(e); window.scrollTo(0, 0); }}
+        onChange={e => {
+          props.onChange && props.onChange(e);
+        }}
+        onSubmit={e => props.onSubmit && props.onSubmit(e)}
+        validate={(d, e) =>
+          validate(d, e, get(props.uiSchema, "ui:cff:validate", []))
+        }
+        onError={e => {
+          console.error(e);
+          window.scrollTo(0, 0);
+        }}
         showErrorList={true}
         ErrorList={ErrorListTemplate}
-        formContext={{formData: props.formData}}
+        formContext={{ formData: props.formData }}
         omitExtraData={true}
         liveOmit={true}
       >
         {props.children}
-        {!props.children && props.showPaymentTable &&
+        {!props.children && props.showPaymentTable && (
           <div>
-            {props.paymentCalcInfo && props.paymentCalcInfo.items && props.paymentCalcInfo.items.length > 0 &&
-              <PaymentCalcTable formData={props.formData} paymentCalcInfo={props.paymentCalcInfo} />
-            }
+            {props.paymentCalcInfo &&
+              props.paymentCalcInfo.items &&
+              props.paymentCalcInfo.items.length > 0 && (
+                <PaymentCalcTable
+                  formData={props.formData}
+                  paymentCalcInfo={props.paymentCalcInfo}
+                />
+              )}
           </div>
-        }
-        {!props.children && <p>
-          <button className="btn btn-info" type="submit">{props.uiSchema["ui:cff:submitButtonText"] || "Submit"}</button>
-        </p>}
+        )}
+        {!props.children && (
+          <p>
+            <button className="btn btn-info" type="submit">
+              {props.uiSchema["ui:cff:submitButtonText"] || "Submit"}
+            </button>
+          </p>
+        )}
       </Form>
-    </div>);
+    </div>
+  );
 }
 export default CustomForm;

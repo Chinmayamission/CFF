@@ -1,11 +1,11 @@
 export interface IFormStandaloneProps {
-  ENDPOINT_URL: string,
-  formId: string,
+  ENDPOINT_URL: string;
+  formId: string;
   location: {
-    search: string
-  }
+    search: string;
+  };
 }
 
 export interface IFormStandaloneState {
-  background: null
+  background: null;
 }

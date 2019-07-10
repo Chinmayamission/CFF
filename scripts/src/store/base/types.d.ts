@@ -1,4 +1,4 @@
 export interface IBaseState {
-  loading: boolean,
-  bootstrap: boolean
+  loading: boolean;
+  bootstrap: boolean;
 }

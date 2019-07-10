@@ -5,52 +5,58 @@ import { FormState } from "./types";
 import { API } from "aws-amplify";
 
 export const setRenderedForm = (renderedForm: IRenderedForm) => ({
-  type: 'SET_RENDERED_FORM',
+  type: "SET_RENDERED_FORM",
   renderedForm
 });
 
-export const fetchRenderedForm = (formId: string) => (dispatch) => {
+export const fetchRenderedForm = (formId: string) => dispatch => {
   dispatch(loadingStart());
-  return FormLoader.getFormAndCreateSchemas("", formId, "", [""], e => alert("Error" + e)).then(e => {
+  return FormLoader.getFormAndCreateSchemas("", formId, "", [""], e =>
+    alert("Error" + e)
+  ).then(e => {
     dispatch(setRenderedForm(e));
     dispatch(loadingEnd());
-  })
-}
+  });
+};
 
 export const editForm = (body: any) => (dispatch, getState) => {
   dispatch(loadingStart());
   const formId = (getState().form as FormState).renderedForm._id.$oid;
   API.patch("CFF", `forms/${formId}`, {
-    "body": body
-  }).then((response) => {
-    let res = response.res;
-    if (!(res.success == true && res.updated_values)) {
-      throw "Response not formatted correctly: " + JSON.stringify(res);
-    }
-    dispatch(setRenderedForm(res.updated_values));
-    dispatch(loadingEnd());
-  }).catch(e => {
-    console.error(e);
-    alert("Error: " + e);
-    dispatch(loadingEnd());
+    body: body
   })
+    .then(response => {
+      let res = response.res;
+      if (!(res.success == true && res.updated_values)) {
+        throw "Response not formatted correctly: " + JSON.stringify(res);
+      }
+      dispatch(setRenderedForm(res.updated_values));
+      dispatch(loadingEnd());
+    })
+    .catch(e => {
+      console.error(e);
+      alert("Error: " + e);
+      dispatch(loadingEnd());
+    });
 };
 
 export const editGroups = (groups: IGroupOption[]) => (dispatch, getState) => {
   dispatch(loadingStart());
   const formId = (getState().form as FormState).renderedForm._id.$oid;
   API.put("CFF", `forms/${formId}/groups`, {
-    "body": {"groups": groups}
-  }).then((response) => {
-    let res = response.res;
-    if (!(res.success == true && res.form)) {
-      throw "Response not formatted correctly: " + JSON.stringify(res);
-    }
-    dispatch(setRenderedForm(res.form));
-    dispatch(loadingEnd());
-  }).catch(e => {
-    console.error(e);
-    alert("Error: " + e);
-    dispatch(loadingEnd());
+    body: { groups: groups }
   })
+    .then(response => {
+      let res = response.res;
+      if (!(res.success == true && res.form)) {
+        throw "Response not formatted correctly: " + JSON.stringify(res);
+      }
+      dispatch(setRenderedForm(res.form));
+      dispatch(loadingEnd());
+    })
+    .catch(e => {
+      console.error(e);
+      alert("Error: " + e);
+      dispatch(loadingEnd());
+    });
 };

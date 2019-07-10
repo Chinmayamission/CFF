@@ -1,4 +1,4 @@
-import { Reducer } from 'redux';
+import { Reducer } from "redux";
 import { IAdminState } from "./types.d";
 import { set, cloneDeep } from "lodash";
 
@@ -8,8 +8,8 @@ const initialState: IAdminState = {
 
 const admin: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
-    case 'SET_FORM_LIST':
-    console.log(action);
+    case "SET_FORM_LIST":
+      console.log(action);
       return {
         ...state,
         formList: action.formList
