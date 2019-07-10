@@ -1,4 +1,4 @@
-import { Parser } from "@epicfaace/expr-eval";
+import { Parser } from "expr-eval";
 import { isArray } from "lodash";
 const DELIM_VALUE = "ASFASFSDF";
 const SPACE_VALUE = "SDSDGSDFS";

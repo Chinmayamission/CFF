@@ -39,6 +39,8 @@ todo:
 ## pending
 - Fix: Upgrade rjsf to fix some issues
 - Fix: in the AutoPopulate field, make the embedded form use a `<div>` tag instead of a `<form>` tag. This removes the non-HTML-compliant "form-in-form" warning.
+- Chore: switch back to `expr-eval`'s latest version, which has the bugfixes patched.
+- Chore: Add prettier and eslint as pre-commit hooks, format all files.
 
 ## 3.13.3 (7/9/19)
 - Fix payment array calculations with multiple, repeated subtractions, such as `"$participants - $participants.age:1 - $participants.age:2 + $participants - $participants.age:1 - $participants.age:2"`.
