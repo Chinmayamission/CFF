@@ -47,6 +47,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.4",
     "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
     "globby": "^7.1.1",
     "gulp": "^4.0.2",
     "gulp-connect": "^5.5.0",
@@ -204,5 +205,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "lint-staged": {}
+  "lint-staged": {"*.{js,jsx,ts,tsx}": ["prettier --write", "eslint --fix", "git add"]}
 }
