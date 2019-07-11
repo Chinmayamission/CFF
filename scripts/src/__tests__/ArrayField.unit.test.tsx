@@ -46,8 +46,8 @@ it("renders regular object array", () => {
   let uiSchema = {};
   const wrapper = render(<CustomForm schema={schema} uiSchema={uiSchema} />);
   expect(wrapper).toMatchSnapshot();
-  expect(wrapper.text()).toContain("Add");
-  expect(wrapper.text()).not.toContain("Remove");
+  expect(wrapper.find(".ccmt-cff-btn-array-add").length).toEqual(1);
+  expect(wrapper.find(".ccmt-cff-array-close-button").length).toEqual(0);
 });
 
 it("renders object array with expand to maximum (two parents)", () => {
@@ -62,8 +62,8 @@ it("renders object array with expand to maximum (two parents)", () => {
     />
   );
   expect(wrapper).toMatchSnapshot();
-  expect(wrapper.text()).not.toContain("Add");
-  expect(wrapper.text()).toContain("Remove");
+  expect(wrapper.find(".ccmt-cff-btn-array-add").length).toEqual(0);
+  expect(wrapper.find(".ccmt-cff-array-close-button").length).toEqual(1);
 });
 
 it("shows add button when minItems is zero", () => {
@@ -90,7 +90,7 @@ it("shows add button when minItems is zero", () => {
   );
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).not.toContain("My Item Here");
-  expect(wrapper.text()).toContain("Add");
+  expect(wrapper.find(".ccmt-cff-btn-array-add").length).toEqual(1);
 });
 
 it("shows one child which can be removed", () => {
@@ -117,8 +117,8 @@ it("shows one child which can be removed", () => {
   );
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("My Item Here");
-  expect(wrapper.text()).toContain("Add");
-  expect(wrapper.text()).toContain("Remove");
+  expect(wrapper.find(".ccmt-cff-btn-array-add").length).toEqual(1);
+  expect(wrapper.find(".ccmt-cff-array-close-button").length).toEqual(1);
 });
 
 it("custom title for one and two", () => {

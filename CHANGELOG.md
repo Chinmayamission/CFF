@@ -1,11 +1,13 @@
 ## pending
+- Feat: Send backend confirmation emails whenever a successful payment has been received, even if the value for PAID is not true. This means that it will be useful to show the payment status and/or payment tables in the confirmation email templates so that the user knows if they have fully paid or not. This also means that emails will be sent out in case of a refund.
+- Feat: Add a new "installment" payment item type, whose value of `installment` is equal to `true`. This means that the payment will not be factored in to the total, and it will be evaluated only in the client-side to show recurring payments for the user. 
+
+- Chore: switch back to `expr-eval`'s latest version, which has the bugfixes patched.
+- Chore: Add prettier and eslint as pre-commit hooks, format all files.
 - Fix: Upgrade rjsf to fix some issues
 - Fix: in the AutoPopulate field, make the embedded form use a `<div>` tag instead of a `<form>` tag. This removes the non-HTML-compliant "form-in-form" warning.
 - Fix: format recurring payments in the payment table in a human-readable format, such as "$10 every month for 10 times"
-- Feat: Send backend confirmation emails whenever a successful payment has been received, even if the value for PAID is not true. This means that it will be useful to show the payment status and/or payment tables in the confirmation email templates so that the user knows if they have fully paid or not. This also means that emails will be sent out in case of a refund.
-- Feat: Add a new "installment" payment item type, whose value of `installment` is equal to `true`. This means that the payment will not be factored in to the total, and it will be evaluated only in the client-side to show recurring payments for the user. 
-- Chore: switch back to `expr-eval`'s latest version, which has the bugfixes patched.
-- Chore: Add prettier and eslint as pre-commit hooks, format all files.
+- Tests: Fix failing tests from before, which were failing due to the new "remove" buttons not containing the text "remove".
 
 
 ## 3.13.3 (7/9/19)
