@@ -70,6 +70,9 @@ def form_response_new(formId):
     paymentInfoItemsWithTotal = []
     paymentInfo['total'] = 0
     for paymentInfoItem in paymentInfo.setdefault('items', []):
+        if paymentInfoItem.get("installment", False) == True:
+            # Don't count "installment" payments towards the total.
+            continue
         paymentInfoItem.setdefault("name", "Payment Item")
         paymentInfoItem.setdefault("description", "Payment Item")
         paymentInfoItem.setdefault("quantity", "1")
