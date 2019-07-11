@@ -1,8 +1,26 @@
 import * as React from "react";
 import ReactTable from "react-table";
+import RRule from "rrule";
 import { IPaymentTableProps } from "./PaymentTable.d";
 import { IPaymentInfo } from "../interfaces";
 
+function formatRecurrence({ recurrenceDuration, recurrenceTimes }) {
+  if (!recurrenceDuration) {
+    return "";
+  }
+  let [expr, time, units] = /(\d*)([DWMY])/.exec(recurrenceDuration);
+  let rrule = new RRule({
+    freq: {
+      D: RRule.DAILY,
+      W: RRule.WEEKLY,
+      M: RRule.MONTHLY,
+      Y: RRule.YEARLY
+    }[units],
+    interval: parseInt(time),
+    count: recurrenceTimes // Will be undefined if not specified, thus allowing for an indefinite count.
+  });
+  return rrule.toText();
+}
 class PaymentTable extends React.Component<IPaymentTableProps, any> {
   constructor(props: any) {
     super(props);
@@ -36,7 +54,8 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         id: "amount",
         maxWidth: 150,
         accessor: d =>
-          this.formatPayment(d.amount, this.props.paymentInfo.currency)
+          this.formatPayment(d.amount, this.props.paymentInfo.currency) +
+          (formatRecurrence(d) ? " " + formatRecurrence(d) : "")
       },
       {
         Header: "Quantity",

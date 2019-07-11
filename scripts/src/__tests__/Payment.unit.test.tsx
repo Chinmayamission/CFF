@@ -73,3 +73,78 @@ it("renders payment table with amount received", () => {
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("Amount Already Paid: $5.00");
 });
+
+it("renders recurring payment table with times", () => {
+  const wrapper = render(
+    <Payment
+      onPaymentStarted={e => e}
+      paymentInfo={{
+        currency: "USD",
+        total: 12,
+        items: [
+          {
+            name: "One",
+            description: "One",
+            amount: 12,
+            quantity: 1,
+            recurrenceDuration: "1M"
+          }
+        ]
+      }}
+      paymentInfo_owed={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentInfo_received={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentMethods={[]}
+      onPaymentComplete={e => e}
+      onPaymentError={e => e}
+      responseId={"responseId"}
+      formId={"formId"}
+      formData={{}}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).not.toContain("Amount already paid");
+});
+
+it("renders recurring payment table with end", () => {
+  const wrapper = render(
+    <Payment
+      onPaymentStarted={e => e}
+      paymentInfo={{
+        currency: "USD",
+        total: 12,
+        items: [
+          {
+            name: "One",
+            description: "One",
+            amount: 12,
+            quantity: 1,
+            recurrenceDuration: "1M",
+            recurrenceTimes: "10"
+          }
+        ]
+      }}
+      paymentInfo_owed={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentInfo_received={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentMethods={[]}
+      onPaymentComplete={e => e}
+      onPaymentError={e => e}
+      responseId={"responseId"}
+      formId={"formId"}
+      formData={{}}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).not.toContain("Amount already paid");
+});
