@@ -7,6 +7,63 @@ import {
   IPaymentCalcTableState
 } from "./PaymentCalcTable.d";
 
+export function calculatePaymentInfo(paymentCalcInfo, formData) {
+  let paymentInfoItemsWithTotal = [];
+  let paymentInfoItemsInstallment = [];
+  let paymentInfo = cloneDeep(paymentCalcInfo);
+  paymentInfo["total"] = 0;
+  for (let paymentInfoItem of paymentInfo.items) {
+    if (paymentInfoItem.installment === true) {
+      paymentInfoItemsInstallment.push(paymentInfoItem);
+      continue;
+    }
+    if (
+      ~paymentInfoItem.amount.indexOf("total") ||
+      ~paymentInfoItem.quantity.indexOf("total")
+    ) {
+      paymentInfoItemsWithTotal.push(paymentInfoItem);
+      continue;
+    }
+    paymentInfoItem.amount = ExpressionParser.calculate_price(
+      paymentInfoItem.amount,
+      formData
+    );
+    paymentInfoItem.quantity = ExpressionParser.calculate_price(
+      paymentInfoItem.quantity,
+      formData
+    );
+    paymentInfo["total"] +=
+      paymentInfoItem["amount"] * paymentInfoItem["quantity"];
+  }
+  // Now take care of items for coupon code, round off, etc. -- which need the total value to work.
+  formData["total"] = paymentInfo["total"];
+  for (let paymentInfoItem of paymentInfoItemsWithTotal) {
+    paymentInfoItem.amount = ExpressionParser.calculate_price(
+      paymentInfoItem.amount,
+      formData
+    );
+    paymentInfoItem.quantity = ExpressionParser.calculate_price(
+      paymentInfoItem.quantity,
+      formData
+    );
+    paymentInfo["total"] +=
+      paymentInfoItem["amount"] * paymentInfoItem["quantity"];
+  }
+  for (let paymentInfoItem of paymentInfoItemsInstallment) {
+    paymentInfoItem.amount = ExpressionParser.calculate_price(
+      paymentInfoItem.amount,
+      formData
+    );
+    paymentInfoItem.quantity = ExpressionParser.calculate_price(
+      paymentInfoItem.quantity,
+      formData
+    );
+    // Don't add installment payments to the total.
+  }
+  delete formData["total"];
+  paymentInfo.items = paymentInfo.items.filter(e => e.amount && e.quantity);
+  return paymentInfo;
+}
 class PaymentCalcTable extends React.Component<
   IPaymentCalcTableProps,
   IPaymentCalcTableState
@@ -17,49 +74,8 @@ class PaymentCalcTable extends React.Component<
       paymentInfo: null
     };
   }
-  calculatePaymentInfo(paymentCalcInfo, formData) {
-    let paymentInfoItemsWithTotal = [];
-    let paymentInfo = cloneDeep(paymentCalcInfo);
-    paymentInfo["total"] = 0;
-    for (let paymentInfoItem of paymentInfo.items) {
-      if (
-        ~paymentInfoItem.amount.indexOf("total") ||
-        ~paymentInfoItem.quantity.indexOf("total")
-      ) {
-        paymentInfoItemsWithTotal.push(paymentInfoItem);
-        continue;
-      }
-      paymentInfoItem.amount = ExpressionParser.calculate_price(
-        paymentInfoItem.amount,
-        formData
-      );
-      paymentInfoItem.quantity = ExpressionParser.calculate_price(
-        paymentInfoItem.quantity,
-        formData
-      );
-      paymentInfo["total"] +=
-        paymentInfoItem["amount"] * paymentInfoItem["quantity"];
-    }
-    // Now take care of items for coupon code, round off, etc. -- which need the total value to work.
-    formData["total"] = paymentInfo["total"];
-    for (let paymentInfoItem of paymentInfoItemsWithTotal) {
-      paymentInfoItem.amount = ExpressionParser.calculate_price(
-        paymentInfoItem.amount,
-        formData
-      );
-      paymentInfoItem.quantity = ExpressionParser.calculate_price(
-        paymentInfoItem.quantity,
-        formData
-      );
-      paymentInfo["total"] +=
-        paymentInfoItem["amount"] * paymentInfoItem["quantity"];
-    }
-    delete formData["total"];
-    paymentInfo.items = paymentInfo.items.filter(e => e.amount && e.quantity);
-    return paymentInfo;
-  }
   render() {
-    let paymentInfo = this.calculatePaymentInfo(
+    let paymentInfo = calculatePaymentInfo(
       this.props.paymentCalcInfo,
       this.props.formData
     );

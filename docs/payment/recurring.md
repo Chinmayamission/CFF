@@ -45,11 +45,11 @@ Here is a sample configuration that describes how to allow a user to make paymen
 ]
 ```
 
-When setting `installment` to true, this will make sure that this particular payment item will not be counted in `paymentInfo.total`. That way, it just represents an "installment" payment that pays for the rest of the fee.
+When setting `installment` to true, this will make sure that this particular payment item will not be counted in `paymentInfo.total`. That way, it just represents an "installment" payment that pays for the rest of the fee. It will only be calculated on the client side, and its value will be calculated last.
 
 Todo: implement installment payment.
 
 ## Tracking recurring payment status
 We currently do not have a way to track whether a user has cancelled their subscription. This is a todo. Each time the payment comes in, the AMOUNT_PAID increases.
 
-Todo: send a confirmation email when recurring payments are received, even if the value of PAID is not true for the user.
+Confirmation emails are sent when recurring payments are received, even if PAID is not true (if the user is still PARTIALLY PAID).

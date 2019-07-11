@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow, mount, render } from "enzyme";
 import Payment from "../form/confirmation/payment";
+import { calculatePaymentInfo } from "../form/payment/PaymentCalcTable";
 
 it("renders payment table on new response", () => {
   const wrapper = render(
@@ -147,4 +148,98 @@ it("renders recurring payment table with end", () => {
   );
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).not.toContain("Amount already paid");
+});
+
+describe("calculatePaymentInfo()", () => {
+  it("calculates simple paymentInfo", () => {
+    let paymentInfo = {
+      items: [
+        {
+          amount: "2",
+          quantity: "2"
+        }
+      ]
+    };
+    let formData = {};
+    let expectedPaymentInfo = {
+      total: 4,
+      items: [
+        {
+          amount: 2,
+          quantity: 2
+        }
+      ]
+    };
+    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
+      expectedPaymentInfo
+    );
+  });
+  it("calculates total items in paymentInfo last", () => {
+    let paymentInfo = {
+      items: [
+        {
+          amount: "2",
+          quantity: "2"
+        },
+        {
+          amount: "-0.1 * $total",
+          quantity: "1"
+        }
+      ]
+    };
+    let formData = {};
+    let expectedPaymentInfo = {
+      total: 3.6,
+      items: [
+        {
+          amount: 2,
+          quantity: 2
+        },
+        {
+          amount: -0.4,
+          quantity: 1
+        }
+      ]
+    };
+    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
+      expectedPaymentInfo
+    );
+  });
+  it("doesn't include installments in total calculation", () => {
+    let paymentInfo = {
+      items: [
+        {
+          amount: "2",
+          quantity: "2"
+        },
+        {
+          amount: "0.5 * $total",
+          quantity: "1",
+          recurrenceDuration: "1M",
+          recurrenceTimes: 2,
+          installment: true
+        }
+      ]
+    };
+    let formData = {};
+    let expectedPaymentInfo = {
+      total: 4,
+      items: [
+        {
+          amount: 2,
+          quantity: 2
+        },
+        {
+          amount: 2,
+          quantity: 1,
+          recurrenceDuration: "1M",
+          recurrenceTimes: 2,
+          installment: true
+        }
+      ]
+    };
+    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
+      expectedPaymentInfo
+    );
+  });
 });
