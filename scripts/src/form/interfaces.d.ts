@@ -43,6 +43,7 @@ export interface IPaymentInfoItem {
   quantity?: any;
   recurrenceDuration?: string;
   recurrenceTimes?: string;
+  installment?: boolean;
 }
 
 export interface PaymentMethod {
