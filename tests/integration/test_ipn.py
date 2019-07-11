@@ -129,7 +129,8 @@ class FormIpn(BaseTestCase):
         detail_history_one.pop("date_modified")
         self.assertEqual(detail_history_one, {'value': {'mc_gross': '-1080.00', 'protection_eligibility': 'Eligible', 'item_number1': 'Double Room', 'payer_id': 'A4CSL993V3BDG', 'address_street': '1 Main St', 'payment_date': '07:43:04 Jun 23, 2019 PDT', 'payment_status': 'Refunded', 'charset': 'windows-1252', 'address_zip': '95131', 'mc_shipping': '0.00', 'mc_handling': '0.00', 'first_name': 'test', 'mc_fee': '-31.32', 'address_country_code': 'US', 'address_name': 'test buyer', 'notify_version': '3.9', 'reason_code': 'refund', 'custom': responseId, 'business': 'aramaswamis-facilitator@gmail.com', 'address_country': 'United States', 'mc_handling1': '0.00', 'address_city': 'San Jose', 'verify_sign': 'Ajpb2sm-lsDSWA5XwZfLh0PpsG6IAYl-yqrJx2GLHimSQ3aPkkfr3i2Y', 'payer_email': 'aramaswamis-buyer@gmail.com', 'mc_shipping1': '0.00', 'tax1': '0.00', 'parent_txn_id': '23X19291EC9014330', 'txn_id': '69B89632XK721821J', 'payment_type': 'instant', 'last_name': 'buyer', 'address_state': 'CA', 'item_name1': 'Double Room ($1200/person)', 'receiver_email': 'aramaswamis-facilitator@gmail.com', 'payment_fee': '-31.32', 'shipping_discount': '0.00', 'quantity1': '1', 'receiver_id': 'T4A6C58SP7PP2', 'insurance_amount': '0.00', 'discount': '120.00', 'mc_gross_1': '1200.00', 'mc_currency': 'USD', 'residence_country': 'US', 'test_ipn': '1', 'shipping_method': 'Default', 'payment_gross': '-1080.00', 'ipn_track_id': '539cae4d23348'}, 'method': 'paypal_ipn', 'status': 'SUCCESS', 'id': '69B89632XK721821J', '_cls': 'chalicelib.models.PaymentTrailItem'})
 
-        self.assertTrue("email_trail" not in response)
+        self.assertTrue("email_trail" in response)
+        self.assertEqual(len(response["email_trail"]), 1)
         self.assertEqual(response["paid"], False)
         self.assertEqual(response["amount_paid"], "0.0")
     def test_ipn_reject(self):

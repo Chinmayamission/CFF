@@ -32,7 +32,7 @@ def mark_successful_payment(form, response, full_value, method_name, amount, cur
     response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=date, date_created=date, date_modified=date, method=method_name, id=id))
     response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
     update_response_paid_status(response)
-    if response.paid and form.formOptions.confirmationEmailInfo:
+    if form.formOptions.confirmationEmailInfo:
         email_sent = send_confirmation_email(response, form.formOptions.confirmationEmailInfo)
     return response.paid
 
