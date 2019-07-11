@@ -68,14 +68,16 @@ def form_response_new(formId):
                 Form.objects.raw({"_id": form.id}).update({"$set": {f"couponCodes_used.{paymentInfoItem['couponCode']}": slots_used + slots_requested} })
         return True, {}
     paymentInfoItemsWithTotal = []
+    paymentInfoItemsInstallment = []
     paymentInfo['total'] = 0
     for paymentInfoItem in paymentInfo.setdefault('items', []):
-        if paymentInfoItem.get("installment", False) == True:
-            # Don't count "installment" payments towards the total.
-            continue
         paymentInfoItem.setdefault("name", "Payment Item")
         paymentInfoItem.setdefault("description", "Payment Item")
         paymentInfoItem.setdefault("quantity", "1")
+        if paymentInfoItem.get("installment", False) == True:
+            # Don't count "installment" payments towards the total.
+            paymentInfoItemsInstallment.append(paymentInfoItem)
+            continue
         if "$total" in paymentInfoItem.get("amount", "0") or "$total" in paymentInfoItem.get("quantity", "0"):
             # Take care of this at the end.
             paymentInfoItemsWithTotal.append(paymentInfoItem)
@@ -91,6 +93,11 @@ def form_response_new(formId):
         if success is False:
             return error
     
+    # Take care of installment payments now.
+    for paymentInfoItem in paymentInfoItemsInstallment:
+        paymentInfoItem['amount'] = calculate_price(paymentInfoItem.get('amount', '0'), response_data)
+        paymentInfoItem['quantity'] = calculate_price(paymentInfoItem.get('quantity', '0'), response_data)
+
     response_data.pop("total", None)
 
     paymentInfo['items'] = [item for item in paymentInfo['items'] if item['quantity'] * item['amount'] != 0]
