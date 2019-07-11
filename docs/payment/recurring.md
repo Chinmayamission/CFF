@@ -47,8 +47,6 @@ Here is a sample configuration that describes how to allow a user to make paymen
 
 When setting `installment` to true, this will make sure that this particular payment item will not be counted in `paymentInfo.total`. That way, it just represents an "installment" payment that pays for the rest of the fee. It will only be calculated on the client side, and its value will be calculated last.
 
-Todo: implement installment payment.
-
 ## Tracking recurring payment status
 We currently do not have a way to track whether a user has cancelled their subscription. This is a todo. Each time the payment comes in, the AMOUNT_PAID increases.
 
