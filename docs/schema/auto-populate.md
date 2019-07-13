@@ -29,19 +29,4 @@ in the ui schema:
 }
 ```
 
-And data:
-
-
-
-This will transform it to:
-
-```
-{
-  "oneOf": {
-    "title": "
-  }
-}
-
-```
-
-This will make a query to https://chinmayamission.com/wp-json/get_centres?q=CMSJ and then take that value, then set the field value to it.
+This will make a query to https://www.chinmayamission.com/wp-json/gcmw/v1/centres and load the options from there, sort them alphabetically, and then create a widget so that people can select from that list.
