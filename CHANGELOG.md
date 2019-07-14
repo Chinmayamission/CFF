@@ -4,6 +4,7 @@
 - Admin FormList UI improvements
 - Admin ResponseDetail UI improvements - tab view with more information quickly available.
 - Feat: Add cff_yeardiff function to expressions, which calculates the time delta in years between two dates. (Note: this change ended up dropping support for expressions with quotes, such as `race:'Half Marathon'`.)
+- Feat: Add new endpoint to edit admin_info, called `/responses/{responseId}/admin_info`. Only users with the permission `Responses_AdminInfo_Edit` can modify this.
 
 - Fix: fix the AutoPopulateField to work properly now. It also caches data from an endpoint in sessionStorage, and automatically sorts its items alphabetically.
 - Fix: refactor, fix glitchiness with context menus
