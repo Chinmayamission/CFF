@@ -3,13 +3,24 @@ import flatdict
 import re
 from collections import defaultdict
 from pydash.objects import get
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 """
 workon cff
 python -m doctest chalicelib/util/formSubmit/util.py
 """
 
-DELIM_VALUE = "ASKLDJAKSLDJ12903812"
-SPACE_VALUE = "AJSID2309483ASFSDLJF"
+DELIM_VALUE = "D34hSK"
+SPACE_VALUE = "ASIDJa"
+
+def cff_yeardiff(datestr1, datestr2):
+    d1 = datetime.strptime(datestr1, "%Y-%m-%d")
+    d2 = datetime.strptime(datestr2, "%Y-%m-%d")
+    return relativedelta(d1, d2).years
+
+DEFAULT_CONTEXT = {
+    "cff_yeardiff": cff_yeardiff
+}
 
 def parse_number_formula(data, variable, numeric=True):
     """
@@ -39,7 +50,7 @@ def parse_number_formula(data, variable, numeric=True):
         if isinstance(value, bool):
             value = 1 if value is True else 0
         if not isinstance(value, (int, float)):
-            raise ValueError("Key {} is not numeric - it's equal to {}".format(variable, value))
+            return value
         return round(float(value), 2)
     else:
         return value
@@ -102,21 +113,14 @@ def calculate_price(expressionString, data):
     todo: base 64 encode here.
     """
     if ":" in expressionString:
-        # py_expression_eval does not allow : characters.
         expressionString = expressionString.replace(":", DELIM_VALUE)
-    if " " in expressionString:
-        # replace all spaces within single quotes and remove quotation marks.
-        for quoted_part in re.findall(r'(\'.+?\')', expressionString):
-            replaced = quoted_part.replace(" ", SPACE_VALUE)
-            replaced = replaced.replace("'", "")
-            expressionString = expressionString.replace(quoted_part, replaced)
     expressionString = expressionString.replace("$", "")
     parser = Parser()
     expr = parser.parse(expressionString)
     context = {}
     for variable in expr.variables():
         context[variable] = parse_number_formula(data, variable)
-        
+    context = dict(context, **DEFAULT_CONTEXT)
     return expr.evaluate(context)
 
 def format_payment(total, currency='USD'):
