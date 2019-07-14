@@ -2,9 +2,7 @@ import { IResponseDetailProps, IResponseDetailState } from "./ResponseDetail.d";
 import ReactJson from "react-json-view";
 import * as React from "react";
 import { API } from "aws-amplify";
-import ReactTable from "react-table";
-import dataLoadingView from "../util/DataLoadingView";
-import { get, set } from "lodash";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "./ResponseDetail.scss";
 import ValueEdit from "./ResponseCards/ValueEdit";
 import { connect } from "react-redux";
@@ -65,52 +63,47 @@ class ResponseDetail extends React.Component<
         className="container-fluid cff-response-detail"
         key={this.props.responseData._id.$oid}
       >
-        <div className="row">
-          <div className="card col-12 col-sm-6">
-            <div className="card-body">
-              <h5 className="card-title">Response Value</h5>
-              <ValueEdit />
-            </div>
-          </div>
-          <div className="card col-12 col-sm-6">
-            <div className="card-body">
-              <h5 className="card-title">Payment History</h5>
-              <PaymentHistory />
-            </div>
-          </div>
-          <div className="card col-12 col-sm-6">
-            <div className="card-body">
-              <h5 className="card-title">Inspector (for debug purposes)</h5>
-              <ReactJson
-                src={this.props.responseData}
-                displayObjectSize={false}
-                displayDataTypes={false}
-                onEdit={false}
-                onAdd={false}
-                onDelete={false}
-                collapsed={0}
-                style={{ fontFamily: "Arial, sans-serif", marginLeft: "30px" }}
-              />
-            </div>
-          </div>
-          <div className="card col-12 col-sm-6 cff-response-detail-actions">
-            <div className="card-body">
-              <h5 className="card-title">Actions</h5>
-              <button
-                className="btn btn-sm btn-primary"
-                onClick={() => this.sendConfirmationEmail()}
-              >
-                Send confirmation email
-              </button>
-              <button
-                className="btn btn-sm btn-danger"
-                onClick={() => this.delete()}
-              >
-                Delete response forever
-              </button>
-            </div>
-          </div>
-        </div>
+        <Tabs>
+          <TabList>
+            <Tab>Payment history</Tab>
+            <Tab>Response Value</Tab>
+            <Tab>Actions</Tab>
+            <Tab>Inspector (advanced)</Tab>
+          </TabList>
+          <TabPanel>
+            <PaymentHistory />
+          </TabPanel>
+          <TabPanel>
+            <ValueEdit />
+          </TabPanel>
+
+          <TabPanel>
+            <button
+              className="btn btn-sm btn-primary"
+              onClick={() => this.sendConfirmationEmail()}
+            >
+              Send confirmation email
+            </button>
+            <button
+              className="btn btn-sm btn-danger"
+              onClick={() => this.delete()}
+            >
+              Delete response forever
+            </button>
+          </TabPanel>
+          <TabPanel>
+            <ReactJson
+              src={this.props.responseData}
+              displayObjectSize={false}
+              displayDataTypes={false}
+              onEdit={false}
+              onAdd={false}
+              onDelete={false}
+              collapsed={0}
+              style={{ fontFamily: "Arial, sans-serif", marginLeft: "30px" }}
+            />
+          </TabPanel>
+        </Tabs>
       </div>
     );
   }

@@ -9,6 +9,14 @@ import {
 } from "../FormEdit/FormEdit.d";
 import { IResponse } from "scripts/src/store/responses/types";
 
+export function getPaidStatus(e) {
+  return e.paid === false && parseFloat(e.amount_paid) > 0
+    ? "PARTLY PAID"
+    : e.paid === false
+    ? "NOT PAID"
+    : "PAID";
+}
+
 function formattedDateTimeFromTimeStamp(timestamp) {
   var d = new Date(timestamp);
   const timeStampCon = d.toLocaleDateString() + " " + d.toLocaleTimeString();
@@ -73,12 +81,7 @@ export function createHeadersAndDataFromDataOption(
   let data = responses.map(e => ({
     ...e.value,
     ID: e["_id"]["$oid"] || String(e._id),
-    PAID:
-      e.paid === false && parseFloat(e.amount_paid) > 0
-        ? "PARTLY PAID"
-        : e.paid === false
-        ? "NOT PAID"
-        : "PAID",
+    PAID: getPaidStatus(e),
     DATE_CREATED: e.date_created.$date
       ? formattedDateTimeFromTimeStamp(e.date_created.$date)
       : String(e.date_created),

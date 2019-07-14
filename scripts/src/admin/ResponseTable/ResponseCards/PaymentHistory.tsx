@@ -11,6 +11,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Headers from "../../util/Headers";
+import { getPaidStatus } from "../../util/dataOptionUtil";
+import { formatPayment } from "../../util/formatPayment";
 
 interface IValueEditProps extends ResponsesState {
   onChange: (a, b) => void;
@@ -117,9 +119,29 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
         )
       }
     ];
-    let data = this.props.responseData.payment_status_detail || [];
+    const response = this.props.responseData;
+    let data = response.payment_status_detail || [];
     return (
       <div className="cff-response-payment-history">
+        Status: <strong>{getPaidStatus(response)}</strong>
+        <br />
+        Amount Owed:{" "}
+        <strong>
+          {formatPayment(
+            response.paymentInfo.total,
+            response.paymentInfo.currency
+          )}
+        </strong>
+        <br />
+        Amount Paid:{" "}
+        <strong>
+          {formatPayment(
+            parseFloat(response.amount_paid),
+            response.paymentInfo.currency
+          )}
+        </strong>
+        <br />
+        <br />
         <ReactTable
           data={data}
           columns={headers}

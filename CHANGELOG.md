@@ -1,6 +1,8 @@
 ## pending
 - Feat: Allow form sharing by entering email addresses
 - Feat: Add a DynamicEnumField which allows changing of enum values based on form data.
+- Admin FormList UI improvements
+- Admin ResponseDetail UI improvements - tab view with more information quickly available.
 
 - Fix: fix the AutoPopulateField to work properly now. It also caches data from an endpoint in sessionStorage, and automatically sorts its items alphabetically.
 - Fix: refactor, fix glitchiness with context menus
