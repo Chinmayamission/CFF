@@ -3,9 +3,26 @@ import { Link } from "react-router-dom";
 
 function FormPageMenu({
   formId,
+  onDuplicate = null,
+  onDelete = null,
   ItemComponent = props => <div>{props.children}</div>
 }) {
-  function Item({ icon, to, text }) {
+  function Item({ icon, to = null, text, onClick = null }) {
+    if (onClick) {
+      return (
+        <a
+          onClick={e => {
+            e.preventDefault();
+            onClick();
+          }}
+        >
+          <ItemComponent>
+            <span className={icon} style={{ marginRight: 10 }} />
+            {text}
+          </ItemComponent>
+        </a>
+      );
+    }
     return (
       <Link to={to}>
         <ItemComponent>
@@ -35,6 +52,16 @@ function FormPageMenu({
         text="Checkin"
         to={`/admin/${formId}/checkin/`}
       />
+      {onDuplicate && (
+        <Item
+          onClick={() => onDuplicate()}
+          icon="oi oi-plus"
+          text="Duplicate"
+        />
+      )}
+      {onDelete && (
+        <Item onClick={() => onDelete()} icon="oi oi-trash" text="Delete" />
+      )}
     </div>
   );
 }

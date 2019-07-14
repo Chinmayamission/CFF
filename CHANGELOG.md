@@ -8,6 +8,7 @@
 - Fix: fix padding on top and bottom of AutoPopulateField and form in general
 - Fix: upgrade to new Monaco version to slim bundle size
 - Fix: Decrease height of top admin bar
+- Fix: Improve admin UI to make it more compact
 ## 3.14.0 
 - Feat: Send backend confirmation emails whenever a successful payment has been received, even if the value for PAID is not true. This means that it will be useful to show the payment status and/or payment tables in the confirmation email templates so that the user knows if they have fully paid or not. This also means that emails will be sent out in case of a refund.
 - Feat: Add a new "installment" payment item type, whose value of `installment` is equal to `true`. This means that the payment will not be factored in to the total, and it will be evaluated only in the client-side to show recurring payments for the user. 

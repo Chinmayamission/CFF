@@ -36,6 +36,22 @@ function intToRGB(number) {
   return "#" + (number >>> 0).toString(16).slice(-6);
 }
 
+export function hasPermission(cff_permissions, permissionNames, userId) {
+  if (!isArray(permissionNames)) {
+    permissionNames = [permissionNames];
+  }
+  permissionNames.push("owner");
+  if (cff_permissions && cff_permissions[userId]) {
+    for (let permissionName of permissionNames) {
+      if (cff_permissions[userId][permissionName] == true) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return false;
+}
+
 class FormList extends React.Component<IFormListProps, IFormListState> {
   constructor(props: any) {
     super(props);
@@ -48,7 +64,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
     this.props.loadFormList();
   }
   showEmbedCode(formId) {}
-  delete(forms, formId) {
+  delete(formId) {
     if (
       confirm(
         "Are you sure you want to delete this form (this cannot be undone)?"
@@ -82,8 +98,8 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
           <div className="col-sm">
             Right click on a form to perform an action.
           </div>
-          <div className="col-sm d-none d-sm-block">Date Last Modified</div>
-          <div className="col-sm d-none d-sm-block">Date Created</div>
+          <div className="col-sm d-none d-sm-block">&nbsp;</div>
+          <div className="col-sm d-none d-sm-block">&nbsp;</div>
           <div className="col-sm">
             <FormNew onError={this.props.onError} />
           </div>
@@ -97,6 +113,8 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                   className="row"
                   style={{
                     padding: 10,
+                    whiteSpace: "nowrap",
+                    borderBottom: "1px solid #aaa",
                     backgroundColor:
                       form["_id"]["$oid"] === this.state.highlightedForm
                         ? "lightblue"
@@ -109,12 +127,14 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                   }
                 >
                   <div className="col-sm">{form["name"]}</div>
-                  <div className="col-sm d-none d-sm-block">
+                  <div className="col-sm d-none">
+                    Modified{" "}
                     {new Date(
                       form["date_modified"]["$date"]
                     ).toLocaleDateString()}
                   </div>
-                  <div className="col-sm d-none d-sm-block">
+                  <div className="col-sm d-none">
+                    Created{" "}
                     {new Date(
                       form["date_created"]["$date"]
                     ).toLocaleDateString()}
@@ -134,12 +154,15 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
               </ContextMenuTrigger>
               {this.state.highlightedForm === form._id.$oid && (
                 <div className="d-block d-sm-none">
-                  <ButtonList
-                    form={form}
-                    formList={formList}
-                    userId={this.props.userId}
-                    createForm={this.props.createForm}
-                    delete={this.delete}
+                  <FormPageMenu
+                    formId={form._id.$oid}
+                    ItemComponent={props => (
+                      <button className="btn btn-sm btn-outline-primary">
+                        {props.children}
+                      </button>
+                    )}
+                    onDelete={e => this.delete(form._id.$oid)}
+                    onDuplicate={e => this.props.createForm(form._id.$oid)}
                   />
                 </div>
               )}
@@ -150,6 +173,8 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 <FormPageMenu
                   formId={form._id.$oid}
                   ItemComponent={props => <MenuItem>{props.children}</MenuItem>}
+                  onDelete={e => this.delete(form._id.$oid)}
+                  onDuplicate={e => this.props.createForm(form._id.$oid)}
                 />
               </ContextMenu>
             </React.Fragment>
@@ -157,127 +182,6 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
       </div>
     );
   }
-}
-
-export function ActionButton(props) {
-  let disabled =
-    props.disabled ||
-    !hasPermission(
-      props.form.cff_permissions,
-      props.permissionName,
-      props.userId
-    );
-  if (!props.permissionName) {
-    disabled = false;
-  }
-
-  if (disabled) {
-    return null;
-  } else if (props.onClick) {
-    return (
-      <button
-        className="ccmt-cff-btn-action btn btn-xs"
-        onClick={e => props.onClick(e)}
-      >
-        <span className={`oi ${props.icon}`}></span> {props.text}
-      </button>
-    );
-  } else {
-    return (
-      <NavLink
-        to={{ pathname: `${props.url}`, state: { selectedForm: props.form } }}
-      >
-        <button className="ccmt-cff-btn-action btn btn-xs">
-          <span className={`oi ${props.icon}`}></span> {props.text}
-        </button>
-      </NavLink>
-    );
-  }
-}
-export function hasPermission(cff_permissions, permissionNames, userId) {
-  if (!isArray(permissionNames)) {
-    permissionNames = [permissionNames];
-  }
-  permissionNames.push("owner");
-  if (cff_permissions && cff_permissions[userId]) {
-    for (let permissionName of permissionNames) {
-      if (cff_permissions[userId][permissionName] == true) {
-        return true;
-      }
-    }
-    return false;
-  }
-  return false;
-}
-function ButtonList(props) {
-  return (
-    <div>
-      <ActionButton
-        form={props.form}
-        url={`/v2/forms/${props.form["_id"]["$oid"]}`}
-        icon="oi-document"
-        text="View"
-      />
-      <ActionButton
-        form={props.form}
-        permissionName="Forms_Embed"
-        url={`./${props.form["_id"]["$oid"]}/embed/`}
-        icon="oi-document"
-        text="Embed"
-        userId={props.userId}
-      />
-      <ActionButton
-        form={props.form}
-        permissionName="Forms_Edit"
-        url={`./${props.form["_id"]["$oid"]}/edit/`}
-        icon="oi-pencil"
-        text="Edit"
-        userId={props.userId}
-      />
-      <ActionButton
-        form={props.form}
-        permissionName="Responses_View"
-        url={`./${props.form["_id"]["$oid"]}/responses/`}
-        icon="oi-sort-ascending"
-        text="Responses"
-        userId={props.userId}
-      />
-      <ActionButton
-        form={props.form}
-        permissionName="Forms_PermissionsView"
-        url={`./${props.form["_id"]["$oid"]}/share/`}
-        icon="oi-share-boxed"
-        text="Share"
-        userId={props.userId}
-      />
-      <ActionButton
-        form={props.form}
-        onClick={() => props.createForm(props.form["_id"]["$oid"])}
-        permissionName="Forms_Edit"
-        icon="oi-plus"
-        text="Duplicate"
-        userId={props.userId}
-      />
-      <ActionButton
-        form={props.form}
-        permissionName="Forms_Delete"
-        onClick={() => {
-          props.delete(props.formList, props.form["_id"]["$oid"]);
-        }}
-        icon="oi-trash"
-        text="Delete"
-        userId={props.userId}
-      />
-      <ActionButton
-        form={props.form}
-        permissionName={"Responses_CheckIn"}
-        url={`./${props.form["_id"]["$oid"]}/checkin/`}
-        icon="oi-sort-ascending"
-        text="Check In"
-        userId={props.userId}
-      />
-    </div>
-  );
 }
 
 const FormListWrapper = connect(
