@@ -18,6 +18,9 @@ import time
 
 ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
 
+def remove_date(data):
+    return {k: v for k, v in data.items() if k != "date"}
+
 class FormSubmit(BaseTestCase):
     maxDiff = None
     def setUp(self):
@@ -309,6 +312,37 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertEqual(body['res']['response']['value'], expected_data)
+        self.assertEqual([remove_date(i) for i in body['res']['response']['update_trail']], [{'old': {'contact_name': {'first': 'Ashwin', 'last': 'Ash'}, 'address': {'line1': '123', 'line2': 'asdad', 'city': 'Atlanta', 'state': 'GA', 'zipcode': '30022'}, 'email': 'success@simulator.amazonses.com', 'phone': '1231231233', 'amount': 0.5, 'subscribe': True}, 'new': {'contact_name': {'first': 'Ashwin', 'last': 'Ash'}, 'address': {'line1': '123', 'line2': 'asdad', 'city': 'Atlanta', 'state': 'GA', 'zipcode': '30022'}, 'email': 'success@simulator.amazonses.com', 'phone': '1231231233', 'amount': 0.5, 'subscribe': True}, 'update_type': 'update', '_cls': 'chalicelib.models.UpdateTrailItem'}, {'path': 'contact_name.last', 'user': 'cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'old_value': 'Ash', 'new_value': 'NEW_LAST!', 'response_base_path': 'value', '_cls': 'chalicelib.models.UpdateTrailItem'}])
+
+    def test_edit_response_admin_info(self):
+        """Create form."""
+        self.formId = self.create_form()
+        self.edit_form(self.formId, {"schema": ONE_SCHEMA, "uiSchema": ONE_UISCHEMA, "formOptions": dict(ONE_FORMOPTIONS, loginRequired=True)})
+
+        """Submit form."""
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
+        self.assertIn("paymentMethods", submit_res)
+
+        """View response."""
+        response = self.view_response(responseId)
+        self.assertEqual(response['value'], ONE_FORMDATA)
+
+        responseIdNew, submit_res = self.submit_form(self.formId, ONE_FORMDATA, responseId)
+        self.assertEqual(responseIdNew, responseId)
+        self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
+        
+        """Edit response's admin info."""
+        body = {"path": "orderId", "value": "123"}
+        response = self.lg.handle_request(method='PATCH',
+                                          path=f'/responses/{responseId}/admin_info',
+                                          headers={"authorization": "auth","Content-Type": "application/json"},
+                                          body=json.dumps(body))
+        expected_data = {"orderId": "123"}
+        self.assertEqual(response['statusCode'], 200, response)
+        body = json.loads(response['body'])
+        self.assertEqual(body['res']['response']['admin_info'], expected_data)
+        self.assertEqual([remove_date(i) for i in body['res']['response']['update_trail']], [{'old': {'contact_name': {'first': 'Ashwin', 'last': 'Ash'}, 'address': {'line1': '123', 'line2': 'asdad', 'city': 'Atlanta', 'state': 'GA', 'zipcode': '30022'}, 'email': 'success@simulator.amazonses.com', 'phone': '1231231233', 'amount': 0.5, 'subscribe': True}, 'new': {'contact_name': {'first': 'Ashwin', 'last': 'Ash'}, 'address': {'line1': '123', 'line2': 'asdad', 'city': 'Atlanta', 'state': 'GA', 'zipcode': '30022'}, 'email': 'success@simulator.amazonses.com', 'phone': '1231231233', 'amount': 0.5, 'subscribe': True}, 'update_type': 'update', '_cls': 'chalicelib.models.UpdateTrailItem'}, {'path': 'orderId', 'user': 'cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'old_value': '123', 'new_value': '123', 'response_base_path': 'admin_info', '_cls': 'chalicelib.models.UpdateTrailItem'}])
     
     def test_mark_successful_payment(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)

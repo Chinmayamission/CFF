@@ -43,6 +43,7 @@ class FormOptions(EmbeddedMongoModel):
   successor = fields.DictField(blank=True)
   omitExtraData = fields.BooleanField()
   theme = fields.DictField(blank=True)
+  adminInfo = fields.DictField(blank=True) # Contains *configuration* for admin_info.
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)
@@ -85,6 +86,7 @@ class UpdateTrailItem(EmbeddedMongoModel):
   user = fields.ReferenceField(User, blank=True)
   old_value = fields.CharField(blank=True)
   new_value = fields.CharField(blank=True)
+  response_base_path = fields.CharField(blank=True)
 
 class EmailTrailItem(EmbeddedMongoModel):
   value = fields.DictField()

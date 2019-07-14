@@ -2,7 +2,19 @@ from chalicelib.models import Form, serialize_model
 from bson.objectid import ObjectId
 from pydash.arrays import union
 import boto3
-POSSIBLE_PERMISSIONS = ["owner", "Responses_View", "Responses_Export", "Responses_ViewSummary", "Responses_Edit", "Responses_Delete", "Responses_CheckIn", "Forms_Edit", "Forms_PermissionsView", "Forms_PermissionsEdit"] # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
+POSSIBLE_PERMISSIONS = [
+  "owner",
+  "Responses_View",
+  "Responses_Export",
+  "Responses_ViewSummary",
+  "Responses_Edit",
+  "Responses_AdminInfo_Edit"
+  "Responses_Delete",
+  "Responses_CheckIn",
+  "Forms_Edit",
+  "Forms_PermissionsView",
+  "Forms_PermissionsEdit"
+  ] # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
 
 
 def list_all_users(userIds):
