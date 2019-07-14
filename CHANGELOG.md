@@ -3,7 +3,7 @@
 - Feat: Add a DynamicEnumField which allows changing of enum values based on form data.
 - Admin FormList UI improvements
 - Admin ResponseDetail UI improvements - tab view with more information quickly available.
-- Feat: Add cff_yeardiff function to expressions, which calculates the time delta in years between two dates.
+- Feat: Add cff_yeardiff function to expressions, which calculates the time delta in years between two dates. (Note: this change ended up dropping support for expressions with quotes, such as `race:'Half Marathon'`.)
 
 - Fix: fix the AutoPopulateField to work properly now. It also caches data from an endpoint in sessionStorage, and automatically sorts its items alphabetically.
 - Fix: refactor, fix glitchiness with context menus
