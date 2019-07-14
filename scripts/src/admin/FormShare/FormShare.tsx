@@ -1,7 +1,7 @@
 import * as React from "react";
 import { API } from "aws-amplify";
 import dataLoadingView from "../util/DataLoadingView";
-import { forOwn, set, get } from "lodash";
+import { pickBy } from "lodash";
 import UserRow from "./UserRow";
 import { IFormShareProps } from "./FormShare.d";
 import { IFormShareState } from "./FormShare.d";
@@ -19,6 +19,14 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
   }
 
   async onPermissionsChange(userId, permissionName, value) {
+    let newPermissions = pickBy(
+      {
+        ...this.state.permissions[userId],
+        [permissionName]: value
+      },
+      value => value === true
+    );
+
     try {
       let response = await API.post(
         "CFF",
@@ -26,14 +34,11 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
         {
           body: {
             userId: userId,
-            permissions: {
-              ...this.state.permissions[userId],
-              [permissionName]: value
-            }
+            permissions: newPermissions
           }
         }
       );
-      this.setState({ permissions: response.res });
+      this.setState({ permissions: response.res.permissions });
     } catch (e) {
       alert("There was an error doing this action.");
       this.props.onError(e);
@@ -48,11 +53,15 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
         {
           body: {
             email: this.state.newUserEmail,
-            permissions: { Responses_View: false }
+            permissions: {}
           }
         }
       );
-      this.setState({ newUserEmail: "", permissions: response.res });
+      this.setState({
+        newUserEmail: "",
+        permissions: response.res.permissions,
+        users: { ...this.state.users, ...response.res.userLookup }
+      });
     } catch (e) {
       alert("There was an error doing this action.");
       this.props.onError(e);
