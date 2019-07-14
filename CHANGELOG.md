@@ -1,9 +1,10 @@
 ## pending
+- Feat: Allow form sharing by entering email addresses
+- Feat: Add a DynamicEnumField which allows changing of enum values based on form data.
+
 - Fix: fix the AutoPopulateField to work properly now. It also caches data from an endpoint in sessionStorage, and automatically sorts its items alphabetically.
 - Fix: refactor, fix glitchiness with context menus
-- Feat: Allow form sharing by entering email addresses
 - Fix: Remove users from share screen when they no longer have any permissions
-
 - Fix: fix padding on top and bottom of AutoPopulateField and form in general
 - Fix: upgrade to new Monaco version to slim bundle size
 ## 3.14.0 

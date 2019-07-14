@@ -21,6 +21,7 @@ import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget"
 import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
 import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioWidget";
 import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
+import DynamicEnumField from "./form_widgets/DynamicEnumField";
 
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
@@ -78,7 +79,8 @@ const fields = {
   DescriptionField: FormattedDescriptionField,
   TitleField: CustomTitleField,
   "cff:sameAs": SameAsField,
-  "cff:autoPopulate": AutoPopulateField
+  "cff:autoPopulate": AutoPopulateField,
+  "cff:dynamicEnum": DynamicEnumField
 };
 
 function validate(formData, errors, validationSchema) {

@@ -107,7 +107,9 @@ class AutoPopulateField extends React.Component<any, any> {
           tagName={"div"}
           uiSchema={uiSchema}
           formData={this.props.formData}
-          className={"ccmt-cff-Page-SubFormPage-AutoPopulate"}
+          className={
+            "ccmt-cff-Page-SubFormPage ccmt-cff-Page-SubFormPage-AutoPopulate"
+          }
           onChange={e => this.props.onChange(e.formData)}
         >
           &nbsp;
