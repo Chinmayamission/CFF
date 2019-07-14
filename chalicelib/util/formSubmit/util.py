@@ -111,7 +111,6 @@ def calculate_price(expressionString, data):
             replaced = replaced.replace("'", "")
             expressionString = expressionString.replace(quoted_part, replaced)
     expressionString = expressionString.replace("$", "")
-    #raise Exception(expressionString)
     parser = Parser()
     expr = parser.parse(expressionString)
     context = {}

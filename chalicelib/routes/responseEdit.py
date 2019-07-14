@@ -85,7 +85,8 @@ def response_payment(responseId):
         date = dateutil.parser.parse(date["$date"])
     id = app.current_request.json_body["id"]
     method = app.current_request.json_body["method"]
-    paid = mark_successful_payment(response.form, response, {"type": "manual", "method": method, "id": id}, method, amount, currency, id, date=date)
+    send_email = app.current_request.json_body.get("sendEmail", True)
+    paid = mark_successful_payment(response.form, response, {"type": "manual", "method": method, "id": id}, method, amount, currency, id, date=date, send_email=send_email)
     response.save()
     return {"res": {"success": True, "paid": paid, "response": serialize_model(response)}}
 
