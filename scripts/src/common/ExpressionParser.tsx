@@ -88,7 +88,7 @@ export namespace ExpressionParser {
       } else {
         value = parseFloat(value) || 0;
       }
-      return Math.round(value * 100) / 100;
+      return value;
     } else {
       return value;
     }
@@ -113,7 +113,8 @@ export namespace ExpressionParser {
       );
     }
     context = { ...context, ...DEFAULT_CONTEXT };
-    return parser.parse(expressionString).evaluate(context);
+    let price = parser.parse(expressionString).evaluate(context);
+    return Math.ceil(price * 100) / 100;
   }
 }
 

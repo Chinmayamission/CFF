@@ -64,4 +64,7 @@ describe("calculate_price", () => {
       })
     ).toEqual(20);
   });
+  test("round up to next cent", () => {
+    expect(ExpressionParser.calculate_price("1 / 3 ", {})).toEqual(0.34);
+  });
 });
