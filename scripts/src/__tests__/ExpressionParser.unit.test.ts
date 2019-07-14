@@ -57,5 +57,11 @@ describe("calculate_price", () => {
       )
     ).toEqual(1);
   });
-  // todo: add more tests here.
+  test("yeardiff function", () => {
+    expect(
+      ExpressionParser.calculate_price("cff_yeardiff('2019-09-01', dob)", {
+        dob: "1999-01-02"
+      })
+    ).toEqual(20);
+  });
 });

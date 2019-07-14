@@ -1,8 +1,18 @@
 import { Parser } from "expr-eval";
 import { isArray } from "lodash";
+import moment from "moment";
+
 const DELIM_VALUE = "ASFASFSDF";
 const SPACE_VALUE = "SDSDGSDFS";
 const DOT_VALUE = "ADKLFJSFL";
+
+const DEFAULT_CONTEXT = {
+  cff_yeardiff: (datestr1, datestr2) => {
+    const d1 = moment(datestr1, "YYYY-MM-DD");
+    const d2 = moment(datestr2, "YYYY-MM-DD");
+    return d1.diff(d2, "years");
+  }
+};
 
 const compare = (v, key_value_eq) => {
   return String(v).trim() === String(key_value_eq).trim();
@@ -74,8 +84,7 @@ export namespace ExpressionParser {
         value = value ? 1 : 0;
       }
       if (isNaN(value)) {
-        value = 0;
-        // throw "Key " + variable + " is not numeric";
+        return value;
       } else {
         value = parseFloat(value) || 0;
       }
@@ -89,17 +98,6 @@ export namespace ExpressionParser {
     // For example, "participants.age * 12"
     // "participants * 12" will use participants' length if it is an array.
     expressionString = expressionString.replace(/:/g, DELIM_VALUE);
-
-    let quotedStrings = expressionString.match("('.+?')");
-    if (quotedStrings) {
-      for (let i = 0; i < quotedStrings.length; i++) {
-        let quoted_string = quotedStrings[i];
-        let replaced = quoted_string
-          .replace(/ /g, SPACE_VALUE)
-          .replace(/'/g, "");
-        expressionString = expressionString.replace(quoted_string, replaced);
-      }
-    }
     expressionString = expressionString.replace(/\$/g, "");
 
     let parser = new Parser();
@@ -114,6 +112,7 @@ export namespace ExpressionParser {
         escapedVariable
       );
     }
+    context = { ...context, ...DEFAULT_CONTEXT };
     return parser.parse(expressionString).evaluate(context);
   }
 }
