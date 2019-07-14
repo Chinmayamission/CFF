@@ -36,7 +36,6 @@ def response_ccavenue_response_handler(responseId):
     # todo: redirect to another error page.
   elif paramDict["order_status"] == "Success":
     order_id = paramDict["order_id"]
-    print(response.payment_trail)
     if any(item.status == "SUCCESS" and item.id == order_id and item.method == "ccavenue" for item in response.payment_trail):
         mark_error_payment(response, f"Duplicate IPN transaction ID: {order_id}", "ccavenue", paramDict) 
     mark_successful_payment(

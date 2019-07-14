@@ -14,7 +14,6 @@ class TestCcavutil(unittest.TestCase):
     encrypted = encrypt(INPUT_DATA, WORKING_KEY)
     decrypted = decrypt(encrypted, WORKING_KEY)
     self.assertEqual(INPUT_DATA, decrypted)
-    print(encrypted)
 
 class TestCcAvenue(unittest.TestCase):
   def test_update_ccavenue_hash(self):
