@@ -17,7 +17,10 @@ it("renders table with no payments found", () => {
     value: {},
     amount_paid: "0",
     paid: false,
-    payment_trail: null
+    payment_trail: null,
+    paymentInfo: {
+      total: 0
+    }
   };
   store.dispatch(setResponseDetail(response));
   const wrapper = render(
@@ -25,8 +28,8 @@ it("renders table with no payments found", () => {
       <PaymentHistory />
     </Provider>
   );
-  // expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("No rows found");
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("render several types of payments", () => {
@@ -50,7 +53,10 @@ it("render several types of payments", () => {
     value: {},
     amount_paid: "0",
     paid: false,
-    payment_trail: null
+    payment_trail: null,
+    paymentInfo: {
+      total: 0
+    }
   };
   store.dispatch(setResponseDetail(response));
   const wrapper = render(
@@ -58,12 +64,12 @@ it("render several types of payments", () => {
       <PaymentHistory />
     </Provider>
   );
-  // expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("$12.00");
   expect(wrapper.text()).toContain("id1");
   expect(wrapper.text()).toContain("id2");
   expect(wrapper.text()).toContain("$24.00");
   expect(wrapper.text()).not.toContain("No rows found");
+  expect(wrapper).toMatchSnapshot();
 });
 
 it("Does not let you add a new payment when all fields are not entered", () => {
@@ -73,7 +79,10 @@ it("Does not let you add a new payment when all fields are not entered", () => {
     value: {},
     amount_paid: "0",
     paid: false,
-    payment_trail: null
+    payment_trail: null,
+    paymentInfo: {
+      total: 0
+    }
   };
   store.dispatch(setResponseDetail(response));
   const spy = sinon.spy();
@@ -93,7 +102,10 @@ it("Lets you add a new payment", () => {
     value: {},
     amount_paid: "0",
     paid: false,
-    payment_trail: null
+    payment_trail: null,
+    paymentInfo: {
+      total: 0
+    }
   };
   store.dispatch(setResponseDetail(response));
   store.dispatch(onPaymentStatusDetailChange("amount", "40"));
@@ -108,5 +120,5 @@ it("Lets you add a new payment", () => {
   );
   wrapper.find(".cff-payment-history-btn-add").simulate("click");
   // Todo fix
-  // expect(spy.calledOnceWith(submitNewPayment())).toBe(true);
+  // expect(spy.calledOnceWith(submitNewPayment({sendEmail: true}))).toBe(true);
 });
