@@ -84,14 +84,14 @@ export const displayResponseDetail = (shownResponseDetailId: string) => ({
   shownResponseDetailId
 });
 
-export const submitNewPayment = () => (dispatch, getState) => {
+export const submitNewPayment = ({ sendEmail }) => (dispatch, getState) => {
   dispatch(loadingStart());
   let responsesState: ResponsesState = getState().responses;
   return API.post(
     "CFF",
     `responses/${responsesState.responseData._id.$oid}/payment`,
     {
-      body: responsesState.paymentStatusDetailItem
+      body: { ...responsesState.paymentStatusDetailItem, sendEmail }
     }
   )
     .then(e => {

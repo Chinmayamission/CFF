@@ -13,10 +13,11 @@ import moment from "moment";
 import Headers from "../../util/Headers";
 import { getPaidStatus } from "../../util/dataOptionUtil";
 import { formatPayment } from "../../util/formatPayment";
+import CustomForm from "../../../form/CustomForm";
 
 interface IValueEditProps extends ResponsesState {
   onChange: (a, b) => void;
-  submitNewPayment: () => void;
+  submitNewPayment: (e: any) => void;
 }
 class PaymentHistory extends React.Component<IValueEditProps, {}> {
   formatPayment(total, currency = "USD") {
@@ -29,10 +30,10 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
       return total + " " + currency;
     }
   }
-  submitNewPayment() {
+  submitNewPayment(e) {
     const item = this.props.paymentStatusDetailItem;
     if (item.amount && item.id && item.method) {
-      return this.props.submitNewPayment();
+      return this.props.submitNewPayment(e);
     } else {
       alert("Please fill out all fields before submitting.");
     }
@@ -102,21 +103,6 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
             />
           </div>
         )
-      },
-      {
-        Header: "Submit",
-        id: "submit",
-        accessor: e => null,
-        Footer: (
-          <div>
-            <button
-              className="btn btn-sm btn-primary cff-payment-history-btn-add"
-              onClick={e => this.submitNewPayment()}
-            >
-              Add
-            </button>
-          </div>
-        )
       }
     ];
     const response = this.props.responseData;
@@ -148,6 +134,27 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
           minRows={0}
           showPagination={data.length > 5}
         />
+        <CustomForm
+          schema={{
+            type: "object",
+            properties: {
+              sendEmail: {
+                default: true,
+                type: "boolean",
+                enumNames: ["Yes", "No"],
+                description: "Send confirmation email"
+              }
+            }
+          }}
+          uiSchema={{
+            sendEmail: {}
+          }}
+          onSubmit={e => this.submitNewPayment(e.formData)}
+        >
+          <button className="btn btn-sm btn-primary cff-payment-history-btn-add">
+            Add new payment
+          </button>
+        </CustomForm>
       </div>
     );
   }
@@ -159,7 +166,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onChange: (a, b) => dispatch(onPaymentStatusDetailChange(a, b)),
-  submitNewPayment: () => dispatch(submitNewPayment())
+  submitNewPayment: e => dispatch(submitNewPayment(e))
 });
 
 export default connect(
