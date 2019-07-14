@@ -25,6 +25,19 @@ def list_all_users(userIds):
       user_lookup[userIdFull] = {"name": "unknown", "email": "unknown", "id": userIdFull}
   return user_lookup
 
+def get_user_by_email(email):
+  from ..main import USER_POOL_ID
+  client = boto3.client('cognito-idp', 'us-east-1')
+  response = client.list_users(
+    UserPoolId=USER_POOL_ID,
+    AttributesToGet=["sub"],
+    Limit=1,
+    Filter="email ^= \"{}\"".format(email)
+  )
+  if len(response["Users"]) == 0:
+    return None
+  return response["Users"][0]["Username"]
+
 def form_get_permissions(formId):
   """
   Get form permission user ID's and resolve them into name & email.
@@ -44,9 +57,10 @@ def form_get_permissions(formId):
 
 def form_edit_permissions(formId):
   """Set form permissions of a particular user to an array.
-  POST request, with body:
+  POST request, with body: (either userId or email is required.)
   {
     "userId": "cm:cognitoUserPool:.....",
+    "email": "a@b.com",
     "permissions": ["Responses_Edit", "Responses_View", ""] or string. -- should have all permissions you want user to be assigned to.
   }
   """
@@ -54,7 +68,8 @@ def form_edit_permissions(formId):
   form = Form.objects.get({"_id":ObjectId(formId)})
   app.check_permissions(form, 'Forms_PermissionsEdit')
   permissions = app.current_request.json_body['permissions']
-  userId = app.current_request.json_body['userId']
+  userId = app.current_request.json_body.get('userId', None)
+  email = app.current_request.json_body.get('email', None)
   if "owner" in permissions and permissions["owner"] == True: # Only owners can add new owners.
     app.check_permissions(form, 'owner')
   for i, v in permissions.items():
@@ -63,6 +78,13 @@ def form_edit_permissions(formId):
     if type(v) is not bool:
       raise Exception("Permission {} not formatted correctly; each value should be a boolean.".format({i: v}))
   # todo: update date last modified, here, too?
+  if not userId:
+    if not email:
+      raise Exception("Either userId or email must be specified.")
+    userId = get_user_by_email(email.strip())
+    if not userId:
+      raise Exception("User not found for specified email.")
+    userId = "cm:cognitoUserPool:" + userId
   form.cff_permissions[userId] = permissions
   form.save()
   return {"res": form.cff_permissions, "success": True, "action": "update"}

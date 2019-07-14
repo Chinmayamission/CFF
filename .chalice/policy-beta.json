@@ -30,7 +30,10 @@
     },
     {
       "Effect": "Allow",
-      "Action": "cognito-idp:AdminGetUser",
+      "Action": [
+        "cognito-idp:AdminGetUser",
+        "cognito-idp:ListUsers"
+      ],
       "Resource": [
           "arn:aws:cognito-idp:us-east-1:131049698002:userpool/us-east-1_U9ls8R6E3"
       ]
