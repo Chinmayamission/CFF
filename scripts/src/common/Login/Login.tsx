@@ -196,7 +196,7 @@ class Login extends React.Component<ILoginProps, {}> {
             {" "}
             <img
               src={require("../../img/logo.png")}
-              style={{ width: 40, marginRight: 40 }}
+              style={{ height: 40, marginRight: 20 }}
             />{" "}
           </Link>
           <div style={{ display: "inline-block", verticalAlign: "middle" }}>
