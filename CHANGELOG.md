@@ -13,6 +13,7 @@
 - Fix: Decrease height of top admin bar
 - Fix: Improve admin UI to make it more compact
 - Feat: Allow admins to add a new payment without selecting "Send confirmation email"
+- Fix: Always round up prices to the next highest cent (for example, 33.3333 -> 33.34)
 
 ## 3.14.0 
 - Feat: Send backend confirmation emails whenever a successful payment has been received, even if the value for PAID is not true. This means that it will be useful to show the payment status and/or payment tables in the confirmation email templates so that the user knows if they have fully paid or not. This also means that emails will be sent out in case of a refund.
