@@ -85,7 +85,13 @@ def form_edit_permissions(formId):
     if not userId:
       raise Exception("User not found for specified email.")
     userId = "cm:cognitoUserPool:" + userId
-  form.cff_permissions[userId] = permissions
+  if permissions == {} and userId in form.cff_permissions:
+    del form.cff_permissions[userId]
+  else:
+    form.cff_permissions[userId] = permissions
   form.save()
-  return {"res": form.cff_permissions, "success": True, "action": "update"}
-  
+  response = {"res": {"permissions": form.cff_permissions}, "success": True, "action": "update"}
+  if email:
+    # Return additional userLookup object when adding a new email.
+    response["res"]["userLookup"] = list_all_users([userId])
+  return response

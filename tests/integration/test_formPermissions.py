@@ -59,7 +59,7 @@ class FormPermissions(BaseTestCase):
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        self.assertEqual({"Responses_Edit": True, "Responses_View": True}, body['res'][COGNITO_IDENTITY_ID_NO_PERMISSIONS])
+        self.assertEqual({"Responses_Edit": True, "Responses_View": True}, body['res']['permissions'][COGNITO_IDENTITY_ID_NO_PERMISSIONS])
         # Remove permissions.
         body = {
           "userId": COGNITO_IDENTITY_ID_NO_PERMISSIONS,
@@ -72,7 +72,7 @@ class FormPermissions(BaseTestCase):
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
         self.assertTrue(len(body['res']) > 0, "No forms returned!")
-        self.assertEqual({}, body['res'].get(COGNITO_IDENTITY_ID_NO_PERMISSIONS, {}))
+        self.assertTrue(COGNITO_IDENTITY_ID_NO_PERMISSIONS not in body['res'])
     def create_user(self, userId, email):
       client = boto3.client('cognito-idp', 'us-east-1')
       response = client.admin_create_user(
@@ -95,7 +95,7 @@ class FormPermissions(BaseTestCase):
                                           body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
-        self.assertEqual({"Responses_Edit": True, "Responses_View": True}, body['res'][userId])
+        self.assertEqual({"Responses_Edit": True, "Responses_View": True}, body['res']['permissions'][userId])
         # Remove permissions.
         body = {
           "email": "a@b.com",
