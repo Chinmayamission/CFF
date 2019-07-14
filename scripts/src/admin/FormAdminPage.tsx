@@ -8,7 +8,7 @@ import FormShare from "./FormShare/FormShare";
 import Loading from "../common/Loading/Loading";
 import "./admin.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import history from "../history";
 import { connect } from "react-redux";
@@ -16,92 +16,13 @@ import { connect } from "react-redux";
 import Login from "../common/Login/Login";
 import { IFormAdminPageProps, IFormAdminPageState } from "./admin";
 import FormCheckin from "./FormCheckin/FormCheckin";
+import FormPageMenu from "./FormPageMenu";
 
 declare var VERSION: string;
 const STATUS_LOADING = 0;
 const STATUS_ERROR = 11;
 const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
-
-function FormPageMenu(props) {
-  let formId = props.match.params.formId;
-  return (
-    <div>
-      <button
-        className="btn btn-sm btn-outline-primary"
-        onClick={() =>
-          history.push({
-            pathname: `/admin/${formId}/edit/`,
-            state: props.location.state
-          })
-        }
-      >
-        <span className="oi oi-pencil" />
-        Edit
-      </button>
-      <button
-        className="btn btn-sm btn-outline-primary"
-        onClick={() =>
-          history.push({
-            pathname: `/v2/forms/${formId}/`,
-            state: props.location.state
-          })
-        }
-      >
-        <span className="oi oi-document" />
-        View
-      </button>
-      <button
-        className="btn btn-sm btn-outline-primary"
-        onClick={() =>
-          history.push({
-            pathname: `/admin/${formId}/embed/`,
-            state: props.location.state
-          })
-        }
-      >
-        <span className="oi oi-document" />
-        Embed
-      </button>
-      <button
-        className="btn btn-sm btn-outline-primary"
-        onClick={() =>
-          history.push({
-            pathname: `/admin/${formId}/responses/`,
-            state: props.location.state
-          })
-        }
-      >
-        <span className="oi oi-document" />
-        Responses
-      </button>
-      <button
-        className="btn btn-sm btn-outline-primary"
-        onClick={() =>
-          history.push({
-            pathname: `/admin/${formId}/share/`,
-            state: props.location.state
-          })
-        }
-      >
-        <span className="oi oi-share-boxed" />
-        Share
-      </button>
-      <button
-        className="btn btn-sm btn-outline-primary"
-        onClick={() =>
-          history.push({
-            pathname: `/admin/${formId}/checkin/`,
-            state: props.location.state
-          })
-        }
-      >
-        <span className="oi oi-sort-ascending" />
-        Checkin
-      </button>
-    </div>
-  );
-}
 
 class FormAdminPage extends React.Component<
   IFormAdminPageProps,
@@ -168,7 +89,19 @@ class FormAdminPage extends React.Component<
     }
     return (
       <div className="App FormAdminPage">
-        <Route path="/admin/:formId" component={FormPageMenu} />
+        <Route
+          path="/admin/:formId"
+          render={props => (
+            <FormPageMenu
+              formId={props.match.params.formId}
+              ItemComponent={props => (
+                <button className="btn btn-sm btn-outline-primary">
+                  {props.children}
+                </button>
+              )}
+            />
+          )}
+        />
         <Route path="/admin/:formId" component={FormPages} />
         <Switch>
           <Route

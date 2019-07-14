@@ -11,6 +11,7 @@ import { loadFormList, createForm } from "../../store/admin/actions";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import history from "../../history";
 import Loading from "../../common/Loading/Loading";
+import FormPageMenu from "../FormPageMenu";
 
 const mapStateToProps = state => ({
   ...state.auth,
@@ -146,86 +147,10 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
                 className="d-none d-sm-block"
                 id={form["_id"]["$oid"]}
               >
-                <MenuItem
-                  onClick={() =>
-                    history.push({
-                      pathname: `/v2/forms/${form["_id"]["$oid"]}`,
-                      state: { selectedForm: form }
-                    })
-                  }
-                >
-                  <span className="oi oi-document" />
-                  &nbsp;View
-                </MenuItem>
-                <MenuItem
-                  onClick={() =>
-                    history.push({
-                      pathname: `./${form["_id"]["$oid"]}/embed/`,
-                      state: { selectedForm: form }
-                    })
-                  }
-                >
-                  <span className="oi oi-document" />
-                  &nbsp;Embed
-                </MenuItem>
-                <MenuItem divider />
-                <MenuItem
-                  onClick={() =>
-                    history.push({
-                      pathname: `./${form["_id"]["$oid"]}/edit/`,
-                      state: { selectedForm: form }
-                    })
-                  }
-                >
-                  <span className="oi oi-pencil" />
-                  &nbsp;Edit
-                </MenuItem>
-                <MenuItem
-                  onClick={() =>
-                    history.push({
-                      pathname: `./${form["_id"]["$oid"]}/responses/`,
-                      state: { selectedForm: form }
-                    })
-                  }
-                >
-                  <span className="oi oi-sort-ascending" />
-                  &nbsp;Responses
-                </MenuItem>
-                <MenuItem
-                  onClick={() =>
-                    history.push({
-                      pathname: `./${form["_id"]["$oid"]}/share/`,
-                      state: { selectedForm: form }
-                    })
-                  }
-                >
-                  <span className="oi oi-share-boxed" />
-                  &nbsp;Share
-                </MenuItem>
-                <MenuItem onClick={() => this.props.createForm(form._id.$oid)}>
-                  <span className="oi oi-plus" />
-                  &nbsp; Duplicate
-                </MenuItem>
-                <MenuItem
-                  data={{ foo: "Delete" }}
-                  onClick={() => {
-                    this.delete(formList, form["_id"]["$oid"]);
-                  }}
-                >
-                  <span className="oi oi-trash" />
-                  &nbsp; Delete
-                </MenuItem>
-                <MenuItem
-                  onClick={() =>
-                    history.push({
-                      pathname: `./${form["_id"]["$oid"]}/checkin/`,
-                      state: { selectedForm: form }
-                    })
-                  }
-                >
-                  <span className="oi oi-sort-ascending" />
-                  &nbsp;Checkin
-                </MenuItem>
+                <FormPageMenu
+                  formId={form._id.$oid}
+                  ItemComponent={props => <MenuItem>{props.children}</MenuItem>}
+                />
               </ContextMenu>
             </React.Fragment>
           ))}
