@@ -67,6 +67,9 @@ class TestCalculatePrice(unittest.TestCase):
         data = {"dob": "1999-01-02"}
         price = calculate_price("cff_yeardiff('2019-09-01', dob)", data)
         self.assertEqual(price, 20.0)
+    def test_round_up_next_cent(self):
+        price = calculate_price("1/3", {})
+        self.assertEqual(price, 0.34)
     @unittest.skip("not implemented yet")
     def test_arbitrary_strings(self):
         price = calculate_price("(participants.race:'5K - OK') * 25", {"participants": [{"name": "A", "race": "5K - OK"}, {"name": "B", "race": "5K - OK"}, {"name": "C", "race": "10K"}]})

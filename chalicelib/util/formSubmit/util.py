@@ -5,6 +5,7 @@ from collections import defaultdict
 from pydash.objects import get
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from math import ceil
 """
 workon cff
 python -m doctest chalicelib/util/formSubmit/util.py
@@ -51,7 +52,7 @@ def parse_number_formula(data, variable, numeric=True):
             value = 1 if value is True else 0
         if not isinstance(value, (int, float)):
             return value
-        return round(float(value), 2)
+        return float(value)
     else:
         return value
 
@@ -121,7 +122,8 @@ def calculate_price(expressionString, data):
     for variable in expr.variables():
         context[variable] = parse_number_formula(data, variable)
     context = dict(context, **DEFAULT_CONTEXT)
-    return expr.evaluate(context)
+    price = expr.evaluate(context)
+    return ceil(float(price) * 100) / 100
 
 def format_payment(total, currency='USD'):
     if total is None or total is "": return ""
