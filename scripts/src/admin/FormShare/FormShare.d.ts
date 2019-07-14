@@ -9,7 +9,7 @@ export interface IFormShareState {
   permissions: any;
   users: any;
   possiblePermissions: string[];
-  newUserId: string;
+  newUserEmail: string;
 }
 
 export interface IUserRowProps {

@@ -14,41 +14,49 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
       possiblePermissions: data["res"]["possiblePermissions"],
       permissions: data["res"]["permissions"],
       users: data["res"]["userLookup"],
-      newUserId: ""
+      newUserEmail: ""
     };
   }
 
-  onPermissionsChange(userId, permissionName, value) {
-    let permissions = this.state.permissions;
-    set(permissions, `${userId}.${permissionName}`, value);
-    return API.post(
-      "CFF",
-      `forms/${this.props.match.params.formId}/permissions`,
-      {
-        body: {
-          userId: userId,
-          permissions: get(permissions, userId)
+  async onPermissionsChange(userId, permissionName, value) {
+    try {
+      let response = await API.post(
+        "CFF",
+        `forms/${this.props.match.params.formId}/permissions`,
+        {
+          body: {
+            userId: userId,
+            permissions: {
+              ...this.state.permissions[userId],
+              [permissionName]: value
+            }
+          }
         }
-      }
-    )
-      .then(e => {
-        this.setState({ permissions });
-      })
-      .catch(e => {
-        alert("You do not have permission to do this action.");
-        this.props.onError(e);
-      });
+      );
+      this.setState({ permissions: response.res });
+    } catch (e) {
+      alert("There was an error doing this action.");
+      this.props.onError(e);
+    }
   }
 
-  addUser() {
-    this.onPermissionsChange(
-      this.state.newUserId,
-      "Responses_View",
-      false
-    ).then(e => {
-      this.setState({ newUserId: "" });
-      this.props.refreshData();
-    });
+  async addUser() {
+    try {
+      let response = await API.post(
+        "CFF",
+        `forms/${this.props.match.params.formId}/permissions`,
+        {
+          body: {
+            email: this.state.newUserEmail,
+            permissions: { Responses_View: false }
+          }
+        }
+      );
+      this.setState({ newUserEmail: "", permissions: response.res });
+    } catch (e) {
+      alert("There was an error doing this action.");
+      this.props.onError(e);
+    }
   }
 
   render() {
@@ -89,11 +97,11 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
                   >
                     <div style={{ flex: "3" }}>
                       <input
-                        placeholder="Enter new user ID"
+                        placeholder="Enter new user email"
                         type="text"
-                        value={this.state.newUserId}
+                        value={this.state.newUserEmail}
                         onChange={e =>
-                          this.setState({ newUserId: e.target.value })
+                          this.setState({ newUserEmail: e.target.value })
                         }
                         className="form-control form-control-sm"
                       />
