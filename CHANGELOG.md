@@ -1,4 +1,4 @@
-## pending
+## 3.15.1
 - fix: calculate installments properly from multiple totals
 
 ## 3.15.0 
