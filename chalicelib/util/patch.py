@@ -1,4 +1,4 @@
-from jsonpatch import JsonPatch, JsonPatchTestFailed
+from jsonpatch import JsonPatch, JsonPatchTestFailed, JsonPatchConflict
 from pydash.objects import get
 from jsonpointer import resolve_pointer
 import itertools
@@ -27,7 +27,16 @@ def unwind(input, data):
     input = dict(input)
     unwind_json_pointer = input.pop("unwind")
     num_elements = len(resolve_pointer(data, unwind_json_pointer, []))
-    return [dict(input, path=f"{unwind_json_pointer}/{i}{input['path']}") for i in range(0, num_elements)]
+    if input["type"] == "walk" and "path" in input:
+        return [dict(input, path=f"{unwind_json_pointer}/{i}{input['path']}") for i in range(0, num_elements)]
+    elif "value" in input:
+        results = []
+        value = input.pop("value")
+        for idx, item in enumerate(value):
+            if "path" in value[idx]:
+                for i in range(0, num_elements):
+                    results.append(dict(input, value=[dict(value[idx], path=f"{unwind_json_pointer}/{i}{value[idx]['path']}")] ))
+        return results # Flatten list of lists
 
 def patch_predicate(value, patches):
     patched_value = value
@@ -40,6 +49,6 @@ def patch_predicate(value, patches):
         for patch in json_patch_list:
             try:
                 patched_value = JsonPatch(patch).apply(patched_value)
-            except JsonPatchTestFailed:
+            except (JsonPatchTestFailed, JsonPatchConflict):
                 pass
     return patched_value

@@ -36,6 +36,22 @@ class TestPatchPredicate(unittest.TestCase):
     patch = {"type": "patch", "value": [{ "op": "replace", "path": "/grade", "value": "D" }]}
     expected_patches = [[{ "op": "replace", "path": "/grade", "value": "D" }]]
     self.assertEqual(convert_to_json_patches(patch), expected_patches)
+  def test_patch_unwind(self):
+    patches = [
+      {"type": "patch", "unwind": "/children", "value": [{"op": "add", "path": "/grade", "value": "D"}]}
+    ]
+    data = {"children": [{"a": "B"}, {"a": "C"}]}
+    expected_data = {"children": [{"a": "B", "grade": "D"}, {"a": "C", "grade": "D"}]}
+    self.assertEqual(patch_predicate(data, patches), expected_data)
+  def test_patch_unwind_remove_nonexistent(self):
+    patches = [
+      {"type": "patch", "unwind": "/children", "value": [
+        {"op": "remove", "path": "/grade"}
+      ] }
+    ]
+    data = {"children": [{"a": "B"}, {"a": "C", "grade": "D"}]}
+    expected_data = {"children": [{"a": "B"}, {"a": "C"}]}
+    self.assertEqual(patch_predicate(data, patches), expected_data)
   def test_walk_simple(self):
     patches = [
       {"type": "walk", "items": ["A","B","C"], "path": "/grade"}
@@ -44,7 +60,7 @@ class TestPatchPredicate(unittest.TestCase):
     self.assertEqual(patch_predicate({"grade": "B"}, patches), {"grade": "C"})
     self.assertEqual(patch_predicate({"grade": "C"}, patches), {"grade": "C"})
     self.assertEqual(patch_predicate({"grade": "D"}, patches), {"grade": "D"})
-  def test_unwind_patch(self):
+  def test_unwind_walk_patch(self):
     input = {"type": "walk", "unwind": "/participants", "items": ["A","B","C"], "path": "/grade"}
     data = {"participants": [
       {"grade": "A"},
