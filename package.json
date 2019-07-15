@@ -64,6 +64,7 @@
     "lint-staged": "^9.1.0",
     "lodash.assign": "^4.2.0",
     "mini-css-extract-plugin": "^0.4.0",
+    "mockdate": "^2.0.3",
     "monaco-editor-webpack-plugin": "^1.7.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "prettier": "^1.18.2",
