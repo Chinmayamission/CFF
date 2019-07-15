@@ -161,8 +161,8 @@ function CustomForm(props: ICustomFormProps) {
         showErrorList={true}
         ErrorList={ErrorListTemplate}
         formContext={{ formData: props.formData }}
-        omitExtraData={true}
-        liveOmit={true}
+        omitExtraData={props.omitExtraData}
+        liveOmit={props.omitExtraData}
       >
         {props.children}
         {!props.children && props.showPaymentTable && (

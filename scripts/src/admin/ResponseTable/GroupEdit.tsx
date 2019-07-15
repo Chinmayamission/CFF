@@ -7,6 +7,7 @@ interface IGroupEditProps {
   dataOptionView: IDataOptionView;
   onSubmit: (id: string, e: any) => void;
 }
+
 export default (props: IGroupEditProps) => {
   return (
     <CustomForm

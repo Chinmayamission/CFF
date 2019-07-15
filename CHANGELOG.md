@@ -1,3 +1,6 @@
+## 3.16.3
+- Fix: don't make omitExtraData and liveOmit always true
+
 ## 3.16.2
 - fix: don't mutate data when performing calculate_price
 
