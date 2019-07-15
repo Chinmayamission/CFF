@@ -176,6 +176,38 @@ it("renders response table with group assign", () => {
   expect(wrapper.find("select").text()).toContain("Class Name Two");
 });
 
+it("renders response table with an editSchema specified instead of a group assign", () => {
+  const dataOptionView = {
+    id: "children_class_assign",
+    displayName: "Children Class Assign Display Name",
+    unwindBy: "children",
+    columns: [
+      {
+        label: "Class",
+        value: "children.class",
+        editSchema: {
+          type: "string",
+          enum: ["v1", "v2", "v3"],
+          enumNames: ["AAA", "BBB", "CCC"]
+        }
+      }
+    ]
+  };
+  const wrapper = render(
+    <ResponseTableView
+      responses={responses}
+      renderedForm={renderedForm}
+      dataOptionView={dataOptionView}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+
+  // Selects contain group names
+  expect(wrapper.find("select").text()).toContain("AAA");
+  expect(wrapper.find("select").text()).toContain("BBB");
+  expect(wrapper.find("select").text()).toContain("CCC");
+});
+
 it("renders response table with an undefined group assign", () => {
   const dataOptionView = {
     id: "children_class_assign",

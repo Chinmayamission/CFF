@@ -25,6 +25,7 @@ export interface IHeaderOption {
   groupAssignDisplayPath?: string | string[];
   groupAssignDisplayModel?: string;
   defaultFilter?: string;
+  editSchema?: any;
 }
 
 const filterMethodAllNone = (filter, row) => {
@@ -173,7 +174,15 @@ export namespace Headers {
         headerAccessor(formData, headerValue, schema, header.noSpace || false),
       Cell: row => formatValue(row.value)
     };
-    if (header.groupAssign) {
+    if (header.editSchema) {
+      renderGroupSelect(
+        null,
+        headerObj,
+        editResponse,
+        header,
+        header.editSchema
+      );
+    } else if (header.groupAssign) {
       const currentGroup: IGroupOption = find(groups, {
         id: header.groupAssign
       });
@@ -231,7 +240,7 @@ export namespace Headers {
               ],
               enumNames: ["None", "Defined", ...enumNames]
             }}
-            uiSchema={{ "ui:placeholder": "All" }}
+            uiSchema={{ "ui:placeholder": "All", "ui:widget": "select" }}
             formData={filter && filter.value}
             onChange={e => onChange(e.formData)}
           >
@@ -289,20 +298,23 @@ export namespace Headers {
     currentGroup: IGroupOption,
     headerObj: IHeaderObject,
     editResponse: (a: any, b: any, c: any) => any,
-    headerOption: IHeaderOption
+    headerOption: IHeaderOption,
+    selectSchema = null
   ) {
-    const selectSchema = {
-      type: "string",
-      enum: currentGroup.data.map(g => g.id),
-      enumNames: currentGroup.data
-        .map(g => g.displayName || g.id)
-        .map(e => formatValue(e))
-    };
+    if (currentGroup) {
+      selectSchema = {
+        type: "string",
+        enum: currentGroup.data.map(g => g.id),
+        enumNames: currentGroup.data
+          .map(g => g.displayName || g.id)
+          .map(e => formatValue(e))
+      };
+    }
     headerObj.headerClassName = "ccmt-cff-no-click";
     headerObj.Cell = row => (
       <Form
         schema={selectSchema}
-        uiSchema={{}}
+        uiSchema={{ "ui:widget": "select" }}
         formData={row.value}
         onChange={e => {
           if (typeof e.formData === "undefined") return;
@@ -338,7 +350,7 @@ export namespace Headers {
       return (
         <Form
           schema={selectSchemaFilter}
-          uiSchema={{ "ui:placeholder": "All" }}
+          uiSchema={{ "ui:placeholder": "All", "ui:widget": "select" }}
           formData={filter && filter.value}
           onChange={e => onChange(e.formData)}
         >
