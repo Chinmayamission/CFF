@@ -84,7 +84,6 @@ export function checkLoginStatus() {
     getCurrentUser()
       .then((user: { username: string; attributes: IUserAttributes }) => {
         if (!user) throw "No credentials";
-        console.log("creds", user);
         dispatch(loggedIn(user.username, user.attributes));
       })
       .catch(e => {
