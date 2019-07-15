@@ -242,4 +242,41 @@ describe("calculatePaymentInfo()", () => {
       expectedPaymentInfo
     );
   });
+  it("calculates installments from multiple totals", () => {
+    let paymentInfo = {
+      items: [
+        {
+          amount: "2",
+          quantity: "2"
+        },
+        {
+          amount: "0.5 * $total",
+          quantity: "1",
+          recurrenceDuration: "1M",
+          recurrenceTimes: 2,
+          installment: true
+        }
+      ]
+    };
+    let formData = {};
+    let expectedPaymentInfo = {
+      total: 4,
+      items: [
+        {
+          amount: 2,
+          quantity: 2
+        },
+        {
+          amount: 2,
+          quantity: 1,
+          recurrenceDuration: "1M",
+          recurrenceTimes: 2,
+          installment: true
+        }
+      ]
+    };
+    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
+      expectedPaymentInfo
+    );
+  });
 });

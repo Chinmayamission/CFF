@@ -1,3 +1,6 @@
+## pending
+- fix: calculate installments properly from multiple totals
+
 ## 3.15.0 
 - Feat: Allow form sharing by entering email addresses
 - Feat: Add a DynamicEnumField which allows changing of enum values based on form data.

@@ -49,6 +49,7 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
     paymentInfo["total"] +=
       paymentInfoItem["amount"] * paymentInfoItem["quantity"];
   }
+  formData["total"] = paymentInfo["total"];
   for (let paymentInfoItem of paymentInfoItemsInstallment) {
     paymentInfoItem.amount = ExpressionParser.calculate_price(
       paymentInfoItem.amount,
