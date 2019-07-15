@@ -1,3 +1,6 @@
+## 3.16.1
+- fix: fix patching with unwind
+
 ## 3.16.0
 - feat: add editSchema option, which allows one to specify inline editing on the responses admin view.
 - fix: handle countArray and getdiff cases when arguments passed to them are null/empty/nonexistent 

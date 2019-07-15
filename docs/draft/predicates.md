@@ -46,7 +46,23 @@ Sometimes you may want to modify the data to apply patches, such as promoting ch
 
 Sets the value at the `returning_family` path to `true`.
 ```
-{ "op": "add", "path": "/returning_family", "value": true }
+{
+    "type": "patch",
+    "value": [
+        { "op": "add", "path": "/returning_family", "value": true }
+    ]
+}
+```
+
+Removes the `grade` property for all objects in the array `children`.
+```
+{
+    "type": "patch",
+    "unwind": "/children",
+    "value": [
+        { "op": "remove", "path": "/grade" }
+    ]
+}
 ```
 
 ## Propagating paid status for recurring payments
