@@ -3,25 +3,11 @@ import flatdict
 import re
 from collections import defaultdict
 from pydash.objects import get
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from math import ceil
-"""
-workon cff
-python -m doctest chalicelib/util/formSubmit/util.py
-"""
 
 DELIM_VALUE = "D34hSK"
 SPACE_VALUE = "ASIDJa"
-
-def cff_yeardiff(datestr1, datestr2):
-    d1 = datetime.strptime(datestr1, "%Y-%m-%d")
-    d2 = datetime.strptime(datestr2, "%Y-%m-%d")
-    return relativedelta(d1, d2).years
-
-DEFAULT_CONTEXT = {
-    "cff_yeardiff": cff_yeardiff
-}
+DOT_VALUE = "DOTDOT123"
 
 def parse_number_formula(data, variable, numeric=True):
     """
@@ -107,12 +93,14 @@ def deep_access(x, keylist):
         val = val.get(key, 0)
     return val 
 
-def calculate_price(expressionString, data):
+def calculate_price(expressionString, data, numeric=True):
     """Calculates price based on the expression. 
     For example, "participants.age * 12"
     "participants * 12" will use participants' length if it is an array.
     todo: base 64 encode here.
+
     """
+    from .defaultContext import DEFAULT_CONTEXT
     if ":" in expressionString:
         expressionString = expressionString.replace(":", DELIM_VALUE)
     expressionString = expressionString.replace("$", "")
@@ -120,9 +108,15 @@ def calculate_price(expressionString, data):
     expr = parser.parse(expressionString)
     context = {}
     for variable in expr.variables():
-        context[variable] = parse_number_formula(data, variable)
+        escapedVariable = variable.replace(".", DOT_VALUE)
+        if escapedVariable.startswith("CFF_FULL_"):
+            _, actual_variable = escapedVariable.split("CFF_FULL_")
+            context[escapedVariable] = parse_number_formula(data, actual_variable.replace(DOT_VALUE, "."), False)
+        else:
+            context[escapedVariable] = parse_number_formula(data, escapedVariable.replace(DOT_VALUE, "."), numeric)
+        expressionString = expressionString.replace(variable, escapedVariable)
     context = dict(context, **DEFAULT_CONTEXT)
-    price = expr.evaluate(context)
+    price = parser.parse(expressionString).evaluate(context)
     return ceil(float(price) * 100) / 100
 
 def format_payment(total, currency='USD'):

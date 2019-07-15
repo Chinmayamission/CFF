@@ -20,7 +20,7 @@ idna = "==2.6"
 jinja2 = "==2.10.1"
 jmespath = "==0.9.3"
 markupsafe = "==1.0"
-py-expression-eval = "==0.3.4"
+py-expression-eval = {editable = true,git = "https://github.com/epicfaace/py-expression-eval.git",ref = "ead901b69f357290055b94608da6bfd367a85e7d"}
 pydash = "==4.5.0"
 pynliner = "==0.8.0"
 python-dateutil = "==2.6.1"

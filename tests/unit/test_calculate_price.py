@@ -67,6 +67,16 @@ class TestCalculatePrice(unittest.TestCase):
         data = {"dob": "1999-01-02"}
         price = calculate_price("cff_yeardiff('2019-09-01', dob)", data)
         self.assertEqual(price, 20.0)
+    def test_countarray_calc(self):
+        data = {
+            "participants": [
+                {"dob": "1999-01-02"},
+                {"dob": "2019-01-02"},
+                {"dob": "2018-01-02"},
+            ]
+        }
+        expression = "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")"
+        self.assertEqual(calculate_price(expression, data), 1.0)
     def test_round_up_next_cent(self):
         price = calculate_price("1/3", {})
         self.assertEqual(price, 0.34)
