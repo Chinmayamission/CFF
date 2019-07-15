@@ -42,6 +42,13 @@ Sometimes you may want to modify the data to apply patches, such as promoting ch
 
 `predicate.patches` - A list of patches to apply to the response. All the patches get sequentially applied to the form data. Above is an example of a "walk" patch, which will transform each "grade" and walk it up by 1 (A -> B, B -> C, otherwise will stay the same). The "unwind" parameter applies this patch to every element in the `participants` array.
 
+### Other examples of patches:
+
+Sets the value at the `returning_family` path to `true`.
+```
+{ "op": "add", "path": "/returning_family", "value": true }
+```
+
 ## Propagating paid status for recurring payments
 In this use case, imagine that people signed up for Balavihar in 2019 and did recurring payments. You want those *previous* recurring payments, if they are still active, to allow for a certain discount (such as a % off, or giving free,) this year as well.
 
