@@ -243,6 +243,7 @@ export namespace Headers {
             uiSchema={{ "ui:placeholder": "All", "ui:widget": "select" }}
             formData={filter && filter.value}
             onChange={e => onChange(e.formData)}
+            tagName="div"
           >
             <div className="d-none"></div>
           </Form>
@@ -325,6 +326,7 @@ export namespace Headers {
           }
           editResponse(row.original.ID, path, e.formData);
         }}
+        tagName="div"
       >
         <div className="d-none"></div>
       </Form>
@@ -353,6 +355,7 @@ export namespace Headers {
           uiSchema={{ "ui:placeholder": "All", "ui:widget": "select" }}
           formData={filter && filter.value}
           onChange={e => onChange(e.formData)}
+          tagName="div"
         >
           <div className="d-none"></div>
         </Form>

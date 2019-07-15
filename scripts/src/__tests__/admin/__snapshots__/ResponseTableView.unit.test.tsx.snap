@@ -53,7 +53,7 @@ exports[`renders response table with an editSchema specified instead of a group 
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -99,7 +99,7 @@ exports[`renders response table with an editSchema specified instead of a group 
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@ exports[`renders response table with an editSchema specified instead of a group 
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -153,7 +153,7 @@ exports[`renders response table with an editSchema specified instead of a group 
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@ exports[`renders response table with an editSchema specified instead of a group 
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -203,7 +203,7 @@ exports[`renders response table with an editSchema specified instead of a group 
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -410,7 +410,7 @@ exports[`renders response table with an undefined group assign 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -516,7 +516,7 @@ exports[`renders response table with an undefined group assign 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
           <div
             class="rt-th ccmt-cff-no-click"
@@ -524,7 +524,7 @@ exports[`renders response table with an undefined group assign 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -565,7 +565,7 @@ exports[`renders response table with an undefined group assign 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -600,7 +600,7 @@ exports[`renders response table with an undefined group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -629,7 +629,7 @@ exports[`renders response table with an undefined group assign 1`] = `
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -660,7 +660,7 @@ exports[`renders response table with an undefined group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -689,7 +689,7 @@ exports[`renders response table with an undefined group assign 1`] = `
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -873,7 +873,7 @@ exports[`renders response table with default filter 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -902,7 +902,7 @@ exports[`renders response table with default filter 1`] = `
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -919,7 +919,7 @@ exports[`renders response table with default filter 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -948,7 +948,7 @@ exports[`renders response table with default filter 1`] = `
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -1170,7 +1170,7 @@ exports[`renders response table with extra columns from the group 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -1276,7 +1276,7 @@ exports[`renders response table with extra columns from the group 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
           <div
             class="rt-th"
@@ -1575,7 +1575,7 @@ exports[`renders response table with group assign 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -1681,7 +1681,7 @@ exports[`renders response table with group assign 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
           <div
             class="rt-th ccmt-cff-no-click"
@@ -1689,7 +1689,7 @@ exports[`renders response table with group assign 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -1730,7 +1730,7 @@ exports[`renders response table with group assign 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -1765,7 +1765,7 @@ exports[`renders response table with group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -1794,7 +1794,7 @@ exports[`renders response table with group assign 1`] = `
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -1825,7 +1825,7 @@ exports[`renders response table with group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <form
+              <div
                 class="rjsf"
               >
                 <div
@@ -1854,7 +1854,7 @@ exports[`renders response table with group assign 1`] = `
                 <div
                   class="d-none"
                 />
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -2091,7 +2091,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -2197,7 +2197,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
           <div
             class="rt-th"
@@ -3111,7 +3111,7 @@ exports[`responses with unwind data 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -3217,7 +3217,7 @@ exports[`responses with unwind data 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
           <div
             class="rt-th"
@@ -3297,7 +3297,7 @@ exports[`responses with unwind data 1`] = `
             style="flex:100 0 auto;width:100px"
             tabindex="-1"
           >
-            <form
+            <div
               class="rjsf"
             >
               <div
@@ -3373,7 +3373,7 @@ exports[`responses with unwind data 1`] = `
               <div
                 class="d-none"
               />
-            </form>
+            </div>
           </div>
         </div>
       </div>
