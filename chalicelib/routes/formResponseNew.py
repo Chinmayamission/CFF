@@ -94,6 +94,7 @@ def form_response_new(formId):
             return error
     
     # Take care of installment payments now.
+    response_data["total"] = float(paymentInfo["total"])
     for paymentInfoItem in paymentInfoItemsInstallment:
         paymentInfoItem['amount'] = calculate_price(paymentInfoItem.get('amount', '0'), response_data)
         paymentInfoItem['quantity'] = calculate_price(paymentInfoItem.get('quantity', '0'), response_data)
