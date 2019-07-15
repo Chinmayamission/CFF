@@ -1,3 +1,6 @@
+## 3.16.2
+- fix: don't mutate data when performing calculate_price
+
 ## 3.16.1
 - fix: fix patching with unwind
 
