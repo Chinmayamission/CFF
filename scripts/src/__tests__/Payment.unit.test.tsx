@@ -250,6 +250,14 @@ describe("calculatePaymentInfo()", () => {
           quantity: "2"
         },
         {
+          amount: "-0.25 * $total",
+          quantity: "1"
+        },
+        {
+          amount: "-0.25 * $total",
+          quantity: "1"
+        },
+        {
           amount: "0.5 * $total",
           quantity: "1",
           recurrenceDuration: "1M",
@@ -260,14 +268,22 @@ describe("calculatePaymentInfo()", () => {
     };
     let formData = {};
     let expectedPaymentInfo = {
-      total: 4,
+      total: 2,
       items: [
         {
           amount: 2,
           quantity: 2
         },
         {
-          amount: 2,
+          amount: -1,
+          quantity: 1
+        },
+        {
+          amount: -1,
+          quantity: 1
+        },
+        {
+          amount: 1,
           quantity: 1,
           recurrenceDuration: "1M",
           recurrenceTimes: 2,
