@@ -78,6 +78,14 @@ describe("calculate_price", () => {
       )
     ).toEqual(1);
   });
+  test("countArray yeardiff should work when value is undefined", () => {
+    expect(
+      ExpressionParser.calculate_price(
+        "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")",
+        {}
+      )
+    ).toEqual(0);
+  });
   test("round up to next cent", () => {
     expect(ExpressionParser.calculate_price("1 / 3 ", {})).toEqual(0.34);
   });

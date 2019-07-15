@@ -1,3 +1,6 @@
+## pending
+- fix: handle countArray and getdiff cases when arguments passed to them are null/empty/nonexistent 
+
 ## 3.15.2
 - feat: add support for cff_countArray in expressions, allowing for nesting of expressions to be applied to each object in an array.
 

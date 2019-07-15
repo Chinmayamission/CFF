@@ -8,11 +8,17 @@ const DOT_VALUE = "ADKLFJSFL";
 
 const DEFAULT_CONTEXT = {
   cff_yeardiff: (datestr1, datestr2) => {
+    if (!datestr1 || !datestr2) {
+      return 0;
+    }
     const d1 = moment(datestr1, "YYYY-MM-DD");
     const d2 = moment(datestr2, "YYYY-MM-DD");
     return d1.diff(d2, "years");
   },
   cff_countArray: (array, expression) => {
+    if (!array || !isArray(array)) {
+      return 0;
+    }
     return array.filter(item =>
       ExpressionParser.calculate_price(expression, item)
     ).length;
@@ -61,7 +67,6 @@ export namespace ExpressionParser {
   function parse_number_formula(data, variable, numeric = true) {
     variable = variable.replace(new RegExp(SPACE_VALUE, "g"), " ");
     let key_value_eq = null;
-    // console.log(variable);
 
     if (~variable.indexOf(DELIM_VALUE)) {
       [variable, key_value_eq] = variable.split(DELIM_VALUE);
@@ -89,13 +94,13 @@ export namespace ExpressionParser {
         value = value ? 1 : 0;
       }
       if (isNaN(value)) {
-        return value;
+        return value || 0;
       } else {
         value = parseFloat(value) || 0;
       }
-      return value;
+      return value || 0;
     } else {
-      return value;
+      return value || 0;
     }
   }
   export function calculate_price(expressionString, data, numeric = true) {
