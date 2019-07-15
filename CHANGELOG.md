@@ -1,4 +1,4 @@
-## pending
+## 3.15.2
 - feat: add support for cff_countArray in expressions, allowing for nesting of expressions to be applied to each object in an array.
 
 ## 3.15.1
