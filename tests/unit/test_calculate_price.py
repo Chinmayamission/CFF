@@ -77,6 +77,12 @@ class TestCalculatePrice(unittest.TestCase):
         }
         expression = "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")"
         self.assertEqual(calculate_price(expression, data), 1.0)
+    def test_countarray_return_0_when_undef(self):
+        data = {
+        }
+        expression = "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")"
+        self.assertEqual(calculate_price(expression, data), 0)
+    
     def test_round_up_next_cent(self):
         price = calculate_price("1/3", {})
         self.assertEqual(price, 0.34)

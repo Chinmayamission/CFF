@@ -37,10 +37,10 @@ def parse_number_formula(data, variable, numeric=True):
         if isinstance(value, bool):
             value = 1 if value is True else 0
         if not isinstance(value, (int, float)):
-            return value
+            return value or 0
         return float(value)
     else:
-        return value
+        return value or 0
 
 def dict_array_to_sum_dict(original, key_value_eq = None):
     """
