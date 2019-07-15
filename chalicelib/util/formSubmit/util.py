@@ -4,6 +4,7 @@ import re
 from collections import defaultdict
 from pydash.objects import get
 from math import ceil
+import copy
 
 DELIM_VALUE = "D34hSK"
 SPACE_VALUE = "ASIDJa"
@@ -37,10 +38,10 @@ def parse_number_formula(data, variable, numeric=True):
         if isinstance(value, bool):
             value = 1 if value is True else 0
         if not isinstance(value, (int, float)):
-            return value or 0
+            return copy.deepcopy(value) or 0
         return float(value)
     else:
-        return value or 0
+        return copy.deepcopy(value) or 0
 
 def dict_array_to_sum_dict(original, key_value_eq = None):
     """

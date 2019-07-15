@@ -16,7 +16,7 @@ def cff_countArray(*args):
     # TODO: fix py-expression-eval so that the method signature above is called.
     array = list(args)
     expression = array.pop(-1)
-    if (type(array) is not list):
+    if type(array) is not list:
         return 0
     return len([item for item in array if calculate_price(expression, item)])
 

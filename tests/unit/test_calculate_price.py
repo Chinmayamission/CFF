@@ -77,6 +77,14 @@ class TestCalculatePrice(unittest.TestCase):
         }
         expression = "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")"
         self.assertEqual(calculate_price(expression, data), 1.0)
+        # Don't mutate data!
+        self.assertEqual(data, {
+            "participants": [
+                {"dob": "1999-01-02"},
+                {"dob": "2019-01-02"},
+                {"dob": "2018-01-02"},
+            ]
+        })
     def test_countarray_return_0_when_undef(self):
         data = {
         }
