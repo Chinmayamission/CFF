@@ -64,6 +64,20 @@ describe("calculate_price", () => {
       })
     ).toEqual(20);
   });
+  test("using countArray to apply yeardiff for property within array of objects", () => {
+    expect(
+      ExpressionParser.calculate_price(
+        "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")",
+        {
+          participants: [
+            { dob: "1999-01-02" },
+            { dob: "2019-01-02" },
+            { dob: "2018-01-02" }
+          ]
+        }
+      )
+    ).toEqual(1);
+  });
   test("round up to next cent", () => {
     expect(ExpressionParser.calculate_price("1 / 3 ", {})).toEqual(0.34);
   });

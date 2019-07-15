@@ -1,3 +1,6 @@
+## pending
+- feat: add support for cff_countArray in expressions, allowing for nesting of expressions to be applied to each object in an array.
+
 ## 3.15.1
 - fix: calculate installments properly from multiple totals
 

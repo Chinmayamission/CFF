@@ -11,6 +11,11 @@ const DEFAULT_CONTEXT = {
     const d1 = moment(datestr1, "YYYY-MM-DD");
     const d2 = moment(datestr2, "YYYY-MM-DD");
     return d1.diff(d2, "years");
+  },
+  cff_countArray: (array, expression) => {
+    return array.filter(item =>
+      ExpressionParser.calculate_price(expression, item)
+    ).length;
   }
 };
 
@@ -106,7 +111,16 @@ export namespace ExpressionParser {
     let context = {};
     for (let variable of expr.variables({ withMembers: true })) {
       let escapedVariable = variable.replace(/\./g, DOT_VALUE);
-      context[escapedVariable] = parse_number_formula(data, variable, numeric);
+      if (escapedVariable.startsWith("CFF_FULL_")) {
+        let variable = escapedVariable.slice("CFF_FULL_".length);
+        context[escapedVariable] = parse_number_formula(data, variable, false);
+      } else {
+        context[escapedVariable] = parse_number_formula(
+          data,
+          variable,
+          numeric
+        );
+      }
       expressionString = expressionString.replace(
         new RegExp(variable, "g"),
         escapedVariable
