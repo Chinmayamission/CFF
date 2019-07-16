@@ -1,3 +1,6 @@
+## 3.16.4
+- fix: don't scroll to top when form errors happen
+
 ## 3.16.3
 - Fix: don't make omitExtraData and liveOmit always true
 

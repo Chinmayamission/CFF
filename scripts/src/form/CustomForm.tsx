@@ -156,7 +156,6 @@ function CustomForm(props: ICustomFormProps) {
         }
         onError={e => {
           console.error(e);
-          window.scrollTo(0, 0);
         }}
         showErrorList={true}
         ErrorList={ErrorListTemplate}
