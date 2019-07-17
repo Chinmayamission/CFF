@@ -1,5 +1,6 @@
 ## 3.17
 - feat: allow "sm" property to be specified in theme to make all inputs sm-size.
+- fix: Remove border for array numitems select widget, make spacing smaller around it.
 
 ## 3.16.4
 - fix: don't scroll to top when form errors happen

@@ -1,9 +1,6 @@
-import * as React from "react";
-import SchemaField from "react-jsonschema-form";
-import TitleField from "react-jsonschema-form";
-import SelectWidget from "react-jsonschema-form";
+import React from "react";
 import "./ArrayFieldTemplate.scss";
-import { FormattedDescriptionField } from "../CustomForm";
+import CustomForm, { FormattedDescriptionField } from "../CustomForm";
 
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
   if (!title) {
@@ -48,7 +45,8 @@ class ArrayFieldTemplate extends React.Component<any, any> {
     const max = this.props.schema.maxItems || 999;
     const range = Array.from(Array(max - min + 1).keys()).map(e => e + min);
     return (
-      <SelectWidget
+      <CustomForm
+        tagName="div"
         schema={{
           title:
             this.props.schema["ui:cff:arrayNumItemsTitle"] ||
@@ -58,15 +56,15 @@ class ArrayFieldTemplate extends React.Component<any, any> {
               "items"}`,
           type: "integer",
           enum: range,
-          default: this.props.items ? this.props.items.length : 0
+          default: this.props.items ? this.props.items.length : 0,
+          disabled: this.props.disabled,
+          readOnly: this.props.readonly
         }}
-        className="form-control ccmt-cff-array-numitems-select"
-        disabled={this.props.disabled}
-        readonly={this.props.readonly}
+        uiSchema={{ classNames: "ccmt-cff-array-numitems-select" }}
         onChange={({ formData }) => this.onNumItemsChange(formData)}
       >
         &nbsp;
-      </SelectWidget>
+      </CustomForm>
     );
   }
   render() {
