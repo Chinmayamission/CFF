@@ -1,3 +1,6 @@
+## 3.17
+- feat: allow "sm" property to be specified in theme to make all inputs sm-size.
+
 ## 3.16.4
 - fix: don't scroll to top when form errors happen
 

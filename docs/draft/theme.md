@@ -13,9 +13,12 @@ You can include arbitrary css as a "theme" for a form in `formOptions.theme`:
         "font": "Open Sans",
         "weights": [400]
       }
-    ]
+    ],
+    "sm": true
 }
 ```
+
+The `sm` property, when set to true, makes all the inputs `sm`.
 
 The `styles.root` prop contains styles that will apply to the entire FormPage.
 

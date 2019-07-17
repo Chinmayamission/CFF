@@ -197,3 +197,9 @@
         }
     }
 }
+
+.ccmt-cff-Page-FormPage.ccmt-cff-Page-FormPage-sm {
+    .form-control {
+        @extend .form-control-sm;
+    }
+}

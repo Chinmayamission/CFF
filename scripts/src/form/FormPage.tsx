@@ -397,6 +397,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           </title>
         </Helmet>
         <CustomForm
+          className={
+            get(this.state.formOptions, "theme.sm") === true
+              ? "ccmt-cff-Page-FormPage-sm"
+              : ""
+          }
           showPaymentTable={
             this.state.status == STATUS_FORM_RENDERED ||
             this.state.formOptions.paymentInfo.showPaymentTable === false
