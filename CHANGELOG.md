@@ -1,4 +1,4 @@
-## 3.17
+## 3.17.0
 - feat: allow "sm" property to be specified in theme to make all inputs sm-size.
 - fix: Remove border for array numitems select widget, make spacing smaller around it.
 
