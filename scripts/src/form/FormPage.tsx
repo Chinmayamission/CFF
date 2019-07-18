@@ -1,7 +1,6 @@
 import React from "react";
 import Form from "react-jsonschema-form";
 import { API } from "aws-amplify";
-import createSchemas from "../common/CreateSchemas";
 import queryString from "query-string";
 import sanitize from "../sanitize";
 import { get, set, unset } from "lodash";
@@ -39,6 +38,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     super(props);
     This = this;
     this.state = {
+      cff_permissions: {},
       status: STATUS_FORM_LOADING,
       hasError: false,
       errorMessage: "",
@@ -106,7 +106,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       schema,
       defaultFormData,
       paymentCalcInfo,
-      formOptions
+      formOptions,
+      cff_permissions
     } = await FormLoader.getFormAndCreateSchemas(
       "",
       this.props.formId,
@@ -114,11 +115,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       this.props.specifiedShowFields,
       e => this.handleError(e)
     );
-    if (
-      this.props.responseId ||
-      get(this.state.formOptions, "loginRequired") === true
-    ) {
+    if (this.props.responseId || get(formOptions, "loginRequired") === true) {
       await this.loadResponse();
+    }
+    if (!this.canAdminEdit(cff_permissions)) {
+      for (let fieldPath of get(formOptions, "adminFields", [])) {
+        set(uiSchema, `${fieldPath}['ui:widget']`, "hidden");
+      }
     }
     await new Promise((resolve, reject) =>
       this.setState(
@@ -132,7 +135,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
               : STATUS_FORM_RENDERED,
           data: this.state.data || defaultFormData,
           paymentCalcInfo,
-          formOptions
+          formOptions,
+          cff_permissions
         },
         resolve
       )
@@ -274,6 +278,14 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   onChange(e) {
     this.setState({ data: e.formData });
   }
+  // Can the logged-in user currently do an "admin-edit"?
+  canAdminEdit(cff_permissions) {
+    return (
+      get(cff_permissions[this.props.auth.userId] || {}, "Responses_Edit") ===
+        true ||
+      get(cff_permissions[this.props.auth.userId] || {}, "owner") === true
+    );
+  }
   renderForm() {
     if (this.state.hasError) {
       return (
@@ -349,7 +361,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         false &&
       this.state.status !== STATUS_FORM_CONFIRMATION &&
       this.state.status !== STATUS_FORM_RESPONSE_VIEW &&
-      this.state.responseId
+      this.state.responseId &&
+      !this.canAdminEdit(this.state.cff_permissions)
     ) {
       return (
         <div>
@@ -460,7 +473,20 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       );
     }
     if (this.state.status === STATUS_FORM_RESPONSE_VIEW) {
-      return formToReturn;
+      return (
+        <>
+          {this.canAdminEdit(this.state.cff_permissions) &&
+            this.state.responseId && (
+              <button
+                className="btn btn-primary"
+                onClick={this.goBackToFormPage}
+              >
+                Admin edit response
+              </button>
+            )}
+          {formToReturn}
+        </>
+      );
     }
     return formToReturn;
   }

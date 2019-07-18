@@ -62,6 +62,7 @@ export interface Data {
 }
 
 export interface IFormPageState {
+  cff_permissions: any;
   schema: Schema;
   schemaMetadata: SchemaMetadata;
   formOptions: any;
