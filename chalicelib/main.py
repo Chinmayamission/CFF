@@ -51,6 +51,13 @@ class CustomChalice(Chalice):
         current_user_perms.update(cff_permissions.get(id, {}))
         return current_user_perms
     def check_permissions(self, model, actions):
+        result = self.check_permissions_return(model, actions)
+        if result == True:
+            return True
+        if result == False:
+            id = self.get_current_user_id()
+            raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, actions))
+    def check_permissions_return(self, model, actions):
         if type(actions) is str:
             actions = [actions]
         actions.append("owner")
@@ -59,8 +66,7 @@ class CustomChalice(Chalice):
         if any((a in current_user_perms and current_user_perms[a] == True) for a in actions):
             return True
         else:
-            raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, actions))
-
+            return False
 
 ssm = boto3.client('ssm', 'us-east-1')
 s3_client = boto3.client('s3', "us-east-1")
