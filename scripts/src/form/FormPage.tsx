@@ -386,6 +386,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         }
       >
         {this.state.formOptions.loginRequired && <Login />}
+        {!this.state.formOptions.loginRequired && (
+          <Login loginOptional={true} />
+        )}
         {this.state.predicate && !this.state.responseId && (
           <div
             className="alert alert-warning"

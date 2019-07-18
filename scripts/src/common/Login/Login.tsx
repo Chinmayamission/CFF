@@ -73,6 +73,7 @@ interface ILoginProps extends IAuthState {
   forgotPassword: (e) => void;
   forgotPasswordSubmit: (e) => void;
   setLoginUrl: (e: string) => void;
+  loginOptional?: boolean;
 }
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
@@ -130,6 +131,11 @@ class Login extends React.Component<ILoginProps, {}> {
 
   render() {
     if (!this.props.loggedIn) {
+      if (this.props.loginOptional) {
+        // This is used, for example, on anonymous forms, so that the form is still aware of the user id of a logged-in user (such as an admin) if the admin is logged in.
+        // TODO: return just a small login button.
+        return null;
+      }
       return (
         <div className="cff-login">
           {this.props.message && (
