@@ -245,7 +245,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         this.setState({
           ajaxLoading: false,
           status: STATUS_FORM_CONFIRMATION,
-          data: formData,
+          data: res.value,
           responseId: res.responseId,
           paymentInfo: res.paymentInfo,
           paymentInfo_received: paymentInfo_received,
