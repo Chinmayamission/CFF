@@ -120,11 +120,7 @@ export namespace ExpressionParser {
         let variable = escapedVariable.slice("CFF_FULL_".length);
         context[escapedVariable] = parse_number_formula(data, variable, false);
       } else {
-        context[escapedVariable] = parse_number_formula(
-          data,
-          variable,
-          numeric
-        );
+        context[escapedVariable] = parse_number_formula(data, variable);
       }
       expressionString = expressionString.replace(
         new RegExp(variable, "g"),
@@ -133,6 +129,9 @@ export namespace ExpressionParser {
     }
     context = { ...context, ...DEFAULT_CONTEXT };
     let price = parser.parse(expressionString).evaluate(context);
+    if (!numeric) {
+      return price;
+    }
     return Math.ceil(price * 100) / 100;
   }
 }

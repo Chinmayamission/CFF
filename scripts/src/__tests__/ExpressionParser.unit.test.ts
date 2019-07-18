@@ -89,4 +89,15 @@ describe("calculate_price", () => {
   test("round up to next cent", () => {
     expect(ExpressionParser.calculate_price("1 / 3 ", {})).toEqual(0.34);
   });
+  test("return numeric", () => {
+    expect(ExpressionParser.calculate_price("a", { a: [1, 2, 3] })).toEqual(3);
+  });
+  test("return non-numeric", () => {
+    expect(
+      ExpressionParser.calculate_price("a", { a: [1, 2, 3] }, false)
+    ).toEqual(3);
+    expect(
+      ExpressionParser.calculate_price("CFF_FULL_a", { a: [1, 2, 3] }, false)
+    ).toEqual([1, 2, 3]);
+  });
 });
