@@ -44,6 +44,7 @@ class FormOptions(EmbeddedMongoModel):
   omitExtraData = fields.BooleanField()
   theme = fields.DictField(blank=True)
   adminInfo = fields.DictField(blank=True) # Contains *configuration* for admin_info.
+  adminFields = fields.ListField(blank=True)
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)
