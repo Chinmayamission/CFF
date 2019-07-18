@@ -115,8 +115,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       this.props.specifiedShowFields,
       e => this.handleError(e)
     );
+    let responseState = {};
     if (this.props.responseId || get(formOptions, "loginRequired") === true) {
-      await this.loadResponse();
+      responseState = await this.loadResponse({
+        data: defaultFormData,
+        schema,
+        formOptions
+      });
     }
     if (!this.canAdminEdit(cff_permissions)) {
       for (let fieldPath of get(formOptions, "adminFields", [])) {
@@ -133,26 +138,25 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             this.props.mode === "view"
               ? STATUS_FORM_RESPONSE_VIEW
               : STATUS_FORM_RENDERED,
-          data: this.state.data || defaultFormData,
+          data: defaultFormData,
           paymentCalcInfo,
           formOptions,
-          cff_permissions
+          cff_permissions,
+          ...responseState
         },
         resolve
       )
     );
     this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
   }
-  async loadResponse() {
+  async loadResponse({ data, schema, formOptions }) {
     let request = this.props.responseId
       ? API.get("CFF", `responses/${this.props.responseId}`, {})
       : API.get("CFF", `forms/${this.props.formId}/response`, {});
     const { res, predicate } = await request;
-    let data = this.state.data;
-    let schema = this.state.schema;
     if (
-      get(this.state.formOptions, "loginRequired") === true &&
-      get(this.state.schema, "properties.email")
+      get(formOptions, "loginRequired") === true &&
+      get(schema, "properties.email")
     ) {
       if (!res) {
         data = update(data, { email: { $set: this.props.auth.user.email } });
@@ -164,17 +168,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     if (predicate) {
       // todo: handle payment info.
     }
-    return new Promise((resolve, reject) =>
-      this.setState(
-        {
-          responseId: res && !predicate ? res._id.$oid : null,
-          data: res ? res.value : data,
-          schema,
-          predicate: predicate || (res && res.predicate) // Return either 1) predicate info of a new response that is based on a predicate, or 2) existing predicate info of existing response.
-        },
-        resolve
-      )
-    );
+    return {
+      responseId: res && !predicate ? res._id.$oid : null,
+      data: res ? res.value : data,
+      schema,
+      predicate: predicate || (res && res.predicate) // Return either 1) predicate info of a new response that is based on a predicate, or 2) existing predicate info of existing response.
+    };
   }
   goBackToFormPage() {
     This.setState({ status: STATUS_FORM_RENDERED });
