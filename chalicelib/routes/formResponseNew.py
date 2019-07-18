@@ -7,8 +7,8 @@ from ..util.formSubmit.couponCodes import coupon_code_verify_max_and_record_as_u
 from ..util.formSubmit.emailer import send_confirmation_email
 from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
-from ..util.formSubmit.postprocess import postprocess_response_data
 from ..util.responseUploadImages import process_response_data_images
+from chalicelib.util.patch import patch_predicate
 from chalicelib.models import Form, Response, User, UpdateTrailItem, serialize_model
 from bson.objectid import ObjectId
 from pymodm.errors import DoesNotExist
@@ -47,8 +47,8 @@ def form_response_new(formId):
     response_data = app.current_request.json_body["data"]
     response_data = process_response_data_images(response_data)
     postprocess = form.formOptions.postprocess
-    if postprocess and "items" in postprocess and type(postprocess["items"]) is list:
-        response_data = postprocess_response_data(response_data, postprocess["items"])
+    if postprocess and "patches" in postprocess and type(postprocess["patches"]) is list:
+        response_data = patch_predicate(response_data, postprocess["patches"])
     modify_link = app.current_request.json_body.get('modifyLink', '')
     paymentInfo = form.formOptions.paymentInfo
     confirmationEmailInfo = form.formOptions.confirmationEmailInfo

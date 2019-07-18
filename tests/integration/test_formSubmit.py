@@ -289,8 +289,13 @@ class FormSubmit(BaseTestCase):
         uiSchema = {"a":"b"}
         formOptions = {
             "postprocess": {
-                "items": [
-                    {"type": "expr", "value": {"key": "custom", "value": "participants"} }
+                "patches": [
+                    {
+                        "type": "patch",
+                        "value": [
+                            { "op": "add", "path": "/custom", "value": 3 }
+                        ]
+                    }
                 ]
             }
         }
