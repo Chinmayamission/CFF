@@ -30,6 +30,7 @@ class FormSubmit(BaseTestCase):
     def test_submit_form_one(self):
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
         self.assertIn("paymentMethods", submit_res)
 
@@ -40,6 +41,7 @@ class FormSubmit(BaseTestCase):
     def test_submit_form_with_update_no_login_required(self):
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
         self.assertIn("paymentMethods", submit_res)
 
@@ -64,6 +66,7 @@ class FormSubmit(BaseTestCase):
     def test_submit_form_update_unpaid_to_paid(self):
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
         self.assertIn("paymentMethods", submit_res)
 
@@ -279,9 +282,24 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(submit_res['paymentInfo']['total'], 0.8)
         self.assertEqual(len(submit_res['paymentInfo']['items']), 2)
         self.delete_form(formId)
-
+    
+    def test_submit_form_postprocess(self):
+        formId = self.create_form()
+        schema = {"properties": {"custom": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
+        uiSchema = {"a":"b"}
+        formOptions = {
+            "postprocess": {
+                "items": [
+                    {"type": "expr", "value": {"key": "custom", "value": "participants"} }
+                ]
+            }
+        }
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
         
-
+        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"], "custom": 3})
+        self.delete_form(formId)
 
     def test_edit_response(self):
         """Create form."""
@@ -290,6 +308,7 @@ class FormSubmit(BaseTestCase):
 
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
         self.assertIn("paymentMethods", submit_res)
 
@@ -299,6 +318,7 @@ class FormSubmit(BaseTestCase):
 
         responseIdNew, submit_res = self.submit_form(self.formId, ONE_FORMDATA, responseId)
         self.assertEqual(responseIdNew, responseId)
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
         
         """Edit response."""
@@ -321,6 +341,7 @@ class FormSubmit(BaseTestCase):
 
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
         self.assertIn("paymentMethods", submit_res)
 
@@ -330,6 +351,7 @@ class FormSubmit(BaseTestCase):
 
         responseIdNew, submit_res = self.submit_form(self.formId, ONE_FORMDATA, responseId)
         self.assertEqual(responseIdNew, responseId)
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
         
         """Edit response's admin info."""

@@ -45,6 +45,7 @@ class FormOptions(EmbeddedMongoModel):
   theme = fields.DictField(blank=True)
   adminInfo = fields.DictField(blank=True) # Contains *configuration* for admin_info.
   adminFields = fields.ListField(blank=True)
+  postprocess = fields.DictField(blank=True)
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)

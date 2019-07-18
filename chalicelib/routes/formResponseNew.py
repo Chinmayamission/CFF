@@ -7,6 +7,7 @@ from ..util.formSubmit.couponCodes import coupon_code_verify_max_and_record_as_u
 from ..util.formSubmit.emailer import send_confirmation_email
 from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
+from ..util.formSubmit.postprocess import postprocess_response_data
 from ..util.responseUploadImages import process_response_data_images
 from chalicelib.models import Form, Response, User, UpdateTrailItem, serialize_model
 from bson.objectid import ObjectId
@@ -42,10 +43,13 @@ def form_response_new(formId):
         responseId = ObjectId(responseId)
         newResponse = False
 
+    form = Form.objects.get({"_id":ObjectId(formId)})
     response_data = app.current_request.json_body["data"]
     response_data = process_response_data_images(response_data)
+    postprocess = form.formOptions.postprocess
+    if postprocess and "items" in postprocess and type(postprocess["items"]) is list:
+        response_data = postprocess_response_data(response_data, postprocess["items"])
     modify_link = app.current_request.json_body.get('modifyLink', '')
-    form = Form.objects.get({"_id":ObjectId(formId)}) #couponCodes
     paymentInfo = form.formOptions.paymentInfo
     confirmationEmailInfo = form.formOptions.confirmationEmailInfo
     paymentMethods = fill_paymentMethods_with_data(form.formOptions.paymentMethods, response_data)
@@ -152,7 +156,7 @@ def form_response_new(formId):
         response.save()
         if "ccavenue" in paymentMethods and response.paid == False:
             paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], response)
-        return {"res": {"paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
+        return {"res": {"value": response_data, "paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
     elif not newResponse:
         # Update.
         response.date_modified = datetime.datetime.now()
@@ -167,4 +171,4 @@ def form_response_new(formId):
         response.save()
         if "ccavenue" in paymentMethods and response.paid == False:
             paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], response)
-        return {"res": {"paid": paid, "success": True, "action": "update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }
+        return {"res": {"value": response_data, "paid": paid, "success": True, "action": "update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }
