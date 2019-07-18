@@ -94,6 +94,11 @@ class TestCalculatePrice(unittest.TestCase):
     def test_round_up_next_cent(self):
         price = calculate_price("1/3", {})
         self.assertEqual(price, 0.34)
+    def test_return_numeric(self):
+        self.assertEqual(calculate_price("a", {"a": [1,2,3]}), 3)
+    def test_return_non_numeric(self):
+        self.assertEqual(calculate_price("a", {"a": [1,2,3]}, False), 3)
+        self.assertEqual(calculate_price("CFF_FULL_a", {"a": [1,2,3]}, False), [1,2,3])
     @unittest.skip("not implemented yet")
     def test_arbitrary_strings(self):
         price = calculate_price("(participants.race:'5K - OK') * 25", {"participants": [{"name": "A", "race": "5K - OK"}, {"name": "B", "race": "5K - OK"}, {"name": "C", "race": "10K"}]})

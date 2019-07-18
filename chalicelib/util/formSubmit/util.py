@@ -114,10 +114,12 @@ def calculate_price(expressionString, data, numeric=True):
             _, actual_variable = escapedVariable.split("CFF_FULL_")
             context[escapedVariable] = parse_number_formula(data, actual_variable.replace(DOT_VALUE, "."), False)
         else:
-            context[escapedVariable] = parse_number_formula(data, escapedVariable.replace(DOT_VALUE, "."), numeric)
+            context[escapedVariable] = parse_number_formula(data, escapedVariable.replace(DOT_VALUE, "."))
         expressionString = expressionString.replace(variable, escapedVariable)
     context = dict(context, **DEFAULT_CONTEXT)
     price = parser.parse(expressionString).evaluate(context)
+    if not numeric:
+        return price
     return ceil(float(price) * 100) / 100
 
 def format_payment(total, currency='USD'):
