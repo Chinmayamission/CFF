@@ -99,13 +99,17 @@ class TestCalculatePrice(unittest.TestCase):
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
             self.assertEqual(calculate_price("cff_today()", {}, False), "2011-07-03")
     def test_add_duration(self):
+        self.assertEqual(calculate_price("cff_addDuration(CFF_FULL_none, CFF_FULL_none)", {}, False), None)
         self.assertEqual(calculate_price("cff_addDuration('2011-07-03', 'P1M')", {}, False), "2011-08-03")
         self.assertEqual(calculate_price("cff_addDuration('2011-07-03', 'P5D')", {}, False), "2011-07-08")
         self.assertEqual(calculate_price("cff_addDuration('2011-07-03', 'P1Y')", {}, False), "2012-07-03")
     def test_strings_conditional(self):
         self.assertEqual(calculate_price("'a' * 0 + 1 * 'b' ", {}, False), "b")
     def test_nthOfNextMonth(self):
+        self.assertEqual(calculate_price("cff_nthOfNextMonth(CFF_FULL_none, CFF_FULL_none)", {}, False), None)
+        self.assertEqual(calculate_price("cff_nthOfNextMonth('2000-01-01', CFF_FULL_none)", {}, False), None)
         self.assertEqual(calculate_price("cff_nthOfNextMonth('2000-01-01', 7)", {}, False), "2000-02-07")
+        self.assertEqual(calculate_price("cff_nthOfNextMonth(CFF_FULL_day, 7)", {"day": '2000-01-01'}, False), "2000-02-07")
     def test_nthOfNextMonth_maxDayDiff(self):
         self.assertEqual(calculate_price("cff_nthOfNextMonth('2000-01-31', 7, 30)", {}, False), "2000-03-07")
         self.assertEqual(calculate_price("cff_nthOfNextMonth('2000-01-31', 7, 1)", {}, False), "2000-02-07")

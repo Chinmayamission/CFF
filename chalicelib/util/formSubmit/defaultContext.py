@@ -14,6 +14,8 @@ def cff_nthOfNextMonth(datestr, n, maxDayDiff=None):
     """Returns nth day of the next month after datestr.
     If the return date is less than maxDayDiff away from date, then go to the next month.
     """
+    if type(datestr) is not str or type(n) is not int or n <= 0:
+        return None
     date = datetime.strptime(datestr, "%Y-%m-%d")
     new_date = date.replace(month=date.month + 1, day=n)
     if maxDayDiff and relativedelta(new_date, date).days < maxDayDiff:
@@ -36,6 +38,8 @@ def cff_today():
     return date.today().strftime("%Y-%m-%d")
 
 def cff_addDuration(dt, duration):
+    if type(dt) is not str:
+        return None
     dt = datetime.strptime(dt, "%Y-%m-%d")
     duration = parse_duration(duration)
     new_time = dt + relativedelta(
