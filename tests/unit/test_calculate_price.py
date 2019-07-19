@@ -3,6 +3,8 @@ pipenv run python -m unittest tests.unit.test_calculate_price
 """
 from chalicelib.util.formSubmit.util import calculate_price
 import unittest
+import mock
+from datetime import date
 
 class TestCalculatePrice(unittest.TestCase):
     def test_basic(self):
@@ -90,7 +92,14 @@ class TestCalculatePrice(unittest.TestCase):
         }
         expression = "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")"
         self.assertEqual(calculate_price(expression, data), 0)
-    
+    @unittest.skip("Testing")
+    def test_today(self):
+        with mock.patch("datetime.date") as mock_date:
+            mock_date.today.return_value = date(2011, 7, 3)
+            mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
+            self.assertEqual(calculate_price("cff_today()", {}, False), "2011-07-03")
+    def test_add_duration(self):
+        self.assertEqual(calculate_price("cff_addDuration('2011-07-03', 'P1M')", {}, False), "2011-08-03")
     def test_round_up_next_cent(self):
         price = calculate_price("1/3", {})
         self.assertEqual(price, 0.34)

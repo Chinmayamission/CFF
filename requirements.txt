@@ -6,6 +6,7 @@ cssutils==1.0.2
 flatdict==3.0.0
 html2text==2018.1.9
 idna==2.6
+isodate==0.6.0
 Jinja2==2.10
 jsonpatch==1.23
 jsonpointer==2.0

@@ -40,6 +40,7 @@ moto = "*"
 mongomock = {editable = true,git = "https://github.com/mongomock/mongomock.git"}
 jsonpointer = "*"
 responses = "*"
+isodate = "*"
 
 [dev-packages]
 
