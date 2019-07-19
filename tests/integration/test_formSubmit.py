@@ -295,6 +295,13 @@ class FormSubmit(BaseTestCase):
                         "value": [
                             { "op": "add", "path": "/custom", "value": 3 }
                         ]
+                    },
+                    {
+                        "type": "patch",
+                        "expr": True,
+                        "value": [
+                            { "op": "add", "path": "/custom2", "expr": "participants" }
+                        ]
                     }
                 ]
             }
@@ -303,7 +310,7 @@ class FormSubmit(BaseTestCase):
         
         responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
         self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"], "custom": 3})
+        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"], "custom": 3, "custom2": 3})
         self.delete_form(formId)
 
     def test_edit_response(self):

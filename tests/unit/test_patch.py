@@ -84,3 +84,12 @@ class TestPatchPredicate(unittest.TestCase):
       {"type": "walk", "items": ["A","B","C"], "unwind": "/participants/A", "path": "/grade"}
     ]
     self.assertEqual(patch_predicate({"participants": {"A": [{"grade": "A"}, {"grade": "B"}]} }, patches), {"participants": {"A": [{"grade": "B"}, {"grade": "C"}] } })
+  def test_expr_parser(self):
+    patches = [
+      {"type": "patch", "expr": True, "value": [
+        {"op": "add", "expr": "CFF_FULL_name", "path": "/custom"}
+      ]}
+    ]
+    data = {"name": "test"}
+    expected = {"name": "test", "custom": "test"}
+    self.assertEqual(patch_predicate(data, patches), expected)

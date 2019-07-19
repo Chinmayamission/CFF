@@ -2,12 +2,26 @@ from jsonpatch import JsonPatch, JsonPatchTestFailed, JsonPatchConflict
 from pydash.objects import get
 from jsonpointer import resolve_pointer
 import itertools
+import copy
+from chalicelib.util.formSubmit.util import calculate_price
 
-def convert_to_json_patches(input):
+def convert_to_json_patches(input, formData={}):
     if input["type"] == "patches":
-        return input["value"]
+        value = input["value"]
     if input["type"] == "patch":
-        return [input["value"]]
+        value = [input["value"]]
+    if input["type"] in ("patches", "patch"):
+        if "expr" in input and input["expr"] == True:
+            new_list = copy.deepcopy(value)
+            for new_list_patch in new_list:
+                for item in new_list_patch:
+                    if "expr" in item:
+                        expr = item.pop("expr")
+                        item["value"] = calculate_price(expr, formData, False)
+            value = new_list
+            return value
+        else:
+            return value
     if input["type"] == "walk":
         patches = []
         patches.append([{ "op": "add", "path": "/CFF_PATCHED", "value": False }])
@@ -42,10 +56,10 @@ def patch_predicate(value, patches):
     patched_value = value
     for patch in patches:
         if "unwind" in patch:
-            json_patch_list = [convert_to_json_patches(p) for p in unwind(patch, value)]
+            json_patch_list = [convert_to_json_patches(p, patched_value) for p in unwind(patch, value)]
             json_patch_list = itertools.chain(*json_patch_list) # Flatten list of lists
         else:
-            json_patch_list = convert_to_json_patches(patch)
+            json_patch_list = convert_to_json_patches(patch, patched_value)
         for patch in json_patch_list:
             try:
                 patched_value = JsonPatch(patch).apply(patched_value)
