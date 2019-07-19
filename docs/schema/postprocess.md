@@ -12,3 +12,18 @@ Post-schema submission logic can be performed using the `postprocess` option in 
     ]
 }
 ```
+
+Example of doing a dynamic patch with an expression:
+```
+"postprocess": {
+    "patches": [
+      {
+        "type": "patch",
+        "expr": True,
+        "value": [
+            { "op": "add", "path": "/installment1", "value": "cff_today()" }
+        ]
+      }
+    ]
+}
+```
