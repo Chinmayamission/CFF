@@ -40,8 +40,8 @@ def cff_addDuration(dt, duration):
     duration = parse_duration(duration)
     new_time = dt + relativedelta(
         months=int(getattr(duration, "months", 0)),
-        days=int(getattr(duration, "days", None)),
-        years=int(getattr(duration, "years", None))
+        days=int(getattr(duration, "days", 0)),
+        years=int(getattr(duration, "years", 0))
     )
     return new_time.strftime("%Y-%m-%d")
 
