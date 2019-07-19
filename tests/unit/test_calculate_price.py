@@ -102,6 +102,11 @@ class TestCalculatePrice(unittest.TestCase):
         self.assertEqual(calculate_price("cff_addDuration('2011-07-03', 'P1M')", {}, False), "2011-08-03")
     def test_strings_conditional(self):
         self.assertEqual(calculate_price("'a' * 0 + 1 * 'b' ", {}, False), "b")
+    def test_nthOfNextMonth(self):
+        self.assertEqual(calculate_price("cff_nthOfNextMonth('2000-01-01', 7)", {}, False), "2000-02-07")
+    def test_nthOfNextMonth_maxDayDiff(self):
+        self.assertEqual(calculate_price("cff_nthOfNextMonth('2000-01-31', 7, 30)", {}, False), "2000-03-07")
+        self.assertEqual(calculate_price("cff_nthOfNextMonth('2000-01-31', 7, 1)", {}, False), "2000-02-07")
     def test_round_up_next_cent(self):
         price = calculate_price("1/3", {})
         self.assertEqual(price, 0.34)
