@@ -3,12 +3,18 @@ from dateutil.relativedelta import relativedelta
 from .util import calculate_price
 from isodate import parse_duration
 
-def cff_yeardiff(datestr1, datestr2):
+def cff_yeardiff(datestr1, datestr2, resultType=None):
     if type(datestr1) is not str or type(datestr2) is not str:
         return 0
     d1 = datetime.strptime(datestr1, "%Y-%m-%d")
     d2 = datetime.strptime(datestr2, "%Y-%m-%d")
-    return relativedelta(d1, d2).years
+    return get(relativedelta(d1, d2), resultType) if resultType else relativedelta(d1, d2).years
+
+def cff_nthOfNextMonth(datestr, n, maxDayDiff):
+    """Returns next nth of the next month after datestr.
+    If the return date is less than maxDayDiff away from date, then go to the next month.
+    """
+    pass
 
 # def cff_countArray(array, expression):
 #     return len([item for item in array if calculate_price(expression, item)])
@@ -22,7 +28,7 @@ def cff_countArray(*args):
         return 0
     return len([item for item in array if calculate_price(expression, item)])
 
-def cff_now():
+def cff_today():
     return date.today().strftime("%Y-%m-%d")
 
 def cff_addDuration(*args):
@@ -39,7 +45,8 @@ def cff_addDuration(*args):
 
 DEFAULT_CONTEXT = {
     "cff_yeardiff": cff_yeardiff,
+    "cff_nthOfNextMonth": cff_nthOfNextMonth,
     "cff_countArray": cff_countArray,
     "cff_addDuration": cff_addDuration,
-    "cff_now": cff_now
+    "cff_today": cff_today
 }

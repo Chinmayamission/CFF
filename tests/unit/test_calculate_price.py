@@ -97,9 +97,11 @@ class TestCalculatePrice(unittest.TestCase):
         with mock.patch("datetime.date") as mock_date:
             mock_date.today.return_value = date(2011, 7, 3)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
-            self.assertEqual(calculate_price("cff_now()", {}, False), "2011-07-03")
+            self.assertEqual(calculate_price("cff_today()", {}, False), "2011-07-03")
     def test_add_duration(self):
         self.assertEqual(calculate_price("cff_addDuration('2011-07-03', 'P1M')", {}, False), "2011-08-03")
+    def test_strings_conditional(self):
+        self.assertEqual(calculate_price("'a' * 0 + 1 * 'b' ", {}, False), "b")
     def test_round_up_next_cent(self):
         price = calculate_price("1/3", {})
         self.assertEqual(price, 0.34)
