@@ -1,3 +1,6 @@
+## 3.18.1
+- Fix: Make paymentInfo description field have full width
+
 ## 3.18.0
 - Feat: Add "adminFields" property, which contains paths of fields that are hidden from respondents, but can be edited by admins.
 - Feat: add "postprocess" option to formOptions which allows certain fields (such as order id, deadlines), to be calculated after the form has been submitted.

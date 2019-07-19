@@ -139,6 +139,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             <div className="container-fluid row">
               {!this.state.paymentStarted && (
                 <div
+                  className="col-12"
                   dangerouslySetInnerHTML={{
                     __html: sanitize(
                       this.props.paymentInfo.description ||
