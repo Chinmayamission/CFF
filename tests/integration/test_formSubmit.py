@@ -300,7 +300,15 @@ class FormSubmit(BaseTestCase):
                         "type": "patch",
                         "expr": True,
                         "value": [
-                            { "op": "add", "path": "/custom2", "expr": "participants" }
+                            { "op": "add", "path": "/custom2", "expr": "participants" },
+                            { "op": "add", "path": "/date1", "expr": "'2000-10-20'" }
+                        ]
+                    },
+                    {
+                        "type": "patch",
+                        "expr": True,
+                        "value": [
+                            { "op": "add", "path": "/date2", "expr": "cff_addDuration(CFF_FULL_date1, 'P1M')" }
                         ]
                     }
                 ]
@@ -310,7 +318,7 @@ class FormSubmit(BaseTestCase):
         
         responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
         self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"], "custom": 3, "custom2": 3})
+        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"], "custom": 3, "custom2": 3, "date1": "2000-10-20", "date2": "2000-11-20"})
         self.delete_form(formId)
 
     def test_edit_response(self):
