@@ -1,3 +1,7 @@
+## 3.19.0
+- Fix: upgrade rjsf to 1.7.0
+- Feat: add cff:infoboxSelect widget and add it by default into the array num items widget
+
 ## 3.18.1
 - Fix: Make paymentInfo description field have full width
 - fix: add null checking for cff_addDuration and cff_nthOfNextMonth

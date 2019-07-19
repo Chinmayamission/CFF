@@ -1,6 +1,8 @@
 import React from "react";
 import "./ArrayFieldTemplate.scss";
 import CustomForm, { FormattedDescriptionField } from "../CustomForm";
+import { get } from "lodash";
+import Infobox from "../components/Infobox";
 
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
   if (!title) {
@@ -58,9 +60,13 @@ class ArrayFieldTemplate extends React.Component<any, any> {
           enum: range,
           default: this.props.items ? this.props.items.length : 0,
           disabled: this.props.disabled,
-          readOnly: this.props.readonly
+          readOnly: this.props.readonly,
+          "cff:radioDescription": this.props.schema["cff:radioDescription"]
         }}
-        uiSchema={{ classNames: "ccmt-cff-array-numitems-select" }}
+        uiSchema={{
+          "ui:widget": "cff:infoboxSelect",
+          classNames: "ccmt-cff-array-numitems-select"
+        }}
         onChange={({ formData }) => this.onNumItemsChange(formData)}
       >
         &nbsp;

@@ -21,6 +21,7 @@ import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget"
 import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
 import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioWidget";
 import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
+import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
 
 export const FormattedDescriptionField = ({ id, description }) => {
@@ -32,7 +33,8 @@ export const FormattedDescriptionField = ({ id, description }) => {
   );
 };
 
-const CustomTitleField = ({ title, required }) => {
+const CustomTitleField = props => {
+  const { title, required } = props;
   if (!title || !title.trim()) {
     return <span />;
   }
@@ -72,7 +74,8 @@ const widgets = {
   "cff:confirm": ConfirmWidget,
   "cff:jsonEditor": JSONEditorWidget,
   "cff:conditionalHiddenRadio": ConditionalHiddenRadioWidget,
-  "cff:infoboxRadio": InfoboxRadioWidget
+  "cff:infoboxRadio": InfoboxRadioWidget,
+  "cff:infoboxSelect": InfoboxSelectWidget
 };
 
 const fields = {
