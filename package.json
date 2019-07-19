@@ -140,7 +140,7 @@
     "react-google-font-loader": "^1.0.5",
     "react-helmet": "^5.2.0",
     "react-json-view": "^1.15.2",
-    "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#20796c20383980a8b62b66221cc03b3d6b0e7539",
+    "react-jsonschema-form": "^1.7.0",
     "react-linkify": "^0.2.2",
     "react-loading": "^1.0.3",
     "react-modal": "^3.8.1",
