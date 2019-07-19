@@ -321,6 +321,28 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"], "custom": 3, "custom2": 3, "date1": "2000-10-20", "date2": "2000-11-20"})
         self.delete_form(formId)
 
+    def test_submit_form_paymentInfo_description_template(self):
+        formId = self.create_form()
+        schema = {"properties": {"custom": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
+        uiSchema = {"a":"b"}
+        formOptions = {
+            "paymentInfo": {
+                "description": "Hello {{value.participants[0]}}!"
+            }
+        }
+        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paymentInfo']['description'], "Hello a!")
+        
+        # Update form.
+        responseId, submit_res = self.submit_form(formId, {"participants": ["d", "e", "f"]})
+        self.assertEqual(submit_res['success'], True)
+        self.assertEqual(submit_res['paymentInfo']['description'], "Hello d!")
+
+        self.delete_form(formId)
+
     def test_edit_response(self):
         """Create form."""
         self.formId = self.create_form()

@@ -4,7 +4,7 @@ import datetime
 from pydash.objects import pick, get, unset
 from ..util.formSubmit.util import calculate_price
 from ..util.formSubmit.couponCodes import coupon_code_verify_max_and_record_as_used
-from ..util.formSubmit.emailer import send_confirmation_email
+from ..util.formSubmit.emailer import send_confirmation_email, fill_string_from_template
 from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
 from ..util.responseUploadImages import process_response_data_images
@@ -154,6 +154,8 @@ def form_response_new(formId):
             send_confirmation_email(response, get(paymentMethods, "auto_email.confirmationEmailInfo"))
             email_sent = True
         response.save()
+        if "description" in paymentInfo and type(paymentInfo["description"]) is str:
+            paymentInfo["description"] = fill_string_from_template(response, paymentInfo["description"])
         if "ccavenue" in paymentMethods and response.paid == False:
             paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], response)
         return {"res": {"value": response_data, "paid": paid, "success": True, "action": "insert", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods } }
@@ -169,6 +171,8 @@ def form_response_new(formId):
         response.paymentInfo = paymentInfo
         response.paid = paid
         response.save()
+        if "description" in paymentInfo and type(paymentInfo["description"]) is str:
+            paymentInfo["description"] = fill_string_from_template(response, paymentInfo["description"])
         if "ccavenue" in paymentMethods and response.paid == False:
             paymentMethods["ccavenue"] = update_ccavenue_hash(formId, paymentMethods["ccavenue"], response)
         return {"res": {"value": response_data, "paid": paid, "success": True, "action": "update", "email_sent": email_sent, "responseId": str(responseId), "paymentInfo": paymentInfo, "paymentMethods": paymentMethods, "amt_received": {"currency": paymentInfo["currency"], "total": float(response.amount_paid or 0) } } }

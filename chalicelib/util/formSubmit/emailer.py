@@ -24,10 +24,7 @@ def human_readable(input):
 
 # env.filters['upperstring'] = upperstring
 
-def create_confirmation_email_dict(response, confirmationEmailInfo):
-    # Creates dict with confirmation email info.
-    if not confirmationEmailInfo: return
-    templateText = get(confirmationEmailInfo, "template.html", "Confirmation Email Sample Text")
+def fill_string_from_template(response, templateText):
     flat = flatdict.FlatterDict(response.value)
     for i in flat:
         flat[human_readable_key(i)] = flat.pop(i)
@@ -35,6 +32,13 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     if kwargs.get("modify_link", None):
         kwargs["view_link"] = kwargs["modify_link"] + "&mode=view"
     msgBody = env.from_string(templateText).render(**kwargs)
+    return msgBody
+
+def create_confirmation_email_dict(response, confirmationEmailInfo):
+    # Creates dict with confirmation email info.
+    if not confirmationEmailInfo: return
+    templateText = get(confirmationEmailInfo, "template.html", "Confirmation Email Sample Text")
+    msgBody = fill_string_from_template(response, templateText)
     addCSS = False
     
     toField = confirmationEmailInfo["toField"]
