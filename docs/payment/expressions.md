@@ -38,12 +38,12 @@ Will return a value of `1`.
 
 Note that "CFF_FULL_" must be added as a prefix to any variable that should return a non-numeric value (such as an array). For example, `CFF_FULL_participants` returns the actual value of `participants` so it can be used in the function; just putting in `participants` will return the length of the array, 3.
 
-# cff_now (backend only)
-`cff_now()` returns today's date as a string in YYYY-MM-DD format -- for example, 2019-07-18
+# cff_today (backend only)
+`cff_today()` returns today's date as a string in YYYY-MM-DD format -- for example, 2019-07-18
 
 # cff_addDuration (backend only)
 `cff_addDuration(date, duration)` adds `duration` to `date`, returning a date string in `YYYY-MM-DD` format. `date` must be specified in `YYYY-MM-DD` format and `duration` must be specified in the [ISO Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) format.
 
-For example, `cff_addDuration(cff_now(), "P1M")` adds one month to the current year.
+For example, `cff_addDuration(cff_today(), "P1M")` adds one month to the current year.
 
 `cff_addDuration("2000-01-01", "P2M")` should return `"2000-03-01"`.
