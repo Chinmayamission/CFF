@@ -47,3 +47,6 @@ Note that "CFF_FULL_" must be added as a prefix to any variable that should retu
 For example, `cff_addDuration(cff_today(), "P1M")` adds one month to the current year.
 
 `cff_addDuration("2000-01-01", "P2M")` should return `"2000-03-01"`.
+
+# cff_nthOfNextMonth (backend only)
+`cff_nthOfNextMonth(date, n, maxDayDiff)` gives the next `n`th day of the month following `date`. If `maxDayDiff` is specified and this day is less than `maxDayDiff` away from `date`, then the month is increased by 1.

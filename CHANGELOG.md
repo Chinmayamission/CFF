@@ -1,7 +1,7 @@
 ## 3.18.0
 - Feat: Add "adminFields" property, which contains paths of fields that are hidden from respondents, but can be edited by admins.
 - Feat: add "postprocess" option to formOptions which allows certain fields (such as order id, deadlines), to be calculated after the form has been submitted.
-- Feat: Add cff_today and cff_addDuration to expression parser (backend only).
+- Feat: Add cff_today and cff_addDuration and cff_nthOfNextMonth to expression parser (backend only).
 - Feat: When an admin views a form in "view mode", a button lets them change to "edit mode".
 - Change: Admins with Edit_Responses permission can now directly edit a response through the form edit response endpoint.
 - Fix: fix race case with responses loading, which allows for email to be greyed out when autopopulated.
