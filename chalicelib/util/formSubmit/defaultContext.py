@@ -22,7 +22,7 @@ def cff_countArray(*args):
         return 0
     return len([item for item in array if calculate_price(expression, item)])
 
-def cff_today():
+def cff_now():
     return date.today().strftime("%Y-%m-%d")
 
 def cff_addDuration(*args):
@@ -37,12 +37,9 @@ def cff_addDuration(*args):
     )
     return new_time.strftime("%Y-%m-%d")
 
-def cff_today():
-    return date.today().strftime("%Y-%m-%d")
-
 DEFAULT_CONTEXT = {
     "cff_yeardiff": cff_yeardiff,
     "cff_countArray": cff_countArray,
     "cff_addDuration": cff_addDuration,
-    "cff_today": cff_today
+    "cff_now": cff_now
 }
