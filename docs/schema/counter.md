@@ -19,4 +19,7 @@ Then, the `counter` field on the response will be incremented, starting with 1 f
 ## Adding a counter to the response table
 To add the counter to the response table, enter `COUNTER` in the header value and it will be added.
 
+## Adding a counter to a confirmation email
+To add a counter to the confirmation email (or any jinja template), just use `{{counter}}` to display it.
+
 **Todo:** functionality to look responses up by counter, such as in the "check-in" functionality.
