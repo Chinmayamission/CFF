@@ -438,10 +438,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           {!this.state.paymentStarted && (
             <div>
               <h1 className="text-center">Confirmation Page</h1>
-              <div className="my-4 text-center">
+              <h2 className="text-center">
                 Please scroll down and review your registration details in order
                 to continue.
-              </div>
+              </h2>
+              <br />
               {formToReturn}
               {get(
                 this.state.formOptions,
