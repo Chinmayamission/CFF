@@ -65,7 +65,11 @@ class BaseTestCase(unittest.TestCase):
                                       body=json.dumps({"data": formData, "responseId": responseId}))
     self.assertEqual(response['statusCode'], 200, response)
     body = json.loads(response['body'])
-    return body['res'].pop('responseId', None), body['res']
+    responseIdNew = body['res'].pop('responseId', None)
+    if responseId:
+      # Check that response ids are the same after update.
+      self.assertEqual(responseIdNew, responseId)
+    return responseIdNew, body['res']
   def view_response(self, responseId):
     response = self.lg.handle_request(method='GET',
                                       path='/responses/{}'.format(responseId),

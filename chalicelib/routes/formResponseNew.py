@@ -9,6 +9,7 @@ from ..util.formSubmit.ccavenue import update_ccavenue_hash
 from ..util.formSubmit.paymentMethods import fill_paymentMethods_with_data
 from ..util.responseUploadImages import process_response_data_images
 from chalicelib.util.patch import patch_predicate
+from chalicelib.util.counter import get_counter
 from chalicelib.models import Form, Response, User, UpdateTrailItem, serialize_model
 from bson.objectid import ObjectId
 from pymodm.errors import DoesNotExist
@@ -49,6 +50,10 @@ def form_response_new(formId):
     postprocess = form.formOptions.postprocess
     if postprocess and "patches" in postprocess and type(postprocess["patches"]) is list:
         response_data = patch_predicate(response_data, postprocess["patches"])
+    counter_value = None
+    counter = form.formOptions.counter
+    if newResponse and counter and "enabled" in counter and counter["enabled"] == True:
+        counter_value = get_counter(formId)
     modify_link = app.current_request.json_body.get('modifyLink', '')
     paymentInfo = form.formOptions.paymentInfo
     confirmationEmailInfo = form.formOptions.confirmationEmailInfo
@@ -113,7 +118,8 @@ def form_response_new(formId):
             form=form,
             id=responseId,
             date_created=datetime.datetime.now(),
-            modify_link=modify_link + "?responseId=" + str(responseId) if modify_link else ""
+            modify_link=modify_link + "?responseId=" + str(responseId) if modify_link else "",
+            counter=counter_value
         )
         if get(form, "formOptions.loginRequired", False) is True and userId is not "cm:cognitoUserPool:anonymousUser":
             user = get_user_or_create_one(userId)

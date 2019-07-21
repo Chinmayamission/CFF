@@ -46,6 +46,7 @@ class FormOptions(EmbeddedMongoModel):
   adminInfo = fields.DictField(blank=True) # Contains *configuration* for admin_info.
   adminFields = fields.ListField(blank=True)
   postprocess = fields.DictField(blank=True)
+  counter = fields.DictField(blank=True)
 
 class Form(BaseMongoModel):
   name = fields.CharField(required=True)
@@ -60,6 +61,13 @@ class Form(BaseMongoModel):
   date_created = fields.DateTimeField(required=True)
   formType = fields.CharField()
   version = fields.IntegerField()
+
+class FormResponseCounter(MongoModel):
+  """Used to generate numeric, human-readable ids for
+    each form response.
+  """
+  counter = fields.IntegerField()
+  form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
 
 class PaymentStatusDetailItem(EmbeddedMongoModel):
   amount = money_field
@@ -127,6 +135,7 @@ class Response(BaseMongoModel):
   admin_info = fields.DictField()
   modify_link = fields.CharField(blank=True)
   predicate = fields.DictField()
+  counter = fields.IntegerField(blank=True)
 
 class CCAvenueConfig(BaseMongoModel):
   id = fields.ObjectIdField(primary_key=True)
