@@ -1,7 +1,7 @@
 """
 pipenv run python -m unittest tests.unit.test_email
 """
-from chalicelib.util.formSubmit.emailer import create_confirmation_email_dict
+from chalicelib.util.formSubmit.emailer import create_confirmation_email_dict, fill_string_from_template
 # import tests.config
 from tests.integration.constants import _
 import unittest
@@ -157,3 +157,5 @@ class TestCreateEmail(unittest.TestCase):
         # confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template})
         # res = create_confirmation_email_dict(response, confirmationEmailInfo)
         # self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho."), res)
+    def test_template_format_date(self):
+        self.assertEqual(fill_string_from_template(Response(value={"date": "2000-10-10"}), "{{value.date | format_date}}"), "Oct 10, 2000")

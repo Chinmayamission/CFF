@@ -41,6 +41,7 @@ mongomock = {editable = true,git = "https://github.com/mongomock/mongomock.git"}
 jsonpointer = "*"
 responses = "*"
 isodate = "*"
+babel = "*"
 
 [dev-packages]
 

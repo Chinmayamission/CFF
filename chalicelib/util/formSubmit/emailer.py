@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 # import bleach
 import html2text
 from pynliner import Pynliner
-from .util import format_paymentInfo, format_payment, display_form_dict, human_readable_key
+from .util import format_paymentInfo, format_payment, format_date, display_form_dict, human_readable_key
 from pydash.objects import get
 import logging
 from jinja2 import Environment, Undefined
@@ -18,6 +18,7 @@ class SilentUndefined(Undefined):
 
 env = Environment(undefined=SilentUndefined)
 env.filters['format_payment'] = format_payment
+env.filters['format_date'] = format_date
 
 def human_readable(input):
     return input.upper()

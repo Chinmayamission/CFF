@@ -5,6 +5,8 @@ from collections import defaultdict
 from pydash.objects import get
 from math import ceil
 import copy
+import babel.dates
+from datetime import datetime
 
 DELIM_VALUE = "D34hSK"
 SPACE_VALUE = "ASIDJa"
@@ -130,6 +132,12 @@ def format_payment(total, currency='USD'):
     if currency == "INR":
         return "₹{:,.2f}".format(total)
     return "{} {:,.2f}".format(currency, total)
+
+def format_date(datestr):
+    """Formates datestring of form YYYY-MM-DD to a locale-friendly datestring."""
+    d = datetime.strptime(datestr, "%Y-%m-%d")
+    return babel.dates.format_date(d, locale='en')
+    
 def format_paymentInfo(paymentInfo):
     return format_payment(paymentInfo.get("total", "N/A"), paymentInfo.get("currency", "USD"))
 

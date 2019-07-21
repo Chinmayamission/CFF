@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8a87e14b4c8c9350e48c658eb974c8444b4f5fb73bd5455ffa26643a1989cbfe"
+            "sha256": "851330af5c402611473945d9e4773d2e6c3c73e4e81550a5aa02e0fdd7521803"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -44,6 +44,14 @@
             ],
             "version": "==2.4.2"
         },
+        "babel": {
+            "hashes": [
+                "sha256:af92e6106cb7c55286b25b38ad7695f8b4efb36a90ba483d7f7a6628c46158ab",
+                "sha256:e86135ae101e31e2c8ec20a4e0c5220f4eed12487d5cf3f78be7e98d3a57fc28"
+            ],
+            "index": "pypi",
+            "version": "==2.7.0"
+        },
         "beautifulsoup4": {
             "hashes": [
                 "sha256:11a9a27b7d3bddc6d86f59fb76afb70e921a25ac2d6cc55b40d072bd68435a76",
@@ -77,10 +85,10 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:10a88f73a4d3c88d4d807df4e0357120e30edbb037ad01f6e7457cf9cb2cc1a8",
-                "sha256:b04b9c9f49dd540fbcf1d1990382910d99926eedfb82eaff20527446240750a4"
+                "sha256:6f609214e358d602a927af375e851af8edff0fb7dcdc0f9790416936eded0442",
+                "sha256:971bfcce68b0c92cb8ff6c43a080a2baa07f0f6809582d758da19c14fc039da0"
             ],
-            "version": "==1.12.190"
+            "version": "==1.12.191"
         },
         "certifi": {
             "hashes": [
@@ -325,7 +333,7 @@
         "mongomock": {
             "editable": true,
             "git": "https://github.com/mongomock/mongomock.git",
-            "ref": "e0a66db0c6cfdc2996635470c0944ebc015e99e9"
+            "ref": "4f112d057dde9abd3166eb1c76c44135be8566ba"
         },
         "moto": {
             "hashes": [
