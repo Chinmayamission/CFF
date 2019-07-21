@@ -90,7 +90,8 @@ export function createHeadersAndDataFromDataOption(
       : String(e.date_modified),
     AMOUNT_OWED: formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
     AMOUNT_PAID: formatPayment(e.amount_paid, e.paymentInfo.currency),
-    admin_info: e.admin_info
+    admin_info: e.admin_info,
+    COUNTER: e.counter
   }));
   headers = Headers.makeHeadersFromDataOption(
     dataOptionView,
