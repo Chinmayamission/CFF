@@ -1,3 +1,7 @@
+## 3.20.0
+- Feat: Add "counter" functionality which allows for generating numeric, consecutive ids for each response based on its order of creation.
+- Feat: Add "format_date" template filter for jinja templates (used in confirmation emails) to show dates in a locale-friendly manner.
+
 ## 3.19.0
 - Fix: upgrade rjsf to 1.7.0
 - Feat: add cff:infoboxSelect widget and add it by default into the array num items widget
