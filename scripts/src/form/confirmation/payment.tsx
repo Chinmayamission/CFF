@@ -97,9 +97,10 @@ class Payment extends React.Component<IPaymentProps, any> {
         <br />
         <h1>{this.props.paymentInfo.paymentInfoTableTitle || "Payment"}</h1>
         <div>
-          {this.props.paymentInfo && (
-            <PaymentTable paymentInfo={this.props.paymentInfo} />
-          )}
+          {this.props.paymentInfo &&
+            this.props.paymentInfo.items.length > 0 && (
+              <PaymentTable paymentInfo={this.props.paymentInfo} />
+            )}
           {this.props.paymentInfo_received &&
             this.props.paymentInfo_received.total > 0 && (
               <div>
@@ -152,11 +153,11 @@ class Payment extends React.Component<IPaymentProps, any> {
             </div>
           )}
           {this.props.paymentInfo_owed.total == 0 && (
-            <div>
+            <h4>
               We have already received your payment. No additional payment
               necessary -- you will receive a confirmation email shortly about
               your update.
-            </div>
+            </h4>
           )}
         </div>
       </div>
