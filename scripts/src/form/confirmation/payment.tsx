@@ -98,6 +98,7 @@ class Payment extends React.Component<IPaymentProps, any> {
         <h1>{this.props.paymentInfo.paymentInfoTableTitle || "Payment"}</h1>
         <div>
           {this.props.paymentInfo &&
+            this.props.paymentInfo.items &&
             this.props.paymentInfo.items.length > 0 && (
               <PaymentTable paymentInfo={this.props.paymentInfo} />
             )}
