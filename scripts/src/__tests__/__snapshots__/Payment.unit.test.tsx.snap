@@ -2,25 +2,27 @@
 
 exports[`doesn't render payment table when paymentInfo.items is none 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div />
-  <div
-    style="text-align:center"
-  >
-    <h4>
+  <div>
+    <div
+      class="alert alert-info"
+    >
       We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
-    </h4>
+    </div>
   </div>
 </div>
 `;
 
 exports[`renders payment table on new response 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -163,20 +165,21 @@ exports[`renders payment table on new response 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
-    <h4>
+  <div>
+    <div
+      class="alert alert-info"
+    >
       We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
-    </h4>
+    </div>
   </div>
 </div>
 `;
 
 exports[`renders payment table with amount received 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -331,11 +334,10 @@ exports[`renders payment table with amount received 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
+  <div>
     <div
       class="container-fluid row"
+      style="text-align:center"
     >
       <div
         class="col-12"
@@ -349,8 +351,9 @@ exports[`renders payment table with amount received 1`] = `
 
 exports[`renders recurring payment table with end 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -493,20 +496,21 @@ exports[`renders recurring payment table with end 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
-    <h4>
+  <div>
+    <div
+      class="alert alert-info"
+    >
       We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
-    </h4>
+    </div>
   </div>
 </div>
 `;
 
 exports[`renders recurring payment table with times 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -649,12 +653,12 @@ exports[`renders recurring payment table with times 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
-    <h4>
+  <div>
+    <div
+      class="alert alert-info"
+    >
       We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
-    </h4>
+    </div>
   </div>
 </div>
 `;
