@@ -22,23 +22,23 @@ steps:
     architecture: 'x64'
 
 - script: |
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee 
+    sudo apt-get update
+    sudo apt-get install -y mongodb-org
+    mongod --fork --port=10255
+  workingDirectory: lambda
+  displayName: 'start mongodb and import data'
+
+- script: |
     npm install
     npm test
     npm run build
   displayName: 'npm install, test, and build'
 
 - script: |
-    cd lambda
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee 
-    sudo apt-get update
-    sudo apt-get install -y mongodb-org
-    mongod --fork --port=10255
-  displayName: 'start mongodb and import data'
-
-- script: |
-    cd lambda
     pip install pipenv
     pipenv install
     npm test
+  workingDirectory: lambda
   displayName: 'pipenv install, test'
