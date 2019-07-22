@@ -1,7 +1,7 @@
 import { IResponseDetailProps, IResponseDetailState } from "./ResponseDetail.d";
 import ReactJson from "react-json-view";
 import * as React from "react";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "./ResponseDetail.scss";
 import ValueEdit from "./ResponseCards/ValueEdit";

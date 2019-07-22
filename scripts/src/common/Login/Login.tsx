@@ -11,7 +11,7 @@ import {
   forgotPassword,
   forgotPasswordSubmit
 } from "../../store/auth/actions";
-import { withFederated } from "aws-amplify-react";
+// import { withFederated } from "aws-amplify-react/dist/Auth";
 import AuthPageNavButton from "./AuthPageNavButton";
 import { IAuthState } from "../../store/auth/types";
 import { setLoginUrl } from "../../store/auth/actions";
@@ -53,7 +53,7 @@ const federated = {
   facebook_app_id: "",
   amazon_client_id: ""
 };
-const Federated = withFederated(Buttons);
+// const Federated = withFederated(Buttons);
 
 const errorMessageMap = message => {
   if (/User does not exist/i.test(message)) {

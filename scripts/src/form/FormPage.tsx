@@ -1,6 +1,6 @@
 import React from "react";
 import Form from "react-jsonschema-form";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import queryString from "query-string";
 import sanitize from "../sanitize";
 import { get, set, unset } from "lodash";

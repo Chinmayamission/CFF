@@ -1,4 +1,4 @@
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import createSchemas from "./CreateSchemas";
 import { IResponse } from "../store/responses/types";
 

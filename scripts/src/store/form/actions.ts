@@ -2,7 +2,7 @@ import FormLoader from "../../common/FormLoader";
 import { loadingStart, loadingEnd } from "../base/actions";
 import { IRenderedForm, IGroupOption } from "../../admin/FormEdit/FormEdit.d";
 import { FormState } from "./types";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 
 export const setRenderedForm = (renderedForm: IRenderedForm) => ({
   type: "SET_RENDERED_FORM",

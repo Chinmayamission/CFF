@@ -1,4 +1,4 @@
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import { IFormListItem } from "../../admin/FormList/FormList.d";
 import { loadingStart, loadingEnd } from "../base/actions";
 

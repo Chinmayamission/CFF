@@ -1,5 +1,5 @@
 import * as React from "react";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import dataLoadingView from "../util/DataLoadingView";
 import { pickBy } from "lodash";
 import UserRow from "./UserRow";

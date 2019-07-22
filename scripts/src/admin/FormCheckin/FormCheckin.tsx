@@ -13,7 +13,6 @@ import ReactTable from "react-table";
 import { get } from "lodash";
 import { fetchRenderedForm } from "../../store/form/actions";
 import Headers from "../util/Headers";
-import { API } from "aws-amplify";
 import InlineEdit from "react-edit-inline";
 import { hasPermission } from "../FormList/FormList";
 import ResponseDetail from "../ResponseTable/ResponseDetail";

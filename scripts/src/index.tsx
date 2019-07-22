@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./app";
-import Amplify, { Auth } from "aws-amplify";
-import { I18n } from "aws-amplify";
+import Auth from "@aws-amplify/auth";
+import API from "@aws-amplify/api";
+import { I18n } from "@aws-amplify/core";
 
 import store from "./store";
 import { Provider } from "react-redux";
@@ -25,38 +26,36 @@ const asyncLocalStorage = {
   }
 };
 
-Amplify.configure({
-  Auth: {
-    // REQUIRED - Amazon Cognito Identity Pool ID
-    identityPoolId: "us-east-1:1ed8f7a7-74f9-4263-8791-88d88bbce0c9",
-    // REQUIRED - Amazon Cognito Region
-    region: "us-east-1",
-    // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: USER_POOL_ID,
-    // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: COGNITO_CLIENT_ID,
-    // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-    mandatorySignIn: false
-  },
-  API: {
-    endpoints: [
-      {
-        name: "CFF",
-        endpoint: ENDPOINT_URL,
-        custom_header: async () => {
-          try {
-            return {
-              Authorization: ((await Auth.currentSession()) as any).idToken
-                .jwtToken
-            };
-          } catch (e) {
-            console.error(e);
-            return { Authorization: await asyncLocalStorage.getItem("jwt") };
-          }
+Auth.configure({
+  // REQUIRED - Amazon Cognito Identity Pool ID
+  identityPoolId: "us-east-1:1ed8f7a7-74f9-4263-8791-88d88bbce0c9",
+  // REQUIRED - Amazon Cognito Region
+  region: "us-east-1",
+  // OPTIONAL - Amazon Cognito User Pool ID
+  userPoolId: USER_POOL_ID,
+  // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+  userPoolWebClientId: COGNITO_CLIENT_ID,
+  // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
+  mandatorySignIn: false
+});
+API.configure({
+  endpoints: [
+    {
+      name: "CFF",
+      endpoint: ENDPOINT_URL,
+      custom_header: async () => {
+        try {
+          return {
+            Authorization: ((await Auth.currentSession()) as any).idToken
+              .jwtToken
+          };
+        } catch (e) {
+          console.error(e);
+          return { Authorization: await asyncLocalStorage.getItem("jwt") };
         }
       }
-    ]
-  }
+    }
+  ]
 });
 
 const authScreenLabels = {

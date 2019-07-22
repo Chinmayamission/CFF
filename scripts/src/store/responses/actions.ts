@@ -1,4 +1,4 @@
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import { ResponsesState, IResponse } from "./types";
 import { findIndex, cloneDeep } from "lodash";
 import { loadingStart, loadingEnd } from "../base/actions";

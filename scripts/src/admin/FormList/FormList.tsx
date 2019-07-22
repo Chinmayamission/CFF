@@ -1,5 +1,5 @@
 import * as React from "react";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import { isArray } from "lodash";
 import "./FormList.scss";
