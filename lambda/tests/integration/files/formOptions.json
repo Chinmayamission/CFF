@@ -1,0 +1,70 @@
+{
+  "paymentInfo": {
+    "currency": "USD",
+    "items": [
+      {
+        "amount": "0.50",
+        "description": "Base Registration",
+        "name": "Base Registration",
+        "quantity": "1"
+      },
+      {
+        "amount": "25",
+        "description": "$25 for each child",
+        "name": "Additional Registration",
+        "quantity": "children"
+      }
+    ]
+  },
+  "confirmationEmailInfo": {
+    "cc": null,
+    "from": "ccmt.dev@gmail.com",
+    "fromName": "CMTC",
+    "subject": "2018-19 BBNJ form",
+    "template": {
+      "html": "<div style='width: 100%;background-color: #eee; margin: 10px 0px;'> <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'> <img src='http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png' width='100%'> <h1>Confirmation</h1> <h2>2018-19 Long Island Balavihar Registration Form</h2>Thank you for submitting the form. This is a confirmation that we have received your response.<br> <br> <table> <tbody> {% for key in response %}<tr><th>{{key}}</th><td>{{response[key]}}</td></tr> {% endfor %} </tbody> </table> <h2>Payment Info</h2><table><tr><th>Item</th><th>Amount</th><th>Quantity</th></tr>{%for item in paymentInfo['items'] %}<tr><td>{{item.name}}</td><td>{{item.amount | format_payment(paymentInfo.currency)}}</td><td>{{item.quantity}}</td></tr>{% endfor %}</table><br><strong>Total Amount: {{paymentInfo.total | format_payment(paymentInfo.currency)}}</strong><br><br><br>We thank you for your contribution and support.<br>Chinmaya Mission New York is a not-for-profit organization exempt from Federal Income tax under section 501 (c) (3). Tax ID: 26-1337001.<br>May Gurudev's Blessing be with you.</div> </div>",
+      "htmltest": "{{_id['$oid']}} id"
+    },
+    "toField": [
+      "email"
+    ]
+  },
+  "dataOptions": {},
+  "paymentMethods": {
+    "paypal_classic": {
+      "address1": "$address.line1",
+      "address2": "$address.line2",
+      "business": "aramaswamis-facilitator@gmail.com",
+      "city": "$address.city",
+      "cmd": "_cart",
+      "email": "$email",
+      "first_name": "$contact_name.first",
+      "image_url": "http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png",
+      "last_name": "$contact_name.last",
+      "payButtonText": "Pay Now",
+      "sandbox": false,
+      "state": "$address.state",
+      "zip": "$address.zipcode"
+    }
+  },
+  "defaultFormData": {
+    "contact_name": {
+      "first": "Ashwin",
+      "last": "Ash"
+    },
+    "address": {
+      "line1": "123",
+      "line2": "asdad",
+      "city": "Atlanta",
+      "state": "GA",
+      "zipcode": "12345"
+    },
+    "email": "success@simulator.amazonses.com",
+    "phone": "1231231233",
+    "amount": 0.5,
+    "subscribe": true
+  },
+  "showConfirmationPage": true,
+  "successMessage": "<h1>Form submission success</h1><h2>Academician Form</h2><p>You will receive an email with confirmation shortly. Thank you!</p>",
+  "_cls": "chalicelib.models.FormOptions"
+}

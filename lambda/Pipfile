@@ -1,0 +1,49 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+attrs = "==17.4.0"
+"beautifulsoup4" = "==4.6.0"
+blinker = "==1.4"
+boto3 = "==1.9.183"
+certifi = "==2018.1.18"
+chalice = "==1.7.0"
+chardet = "==3.0.4"
+click = "==6.6"
+cssutils = "==1.0.2"
+docutils = "==0.14"
+flatdict = "==3.0.0"
+"html2text" = "==2018.1.9"
+idna = "==2.6"
+jinja2 = "==2.10.1"
+jmespath = "==0.9.3"
+markupsafe = "==1.0"
+py-expression-eval = {editable = true,git = "https://github.com/epicfaace/py-expression-eval.git",ref = "ead901b69f357290055b94608da6bfd367a85e7d"}
+pydash = "==4.5.0"
+pynliner = "==0.8.0"
+python-dateutil = "==2.6.1"
+pytz = "==2018.3"
+requests = "==2.20.0"
+shortuuid = "==0.5.0"
+six = "==1.11.0"
+typing = "==3.6.4"
+urllib3 = "==1.24.2"
+pymongo = {extras = ["tls"]}
+pymodm = "==0.4.1"
+python-jose = "*"
+pycryptodomex = "*"
+pip = "==10"
+jsonpatch = "*"
+moto = "*"
+mongomock = {editable = true,git = "https://github.com/mongomock/mongomock.git"}
+jsonpointer = "*"
+responses = "*"
+isodate = "*"
+babel = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

@@ -1,0 +1,48 @@
+<div style='width: 100%;background-color: #eee; margin: 10px 0px;'>
+  <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'>
+    <img src='https://d1dyr7ljeznkdv.cloudfront.net/cff.chinmayamission.com/cmtc-header.PNG' style='width: 100%; margin: auto; max-width: 500px'>
+    <div style='width: 100%; max-width: 500px; text-align: center;'>
+      <h1 style='margin: auto;'>Chinmaya Ramdoot</h1>
+      <br>
+      <h2 style='margin: auto;'>Basking Ridge/Bridgewater NJ (BBNJ)</h2>
+    </div>
+    <br> Hari OM,
+    <br>
+    <br> Thank you for supporting Chinmaya Ramdoot with your generous donation.
+    <!-- start comment -->
+    <!-- Please make check payable to: 'CMTC' with memo 'Chinmaya Ramdoot'.<br><br>Chinmaya Mission Tristate Center<br>95 Cranbury Neck Road<br>Cranbury, NJ 08512<br>  -->
+    <!-- end comment-->
+    <br>
+    <br>
+    <table>
+      <tr>
+        <th>First Name</th>
+        <td>{{response['Contact Name: First']}}</td>
+      </tr>
+      <tr>
+        <th>Last Name</th>
+        <td>{{response['Contact Name: Last']}}</td>
+      </tr>
+      {% for key, val in response.items() %} {% if key == 'Contact Name: First' or key == 'Contact Name: Last' %} {% else %}
+      <tr>
+        <th>{{key}}</th>
+        <td>{% if key == 'Pariwar' %} {% if val %}Yes{% else %}Not Now{% endif %}
+            {% else %}{{val}}{% endif %}</td>
+      </tr>
+      {% endif %} {% endfor %} </table>
+    <br>
+    <h2>Payment Info</h2>
+    <table>
+      <tr>
+        <th>Item Name</th>
+        <th>Description</th>
+        <th>Amount</th>
+      </tr>{% for item in paymentInfo['items'] %}
+      <tr>
+        <td>{{item.name}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.amount | format_payment(paymentInfo.currency)}}</td>
+      </tr>{% endfor %} </table>
+    <br> With Prem & OM,
+    <br> Ramdoot Sevaks </div>
+</div>

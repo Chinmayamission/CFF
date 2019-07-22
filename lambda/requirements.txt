@@ -1,0 +1,24 @@
+Babel==2.7.0
+beautifulsoup4==4.6.0
+boto3==1.9.183
+certifi==2018.1.18
+chardet==3.0.4
+cssutils==1.0.2
+flatdict==3.0.0
+html2text==2018.1.9
+idna==2.6
+isodate==0.6.0
+Jinja2==2.10
+jsonpatch==1.23
+jsonpointer==2.0
+MarkupSafe==1.0
+-e git+https://github.com/epicfaace/py-expression-eval.git@ead901b69f357290055b94608da6bfd367a85e7d#egg=py-expression-eval
+pycryptodomex==3.6.4
+pydash==4.5.0
+pymodm==0.4.1
+pymongo==3.6.1
+pynliner==0.8.0
+python-jose==3.0.0
+requests==2.18.4
+shortuuid==0.5.0
+urllib3==1.22
