@@ -12,6 +12,7 @@ export function getSchemaFromResults({ results, schema, titleAccessor }) {
       // Always true for now.
       for (let key in schema.properties) {
         option["properties"][key] = {
+          ...schema.properties[key],
           type: typeof result[key],
           default: result[key],
           enum: [result[key]],

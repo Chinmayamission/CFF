@@ -50,8 +50,33 @@ describe("getSchemaFromResults", () => {
       }
     };
     let titleAccessor = "name";
-    expect(
-      getSchemaFromResults({ results, schema, titleAccessor })
-    ).toMatchSnapshot();
+    let newSchema = getSchemaFromResults({ results, schema, titleAccessor });
+    expect(newSchema).toMatchSnapshot();
+  });
+  it("should preserve title from schema", () => {
+    let results = [
+      {
+        address1: "A",
+        city: "City",
+        state: "State",
+        zip: "Zipcode",
+        name: "Center Name 1"
+      }
+    ];
+    let schema = {
+      type: "object",
+      properties: {
+        name: { type: "string" },
+        address1: { type: "string" },
+        state: { type: "string" },
+        zip: { title: "Zip / Pincode", type: "string" }
+      }
+    };
+    let titleAccessor = "name";
+    let newSchema = getSchemaFromResults({ results, schema, titleAccessor });
+    expect(newSchema).toMatchSnapshot();
+    expect(newSchema.dependencies.name.oneOf[0].properties.zip.title).toEqual(
+      "Zip / Pincode"
+    );
   });
 });
