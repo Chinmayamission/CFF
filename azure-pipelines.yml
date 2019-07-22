@@ -26,7 +26,8 @@ steps:
     echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
     sudo apt-get update
     sudo apt-get install -y mongodb-org
-    mongod --fork --port=10255
+    mkdir ~/log
+    mongod --fork --port=10255 --logpath ~/log/mongodb.log
   workingDirectory: lambda
   displayName: 'start mongodb and import data'
 
