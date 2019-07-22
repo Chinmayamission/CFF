@@ -40,6 +40,7 @@ steps:
 - script: |
     pip install pipenv
     pipenv install
+    npm install
     npm test
   workingDirectory: lambda
   displayName: 'pipenv install, test'
