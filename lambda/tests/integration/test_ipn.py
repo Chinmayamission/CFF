@@ -5,7 +5,7 @@ import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
-from .constants import FORM_ID
+from .constants import FORM_ID, AWS_REGION
 from app import app
 from tests.integration.baseTestCase import BaseTestCase
 from chalicelib.models import Response, PaymentStatusDetailItem
@@ -13,6 +13,8 @@ import datetime
 from bson.objectid import ObjectId
 from .constants import ONE_SCHEMA, ONE_UISCHEMA, ONE_FORMOPTIONS, ONE_FORMDATA
 import responses
+import mock
+from unittest.mock import MagicMock, PropertyMock
 
 class FormIpn(BaseTestCase):
     maxDiff = None
@@ -32,7 +34,13 @@ class FormIpn(BaseTestCase):
             self.assertEqual(response['body'], '')
         return response['body']
     @responses.activate
-    def test_ipn_verified_success(self):
+    @mock.patch("boto3.client")
+    def test_ipn_verified_success(self, mock_boto_client):
+        ses_mock = MagicMock()
+        mock_boto_client.return_value = ses_mock
+        send_email = PropertyMock()
+        ses_mock.send_email = send_email
+
         responses.add(responses.POST, 'https://www.sandbox.paypal.com/cgi-bin/webscr',
                   body='VERIFIED', status=200)
         responseId = str(ObjectId())
@@ -65,6 +73,9 @@ class FormIpn(BaseTestCase):
         self.assertTrue(len(response["email_trail"]) > 0)
         self.assertEqual(response["paid"], True)
         self.assertEqual(response["amount_paid"], "0.5")
+        mock_boto_client.assert_called_once_with('ses', region_name=AWS_REGION)
+        send_email.assert_called_once_with(Destination={'ToAddresses': ['success@simulator.amazonses.com'], 'CcAddresses': [], 'BccAddresses': []}, Message={'Subject': {'Data': '2018-19 BBNJ form', 'Charset': 'utf-8'}, 'Body': {'Text': {'Data': "![](http://www.chinmayanewyork.org/wp-\ncontent/uploads/2014/08/banner17_ca1.png)\n\n# Confirmation\n\n## 2018-19 Long Island Balavihar Registration Form\n\nThank you for submitting the form. This is a confirmation that we have\nreceived your response.  \n  \nA| b  \n---|---  \nEmail| success@simulator.amazonses.com  \n  \n## Payment Info\n\nItem| Amount| Quantity  \n---|---|---  \na| $0.25| 1  \na2| $0.25| 1  \n  \n **Total Amount: $0.50**  \n  \n  \nWe thank you for your contribution and support.  \nChinmaya Mission New York is a not-for-profit organization exempt from Federal\nIncome tax under section 501 (c) (3). Tax ID: 26-1337001.  \nMay Gurudev's Blessing be with you.\n\n", 'Charset': 'utf-8'}, 'Html': {'Data': '<div style="width: 100%;background-color: #eee; margin: 10px 0px;"> <div style="width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;"> <img src="http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png" width="100%"/> <h1>Confirmation</h1> <h2>2018-19 Long Island Balavihar Registration Form</h2>Thank you for submitting the form. This is a confirmation that we have received your response.<br/> <br/> <table> <tbody> <tr><th>A</th><td>b</td></tr> <tr><th>Email</th><td>success@simulator.amazonses.com</td></tr> </tbody> </table> <h2>Payment Info</h2><table><tr><th>Item</th><th>Amount</th><th>Quantity</th></tr><tr><td>a</td><td>$0.25</td><td>1</td></tr><tr><td>a2</td><td>$0.25</td><td>1</td></tr></table><br/><strong>Total Amount: $0.50</strong><br/><br/><br/>We thank you for your contribution and support.<br/>Chinmaya Mission New York is a not-for-profit organization exempt from Federal Income tax under section 501 (c) (3). Tax ID: 26-1337001.<br/>May Gurudev\'s Blessing be with you.</div> </div>', 'Charset': 'utf-8'}}}, Source='CMTC <ccmt.dev@gmail.com>')
+
     @responses.activate
     def test_ipn_invalid_fail(self):
         responses.add(responses.POST, 'https://www.sandbox.paypal.com/cgi-bin/webscr',
@@ -99,7 +110,13 @@ class FormIpn(BaseTestCase):
         self.assertEqual(response["paid"], False)
         self.assertEqual(response["amount_paid"], "0")
     @responses.activate
-    def test_ipn_refund(self):
+    @mock.patch("boto3.client")
+    def test_ipn_refund(self, mock_boto_client):
+        ses_mock = MagicMock()
+        mock_boto_client.return_value = ses_mock
+        send_email = PropertyMock()
+        ses_mock.send_email = send_email
+
         responses.add(responses.POST, 'https://www.sandbox.paypal.com/cgi-bin/webscr',
                   body='VERIFIED', status=200)
         responseId =  str(ObjectId())
@@ -133,6 +150,10 @@ class FormIpn(BaseTestCase):
         self.assertEqual(len(response["email_trail"]), 1)
         self.assertEqual(response["paid"], False)
         self.assertEqual(response["amount_paid"], "0.0")
+
+        mock_boto_client.assert_called_once_with('ses', region_name=AWS_REGION)
+        send_email.assert_called_once_with(Destination={'ToAddresses': ['success@simulator.amazonses.com'], 'CcAddresses': [], 'BccAddresses': []}, Message={'Subject': {'Data': '2018-19 BBNJ form', 'Charset': 'utf-8'}, 'Body': {'Text': {'Data': "![](http://www.chinmayanewyork.org/wp-\ncontent/uploads/2014/08/banner17_ca1.png)\n\n# Confirmation\n\n## 2018-19 Long Island Balavihar Registration Form\n\nThank you for submitting the form. This is a confirmation that we have\nreceived your response.  \n  \nA| b  \n---|---  \nEmail| success@simulator.amazonses.com  \n  \n## Payment Info\n\nItem| Amount| Quantity  \n---|---|---  \na| $0.25| 1  \na2| $0.25| 1  \n  \n **Total Amount: $0.50**  \n  \n  \nWe thank you for your contribution and support.  \nChinmaya Mission New York is a not-for-profit organization exempt from Federal\nIncome tax under section 501 (c) (3). Tax ID: 26-1337001.  \nMay Gurudev's Blessing be with you.\n\n", 'Charset': 'utf-8'}, 'Html': {'Data': '<div style="width: 100%;background-color: #eee; margin: 10px 0px;"> <div style="width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;"> <img src="http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png" width="100%"/> <h1>Confirmation</h1> <h2>2018-19 Long Island Balavihar Registration Form</h2>Thank you for submitting the form. This is a confirmation that we have received your response.<br/> <br/> <table> <tbody> <tr><th>A</th><td>b</td></tr> <tr><th>Email</th><td>success@simulator.amazonses.com</td></tr> </tbody> </table> <h2>Payment Info</h2><table><tr><th>Item</th><th>Amount</th><th>Quantity</th></tr><tr><td>a</td><td>$0.25</td><td>1</td></tr><tr><td>a2</td><td>$0.25</td><td>1</td></tr></table><br/><strong>Total Amount: $0.50</strong><br/><br/><br/>We thank you for your contribution and support.<br/>Chinmaya Mission New York is a not-for-profit organization exempt from Federal Income tax under section 501 (c) (3). Tax ID: 26-1337001.<br/>May Gurudev\'s Blessing be with you.</div> </div>', 'Charset': 'utf-8'}}}, Source='CMTC <ccmt.dev@gmail.com>')
+
     def test_ipn_reject(self):
         pass
     def test_ipn_subscription_started(self):

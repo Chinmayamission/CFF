@@ -7,7 +7,6 @@ from app import app
 import uuid
 import os
 import boto3
-from moto import mock_cognitoidp
 from tests.integration.baseTestCase import BaseTestCase
 """
 pipenv run python -m unittest tests.integration.test_formPermissions
