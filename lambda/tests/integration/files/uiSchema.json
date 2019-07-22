@@ -1,0 +1,54 @@
+{
+  "address": {
+    "city": {
+      "classNames": "col-12 col-sm-6 col-md-4"
+    },
+    "line1": {
+      "classNames": "col-12 col-sm-6"
+    },
+    "line2": {
+      "classNames": "col-12 col-sm-6"
+    },
+    "state": {
+      "classNames": "col-12 col-sm-6 col-md-4"
+    },
+    "ui:order": [
+      "line1",
+      "line2",
+      "city",
+      "state",
+      "zipcode"
+    ],
+    "zipcode": {
+      "classNames": "col-12 col-sm-6 col-md-4"
+    }
+  },
+  "contact_name": {
+    "first": {
+      "classNames": "col-12 col-sm-6"
+    },
+    "last": {
+      "classNames": "col-12 col-sm-6"
+    },
+    "ui:order": [
+      "first",
+      "last"
+    ]
+  },
+  "pariwar": {
+    "ui:widget": "radio"
+  },
+  "subscribe": {
+    "ui:widget": "radio"
+  },
+  "ui:cff:background": "#e8e8e8",
+  "ui:order": [
+    "contact_name",
+    "address",
+    "email",
+    "phone",
+    "amount",
+    "pariwar",
+    "subscribe"
+  ]
+}

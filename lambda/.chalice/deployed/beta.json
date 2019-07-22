@@ -1,0 +1,34 @@
+{
+  "resources": [
+    {
+      "name": "api_handler_role",
+      "resource_type": "iam_role",
+      "role_arn": "arn:aws:iam::131049698002:role/ccmt-cff-api-v2-beta-api_handler",
+      "role_name": "ccmt-cff-api-v2-beta-api_handler"
+    },
+    {
+      "name": "api_handler",
+      "resource_type": "lambda_function",
+      "lambda_arn": "arn:aws:lambda:us-east-1:131049698002:function:ccmt-cff-api-v2-beta"
+    },
+    {
+      "name": "iamAuthorizer_role",
+      "resource_type": "iam_role",
+      "role_arn": "arn:aws:iam::131049698002:role/ccmt-cff-api-v2-beta-iamAuthorizer",
+      "role_name": "ccmt-cff-api-v2-beta-iamAuthorizer"
+    },
+    {
+      "name": "iamAuthorizer",
+      "resource_type": "lambda_function",
+      "lambda_arn": "arn:aws:lambda:us-east-1:131049698002:function:ccmt-cff-api-v2-beta-iamAuthorizer"
+    },
+    {
+      "name": "rest_api",
+      "resource_type": "rest_api",
+      "rest_api_id": "5fd3dqj2dc",
+      "rest_api_url": "https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"
+    }
+  ],
+  "schema_version": "2.0",
+  "backend": "api"
+}
