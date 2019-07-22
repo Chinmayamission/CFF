@@ -12,7 +12,7 @@ Jinja2==2.10
 jsonpatch==1.23
 jsonpointer==2.0
 MarkupSafe==1.0
--e git+https://github.com/epicfaace/py-expression-eval.git@ead901b69f357290055b94608da6bfd367a85e7d#egg=py-expression-eval
+py-expression-eval==0.3.9
 pycryptodomex==3.6.4
 pydash==4.5.0
 pymodm==0.4.1
