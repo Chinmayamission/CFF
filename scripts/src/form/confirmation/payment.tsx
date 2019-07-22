@@ -94,12 +94,15 @@ class Payment extends React.Component<IPaymentProps, any> {
     }
     return (
       <div>
-        <br />
-        <h1>{this.props.paymentInfo.paymentInfoTableTitle || "Payment"}</h1>
+        <h1 className="text-center my-2">
+          {this.props.paymentInfo.paymentInfoTableTitle || "Payment"}
+        </h1>
         <div>
-          {this.props.paymentInfo && (
-            <PaymentTable paymentInfo={this.props.paymentInfo} />
-          )}
+          {this.props.paymentInfo &&
+            this.props.paymentInfo.items &&
+            this.props.paymentInfo.items.length > 0 && (
+              <PaymentTable paymentInfo={this.props.paymentInfo} />
+            )}
           {this.props.paymentInfo_received &&
             this.props.paymentInfo_received.total > 0 && (
               <div>
@@ -134,9 +137,12 @@ class Payment extends React.Component<IPaymentProps, any> {
               </div>
             )}
         </div>
-        <div style={{ textAlign: "center" }}>
+        <div>
           {this.props.paymentInfo_owed.total > 0 && (
-            <div className="container-fluid row">
+            <div
+              className="container-fluid row"
+              style={{ textAlign: "center" }}
+            >
               {!this.state.paymentStarted && (
                 <div
                   className="col-12"
@@ -152,7 +158,7 @@ class Payment extends React.Component<IPaymentProps, any> {
             </div>
           )}
           {this.props.paymentInfo_owed.total == 0 && (
-            <div>
+            <div className="alert alert-info">
               We have already received your payment. No additional payment
               necessary -- you will receive a confirmation email shortly about
               your update.

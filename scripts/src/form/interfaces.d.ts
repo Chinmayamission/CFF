@@ -28,7 +28,7 @@ export interface IPaymentInfo {
   currency: string;
   redirectUrl?: string;
   paymentInfoTableTitle?: string;
-  items?: [IPaymentInfoItem];
+  items?: IPaymentInfoItem[];
 }
 
 export interface IPaymentInfoReceived {

@@ -150,6 +150,35 @@ it("renders recurring payment table with end", () => {
   expect(wrapper.text()).not.toContain("Amount already paid");
 });
 
+it("doesn't render payment table when paymentInfo.items is none", () => {
+  const wrapper = render(
+    <Payment
+      onPaymentStarted={e => e}
+      paymentInfo={{
+        currency: "USD",
+        total: 12,
+        items: []
+      }}
+      paymentInfo_owed={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentInfo_received={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentMethods={[]}
+      onPaymentComplete={e => e}
+      onPaymentError={e => e}
+      responseId={"responseId"}
+      formId={"formId"}
+      formData={{}}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).not.toContain("Description");
+});
+
 describe("calculatePaymentInfo()", () => {
   it("calculates simple paymentInfo", () => {
     let paymentInfo = {

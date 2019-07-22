@@ -1,9 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`doesn't render payment table when paymentInfo.items is none 1`] = `
+<div>
+  <h1
+    class="text-center my-2"
+  >
+    Payment
+  </h1>
+  <div />
+  <div>
+    <div
+      class="alert alert-info"
+    >
+      We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
+    </div>
+  </div>
+</div>
+`;
+
 exports[`renders payment table on new response 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -146,10 +165,10 @@ exports[`renders payment table on new response 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
-    <div>
+  <div>
+    <div
+      class="alert alert-info"
+    >
       We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
     </div>
   </div>
@@ -158,8 +177,9 @@ exports[`renders payment table on new response 1`] = `
 
 exports[`renders payment table with amount received 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -314,13 +334,14 @@ exports[`renders payment table with amount received 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
+  <div>
     <div
       class="container-fluid row"
+      style="text-align:center"
     >
-      <div>
+      <div
+        class="col-12"
+      >
         Please select a payment method to complete the form. You will receive a confirmation email after the payment is complete.
       </div>
     </div>
@@ -330,8 +351,9 @@ exports[`renders payment table with amount received 1`] = `
 
 exports[`renders recurring payment table with end 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -474,10 +496,10 @@ exports[`renders recurring payment table with end 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
-    <div>
+  <div>
+    <div
+      class="alert alert-info"
+    >
       We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
     </div>
   </div>
@@ -486,8 +508,9 @@ exports[`renders recurring payment table with end 1`] = `
 
 exports[`renders recurring payment table with times 1`] = `
 <div>
-  <br />
-  <h1>
+  <h1
+    class="text-center my-2"
+  >
     Payment
   </h1>
   <div>
@@ -630,10 +653,10 @@ exports[`renders recurring payment table with times 1`] = `
       </div>
     </div>
   </div>
-  <div
-    style="text-align:center"
-  >
-    <div>
+  <div>
+    <div
+      class="alert alert-info"
+    >
       We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
     </div>
   </div>
