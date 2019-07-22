@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getSchemaFromResults base case 1`] = `
+Object {
+  "dependencies": Object {
+    "name": Object {
+      "oneOf": Array [
+        Object {
+          "properties": Object {
+            "address1": Object {
+              "default": "A",
+              "enum": Array [
+                "A",
+              ],
+              "readOnly": true,
+              "type": "string",
+            },
+            "name": Object {
+              "const": "Center Name 1",
+            },
+            "state": Object {
+              "default": "State",
+              "enum": Array [
+                "State",
+              ],
+              "readOnly": true,
+              "type": "string",
+            },
+            "zip": Object {
+              "default": "Zipcode",
+              "enum": Array [
+                "Zipcode",
+              ],
+              "readOnly": true,
+              "type": "string",
+            },
+          },
+        },
+      ],
+    },
+  },
+  "properties": Object {
+    "name": Object {
+      "enum": Array [
+        "Center Name 1",
+      ],
+      "type": "string",
+    },
+  },
+  "type": "object",
+}
+`;
