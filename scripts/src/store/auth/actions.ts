@@ -1,5 +1,5 @@
-import { API, Auth } from "aws-amplify";
-import { Cache } from "aws-amplify";
+import API from "@aws-amplify/api";
+import Auth from "@aws-amplify/auth";
 import { loadingStart, loadingEnd } from "../../store/base/actions";
 import { IUserAttributes, IAuthState } from "./types";
 import { resolve } from "path";
@@ -27,9 +27,7 @@ export function logout() {
     (window as Window).parent.postMessage({ action: "logout" }, "*");
     loadingStart();
     console.log("signing out");
-    Cache.removeItem("federatedInfo");
     localStorage.clear();
-    console.log(Cache.getAllKeys());
     Auth.signOut().then(e => {
       loadingEnd();
       dispatch(loggedOut());

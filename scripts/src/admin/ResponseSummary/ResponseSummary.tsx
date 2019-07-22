@@ -1,4 +1,4 @@
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import * as React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";

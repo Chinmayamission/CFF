@@ -1,5 +1,4 @@
 import * as React from "react";
-import { API } from "aws-amplify";
 import {
   Dropdown,
   DropdownToggle,

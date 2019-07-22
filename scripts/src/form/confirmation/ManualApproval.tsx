@@ -1,5 +1,5 @@
 import * as React from "react";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import sanitize from "../../sanitize";
 import Loading from "../../common/Loading/Loading";
 

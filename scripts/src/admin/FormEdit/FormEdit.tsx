@@ -4,7 +4,7 @@ import Loading from "../../common/Loading/Loading";
 import JSONEditor from "./JSONEditor";
 import { get, merge, cloneDeep } from "lodash";
 import dataLoadingView from "../util/DataLoadingView";
-import { API } from "aws-amplify";
+import API from "@aws-amplify/api";
 import { IFormEditProps, IFormEditState } from "./FormEdit.d";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
