@@ -20,13 +20,16 @@ class TestEmail(BaseTestCase):
         super(TestEmail, self).setUp()
         self.formId = self.create_form()
         self.response = Response(**RESPONSE)
+    @unittest.skip('need to mock')
     def test_actually_send_email_cc_bad_email(self):
         confirmationEmailInfo = dict(
             CONFIRMATION_EMAIL_INFO, **{"cc": "bad_email"})
         with self.assertRaises(ClientError):
             send_confirmation_email(self.response, confirmationEmailInfo)
+    @unittest.skip('need to mock')
     def test_actually_send_email(self):
         send_confirmation_email(self.response, CONFIRMATION_EMAIL_INFO)
+    @unittest.skip('need to mock')
     def test_actually_send_email_template(self):
         send_confirmation_email(self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE)
     @unittest.skip('not implemented yet')

@@ -15,6 +15,7 @@ from chalicelib.routes.responseIpnListener import mark_successful_payment
 from chalicelib.models import Form, Response, serialize_model
 from bson.objectid import ObjectId
 import time
+import mock
 
 ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
 
@@ -62,8 +63,8 @@ class FormSubmit(BaseTestCase):
         response = self.view_response(responseId)
         self.assertEqual(response['value'], expected_data)
         self.assertEqual(response['paid'], False)
-
-    def test_submit_form_update_unpaid_to_paid(self):
+    @mock.patch("boto3.client")
+    def test_submit_form_update_unpaid_to_paid(self, mock_boto_client):
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
         self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
@@ -408,7 +409,8 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(body['res']['response']['admin_info'], expected_data)
         self.assertEqual([remove_date(i) for i in body['res']['response']['update_trail']], [{'old': {'contact_name': {'first': 'Ashwin', 'last': 'Ash'}, 'address': {'line1': '123', 'line2': 'asdad', 'city': 'Atlanta', 'state': 'GA', 'zipcode': '30022'}, 'email': 'success@simulator.amazonses.com', 'phone': '1231231233', 'amount': 0.5, 'subscribe': True}, 'new': {'contact_name': {'first': 'Ashwin', 'last': 'Ash'}, 'address': {'line1': '123', 'line2': 'asdad', 'city': 'Atlanta', 'state': 'GA', 'zipcode': '30022'}, 'email': 'success@simulator.amazonses.com', 'phone': '1231231233', 'amount': 0.5, 'subscribe': True}, 'update_type': 'update', '_cls': 'chalicelib.models.UpdateTrailItem'}, {'path': 'orderId', 'user': 'cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6', 'old_value': '123', 'new_value': '123', 'response_base_path': 'admin_info', '_cls': 'chalicelib.models.UpdateTrailItem'}])
     
-    def test_mark_successful_payment(self):
+    @mock.patch("boto3.client")
+    def test_mark_successful_payment(self, mock_boto_client):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
         response = Response.objects.get({"_id": ObjectId(responseId)})
         paid = mark_successful_payment(
@@ -454,8 +456,8 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response['paid'], True)
         self.assertEqual(response['amount_paid'], "0.5")
         self.assertTrue('email_trail' not in response)
-
-    def test_mark_successful_payment_2(self):
+    @mock.patch("boto3.client")
+    def test_mark_successful_payment_2(self, mock_boto_client):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
         response = Response.objects.get({"_id": ObjectId(responseId)})
         paid = mark_successful_payment(
