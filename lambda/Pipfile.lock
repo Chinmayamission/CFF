@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "851330af5c402611473945d9e4773d2e6c3c73e4e81550a5aa02e0fdd7521803"
+            "sha256": "9132eb389af422004a01b76a80d025bdd765b14feb33de585eb263f83f20a894"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -85,10 +85,10 @@
         },
         "botocore": {
             "hashes": [
-                "sha256:6f609214e358d602a927af375e851af8edff0fb7dcdc0f9790416936eded0442",
-                "sha256:971bfcce68b0c92cb8ff6c43a080a2baa07f0f6809582d758da19c14fc039da0"
+                "sha256:ecf8d872baec661e292e01d45f666fdc4a4eca716bbc6a7876223899a1a9d9d8",
+                "sha256:fbb621329cb41f3fcaa996ab938837ad78a4db6ad1d1a8ef48ec59a56f379049"
             ],
-            "version": "==1.12.191"
+            "version": "==1.12.192"
         },
         "certifi": {
             "hashes": [
@@ -343,9 +343,12 @@
             "version": "==1.3.13"
         },
         "py-expression-eval": {
-            "editable": true,
-            "git": "https://github.com/epicfaace/py-expression-eval.git",
-            "ref": "ead901b69f357290055b94608da6bfd367a85e7d"
+            "hashes": [
+                "sha256:0cb83733da955281044193f68fccabca5a34633c366e2fda93d584ebe711b588",
+                "sha256:d80a948f91f78d08f789b0a7c3fb2bd9a34ad625f5ce88c262a6c91189a4abb9"
+            ],
+            "index": "pypi",
+            "version": "==0.3.9"
         },
         "pyasn1": {
             "hashes": [
