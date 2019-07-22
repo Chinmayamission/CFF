@@ -2,12 +2,15 @@ import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
-from .constants import CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID, COGNITO_IDENTITY_ID_OWNER, COGNITO_IDENTITY_ID_NO_PERMISSIONS, USER_POOL_ID
+from .constants import AWS_REGION, CENTER_ID, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE, COGNITO_IDENTITY_ID, COGNITO_IDENTITY_ID_OWNER, COGNITO_IDENTITY_ID_NO_PERMISSIONS, USER_POOL_ID
 from app import app
 import uuid
 import os
 import boto3
+import mock
+from unittest.mock import MagicMock, PropertyMock
 from tests.integration.baseTestCase import BaseTestCase
+
 """
 pipenv run python -m unittest tests.integration.test_formPermissions
 """
@@ -19,7 +22,16 @@ class FormPermissions(BaseTestCase):
         self.orig_id = app.test_user_id
         app.test_user_id = COGNITO_IDENTITY_ID_OWNER
         self.formId = self.create_form()
-    def test_list_permissions(self):
+    @mock.patch("boto3.client")
+    def test_list_permissions(self, mock_boto_client):
+        cognito_idp_mock = MagicMock()
+        mock_boto_client.return_value = cognito_idp_mock
+        admin_get_user = PropertyMock(return_value={"UserAttributes": [
+          {"Name": "name", "value": "unknown"},
+          {"Name": "email", "value": "unknown"}
+        ]})
+        cognito_idp_mock.admin_get_user = admin_get_user
+
         """Load form permissions."""
         response = self.lg.handle_request(method='GET',
                                           path=f'/forms/{self.formId}/permissions',
@@ -36,6 +48,10 @@ class FormPermissions(BaseTestCase):
         for perm in body['res']['permissions'].values():
           self.assertTrue(type(perm) is dict)
         self.assertTrue(type(body['res']['possiblePermissions']) is list)
+
+        mock_boto_client.assert_called_once_with('cognito-idp', region_name=AWS_REGION)
+        admin_get_user.assert_called_once_with(UserPoolId=USER_POOL_ID, Username="ownerowner-681c-4d3e-9749-d7c074ffd7f6")
+
     def test_list_permissions_mine(self):
         """List *my* permissions. (not used currently in client side)."""
         response = self.lg.handle_request(method='GET',

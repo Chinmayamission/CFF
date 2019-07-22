@@ -20,7 +20,7 @@ POSSIBLE_PERMISSIONS = [
 def list_all_users(userIds):
   from ..main import USER_POOL_ID
   user_lookup = {}
-  client = boto3.client('cognito-idp', 'us-east-1')
+  client = boto3.client('cognito-idp', region_name='us-east-1')
   for userIdFull in userIds:
     if "cm:cognitoUserPool:" in userIdFull:
       try:
@@ -31,7 +31,8 @@ def list_all_users(userIds):
         )
         attributes = {attr["Name"]: attr["Value"] for attr in response["UserAttributes"]}
         user_lookup[userIdFull] = {"name": attributes["name"], "email": attributes["email"], "id": userIdFull}
-      except client.exceptions.UserNotFoundException:
+      # except client.exceptions.UserNotFoundException:
+      except Exception:
         user_lookup[userIdFull] = {"name": "unknown", "email": "unknown", "id": userIdFull}
     else:
       user_lookup[userIdFull] = {"name": "unknown", "email": "unknown", "id": userIdFull}
@@ -39,7 +40,7 @@ def list_all_users(userIds):
 
 def get_user_by_email(email):
   from ..main import USER_POOL_ID
-  client = boto3.client('cognito-idp', 'us-east-1')
+  client = boto3.client('cognito-idp', region_name='us-east-1')
   response = client.list_users(
     UserPoolId=USER_POOL_ID,
     AttributesToGet=["sub"],
