@@ -19,6 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/plugin-transform-template-literals": "^7.0.0-beta.46",
+    "@silvermine/serverless-plugin-cloudfront-lambda-edge": "2.1.1",
     "@types/axios": "^0.14.0",
     "@types/bluebird": "^3.5.18",
     "@types/core-js": "^0.9.43",
