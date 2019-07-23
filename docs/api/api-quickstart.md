@@ -51,7 +51,7 @@ uiSchema:
 }
 ```
 
-In our case, we have created a form with form ID 5d368b0692a26900015e6391. Click on "View" to view the form (we are at [https://forms.chinmayamission.com/v2/forms/5d368b0692a26900015e6391/] now):
+In our case, we have created a form with form ID 5d368b0692a26900015e6391. Click on "View" to view the form (we are at [https://forms.chinmayamission.com/v2/forms/5d368b0692a26900015e6391/](https://forms.chinmayamission.com/v2/forms/5d368b0692a26900015e6391/) now):
 
 ![image](https://user-images.githubusercontent.com/1689183/61682560-01ca1100-acc7-11e9-8cd9-ffbd58e58f10.png)
 
@@ -134,7 +134,7 @@ fetch("https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com/v2/forms/5d368b069
 ```
 
 ## Editing response data - UI
-This is useful for admins to use. They can just go to the URL [https://forms.chinmayamission.com/v2/forms/5d368b0692a26900015e6391?responseId=5d368bf392a26900015e6392], then edit the data and submit:
+This is useful for admins to use. They can just go to the URL [https://forms.chinmayamission.com/v2/forms/5d368b0692a26900015e6391?responseId=5d368bf392a26900015e6392](https://forms.chinmayamission.com/v2/forms/5d368b0692a26900015e6391?responseId=5d368bf392a26900015e6392), then edit the data and submit:
 
 ![image](https://user-images.githubusercontent.com/1689183/61682702-8b79de80-acc7-11e9-900c-38d269e7ae29.png)
 
