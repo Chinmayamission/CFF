@@ -156,7 +156,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     const { res, predicate } = await request;
     if (
       get(formOptions, "loginRequired") === true &&
-      get(schema, "properties.email")
+      get(schema, "properties.email") &&
+      this.props.auth.loggedIn
     ) {
       if (!res) {
         data = update(data, { email: { $set: this.props.auth.user.email } });
