@@ -65,11 +65,11 @@ functions:
           - "arn:aws:ssm:*:*:parameter/${self:custom.mongoConnStr.${opt:stage}}"
           - "arn:aws:ssm:*:*:parameter/${self:custom.googleKey.${opt:stage}}"
           - "arn:aws:ssm:*:*:parameter/${self:custom.mapsApiKey.${opt:stage}}"
-  edgeHandler:
-    handler: scripts/backend/edgeHandler.hello
-    lambdaAtEdge:
-      distribution: 'WebsiteDistribution'
-      eventType: 'origin-response'
+  # edgeHandler:
+  #   handler: scripts/backend/edgeHandler.hello
+  #   lambdaAtEdge:
+  #     distribution: 'WebsiteDistribution'
+  #     eventType: 'origin-response'
 
 custom:
   webpack:
