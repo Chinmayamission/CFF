@@ -13,7 +13,7 @@
 
 # AWS_PROFILE=ashwin-cff-lambda
 # sls invoke local --function sheets --stage beta
-# sls deploy --stage beta
+# sls deploy --stage beta --cff_version 3.10.11
 
 # sls deploy --stage prod
 # Run it once:
@@ -65,11 +65,11 @@ functions:
           - "arn:aws:ssm:*:*:parameter/${self:custom.mongoConnStr.${opt:stage}}"
           - "arn:aws:ssm:*:*:parameter/${self:custom.googleKey.${opt:stage}}"
           - "arn:aws:ssm:*:*:parameter/${self:custom.mapsApiKey.${opt:stage}}"
-  # edgeHandler:
-  #   handler: scripts/backend/edgeHandler.hello
-  #   lambdaAtEdge:
-  #     distribution: 'WebsiteDistribution'
-  #     eventType: 'origin-response'
+  edgeHandler:
+    handler: scripts/backend/edgeHandler.hello
+    lambdaAtEdge:
+      distribution: 'ApiDistribution'
+      eventType: 'origin-request'
 
 custom:
   webpack:
@@ -89,10 +89,119 @@ custom:
   mongoCollectionName:
     dev: cff_dev
     beta: cff_beta
-    prod: cff_prod  
+    prod: cff_prod
+  bucketName:
+    dev: cff_dev
+    beta: cff_beta
+    prod: cff_prod
+  localBuildPath:
+    dev: none
+    beta: scripts/beta
+    prod: scripts/prod
+  version: ${opt:cff_version}
+  s3Sync:
+    bucketName: ${self:custom.bucketName.${opt:stage}}
+    bucketPrefix: "${self:custom.cff_version}/"
+    localDir: 
+  domainName:
+    dev: none
+    beta: forms.beta.chinmayamission.com
+    prod: forms.chinmayamission.com
 
 plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-iam-roles-per-function
   - '@silvermine/serverless-plugin-cloudfront-lambda-edge'
+  - serverless-api-cloudfront
+  - serverless-s3-sync
+
+resources:
+  Resources:
+    AssetsBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          BucketName: ${self:custom.bucketName.${opt:stage}}
+    ApiDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Origins:
+          - Id: myS3Origin
+            DomainName: mybucket.s3.amazonaws.com
+            S3OriginConfig:
+              OriginAccessIdentity: origin-access-identity/cloudfront/E127EXAMPLE51Z
+          - Id: myCustomOrigin
+            DomainName: www.example.com
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+          Enabled: 'true'
+          Comment: Some comment
+          DefaultRootObject: index.html
+          Logging:
+            IncludeCookies: 'true'
+            Bucket: mylogs.s3.amazonaws.com
+            Prefix: myprefix
+          Aliases:
+          - ${self:custom.domainName.${opt:stage}}
+          DefaultCacheBehavior:
+            TargetOriginId: myS3Origin
+            ForwardedValues:
+              QueryString: 'false'
+              Cookies:
+                Forward: all
+            TrustedSigners:
+            - 1234567890EX
+            - 1234567891EX
+            ViewerProtocolPolicy: allow-all
+            MinTTL: '100'
+            SmoothStreaming: 'true'
+          CacheBehaviors:
+          - AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+            TargetOriginId: myS3Origin
+            ForwardedValues:
+              QueryString: 'true'
+              Cookies:
+                Forward: none
+            # TrustedSigners:
+            # - 1234567890EX
+            # - 1234567891EX
+            ViewerProtocolPolicy: allow-all
+            MinTTL: '50'
+            PathPattern: images1/*.jpg
+          - AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+            TargetOriginId: myCustomOrigin
+            ForwardedValues:
+              QueryString: 'true'
+              Cookies:
+                Forward: none
+            # TrustedSigners:
+            # - 1234567890EX
+            # - 1234567891EX
+            ViewerProtocolPolicy: allow-all
+            MinTTL: '50'
+            PathPattern: images2/*.jpg
+          CustomErrorResponses:
+          - ErrorCode: '404'
+            ResponsePagePath: "/error-pages/404.html"
+            ResponseCode: '200'
+            ErrorCachingMinTTL: '30'
+          PriceClass: PriceClass_All
+          ViewerCertificate:
+            CloudFrontDefaultCertificate: 'true'
