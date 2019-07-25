@@ -47,11 +47,6 @@ function FormPageMenu({
         text="Share"
         to={`/admin/${formId}/share/`}
       />
-      <Item
-        icon="oi oi-sort-ascending"
-        text="Checkin"
-        to={`/admin/${formId}/checkin/`}
-      />
       {onDuplicate && (
         <Item
           onClick={() => onDuplicate()}
