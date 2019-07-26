@@ -91,12 +91,12 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         {formList &&
           formList.map(form => (
             <FormListItem
-              key={form["_id"]["$oid"]}
+              key={form._id.$oid}
               form={form}
-              delete={e => this.delete(e)}
-              highlightForm={(e, f) => this.highlightForm(e, f)}
-              createForm={e => this.props.createForm(e)}
-              highlightedForm={this.state.highlightedForm}
+              delete={e => this.delete(form._id.$oid)}
+              highlightForm={() => this.highlightForm(form, form._id.$oid)}
+              createForm={() => this.props.createForm(form._id.$oid)}
+              highlighted={this.state.highlightedForm === form._id.$oid}
             />
           ))}
       </div>

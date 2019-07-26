@@ -19,7 +19,7 @@ export default class extends React.Component<
   {
     form: any;
     highlightForm: any;
-    highlightedForm: string;
+    highlighted: boolean;
     delete: any;
     createForm: any;
   },
@@ -27,34 +27,30 @@ export default class extends React.Component<
 > {
   shouldComponentUpdate(prevProps) {
     // Only update when highlight state is changed -- for efficiency.
-    return (
-      (this.props.form["_id"]["$oid"] === this.props.highlightedForm) !==
-      (prevProps.form["_id"]["$oid"] === prevProps.highlightedForm)
-    );
+    return this.props.highlighted !== prevProps.highlighted;
   }
   render() {
     const {
       form,
       highlightForm,
-      highlightedForm,
+      highlighted,
       delete: delete_,
       createForm
     } = this.props;
     return (
       <>
-        <ContextMenuTrigger id={form["_id"]["$oid"]}>
+        <ContextMenuTrigger id={form._id.$oid}>
           <div
             className="row"
             style={{
               padding: 10,
               whiteSpace: "nowrap",
               borderBottom: "1px solid #aaa",
-              backgroundColor:
-                form["_id"]["$oid"] === highlightedForm ? "lightblue" : "white"
+              backgroundColor: highlighted ? "lightblue" : "white"
             }}
-            onClick={() => highlightForm(form, form["_id"]["$oid"])}
+            onClick={() => highlightForm()}
             key={form["_id"]["$oid"]}
-            onContextMenu={() => highlightForm(form, form["_id"]["$oid"])}
+            onContextMenu={() => highlightForm()}
           >
             <div className="col-sm">{form["name"]}</div>
             <div className="col-sm d-none">
@@ -78,7 +74,7 @@ export default class extends React.Component<
             </div>
           </div>
         </ContextMenuTrigger>
-        {highlightedForm === form._id.$oid && (
+        {highlighted && (
           <div className="d-block d-sm-none">
             <FormPageMenu
               formId={form._id.$oid}
@@ -87,8 +83,8 @@ export default class extends React.Component<
                   {props.children}
                 </button>
               )}
-              onDelete={e => delete_(form._id.$oid)}
-              onDuplicate={e => createForm(form._id.$oid)}
+              onDelete={e => delete_()}
+              onDuplicate={e => createForm()}
             />
           </div>
         )}
@@ -96,8 +92,8 @@ export default class extends React.Component<
           <FormPageMenu
             formId={form._id.$oid}
             ItemComponent={props => <MenuItem>{props.children}</MenuItem>}
-            onDelete={e => delete_(form._id.$oid)}
-            onDuplicate={e => createForm(form._id.$oid)}
+            onDelete={e => delete_()}
+            onDuplicate={e => createForm()}
           />
         </ContextMenu>
       </>
