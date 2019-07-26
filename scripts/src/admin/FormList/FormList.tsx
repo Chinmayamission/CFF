@@ -1,17 +1,13 @@
-import * as React from "react";
+import React from "react";
 import API from "@aws-amplify/api";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import { isArray } from "lodash";
 import "./FormList.scss";
 import FormNew from "../FormNew/FormNew";
 import { connect } from "react-redux";
-import dataLoadingView from "../util/DataLoadingView";
 import { IFormListProps, IFormListState } from "./FormList.d";
 import { loadFormList, createForm } from "../../store/admin/actions";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import history from "../../history";
 import Loading from "../../common/Loading/Loading";
-import FormPageMenu from "../FormPageMenu";
+import FormListItem from "./FormListItem";
 
 const mapStateToProps = state => ({
   ...state.auth,
@@ -22,19 +18,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   loadFormList: () => dispatch(loadFormList()),
   createForm: e => dispatch(createForm(e))
 });
-
-function hashCode(str) {
-  // java String#hashCode
-  var hash = 0;
-  for (var i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return hash;
-}
-
-function intToRGB(number) {
-  return "#" + (number >>> 0).toString(16).slice(-6);
-}
 
 export function hasPermission(cff_permissions, permissionNames, userId) {
   if (!isArray(permissionNames)) {
@@ -107,77 +90,14 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
         {formList && formList.length == 0 && "No forms found."}
         {formList &&
           formList.map(form => (
-            <React.Fragment key={form["_id"]["$oid"]}>
-              <ContextMenuTrigger id={form["_id"]["$oid"]}>
-                <div
-                  className="row"
-                  style={{
-                    padding: 10,
-                    whiteSpace: "nowrap",
-                    borderBottom: "1px solid #aaa",
-                    backgroundColor:
-                      form["_id"]["$oid"] === this.state.highlightedForm
-                        ? "lightblue"
-                        : "white"
-                  }}
-                  onClick={() => this.highlightForm(form, form["_id"]["$oid"])}
-                  key={form["_id"]["$oid"]}
-                  onContextMenu={() =>
-                    this.highlightForm(form, form["_id"]["$oid"])
-                  }
-                >
-                  <div className="col-sm">{form["name"]}</div>
-                  <div className="col-sm d-none">
-                    Modified{" "}
-                    {new Date(
-                      form["date_modified"]["$date"]
-                    ).toLocaleDateString()}
-                  </div>
-                  <div className="col-sm d-none">
-                    Created{" "}
-                    {new Date(
-                      form["date_created"]["$date"]
-                    ).toLocaleDateString()}
-                  </div>
-                  <div className="col-sm">
-                    {form["tags"] &&
-                      form["tags"].map(tag => (
-                        <div
-                          className="badge badge-secondary"
-                          style={{ backgroundColor: intToRGB(hashCode(tag)) }}
-                        >
-                          {tag}
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              </ContextMenuTrigger>
-              {this.state.highlightedForm === form._id.$oid && (
-                <div className="d-block d-sm-none">
-                  <FormPageMenu
-                    formId={form._id.$oid}
-                    ItemComponent={props => (
-                      <button className="btn btn-sm btn-outline-primary">
-                        {props.children}
-                      </button>
-                    )}
-                    onDelete={e => this.delete(form._id.$oid)}
-                    onDuplicate={e => this.props.createForm(form._id.$oid)}
-                  />
-                </div>
-              )}
-              <ContextMenu
-                className="d-none d-sm-block"
-                id={form["_id"]["$oid"]}
-              >
-                <FormPageMenu
-                  formId={form._id.$oid}
-                  ItemComponent={props => <MenuItem>{props.children}</MenuItem>}
-                  onDelete={e => this.delete(form._id.$oid)}
-                  onDuplicate={e => this.props.createForm(form._id.$oid)}
-                />
-              </ContextMenu>
-            </React.Fragment>
+            <FormListItem
+              key={form["_id"]["$oid"]}
+              form={form}
+              delete={e => this.delete(e)}
+              highlightForm={(e, f) => this.highlightForm(e, f)}
+              createForm={e => this.props.createForm(e)}
+              highlightedForm={this.state.highlightedForm}
+            />
           ))}
       </div>
     );
