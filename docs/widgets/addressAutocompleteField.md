@@ -13,7 +13,8 @@ Schema:
             "line2": {"type": "string"},
             "city": {"type": "string"},
             "state": {"type": "string"},
-            "zipcode": {"type": "string"}
+            "zipcode": {"type": "string"},
+            "country": {"type": "string"}
         }
     }
 }

@@ -23,6 +23,7 @@ import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioW
 import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
+import AddressAutocompleteField from "./form_widgets/AddressAutocompleteField";
 
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
@@ -83,7 +84,8 @@ const fields = {
   TitleField: CustomTitleField,
   "cff:sameAs": SameAsField,
   "cff:autoPopulate": AutoPopulateField,
-  "cff:dynamicEnum": DynamicEnumField
+  "cff:dynamicEnum": DynamicEnumField,
+  "cff:addressAutocomplete": AddressAutocompleteField
 };
 
 function validate(formData, errors, validationSchema) {

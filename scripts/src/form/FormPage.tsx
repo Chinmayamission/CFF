@@ -30,8 +30,7 @@ const STATUS_FORM_PAYMENT_SUCCESS = 6;
 const STATUS_FORM_DONE = 8;
 
 var This;
-//const log = (type: {}) => console.log.bind(console, type);
-const log = console.log;
+const MAPS_API_KEY = "AIzaSyBXSzBi9zShKyQQ6QGpZH1zAm17M4g98Hw";
 
 class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   constructor(props: any) {
