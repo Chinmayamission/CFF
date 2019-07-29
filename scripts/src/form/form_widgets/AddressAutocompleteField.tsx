@@ -104,8 +104,14 @@ export default class extends React.Component<any, any> {
   }
 
   render() {
-    const { schema, formContext, formData, onChange } = this.props;
-    let { "ui:field": field, ...uiSchema } = this.props.uiSchema;
+    const { formContext, formData, onChange } = this.props;
+    let {
+      "ui:field": field,
+      "ui:title": uiSchemaTitle,
+      ...uiSchema
+    } = this.props.uiSchema;
+    let { title: schemaTitle, ...schema } = this.props.schema;
+    const title = uiSchemaTitle || schemaTitle || "";
     return (
       <>
         <Helmet>
@@ -113,7 +119,10 @@ export default class extends React.Component<any, any> {
             src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=${GOOGLE_MAPS_API_CALLBACK}`}
           ></script>
         </Helmet>
-        <div className="form-group field field-string  col-12">
+
+        <div className="form-group field field-string col-12">
+          {/* TODO: show required on this title field */}
+          <label className="control-label">{title || ""}</label>
           <input type="text" className="form-control" ref={this.ref} />
         </div>
         <CustomForm
