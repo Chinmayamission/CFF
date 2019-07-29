@@ -56,7 +56,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
       API.del("CFF", `/forms/${formId}`, {})
         .then(e => {
           alert("Form deleted!");
-          window.location.reload();
+          this.props.loadFormList();
         })
         .catch(e => {
           alert(`Delete failed: ${e}`);
