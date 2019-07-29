@@ -3,7 +3,7 @@ import Helmet from "react-helmet";
 import { get, find } from "lodash";
 import CustomForm from "../CustomForm";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyBXSzBi9zShKyQQ6QGpZH1zAm17M4g98Hw";
+declare const GOOGLE_MAPS_API_KEY: string;
 const GOOGLE_MAPS_API_CALLBACK = "ccmt_cff_google_maps_callback";
 const googleCallbackName = GOOGLE_MAPS_API_CALLBACK;
 declare const google: any;
