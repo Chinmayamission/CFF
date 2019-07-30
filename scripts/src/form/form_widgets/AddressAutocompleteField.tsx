@@ -68,7 +68,7 @@ export default class extends React.Component<any, any> {
     super(props);
     that = this;
     this.ref = React.createRef();
-    this.state = { address: "" };
+    this.state = { addressEntered: false };
   }
 
   componentDidMount() {
@@ -98,6 +98,7 @@ export default class extends React.Component<any, any> {
       let addressString = createAddressString(this.props.formData);
       if (addressString) {
         this.ref.current.value = addressString;
+        this.setState({ addressEntered: true });
       }
     }
     this.autocomplete = new google.maps.places.Autocomplete(this.ref.current, {
@@ -133,20 +134,27 @@ export default class extends React.Component<any, any> {
         <div className="form-group field field-string col-12">
           {/* TODO: show required on this title field */}
           <label className="control-label">{title || ""}</label>
-          <input type="text" className="form-control" ref={this.ref} />
+          <input
+            type="text"
+            className="form-control"
+            onChange={e => this.setState({ addressEntered: true })}
+            ref={this.ref}
+          />
         </div>
-        <CustomForm
-          schema={schema}
-          tagName={"div"}
-          uiSchema={uiSchema}
-          formData={formData}
-          className={
-            "ccmt-cff-Page-SubFormPage ccmt-cff-Page-SubFormPage-AddressAutocomplete"
-          }
-          onChange={e => onChange(e.formData)}
-        >
-          &nbsp;
-        </CustomForm>
+        {this.state.addressEntered && (
+          <CustomForm
+            schema={schema}
+            tagName={"div"}
+            uiSchema={uiSchema}
+            formData={formData}
+            className={
+              "ccmt-cff-Page-SubFormPage ccmt-cff-Page-SubFormPage-AddressAutocomplete"
+            }
+            onChange={e => onChange(e.formData)}
+          >
+            &nbsp;
+          </CustomForm>
+        )}
       </>
     );
   }
