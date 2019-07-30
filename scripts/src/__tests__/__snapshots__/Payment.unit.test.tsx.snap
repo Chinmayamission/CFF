@@ -1,5 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`calculatePaymentInfo() calculates installments from multiple totals 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+    },
+    Object {
+      "amount": -1,
+      "quantity": 1,
+    },
+    Object {
+      "amount": -1,
+      "quantity": 1,
+    },
+    Object {
+      "amount": 1,
+      "installment": true,
+      "quantity": 1,
+      "recurrenceDuration": "1M",
+      "recurrenceTimes": 2,
+    },
+  ],
+  "total": 2,
+}
+`;
+
+exports[`calculatePaymentInfo() calculates simple paymentInfo 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+    },
+  ],
+  "total": 4,
+}
+`;
+
+exports[`calculatePaymentInfo() calculates total items in paymentInfo last 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+    },
+    Object {
+      "amount": -0.4,
+      "quantity": 1,
+    },
+  ],
+  "total": 3.6,
+}
+`;
+
+exports[`calculatePaymentInfo() doesn't include installments in total calculation 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+    },
+    Object {
+      "amount": 2,
+      "installment": true,
+      "quantity": 1,
+      "recurrenceDuration": "1M",
+      "recurrenceTimes": 2,
+    },
+  ],
+  "total": 4,
+}
+`;
+
 exports[`doesn't render payment table when paymentInfo.items is none 1`] = `
 <div>
   <h1

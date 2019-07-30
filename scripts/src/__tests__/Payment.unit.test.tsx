@@ -190,18 +190,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 4,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
   it("calculates total items in paymentInfo last", () => {
     let paymentInfo = {
@@ -217,22 +206,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 3.6,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        },
-        {
-          amount: -0.4,
-          quantity: 1
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
   it("doesn't include installments in total calculation", () => {
     let paymentInfo = {
@@ -251,25 +225,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 4,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        },
-        {
-          amount: 2,
-          quantity: 1,
-          recurrenceDuration: "1M",
-          recurrenceTimes: 2,
-          installment: true
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
   it("calculates installments from multiple totals", () => {
     let paymentInfo = {
@@ -296,32 +252,6 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 2,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        },
-        {
-          amount: -1,
-          quantity: 1
-        },
-        {
-          amount: -1,
-          quantity: 1
-        },
-        {
-          amount: 1,
-          quantity: 1,
-          recurrenceDuration: "1M",
-          recurrenceTimes: 2,
-          installment: true
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
 });
