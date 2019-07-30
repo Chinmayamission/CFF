@@ -181,7 +181,8 @@
       "ENDPOINT_URL": "http://localhost:8001/",
       "GA_TRACKING_ID": "",
       "USER_POOL_ID": "",
-      "COGNITO_CLIENT_ID": ""
+      "COGNITO_CLIENT_ID": "",
+      "GOOGLE_MAPS_API_KEY": ""
     }
   },
   "husky": {

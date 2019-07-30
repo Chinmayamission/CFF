@@ -54,6 +54,10 @@ function parsePlace(place: IPlaceResult) {
   };
 }
 
+function createAddressString({ line1, line2, city, state, zipcode }) {
+  return [line1, line2, city, state, zipcode].filter(e => e).join(" ");
+}
+
 // TODO: this hack allows for only one autocomplete on a page at a time. Fix this.
 let that;
 
@@ -90,6 +94,12 @@ export default class extends React.Component<any, any> {
   }
 
   initAutocomplete() {
+    if (this.props.formData) {
+      let addressString = createAddressString(this.props.formData);
+      if (addressString) {
+        this.ref.current.value = addressString;
+      }
+    }
     this.autocomplete = new google.maps.places.Autocomplete(this.ref.current, {
       types: ["address"]
     });
