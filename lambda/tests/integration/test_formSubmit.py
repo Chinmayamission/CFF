@@ -17,7 +17,7 @@ from bson.objectid import ObjectId
 import time
 import mock
 
-ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
+ONE_SUBMITRES = {'paid': False, 'success': True, 'action': 'insert', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0, 'total': 0.5}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}}
 
 def remove_date(data):
     return {k: v for k, v in data.items() if k != "date"}
@@ -38,6 +38,78 @@ class FormSubmit(BaseTestCase):
         """View response."""
         response = self.view_response(responseId)
         self.assertEqual(response['value'], ONE_FORMDATA)
+    
+    def test_submit_form_proper_recurrence_paymentInfo(self):
+        """Submit form."""
+        formOptions = {"paymentInfo": {
+            "currency": "USD",
+            "items": [
+                {"name": "Name",
+                    "description": "Description",
+                    "amount": "100",
+                    "quantity": "1",
+                    "recurrenceDuration": "1M",
+                    "recurrenceTimes": "3"
+                }
+            ]
+        }}
+        self.edit_form(self.formId, {"schema": {"a":"B"}, "uiSchema": {"a":"B"}, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+
+        expected_paymentInfo = {
+            "currency": "USD",
+            "items": [
+                {
+                    "name": "Name",
+                    "description": "Description",
+                    "amount": 100.0,
+                    "quantity": 1.0,
+                    "recurrenceDuration": "1M",
+                    "recurrenceTimes": "3",
+                    "total": 100.0
+                }
+            ],
+            "total": 100.0
+        }
+        self.assertEqual(submit_res["paymentInfo"], expected_paymentInfo)
+
+    def test_submit_form_proper_recurrence_installment_paymentInfo(self):
+        """Submit form."""
+        formOptions = {"paymentInfo": {
+            "currency": "USD",
+            "items": [
+                {"name": "Name",
+                    "description": "Description",
+                    "amount": "100",
+                    "quantity": "1",
+                    "recurrenceDuration": "1M",
+                    "recurrenceTimes": "3",
+                    "installment": True
+                }
+            ]
+        }}
+        self.edit_form(self.formId, {"schema": {"a":"B"}, "uiSchema": {"a":"B"}, "formOptions": formOptions })
+        
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
+
+        expected_paymentInfo = {
+            "currency": "USD",
+            "items": [
+                {
+                    "name": "Name",
+                    "description": "Description",
+                    "amount": 100.0,
+                    "quantity": 1.0,
+                    "recurrenceDuration": "1M",
+                    "recurrenceTimes": "3",
+                    "total": 300.0,
+                    "installment": True
+                }
+            ],
+            "total": 0
+        }
+        self.assertEqual(submit_res["paymentInfo"], expected_paymentInfo)
 
     def test_submit_form_with_update_no_login_required(self):
         """Submit form."""
@@ -362,7 +434,7 @@ class FormSubmit(BaseTestCase):
         responseIdNew, submit_res = self.submit_form(self.formId, ONE_FORMDATA, responseId)
         self.assertEqual(responseIdNew, responseId)
         self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
-        self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
+        self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0, 'total': 0.5}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
         
         """Edit response."""
         body = {"path": "contact_name.last", "value": "NEW_LAST!"}
@@ -395,7 +467,7 @@ class FormSubmit(BaseTestCase):
         responseIdNew, submit_res = self.submit_form(self.formId, ONE_FORMDATA, responseId)
         self.assertEqual(responseIdNew, responseId)
         self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
-        self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
+        self.assertEqual(submit_res, {'paid': False, 'amt_received': {'currency': 'USD', 'total': 0.0}, 'success': True, 'action': 'update', 'email_sent': False, 'paymentInfo': {'currency': 'USD', 'items': [{'amount': 0.5, 'description': 'Base Registration', 'name': 'Base Registration', 'quantity': 1.0, 'total': 0.5}], 'total': 0.5}, 'paymentMethods': {'paypal_classic': {'address1': '123', 'address2': 'asdad', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'Atlanta', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'Ashwin', 'image_url': 'http://www.chinmayanewyork.org/wp-content/uploads/2014/08/banner17_ca1.png', 'last_name': 'Ash', 'payButtonText': 'Pay Now', 'sandbox': False, 'state': 'GA', 'zip': '30022'}}})
         
         """Edit response's admin info."""
         body = {"path": "orderId", "value": "123"}

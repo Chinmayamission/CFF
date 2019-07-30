@@ -41,6 +41,7 @@ export interface IPaymentInfoItem {
   name?: string;
   description?: string;
   quantity?: any;
+  total?: any;
   recurrenceDuration?: string;
   recurrenceTimes?: string;
   installment?: boolean;

@@ -21,12 +21,18 @@ function formatRecurrence({ recurrenceDuration, recurrenceTimes }) {
   });
   return rrule.toText();
 }
+
+const numericColStyle = { textAlign: "right" };
+
 class PaymentTable extends React.Component<IPaymentTableProps, any> {
   constructor(props: any) {
     super(props);
   }
 
   formatPayment(total, currency = "USD") {
+    if (!total) {
+      return "";
+    }
     if (Intl && Intl.NumberFormat) {
       return Intl.NumberFormat("en-US", {
         style: "currency",
@@ -52,14 +58,30 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
       {
         Header: "Amount",
         id: "amount",
+        style: numericColStyle,
         accessor: d =>
-          this.formatPayment(d.amount, this.props.paymentInfo.currency) +
-          (formatRecurrence(d) ? " " + formatRecurrence(d) : "")
+          this.formatPayment(d.amount, this.props.paymentInfo.currency)
       },
       {
         Header: "Quantity",
-        accessor: "quantity",
-        maxWidth: 100
+        id: "quantity",
+        style: numericColStyle,
+        accessor: d =>
+          d.recurrenceDuration
+            ? formatRecurrence(d)
+              ? " " + formatRecurrence(d)
+              : ""
+            : d.quantity
+      },
+      {
+        Header: "Total",
+        id: "total",
+        style: numericColStyle,
+        maxWidth: 100,
+        accessor: d =>
+          d.installment
+            ? ""
+            : this.formatPayment(d.total, this.props.paymentInfo.currency)
       }
     ];
     let tableData = this.props.paymentInfo.items;
