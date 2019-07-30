@@ -67,7 +67,7 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         id: "quantity",
         style: numericColStyle,
         accessor: d =>
-          d.installment
+          d.recurrenceDuration
             ? formatRecurrence(d)
               ? " " + formatRecurrence(d)
               : ""
