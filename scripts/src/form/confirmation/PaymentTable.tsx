@@ -30,6 +30,9 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
   }
 
   formatPayment(total, currency = "USD") {
+    if (!total) {
+      return "";
+    }
     if (Intl && Intl.NumberFormat) {
       return Intl.NumberFormat("en-US", {
         style: "currency",
@@ -57,14 +60,18 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         id: "amount",
         style: numericColStyle,
         accessor: d =>
-          this.formatPayment(d.amount, this.props.paymentInfo.currency) +
-          (formatRecurrence(d) ? " " + formatRecurrence(d) : "")
+          this.formatPayment(d.amount, this.props.paymentInfo.currency)
       },
       {
         Header: "Quantity",
-        accessor: "quantity",
-        maxWidth: 100,
-        style: numericColStyle
+        id: "quantity",
+        style: numericColStyle,
+        accessor: d =>
+          d.installment
+            ? formatRecurrence(d)
+              ? " " + formatRecurrence(d)
+              : ""
+            : d.quantity
       },
       {
         Header: "Total",
@@ -72,7 +79,9 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         style: numericColStyle,
         maxWidth: 100,
         accessor: d =>
-          this.formatPayment(d.total, this.props.paymentInfo.currency)
+          d.installment
+            ? ""
+            : this.formatPayment(d.total, this.props.paymentInfo.currency)
       }
     ];
     let tableData = this.props.paymentInfo.items;
