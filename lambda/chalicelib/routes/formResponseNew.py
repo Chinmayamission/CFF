@@ -62,7 +62,8 @@ def form_response_new(formId):
     def calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo):
         paymentInfoItem['amount'] = calculate_price(paymentInfoItem.get('amount', '0'), response_data)
         paymentInfoItem['quantity'] = calculate_price(paymentInfoItem.get('quantity', '0'), response_data)
-        paymentInfo['total'] += paymentInfoItem['amount'] * paymentInfoItem['quantity']
+        paymentInfoItem['total'] = paymentInfoItem['amount'] * paymentInfoItem['quantity']
+        paymentInfo['total'] += paymentInfoItem['total']
         if "couponCode" in paymentInfoItem and paymentInfoItem["amount"] * paymentInfoItem["quantity"] != 0:
             slots_maximum = calculate_price(paymentInfoItem.get("couponCodeMaximum", "-1"), response_data)
             if slots_maximum != -1:
@@ -107,7 +108,8 @@ def form_response_new(formId):
     for paymentInfoItem in paymentInfoItemsInstallment:
         paymentInfoItem['amount'] = calculate_price(paymentInfoItem.get('amount', '0'), response_data)
         paymentInfoItem['quantity'] = calculate_price(paymentInfoItem.get('quantity', '0'), response_data)
-
+        if paymentInfoItem['recurrenceTimes']:
+            paymentInfoItem['total'] = paymentInfoItem['amount'] * paymentInfoItem['quantity'] * int(paymentInfoItem['recurrenceTimes'])
     response_data.pop("total", None)
 
     paymentInfo['items'] = [item for item in paymentInfo['items'] if item['quantity'] * item['amount'] != 0]

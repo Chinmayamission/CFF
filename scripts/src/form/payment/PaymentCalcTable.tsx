@@ -63,7 +63,7 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
       paymentInfoItem.total =
         paymentInfoItem.amount *
         paymentInfoItem.quantity *
-        paymentInfoItem.recurrenceTimes;
+        parseInt(paymentInfoItem.recurrenceTimes);
     }
     // Don't add installment payments to the total.
   }
