@@ -21,6 +21,9 @@ function formatRecurrence({ recurrenceDuration, recurrenceTimes }) {
   });
   return rrule.toText();
 }
+
+const numericColStyle = { textAlign: "right" };
+
 class PaymentTable extends React.Component<IPaymentTableProps, any> {
   constructor(props: any) {
     super(props);
@@ -52,6 +55,7 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
       {
         Header: "Amount",
         id: "amount",
+        style: numericColStyle,
         accessor: d =>
           this.formatPayment(d.amount, this.props.paymentInfo.currency) +
           (formatRecurrence(d) ? " " + formatRecurrence(d) : "")
@@ -59,11 +63,13 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
       {
         Header: "Quantity",
         accessor: "quantity",
-        maxWidth: 100
+        maxWidth: 100,
+        style: numericColStyle
       },
       {
         Header: "Total",
         id: "total",
+        style: numericColStyle,
         maxWidth: 100,
         accessor: d =>
           this.formatPayment(d.total, this.props.paymentInfo.currency)
