@@ -1,6 +1,8 @@
 ## 3.21.1
 - Fix: AddressAutocompleteField now supports `ui:placeholder` attribute
 
+- Chore: Speed up lambda by increasing memory from 128 MB -> 1024 MB
+
 ## 3.21.0
 - Feat: Add address autocomplete field `cff:addressAutocomplete` (#151)
 - Feat: Removed the "Checkin" button from the menu (#140)
