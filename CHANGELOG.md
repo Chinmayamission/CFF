@@ -2,7 +2,7 @@
 - Fix: AddressAutocompleteField now supports `ui:placeholder` attribute
 
 ## 3.21.0
-- Feat: Add address autocomplete widget `cff:addressAutocomplete` (#151)
+- Feat: Add address autocomplete field `cff:addressAutocomplete` (#151)
 - Feat: Removed the "Checkin" button from the menu (#140)
 - Feat: Changed loading icon (#155)
 - Feat: Show "total" column in payment table for item-level totals (#157)
