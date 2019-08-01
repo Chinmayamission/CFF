@@ -87,6 +87,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
             <FormNew onError={this.props.onError} />
           </div>
         </div>
+
         {formList && formList.length == 0 && "No forms found."}
         {formList &&
           formList.map(form => (
@@ -99,6 +100,15 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
               highlighted={this.state.highlightedForm === form._id.$oid}
             />
           ))}
+        <div className="row">
+          <a
+            className="help bottom-align-text"
+            href="http://docs.chinmayamission.com/cff/"
+            target="_blank"
+          >
+            Help
+          </a>
+        </div>
       </div>
     );
   }
