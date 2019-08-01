@@ -137,6 +137,7 @@ export default class extends React.Component<any, any> {
           <input
             type="text"
             className="form-control"
+            placeholder={uiSchema["ui:placeholder"]}
             onChange={e => this.setState({ addressEntered: true })}
             ref={this.ref}
           />

@@ -34,7 +34,6 @@ steps:
 - script: |
     npm install
     npm test
-    npm run build
   displayName: 'npm install, test, and build'
 
 - script: |

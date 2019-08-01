@@ -438,8 +438,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             <div>
               <h1 className="text-center">Confirmation Page</h1>
               <div className="alert alert-warning">
-                Please scroll down and review your registration details in order
-                to continue.
+                {get(
+                  this.state.formOptions,
+                  "messages.confirmationPageNoticeTop",
+                  "Please scroll down and review your registration details in order to continue."
+                )}
               </div>
               {formToReturn}
             </div>

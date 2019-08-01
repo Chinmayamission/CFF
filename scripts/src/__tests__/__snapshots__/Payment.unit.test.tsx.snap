@@ -1,5 +1,88 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`calculatePaymentInfo() calculates installments from multiple totals 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+      "total": 4,
+    },
+    Object {
+      "amount": -1,
+      "quantity": 1,
+      "total": -1,
+    },
+    Object {
+      "amount": -1,
+      "quantity": 1,
+      "total": -1,
+    },
+    Object {
+      "amount": 1,
+      "installment": true,
+      "quantity": 1,
+      "recurrenceDuration": "1M",
+      "recurrenceTimes": 2,
+      "total": 2,
+    },
+  ],
+  "total": 2,
+}
+`;
+
+exports[`calculatePaymentInfo() calculates simple paymentInfo 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+      "total": 4,
+    },
+  ],
+  "total": 4,
+}
+`;
+
+exports[`calculatePaymentInfo() calculates total items in paymentInfo last 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+      "total": 4,
+    },
+    Object {
+      "amount": -0.4,
+      "quantity": 1,
+      "total": -0.4,
+    },
+  ],
+  "total": 3.6,
+}
+`;
+
+exports[`calculatePaymentInfo() doesn't include installments in total calculation 1`] = `
+Object {
+  "items": Array [
+    Object {
+      "amount": 2,
+      "quantity": 2,
+      "total": 4,
+    },
+    Object {
+      "amount": 2,
+      "installment": true,
+      "quantity": 1,
+      "recurrenceDuration": "1M",
+      "recurrenceTimes": 2,
+      "total": 4,
+    },
+  ],
+  "total": 4,
+}
+`;
+
 exports[`doesn't render payment table when paymentInfo.items is none 1`] = `
 <div>
   <h1
@@ -18,7 +101,7 @@ exports[`doesn't render payment table when paymentInfo.items is none 1`] = `
 </div>
 `;
 
-exports[`renders payment table on new response 1`] = `
+exports[`renders installment payment table 1`] = `
 <div>
   <h1
     class="text-center my-2"
@@ -39,7 +122,7 @@ exports[`renders payment table on new response 1`] = `
           >
             <div
               class="rt-thead -header"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr"
@@ -93,7 +176,7 @@ exports[`renders payment table on new response 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -105,11 +188,26 @@ exports[`renders payment table on new response 1`] = `
                     class="rt-resizer"
                   />
                 </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Total
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
               </div>
             </div>
             <div
               class="rt-tbody"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr-group"
@@ -136,16 +234,245 @@ exports[`renders payment table on new response 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    $120.00
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    1
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    $120.00
+                  </div>
+                </div>
+              </div>
+              <div
+                class="rt-tr-group"
+                role="rowgroup"
+              >
+                <div
+                  class="rt-tr -even"
+                  role="row"
+                >
+                  <div
+                    class="rt-td"
+                    role="gridcell"
                     style="flex:100 0 auto;width:100px"
+                  >
+                    Installment
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="flex:100 0 auto;width:100px"
+                  >
+                    Installment
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     $12.00
                   </div>
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                     every month for 10 times
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="-loading"
+          >
+            <div
+              class="-loading-inner"
+            >
+              Loading...
+            </div>
+          </div>
+        </div>
+        Total Amount: $120.00
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      class="alert alert-info"
+    >
+      We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders payment table on new response 1`] = `
+<div>
+  <h1
+    class="text-center my-2"
+  >
+    Payment
+  </h1>
+  <div>
+    <div>
+      <div
+        class="mb-2"
+      >
+        <div
+          class="ReactTable my-4"
+        >
+          <div
+            class="rt-table"
+            role="grid"
+          >
+            <div
+              class="rt-thead -header"
+              style="min-width:500px"
+            >
+              <div
+                class="rt-tr"
+                role="row"
+              >
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Name
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Description
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Amount
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Quantity
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Total
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="rt-tbody"
+              style="min-width:500px"
+            >
+              <div
+                class="rt-tr-group"
+                role="rowgroup"
+              >
+                <div
+                  class="rt-tr -odd"
+                  role="row"
+                >
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="flex:100 0 auto;width:100px"
+                  >
+                    One
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="flex:100 0 auto;width:100px"
+                  >
+                    One
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    $12.00
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     1
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    $12.00
                   </div>
                 </div>
               </div>
@@ -196,7 +523,7 @@ exports[`renders payment table with amount received 1`] = `
           >
             <div
               class="rt-thead -header"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr"
@@ -250,7 +577,7 @@ exports[`renders payment table with amount received 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -262,11 +589,26 @@ exports[`renders payment table with amount received 1`] = `
                     class="rt-resizer"
                   />
                 </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Total
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
               </div>
             </div>
             <div
               class="rt-tbody"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr-group"
@@ -293,16 +635,23 @@ exports[`renders payment table with amount received 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="flex:100 0 auto;width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     $12.00
                   </div>
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     1
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    $12.00
                   </div>
                 </div>
               </div>
@@ -370,7 +719,7 @@ exports[`renders recurring payment table with end 1`] = `
           >
             <div
               class="rt-thead -header"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr"
@@ -424,7 +773,7 @@ exports[`renders recurring payment table with end 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -436,11 +785,26 @@ exports[`renders recurring payment table with end 1`] = `
                     class="rt-resizer"
                   />
                 </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Total
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
               </div>
             </div>
             <div
               class="rt-tbody"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr-group"
@@ -467,16 +831,23 @@ exports[`renders recurring payment table with end 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="flex:100 0 auto;width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
-                    $12.00 every month for 10 times
+                    $12.00
                   </div>
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
-                    1
+                     every month for 10 times
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    $120.00
                   </div>
                 </div>
               </div>
@@ -492,7 +863,7 @@ exports[`renders recurring payment table with end 1`] = `
             </div>
           </div>
         </div>
-        Total Amount: $12.00
+        Total Amount: $120.00
       </div>
     </div>
   </div>
@@ -527,7 +898,7 @@ exports[`renders recurring payment table with times 1`] = `
           >
             <div
               class="rt-thead -header"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr"
@@ -581,7 +952,7 @@ exports[`renders recurring payment table with times 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -593,11 +964,26 @@ exports[`renders recurring payment table with times 1`] = `
                     class="rt-resizer"
                   />
                 </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Total
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
               </div>
             </div>
             <div
               class="rt-tbody"
-              style="min-width:400px"
+              style="min-width:500px"
             >
               <div
                 class="rt-tr-group"
@@ -624,16 +1010,23 @@ exports[`renders recurring payment table with times 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="flex:100 0 auto;width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
-                    $12.00 every month
+                    $12.00
                   </div>
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
-                    1
+                     every month
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    $12.00
                   </div>
                 </div>
               </div>

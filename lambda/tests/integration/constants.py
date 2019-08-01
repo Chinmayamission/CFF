@@ -194,22 +194,16 @@ EXPECTED_RES_VALUE = json.loads("""{
 FORM_DATA_ONE = {"modifyLink": "http://omrun.cmsj.org/training-thankyou/", "data": {"acceptTerms": True, "contact_name": {"last": "test", "first": "test"}, "address": {"zipcode": "test", "state": "test", "city": "test", "line2": "test",
                                                                                                                                                                         "line1": "test"}, "email": "success@simulator.amazonses.com", "participants": [{"name": {"last": "test", "first": "test"}, "gender": "M", "race": "5K", "age": 16}]}
                  }
-FORM_SUBMIT_RESP_ONE = {'paid': False, 'success': True, 'email_sent': False, 'action': 'insert', 'paymentInfo': {'manualEntry': {'enabled': True, 'inputPath': 'manualEntry'}, 'total': 25.0, 'currency': 'USD', 'redirectUrl': 'http://omrun.cmsj.org/training-thankyou/', 'items': [{'name': '2018 CMSJ OM Run',
-                                                                                                                                                                                                    'description': 'Registration for Training Only', 'amount': 25.0, 'quantity': 1.0}]}}
+
 FORM_DATA_TWO = {"modifyLink": "http://omrun.cmsj.org/training-thankyou/", "data": {"acceptTerms": True, "contact_name": {"last": "test", "first": "test"}, "address": {"zipcode": "test", "state": "test", "city": "test", "line2": "test",
                                                                                                                                                                         "line1": "test"}, "email": "success@simulator.amazonses.com", "participants": [{"name": {"last": "test", "first": "test"}, "gender": "M", "race": "5K", "age": 16},
                                                                                                                                                                                                                                              {"name": {"last": "test2", "first": "test2"}, "gender": "M", "race": "5K", "age": 16}]}
                  }
-FORM_SUBMIT_RESP_TWO = {'paid': False, 'success': True, 'email_sent': True, 'action': 'insert', 'paymentInfo': {'total': 50.0, 'currency': 'USD', 'redirectUrl': 'http://omrun.cmsj.org/training-thankyou/', 'items': [{'name': '2018 CMSJ OM Run',
-                                                                                                                                                                                                    'description': 'Registration for Training Only', 'amount': 25.0, 'quantity': 2.0}]}}
-
 FORM_DATA_TWO_5K_10K = {"modifyLink": "http://omrun.cmsj.org/training-thankyou/", "data": {"acceptTerms": True, "contact_name": {"last": "test", "first": "test"}, "address": {"zipcode": "test", "state": "test", "city": "test", "line2": "test",
                                                                                                                                                                                "line1": "test"}, "email": "success@simulator.amazonses.com", "participants": [{"name": {"last": "test", "first": "test"}, "gender": "M", "race": "5K", "age": 16},
                                                                                                                                                                                                                                                     {"name": {"last": "test2", "first": "test2"}, "gender": "M", "race": "10K", "age": 16}]}
                         }
 paymentMethods = {'paypal_classic': {'address1': 'test', 'address2': 'test', 'business': 'aramaswamis-facilitator@gmail.com', 'city': 'test', 'cmd': '_cart', 'email': 'success@simulator.amazonses.com', 'first_name': 'test', 'image_url': 'http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png', 'item_name': 'Ashwin', 'item_number': 'Registration for ' 'Training Only', 'last_name': 'test', 'sandbox': True, 'state': 'test', 'zip': '.'}, 'paypal_old_not_used': {'client': {'sandbox': 'AQnuMqn24Q8xTChC8uSgCOnmDjeMXZ1O7ZNS0uCHIsOmcoHqA6g2acYhTa_Qv-euJJ8UVFh4zmhJAWQR'}, 'env': 'sandbox'}}
-FORM_SUBMIT_RESP_ONE["paymentMethods"] = paymentMethods
-FORM_SUBMIT_RESP_TWO["paymentMethods"] = paymentMethods
 
 
 SCHEMA_ID = "5e258c2c-9b85-40ad-b764-979fc9df1740"

@@ -36,6 +36,7 @@ class FormOptions(EmbeddedMongoModel):
   defaultFormData = fields.DictField(blank=True)
   showConfirmationPage = fields.BooleanField()
   successMessage = fields.CharField()
+  messages = fields.DictField(blank=True)
   loginRequired = fields.BooleanField()
   responseModificationEnabled = fields.BooleanField()
   responseSubmissionEnabled = fields.BooleanField()

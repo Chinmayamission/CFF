@@ -1,6 +1,6 @@
 {
   "name": "ccmt-cff-client",
-  "version": "3.20.0",
+  "version": "3.21.1",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
@@ -123,7 +123,7 @@
     "react-google-font-loader": "^1.0.5",
     "react-helmet": "^5.2.0",
     "react-json-view": "^1.15.2",
-    "react-jsonschema-form": "^1.7.0",
+    "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#4eccffabe425b79cc04d1a5ab4b7099626dbb5ed",
     "react-loading": "^1.0.3",
     "react-modal": "^3.8.1",
     "react-monaco-editor": "^0.26.2",
@@ -131,6 +131,7 @@
     "react-responsive-modal": "^2.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-spinners": "^0.5.13",
     "react-table": "^6.8.0",
     "react-tabs": "^3.0.0",
     "react-toggle-switch": "^3.0.4",

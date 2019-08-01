@@ -32,8 +32,8 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
       paymentInfoItem.quantity,
       formData
     );
-    paymentInfo["total"] +=
-      paymentInfoItem["amount"] * paymentInfoItem["quantity"];
+    paymentInfoItem.total = paymentInfoItem.amount * paymentInfoItem.quantity;
+    paymentInfo["total"] += paymentInfoItem.total;
   }
   // Now take care of items for coupon code, round off, etc. -- which need the total value to work.
   formData["total"] = paymentInfo["total"];
@@ -46,8 +46,8 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
       paymentInfoItem.quantity,
       formData
     );
-    paymentInfo["total"] +=
-      paymentInfoItem["amount"] * paymentInfoItem["quantity"];
+    paymentInfoItem.total = paymentInfoItem.amount * paymentInfoItem.quantity;
+    paymentInfo["total"] += paymentInfoItem.total;
   }
   formData["total"] = paymentInfo["total"];
   for (let paymentInfoItem of paymentInfoItemsInstallment) {
@@ -59,6 +59,12 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
       paymentInfoItem.quantity,
       formData
     );
+    if (paymentInfoItem.recurrenceTimes) {
+      paymentInfoItem.total =
+        paymentInfoItem.amount *
+        paymentInfoItem.quantity *
+        parseInt(paymentInfoItem.recurrenceTimes);
+    }
     // Don't add installment payments to the total.
   }
   delete formData["total"];
