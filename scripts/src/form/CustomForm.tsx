@@ -50,19 +50,14 @@ const CustomTitleField = props => {
 
 function ErrorListTemplate(props) {
   const { errors } = props;
-  return null;
-  /*return (
-    <div className="ccmt-cff-errorList">
-      <b>Errors:</b>
+  return (
+    <div className="alert alert-danger my-4 ccmt-cff-errorList">
+      <strong className="d-block mb-2">Errors:</strong>
       {errors.map((error, i) => {
-        return (
-          <li key={i}>
-            {error.stack}
-          </li>
-        );
+        return <li key={i}>{error.stack}</li>;
       })}
     </div>
-  );*/
+  );
 }
 
 const widgets = {
@@ -161,6 +156,7 @@ function CustomForm(props: ICustomFormProps) {
         }
         onError={e => {
           console.error(e);
+          window.scrollTo(0, 0);
         }}
         showErrorList={true}
         ErrorList={ErrorListTemplate}
