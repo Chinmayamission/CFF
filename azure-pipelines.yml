@@ -51,8 +51,8 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    sourceFolder: '$(Build.SourcesDirectory)'
     contents: '**/__diff_output__/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)
   condition: failed()
   
 - task: PublishBuildArtifacts@1
