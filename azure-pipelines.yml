@@ -46,7 +46,7 @@ steps:
   displayName: 'pipenv install, test'
 
 - script: |
-  npm run e2e
+    npm run e2e
   displayName: 'e2e tests'
 
 - task: CopyFiles@2
