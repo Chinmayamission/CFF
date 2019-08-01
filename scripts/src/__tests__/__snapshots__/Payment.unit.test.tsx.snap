@@ -191,7 +191,7 @@ exports[`renders installment payment table 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -248,7 +248,7 @@ exports[`renders installment payment table 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="text-align:right;flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     $120.00
                   </div>
@@ -293,7 +293,7 @@ exports[`renders installment payment table 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="text-align:right;flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   />
                 </div>
               </div>
@@ -413,7 +413,7 @@ exports[`renders payment table on new response 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -470,7 +470,7 @@ exports[`renders payment table on new response 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="text-align:right;flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     $12.00
                   </div>
@@ -592,7 +592,7 @@ exports[`renders payment table with amount received 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -649,7 +649,7 @@ exports[`renders payment table with amount received 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="text-align:right;flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     $12.00
                   </div>
@@ -788,7 +788,7 @@ exports[`renders recurring payment table with end 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -845,7 +845,7 @@ exports[`renders recurring payment table with end 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="text-align:right;flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     $120.00
                   </div>
@@ -967,7 +967,7 @@ exports[`renders recurring payment table with times 1`] = `
                 <div
                   class="rt-th rt-resizable-header -cursor-pointer"
                   role="columnheader"
-                  style="flex:100 0 auto;width:100px;max-width:100px"
+                  style="flex:100 0 auto;width:100px"
                   tabindex="-1"
                 >
                   <div
@@ -1024,7 +1024,7 @@ exports[`renders recurring payment table with times 1`] = `
                   <div
                     class="rt-td"
                     role="gridcell"
-                    style="text-align:right;flex:100 0 auto;width:100px;max-width:100px"
+                    style="text-align:right;flex:100 0 auto;width:100px"
                   >
                     $12.00
                   </div>
