@@ -9,7 +9,7 @@ describe("Google", () => {
   });
 
   it("initial login page", async () => {
-    const image = await page.screenshot();
+    const image = await page.screenshot({ fullPage: true });
     expect(image).toMatchImageSnapshot();
   });
 });
