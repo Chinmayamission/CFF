@@ -1,5 +1,6 @@
 ## 3.21.1
 - Fix: AddressAutocompleteField now supports `ui:placeholder` attribute
+- Fix: Upgrade to rjsf patch version for allOf support
 
 - Chore: Speed up lambda by increasing memory from 128 MB -> 1024 MB
 

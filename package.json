@@ -123,7 +123,7 @@
     "react-google-font-loader": "^1.0.5",
     "react-helmet": "^5.2.0",
     "react-json-view": "^1.15.2",
-    "react-jsonschema-form": "^1.7.0",
+    "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#4eccffabe425b79cc04d1a5ab4b7099626dbb5ed",
     "react-loading": "^1.0.3",
     "react-modal": "^3.8.1",
     "react-monaco-editor": "^0.26.2",
