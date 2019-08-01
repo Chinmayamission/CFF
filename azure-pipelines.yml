@@ -53,7 +53,7 @@ steps:
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
     contents: '**/__diff_output__/**'
-    condition: failed()
+  condition: failed()
   
 - task: PublishBuildArtifacts@1
   inputs:
