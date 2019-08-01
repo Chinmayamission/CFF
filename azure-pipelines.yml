@@ -33,8 +33,10 @@ steps:
 
 - script: |
     npm install
+    npm run build
     npm test
-  displayName: 'npm install, test, and build'
+    npm run e2e
+  displayName: 'npm install, build, and test'
 
 - script: |
     pip install pipenv
