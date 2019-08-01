@@ -1,7 +1,9 @@
 ## 3.21.1
-- Fix: AddressAutocompleteField now supports `ui:placeholder` attribute
-- Fix: Upgrade to rjsf patch version for allOf support
-- Fix: Show error list on top, and scroll to top, on error
+- Feat: AddressAutocompleteField now supports `ui:placeholder` attribute
+- Feat: Upgrade to rjsf patch version for allOf support
+- Feat: Show error list on top, and scroll to top, on error
+
+- Fix: Don't cap the width of "total" column on payment table (#159)
 
 - Chore: Speed up lambda by increasing memory from 128 MB -> 1024 MB
 

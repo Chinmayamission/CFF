@@ -77,7 +77,6 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         Header: "Total",
         id: "total",
         style: numericColStyle,
-        maxWidth: 100,
         accessor: d =>
           d.installment
             ? ""
