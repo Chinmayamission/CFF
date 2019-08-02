@@ -1,3 +1,8 @@
+## 3.21.2
+- Fix: Make sure FormResponseCounter entries are stored in the same collection as everything else
+- Fix: Change rjsf patch to fix array num items bug (#162)
+- Feat: add responseSaveEnabled feature to formOptions (not functional yet)
+
 ## 3.21.1
 - Feat: AddressAutocompleteField now supports `ui:placeholder` attribute
 - Feat: Upgrade to rjsf patch version for allOf support
