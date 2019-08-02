@@ -74,6 +74,6 @@ def form_response_list(formId):
         responses = Response.objects.raw(mongo_query).limit(result_limit).project(projection)
     else:
         app.check_permissions(form, ["Responses_View"])
-        responses = Response.objects.all()._collection.find({"form": form.id}, {"value": 1, "_id": 1, "amount_paid": 1, "user": 1, "form": 1, "paymentInfo": 1, "date_created": 1, "date_modified": 1, "paid": 1, "counter": 1})
+        responses = Response.objects.all()._collection.find({"_cls": "chalicelib.models.Response", "form": form.id}, {"value": 1, "_id": 1, "amount_paid": 1, "user": 1, "form": 1, "paymentInfo": 1, "date_created": 1, "date_modified": 1, "paid": 1, "counter": 1})
         return {"res": [r for r in json.loads(dumps(responses))] }
     return {"res": [serialize_model(r) for r in responses]}
