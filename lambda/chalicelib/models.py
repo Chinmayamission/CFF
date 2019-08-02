@@ -70,6 +70,8 @@ class FormResponseCounter(MongoModel):
   """
   counter = fields.IntegerField()
   form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
+  class Meta:
+    collection_name = os.getenv("DB_NAME", "cff_dev")
 
 class PaymentStatusDetailItem(EmbeddedMongoModel):
   amount = money_field
