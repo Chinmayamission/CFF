@@ -40,6 +40,7 @@ class FormOptions(EmbeddedMongoModel):
   loginRequired = fields.BooleanField()
   responseModificationEnabled = fields.BooleanField()
   responseSubmissionEnabled = fields.BooleanField()
+  responseSaveEnabled = fields.BooleanField()
   predicate = fields.DictField(blank=True)
   successor = fields.DictField(blank=True)
   omitExtraData = fields.BooleanField()
