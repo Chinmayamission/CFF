@@ -1,3 +1,7 @@
+## 3.21.3
+- Fix: Make sure paypal IPN handler doesn't crash when no txn_id field is defined.
+- Fix: better IPN error message when emails don't match.
+
 ## 3.21.2
 - Fix: Make sure FormResponseCounter entries are stored in the same collection as everything else
 - Fix: Change rjsf patch to fix array num items bug (#162)
