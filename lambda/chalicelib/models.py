@@ -40,6 +40,7 @@ class FormOptions(EmbeddedMongoModel):
   loginRequired = fields.BooleanField()
   responseModificationEnabled = fields.BooleanField()
   responseSubmissionEnabled = fields.BooleanField()
+  responseSaveEnabled = fields.BooleanField()
   predicate = fields.DictField(blank=True)
   successor = fields.DictField(blank=True)
   omitExtraData = fields.BooleanField()
@@ -69,6 +70,8 @@ class FormResponseCounter(MongoModel):
   """
   counter = fields.IntegerField()
   form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
+  class Meta:
+    collection_name = os.getenv("DB_NAME", "cff_dev")
 
 class PaymentStatusDetailItem(EmbeddedMongoModel):
   amount = money_field

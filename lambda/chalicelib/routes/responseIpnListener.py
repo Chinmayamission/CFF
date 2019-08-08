@@ -83,8 +83,10 @@ def response_ipn_listener(responseId):
             # Don't handle subscription signups.
             return
         if paramDict["receiver_email"] != expected_receiver_email:
-            raise_ipn_error("Emails do not match.".format(paramDict["receiver_email"], expected_receiver_email))
-        txn_id = paramDict["txn_id"]
+            raise_ipn_error("Emails do not match. {}, {}".format(paramDict["receiver_email"], expected_receiver_email))
+        txn_id = paramDict.get("txn_id", None)
+        if not txn_id:
+            raise_ipn_error("No IPN transaction ID.")
         if any(item.status == "SUCCESS" and item.id == txn_id and item.method == "paypal_ipn" for item in response.payment_trail):
             raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")
         # TODO: add check for mc_currency
