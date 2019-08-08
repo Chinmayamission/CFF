@@ -101,21 +101,20 @@
     float: left;
 }
 
-.help{
-    text-decoration: none !important;
-    color:black !important;
-    float: right;
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%; 
+   text-decoration:none !important;
+   color: white !important; 
+   text-align: right;
+   background-color: #868e96;
+   padding:5px 40px 5px;
 }
 
-@media (min-width: 768px ) {
-    .row {
-        position: relative;
-    }
-  
-    .bottom-align-text {
-      position: absolute;
-      bottom: 0;
-      right: 15px;
-      top:600px;
-    }
-  }
+.help{
+	text-decoration: none !important;
+	color:white !important;
+	}
+
