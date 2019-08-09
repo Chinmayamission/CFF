@@ -63,6 +63,7 @@ class Form(BaseMongoModel):
   date_created = fields.DateTimeField(required=True)
   formType = fields.CharField()
   version = fields.IntegerField()
+  tags = fields.ListField()
 
 class FormResponseCounter(MongoModel):
   """Used to generate numeric, human-readable ids for
@@ -161,21 +162,7 @@ def serialize_model(model):
   for k, v in model.items():
     if type(v) is dict:
       v.pop("_cls", "")
-  # for k in list(model):
-  #   v = model[k]
-  #   if type(v) is ObjectId:
-  #     model[k] = str(v)
-  #   elif hasattr(v, "to_son"):
-  #     model[k] = serialize_model[v]
-  #   elif k == "_cls":
-  #     del model[k]
-  #   elif type(v) is datetime.datetime:
-  #     model[k] = str(v)
   return model
-  # for k in list(dict_):
-  #   v = dict_[k]
-  #   if k == "_cls":
-  #     del dict_[k]
-  #   elif type(v) not in (str, int, float, dict, type(None)):
-  #     dict_[k] = str(v)
-  # return dict_
+
+class Tag(BaseMongoModel):
+  id = fields.ObjectIdField(primary_key=True)
