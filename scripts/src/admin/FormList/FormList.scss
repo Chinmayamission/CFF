@@ -100,3 +100,22 @@
     border: 1px solid black;
     float: left;
 }
+
+.help{
+    text-decoration: none !important;
+    color:black !important;
+    float: right;
+}
+
+@media (min-width: 768px ) {
+    .row {
+        position: relative;
+    }
+  
+    .bottom-align-text {
+      position: absolute;
+      bottom: 0;
+      right: 15px;
+      top:600px;
+    }
+  }
