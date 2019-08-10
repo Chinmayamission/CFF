@@ -100,3 +100,21 @@
     border: 1px solid black;
     float: left;
 }
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%; 
+   text-decoration:none !important;
+   color: white !important; 
+   text-align: right;
+   background-color: #868e96;
+   padding:5px 40px 5px;
+}
+
+.help{
+	text-decoration: none !important;
+	color:white !important;
+	}
+

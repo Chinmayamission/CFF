@@ -99,6 +99,15 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
               highlighted={this.state.highlightedForm === form._id.$oid}
             />
           ))}
+        <div className="footer">
+          <a
+            className="help"
+            href="http://docs.chinmayamission.com/cff/"
+            target="_blank"
+          >
+            Help
+          </a>
+        </div>
       </div>
     );
   }
