@@ -81,6 +81,7 @@ class PaymentStatusDetailItem(EmbeddedMongoModel):
   date_modified = fields.DateTimeField()
   method = fields.CharField(required=True)
   id = fields.CharField(blank=True)
+  notes = fields.CharField(blank=True)
 
 class PaymentTrailItem(EmbeddedMongoModel):
   value = fields.DictField()
@@ -90,6 +91,7 @@ class PaymentTrailItem(EmbeddedMongoModel):
   method = fields.CharField(required=True)
   status = fields.CharField()
   id = fields.CharField()
+  notes = fields.CharField(blank=True)
 
 class UpdateTrailItem(EmbeddedMongoModel):
   old = fields.DictField()

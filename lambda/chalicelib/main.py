@@ -151,7 +151,7 @@ app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthoriz
 app.route('/responses/{responseId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit_value)
 app.route('/responses/{responseId}/admin_info', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit_admin_info)
 app.route('/responses/{responseId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.response_view)
-app.route('/responses/{responseId}/payment', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.response_payment)
+app.route('/responses/{responseId}/payment', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.response_add_payment)
 app.route('/responses/{responseId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.response_delete)
 
 

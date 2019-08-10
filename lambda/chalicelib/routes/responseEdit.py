@@ -88,10 +88,10 @@ def response_edit_admin_info(responseId):
 def response_checkin(formId, responseId):
     pass
 
-def response_payment(responseId):
+def response_add_payment(responseId):
     from ..main import app
     response = Response.objects.get({"_id": ObjectId(responseId)})
-    app.check_permissions(response.form, "Responses_Edit")
+    app.check_permissions(response.form, ["Responses_Edit", "Responses_AddPayment"] )
     amount = app.current_request.json_body["amount"]
     currency = app.current_request.json_body["currency"]
     date = app.current_request.json_body.get("date", None)
@@ -100,7 +100,13 @@ def response_payment(responseId):
     id = app.current_request.json_body["id"]
     method = app.current_request.json_body["method"]
     send_email = app.current_request.json_body.get("sendEmail", True)
-    paid = mark_successful_payment(response.form, response, {"type": "manual", "method": method, "id": id}, method, amount, currency, id, date=date, send_email=send_email)
+    notes = app.current_request.json_body.get("notes", None)
+    if notes == "":
+        notes = None
+    value = {"type": "manual", "method": method, "id": id}
+    if notes is not None:
+        value = dict(value, notes=notes)
+    paid = mark_successful_payment(response.form, response, value, method, amount, currency, id, date=date, send_email=send_email, notes=notes)
     response.save()
     return {"res": {"success": True, "paid": paid, "response": serialize_model(response)}}
 

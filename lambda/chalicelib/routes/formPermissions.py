@@ -8,9 +8,10 @@ POSSIBLE_PERMISSIONS = [
   "Responses_Export",
   "Responses_ViewSummary",
   "Responses_Edit",
-  "Responses_AdminInfo_Edit"
+  "Responses_AdminInfo_Edit",
   "Responses_Delete",
   "Responses_CheckIn",
+  "Responses_AddPayment",
   "Forms_Edit",
   "Forms_PermissionsView",
   "Forms_PermissionsEdit"
