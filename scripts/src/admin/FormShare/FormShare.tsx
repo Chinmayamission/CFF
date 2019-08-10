@@ -73,7 +73,6 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
               <tr>
                 <th>User Name</th>
                 <th>User Email</th>
-                <th>User Id</th>
                 <th>Permissions</th>
               </tr>
             </thead>
