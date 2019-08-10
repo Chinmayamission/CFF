@@ -91,7 +91,7 @@ def response_checkin(formId, responseId):
 def response_payment(responseId):
     from ..main import app
     response = Response.objects.get({"_id": ObjectId(responseId)})
-    app.check_permissions(response.form, ("Responses_Edit", "Responses_AddPayment") )
+    app.check_permissions(response.form, ["Responses_Edit", "Responses_AddPayment"] )
     amount = app.current_request.json_body["amount"]
     currency = app.current_request.json_body["currency"]
     date = app.current_request.json_body.get("date", None)
