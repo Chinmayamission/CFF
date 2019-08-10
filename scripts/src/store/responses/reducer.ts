@@ -8,7 +8,8 @@ const defaultPaymentStatusDetailItem: IPaymentStatusDetailItem = {
   currency: "USD",
   date: { $date: moment().toISOString() },
   id: "",
-  method: ""
+  method: "",
+  notes: ""
 };
 const initialState: ResponsesState = {
   responseData: null,
