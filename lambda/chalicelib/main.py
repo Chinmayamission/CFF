@@ -21,8 +21,10 @@ S3_UPLOADS_BUCKET_NAME = os.getenv("S3_UPLOADS_BUCKET_NAME")
 # app = None
 PROD = True if MODE == "PROD" else False
 
+
 class CustomChalice(Chalice):
     test_user_id = None
+
     def get_url(self, path=''):
         if os.getenv("UNIT_TEST") == "TRUE":
             return f"dummy://{path}"
@@ -31,32 +33,39 @@ class CustomChalice(Chalice):
         if stage:
             stage += '/'
         return '%s://%s/%s%s' % (headers.get('x-forwarded-proto', 'http'),
-                            headers['host'],
-                            stage,
-                            path)
+                                 headers['host'],
+                                 stage,
+                                 path)
+
     def get_current_user_id(self):
         """Get current user id."""
         id = None
         try:
             id = self.current_request.context['authorizer']['id']
         except (KeyError, AttributeError):
-            if app.test_user_id: id = app.test_user_id
+            if app.test_user_id:
+                id = app.test_user_id
         return id
+
     def get_user_permissions(self, id, model):
         """id = user id. model = model with cff_permissions in it."""
         cff_permissions = getattr(model, "cff_permissions", {})
         current_user_perms = {}
         if id is not "cm:cognitoUserPool:anonymousUser":
-            current_user_perms.update(cff_permissions.get("cm:loggedInUser", {}))
+            current_user_perms.update(
+                cff_permissions.get("cm:loggedInUser", {}))
         current_user_perms.update(cff_permissions.get(id, {}))
         return current_user_perms
+
     def check_permissions(self, model, actions):
         result = self.check_permissions_return(model, actions)
         if result == True:
             return True
         if result == False:
             id = self.get_current_user_id()
-            raise UnauthorizedError("User {} is not authorized to perform action {} on this resource.".format(id, actions))
+            raise UnauthorizedError(
+                "User {} is not authorized to perform action {} on this resource.".format(id, actions))
+
     def check_permissions_return(self, model, actions):
         if type(actions) is str:
             actions = [actions]
@@ -68,6 +77,7 @@ class CustomChalice(Chalice):
         else:
             return False
 
+
 ssm = boto3.client('ssm', 'us-east-1')
 s3_client = boto3.client('s3', "us-east-1")
 if MODE == "TEST":
@@ -75,10 +85,12 @@ if MODE == "TEST":
 elif MODE == "DEV":
     pymodm.connection.connect("mongodb://localhost:10255/admin")
 elif MODE == "BETA":
-    mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_BETA', WithDecryption=True)['Parameter']['Value']
+    mongo_conn_str = ssm.get_parameter(
+        Name='CFF_COSMOS_CONN_STR_WRITE_BETA', WithDecryption=True)['Parameter']['Value']
     pymodm.connection.connect(mongo_conn_str)
 elif MODE == "PROD":
-    mongo_conn_str = ssm.get_parameter(Name='CFF_COSMOS_CONN_STR_WRITE_PROD', WithDecryption=True)['Parameter']['Value']
+    mongo_conn_str = ssm.get_parameter(
+        Name='CFF_COSMOS_CONN_STR_WRITE_PROD', WithDecryption=True)['Parameter']['Value']
     pymodm.connection.connect(mongo_conn_str)
 
 app = CustomChalice(app_name='ccmt-cff-rest-api')
@@ -91,6 +103,7 @@ test_user_id = os.getenv("DEV_COGNITO_IDENTITY_ID")
 if test_user_id:
     app.test_user_id = test_user_id
 
+
 @app.authorizer()
 def iamAuthorizer(auth_request):
     """
@@ -98,7 +111,8 @@ def iamAuthorizer(auth_request):
     """
     claims = get_claims(auth_request.token)
     if not claims and not app.test_user_id:
-        claims = {"sub": "cm:cognitoUserPool:anonymousUser", "name": "Anonymous", "email": "anonymous@chinmayamission.com"}
+        claims = {"sub": "cm:cognitoUserPool:anonymousUser",
+                  "name": "Anonymous", "email": "anonymous@chinmayamission.com"}
     else:
         if claims:
             claims["sub"] = "cm:cognitoUserPool:" + claims["sub"]
@@ -112,10 +126,11 @@ def iamAuthorizer(auth_request):
         #     print(f"User does not exist. Creating user {id}")
         #     user = User(id=id)
         #     user.save()
-        
+
     return AuthResponse(routes=['*'], principal_id='user', context={
         "id": claims["sub"]
     })
+
 
 """
 # Home page
@@ -130,43 +145,66 @@ http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authoriz
 # app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.center_list)
 # app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
 # app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
-app.route('/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
-app.route('/forms', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_create)
-app.route('/forms/{formId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.form_delete)
-app.route('/forms/{formId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.form_edit)
-app.route('/forms/{formId}/groups', methods=['PUT'], cors=True, authorizer=iamAuthorizer)(routes.group_edit)
-app.route('/forms/{formId}/responses', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_list)
+app.route('/forms', methods=['GET'], cors=True,
+          authorizer=iamAuthorizer)(routes.form_list)
+app.route('/forms', methods=['POST'], cors=True,
+          authorizer=iamAuthorizer)(routes.form_create)
+app.route('/forms/{formId}', methods=['DELETE'], cors=True,
+          authorizer=iamAuthorizer)(routes.form_delete)
+app.route('/forms/{formId}', methods=['PATCH'],
+          cors=True, authorizer=iamAuthorizer)(routes.form_edit)
+app.route('/forms/{formId}/groups',
+          methods=['PUT'], cors=True, authorizer=iamAuthorizer)(routes.group_edit)
+app.route('/forms/{formId}/responses',
+          methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_list)
 # form response edit
 
 # todo use export in client side.
-app.route('/forms/{formId}/responsesExport', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_export)
-app.route('/forms/{formId}/summary', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_summary)
+app.route('/forms/{formId}/responsesExport', methods=[
+          'GET'], cors=True, authorizer=iamAuthorizer)(routes.form_response_export)
+app.route('/forms/{formId}/summary', methods=['GET'], cors=True,
+          authorizer=iamAuthorizer)(routes.form_response_summary)
 # app.route('/responses/{responseId}/checkin', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.response_checkin)
-app.route('/forms/{formId}/permissions', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_get_permissions)
-app.route('/forms/{formId}/permissions', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
+app.route('/forms/{formId}/permissions', methods=[
+          'GET'], cors=True, authorizer=iamAuthorizer)(routes.form_get_permissions)
+app.route('/forms/{formId}/permissions', methods=[
+          'POST'], cors=True, authorizer=iamAuthorizer)(routes.form_edit_permissions)
 
-app.route('/forms/{formId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_render)
-app.route('/forms/{formId}/response', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_render_response)
-app.route('/forms/{formId}', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.form_response_new)
-app.route('/responses/{responseId}', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit_value)
-app.route('/responses/{responseId}/admin_info', methods=['PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit_admin_info)
-app.route('/responses/{responseId}', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.response_view)
-app.route('/responses/{responseId}/payment', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.response_add_payment)
-app.route('/responses/{responseId}', methods=['DELETE'], cors=True, authorizer=iamAuthorizer)(routes.response_delete)
+app.route('/forms/{formId}', methods=['GET'], cors=True,
+          authorizer=iamAuthorizer)(routes.form_render)
+app.route('/forms/{formId}/response', methods=['GET'], cors=True,
+          authorizer=iamAuthorizer)(routes.form_render_response)
+app.route('/forms/{formId}', methods=['POST'], cors=True,
+          authorizer=iamAuthorizer)(routes.form_response_new)
+app.route('/responses/{responseId}', methods=['PATCH'], cors=True,
+          authorizer=iamAuthorizer)(routes.response_edit_value)
+app.route('/responses/{responseId}/admin_info', methods=[
+          'PATCH'], cors=True, authorizer=iamAuthorizer)(routes.response_edit_admin_info)
+app.route('/responses/{responseId}', methods=['GET'],
+          cors=True, authorizer=iamAuthorizer)(routes.response_view)
+app.route('/responses/{responseId}/payment', methods=[
+          'POST'], cors=True, authorizer=iamAuthorizer)(routes.response_add_payment)
+app.route('/responses/{responseId}', methods=['DELETE'],
+          cors=True, authorizer=iamAuthorizer)(routes.response_delete)
 
 
 # Unauthorized:
-app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ipn_listener)
-app.route('/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=['application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
-app.route('/responses/{responseId}/sendConfirmationEmail', methods=['POST'], cors=True)(routes.response_send_confirmation_email)
+app.route('/responses/{responseId}/ipn', methods=['POST'], cors=True, content_types=[
+          'application/x-www-form-urlencoded'])(routes.response_ipn_listener)
+app.route('/responses/{responseId}/ccavenueResponseHandler', methods=['POST'], cors=True, content_types=[
+          'application/x-www-form-urlencoded'])(routes.response_ccavenue_response_handler)
+app.route('/responses/{responseId}/sendConfirmationEmail',
+          methods=['POST'], cors=True)(routes.response_send_confirmation_email)
 app.route('/confirmSignUp', methods=['GET'], cors=True)(routes.confirm_sign_up)
+
 
 @app.route('/authorize', methods=['POST'], cors=True)
 def authorize():
     token = app.current_request.json_body["token"]
     app_client_id = app.current_request.json_body.get("app_client_id", "")
     if app_client_id:
-        claims = get_claims(token, verify_audience=True, app_client_id=app_client_id)
+        claims = get_claims(token, verify_audience=True,
+                            app_client_id=app_client_id)
     else:
         claims = get_claims(token, verify_audience=True)
     if claims:
