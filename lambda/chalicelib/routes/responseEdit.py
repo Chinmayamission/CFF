@@ -101,7 +101,10 @@ def response_add_payment(responseId):
     method = app.current_request.json_body["method"]
     send_email = app.current_request.json_body.get("sendEmail", True)
     notes = app.current_request.json_body.get("notes", None)
-    paid = mark_successful_payment(response.form, response, {"type": "manual", "method": method, "id": id}, method, amount, currency, id, date=date, send_email=send_email, notes=notes)
+    value = {"type": "manual", "method": method, "id": id}
+    if notes is not None:
+        value = dict(value, notes=notes)
+    paid = mark_successful_payment(response.form, response, value, method, amount, currency, id, date=date, send_email=send_email, notes=notes)
     response.save()
     return {"res": {"success": True, "paid": paid, "response": serialize_model(response)}}
 

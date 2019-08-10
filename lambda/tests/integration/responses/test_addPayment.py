@@ -81,6 +81,7 @@ class TestAddPayment(BaseTestCase):
                                             body=json.dumps(body))
         self.assertEqual(response['statusCode'], 200, response)
         body = json.loads(response['body'])
+        self.assertEqual(len(body['res']['response']['payment_trail']), 1)
         payment_trail_item = body['res']['response']['payment_trail'][0]
         payment_trail_item.pop('date')
         payment_trail_item.pop('date_modified')
