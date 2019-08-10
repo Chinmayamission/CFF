@@ -101,6 +101,8 @@ def response_add_payment(responseId):
     method = app.current_request.json_body["method"]
     send_email = app.current_request.json_body.get("sendEmail", True)
     notes = app.current_request.json_body.get("notes", None)
+    if notes == "":
+        notes = None
     value = {"type": "manual", "method": method, "id": id}
     if notes is not None:
         value = dict(value, notes=notes)
