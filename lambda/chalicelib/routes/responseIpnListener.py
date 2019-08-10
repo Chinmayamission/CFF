@@ -25,11 +25,11 @@ def update_response_paid_status(response):
             response.update_trail.append(UpdateTrailItem(date=datetime.datetime.now(), update_type="apply_update"))
     return response.paid
 
-def mark_successful_payment(form, response, full_value, method_name, amount, currency, id, date=None, send_email=True):
+def mark_successful_payment(form, response, full_value, method_name, amount, currency, id, date=None, send_email=True, notes=None):
     if not date:
         date = datetime.datetime.now()
-    response.payment_trail.append(PaymentTrailItem(value=full_value, status="SUCCESS", date=date, date_created=date, date_modified=date, method=method_name, id=id))
-    response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=date, date_created=date, date_modified=date, method=method_name, id=id))
+    response.payment_trail.append(PaymentTrailItem(value=full_value, status="SUCCESS", date=date, date_created=date, date_modified=date, method=method_name, id=id, notes=notes))
+    response.payment_status_detail.append(PaymentStatusDetailItem(amount=str(amount), currency=currency, date=date, date_created=date, date_modified=date, method=method_name, id=id, notes=notes))
     response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
     update_response_paid_status(response)
     if form.formOptions.confirmationEmailInfo and send_email:
