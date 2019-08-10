@@ -87,7 +87,6 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
             <FormNew onError={this.props.onError} />
           </div>
         </div>
-
         {formList && formList.length == 0 && "No forms found."}
         {formList &&
           formList.map(form => (
