@@ -1,13 +1,14 @@
 import * as React from "react";
 import { get } from "lodash";
-import Switch from "react-toggle-switch";
-import "react-toggle-switch/dist/css/switch.min.css";
+import Select from "react-select";
 import { IUserRowState, IUserRowProps } from "./FormShare.d";
 
 class UserRow extends React.Component<IUserRowProps, IUserRowState> {
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      permissions: this.props.permissions.map(e => ({ value: e, label: e }))
+    };
   }
 
   render() {
@@ -16,25 +17,20 @@ class UserRow extends React.Component<IUserRowProps, IUserRowState> {
         <td>{this.props.user.name}</td>
         <td>{this.props.user.email}</td>
         <td>{this.props.user.id}</td>
-        {this.props.possiblePermissions.map(permissionName => {
-          let key = `${this.props.user.id}-${permissionName}`;
-          let checked =
-            get(this.props.permissions, permissionName) == true ? true : false;
-          return (
-            <td key={`td${key}`}>
-              <Switch
-                onClick={e =>
-                  this.props.onPermissionsChange(
-                    this.props.user.id,
-                    permissionName,
-                    !checked
-                  )
-                }
-                on={checked}
-              />
-            </td>
-          );
-        })}
+        <td>
+          <Select
+            isMulti
+            options={this.props.possiblePermissions.map(e => ({
+              value: e,
+              label: e
+            }))}
+            value={this.state.permissions}
+            onChange={e => this.setState({ permissions: e })}
+            onBlur={e =>
+              this.props.onChange(this.state.permissions.map(e => e.value))
+            }
+          />
+        </td>
       </tr>
     );
   }

@@ -18,15 +18,11 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
     };
   }
 
-  async onPermissionsChange(userId, permissionName, value) {
-    let newPermissions = pickBy(
-      {
-        ...this.state.permissions[userId],
-        [permissionName]: value
-      },
-      value => value === true
-    );
-
+  async onPermissionsChange(userId, newPermissions) {
+    let newPermissionsObject = {};
+    for (let permission of newPermissions) {
+      newPermissionsObject[permission] = true;
+    }
     try {
       let response = await API.post(
         "CFF",
@@ -34,7 +30,7 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
         {
           body: {
             userId: userId,
-            permissions: newPermissions
+            permissions: newPermissionsObject
           }
         }
       );
@@ -78,9 +74,7 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
                 <th>User Name</th>
                 <th>User Email</th>
                 <th>User Id</th>
-                {this.state.possiblePermissions.map(permission => (
-                  <th key={permission}>{permission}</th>
-                ))}
+                <th>Permissions</th>
               </tr>
             </thead>
             <tbody>
@@ -89,10 +83,13 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
                   key={userId}
                   possiblePermissions={this.state.possiblePermissions}
                   user={this.state.users[userId] || {}}
-                  permissions={this.state.permissions[userId] || {}}
-                  onPermissionsChange={(a, b, c) =>
-                    this.onPermissionsChange(a, b, c)
-                  }
+                  permissions={Object.keys(
+                    this.state.permissions[userId] || {}
+                  ).filter(key => this.state.permissions[userId][key] === true)}
+                  onChange={newPermissions => {
+                    console.log("new", newPermissions);
+                    this.onPermissionsChange(userId, newPermissions);
+                  }}
                 />
               ))}
               <tr>

@@ -16,10 +16,12 @@ export interface IUserRowProps {
   user: any;
   permissions: any;
   possiblePermissions: string[];
-  onPermissionsChange: (string, string, boolean) => void;
+  onChange: (e: string[]) => void;
 }
 
-export interface IUserRowState {}
+export interface IUserRowState {
+  permissions: any;
+}
 
 export interface IPermission {
   [x: string]: boolean;
