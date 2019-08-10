@@ -139,7 +139,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
             type: "object",
             properties: {
               sendEmail: {
-                default: true,
+                default: false,
                 type: "boolean",
                 enumNames: ["Yes", "No"],
                 description: "Send confirmation email"
