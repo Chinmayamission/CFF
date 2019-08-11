@@ -148,7 +148,8 @@ class TestCreateEmail(unittest.TestCase):
             CONFIRMATION_EMAIL_INFO_TEMPLATE,
             template={"html": "Hello world. {{undef}}{{undef.undef}}Hohoho."},
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
         self.assertEqual(
             res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. Hohoho.")
         )
@@ -160,9 +161,11 @@ class TestCreateEmail(unittest.TestCase):
                 "html": "Hello world. {{paymentInfo.total | format_payment(paymentInfo.currency)}} Hohoho."
             },
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
         self.assertEqual(
-            res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. $500.00 Hohoho.")
+            res, dict(EXPECTED_RES_TEMPLATE,
+                      msgBody="Hello world. $500.00 Hohoho.")
         )
 
     def test_create_email_html_template_format_payment_filter_with_undefined(self):
@@ -172,7 +175,8 @@ class TestCreateEmail(unittest.TestCase):
                 "html": "Hello world. {{ahuahu.total | format_payment(ahiahi.currency)}} Hohoho."
             },
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
         self.assertEqual(
             res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho.")
         )
@@ -183,7 +187,8 @@ class TestCreateEmail(unittest.TestCase):
         confirmationEmailInfo = dict(
             CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template}
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
 
     def test_create_email_html_template_format_payment_parents_family(self):
         pass
@@ -196,7 +201,8 @@ class TestCreateEmail(unittest.TestCase):
     def test_template_format_date(self):
         self.assertEqual(
             fill_string_from_template(
-                Response(value={"date": "2000-10-10"}), "{{value.date | format_date}}"
+                Response(value={"date": "2000-10-10"}
+                         ), "{{value.date | format_date}}"
             ),
             "Oct 10, 2000",
         )

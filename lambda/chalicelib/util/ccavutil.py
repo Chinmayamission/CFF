@@ -45,7 +45,9 @@ def pad(data):
 
 BS = int(AES.block_size)
 # get unpad function from https://gist.github.com/sandromello/3764308
-unpad = lambda s: s[0 : -ord(s[-1])]
+
+
+def unpad(s): return s[0: -ord(s[-1])]
 
 
 def encrypt(inputDict, workingKey):
@@ -54,7 +56,8 @@ def encrypt(inputDict, workingKey):
     plainText = pad(plainText.encode("utf-8"))
     encDigest = hashlib.md5()  # bytes("text","ascii")
     encDigest.update(workingKey.encode("utf-8"))
-    enc_cipher = AES.new(encDigest.digest(), AES.MODE_CBC, iv.encode("latin-1"))
+    enc_cipher = AES.new(encDigest.digest(), AES.MODE_CBC,
+                         iv.encode("latin-1"))
     encryptedText = enc_cipher.encrypt(plainText)
     return binascii.hexlify(encryptedText).decode("utf-8")
 
@@ -64,6 +67,7 @@ def decrypt(cipherText, workingKey):
     decDigest = hashlib.md5()  # md5.new ()
     decDigest.update(workingKey.encode("utf-8"))
     encryptedText = binascii.unhexlify(cipherText)
-    dec_cipher = AES.new(decDigest.digest(), AES.MODE_CBC, iv.encode("latin-1"))
+    dec_cipher = AES.new(decDigest.digest(), AES.MODE_CBC,
+                         iv.encode("latin-1"))
     decryptedText = dec_cipher.decrypt(encryptedText).decode("utf-8")
     return dict(parse_qsl(unpad(decryptedText)))

@@ -8,7 +8,8 @@ def get_counter(formId):
     with the given form id.
     """
     doc = FormResponseCounter.objects.all()._collection.find_one_and_update(
-        {"_cls": "chalicelib.models.FormResponseCounter", "form": ObjectId(formId)},
+        {"_cls": "chalicelib.models.FormResponseCounter",
+            "form": ObjectId(formId)},
         {"$inc": {"counter": 1}},
         upsert=True,
         return_document=ReturnDocument.AFTER,

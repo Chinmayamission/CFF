@@ -1,3 +1,11 @@
+import datetime
+from pydash.objects import get
+from pynliner import Pynliner
+import json
+import boto3
+from boto3.dynamodb.conditions import Key
+from chalicelib.util import get_all_responses
+from chalicelib.main import TABLES
 """
 python tools/bulkEmail.py
 python -m unittest tools.bibCheckDuplicates
@@ -7,14 +15,6 @@ from chalicelib.util.formSubmit.emailer import display_form_dict, email_to_html_
 import os
 
 os.environ["TABLE_PREFIX"] = "cff_prod"
-from chalicelib.main import TABLES
-from chalicelib.util import get_all_responses
-from boto3.dynamodb.conditions import Key
-import boto3
-import json
-from pynliner import Pynliner
-from pydash.objects import get
-import datetime
 
 formId = "31571110-483c-4b72-b4b8-5b1ce0b9348b"
 

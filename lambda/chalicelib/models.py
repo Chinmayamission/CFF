@@ -50,7 +50,8 @@ class FormOptions(EmbeddedMongoModel):
     successor = fields.DictField(blank=True)
     omitExtraData = fields.BooleanField()
     theme = fields.DictField(blank=True)
-    adminInfo = fields.DictField(blank=True)  # Contains *configuration* for admin_info.
+    # Contains *configuration* for admin_info.
+    adminInfo = fields.DictField(blank=True)
     adminFields = fields.ListField(blank=True)
     postprocess = fields.DictField(blank=True)
     counter = fields.DictField(blank=True)

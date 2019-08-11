@@ -32,7 +32,8 @@ class TestPatchPredicate(unittest.TestCase):
             "type": "patches",
             "value": [[{"op": "replace", "path": "/grade", "value": "D"}]],
         }
-        expected_patches = [[{"op": "replace", "path": "/grade", "value": "D"}]]
+        expected_patches = [
+            [{"op": "replace", "path": "/grade", "value": "D"}]]
         self.assertEqual(convert_to_json_patches(patch), expected_patches)
 
     def test_convert_patch_to_patch(self):
@@ -40,7 +41,8 @@ class TestPatchPredicate(unittest.TestCase):
             "type": "patch",
             "value": [{"op": "replace", "path": "/grade", "value": "D"}],
         }
-        expected_patches = [[{"op": "replace", "path": "/grade", "value": "D"}]]
+        expected_patches = [
+            [{"op": "replace", "path": "/grade", "value": "D"}]]
         self.assertEqual(convert_to_json_patches(patch), expected_patches)
 
     def test_patch_unwind(self):
@@ -70,11 +72,16 @@ class TestPatchPredicate(unittest.TestCase):
         self.assertEqual(patch_predicate(data, patches), expected_data)
 
     def test_walk_simple(self):
-        patches = [{"type": "walk", "items": ["A", "B", "C"], "path": "/grade"}]
-        self.assertEqual(patch_predicate({"grade": "A"}, patches), {"grade": "B"})
-        self.assertEqual(patch_predicate({"grade": "B"}, patches), {"grade": "C"})
-        self.assertEqual(patch_predicate({"grade": "C"}, patches), {"grade": "C"})
-        self.assertEqual(patch_predicate({"grade": "D"}, patches), {"grade": "D"})
+        patches = [{"type": "walk", "items": [
+            "A", "B", "C"], "path": "/grade"}]
+        self.assertEqual(patch_predicate(
+            {"grade": "A"}, patches), {"grade": "B"})
+        self.assertEqual(patch_predicate(
+            {"grade": "B"}, patches), {"grade": "C"})
+        self.assertEqual(patch_predicate(
+            {"grade": "C"}, patches), {"grade": "C"})
+        self.assertEqual(patch_predicate(
+            {"grade": "D"}, patches), {"grade": "D"})
 
     def test_unwind_walk_patch(self):
         input = {
@@ -85,8 +92,10 @@ class TestPatchPredicate(unittest.TestCase):
         }
         data = {"participants": [{"grade": "A"}, {"grade": "B"}]}
         expected = [
-            {"type": "walk", "items": ["A", "B", "C"], "path": "/participants/0/grade"},
-            {"type": "walk", "items": ["A", "B", "C"], "path": "/participants/1/grade"},
+            {"type": "walk", "items": ["A", "B", "C"],
+                "path": "/participants/0/grade"},
+            {"type": "walk", "items": ["A", "B", "C"],
+                "path": "/participants/1/grade"},
         ]
         self.assertEqual(unwind(input, data), expected)
 
@@ -105,7 +114,8 @@ class TestPatchPredicate(unittest.TestCase):
         )
         self.assertEqual(patch_predicate({}, patches), {})
         self.assertEqual(
-            patch_predicate({"participants": []}, patches), {"participants": []}
+            patch_predicate({"participants": []}, patches), {
+                "participants": []}
         )
         self.assertEqual(
             patch_predicate(
@@ -125,7 +135,8 @@ class TestPatchPredicate(unittest.TestCase):
         ]
         self.assertEqual(
             patch_predicate(
-                {"participants": {"A": [{"grade": "A"}, {"grade": "B"}]}}, patches
+                {"participants": {
+                    "A": [{"grade": "A"}, {"grade": "B"}]}}, patches
             ),
             {"participants": {"A": [{"grade": "B"}, {"grade": "C"}]}},
         )

@@ -42,7 +42,8 @@ def form_response_list(formId):
         )
         if search_by_id is not None:
             search_fields = ["_id"]
-        result_limit = get(form.formOptions.dataOptions, "search.resultLimit", 10)
+        result_limit = get(form.formOptions.dataOptions,
+                           "search.resultLimit", 10)
         result_fields = get(
             form.formOptions.dataOptions, "search.resultFields", ["_id"]
         )
@@ -62,7 +63,8 @@ def form_response_list(formId):
                             queryObjectIdStart = ObjectId(
                                 word + "0" * (24 - len(word))
                             )  # fill in zeroes to create object id, e.g. 5cba --> 5cba0000000000000000000
-                            queryObjectIdEnd = ObjectId(word + "e" * (24 - len(word)))
+                            queryObjectIdEnd = ObjectId(
+                                word + "e" * (24 - len(word)))
                             mongo_query["$or"].append(
                                 {
                                     field: {
@@ -108,7 +110,8 @@ def form_response_list(formId):
             for field in result_fields:
                 projection[field] = 1
         responses = (
-            Response.objects.raw(mongo_query).limit(result_limit).project(projection)
+            Response.objects.raw(mongo_query).limit(
+                result_limit).project(projection)
         )
     else:
         app.check_permissions(form, ["Responses_View"])

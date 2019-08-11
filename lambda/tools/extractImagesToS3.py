@@ -1,3 +1,11 @@
+from chalicelib.models import (
+    Response,
+    Form,
+    PaymentTrailItem,
+    PaymentStatusDetailItem,
+    serialize_model,
+)
+from chalicelib.main import app, MODE
 """
 pipenv run python -m unittest tools.extractImagesToS3
 Extracts images and puts them in S3.
@@ -21,16 +29,8 @@ os.environ["DB_NAME"] = "cff_prod"
 os.environ["USER_POOL_ID"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 
-from chalicelib.main import app, MODE
 
 print("MODE", MODE)
-from chalicelib.models import (
-    Response,
-    Form,
-    PaymentTrailItem,
-    PaymentStatusDetailItem,
-    serialize_model,
-)
 
 
 TEST = True

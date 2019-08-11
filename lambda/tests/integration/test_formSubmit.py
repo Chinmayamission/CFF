@@ -104,7 +104,8 @@ class FormSubmit(BaseTestCase):
         }
         self.edit_form(
             self.formId,
-            {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
+            {"schema": {"a": "B"}, "uiSchema": {
+                "a": "B"}, "formOptions": formOptions},
         )
 
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
@@ -146,7 +147,8 @@ class FormSubmit(BaseTestCase):
         }
         self.edit_form(
             self.formId,
-            {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
+            {"schema": {"a": "B"}, "uiSchema": {
+                "a": "B"}, "formOptions": formOptions},
         )
 
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
@@ -188,7 +190,8 @@ class FormSubmit(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{self.formId}",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps({"data": expected_data, "responseId": responseId}),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -233,7 +236,8 @@ class FormSubmit(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{self.formId}",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps({"data": new_data, "responseId": responseId}),
         )
 
@@ -287,10 +291,12 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
-        responseId, submit_res = self.submit_form(formId, {"couponCode": "BLAH"})
+        responseId, submit_res = self.submit_form(
+            formId, {"couponCode": "BLAH"})
         self.assertEqual(submit_res["success"], True)
         self.assertEqual(submit_res["paid"], False)
         self.assertEqual(submit_res["email_sent"], False)
@@ -322,10 +328,12 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
-        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        responseId, submit_res = self.submit_form(
+            formId, {"couponCode": "CODE"})
         self.assertEqual(submit_res["success"], True)
         self.assertEqual(submit_res["paid"], True)
         self.assertEqual(
@@ -359,10 +367,12 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
-        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        responseId, submit_res = self.submit_form(
+            formId, {"couponCode": "CODE"})
         self.assertEqual(submit_res["success"], True)
         self.assertEqual(submit_res["paid"], False)
         self.assertEqual(submit_res["email_sent"], False)
@@ -394,10 +404,12 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
-        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        responseId, submit_res = self.submit_form(
+            formId, {"couponCode": "CODE"})
         self.assertEqual(submit_res["success"], True)
         self.assertEqual(submit_res["paid"], False)
         self.assertEqual(submit_res["email_sent"], False)
@@ -430,10 +442,12 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
-        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        responseId, submit_res = self.submit_form(
+            formId, {"couponCode": "CODE"})
         self.assertEqual(submit_res["success"], False)
         self.assertEqual(submit_res["fields_to_clear"], ["couponCode"])
         self.assertIn("Number of spots remaining: 0", submit_res["message"])
@@ -464,10 +478,12 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
-        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        responseId, submit_res = self.submit_form(
+            formId, {"couponCode": "CODE"})
         self.assertEqual(submit_res["success"], False)
         self.assertEqual(submit_res["fields_to_clear"], ["couponCode"])
         self.assertIn("Number of spots remaining: 0", submit_res["message"])
@@ -498,10 +514,12 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
-        responseId, submit_res = self.submit_form(formId, {"couponCode": "CODE"})
+        responseId, submit_res = self.submit_form(
+            formId, {"couponCode": "CODE"})
         self.assertEqual(submit_res["success"], True)
         self.assertEqual(submit_res["paid"], False)
         self.assertEqual(submit_res["email_sent"], False)
@@ -540,7 +558,8 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
         responseId, submit_res = self.submit_form(
@@ -582,7 +601,8 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
         responseId, submit_res = self.submit_form(
@@ -615,8 +635,10 @@ class FormSubmit(BaseTestCase):
                         "type": "patch",
                         "expr": True,
                         "value": [
-                            {"op": "add", "path": "/custom2", "expr": "participants"},
-                            {"op": "add", "path": "/date1", "expr": "'2000-10-20'"},
+                            {"op": "add", "path": "/custom2",
+                                "expr": "participants"},
+                            {"op": "add", "path": "/date1",
+                                "expr": "'2000-10-20'"},
                         ],
                     },
                     {
@@ -634,7 +656,8 @@ class FormSubmit(BaseTestCase):
             }
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
         responseId, submit_res = self.submit_form(
@@ -666,7 +689,8 @@ class FormSubmit(BaseTestCase):
             "paymentInfo": {"description": "Hello {{value.participants[0]}}!"}
         }
         self.edit_form(
-            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+            formId, {"schema": schema, "uiSchema": uiSchema,
+                     "formOptions": formOptions}
         )
 
         responseId, submit_res = self.submit_form(
@@ -757,7 +781,8 @@ class FormSubmit(BaseTestCase):
         response = self.lg.handle_request(
             method="PATCH",
             path=f"/responses/{responseId}",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         expected_data = copy.deepcopy(ONE_FORMDATA)
@@ -884,7 +909,8 @@ class FormSubmit(BaseTestCase):
         response = self.lg.handle_request(
             method="PATCH",
             path=f"/responses/{responseId}/admin_info",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         expected_data = {"orderId": "123"}

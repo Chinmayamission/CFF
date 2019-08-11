@@ -45,4 +45,5 @@ class FormEdit(unittest.TestCase):
         group_edit(self.formId)
         form = Form.objects.get({"_id": self.formId})
         self.assertEqual(form.name, "Name")
-        self.assertEqual(form.formOptions.dataOptions["groups"], {"new": "new2"})
+        self.assertEqual(
+            form.formOptions.dataOptions["groups"], {"new": "new2"})

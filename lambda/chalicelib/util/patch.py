@@ -77,7 +77,8 @@ def patch_predicate(value, patches):
             json_patch_list = [
                 convert_to_json_patches(p, patched_value) for p in unwind(patch, value)
             ]
-            json_patch_list = itertools.chain(*json_patch_list)  # Flatten list of lists
+            json_patch_list = itertools.chain(
+                *json_patch_list)  # Flatten list of lists
         else:
             json_patch_list = convert_to_json_patches(patch, patched_value)
         for patch in json_patch_list:

@@ -117,7 +117,8 @@ def form_edit_permissions(formId):
         app.check_permissions(form, "owner")
     for i, v in permissions.items():
         if i not in POSSIBLE_PERMISSIONS:
-            raise Exception("Permissions {} is an invalid permission.".format(i))
+            raise Exception(
+                "Permissions {} is an invalid permission.".format(i))
         if type(v) is not bool:
             raise Exception(
                 "Permission {} not formatted correctly; each value should be a boolean.".format(
