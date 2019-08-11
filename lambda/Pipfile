@@ -42,6 +42,7 @@ jsonpointer = "*"
 responses = "*"
 isodate = "*"
 babel = "*"
+black = "==18.9b0"
 
 [dev-packages]
 
