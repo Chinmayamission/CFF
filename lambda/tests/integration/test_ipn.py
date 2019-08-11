@@ -74,8 +74,10 @@ class FormIpn(BaseTestCase):
                 "total": 0.5,
                 "currency": "USD",
                 "items": [
-                    {"name": "a", "description": "b", "amount": 0.25, "quantity": 1},
-                    {"name": "a2", "description": "b2", "amount": 0.25, "quantity": 1},
+                    {"name": "a", "description": "b",
+                        "amount": 0.25, "quantity": 1},
+                    {"name": "a2", "description": "b2",
+                        "amount": 0.25, "quantity": 1},
                 ],
             },
         ).save()
@@ -198,8 +200,10 @@ class FormIpn(BaseTestCase):
                 "total": 0.5,
                 "currency": "USD",
                 "items": [
-                    {"name": "a", "description": "b", "amount": 0.25, "quantity": 1},
-                    {"name": "a2", "description": "b2", "amount": 0.25, "quantity": 1},
+                    {"name": "a", "description": "b",
+                        "amount": 0.25, "quantity": 1},
+                    {"name": "a2", "description": "b2",
+                        "amount": 0.25, "quantity": 1},
                 ],
             },
         ).save()
@@ -289,8 +293,10 @@ class FormIpn(BaseTestCase):
                 "total": 0.5,
                 "currency": "USD",
                 "items": [
-                    {"name": "a", "description": "b", "amount": 0.25, "quantity": 1},
-                    {"name": "a2", "description": "b2", "amount": 0.25, "quantity": 1},
+                    {"name": "a", "description": "b",
+                        "amount": 0.25, "quantity": 1},
+                    {"name": "a2", "description": "b2",
+                        "amount": 0.25, "quantity": 1},
                 ],
             },
         ).save()
@@ -385,8 +391,10 @@ class FormIpn(BaseTestCase):
                 "total": 0.5,
                 "currency": "USD",
                 "items": [
-                    {"name": "a", "description": "b", "amount": 0.25, "quantity": 1},
-                    {"name": "a2", "description": "b2", "amount": 0.25, "quantity": 1},
+                    {"name": "a", "description": "b",
+                        "amount": 0.25, "quantity": 1},
+                    {"name": "a2", "description": "b2",
+                        "amount": 0.25, "quantity": 1},
                 ],
             },
             payment_status_detail=[

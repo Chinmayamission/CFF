@@ -1,3 +1,12 @@
+from chalicelib.models import (
+    Response,
+    Form,
+    PaymentTrailItem,
+    PaymentStatusDetailItem,
+    serialize_model,
+)
+from chalicelib.main import app, MODE
+import csv
 """
 pipenv run python -m unittest tools.getTxnIds
 Gets all unique paypal transaction IDs.
@@ -20,18 +29,9 @@ os.environ["DB_NAME"] = "cff_prod" if PROD else "cff_beta"
 os.environ["USER_POOL_ID"] = ""
 os.environ["S3_UPLOADS_BUCKET_NAME"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
-import csv
 
-from chalicelib.main import app, MODE
 
 print("MODE", MODE)
-from chalicelib.models import (
-    Response,
-    Form,
-    PaymentTrailItem,
-    PaymentStatusDetailItem,
-    serialize_model,
-)
 
 # sanity check -- no one is marked as "not paid" with a zero total.
 # responses = Response.objects.raw({"form": ObjectId(formId), "paid": False, "paymentInfo.total": 0})

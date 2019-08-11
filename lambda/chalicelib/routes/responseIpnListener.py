@@ -76,13 +76,15 @@ def mark_successful_payment(
     )
     if notes is not None:
         payment_trail_kwargs = dict(payment_trail_kwargs, notes=notes)
-        payment_status_detail_kwargs = dict(payment_status_detail_kwargs, notes=notes)
+        payment_status_detail_kwargs = dict(
+            payment_status_detail_kwargs, notes=notes)
     response.payment_trail.append(PaymentTrailItem(**payment_trail_kwargs))
     response.payment_status_detail.append(
         PaymentStatusDetailItem(**payment_status_detail_kwargs)
     )
 
-    response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
+    response.amount_paid = str(
+        float(response.amount_paid or 0) + float(amount))
     update_response_paid_status(response)
     if form.formOptions.confirmationEmailInfo and send_email:
         email_sent = send_confirmation_email(

@@ -90,7 +90,8 @@ def form_response_new(formId):
                 slots_requested = calculate_price(
                     paymentInfoItem.get("couponCodeCount", "1"), response_data
                 )
-                slots_used = form.couponCodes_used.get(paymentInfoItem["couponCode"], 0)
+                slots_used = form.couponCodes_used.get(
+                    paymentInfoItem["couponCode"], 0)
                 slots_available = slots_maximum - slots_used
                 slots_remaining = slots_available - slots_requested
                 if slots_remaining < 0:
@@ -137,14 +138,16 @@ def form_response_new(formId):
             # Take care of this at the end.
             paymentInfoItemsWithTotal.append(paymentInfoItem)
             continue
-        success, error = calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo)
+        success, error = calc_item_total_to_paymentInfo(
+            paymentInfoItem, paymentInfo)
         if success is False:
             return error
 
     # Now take care of items for round off, etc. -- which need the total value to work.
     response_data["total"] = float(paymentInfo["total"])
     for paymentInfoItem in paymentInfoItemsWithTotal:
-        success, error = calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo)
+        success, error = calc_item_total_to_paymentInfo(
+            paymentInfoItem, paymentInfo)
         if success is False:
             return error
 
@@ -188,8 +191,10 @@ def form_response_new(formId):
             response.user = userId
             # Only one response per user.
             try:
-                Response.objects.get({"form": ObjectId(formId), "user": userId})
-                raise Exception(f"Response with userId {userId} already exists!")
+                Response.objects.get(
+                    {"form": ObjectId(formId), "user": userId})
+                raise Exception(
+                    f"Response with userId {userId} already exists!")
             except DoesNotExist:
                 pass
     else:
@@ -237,7 +242,8 @@ def form_response_new(formId):
             and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict)
         ):
             send_confirmation_email(
-                response, get(paymentMethods, "auto_email.confirmationEmailInfo")
+                response, get(paymentMethods,
+                              "auto_email.confirmationEmailInfo")
             )
             email_sent = True
         response.save()

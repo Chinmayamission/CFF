@@ -10,7 +10,8 @@ def confirm_sign_up():
 
     confirmation_code = app.current_request.query_params["code"]
     username = app.current_request.query_params["username"]
-    user = cognito_idp_client.admin_get_user(UserPoolId=USER_POOL_ID, Username=username)
+    user = cognito_idp_client.admin_get_user(
+        UserPoolId=USER_POOL_ID, Username=username)
     redirect_url = "http://chinmayamission.com"
     for attribute in user["UserAttributes"]:
         if attribute["Name"] == "website":

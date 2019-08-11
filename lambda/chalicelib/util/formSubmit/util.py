@@ -34,7 +34,8 @@ def parse_number_formula(data, variable, numeric=True):
         if type(value) is list:
             if key_value_eq:
                 value = len(
-                    [v for v in value if str(v).strip() == key_value_eq.strip()]
+                    [v for v in value if str(
+                        v).strip() == key_value_eq.strip()]
                 )
             else:
                 value = len(value)
@@ -188,7 +189,8 @@ def dict_to_table(dct, options={}, human_readable=True):
     newColumns = []
     for columnOrderItem in columnOrder:
         columnOrderItem = (
-            columnOrderItem.replace("]", ":").replace("[", ":").replace(".", ":")
+            columnOrderItem.replace(
+                "]", ":").replace("[", ":").replace(".", ":")
         )
         possibleColumns = [
             v

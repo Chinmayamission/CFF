@@ -1,3 +1,11 @@
+from chalicelib.models import (
+    Response,
+    Form,
+    PaymentTrailItem,
+    PaymentStatusDetailItem,
+    serialize_model,
+)
+from chalicelib.main import app, MODE
 """
 pipenv run python -m unittest tools.bibNumber
 Renames fields
@@ -23,16 +31,8 @@ os.environ["USER_POOL_ID"] = ""
 os.environ["S3_UPLOADS_BUCKET_NAME"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 
-from chalicelib.main import app, MODE
 
 print("MODE", MODE)
-from chalicelib.models import (
-    Response,
-    Form,
-    PaymentTrailItem,
-    PaymentStatusDetailItem,
-    serialize_model,
-)
 
 BIBS = {"5K": 5713, "10K": 10327, "Half Marathon": 105}
 

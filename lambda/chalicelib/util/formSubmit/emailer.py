@@ -64,7 +64,8 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
 
     emailOptions = dict(
         toEmail=[get(response.value, i) for i in toField],
-        fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
+        fromEmail=confirmationEmailInfo.get(
+            "from", "webmaster@chinmayamission.com"),
         fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
         subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
         bccEmail=confirmationEmailInfo.get("bcc", ""),
@@ -156,5 +157,6 @@ def send_confirmation_email(response, confirmationEmailInfo):
     """ Actually send confirmation email"""
     dct = create_confirmation_email_dict(response, confirmationEmailInfo)
     send_email(**dct)
-    response.email_trail.append(EmailTrailItem(value=dct, date=datetime.datetime.now()))
+    response.email_trail.append(EmailTrailItem(
+        value=dct, date=datetime.datetime.now()))
     return dct

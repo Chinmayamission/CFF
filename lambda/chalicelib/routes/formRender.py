@@ -56,7 +56,8 @@ def form_render_response(formId):
                     }
                 )
                 value = patch_predicate(
-                    response.value, get(form, "formOptions.predicate.patches", [])
+                    response.value, get(
+                        form, "formOptions.predicate.patches", [])
                 )
                 return {
                     "res": {"value": value, "form": predicateFormId},
