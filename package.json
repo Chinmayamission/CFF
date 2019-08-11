@@ -1,6 +1,6 @@
 {
   "name": "ccmt-cff-client",
-  "version": "3.21.3",
+  "version": "3.22.0",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
