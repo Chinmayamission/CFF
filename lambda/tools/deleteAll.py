@@ -24,8 +24,15 @@ os.environ["S3_UPLOADS_BUCKET_NAME"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 
 from chalicelib.main import app, MODE
+
 print("MODE", MODE)
-from chalicelib.models import Response, Form, PaymentTrailItem, PaymentStatusDetailItem, serialize_model
+from chalicelib.models import (
+    Response,
+    Form,
+    PaymentTrailItem,
+    PaymentStatusDetailItem,
+    serialize_model,
+)
 
 responses = Response.objects.raw({"form": ObjectId(formId)})
 

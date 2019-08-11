@@ -12,8 +12,10 @@ from tests.integration.baseTestCase import BaseTestCase
 
 class FormAdmin(BaseTestCase):
     def test_authorize_fail(self):
-        response = self.lg.handle_request(method='POST',
-                                    path=f'/authorize',
-                                    headers={"Content-Type": "application/json"},
-                                    body=json.dumps({"token": "asdasd"}))
-        self.assertEqual(response['statusCode'], 400, response)
+        response = self.lg.handle_request(
+            method="POST",
+            path=f"/authorize",
+            headers={"Content-Type": "application/json"},
+            body=json.dumps({"token": "asdasd"}),
+        )
+        self.assertEqual(response["statusCode"], 400, response)

@@ -19,8 +19,15 @@ os.environ["USER_POOL_ID"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 
 from chalicelib.main import app, MODE
+
 print("MODE", MODE)
-from chalicelib.models import Response, Form, PaymentTrailItem, PaymentStatusDetailItem, serialize_model
+from chalicelib.models import (
+    Response,
+    Form,
+    PaymentTrailItem,
+    PaymentStatusDetailItem,
+    serialize_model,
+)
 
 # responses = Response.objects.raw({"form": ObjectId("5b3b4e7fb1117c0001c138ed")})
 # for response in responses:

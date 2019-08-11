@@ -24,14 +24,17 @@ os.environ["S3_UPLOADS_BUCKET_NAME"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 
 from chalicelib.main import app, MODE
-print("MODE", MODE)
-from chalicelib.models import Response, Form, PaymentTrailItem, PaymentStatusDetailItem, serialize_model
 
-BIBS = {
-    "5K": 5713,
-    "10K": 10327,
-    "Half Marathon": 105
-}
+print("MODE", MODE)
+from chalicelib.models import (
+    Response,
+    Form,
+    PaymentTrailItem,
+    PaymentStatusDetailItem,
+    serialize_model,
+)
+
+BIBS = {"5K": 5713, "10K": 10327, "Half Marathon": 105}
 
 # sanity check -- no one is marked as "not paid" with a zero total.
 # responses = Response.objects.raw({"form": ObjectId(formId), "paid": False, "paymentInfo.total": 0})

@@ -6,31 +6,47 @@ import os
 
 """
 
+
 def lambda_handler(event, context):
-  if event["userPoolId"] != os.environ["USER_POOL_ID"] or event["triggerSource"] != "CustomMessage_SignUp":
-    return event
-  if event["callerContext"]["clientId"]==os.environ["CHINMAYA_ECHOES_CLIENT_ID"]:
-      code = event["request"]["codeParameter"]
-      username = event["request"]["userAttributes"]["sub"]
-      
-      event["response"]["emailSubject"] = "Chinmaya Mission Account - Please verify your account";
-      event["response"]["smsMessage"] = f"Welcome to the service. Your confirmation code is {code}";
-      event["response"]["emailMessage"] = f"""
+    if (
+        event["userPoolId"] != os.environ["USER_POOL_ID"]
+        or event["triggerSource"] != "CustomMessage_SignUp"
+    ):
+        return event
+    if event["callerContext"]["clientId"] == os.environ["CHINMAYA_ECHOES_CLIENT_ID"]:
+        code = event["request"]["codeParameter"]
+        username = event["request"]["userAttributes"]["sub"]
+
+        event["response"][
+            "emailSubject"
+        ] = "Chinmaya Mission Account - Please verify your account"
+        event["response"][
+            "smsMessage"
+        ] = f"Welcome to the service. Your confirmation code is {code}"
+        event["response"][
+            "emailMessage"
+        ] = f"""
           Hari OM,<br>
           Your verification code for ChinmayaEchoes is {code}<br>
           Thanks,<br>
           Chinmaya Mission IT Team
           """
-      return event
-  else:
-      code = event["request"]["codeParameter"]
-      username = event["request"]["userAttributes"]["sub"]
-      url = os.environ["API_ENDPOINT"]
-      link = f"{url}confirmSignUp?code={code}&username={username}"
-      
-      event["response"]["emailSubject"] = "Chinmaya Mission Account - Please verify your account";
-      event["response"]["smsMessage"] = f"Welcome to the service. Your confirmation code is {code}";
-      event["response"]["emailMessage"] = f"""
+        return event
+    else:
+        code = event["request"]["codeParameter"]
+        username = event["request"]["userAttributes"]["sub"]
+        url = os.environ["API_ENDPOINT"]
+        link = f"{url}confirmSignUp?code={code}&username={username}"
+
+        event["response"][
+            "emailSubject"
+        ] = "Chinmaya Mission Account - Please verify your account"
+        event["response"][
+            "smsMessage"
+        ] = f"Welcome to the service. Your confirmation code is {code}"
+        event["response"][
+            "emailMessage"
+        ] = f"""
       Hari OM,<br>
       Please click on the link below to verify your email address.<br><br>
 
@@ -42,4 +58,4 @@ def lambda_handler(event, context):
       Chinmaya Mission IT Team
       
       """
-      return event
+        return event
