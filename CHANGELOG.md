@@ -1,3 +1,11 @@
+## 3.22.0
+- Feat: Create a permission called "Responses_AddPayment" that allows one only to add payments (previously, one had to have "Responses_Edit" permission to do so) (#171)
+- Feat: Add a new UI for sharing functionality using react-select (#171)
+- Feat: For the admin manual payment interface, added a "Notes" field (#171)
+- Feat: Add sticky footer with "Help" link on the admin page (#166)
+
+- Fix: When submitting a manual payment through the admin interface, default the "send confirmation email" button to false (#171)
+
 ## 3.21.3
 - Fix: Make sure paypal IPN handler doesn't crash when no txn_id field is defined.
 - Fix: better IPN error message when emails don't match.
