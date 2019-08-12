@@ -15,7 +15,7 @@ def form_create():
     
     # todo: multiple orgs?
     org = Org.objects.get({})
-    app.check_permissions(org, ["Org_FormsCreate"])
+    app.check_permissions(org, ["Orgs_FormsCreate"])
 
     if request_body.get("formId", None):
         # todo: add permissions check on forms -- some forms should not be able to be duplicated.

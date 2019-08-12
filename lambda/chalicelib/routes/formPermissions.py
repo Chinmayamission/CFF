@@ -16,6 +16,7 @@ POSSIBLE_PERMISSIONS = [
     "Forms_Edit",
     "Forms_PermissionsView",
     "Forms_PermissionsEdit",
+    "Orgs_FormsCreate",
 ]  # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
 
 
