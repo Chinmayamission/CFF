@@ -1,7 +1,11 @@
 """
 pipenv run python -m unittest tests.unit.test_email
 """
-from chalicelib.util.formSubmit.emailer import create_confirmation_email_dict, fill_string_from_template
+from chalicelib.util.formSubmit.emailer import (
+    create_confirmation_email_dict,
+    fill_string_from_template,
+)
+
 # import tests.config
 from tests.integration.constants import _
 import unittest
@@ -19,15 +23,17 @@ CONFIRMATION_EMAIL_INFO = {
     "toField": "email",
     "fromName": "Test",
     "from": "ccmt.dev@gmail.com",
-    "message": "Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018."
+    "message": "Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.",
 }
 
 CONFIRMATION_EMAIL_INFO_TEMPLATE = {
-    "template": {"html": "<h1>Action Needed:</h1><h2>2018 Jagadeeshwara Mandir Suvarna Mahotsava Yajman Sponsorship Form</h2>Thank you for registration. As per Government of India FCRA guideliness CCMT is required to keep proof of Identity of the donor and hence we request you to send a copy of your passport to CCMT CFO abc.def@chinmayamission.com, copied on this email.<br> <table>{% for key, val in value.items() %}<tr><th>{{key}}</th><td>{{val}}</td></tr>{% endfor %}</table><br> <table><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr> <tr>{% for item in paymentInfo.values() %}<td>{{item.name}}</td><td>{{item.description}}</td><td>{{item.quantity}}</td>{{item.amount}}{% endfor %}</table>"},
+    "template": {
+        "html": "<h1>Action Needed:</h1><h2>2018 Jagadeeshwara Mandir Suvarna Mahotsava Yajman Sponsorship Form</h2>Thank you for registration. As per Government of India FCRA guideliness CCMT is required to keep proof of Identity of the donor and hence we request you to send a copy of your passport to CCMT CFO abc.def@chinmayamission.com, copied on this email.<br> <table>{% for key, val in value.items() %}<tr><th>{{key}}</th><td>{{val}}</td></tr>{% endfor %}</table><br> <table><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr> <tr>{% for item in paymentInfo.values() %}<td>{{item.name}}</td><td>{{item.description}}</td><td>{{item.quantity}}</td>{{item.amount}}{% endfor %}</table>"
+    },
     "subject": "CFF Unit Testing Form\n Confirmation",
     "toField": "email",
     "fromName": "Test",
-    "from": "ccmt.dev@gmail.com"
+    "from": "ccmt.dev@gmail.com",
 }
 
 # with open(os.path.dirname(os.path.realpath(__file__)) + '/test.html', 'r') as myfile:
@@ -38,48 +44,51 @@ CONFIRMATION_EMAIL_INFO_TEMPLATE = {
 TO_EMAIL = "success@simulator.amazonses.com"
 
 RESPONSE = {
-    #"value": {"email": TO_EMAIL, "contact_name": {"first": "ashwin", "last": "ramaswami"}, "address": "abc defg"},
+    # "value": {"email": TO_EMAIL, "contact_name": {"first": "ashwin", "last": "ramaswami"}, "address": "abc defg"},
     "value": {"email": TO_EMAIL},
     "paymentInfo": {
-      "currency": "USD",
-      "total": 500,
-      "redirectUrl": "onions",
-      "items": [
-        {
-          "name": "name",
-          "description": "description",
-          "quantity": 1,
-          "amount": 12.00
-        }
-      ]
-    }
+        "currency": "USD",
+        "total": 500,
+        "redirectUrl": "onions",
+        "items": [
+            {
+                "name": "name",
+                "description": "description",
+                "quantity": 1,
+                "amount": 12.00,
+            }
+        ],
+    },
 }
 
 EXPECTED_RES = {
-    'toEmail': ['success@simulator.amazonses.com'],
-    'fromEmail': 'ccmt.dev@gmail.com',
-    'fromName': 'Test',
-    'subject': 'CFF Unit Testing Form\n Confirmation',
-    'bccEmail': '',
-    'ccEmail': None,
-    'addCSS': True,
-    'msgBody': "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"
+    "toEmail": ["success@simulator.amazonses.com"],
+    "fromEmail": "ccmt.dev@gmail.com",
+    "fromName": "Test",
+    "subject": "CFF Unit Testing Form\n Confirmation",
+    "bccEmail": "",
+    "ccEmail": None,
+    "addCSS": True,
+    "msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>",
 }
 
 EXPECTED_RES_TEMPLATE = {
-    'toEmail': ['success@simulator.amazonses.com'],
-    'fromEmail': 'ccmt.dev@gmail.com',
-    'fromName': 'Test',
-    'subject': 'CFF Unit Testing Form\n Confirmation',
-    'bccEmail': '',
-    'ccEmail': '',
-    "msgBody": "<h1>Action Needed:</h1><h2>2018 Jagadeeshwara Mandir Suvarna Mahotsava Yajman Sponsorship Form</h2>Thank you for registration. As per Government of India FCRA guideliness CCMT is required to keep proof of Identity of the donor and hence we request you to send a copy of your passport to CCMT CFO abc.def@chinmayamission.com, copied on this email.<br> <table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br> <table><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr> <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></table>"
+    "toEmail": ["success@simulator.amazonses.com"],
+    "fromEmail": "ccmt.dev@gmail.com",
+    "fromName": "Test",
+    "subject": "CFF Unit Testing Form\n Confirmation",
+    "bccEmail": "",
+    "ccEmail": "",
+    "msgBody": "<h1>Action Needed:</h1><h2>2018 Jagadeeshwara Mandir Suvarna Mahotsava Yajman Sponsorship Form</h2>Thank you for registration. As per Government of India FCRA guideliness CCMT is required to keep proof of Identity of the donor and hence we request you to send a copy of your passport to CCMT CFO abc.def@chinmayamission.com, copied on this email.<br> <table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br> <table><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr> <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></table>",
 }
+
 
 class TestCreateEmail(unittest.TestCase):
     maxDiff = None
+
     def setUp(self):
         self.response = Response(**RESPONSE)
+
     def test_create_email_paymentInfo_undefined(self):
         pass
         # send_confirmation_email({"value": {"email": TO_EMAIL}}, CONFIRMATION_EMAIL_INFO)
@@ -87,7 +96,7 @@ class TestCreateEmail(unittest.TestCase):
     # def test_create_email_success(self):
     #     res = create_confirmation_email_dict(self.response, CONFIRMATION_EMAIL_INFO)
     #     self.assertEqual(res, EXPECTED_RES)
-    
+
     # def test_create_email_multiple_one_email_not_found(self):
     #     """ One email will be None -- it should not include this email here."""
     #     confirmationEmailInfo = dict(
@@ -106,13 +115,13 @@ class TestCreateEmail(unittest.TestCase):
     #     confirmationEmailInfo = dict(
     #         CONFIRMATION_EMAIL_INFO, **{"totalAmountText": "CUSTOMCUSTOM"})
     #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": EXPECTED_RES["msgBody"].replace("Total Amount", "CUSTOMCUSTOM")}))    
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": EXPECTED_RES["msgBody"].replace("Total Amount", "CUSTOMCUSTOM")}))
 
     # def test_create_email_show_response_false(self):
     #     confirmationEmailInfo = dict(
     #         CONFIRMATION_EMAIL_INFO, **{"showResponse": False})
     #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))    
+    #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
 
     # def test_create_email_table_column_order(self):
     #     confirmationEmailInfo = dict(
@@ -127,29 +136,60 @@ class TestCreateEmail(unittest.TestCase):
     #     self.response.value = {"participants": [{"name": {"first": "Ashwin"}, "age": 12}], "email": TO_EMAIL, "email2": TO_EMAIL}
     #     res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
     #     self.assertEqual(res, dict(EXPECTED_RES, **{"msgBody": "<h1>CFF Unit Testing Form\n Confirmation</h1><img class='mainImage' src='http://omrun.cmsj.org/wp-content/uploads/2017/01/cropped-Om-run-512px.png' />Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.<br><br><table><tr><th>participant 1 name: first</th><td>Ashwin</td></tr><tr><th>participant 1 age</th><td>12</td></tr><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br><br><table class=paymentInfoTable><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr><tr><td>name</td><td>description</td><td>$12.00</td><td>1</td></tr></table><br><br><h2>Total Amount: $500.00</h2>"}))
-    
+
     def test_create_email_html_template(self):
-        res = create_confirmation_email_dict(self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE)
+        res = create_confirmation_email_dict(
+            self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE
+        )
         self.assertEqual(res, EXPECTED_RES_TEMPLATE)
-    
+
     def test_create_email_html_template_with_undefined(self):
-        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": "Hello world. {{undef}}{{undef.undef}}Hohoho."})
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. Hohoho."))
+        confirmationEmailInfo = dict(
+            CONFIRMATION_EMAIL_INFO_TEMPLATE,
+            template={"html": "Hello world. {{undef}}{{undef.undef}}Hohoho."},
+        )
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
+        self.assertEqual(
+            res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. Hohoho.")
+        )
 
     def test_create_email_html_template_format_payment_filter(self):
-        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": "Hello world. {{paymentInfo.total | format_payment(paymentInfo.currency)}} Hohoho."})
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. $500.00 Hohoho."))
+        confirmationEmailInfo = dict(
+            CONFIRMATION_EMAIL_INFO_TEMPLATE,
+            template={
+                "html": "Hello world. {{paymentInfo.total | format_payment(paymentInfo.currency)}} Hohoho."
+            },
+        )
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
+        self.assertEqual(
+            res, dict(EXPECTED_RES_TEMPLATE,
+                      msgBody="Hello world. $500.00 Hohoho.")
+        )
+
     def test_create_email_html_template_format_payment_filter_with_undefined(self):
-        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": "Hello world. {{ahuahu.total | format_payment(ahiahi.currency)}} Hohoho."})
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
-        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho."))
+        confirmationEmailInfo = dict(
+            CONFIRMATION_EMAIL_INFO_TEMPLATE,
+            template={
+                "html": "Hello world. {{ahuahu.total | format_payment(ahiahi.currency)}} Hohoho."
+            },
+        )
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
+        self.assertEqual(
+            res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho.")
+        )
+
     def test_email_html_template_true_false(self):
         # todo fix
         template = "<div style='width: 100%;background-color: #eee; margin: 10px 0px;'> <div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'> <img src='https://d1dyr7ljeznkdv.cloudfront.net/cff.chinmayamission.com/Ramdoot%20banner.png' width='100%'> <div style='float: left'> CHINMAYA RAMDOOT CMTC </div> <div style='float: left'> Tax ID: </div> <br style='clear: both'> <br> <br> <br> Hari OM,<br><br> Thank you for supporting Chinmaya Ramdoot with your generous donation. <table style='border: 1px solid black; margin: 10px; padding: 10px;'> <tr> <td>CMTC<br>Chinmaya Ramdoot</td> <td>{{paymentInfo.total | format_payment(paymentInfo.currency)}} {% if value['Pariwar'] %}(monthly donation){% endif %} </td> </tr> </table> <br> <br> With Prem & OM,<br> Ramdoot Sevaks </div> </div>"
-        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template})
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        confirmationEmailInfo = dict(
+            CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template}
+        )
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
+
     def test_create_email_html_template_format_payment_parents_family(self):
         pass
         # response = self.response
@@ -157,5 +197,12 @@ class TestCreateEmail(unittest.TestCase):
         # confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template})
         # res = create_confirmation_email_dict(response, confirmationEmailInfo)
         # self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho."), res)
+
     def test_template_format_date(self):
-        self.assertEqual(fill_string_from_template(Response(value={"date": "2000-10-10"}), "{{value.date | format_date}}"), "Oct 10, 2000")
+        self.assertEqual(
+            fill_string_from_template(
+                Response(value={"date": "2000-10-10"}
+                         ), "{{value.date | format_date}}"
+            ),
+            "Oct 10, 2000",
+        )

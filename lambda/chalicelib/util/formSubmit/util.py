@@ -12,6 +12,7 @@ DELIM_VALUE = "D34hSK"
 SPACE_VALUE = "ASIDJa"
 DOT_VALUE = "DOTDOT123"
 
+
 def parse_number_formula(data, variable, numeric=True):
     """
     >>> parse_number_formula({"A": 12}, "A")
@@ -32,11 +33,14 @@ def parse_number_formula(data, variable, numeric=True):
             return 0
         if type(value) is list:
             if key_value_eq:
-                value = len([v for v in value if str(v).strip() == key_value_eq.strip()])
+                value = len(
+                    [v for v in value if str(
+                        v).strip() == key_value_eq.strip()]
+                )
             else:
                 value = len(value)
         if key_value_eq and type(value) is str:
-            value = (value.strip() == key_value_eq.strip())
+            value = value.strip() == key_value_eq.strip()
         if isinstance(value, bool):
             value = 1 if value is True else 0
         if not isinstance(value, (int, float)):
@@ -45,7 +49,8 @@ def parse_number_formula(data, variable, numeric=True):
     else:
         return copy.deepcopy(value) or 0
 
-def dict_array_to_sum_dict(original, key_value_eq = None):
+
+def dict_array_to_sum_dict(original, key_value_eq=None):
     """
     >>> dict_array_to_sum_dict([{"a":2, "b":5}, {"a":1, "b":6}]) 
     {'a': 3.0, 'b': 11.0}
@@ -53,7 +58,7 @@ def dict_array_to_sum_dict(original, key_value_eq = None):
     {'a': 2.0}
     >>> dict_array_to_sum_dict([{"a":"one"}, {"a":"two"}, {"a":"one"}], "zero") 
     {}
-    """"""
+    """ """
     Converts array of dictionaries to a single dictionary consisting of the sum.
     """
     dct = defaultdict(float)
@@ -63,9 +68,10 @@ def dict_array_to_sum_dict(original, key_value_eq = None):
                 dct[k] += 1
             elif isinstance(v, (int, float)) and key_value_eq is None:
                 dct[k] += float(v)
-            #elif not key_value_eq and v: #count number of occurrences of a string.
+            # elif not key_value_eq and v: #count number of occurrences of a string.
             #    dct[k] += 1
     return dict(dct)
+
 
 def deep_access_list(x, keylist, key_value_eq=None):
     """
@@ -89,12 +95,14 @@ def deep_access_list(x, keylist, key_value_eq=None):
             val = val.get(key, 0) if hasattr(val, "get") else 0
     return val
 
+
 def deep_access(x, keylist):
     """Access an arbitrary nested part of dictionary x using keylist."""
     val = x
     for key in keylist:
         val = val.get(key, 0)
-    return val 
+    return val
+
 
 def calculate_price(expressionString, data, numeric=True):
     """Calculates price based on the expression. 
@@ -104,6 +112,7 @@ def calculate_price(expressionString, data, numeric=True):
 
     """
     from .defaultContext import DEFAULT_CONTEXT
+
     if ":" in expressionString:
         expressionString = expressionString.replace(":", DELIM_VALUE)
     expressionString = expressionString.replace("$", "")
@@ -114,9 +123,13 @@ def calculate_price(expressionString, data, numeric=True):
         escapedVariable = variable.replace(".", DOT_VALUE)
         if escapedVariable.startswith("CFF_FULL_"):
             _, actual_variable = escapedVariable.split("CFF_FULL_")
-            context[escapedVariable] = parse_number_formula(data, actual_variable.replace(DOT_VALUE, "."), False)
+            context[escapedVariable] = parse_number_formula(
+                data, actual_variable.replace(DOT_VALUE, "."), False
+            )
         else:
-            context[escapedVariable] = parse_number_formula(data, escapedVariable.replace(DOT_VALUE, "."))
+            context[escapedVariable] = parse_number_formula(
+                data, escapedVariable.replace(DOT_VALUE, ".")
+            )
         expressionString = expressionString.replace(variable, escapedVariable)
     context = dict(context, **DEFAULT_CONTEXT)
     price = parser.parse(expressionString).evaluate(context)
@@ -124,8 +137,10 @@ def calculate_price(expressionString, data, numeric=True):
         return price
     return ceil(float(price) * 100) / 100
 
-def format_payment(total, currency='USD'):
-    if total is None or total is "": return ""
+
+def format_payment(total, currency="USD"):
+    if total is None or total is "":
+        return ""
     total = float(total)
     if currency == "USD":
         return "${:,.2f}".format(total)
@@ -133,13 +148,18 @@ def format_payment(total, currency='USD'):
         return "₹{:,.2f}".format(total)
     return "{} {:,.2f}".format(currency, total)
 
+
 def format_date(datestr):
     """Formates datestring of form YYYY-MM-DD to a locale-friendly datestring."""
     d = datetime.strptime(datestr, "%Y-%m-%d")
-    return babel.dates.format_date(d, locale='en')
-    
+    return babel.dates.format_date(d, locale="en")
+
+
 def format_paymentInfo(paymentInfo):
-    return format_payment(paymentInfo.get("total", "N/A"), paymentInfo.get("currency", "USD"))
+    return format_payment(
+        paymentInfo.get("total", "N/A"), paymentInfo.get("currency", "USD")
+    )
+
 
 def human_readable_key(key, delimiter=":"):
     """
@@ -151,10 +171,15 @@ def human_readable_key(key, delimiter=":"):
     """Makes a delimited key human-readable."""
     key = key.replace("_", " ")
     delimiter = re.escape(delimiter)
-    key = re.sub(r's?{0}(\d+){0}?'.format(delimiter), lambda x: " " + str(int(x.group(1)) + 1) + " ", key)
+    key = re.sub(
+        r"s?{0}(\d+){0}?".format(delimiter),
+        lambda x: " " + str(int(x.group(1)) + 1) + " ",
+        key,
+    )
     key = re.sub(delimiter, ": ", key)
     key = key.title()
     return key
+
 
 def dict_to_table(dct, options={}, human_readable=True):
     flat = flatdict.FlatterDict(dct)
@@ -163,8 +188,15 @@ def dict_to_table(dct, options={}, human_readable=True):
     remainingColumns = set(v for v in flat.keys())
     newColumns = []
     for columnOrderItem in columnOrder:
-        columnOrderItem = columnOrderItem.replace("]", ":").replace("[", ":").replace(".", ":")
-        possibleColumns = [v for v in remainingColumns if v == columnOrderItem or v.startswith(columnOrderItem + ":")]
+        columnOrderItem = (
+            columnOrderItem.replace(
+                "]", ":").replace("[", ":").replace(".", ":")
+        )
+        possibleColumns = [
+            v
+            for v in remainingColumns
+            if v == columnOrderItem or v.startswith(columnOrderItem + ":")
+        ]
         if len(possibleColumns) > 0:
             newColumns += sorted(possibleColumns)
             remainingColumns -= set(possibleColumns)
@@ -172,10 +204,12 @@ def dict_to_table(dct, options={}, human_readable=True):
         newColumns = sorted(remainingColumns)
     for key in newColumns:
         value = flat[key]
-        if human_readable: key = human_readable_key(key)
+        if human_readable:
+            key = human_readable_key(key)
         table += "<tr><th>{}</th><td>{}</td></tr>".format(key, value)
     table += "</table>"
     return table
+
 
 def display_form_dict(dct, options={}):
     return dict_to_table(dct, options=options)

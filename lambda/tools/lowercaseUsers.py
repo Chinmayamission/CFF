@@ -15,7 +15,8 @@ import time
 TEST = True
 client = boto3.client("cognito-idp")
 # pool = "us-east-1_U9ls8R6E3" # beta
-pool = "us-east-1_kcpcLxLzn" # prod
+pool = "us-east-1_kcpcLxLzn"  # prod
+
 
 def do_stuff():
     i = 1
@@ -26,9 +27,15 @@ def do_stuff():
     while first or paginationToken:
         first = False
         if paginationToken:
-            response = client.list_users(UserPoolId=pool, AttributesToGet=["email", "email_verified"], PaginationToken=paginationToken)
+            response = client.list_users(
+                UserPoolId=pool,
+                AttributesToGet=["email", "email_verified"],
+                PaginationToken=paginationToken,
+            )
         else:
-            response = client.list_users(UserPoolId=pool, AttributesToGet=["email", "email_verified"])
+            response = client.list_users(
+                UserPoolId=pool, AttributesToGet=["email", "email_verified"]
+            )
         paginationToken = response.get("PaginationToken", None)
         users = response["Users"]
         print(f"PG token {paginationToken}")
@@ -48,25 +55,22 @@ def do_stuff():
                 raise Exception(f"Email or email verified is none for {user}")
 
             if email != email.lower():
-                print(f"{i}. Changing email from {email} to {email.lower()}. Email verified is {email_verified}")
+                print(
+                    f"{i}. Changing email from {email} to {email.lower()}. Email verified is {email_verified}"
+                )
                 if not TEST:
                     client.admin_update_user_attributes(
                         UserPoolId=pool,
                         Username=user,
                         UserAttributes=[
-                            {
-                                'Name': 'email',
-                                'Value': email.lower()
-                            },
-                            {
-                                'Name': 'email_verified',
-                                'Value': email_verified
-                            }
-                        ]
+                            {"Name": "email", "Value": email.lower()},
+                            {"Name": "email_verified", "Value": email_verified},
+                        ],
                     )
             else:
                 print(f"{i}. Email {email} is already good.")
             i += 1
     return emails
+
 
 res = do_stuff()
