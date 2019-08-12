@@ -42,6 +42,7 @@ jsonpointer = "*"
 responses = "*"
 isodate = "*"
 babel = "*"
+dnspython = "*"
 
 [dev-packages]
 
