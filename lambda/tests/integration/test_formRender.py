@@ -33,7 +33,7 @@ class FormRender(BaseTestCase):
         self.assertEqual(body["res"]["_id"]["$oid"], self.formId)
 
     def test_render_form_with_response_new_user(self):
-        self.userId = os.environ["DEV_COGNITO_IDENTITY_ID"]
+        self.userId = app.get_current_user_id()
         try:
             user = User.objects.get({"id": self.userId})
             user.delete()

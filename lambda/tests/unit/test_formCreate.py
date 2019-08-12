@@ -4,17 +4,26 @@ pipenv run python -m unittest tests.unit.test_formCreate
 import unittest
 from tests.integration.constants import _
 from app import app
-from chalicelib.models import Response, User, Form, FormOptions
+from chalicelib.models import Response, User, Form, FormOptions, Org
 from chalicelib.routes import form_create
 from unittest.mock import MagicMock
 from bson.objectid import ObjectId
 import datetime
+from pymodm.errors import DoesNotExist
 
+def create_org(userId):
+    try:
+        org = Org.objects.get({})
+    except DoesNotExist:
+        org = Org().save()
+    org.cff_permissions = {userId: {"Orgs_FormsCreate": True} }
+    org.save()
 
 class FormCreate(unittest.TestCase):
     def setUp(self):
         app.current_request = MagicMock()
         app.current_request.context = {"authorizer": {"id": "userid"}}
+        create_org(app.get_current_user_id())
 
     def test_form_create_blank(self):
         app.current_request.json_body = {
