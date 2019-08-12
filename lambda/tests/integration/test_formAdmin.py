@@ -51,8 +51,7 @@ class FormAdmin(BaseTestCase):
         formId = self.create_form()
         NEW_NAME = "New name for form"
         NEW_SCHEMA = {"Schema 2": "blah"}
-        edit_response = self.edit_form(
-            formId, {"name": NEW_NAME, "schema": NEW_SCHEMA})
+        edit_response = self.edit_form(formId, {"name": NEW_NAME, "schema": NEW_SCHEMA})
         self.assertEqual(edit_response["updated_values"]["name"], NEW_NAME)
         self.assertEqual(edit_response["updated_values"]["schema"], NEW_SCHEMA)
         form = self.render_form(formId)

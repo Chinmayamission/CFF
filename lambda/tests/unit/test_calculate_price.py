@@ -13,8 +13,7 @@ class TestCalculatePrice(unittest.TestCase):
         self.assertEqual(price, 12.0)
 
     def test_array_length(self):
-        price = calculate_price("participants * 25",
-                                {"participants": [1, 2, 3]})
+        price = calculate_price("participants * 25", {"participants": [1, 2, 3]})
         self.assertEqual(price, 75.0)
 
     @unittest.skip("not working")
@@ -23,8 +22,7 @@ class TestCalculatePrice(unittest.TestCase):
         self.assertEqual(price, 75.0)
 
     def test_nested_value(self):
-        price = calculate_price("participant.x * 25",
-                                {"participant": {"x": 2}})
+        price = calculate_price("participant.x * 25", {"participant": {"x": 2}})
         self.assertEqual(price, 50.0)
 
     def test_nested_value_return_zero_when_undefined(self):
@@ -123,13 +121,11 @@ class TestCalculatePrice(unittest.TestCase):
     @unittest.skip("spaces not supported")
     def test_equality_strings(self):
         price = calculate_price(
-            "age < 13 and race:'Half Marathon'==1", {
-                "age": 12, "race": "Half Marathon"}
+            "age < 13 and race:'Half Marathon'==1", {"age": 12, "race": "Half Marathon"}
         )
         self.assertEqual(price, True)
         price = calculate_price(
-            "age < 13 and race:'Half Marathon'==1", {
-                "age": 12, "race": "Full Marathon"}
+            "age < 13 and race:'Half Marathon'==1", {"age": 12, "race": "Full Marathon"}
         )
         self.assertEqual(price, False)
 
@@ -217,13 +213,11 @@ class TestCalculatePrice(unittest.TestCase):
         with mock.patch("datetime.date") as mock_date:
             mock_date.today.return_value = date(2011, 7, 3)
             mock_date.side_effect = lambda *args, **kw: date(*args, **kw)
-            self.assertEqual(calculate_price(
-                "cff_today()", {}, False), "2011-07-03")
+            self.assertEqual(calculate_price("cff_today()", {}, False), "2011-07-03")
 
     def test_add_duration(self):
         self.assertEqual(
-            calculate_price(
-                "cff_addDuration(CFF_FULL_none, CFF_FULL_none)", {}, False),
+            calculate_price("cff_addDuration(CFF_FULL_none, CFF_FULL_none)", {}, False),
             None,
         )
         self.assertEqual(
@@ -261,21 +255,18 @@ class TestCalculatePrice(unittest.TestCase):
         )
         self.assertEqual(
             calculate_price(
-                "cff_nthOfNextMonth(CFF_FULL_day, 7)", {
-                    "day": "2000-01-01"}, False
+                "cff_nthOfNextMonth(CFF_FULL_day, 7)", {"day": "2000-01-01"}, False
             ),
             "2000-02-07",
         )
 
     def test_nthOfNextMonth_maxDayDiff(self):
         self.assertEqual(
-            calculate_price(
-                "cff_nthOfNextMonth('2000-01-31', 7, 30)", {}, False),
+            calculate_price("cff_nthOfNextMonth('2000-01-31', 7, 30)", {}, False),
             "2000-03-07",
         )
         self.assertEqual(
-            calculate_price(
-                "cff_nthOfNextMonth('2000-01-31', 7, 1)", {}, False),
+            calculate_price("cff_nthOfNextMonth('2000-01-31', 7, 1)", {}, False),
             "2000-02-07",
         )
 

@@ -12,7 +12,9 @@ def aggregate(data, options):
             if type(aggregateCol) is str:
                 aggregateColName, aggregateColDisplayName = aggregateCol, aggregateCol
 
-                def filterFunc(x): return len(x)
+                def filterFunc(x):
+                    return len(x)
+
             elif "colName" in aggregateCol and "filter" in aggregateCol:
                 filterKey, filterValues = "", ""
                 filterItem = aggregateCol["filter"]
@@ -25,9 +27,11 @@ def aggregate(data, options):
                     "title", ""
                 ) or "{}-{}-{}".format(aggregateCol["colName"], filterKey, filterValues)
 
-                def filterFunc(x): return sum(
-                    1 if get(xi, filterKey) in filterValues else 0 for xi in x
-                )
+                def filterFunc(x):
+                    return sum(
+                        1 if get(xi, filterKey) in filterValues else 0 for xi in x
+                    )
+
             else:
                 continue
             finalData[aggregateColDisplayName] = {
@@ -42,12 +46,10 @@ def aggregate(data, options):
 
 def aggregate_data(dataOptions, responses):
     if "mainTable" in dataOptions and dataOptions["mainTable"]:
-        dataOptions["mainTable"] = aggregate(
-            responses, dataOptions["mainTable"])
+        dataOptions["mainTable"] = aggregate(responses, dataOptions["mainTable"])
     if "unwindTables" in dataOptions:
         for unwindCol in dataOptions["unwindTables"]:
-            unwoundRes = [get(response["value"], unwindCol)
-                          for response in responses]
+            unwoundRes = [get(response["value"], unwindCol) for response in responses]
             unwoundRes = compact(flatten(unwoundRes))
             dataOptions["unwindTables"][unwindCol] = aggregate(
                 unwoundRes, dataOptions["unwindTables"][unwindCol]

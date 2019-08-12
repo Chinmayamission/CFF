@@ -1,5 +1,6 @@
 from chalicelib.models import Response, serialize_model
 import app
+
 """
 AWS_PROFILE=ashwin-cff-lambda pipenv run python -m unittest tools.findDeletedUsers
 Lowercases users
@@ -47,8 +48,7 @@ def do_stuff():
         subs += [u["Username"] for u in response["Users"]]
         paginationToken = response.get("PaginationToken", None)
     print(subs)
-    response = Response.objects.raw(
-        {"user": {"$exists": 1}}).project({"user": 1})
+    response = Response.objects.raw({"user": {"$exists": 1}}).project({"user": 1})
     for r in response:
         _, user = r.user.split("cm:cognitoUserPool:")
         if user not in subs:

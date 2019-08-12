@@ -14,8 +14,7 @@ def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
 
     config = CCAvenueConfig.objects.get({"merchant_id": merchant_id})
     if not config:
-        raise Exception(
-            f"CCAvenue config not found for merchant id: {merchant_id}.")
+        raise Exception(f"CCAvenue config not found for merchant id: {merchant_id}.")
 
     """en - English
   hi - Hindi
@@ -29,8 +28,7 @@ def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
         "order_id": orderId,
         "currency": response.paymentInfo["currency"],
         "amount": str(
-            Decimal(response.paymentInfo["total"]) -
-            Decimal(response.amount_paid)
+            Decimal(response.paymentInfo["total"]) - Decimal(response.amount_paid)
         ),
         "redirect_url": app.get_url(f"responses/{responseId}/ccavenueResponseHandler"),
         "cancel_url": "http://www.chinmayamission.com",  # todo: fix this.
@@ -68,8 +66,7 @@ def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
     # "integration_type": "test",
     # "promo_code": "test",
     # "customer_identifier": "test"
-    ccavenuePaymentMethodInfo["encRequest"] = encrypt(
-        data, config.SECRET_working_key)
+    ccavenuePaymentMethodInfo["encRequest"] = encrypt(data, config.SECRET_working_key)
     ccavenuePaymentMethodInfo["access_code"] = config.access_code
     ccavenuePaymentMethodInfo["merchant_id"] = merchant_id
     return ccavenuePaymentMethodInfo

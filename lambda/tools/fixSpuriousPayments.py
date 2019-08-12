@@ -6,6 +6,7 @@ from chalicelib.models import (
     serialize_model,
 )
 from chalicelib.main import app, MODE
+
 """
 pipenv run python -m unittest tools.fixSpuriousPayments
 Removes spurious payments caused by incorrect initialization of lists (problem itself fixed by v2.1.6).
@@ -69,8 +70,7 @@ def fix_data():
                 ]
                 print("old", len(response.payment_status_detail))
                 assert payment_status_detail_item.method == "paypal_ipn"
-                assert payment_status_detail_item.amount == str(
-                    item.value["mc_gross"])
+                assert payment_status_detail_item.amount == str(item.value["mc_gross"])
                 assert (
                     payment_status_detail_item.id == None
                     or payment_status_detail_item.id == item.value["txn_id"]
@@ -88,8 +88,7 @@ def fix_data():
                 )
                 if response.paid == True and response.paymentInfo.get("total", 0) > 0:
                     assert len(response.payment_trail) > 1
-                indexes_to_delete.append(
-                    [idx_payment_trail, idx_payment_status_detail])
+                indexes_to_delete.append([idx_payment_trail, idx_payment_status_detail])
                 print("new", len(response.payment_status_detail))
 
             i += 1
@@ -124,8 +123,7 @@ def fix_txn_ids():
                     idx_payment_status_detail
                 ]
                 assert payment_status_detail_item.method == "paypal_ipn"
-                assert payment_status_detail_item.amount == str(
-                    item.value["mc_gross"])
+                assert payment_status_detail_item.amount == str(item.value["mc_gross"])
 
                 if payment_status_detail_item.id == None:
                     payment_status_detail_item.id = item.value["txn_id"]
@@ -141,8 +139,7 @@ def fix_txn_ids():
 with open("input-prod.txt", "w+") as file:
     file.writelines(
         [
-            json.dumps(serialize_model(response),
-                       indent=4, sort_keys=True) + "\n"
+            json.dumps(serialize_model(response), indent=4, sort_keys=True) + "\n"
             for response in responses
         ]
     )
@@ -153,8 +150,7 @@ fix_txn_ids()
 with open("output-prod.txt", "w+") as file:
     file.writelines(
         [
-            json.dumps(serialize_model(response),
-                       indent=4, sort_keys=True) + "\n"
+            json.dumps(serialize_model(response), indent=4, sort_keys=True) + "\n"
             for response in responses
         ]
     )

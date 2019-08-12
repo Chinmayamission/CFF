@@ -37,8 +37,7 @@ def form_create():
         return {"res": {"form": serialize_model(form)}}
     else:
         form_name = request_body.get(
-            "form_name", "Untitled form {}".format(
-                datetime.datetime.now().isoformat())
+            "form_name", "Untitled form {}".format(datetime.datetime.now().isoformat())
         )
         form = Form(
             name=form_name,

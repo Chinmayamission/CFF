@@ -61,8 +61,7 @@ class CustomChalice(Chalice):
         cff_permissions = getattr(model, "cff_permissions", {})
         current_user_perms = {}
         if id is not "cm:cognitoUserPool:anonymousUser":
-            current_user_perms.update(
-                cff_permissions.get("cm:loggedInUser", {}))
+            current_user_perms.update(cff_permissions.get("cm:loggedInUser", {}))
         current_user_perms.update(cff_permissions.get(id, {}))
         return current_user_perms
 
@@ -258,8 +257,7 @@ def authorize():
     token = app.current_request.json_body["token"]
     app_client_id = app.current_request.json_body.get("app_client_id", "")
     if app_client_id:
-        claims = get_claims(token, verify_audience=True,
-                            app_client_id=app_client_id)
+        claims = get_claims(token, verify_audience=True, app_client_id=app_client_id)
     else:
         claims = get_claims(token, verify_audience=True)
     if claims:

@@ -30,8 +30,7 @@ class TestEmail(BaseTestCase):
 
     @unittest.skip("need to mock")
     def test_actually_send_email_cc_bad_email(self):
-        confirmationEmailInfo = dict(
-            CONFIRMATION_EMAIL_INFO, **{"cc": "bad_email"})
+        confirmationEmailInfo = dict(CONFIRMATION_EMAIL_INFO, **{"cc": "bad_email"})
         with self.assertRaises(ClientError):
             send_confirmation_email(self.response, confirmationEmailInfo)
 
@@ -41,16 +40,14 @@ class TestEmail(BaseTestCase):
 
     @unittest.skip("need to mock")
     def test_actually_send_email_template(self):
-        send_confirmation_email(
-            self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE)
+        send_confirmation_email(self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE)
 
     @unittest.skip("not implemented yet")
     def test_endpoint_send_confirmation_email_success(self):
         response = self.lg.handle_request(
             method="POST",
             path=f"/responses/{self.responseId}/sendConfirmationEmail",
-            headers={"authorization": "auth",
-                     "Content-Type": "application/json"},
+            headers={"authorization": "auth", "Content-Type": "application/json"},
             body=json.dumps({"paymentMethod": "manual_approval"}),
         )
         self.assertEqual(response["statusCode"], 200, response)
