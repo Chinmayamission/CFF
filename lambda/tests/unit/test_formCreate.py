@@ -4,17 +4,27 @@ pipenv run python -m unittest tests.unit.test_formCreate
 import unittest
 from tests.integration.constants import _
 from app import app
-from chalicelib.models import Response, User, Form, FormOptions
+from chalicelib.models import Response, User, Form, FormOptions, Org
 from chalicelib.routes import form_create
 from unittest.mock import MagicMock
 from bson.objectid import ObjectId
 import datetime
+from pymodm.errors import DoesNotExist
+from chalice import UnauthorizedError
 
+def create_org(userId):
+    try:
+        org = Org.objects.get({})
+    except DoesNotExist:
+        org = Org(cff_permissions={"a":"B"})
+    org.cff_permissions = {userId: {"Orgs_FormsCreate": True} }
+    org.save()
 
 class FormCreate(unittest.TestCase):
     def setUp(self):
         app.current_request = MagicMock()
         app.current_request.context = {"authorizer": {"id": "userid"}}
+        create_org(app.get_current_user_id())
 
     def test_form_create_blank(self):
         app.current_request.json_body = {
@@ -60,3 +70,23 @@ class FormCreate(unittest.TestCase):
         self.assertEqual(form2.cff_permissions, {"userid": {"owner": True}})
         self.assertNotEqual(form1.name, form2.name)
         self.assertTrue("Copy" in form2.name)
+    
+    def test_form_create_unauthorized(self):
+        org = Org.objects.get({})
+        org.cff_permissions = {"a":"B"}
+        org.save()
+        app.current_request.json_body = {
+            "name": "New name",
+            "schema": {"new": "schema"},
+        }
+        with self.assertRaises(UnauthorizedError):
+            response = form_create()
+
+    def test_form_create_unauthorized_no_org(self):
+        Org.objects.delete()
+        app.current_request.json_body = {
+            "name": "New name",
+            "schema": {"new": "schema"},
+        }
+        with self.assertRaises(UnauthorizedError):
+            response = form_create()

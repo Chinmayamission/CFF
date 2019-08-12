@@ -3,11 +3,10 @@ import json
 from app import app
 from chalice.config import Config
 from chalice.local import LocalGateway
-from .constants import COGNITO_IDENTITY_ID
-
+from chalicelib.models import Org
+from pymodm.errors import DoesNotExist
 
 class BaseTestCase(unittest.TestCase):
-    id = COGNITO_IDENTITY_ID
 
     def setUp(self):
         with open(".chalice/config.json") as file:
@@ -19,7 +18,10 @@ class BaseTestCase(unittest.TestCase):
         if hasattr(self, "formId"):
             self.delete_form(self.formId)
 
-    def create_form(self):
+    def create_form(self, should_create_org=True):
+        if should_create_org:
+            from tests.unit.test_formCreate import create_org
+            create_org(app.get_current_user_id())
         response = self.lg.handle_request(
             method="POST", path="/forms", headers={"authorization": "auth"}, body=""
         )

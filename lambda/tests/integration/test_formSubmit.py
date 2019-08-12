@@ -802,7 +802,7 @@ class FormSubmit(BaseTestCase):
                 },
                 {
                     "path": "contact_name.last",
-                    "user": "cm:cognitoUserPool:1e3aa7b7-b042-4834-98f1-7915985c39a5",
+                    "user": "cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6",
                     "old_value": "Ash",
                     "new_value": "NEW_LAST!",
                     "response_base_path": "value",
@@ -928,7 +928,7 @@ class FormSubmit(BaseTestCase):
                 },
                 {
                     "path": "orderId",
-                    "user": "cm:cognitoUserPool:1e3aa7b7-b042-4834-98f1-7915985c39a5",
+                    "user": "cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6",
                     "old_value": "123",
                     "new_value": "123",
                     "response_base_path": "admin_info",

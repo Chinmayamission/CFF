@@ -65,12 +65,16 @@ class Form(BaseMongoModel):
     formOptions = fields.EmbeddedDocumentField(FormOptions, required=True)
     couponCodes_used = fields.DictField(required=False)
     cff_permissions = fields.DictField(required=True)
-    center = fields.CharField()
+    center = fields.CharField() # not used
     date_modified = fields.DateTimeField(required=True)
     date_created = fields.DateTimeField(required=True)
-    formType = fields.CharField()
-    version = fields.IntegerField()
+    formType = fields.CharField() # not used
+    version = fields.IntegerField() # not used
 
+class Org(BaseMongoModel):
+    name = fields.CharField()
+    id = fields.ObjectIdField(primary_key=True)
+    cff_permissions = fields.DictField(required=True)
 
 class FormResponseCounter(MongoModel):
     """Used to generate numeric, human-readable ids for
