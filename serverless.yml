@@ -81,7 +81,7 @@ custom:
     webpackConfig: webpack.backend.js
   mongoConnStr:
     dev: none
-    beta: CFF_COSMOS_CONN_STR_WRITE_BETA
+    beta: CFF_ATLAS_CONN_STR_WRITE_BETA
     prod: CFF_COSMOS_CONN_STR_WRITE_PROD
   googleKey:
     dev: none
