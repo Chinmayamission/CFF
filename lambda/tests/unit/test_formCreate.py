@@ -15,7 +15,7 @@ def create_org(userId):
     try:
         org = Org.objects.get({})
     except DoesNotExist:
-        org = Org().save()
+        org = Org(cff_permissions={"a":"B"})
     org.cff_permissions = {userId: {"Orgs_FormsCreate": True} }
     org.save()
 

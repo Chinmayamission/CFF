@@ -8,8 +8,8 @@ from .constants import (
     FORM_ID,
     RESPONSE_ID,
     EXPECTED_RES_VALUE,
-    COGNITO_IDENTITY_ID,
-    COGNITO_IDENTITY_ID_OWNER,
+    DEV_COGNITO_IDENTITY_ID,
+    DEV_COGNITO_IDENTITY_ID_SPLIT,
     COGNITO_IDENTITY_ID_NO_PERMISSIONS,
     USER_POOL_ID,
 )
@@ -29,8 +29,6 @@ pipenv run python -m unittest tests.integration.test_formPermissions
 class FormPermissions(BaseTestCase):
     def setUp(self):
         super(FormPermissions, self).setUp()
-        self.orig_id = app.test_user_id
-        app.test_user_id = COGNITO_IDENTITY_ID_OWNER
         self.formId = self.create_form()
 
     @mock.patch("boto3.client")
@@ -59,7 +57,7 @@ class FormPermissions(BaseTestCase):
         # Do permissions have at least an id and name and email?
         for userId, user in body["res"]["userLookup"].items():
             self.assertEqual(
-                user["id"], "cm:cognitoUserPool:ownerowner-681c-4d3e-9749-d7c074ffd7f6"
+                user["id"], DEV_COGNITO_IDENTITY_ID
             )
             self.assertEqual(user["name"], "unknown")
             self.assertEqual(user["email"], "unknown")
@@ -70,7 +68,7 @@ class FormPermissions(BaseTestCase):
 
         mock_boto_client.assert_called_once_with("cognito-idp", region_name=AWS_REGION)
         admin_get_user.assert_called_once_with(
-            UserPoolId=USER_POOL_ID, Username="ownerowner-681c-4d3e-9749-d7c074ffd7f6"
+            UserPoolId=USER_POOL_ID, Username=DEV_COGNITO_IDENTITY_ID_SPLIT
         )
 
     def test_list_permissions_mine(self):
@@ -157,5 +155,4 @@ class FormPermissions(BaseTestCase):
         self.assertEqual({}, body["res"].get(userId, {}))
 
     def tearDown(self):
-        self.delete_form(self.formId)
-        app.test_user_id = self.orig_id
+        super(FormPermissions, self).tearDown()

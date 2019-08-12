@@ -19,12 +19,12 @@ def dict_to_object(d):
 COG_ID = "cm:cognitoUserPool:asd"
 
 
-class FormPermissions(unittest.TestCase):
+class FormAuth(unittest.TestCase):
     def setUp(self):
-        pass
-
-    def test_get_current_user_id_ctx(self):
-        pass
+        self.origId = app.test_user_id
+    
+    def tearDown(self):
+        app.test_user_id = self.origId
 
     def test_check_permissions_owner(self):
         app.test_user_id = COG_ID
