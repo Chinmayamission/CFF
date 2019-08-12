@@ -14,7 +14,7 @@ def form_create():
     request_body = app.current_request.json_body or {}
     
     # todo: multiple orgs?
-    org = Org.objects.get()
+    org = Org.objects.get({})
     app.check_permissions(org, ["Org_FormsCreate"])
 
     if request_body.get("formId", None):
