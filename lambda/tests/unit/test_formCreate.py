@@ -10,6 +10,7 @@ from unittest.mock import MagicMock
 from bson.objectid import ObjectId
 import datetime
 from pymodm.errors import DoesNotExist
+from chalice import UnauthorizedError
 
 def create_org(userId):
     try:
@@ -69,3 +70,14 @@ class FormCreate(unittest.TestCase):
         self.assertEqual(form2.cff_permissions, {"userid": {"owner": True}})
         self.assertNotEqual(form1.name, form2.name)
         self.assertTrue("Copy" in form2.name)
+    
+    def test_form_create_unauthorized(self):
+        org = Org.objects.get({})
+        org.cff_permissions = {"a":"B"}
+        org.save()
+        app.current_request.json_body = {
+            "name": "New name",
+            "schema": {"new": "schema"},
+        }
+        with self.assertRaises(UnauthorizedError):
+            response = form_create()
