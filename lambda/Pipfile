@@ -43,6 +43,7 @@ responses = "*"
 isodate = "*"
 babel = "*"
 dnspython = "*"
+black = "==18.9b0"
 
 [dev-packages]
 
