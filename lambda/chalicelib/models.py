@@ -73,6 +73,7 @@ class Form(BaseMongoModel):
 
 class Org(BaseMongoModel):
     name = fields.CharField()
+    id = fields.ObjectIdField(primary_key=True)
     cff_permissions = fields.DictField(required=True)
 
 class FormResponseCounter(MongoModel):
