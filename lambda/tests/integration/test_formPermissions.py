@@ -66,7 +66,8 @@ class FormPermissions(BaseTestCase):
             self.assertTrue(type(perm) is dict)
         self.assertTrue(type(body["res"]["possiblePermissions"]) is list)
 
-        mock_boto_client.assert_called_once_with("cognito-idp", region_name=AWS_REGION)
+        mock_boto_client.assert_called_once_with(
+            "cognito-idp", region_name=AWS_REGION)
         admin_get_user.assert_called_once_with(
             UserPoolId=USER_POOL_ID, Username=DEV_COGNITO_IDENTITY_ID_SPLIT
         )
@@ -93,7 +94,8 @@ class FormPermissions(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{self.formId}/permissions",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -107,7 +109,8 @@ class FormPermissions(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{self.formId}/permissions",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -117,12 +120,14 @@ class FormPermissions(BaseTestCase):
 
     def create_user(self, userId, email):
         client = boto3.client("cognito-idp", "us-east-1")
-        response = client.admin_create_user(UserPoolId=USER_POOL_ID, Username=email)
+        response = client.admin_create_user(
+            UserPoolId=USER_POOL_ID, Username=email)
         return response["User"]["Username"]
 
     @unittest.skip("not working")
     def test_edit_and_delete_permissions_with_email(self):
-        userId = self.create_user(COGNITO_IDENTITY_ID_NO_PERMISSIONS, "a@b.com")
+        userId = self.create_user(
+            COGNITO_IDENTITY_ID_NO_PERMISSIONS, "a@b.com")
         """Edit Permissions."""
         # Add two permissions.
         body = {
@@ -132,7 +137,8 @@ class FormPermissions(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{self.formId}/permissions",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -146,7 +152,8 @@ class FormPermissions(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{self.formId}/permissions",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)

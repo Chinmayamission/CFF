@@ -11,13 +11,15 @@ from bson.objectid import ObjectId
 import datetime
 from pymodm.errors import DoesNotExist
 
+
 def create_org(userId):
     try:
         org = Org.objects.get({})
     except DoesNotExist:
-        org = Org(cff_permissions={"a":"B"})
-    org.cff_permissions = {userId: {"Orgs_FormsCreate": True} }
+        org = Org(cff_permissions={"a": "B"})
+    org.cff_permissions = {userId: {"Orgs_FormsCreate": True}}
     org.save()
+
 
 class FormCreate(unittest.TestCase):
     def setUp(self):

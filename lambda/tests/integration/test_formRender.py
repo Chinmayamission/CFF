@@ -26,7 +26,8 @@ class FormRender(BaseTestCase):
         body = json.loads(response["body"])
         self.assertEqual(
             set(
-                ("_id", "name", "schema", "uiSchema", "formOptions", "cff_permissions")
+                ("_id", "name", "schema", "uiSchema",
+                 "formOptions", "cff_permissions")
             ),
             set(body["res"].keys()),
         )
@@ -48,7 +49,8 @@ class FormRender(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{self.formId}",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps({"data": formData}),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -100,12 +102,14 @@ class FormRender(BaseTestCase):
             },
         )
         self.edit_form(
-            self.formId, {"formOptions": dict(loginRequired=True, predicate=predicate)}
+            self.formId, {"formOptions": dict(
+                loginRequired=True, predicate=predicate)}
         )
         response = self.lg.handle_request(
             method="POST",
             path=f'/forms/{predicate["formId"]}',
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps({"data": formData}),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -144,12 +148,14 @@ class FormRender(BaseTestCase):
             },
         )
         self.edit_form(
-            self.formId, {"formOptions": dict(loginRequired=True, predicate=predicate)}
+            self.formId, {"formOptions": dict(
+                loginRequired=True, predicate=predicate)}
         )
         response = self.lg.handle_request(
             method="POST",
             path=f'/forms/{predicate["formId"]}',
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps({"data": formData}),
         )
         self.assertEqual(response["statusCode"], 200, response)

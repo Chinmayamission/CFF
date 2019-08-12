@@ -6,12 +6,14 @@ from chalice.local import LocalGateway
 from chalicelib.models import Org
 from pymodm.errors import DoesNotExist
 
+
 class BaseTestCase(unittest.TestCase):
 
     def setUp(self):
         with open(".chalice/config.json") as file:
             self.lg = LocalGateway(
-                app, Config(chalice_stage="dev", config_from_disk=json.load(file))
+                app, Config(chalice_stage="dev",
+                            config_from_disk=json.load(file))
             )
 
     def tearDown(self):
@@ -69,14 +71,16 @@ class BaseTestCase(unittest.TestCase):
         self.assertEqual(response["statusCode"], 200, response)
         body = json.loads(response["body"])
         self.assertEqual(body.pop("formId"), formId)
-        self.assertEqual(body, {"res": None, "success": True, "action": "delete"})
+        self.assertEqual(
+            body, {"res": None, "success": True, "action": "delete"})
         return body
 
     def edit_form(self, formId, body):
         response = self.lg.handle_request(
             method="PATCH",
             path=f"/forms/{formId}",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -87,7 +91,8 @@ class BaseTestCase(unittest.TestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{formId}",
-            headers={"authorization": "auth", "Content-Type": "application/json"},
+            headers={"authorization": "auth",
+                     "Content-Type": "application/json"},
             body=json.dumps({"data": formData, "responseId": responseId}),
         )
         self.assertEqual(response["statusCode"], 200, response)

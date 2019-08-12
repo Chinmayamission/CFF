@@ -12,7 +12,7 @@ def form_create():
     from ..main import app
 
     request_body = app.current_request.json_body or {}
-    
+
     # todo: multiple orgs?
     org = Org.objects.get({})
     app.check_permissions(org, ["Orgs_FormsCreate"])
@@ -37,7 +37,8 @@ def form_create():
         return {"res": {"form": serialize_model(form)}}
     else:
         form_name = request_body.get(
-            "form_name", "Untitled form {}".format(datetime.datetime.now().isoformat())
+            "form_name", "Untitled form {}".format(
+                datetime.datetime.now().isoformat())
         )
         form = Form(
             name=form_name,
