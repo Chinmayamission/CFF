@@ -1,6 +1,6 @@
-There are many expressions understood by ExpresssionParser.
+There are many expressions understood by ExpresssionParser. These expressions are used in the "amount" and "quantity" item properties of `paymentInfo.items`, among other places. The expressions are evaluated by [expr-eval](https://github.com/silentmatt/expr-eval) on the frontend and [py-expression-eval](https://github.com/Axiacore/py-expression-eval) on the backend, so any value within them must be parseable by both libraries.
 
-# Custom Functions
+Here are some custom functions that these expressions allow for:
 
 ## cff_yeardiff
 `cff_yeardiff` calculates the difference, in years, between the two dates are passed to it. Both dates have to be in YYYY-MM-DD format. A sample use case for this is calculating someone's age based on their date of birth.

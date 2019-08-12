@@ -1,6 +1,6 @@
 To allow for payment by check, add the following key in paymentMethods:
 
-```
+```json
     "manual_approval": {
       "cff_show_when": "paymentMethod:check + registrationType:sponsorship",
       "payButtonText": "Pay by Check",
