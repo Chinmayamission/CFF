@@ -99,7 +99,7 @@ elif MODE == "DEV":
     pymodm.connection.connect("mongodb://localhost:10255/admin")
 elif MODE == "BETA":
     mongo_conn_str = ssm.get_parameter(
-        Name="CFF_COSMOS_CONN_STR_WRITE_BETA", WithDecryption=True
+        Name="CFF_ATLAS_CONN_STR_WRITE_BETA", WithDecryption=True
     )["Parameter"]["Value"]
     pymodm.connection.connect(mongo_conn_str)
 elif MODE == "PROD":
