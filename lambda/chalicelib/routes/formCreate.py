@@ -13,12 +13,14 @@ def form_create():
     from ..main import app
 
     request_body = app.current_request.json_body or {}
-    
+
     # todo: multiple orgs?
     try:
         org = Org.objects.get({})
     except DoesNotExist:
-        raise UnauthorizedError("Organization does not exist, so forms cannot be created.")
+        raise UnauthorizedError(
+            "Organization does not exist, so forms cannot be created."
+        )
     app.check_permissions(org, ["Orgs_FormsCreate"])
 
     if request_body.get("formId", None):

@@ -56,9 +56,7 @@ class FormPermissions(BaseTestCase):
         body = json.loads(response["body"])
         # Do permissions have at least an id and name and email?
         for userId, user in body["res"]["userLookup"].items():
-            self.assertEqual(
-                user["id"], DEV_COGNITO_IDENTITY_ID
-            )
+            self.assertEqual(user["id"], DEV_COGNITO_IDENTITY_ID)
             self.assertEqual(user["name"], "unknown")
             self.assertEqual(user["email"], "unknown")
             self.assertEqual(userId, user["id"])

@@ -12,13 +12,15 @@ import datetime
 from pymodm.errors import DoesNotExist
 from chalice import UnauthorizedError
 
+
 def create_org(userId):
     try:
         org = Org.objects.get({})
     except DoesNotExist:
-        org = Org(cff_permissions={"a":"B"})
-    org.cff_permissions = {userId: {"Orgs_FormsCreate": True} }
+        org = Org(cff_permissions={"a": "B"})
+    org.cff_permissions = {userId: {"Orgs_FormsCreate": True}}
     org.save()
+
 
 class FormCreate(unittest.TestCase):
     def setUp(self):
@@ -70,10 +72,10 @@ class FormCreate(unittest.TestCase):
         self.assertEqual(form2.cff_permissions, {"userid": {"owner": True}})
         self.assertNotEqual(form1.name, form2.name)
         self.assertTrue("Copy" in form2.name)
-    
+
     def test_form_create_unauthorized(self):
         org = Org.objects.get({})
-        org.cff_permissions = {"a":"B"}
+        org.cff_permissions = {"a": "B"}
         org.save()
         app.current_request.json_body = {
             "name": "New name",

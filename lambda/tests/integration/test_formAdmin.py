@@ -5,13 +5,7 @@ import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
-from .constants import (
-    CENTER_ID,
-    TEST_SCHEMA,
-    FORM_ID,
-    RESPONSE_ID,
-    EXPECTED_RES_VALUE,
-)
+from .constants import CENTER_ID, TEST_SCHEMA, FORM_ID, RESPONSE_ID, EXPECTED_RES_VALUE
 from app import app
 from tests.integration.baseTestCase import BaseTestCase
 

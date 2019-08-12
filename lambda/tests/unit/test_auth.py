@@ -22,7 +22,7 @@ COG_ID = "cm:cognitoUserPool:asd"
 class FormAuth(unittest.TestCase):
     def setUp(self):
         self.origId = app.test_user_id
-    
+
     def tearDown(self):
         app.test_user_id = self.origId
 
