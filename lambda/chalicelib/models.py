@@ -72,7 +72,7 @@ class Form(BaseMongoModel):
     version = fields.IntegerField() # not used
 
 class Org(BaseMongoModel):
-    name = field.CharField()
+    name = fields.CharField()
     cff_permissions = fields.DictField(required=True)
 
 class FormResponseCounter(MongoModel):
