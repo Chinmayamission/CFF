@@ -1,7 +1,7 @@
 import datetime
 import uuid
 from pydash.objects import pick
-from chalicelib.models import Form, FormOptions, serialize_model
+from chalicelib.models import Form, Org, FormOptions, serialize_model
 from bson.objectid import ObjectId
 from bson import BSON
 
@@ -12,8 +12,13 @@ def form_create():
     from ..main import app
 
     request_body = app.current_request.json_body or {}
+    
+    # todo: multiple orgs?
+    org = Org.objects.get()
+    app.check_permissions(org, ["Org_FormsCreate"])
+
     if request_body.get("formId", None):
-        # todo: add permissions check -- some forms should not be able to be duplicated.
+        # todo: add permissions check on forms -- some forms should not be able to be duplicated.
         formId = request_body.get("formId", None)
         old_form = Form.objects.get({"_id": ObjectId(formId)})
         form = Form(
