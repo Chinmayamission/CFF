@@ -2,7 +2,7 @@
 Chinmaya Forms Framework (CFF) is a system that allows for management of forms, accounts, and payment integration.
 
 - Manage forms
-- Create forms using (JSON Schema](https://json-schema.org/)
+- Create forms using [JSON Schema](https://json-schema.org/)
 - Export responses
 - Associate accounts with responses
 - Integrate with PayPal and CCAvenue
