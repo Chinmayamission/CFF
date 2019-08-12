@@ -1,5 +1,6 @@
 from chalicelib.models import Response, Form, PaymentTrailItem, PaymentStatusDetailItem
 from chalicelib.main import app, MODE
+
 """
 pipenv run python -m unittest tools.importv1to2
 Imports v1-type forms (cff.chinmayamission.com - dynamodb) to v2-type forms (forms.chinmayamission.com - cosmosdb)
@@ -26,8 +27,7 @@ table_responses = boto3.resource("dynamodb").Table("cff_prod.responses")
 formIdOld = ""
 formIdNew = ""
 
-query = table_responses.query(
-    KeyConditionExpression=Key("formId").eq(formIdOld))
+query = table_responses.query(KeyConditionExpression=Key("formId").eq(formIdOld))
 
 
 class DecimalEncoder(json.JSONEncoder):

@@ -6,6 +6,7 @@ import boto3
 from boto3.dynamodb.conditions import Key
 from chalicelib.util import get_all_responses
 from chalicelib.main import TABLES
+
 """
 python tools/bulkEmail.py
 python -m unittest tools.bibFixPaid

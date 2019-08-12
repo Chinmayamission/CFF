@@ -12,8 +12,7 @@ class TestAddPayment(BaseTestCase):
             "paymentInfo": {
                 "currency": "USD",
                 "items": [
-                    {"title": "A", "description": "A",
-                        "amount": "1", "quantity": "1"}
+                    {"title": "A", "description": "A", "amount": "1", "quantity": "1"}
                 ],
             },
             "confirmationEmailInfo": {
@@ -32,8 +31,7 @@ class TestAddPayment(BaseTestCase):
                 "formOptions": formOptions,
             },
         )
-        self.responseId, submit_res = self.submit_form(
-            self.formId, {"item": "data"})
+        self.responseId, submit_res = self.submit_form(self.formId, {"item": "data"})
 
     @mock.patch("boto3.client")
     def test_add_payment(self, mock_boto_client):
@@ -47,8 +45,7 @@ class TestAddPayment(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/responses/{self.responseId}/payment",
-            headers={"authorization": "auth",
-                     "Content-Type": "application/json"},
+            headers={"authorization": "auth", "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -85,8 +82,7 @@ class TestAddPayment(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/responses/{self.responseId}/payment",
-            headers={"authorization": "auth",
-                     "Content-Type": "application/json"},
+            headers={"authorization": "auth", "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)
@@ -124,8 +120,7 @@ class TestAddPayment(BaseTestCase):
         response = self.lg.handle_request(
             method="POST",
             path=f"/responses/{self.responseId}/payment",
-            headers={"authorization": "auth",
-                     "Content-Type": "application/json"},
+            headers={"authorization": "auth", "Content-Type": "application/json"},
             body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)

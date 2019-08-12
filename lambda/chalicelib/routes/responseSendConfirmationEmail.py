@@ -10,8 +10,7 @@ def response_send_confirmation_email(responseId):
     response = Response.objects.get({"_id": ObjectId(responseId)})
     form = Form.objects.only("formOptions").get({"_id": response.form.id})
     # todo: permissions here?
-    paymentMethod = (app.current_request.json_body or {}
-                     ).get("paymentMethod", "")
+    paymentMethod = (app.current_request.json_body or {}).get("paymentMethod", "")
 
     if response.pending_update:
         old_value = response.value

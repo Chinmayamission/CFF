@@ -26,8 +26,7 @@ class FormPermissions(unittest.TestCase):
         form.save()
         self.assertEqual(form.name, "form")
         self.assertEqual(form.id, oid)
-        self.assertEqual(form.to_son().to_dict()[
-                         "_cls"], "chalicelib.models.Form")
+        self.assertEqual(form.to_son().to_dict()["_cls"], "chalicelib.models.Form")
 
     def test_create_response(self):
         oid = ObjectId()

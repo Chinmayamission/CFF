@@ -15,8 +15,7 @@ class TestPaymentMethods(unittest.TestCase):
         )
 
     def test_simple_join_array_no_refs(self):
-        paymentMethods = {"ccavenue": {
-            "name": ["Hello", " Blah"], "age": "10"}}
+        paymentMethods = {"ccavenue": {"name": ["Hello", " Blah"], "age": "10"}}
         data = {}
         expectedOutput = {"ccavenue": {"name": "Hello Blah", "age": "10"}}
         self.assertEqual(

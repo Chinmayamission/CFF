@@ -89,8 +89,7 @@ def response_edit_common(responseId, response_base_path):
             "response_base_path specified is not valid or you not have permissions to perform the specified action."
         )
     for item in batch:
-        update_response_path(
-            response, item["path"], item["value"], response_base_path)
+        update_response_path(response, item["path"], item["value"], response_base_path)
     response.save()
     return {"res": {"success": True, "response": serialize_model(response)}}
 
@@ -111,8 +110,7 @@ def response_add_payment(responseId):
     from ..main import app
 
     response = Response.objects.get({"_id": ObjectId(responseId)})
-    app.check_permissions(
-        response.form, ["Responses_Edit", "Responses_AddPayment"])
+    app.check_permissions(response.form, ["Responses_Edit", "Responses_AddPayment"])
     amount = app.current_request.json_body["amount"]
     currency = app.current_request.json_body["currency"]
     date = app.current_request.json_body.get("date", None)

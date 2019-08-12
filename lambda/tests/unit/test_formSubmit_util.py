@@ -18,8 +18,7 @@ class FormSubmitUtil(unittest.TestCase):
         )
 
     def test_display_form_dict_array_simple(self):
-        table = display_form_dict(
-            {"a": "b", "participants": ["name1", "name2"]})
+        table = display_form_dict({"a": "b", "participants": ["name1", "name2"]})
         self.assertEqual(
             table,
             "<table><tr><th>A</th><td>b</td></tr><tr><th>Participant 1 </th><td>name1</td></tr><tr><th>Participant 2 </th><td>name2</td></tr></table>",

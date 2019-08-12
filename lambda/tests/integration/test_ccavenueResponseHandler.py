@@ -25,8 +25,7 @@ class TestCcavenueResponseHandler(BaseTestCase):
             body=body,
         )
         self.assertEqual(response["statusCode"], 500, response)
-        self.assertIn("IPN ERROR: Duplicate IPN transaction ID",
-                      response["body"])
+        self.assertIn("IPN ERROR: Duplicate IPN transaction ID", response["body"])
         # todo: should this be 4xx instead?
 
     def test_decrypt_success(self):

@@ -26,10 +26,8 @@ def coupon_code_verify_max_and_record_as_used(
     """
     # form = formsCollection.get_item(Key=formKey)["Item"]
     formKey = {"id": form["id"], "version": int(form["version"])}
-    countByName = form.get("couponCodes", {}).get(
-        code, {}).get("countBy", "responses")
-    usedDict = form.get("couponCodes_used", {}).get(
-        code, {}).get(countByName, {})
+    countByName = form.get("couponCodes", {}).get(code, {}).get("countBy", "responses")
+    usedDict = form.get("couponCodes_used", {}).get(code, {}).get(countByName, {})
     shouldOverwriteList = False
     if type(usedDict) is list:
         usedDict = {rid: 1 for rid in usedDict}
@@ -74,8 +72,7 @@ def coupon_code_verify_max_and_record_as_used(
                 Key=formKey,
                 UpdateExpression="SET couponCodes_used.#code = :couponCodeValue",
                 ExpressionAttributeNames={"#code": code},
-                ExpressionAttributeValues={
-                    ":couponCodeValue": {countByName: usedDict}},
+                ExpressionAttributeValues={":couponCodeValue": {countByName: usedDict}},
             )
     else:
         formsCollection.update_item(

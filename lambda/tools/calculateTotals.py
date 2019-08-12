@@ -6,6 +6,7 @@ from chalicelib.models import (
     serialize_model,
 )
 from chalicelib.main import app, MODE
+
 """
 pipenv run python -m unittest tools.calculateTotals
 Calculate totals.
@@ -45,8 +46,7 @@ responses = Response.objects.raw({"form": ObjectId(formId)}).aggregate(
     {"$project": {"payment_status_detail.amount": 1}},
 )
 
-total = sum(float(item["payment_status_detail"]["amount"])
-            for item in responses)
+total = sum(float(item["payment_status_detail"]["amount"]) for item in responses)
 
 print(total)
 # .objects.raw({"form": ObjectId(formId), "paid": True})
