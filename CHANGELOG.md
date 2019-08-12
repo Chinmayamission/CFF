@@ -1,3 +1,9 @@
+## 3.23.0
+- Feat: Add organizations feature, which restricts form creation only to certain users. This fixes a security issue, because otherwise anyone could sign up with an account and create a form (and thus send confirmation emails from one of our verified email addresses).
+
+- Fix: Use MongoDB Atlas for Beta deployment
+- Chore: Format Python files using Black
+
 ## 3.22.0
 - Feat: Create a permission called "Responses_AddPayment" that allows one only to add payments (previously, one had to have "Responses_Edit" permission to do so) (#171)
 - Feat: Add a new UI for sharing functionality using react-select (#171)
