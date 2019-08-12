@@ -3,7 +3,8 @@ import uuid
 from pydash.objects import pick
 from chalicelib.models import Form, Org, FormOptions, serialize_model
 from bson.objectid import ObjectId
-from bson import BSON
+from pymodm.errors import DoesNotExist
+from chalice import UnauthorizedError
 
 
 def form_create():
@@ -14,7 +15,10 @@ def form_create():
     request_body = app.current_request.json_body or {}
     
     # todo: multiple orgs?
-    org = Org.objects.get({})
+    try:
+        org = Org.objects.get({})
+    except DoesNotExist:
+        raise UnauthorizedError("Organization does not exist, so forms cannot be created.")
     app.check_permissions(org, ["Orgs_FormsCreate"])
 
     if request_body.get("formId", None):

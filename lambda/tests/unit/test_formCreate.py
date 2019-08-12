@@ -81,3 +81,12 @@ class FormCreate(unittest.TestCase):
         }
         with self.assertRaises(UnauthorizedError):
             response = form_create()
+
+    def test_form_create_unauthorized_no_org(self):
+        Org.objects.delete()
+        app.current_request.json_body = {
+            "name": "New name",
+            "schema": {"new": "schema"},
+        }
+        with self.assertRaises(UnauthorizedError):
+            response = form_create()
