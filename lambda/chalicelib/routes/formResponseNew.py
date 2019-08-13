@@ -20,6 +20,7 @@ def do_form_post_calc(paymentInfo, paymentMethods, response):
         paymentInfo["description"] = fill_string_from_template(
             response, paymentInfo["description"]
         )
+    # todo: handle situation better when updating.
     if "currencyTemplate" in paymentInfo:
         paymentInfo["currency"] = fill_string_from_template(
             response, paymentInfo["currencyTemplate"]
