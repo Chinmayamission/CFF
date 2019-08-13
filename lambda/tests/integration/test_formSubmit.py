@@ -94,7 +94,7 @@ class FormSubmit(BaseTestCase):
                         "name": "Name",
                         "description": "Description",
                         "amount": "100",
-                        "quantity": "1"
+                        "quantity": "1",
                     }
                 ],
             }
@@ -114,14 +114,14 @@ class FormSubmit(BaseTestCase):
                     "description": "Description",
                     "amount": 100.0,
                     "quantity": 1.0,
-                    "total":  100.0
+                    "total": 100.0,
                 }
             ],
             "total": 100.0,
         }
         print(submit_res["paymentInfo"])
         self.assertEqual(submit_res["paymentInfo"], expected_paymentInfo)
-        response = Response.objects.get({"_id": ObjectId(responseId) })
+        response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.paymentInfo, expected_paymentInfo)
 
     def test_submit_form_proper_recurrence_paymentInfo(self):
