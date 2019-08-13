@@ -1,8 +1,24 @@
 import * as React from "react";
 import ReactTable from "react-table";
 import RRule from "rrule";
+import nunjucks from "nunjucks";
 import { IPaymentTableProps } from "./PaymentTable.d";
 import { IPaymentInfo } from "../interfaces";
+import sanitize from "../../sanitize";
+
+nunjucks.installJinjaCompat();
+
+const processCurrency = (paymentInfo, formData) => {
+  if (paymentInfo.currencyTemplate) {
+    let currency = sanitize(
+      nunjucks.renderString(paymentInfo.currencyTemplate, {
+        value: formData || {}
+      })
+    );
+    return { ...paymentInfo, currency };
+  }
+  return paymentInfo;
+};
 
 function formatRecurrence({ recurrenceDuration, recurrenceTimes }) {
   if (!recurrenceDuration) {
@@ -95,7 +111,10 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
               showPagination={false}
               className="my-4"
             />
-            Total Amount: {this.formatPaymentInfo(this.props.paymentInfo)}
+            Total Amount:{" "}
+            {this.formatPaymentInfo(
+              processCurrency(this.props.paymentInfo, this.props.formData)
+            )}
           </div>
         )}
       </div>

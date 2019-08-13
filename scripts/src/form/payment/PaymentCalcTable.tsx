@@ -87,7 +87,9 @@ class PaymentCalcTable extends React.Component<
       this.props.formData
     );
     if (!paymentInfo.items.length) return null;
-    return <PaymentTable paymentInfo={paymentInfo} />;
+    return (
+      <PaymentTable paymentInfo={paymentInfo} formData={this.props.formData} />
+    );
   }
 }
 export default PaymentCalcTable;
