@@ -245,10 +245,17 @@ def form_response_new(formId):
             paymentInfo["description"] = fill_string_from_template(
                 response, paymentInfo["description"]
             )
+        if "currencyTemplate" in paymentInfo:
+            paymentInfo["currency"] = fill_string_from_template(
+                response, paymentInfo["currencyTemplate"]
+            )
+            del paymentInfo["currencyTemplate"]
+        response.save()
         if "ccavenue" in paymentMethods and response.paid == False:
             paymentMethods["ccavenue"] = update_ccavenue_hash(
                 formId, paymentMethods["ccavenue"], response
             )
+        # todo: should we save response here?
         return {
             "res": {
                 "value": response_data,
