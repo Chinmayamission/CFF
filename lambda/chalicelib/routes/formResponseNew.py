@@ -15,6 +15,23 @@ from bson.objectid import ObjectId
 from pymodm.errors import DoesNotExist
 
 
+def do_form_post_calc(paymentInfo, paymentMethods, response):
+    if "description" in paymentInfo and type(paymentInfo["description"]) is str:
+        paymentInfo["description"] = fill_string_from_template(
+            response, paymentInfo["description"]
+        )
+    if "currencyTemplate" in paymentInfo:
+        paymentInfo["currency"] = fill_string_from_template(
+            response, paymentInfo["currencyTemplate"]
+        )
+        del paymentInfo["currencyTemplate"]
+    response.save()
+    if "ccavenue" in paymentMethods and response.paid == False:
+        paymentMethods["ccavenue"] = update_ccavenue_hash(
+            formId, paymentMethods["ccavenue"], response
+        )
+    # todo: should we save response here?
+
 def get_user_or_create_one(userId):
     user = None
     try:
@@ -241,21 +258,7 @@ def form_response_new(formId):
             )
             email_sent = True
         response.save()
-        if "description" in paymentInfo and type(paymentInfo["description"]) is str:
-            paymentInfo["description"] = fill_string_from_template(
-                response, paymentInfo["description"]
-            )
-        if "currencyTemplate" in paymentInfo:
-            paymentInfo["currency"] = fill_string_from_template(
-                response, paymentInfo["currencyTemplate"]
-            )
-            del paymentInfo["currencyTemplate"]
-        response.save()
-        if "ccavenue" in paymentMethods and response.paid == False:
-            paymentMethods["ccavenue"] = update_ccavenue_hash(
-                formId, paymentMethods["ccavenue"], response
-            )
-        # todo: should we save response here?
+        do_form_post_calc(paymentInfo, paymentMethods, response)
         return {
             "res": {
                 "value": response_data,
@@ -280,14 +283,7 @@ def form_response_new(formId):
         response.paymentInfo = paymentInfo
         response.paid = paid
         response.save()
-        if "description" in paymentInfo and type(paymentInfo["description"]) is str:
-            paymentInfo["description"] = fill_string_from_template(
-                response, paymentInfo["description"]
-            )
-        if "ccavenue" in paymentMethods and response.paid == False:
-            paymentMethods["ccavenue"] = update_ccavenue_hash(
-                formId, paymentMethods["ccavenue"], response
-            )
+        do_form_post_calc(paymentInfo, paymentMethods, response)
         return {
             "res": {
                 "value": response_data,
