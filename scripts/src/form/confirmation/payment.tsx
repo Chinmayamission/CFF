@@ -5,6 +5,7 @@ import CCAvenue from "./CCAvenue";
 import ManualApproval from "./ManualApproval";
 import sanitize from "../../sanitize";
 import ExpressionParser from "../../common/ExpressionParser";
+import nunjucks from "nunjucks";
 import { IPaymentProps, IPaymentInfo } from "../interfaces";
 
 let Components = {
@@ -13,6 +14,21 @@ let Components = {
   manual_approval: ManualApproval,
   manual_approval_2: ManualApproval
 };
+
+nunjucks.installJinjaCompat();
+
+const processCurrency = (paymentInfo, formData) => {
+  if (paymentInfo.currencyTemplate) {
+    let currency = sanitize(
+      nunjucks.renderString(paymentInfo.currencyTemplate, {
+        value: formData || {}
+      })
+    );
+    return { ...paymentInfo, currency };
+  }
+  return paymentInfo;
+};
+
 class Payment extends React.Component<IPaymentProps, any> {
   constructor(props: any) {
     super(props);
@@ -101,7 +117,12 @@ class Payment extends React.Component<IPaymentProps, any> {
           {this.props.paymentInfo &&
             this.props.paymentInfo.items &&
             this.props.paymentInfo.items.length > 0 && (
-              <PaymentTable paymentInfo={this.props.paymentInfo} />
+              <PaymentTable
+                paymentInfo={processCurrency(
+                  this.props.paymentInfo,
+                  this.props.formData
+                )}
+              />
             )}
           {this.props.paymentInfo_received &&
             this.props.paymentInfo_received.total > 0 && (

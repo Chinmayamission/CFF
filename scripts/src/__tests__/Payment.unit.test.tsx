@@ -40,6 +40,46 @@ it("renders payment table on new response", () => {
   expect(wrapper.text()).not.toContain("Amount already paid");
 });
 
+it("renders payment table with currency template", () => {
+  const wrapper = render(
+    <Payment
+      onPaymentStarted={e => e}
+      paymentInfo={{
+        currency: "USD",
+        currencyTemplate:
+          "{% if value.nationality == 'India' %}INR{% else %}USD{% endif %}",
+        total: 12,
+        items: [
+          {
+            name: "One",
+            description: "One",
+            amount: 12,
+            quantity: 1,
+            total: 12
+          }
+        ]
+      }}
+      paymentInfo_owed={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentInfo_received={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentMethods={[]}
+      onPaymentComplete={e => e}
+      onPaymentError={e => e}
+      responseId={"responseId"}
+      formId={"formId"}
+      formData={{ nationality: "India" }}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("₹");
+  expect(wrapper.text()).not.toContain("$");
+});
+
 it("renders payment table with amount received", () => {
   const wrapper = render(
     <Payment
