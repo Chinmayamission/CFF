@@ -62,6 +62,10 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
     return this.formatPayment(paymentInfo.total, paymentInfo.currency);
   }
   render() {
+    const paymentInfo = processCurrency(
+      this.props.paymentInfo,
+      this.props.formData
+    );
     let tableHeaders = [
       {
         Header: "Name",
@@ -75,8 +79,7 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         Header: "Amount",
         id: "amount",
         style: numericColStyle,
-        accessor: d =>
-          this.formatPayment(d.amount, this.props.paymentInfo.currency)
+        accessor: d => this.formatPayment(d.amount, paymentInfo.currency)
       },
       {
         Header: "Quantity",
@@ -94,15 +97,13 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         id: "total",
         style: numericColStyle,
         accessor: d =>
-          d.installment
-            ? ""
-            : this.formatPayment(d.total, this.props.paymentInfo.currency)
+          d.installment ? "" : this.formatPayment(d.total, paymentInfo.currency)
       }
     ];
-    let tableData = this.props.paymentInfo.items;
+    let tableData = paymentInfo.items;
     return (
       <div>
-        {this.props.paymentInfo && (
+        {paymentInfo && (
           <div className="mb-2">
             <ReactTable
               columns={tableHeaders}
@@ -111,10 +112,7 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
               showPagination={false}
               className="my-4"
             />
-            Total Amount:{" "}
-            {this.formatPaymentInfo(
-              processCurrency(this.props.paymentInfo, this.props.formData)
-            )}
+            Total Amount: {this.formatPaymentInfo(paymentInfo)}
           </div>
         )}
       </div>
