@@ -15,7 +15,7 @@ from bson.objectid import ObjectId
 from pymodm.errors import DoesNotExist
 
 
-def do_form_post_calc(paymentInfo, paymentMethods, response):
+def do_form_post_calc(formId, paymentInfo, paymentMethods, response):
     if "description" in paymentInfo and type(paymentInfo["description"]) is str:
         paymentInfo["description"] = fill_string_from_template(
             response, paymentInfo["description"]
@@ -27,6 +27,7 @@ def do_form_post_calc(paymentInfo, paymentMethods, response):
         )
         del paymentInfo["currencyTemplate"]
     response.save()
+    # todo: add a test for this case
     if "ccavenue" in paymentMethods and response.paid == False:
         paymentMethods["ccavenue"] = update_ccavenue_hash(
             formId, paymentMethods["ccavenue"], response
@@ -259,7 +260,7 @@ def form_response_new(formId):
             )
             email_sent = True
         response.save()
-        do_form_post_calc(paymentInfo, paymentMethods, response)
+        do_form_post_calc(formId, paymentInfo, paymentMethods, response)
         return {
             "res": {
                 "value": response_data,
@@ -284,7 +285,7 @@ def form_response_new(formId):
         response.paymentInfo = paymentInfo
         response.paid = paid
         response.save()
-        do_form_post_calc(paymentInfo, paymentMethods, response)
+        do_form_post_calc(formId, paymentInfo, paymentMethods, response)
         return {
             "res": {
                 "value": response_data,
