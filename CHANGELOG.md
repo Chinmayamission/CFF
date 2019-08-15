@@ -1,3 +1,7 @@
+## 3.23.1
+- Fix: Fix issue in which an older version of rjsf was accidentally deployed in 3.23.0
+- Doc: Reorganize and update documentation
+
 ## 3.23.0
 - Feat: Add organizations feature, which restricts form creation only to certain users. This fixes a security issue, because otherwise anyone could sign up with an account and create a form (and thus send confirmation emails from one of our verified email addresses).
 
