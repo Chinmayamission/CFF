@@ -1,3 +1,7 @@
+## 3.24.0
+- Feat: Multiple currency support with `paymentInfo.currencyTemplate` (#181)
+- Chore: Add tests for CCAvenue form submit
+
 ## 3.23.1
 - Fix: Fix issue in which an older version of rjsf was accidentally deployed in 3.23.0
 - Doc: Reorganize and update documentation
