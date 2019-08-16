@@ -698,6 +698,185 @@ exports[`renders payment table with amount received 1`] = `
 </div>
 `;
 
+exports[`renders payment table with currency template 1`] = `
+<div>
+  <h1
+    class="text-center my-2"
+  >
+    Payment
+  </h1>
+  <div>
+    <div>
+      <div
+        class="mb-2"
+      >
+        <div
+          class="ReactTable my-4"
+        >
+          <div
+            class="rt-table"
+            role="grid"
+          >
+            <div
+              class="rt-thead -header"
+              style="min-width:500px"
+            >
+              <div
+                class="rt-tr"
+                role="row"
+              >
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Name
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Description
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Amount
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Quantity
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+                <div
+                  class="rt-th rt-resizable-header -cursor-pointer"
+                  role="columnheader"
+                  style="flex:100 0 auto;width:100px"
+                  tabindex="-1"
+                >
+                  <div
+                    class="rt-resizable-header-content"
+                  >
+                    Total
+                  </div>
+                  <div
+                    class="rt-resizer"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="rt-tbody"
+              style="min-width:500px"
+            >
+              <div
+                class="rt-tr-group"
+                role="rowgroup"
+              >
+                <div
+                  class="rt-tr -odd"
+                  role="row"
+                >
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="flex:100 0 auto;width:100px"
+                  >
+                    One
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="flex:100 0 auto;width:100px"
+                  >
+                    One
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    ₹12.00
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    1
+                  </div>
+                  <div
+                    class="rt-td"
+                    role="gridcell"
+                    style="text-align:right;flex:100 0 auto;width:100px"
+                  >
+                    ₹12.00
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="-loading"
+          >
+            <div
+              class="-loading-inner"
+            >
+              Loading...
+            </div>
+          </div>
+        </div>
+        Total Amount: ₹12.00
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      class="alert alert-info"
+    >
+      We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
+    </div>
+  </div>
+</div>
+`;
+
 exports[`renders recurring payment table with end 1`] = `
 <div>
   <h1
