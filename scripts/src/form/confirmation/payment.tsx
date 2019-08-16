@@ -13,6 +13,7 @@ let Components = {
   manual_approval: ManualApproval,
   manual_approval_2: ManualApproval
 };
+
 class Payment extends React.Component<IPaymentProps, any> {
   constructor(props: any) {
     super(props);
@@ -101,7 +102,10 @@ class Payment extends React.Component<IPaymentProps, any> {
           {this.props.paymentInfo &&
             this.props.paymentInfo.items &&
             this.props.paymentInfo.items.length > 0 && (
-              <PaymentTable paymentInfo={this.props.paymentInfo} />
+              <PaymentTable
+                paymentInfo={this.props.paymentInfo}
+                formData={this.props.formData}
+              />
             )}
           {this.props.paymentInfo_received &&
             this.props.paymentInfo_received.total > 0 && (

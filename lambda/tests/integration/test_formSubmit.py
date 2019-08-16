@@ -85,6 +85,45 @@ class FormSubmit(BaseTestCase):
         response = self.view_response(responseId)
         self.assertEqual(response["value"], ONE_FORMDATA)
 
+    def test_submit_form_currencyTemplate(self):
+        formOptions = {
+            "paymentInfo": {
+                "currencyTemplate": "{% if value.nationality == 'India' %}INR{% else %}USD{% endif %}",
+                "items": [
+                    {
+                        "name": "Name",
+                        "description": "Description",
+                        "amount": "100",
+                        "quantity": "1",
+                    }
+                ],
+            }
+        }
+        self.edit_form(
+            self.formId,
+            {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
+        )
+
+        responseId, submit_res = self.submit_form(self.formId, {"nationality": "India"})
+
+        expected_paymentInfo = {
+            "currency": "INR",
+            "items": [
+                {
+                    "name": "Name",
+                    "description": "Description",
+                    "amount": 100.0,
+                    "quantity": 1.0,
+                    "total": 100.0,
+                }
+            ],
+            "total": 100.0,
+        }
+        print(submit_res["paymentInfo"])
+        self.assertEqual(submit_res["paymentInfo"], expected_paymentInfo)
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        self.assertEqual(response.paymentInfo, expected_paymentInfo)
+
     def test_submit_form_proper_recurrence_paymentInfo(self):
         """Submit form."""
         formOptions = {

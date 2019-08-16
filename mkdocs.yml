@@ -27,6 +27,7 @@ nav:
       Recurring Payments: payment/recurring.md
       Check Payments: payment/check.md
       CCAvenue: payment/ccavenue.md
+      Currency: payment/currency.md
   - Responses Table Customization:
       Data Options: responses/data_options.md
       Edit Schema: responses/edit_schema.md
