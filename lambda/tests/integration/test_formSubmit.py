@@ -12,7 +12,7 @@ from pydash.objects import set_
 from tests.integration.baseTestCase import BaseTestCase
 from tests.integration.constants import _
 from chalicelib.routes.responseIpnListener import mark_successful_payment
-from chalicelib.models import Form, Response, serialize_model
+from chalicelib.models import Form, Response, CCAvenueConfig, serialize_model
 from bson.objectid import ObjectId
 import time
 import mock
@@ -1061,23 +1061,46 @@ class FormSubmit(BaseTestCase):
         # self.assertEqual(response['amount_paid'], "0.4")
         # todo: add more tests for other parts of response.
 
-    # def test_submit_form_ccavenue(self):
-    #     formId = "c06e7f16-fcfc-4cb5-9b81-722103834a81"
-    #     formData = {"name": "test"}
-    #     ccavenue_access_code = "AVOC74EK51CE27COEC"
-    #     ccavenue_merchant_id = "155729"
-    #     response = self.lg.handle_request(method='POST',
-    #                                       path='/forms/{}/responses'.format(formId),
-    #                                       headers={"authorization": "auth","Content-Type": "application/json"},
-    #                                       body=json.dumps(FORM_DATA_ONE))
-    #     self.assertEqual(response['statusCode'], 200, response)
-    #     body = json.loads(response['body'])
-    #     responseId = body['res'].pop("id")
-    #     ccavenue = body['res']["paymentMethods"]["ccavenue"]
-    #     self.assertEqual(ccavenue["access_code"], ccavenue_access_code)
-    #     self.assertEqual(ccavenue["merchant_id"], ccavenue_merchant_id)
-    #     self.assertIn("encRequest", ccavenue)
-    #     pass
+    def test_submit_form_ccavenue(self):
+        self.formId = self.create_form()
+        access_code = "ACCESSKODE"
+        merchant_id = "123456"
+        SECRET_working_key = "abcdefgh"
+        CCAvenueConfig(
+            access_code=access_code,
+            merchant_id=merchant_id,
+            SECRET_working_key=SECRET_working_key,
+        ).save()
+        schema = {"type": "object"}
+        uiSchema = {"a": "b"}
+        formOptions = {
+            "paymentMethods": {"ccavenue": {"merchant_id": merchant_id}},
+            "paymentInfo": {
+                "currency": "INR",
+                "items": [
+                    {
+                        "amount": "1",
+                        "quantity": "1",
+                        "name": "Name",
+                        "description": "Description",
+                    }
+                ],
+            },
+        }
+        self.edit_form(
+            self.formId,
+            {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions},
+        )
+
+        responseId, submit_res = self.submit_form(self.formId, {"a": "B"})
+        ccavenue = submit_res["paymentMethods"]["ccavenue"]
+        self.assertEqual(ccavenue["access_code"], access_code)
+        self.assertEqual(ccavenue["merchant_id"], merchant_id)
+        self.assertIn("encRequest", ccavenue)
+        self.assertTrue(
+            type(ccavenue["encRequest"]) is str and len(ccavenue["encRequest"]) > 0
+        )  # can't predict this because it's...nondeterministic
+
     # def test_submit_form_manual_approval(self):
     #     # todo.
     #     pass
