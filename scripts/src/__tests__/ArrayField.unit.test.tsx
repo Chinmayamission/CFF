@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow, mount, render } from "enzyme";
 import CustomForm from "../form/CustomForm";
+import sinon from "sinon";
 
 it("renders regular checkboxes correctly", () => {
   let schema = {
@@ -150,4 +151,42 @@ it("custom title for one and two", () => {
   expect(wrapper).toMatchSnapshot();
   expect(wrapper.text()).toContain("Parent Info");
   expect(wrapper.text()).toContain("Spouse Info");
+});
+
+it("shows number of items widget with ui:cff:showArrayNumItems", () => {
+  let schema = {
+    type: "object",
+    properties: {
+      parents: {
+        type: "array",
+        minItems: 1,
+        items: {
+          type: "string"
+        }
+      }
+    }
+  };
+  let uiSchema = {
+    parents: {
+      "ui:cff:showArrayNumItems": true
+    }
+  };
+  const spy = sinon.spy();
+  let defaultFormData = {};
+  const wrapper = render(
+    <CustomForm
+      schema={schema}
+      uiSchema={uiSchema}
+      formData={defaultFormData}
+      onChange={spy}
+    />
+  );
+  expect(wrapper.find(".array-item").children).toHaveLength(1);
+  wrapper
+    .find("div.col-12.col-sm-6.p-0")
+    .find(CustomForm)
+    .simulate("change", { target: { value: 2 } });
+  // expect(spy.calledOnce).toBe(true);
+  // expect(spy.args[0][0].formData).toEqual({parents: [undefined, undefined]});
+  expect(wrapper.find(".array-item")).toHaveLength(2);
 });
