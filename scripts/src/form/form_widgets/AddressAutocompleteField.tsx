@@ -58,23 +58,27 @@ function createAddressString({ line1, line2, city, state, zipcode }) {
   return [line1, line2, city, state, zipcode].filter(e => e).join(" ");
 }
 
-// TODO: this hack may cause strange bugs; find a better way around this.
-let autocompletes = [];
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export default class extends React.Component<any, any> {
   ref: React.RefObject<HTMLInputElement>;
   autocomplete: any;
   constructor(props) {
     super(props);
-    autocompletes.push(this);
     this.ref = React.createRef();
     this.state = { addressEntered: false };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (googleCallbackName) {
       if (!(window as any).google) {
-        window[googleCallbackName] = this.init;
+        // window[googleCallbackName] = this.init;
+        while (!(window as any).google) {
+          await sleep(500);
+        }
+        this.init();
       } else {
         this.init();
       }
@@ -90,7 +94,7 @@ export default class extends React.Component<any, any> {
   }
 
   init() {
-    autocompletes.map(autocomplete => autocomplete.initAutocomplete());
+    this.initAutocomplete();
   }
 
   initAutocomplete() {
