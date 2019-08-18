@@ -58,15 +58,15 @@ function createAddressString({ line1, line2, city, state, zipcode }) {
   return [line1, line2, city, state, zipcode].filter(e => e).join(" ");
 }
 
-// TODO: this hack allows for only one autocomplete on a page at a time. Fix this.
-let that;
+// TODO: this hack may cause strange bugs; find a better way around this.
+let autocompletes = [];
 
 export default class extends React.Component<any, any> {
   ref: React.RefObject<HTMLInputElement>;
   autocomplete: any;
   constructor(props) {
     super(props);
-    that = this;
+    autocompletes.push(this);
     this.ref = React.createRef();
     this.state = { addressEntered: false };
   }
@@ -90,7 +90,7 @@ export default class extends React.Component<any, any> {
   }
 
   init() {
-    that.initAutocomplete();
+    autocompletes.map(autocomplete => autocomplete.initAutocomplete());
   }
 
   initAutocomplete() {
