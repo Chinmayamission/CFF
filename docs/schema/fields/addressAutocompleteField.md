@@ -29,3 +29,21 @@ uiSchema:
     }
 }
 ```
+
+## Specify location type
+
+You can also specify `cff:locationType` in `ui:options` in order to change the types of suggestions that show up. By default, the suggestions are addresses. To change, set the value equal to `cities` and you will get only city results:
+
+```
+{
+    "address": {
+        "ui:field": "cff:addressAutocomplete",
+        "ui:options": {
+            "cff:locationType": "cities"
+        }
+    }
+}
+
+```
+
+![image](https://user-images.githubusercontent.com/1689183/63220158-cfc99480-c136-11e9-9cc8-4de40bc6f63a.png)

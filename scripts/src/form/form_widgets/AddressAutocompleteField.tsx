@@ -101,8 +101,10 @@ export default class extends React.Component<any, any> {
         this.setState({ addressEntered: true });
       }
     }
+    const uiOptions = this.props.uiSchema["ui:options"] || {};
+    const locationType = uiOptions["cff:locationType"];
     this.autocomplete = new google.maps.places.Autocomplete(this.ref.current, {
-      types: ["address"]
+      types: locationType === "cities" ? ["(cities)"] : ["address"]
     });
     this.autocomplete.setFields(["address_component"]);
     this.autocomplete.addListener("place_changed", () => this.fillInAddress());
