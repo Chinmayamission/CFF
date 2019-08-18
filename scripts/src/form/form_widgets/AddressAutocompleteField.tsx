@@ -4,8 +4,6 @@ import { get, find } from "lodash";
 import CustomForm from "../CustomForm";
 
 declare const GOOGLE_MAPS_API_KEY: string;
-const GOOGLE_MAPS_API_CALLBACK = "ccmt_cff_google_maps_callback";
-const googleCallbackName = GOOGLE_MAPS_API_CALLBACK;
 declare const google: any;
 
 // Uses from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
@@ -72,24 +70,13 @@ export default class extends React.Component<any, any> {
   }
 
   async componentDidMount() {
-    if (googleCallbackName) {
-      if (!(window as any).google) {
-        // window[googleCallbackName] = this.init;
-        while (!(window as any).google) {
-          await sleep(500);
-        }
-        this.init();
-      } else {
-        this.init();
+    if (!(window as any).google) {
+      while (!(window as any).google) {
+        await sleep(500);
       }
+      this.init();
     } else {
       this.init();
-    }
-  }
-
-  componentWillUnmount() {
-    if (googleCallbackName && window[googleCallbackName]) {
-      delete window[googleCallbackName];
     }
   }
 
@@ -133,7 +120,7 @@ export default class extends React.Component<any, any> {
       <>
         <Helmet>
           <script
-            src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=${GOOGLE_MAPS_API_CALLBACK}`}
+            src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`}
           ></script>
         </Helmet>
 
