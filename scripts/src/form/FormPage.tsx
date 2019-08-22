@@ -30,8 +30,6 @@ const STATUS_FORM_PAYMENT_SUCCESS = 6;
 const STATUS_FORM_DONE = 8;
 
 var This;
-//const log = (type: {}) => console.log.bind(console, type);
-const log = console.log;
 
 class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   constructor(props: any) {
@@ -440,8 +438,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             <div>
               <h1 className="text-center">Confirmation Page</h1>
               <div className="alert alert-warning">
-                Please scroll down and review your registration details in order
-                to continue.
+                {get(
+                  this.state.formOptions,
+                  "messages.confirmationPageNoticeTop",
+                  "Please scroll down and review your registration details in order to continue."
+                )}
               </div>
               {formToReturn}
             </div>

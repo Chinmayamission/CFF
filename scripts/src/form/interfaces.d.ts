@@ -25,7 +25,8 @@ export interface SchemaMetadata {
 export interface IPaymentInfo {
   description?: string;
   total: any;
-  currency: string;
+  currency?: string;
+  currencyTemplate?: string;
   redirectUrl?: string;
   paymentInfoTableTitle?: string;
   items?: IPaymentInfoItem[];
@@ -41,6 +42,7 @@ export interface IPaymentInfoItem {
   name?: string;
   description?: string;
   quantity?: any;
+  total?: any;
   recurrenceDuration?: string;
   recurrenceTimes?: string;
   installment?: boolean;

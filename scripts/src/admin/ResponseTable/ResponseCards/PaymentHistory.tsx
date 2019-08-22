@@ -103,6 +103,20 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
             />
           </div>
         )
+      },
+      {
+        Header: "Notes",
+        accessor: "notes",
+        Footer: (
+          <div>
+            <input
+              value={this.props.paymentStatusDetailItem.notes}
+              onChange={e => this.props.onChange("notes", e.target.value)}
+              className="form-control form-control-sm"
+              placeholder="Notes"
+            />
+          </div>
+        )
       }
     ];
     const response = this.props.responseData;
@@ -139,7 +153,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
             type: "object",
             properties: {
               sendEmail: {
-                default: true,
+                default: false,
                 type: "boolean",
                 enumNames: ["Yes", "No"],
                 description: "Send confirmation email"

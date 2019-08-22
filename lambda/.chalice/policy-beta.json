@@ -25,7 +25,7 @@
       "Effect": "Allow",
       "Action": "ssm:GetParameter",
       "Resource": [
-          "arn:aws:ssm:*:*:parameter/CFF_COSMOS_CONN_STR_WRITE_BETA"
+          "arn:aws:ssm:*:*:parameter/CFF_ATLAS_CONN_STR_WRITE_BETA"
       ]
     },
     {

@@ -1,4 +1,28 @@
-You can enter in the number of items in an array. First, add this in the uiSchema to the array element:
+Arrays
+
+# Customizing buttons
+You can change the add button text and remove button text as follows:
+
+```json
+"participants": {
+  "type": "array",
+  "items": [...],
+  "ui:cff:addButtonText": "Add the person",
+  "ui:cff:removeButtonText": "Remove! Custom text!",
+}
+```
+
+You can remove the add buttons this way:
+
+```json
+"participants": {
+    "ui:cff:showAddButton": false
+}
+```
+
+# Showing a "number of items" field
+
+You can create a "number of items" field so that the user enters in the number of items in an array (as opposed to clicking on buttons to add/remove). First, add this in the uiSchema to the array element:
 
 ```
   "participants": {

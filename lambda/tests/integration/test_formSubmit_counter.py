@@ -16,24 +16,30 @@ from chalicelib.models import Form, Response, FormResponseCounter
 from bson.objectid import ObjectId
 import time
 
+
 class FormSubmitCounter(BaseTestCase):
     def test_submit_form_counter_already_exists(self):
         formId = self.create_form()
-        schema = {"properties": {"custom": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
-        uiSchema = {"a":"b"}
-        formOptions = {
-            "counter": {
-                "enabled": True
+        schema = {
+            "properties": {
+                "custom": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}},
             }
         }
-        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        uiSchema = {"a": "b"}
+        formOptions = {"counter": {"enabled": True}}
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
 
         FormResponseCounter(form=ObjectId(formId), counter=1).save()
 
-        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
-        self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"]})
-        
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.counter, 2)
 
@@ -41,21 +47,27 @@ class FormSubmitCounter(BaseTestCase):
         self.assertEqual(counter.counter, 2)
 
         self.delete_form(formId)
+
     def test_submit_form_counter_create_new(self):
         formId = self.create_form()
-        schema = {"properties": {"custom": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
-        uiSchema = {"a":"b"}
-        formOptions = {
-            "counter": {
-                "enabled": True
+        schema = {
+            "properties": {
+                "custom": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}},
             }
         }
-        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        uiSchema = {"a": "b"}
+        formOptions = {"counter": {"enabled": True}}
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
 
-        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
-        self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"]})
-        
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.counter, 1)
 
@@ -63,23 +75,29 @@ class FormSubmitCounter(BaseTestCase):
         self.assertEqual(counter.counter, 1)
 
         self.delete_form(formId)
+
     def test_submit_form_counter_disabled(self):
         formId = self.create_form()
-        schema = {"properties": {"custom": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
-        uiSchema = {"a":"b"}
-        formOptions = {
-            "counter": {
-                "enabled": False
+        schema = {
+            "properties": {
+                "custom": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}},
             }
         }
-        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        uiSchema = {"a": "b"}
+        formOptions = {"counter": {"enabled": False}}
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
 
         FormResponseCounter(form=ObjectId(formId), counter=1).save()
 
-        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
-        self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"]})
-        
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.counter, None)
 
@@ -87,53 +105,67 @@ class FormSubmitCounter(BaseTestCase):
         self.assertEqual(counter.counter, 1)
 
         self.delete_form(formId)
+
     def test_submit_form_counter_disabled_and_nonexistent(self):
         formId = self.create_form()
-        schema = {"properties": {"custom": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
-        uiSchema = {"a":"b"}
-        formOptions = {
-            "counter": {
-                "enabled": False
+        schema = {
+            "properties": {
+                "custom": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}},
             }
         }
-        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        uiSchema = {"a": "b"}
+        formOptions = {"counter": {"enabled": False}}
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
 
-        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
-        self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"]})
-        
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.counter, None)
 
         self.assertEqual(
-            FormResponseCounter.objects.raw({"form": ObjectId(formId)}).count(),
-            0)
+            FormResponseCounter.objects.raw({"form": ObjectId(formId)}).count(), 0
+        )
 
         self.delete_form(formId)
+
     def test_submit_form_counter_dont_run_on_update(self):
         formId = self.create_form()
-        schema = {"properties": {"custom": {"type": "string"}, "participants": {"type": "array", "items": {"type": "string"}} }}
-        uiSchema = {"a":"b"}
-        formOptions = {
-            "counter": {
-                "enabled": True
+        schema = {
+            "properties": {
+                "custom": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}},
             }
         }
-        self.edit_form(formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions })
+        uiSchema = {"a": "b"}
+        formOptions = {"counter": {"enabled": True}}
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
 
         FormResponseCounter(form=ObjectId(formId), counter=1).save()
 
-        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]})
-        self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"]})
-        
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.counter, 2)
 
-        responseId, submit_res = self.submit_form(formId, {"participants": ["a", "b", "c"]}, responseId)
-        self.assertEqual(submit_res['success'], True)
-        self.assertEqual(submit_res['value'], {"participants": ["a", "b", "c"]})
-        
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}, responseId
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.counter, 2)
 

@@ -33,4 +33,5 @@ export interface IPaymentStatusDetailItem {
   date: { $date: string };
   method: string;
   id: string;
+  notes?: string;
 }

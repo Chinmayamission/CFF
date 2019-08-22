@@ -4,6 +4,55 @@ import Loading from "../../common/Loading/Loading";
 import CustomForm from "../CustomForm";
 import "./AutoPopulateField.scss";
 
+export function getSchemaFromResults({ results, schema, titleAccessor }) {
+  let options: any = [];
+  for (let result of results) {
+    let option = { properties: {} };
+    if (schema.type === "object") {
+      // Always true for now.
+      for (let key in schema.properties) {
+        option["properties"][key] = {
+          ...schema.properties[key],
+          type: typeof result[key],
+          default: result[key],
+          enum: [result[key]],
+          readOnly: true
+        };
+        if (titleAccessor) {
+          // Always true for now.
+          option["properties"][titleAccessor] = {
+            const: get(result, titleAccessor)
+          };
+        }
+      }
+    }
+    // TODO: work with other types.
+    else {
+      option = result;
+    }
+    options.push(option);
+  }
+  // Sort options alphabetically.
+  options = sortBy(
+    options,
+    option => option["properties"][titleAccessor].const
+  );
+  let newSchema = {
+    ...schema,
+    properties: {
+      [titleAccessor]: {
+        ...schema.properties[titleAccessor],
+        enum: options.map(option => option["properties"][titleAccessor].const)
+      }
+    },
+    dependencies: {
+      [titleAccessor]: {
+        oneOf: options
+      }
+    }
+  };
+  return newSchema;
+}
 class AutoPopulateField extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -27,56 +76,11 @@ class AutoPopulateField extends React.Component<any, any> {
         results = await fetch(endpoint).then(e => e.json());
         sessionStorage.setItem(endpoint, JSON.stringify(results));
       }
-      let options: any = [];
-      // options.push(
-      //     {"title": this.props.uiSchema["ui:placeholder"] || `Select ${this.props.name}`, "type": "object", "properties": {"a": {"type": "string"}}, "required": ["a"] }
-      // );
-      for (let result of results) {
-        let option = { properties: {} };
-        if (this.props.schema.type === "object") {
-          // Always true for now.
-          for (let key in this.props.schema.properties) {
-            option["properties"][key] = {
-              type: typeof result[key],
-              default: result[key],
-              enum: [result[key]],
-              readOnly: true
-            };
-            if (titleAccessor) {
-              // Always true for now.
-              option["properties"][titleAccessor] = {
-                const: get(result, titleAccessor)
-              };
-            }
-          }
-        }
-        // TODO: work with other types.
-        else {
-          option = result;
-        }
-        options.push(option);
-      }
-      // Sort options alphabetically.
-      options = sortBy(
-        options,
-        option => option["properties"][titleAccessor].const
-      );
-      let newSchema = {
-        ...this.props.schema,
-        properties: {
-          [titleAccessor]: {
-            ...this.props.schema.properties[titleAccessor],
-            enum: options.map(
-              option => option["properties"][titleAccessor].const
-            )
-          }
-        },
-        dependencies: {
-          [titleAccessor]: {
-            oneOf: options
-          }
-        }
-      };
+      let newSchema = getSchemaFromResults({
+        results,
+        schema: this.props.schema,
+        titleAccessor
+      });
       this.setState({
         loading: false,
         newSchema

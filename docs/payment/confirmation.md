@@ -16,3 +16,13 @@ For example,
 Will give a result of `Oct 10, 2000`.
 
 It would be nice to be able to support other locales in the future.
+
+## Confirmation email view link
+
+In the confirmation email, you can use a view link. This renders a form response which is disabled. Just do:
+
+```
+Modify your response here: {{view_link}}.
+```
+
+Here is a sample view link: http://localhost:8000/v2/forms/5b3f8b7a978a860001e276c3/?responseId=5b3f8daf978a860001e276c5&mode=view

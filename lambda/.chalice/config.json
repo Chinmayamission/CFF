@@ -16,6 +16,7 @@
     "beta": {
       "autogen_policy": false,
       "api_gateway_stage": "v2",
+      "lambda_memory_size": 1024,
       "environment_variables": {
         "DB_NAME": "cff_beta",
         "MODE": "BETA",
@@ -27,6 +28,7 @@
     "prod": {
       "autogen_policy": false,
       "api_gateway_stage": "v2",
+      "lambda_memory_size": 1024,
       "environment_variables": {
         "DB_NAME": "cff_prod",
         "MODE": "PROD",

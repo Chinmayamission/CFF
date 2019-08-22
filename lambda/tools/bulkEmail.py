@@ -1,3 +1,10 @@
+from pynliner import Pynliner
+import json
+import boto3
+from boto3.dynamodb.conditions import Key
+from chalicelib.util import get_all_responses
+from chalicelib.main import TABLES
+
 """
 python tools/bulkEmail.py
 python -m unittest tools.bulkEmail
@@ -5,13 +12,8 @@ python -m unittest tools.bulkEmail
 from tests.integration.constants import _
 from chalicelib.util.formSubmit.emailer import display_form_dict, email_to_html_text
 import os
+
 os.environ["TABLE_PREFIX"] = "cff_prod"
-from chalicelib.main import TABLES
-from chalicelib.util import get_all_responses
-from boto3.dynamodb.conditions import Key
-import boto3
-import json
-from pynliner import Pynliner
 
 CONFIRMATION_EMAIL_INFO = {
     "cc": None,
@@ -23,7 +25,7 @@ CONFIRMATION_EMAIL_INFO = {
     "toField": "email",
     "fromName": "Test",
     "from": "ccmt.dev@gmail.com",
-    "message": "Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018."
+    "message": "Thank you for your registration. You are registering for Training and Not for OmRun; OmRun registration will open in the first quarter of 2018.",
 }
 
 TO_EMAIL = "success@simulator.amazonses.com"
@@ -54,51 +56,54 @@ formId = "31571110-483c-4b72-b4b8-5b1ce0b9348b"
 responseId = "aa5ac26d-42bf-4000-b71f-7cb3d12f2fc0"
 
 client = boto3.client("ses")
-responses = boto3.resource('dynamodb').Table("cff_prod.responses")
+responses = boto3.resource("dynamodb").Table("cff_prod.responses")
 
 template = {
-    'TemplateName': 'Basic',
-    'SubjectPart': '{{subject}}',
-    'TextPart': '{{body_text}}',
-    'HtmlPart': '{{body_html}}'
+    "TemplateName": "Basic",
+    "SubjectPart": "{{subject}}",
+    "TextPart": "{{body_text}}",
+    "HtmlPart": "{{body_html}}",
 }
 try:
-  client.create_template(
-      Template=template
-  )
-  print("Created template {}.".format(template["TemplateName"]))
+    client.create_template(Template=template)
+    print("Created template {}.".format(template["TemplateName"]))
 except client.exceptions.AlreadyExistsException:
-  client.update_template(
-    Template=template
-  )
-  print("Updated template {}.".format(template["TemplateName"]))
+    client.update_template(Template=template)
+    print("Updated template {}.".format(template["TemplateName"]))
 
 print("Querying all responses...")
-responses = get_all_responses(KeyConditionExpression=Key('formId').eq(formId), FilterExpression=Key('PAID').eq(True))
+responses = get_all_responses(
+    KeyConditionExpression=Key("formId").eq(formId),
+    FilterExpression=Key("PAID").eq(True),
+)
 print("Got responses.")
 response = responses[0]
-EMAIL_CONTENT += "<h2>Your lookup ID: <strong>{}</strong></h2><br><br>{}".format(response["responseId"][:6], display_form_dict(response["value"]))
+EMAIL_CONTENT += "<h2>Your lookup ID: <strong>{}</strong></h2><br><br>{}".format(
+    response["responseId"][:6], display_form_dict(response["value"])
+)
 BODY_TEXT, BODY_HTML = email_to_html_text(EMAIL_CONTENT)
 recipient = "success@simulator.amazonses.com"
 response = client.send_bulk_templated_email(
-  Source="omrun@cmsj.org",
-  Template="Basic",
-  DefaultTemplateData=json.dumps({
-    "subject": "Om Run Final Information Email",
-    "body_text": "Error",
-    "body_html": "Error"
-  }),
-  Destinations=[
-    {
-      "Destination": {
-        "ToAddresses": [recipient]
-      },
-      "ReplacementTemplateData": json.dumps({
-        "subject": "Om Run Final Information Email",
-        "body_text": BODY_TEXT,
-        "body_html": BODY_HTML
-      })
-    }
-  ]
+    Source="omrun@cmsj.org",
+    Template="Basic",
+    DefaultTemplateData=json.dumps(
+        {
+            "subject": "Om Run Final Information Email",
+            "body_text": "Error",
+            "body_html": "Error",
+        }
+    ),
+    Destinations=[
+        {
+            "Destination": {"ToAddresses": [recipient]},
+            "ReplacementTemplateData": json.dumps(
+                {
+                    "subject": "Om Run Final Information Email",
+                    "body_text": BODY_TEXT,
+                    "body_html": BODY_HTML,
+                }
+            ),
+        }
+    ],
 )
 print("Sent email to {}".format(recipient))

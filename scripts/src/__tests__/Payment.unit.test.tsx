@@ -15,7 +15,8 @@ it("renders payment table on new response", () => {
             name: "One",
             description: "One",
             amount: 12,
-            quantity: 1
+            quantity: 1,
+            total: 12
           }
         ]
       }}
@@ -39,6 +40,46 @@ it("renders payment table on new response", () => {
   expect(wrapper.text()).not.toContain("Amount already paid");
 });
 
+it("renders payment table with currency template", () => {
+  const wrapper = render(
+    <Payment
+      onPaymentStarted={e => e}
+      paymentInfo={{
+        currency: "USD",
+        currencyTemplate:
+          "{% if value.nationality == 'India' %}INR{% else %}USD{% endif %}",
+        total: 12,
+        items: [
+          {
+            name: "One",
+            description: "One",
+            amount: 12,
+            quantity: 1,
+            total: 12
+          }
+        ]
+      }}
+      paymentInfo_owed={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentInfo_received={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentMethods={[]}
+      onPaymentComplete={e => e}
+      onPaymentError={e => e}
+      responseId={"responseId"}
+      formId={"formId"}
+      formData={{ nationality: "India" }}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("₹");
+  expect(wrapper.text()).not.toContain("$");
+});
+
 it("renders payment table with amount received", () => {
   const wrapper = render(
     <Payment
@@ -51,7 +92,8 @@ it("renders payment table with amount received", () => {
             name: "One",
             description: "One",
             amount: 12,
-            quantity: 1
+            quantity: 1,
+            total: 12
           }
         ]
       }}
@@ -88,6 +130,7 @@ it("renders recurring payment table with times", () => {
             description: "One",
             amount: 12,
             quantity: 1,
+            total: 12,
             recurrenceDuration: "1M"
           }
         ]
@@ -118,15 +161,63 @@ it("renders recurring payment table with end", () => {
       onPaymentStarted={e => e}
       paymentInfo={{
         currency: "USD",
-        total: 12,
+        total: 120,
         items: [
           {
             name: "One",
             description: "One",
             amount: 12,
             quantity: 1,
+            total: 120,
             recurrenceDuration: "1M",
             recurrenceTimes: "10"
+          }
+        ]
+      }}
+      paymentInfo_owed={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentInfo_received={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentMethods={[]}
+      onPaymentComplete={e => e}
+      onPaymentError={e => e}
+      responseId={"responseId"}
+      formId={"formId"}
+      formData={{}}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).not.toContain("Amount already paid");
+});
+
+it("renders installment payment table", () => {
+  const wrapper = render(
+    <Payment
+      onPaymentStarted={e => e}
+      paymentInfo={{
+        currency: "USD",
+        total: 120,
+        items: [
+          {
+            name: "One",
+            description: "One",
+            amount: 120,
+            quantity: 1,
+            total: 120
+          },
+          {
+            name: "Installment",
+            description: "Installment",
+            amount: 12,
+            quantity: 1,
+            total: 120,
+            recurrenceDuration: "1M",
+            recurrenceTimes: "10",
+            installment: true
           }
         ]
       }}
@@ -190,18 +281,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 4,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
   it("calculates total items in paymentInfo last", () => {
     let paymentInfo = {
@@ -217,22 +297,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 3.6,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        },
-        {
-          amount: -0.4,
-          quantity: 1
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
   it("doesn't include installments in total calculation", () => {
     let paymentInfo = {
@@ -251,25 +316,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 4,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        },
-        {
-          amount: 2,
-          quantity: 1,
-          recurrenceDuration: "1M",
-          recurrenceTimes: 2,
-          installment: true
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
   it("calculates installments from multiple totals", () => {
     let paymentInfo = {
@@ -296,32 +343,6 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    let expectedPaymentInfo = {
-      total: 2,
-      items: [
-        {
-          amount: 2,
-          quantity: 2
-        },
-        {
-          amount: -1,
-          quantity: 1
-        },
-        {
-          amount: -1,
-          quantity: 1
-        },
-        {
-          amount: 1,
-          quantity: 1,
-          recurrenceDuration: "1M",
-          recurrenceTimes: 2,
-          installment: true
-        }
-      ]
-    };
-    expect(calculatePaymentInfo(paymentInfo, formData)).toEqual(
-      expectedPaymentInfo
-    );
+    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
   });
 });

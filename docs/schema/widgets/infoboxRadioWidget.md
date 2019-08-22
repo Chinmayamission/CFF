@@ -25,3 +25,6 @@ In the schema, include the description as the HTML:
 ```
 
 cff:radioDescription shows for the label and cff:radioDescriptions show up for each option, respectively.
+
+# Infobox select
+A similar feature is available for select dropdowns -- to activate, set `ui:widget` to `cff:infoboxSelect`.

@@ -1,3 +1,12 @@
+from chalicelib.models import (
+    Response,
+    Form,
+    PaymentTrailItem,
+    PaymentStatusDetailItem,
+    serialize_model,
+)
+from chalicelib.main import app, MODE
+
 """
 pipenv run python -m unittest tools.calculateTotals
 Calculate totals.
@@ -23,9 +32,8 @@ os.environ["USER_POOL_ID"] = ""
 os.environ["S3_UPLOADS_BUCKET_NAME"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 
-from chalicelib.main import app, MODE
+
 print("MODE", MODE)
-from chalicelib.models import Response, Form, PaymentTrailItem, PaymentStatusDetailItem, serialize_model
 
 # sanity check -- no one is marked as "not paid" with a zero total.
 # responses = Response.objects.raw({"form": ObjectId(formId), "paid": False, "paymentInfo.total": 0})
@@ -35,10 +43,10 @@ from chalicelib.models import Response, Form, PaymentTrailItem, PaymentStatusDet
 responses = Response.objects.raw({"form": ObjectId(formId)}).aggregate(
     {"$unwind": "payment_status_detail"},
     {"$match": {"payment_status_detail.method": "paypal_ipn"}},
-    {"$project": { "payment_status_detail.amount": 1 } }
+    {"$project": {"payment_status_detail.amount": 1}},
 )
 
 total = sum(float(item["payment_status_detail"]["amount"]) for item in responses)
 
 print(total)
-#.objects.raw({"form": ObjectId(formId), "paid": True})
+# .objects.raw({"form": ObjectId(formId), "paid": True})

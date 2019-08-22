@@ -1,3 +1,43 @@
 site_name: Chinmaya Forms Framework
 theme:
   name: 'material'
+  
+nav:
+  - Form Management:
+      Quickstart: mgmt/forms-setup.md
+      Sharing: mgmt/share.md
+      Duplicating a form: mgmt/duplicating-a-form.md
+  - Form Schema Customization:
+      Learn JSON Schema: http://json-schema.org/learn/getting-started-step-by-step.html
+      Validation: schema/validate.md
+      Custom Fields:
+        Auto Populate: schema/fields/auto-populate.md
+        Dynamic Enum: schema/fields/dynamic-enum.md
+        Same As: schema/fields/same-as.md
+        Address Autocomplete: schema/fields/addressAutocompleteField.md
+      Custom Widgets:
+        Infobox Radio / Select: schema/widgets/infoboxRadioWidget.md
+      Arrays: schema/arrays.md
+      Omit Extra Data: schema/omitExtraData.md
+  - Payment Integration:
+      Confirmation Email: payment/confirmation.md
+      Payment Expressions: payment/expressions.md
+      Message Customization: payment/messages.md
+      Payment Table: payment/payment-table.md
+      Recurring Payments: payment/recurring.md
+      Check Payments: payment/check.md
+      CCAvenue: payment/ccavenue.md
+      Currency: payment/currency.md
+  - Responses Table Customization:
+      Data Options: responses/data_options.md
+      Edit Schema: responses/edit_schema.md
+  - Other Form Options:
+      Closing Submissions: formOptions/closing-submissions.md
+      Response Counter: formOptions/counter.md
+      Postprocess: formOptions/postprocess.md
+      Predicates: formOptions/predicates.md
+  - Using the API:
+      API Quickstart: api/api-quickstart.md
+  - Development on CFF:
+      Using Git and GitHub: development/git.md
+      Backend setup: development/backend.md

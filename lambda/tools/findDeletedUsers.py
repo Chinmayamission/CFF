@@ -1,3 +1,6 @@
+from chalicelib.models import Response, serialize_model
+import app
+
 """
 AWS_PROFILE=ashwin-cff-lambda pipenv run python -m unittest tools.findDeletedUsers
 Lowercases users
@@ -16,7 +19,7 @@ from tqdm import tqdm
 TEST = False
 client = boto3.client("cognito-idp")
 # pool = "us-east-1_U9ls8R6E3" # beta
-pool = "us-east-1_kcpcLxLzn" # prod
+pool = "us-east-1_kcpcLxLzn"  # prod
 
 # os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
 os.environ["MODE"] = "PROD"
@@ -24,8 +27,6 @@ os.environ["USER_POOL_ID"] = pool
 os.environ["COGNITO_CLIENT_ID"] = ""
 os.environ["DB_NAME"] = "cff_prod"
 
-import app
-from chalicelib.models import Response, serialize_model
 
 def do_stuff():
     i = 1
@@ -35,9 +36,15 @@ def do_stuff():
     while first or paginationToken:
         first = False
         if paginationToken:
-            response = client.list_users(UserPoolId=pool, AttributesToGet=["email", "email_verified"], PaginationToken=paginationToken)
+            response = client.list_users(
+                UserPoolId=pool,
+                AttributesToGet=["email", "email_verified"],
+                PaginationToken=paginationToken,
+            )
         else:
-            response = client.list_users(UserPoolId=pool, AttributesToGet=["email", "email_verified"])
+            response = client.list_users(
+                UserPoolId=pool, AttributesToGet=["email", "email_verified"]
+            )
         subs += [u["Username"] for u in response["Users"]]
         paginationToken = response.get("PaginationToken", None)
     print(subs)
@@ -49,5 +56,6 @@ def do_stuff():
         # print("OK")
         pass
     # return emails
+
 
 res = do_stuff()

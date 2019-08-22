@@ -1,6 +1,6 @@
 {
   "name": "ccmt-cff-client",
-  "version": "3.20.0",
+  "version": "3.24.0",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
@@ -58,7 +58,6 @@
     "prettier": "^1.18.2",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
-    "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.3.2",
     "react-paypal-express-checkout": "^1.0.3",
     "serverless-offline": "^3.32.2",
@@ -71,7 +70,7 @@
     "typescript": "^3.5.2",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
-    "webpack": "^4.33.0",
+    "webpack": "^4.36.1",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.7.1",
     "webpack-merge": "^4.1.2"
@@ -115,6 +114,7 @@
     "moment": "^2.22.2",
     "mongodb": "^3.1.10",
     "node-sass": "^4.9.2",
+    "nunjucks": "^3.2.0",
     "open-iconic": "^1.1.1",
     "papaparse": "^4.6.0",
     "query-string": "^5.1.1",
@@ -124,7 +124,7 @@
     "react-google-font-loader": "^1.0.5",
     "react-helmet": "^5.2.0",
     "react-json-view": "^1.15.2",
-    "react-jsonschema-form": "^1.7.0",
+    "react-jsonschema-form": "git+https://github.com/mozilla-services/react-jsonschema-form.git#ad2bd6841b9218622a2a4bc92a07f4e8b88ce636",
     "react-loading": "^1.0.3",
     "react-modal": "^3.8.1",
     "react-monaco-editor": "^0.26.2",
@@ -132,6 +132,8 @@
     "react-responsive-modal": "^2.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-select": "^3.0.4",
+    "react-spinners": "^0.5.13",
     "react-table": "^6.8.0",
     "react-tabs": "^3.0.0",
     "react-toggle-switch": "^3.0.4",
@@ -182,7 +184,8 @@
       "ENDPOINT_URL": "http://localhost:8001/",
       "GA_TRACKING_ID": "",
       "USER_POOL_ID": "",
-      "COGNITO_CLIENT_ID": ""
+      "COGNITO_CLIENT_ID": "",
+      "GOOGLE_MAPS_API_KEY": ""
     }
   },
   "husky": {

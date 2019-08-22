@@ -1,3 +1,59 @@
+## 3.24.0
+- Feat: Multiple currency support with `paymentInfo.currencyTemplate` (#181)
+- Chore: Add tests for CCAvenue form submit
+
+## 3.23.1
+- Fix: Fix issue in which an older version of rjsf was accidentally deployed in 3.23.0
+- Doc: Reorganize and update documentation
+
+## 3.23.0
+- Feat: Add organizations feature, which restricts form creation only to certain users. This fixes a security issue, because otherwise anyone could sign up with an account and create a form (and thus send confirmation emails from one of our verified email addresses).
+
+- Fix: Use MongoDB Atlas for Beta deployment
+- Chore: Format Python files using Black
+
+## 3.22.0
+- Feat: Create a permission called "Responses_AddPayment" that allows one only to add payments (previously, one had to have "Responses_Edit" permission to do so) (#171)
+- Feat: Add a new UI for sharing functionality using react-select (#171)
+- Feat: For the admin manual payment interface, added a "Notes" field (#171)
+- Feat: Add sticky footer with "Help" link on the admin page (#166)
+
+- Fix: When submitting a manual payment through the admin interface, default the "send confirmation email" button to false (#171)
+
+## 3.21.3
+- Fix: Make sure paypal IPN handler doesn't crash when no txn_id field is defined.
+- Fix: better IPN error message when emails don't match.
+
+## 3.21.2
+- Fix: Make sure FormResponseCounter entries are stored in the same collection as everything else
+- Fix: Change rjsf patch to fix array num items bug (#162)
+- Feat: add responseSaveEnabled feature to formOptions (not functional yet)
+
+## 3.21.1
+- Feat: AddressAutocompleteField now supports `ui:placeholder` attribute
+- Feat: Upgrade to rjsf patch version for allOf support
+- Feat: Show error list on top, and scroll to top, on error
+
+- Fix: Don't cap the width of "total" column on payment table (#159)
+
+- Chore: Speed up lambda by increasing memory from 128 MB -> 1024 MB
+
+## 3.21.0
+- Feat: Add address autocomplete field `cff:addressAutocomplete` (#151)
+- Feat: Removed the "Checkin" button from the menu (#140)
+- Feat: Changed loading icon (#155)
+- Feat: Show "total" column in payment table for item-level totals (#157)
+- Feat: Allow confirmation "Please scroll down" message to be overriden by `formOptions.messages.confirmationPageNoticeTop`
+
+- Fix: Fix anonymous users not redirected to login (#139)
+- Fix: Autopopulate fixes (#136)
+- Fix: Speed up form list clicking / right clicking (#148)
+- Fix: Prevent refreshing the page after a form is deleted (#153)
+
+- Chore: merge backend code into `lambda` directory of a single `CFF` repository.
+- Chore: add backend tests to CI pipeline
+- Chore: Use aws-amplify smaller packages to decrease bundle size and fix warnings
+
 ## 3.20.0
 - Feat: Add "counter" functionality which allows for generating numeric, consecutive ids for each response based on its order of creation.
 - Feat: Add "format_date" template filter for jinja templates (used in confirmation emails) to show dates in a locale-friendly manner.

@@ -1,8 +1,8 @@
 You can use the CFF API to access resources from another client, such as an app. Make sure you include the `Authorization` header to all requests.
 
-Create an account at https://forms.chinmayamission.com.
+Create an account at [https://forms.chinmayamission.com](https://forms.chinmayamission.com).
 
-Click on "Create form" to create a form. Go to the "form edit" page and add the following:
+Click on "Create form" to create a form (note: you must get approval from one of the admins before being able to do so). Go to the "form edit" page and add the following:
 
 Form Options
 
