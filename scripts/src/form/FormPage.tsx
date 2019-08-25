@@ -490,7 +490,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
                 className="btn btn-primary"
                 onClick={this.goBackToFormPage}
               >
-                Admin edit response
+                Edit
               </button>
             )}
           {formToReturn}
