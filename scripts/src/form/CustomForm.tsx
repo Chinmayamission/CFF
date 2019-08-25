@@ -24,6 +24,7 @@ import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
 import AddressAutocompleteField from "./form_widgets/AddressAutocompleteField";
+import formViewProps from "./form_view/formViewProps";
 
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
@@ -107,6 +108,7 @@ interface ICustomFormProps {
   children?: any;
   omitExtraData?: boolean;
   tagName?: string;
+  mode?: string | null;
 }
 
 function CustomForm(props: ICustomFormProps) {
@@ -163,6 +165,7 @@ function CustomForm(props: ICustomFormProps) {
         formContext={{ formData: props.formData }}
         omitExtraData={props.omitExtraData}
         liveOmit={props.omitExtraData}
+        {...(props.mode === "view" ? formViewProps : {})}
       >
         {props.children}
         {!props.children && props.showPaymentTable && (
