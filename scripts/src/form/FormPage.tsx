@@ -379,7 +379,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       <div
         className={
           "ccmt-cff-Page-FormPage " +
-          (this.state.status == STATUS_FORM_RENDERED
+          (this.state.status === STATUS_FORM_RENDERED ||
+          this.state.status === STATUS_FORM_RESPONSE_VIEW
             ? ""
             : "ccmt-cff-Page-FormPage-readonly")
         }
@@ -427,6 +428,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           onSubmit={e => this.onSubmit(e)}
           onChange={e => this.onChange(e)}
           omitExtraData={get(this.state.formOptions, "omitExtraData", false)}
+          mode={this.state.status === STATUS_FORM_RESPONSE_VIEW ? "view" : null}
         />
         {this.state.ajaxLoading && <Loading hasError={this.state.hasError} />}
       </div>
