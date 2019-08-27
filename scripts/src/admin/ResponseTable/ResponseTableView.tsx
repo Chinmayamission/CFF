@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import ReactTable from "react-table";
 import { IResponse } from "../../store/responses/types";
 import { IDataOptionView, IRenderedForm } from "../FormEdit/FormEdit.d";
@@ -7,6 +7,7 @@ import { filterCaseInsensitive } from "./filters";
 import Modal from "react-responsive-modal";
 import ResponseDetail from "./ResponseDetail";
 import { createHeadersAndDataFromDataOption } from "../util/dataOptionUtil";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 interface IResponseTableViewProps {
   responses: IResponse[];
@@ -15,6 +16,25 @@ interface IResponseTableViewProps {
   shownResponseDetailId?: string;
   displayResponseDetail?: (e: string) => void;
   editResponse?: (a: string, b: string, c: string) => void;
+}
+
+function handleClick(e, data) {
+  console.log(data.foo);
+}
+
+function RenderContextMenu(rowid) {
+  <ContextMenu id={rowid}>
+    <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
+      ContextMenu Item 1
+    </MenuItem>
+    <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
+      ContextMenu Item 2
+    </MenuItem>
+    <MenuItem divider />
+    <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
+      ContextMenu Item 3
+    </MenuItem>
+  </ContextMenu>;
 }
 
 export default (props: IResponseTableViewProps) => {
@@ -40,6 +60,9 @@ export default (props: IResponseTableViewProps) => {
       >
         Download CSV
       </button>
+      <div className="col-sm">
+        Right click on a response to perform an action.
+      </div>
 
       <ReactTable
         data={dataFinal}
@@ -49,6 +72,16 @@ export default (props: IResponseTableViewProps) => {
         defaultSorted={[{ id: "DATE_LAST_MODIFIED", desc: true }]}
         defaultFiltered={[{ id: "PAID", value: "all" }]}
         defaultFilterMethod={filterCaseInsensitive}
+        TrComponent={(state, rowInfo, column, instance) => {
+          console.log("rowInfo =" + rowInfo);
+          console.log("column =" + column);
+          console.log("instance =" + instance);
+          return null;
+        }}
+        /* TrComponent={row => {
+          console.log(row);
+          return null;
+        }}*/
         getTdProps={(state, rowInfo, column, instance) => {
           return {
             onClick: e => {
@@ -59,6 +92,7 @@ export default (props: IResponseTableViewProps) => {
           };
         }}
       />
+
       <Modal
         open={!!props.shownResponseDetailId}
         onClose={() => props.displayResponseDetail(null)}
