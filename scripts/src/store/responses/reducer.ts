@@ -16,7 +16,8 @@ const initialState: ResponsesState = {
   responses: null,
   paymentStatusDetailItem: defaultPaymentStatusDetailItem,
   selectedView: "main",
-  shownResponseDetailId: null
+  shownResponseDetailId: null,
+  pivotBy: []
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {
@@ -25,6 +26,11 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         shownResponseDetailId: action.shownResponseDetailId
+      };
+    case "SET_PIVOT_BY":
+      return {
+        ...state,
+        pivotBy: action.pivotBy
       };
     case "SET_RESPONSES":
       return {

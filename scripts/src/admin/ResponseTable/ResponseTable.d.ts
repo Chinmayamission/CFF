@@ -21,6 +21,7 @@ export interface IResponseTableProps extends ResponsesState {
   push: (x: string) => void;
   editGroups: (x: any) => any;
   displayResponseDetail: (e: string) => void;
+  setPivotBy: (e: string[]) => void;
   editResponse: (a, b, c) => void;
 }
 

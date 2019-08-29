@@ -13,7 +13,8 @@ import { editResponse } from "../../store/responses/actions";
 import {
   fetchResponses,
   setResponsesSelectedView,
-  displayResponseDetail
+  displayResponseDetail,
+  setPivotBy
 } from "../../store/responses/actions";
 import { IResponseTableProps, IResponseTableState } from "./ResponseTable.d";
 import ResponseTableView from "./ResponseTableView";
@@ -99,6 +100,8 @@ class ResponseTable extends React.Component<
           shownResponseDetailId={this.props.shownResponseDetailId}
           displayResponseDetail={e => this.props.displayResponseDetail(e)}
           editResponse={(a, b, c) => this.props.editResponse(a, b, c)}
+          pivotBy={this.props.pivotBy}
+          setPivotBy={e => this.props.setPivotBy(e)}
         />
       </div>
     );
@@ -122,7 +125,8 @@ const mapDispatchToProps = dispatch => ({
   push: (e: string) => dispatch(push(`./${e}`)),
   editGroups: (e: any) => dispatch(editGroups(e)),
   displayResponseDetail: (e: string) => dispatch(displayResponseDetail(e)),
-  editResponse: (a, b, c) => dispatch(editResponse(a, b, c))
+  editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
+  setPivotBy: (e: string[]) => dispatch(setPivotBy(e))
 });
 
 export default connect(

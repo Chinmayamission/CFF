@@ -6,6 +6,7 @@ export interface ResponsesState {
   responses: IResponse[];
   selectedView: string;
   shownResponseDetailId: string;
+  pivotBy: string[];
 }
 
 export interface IResponse {

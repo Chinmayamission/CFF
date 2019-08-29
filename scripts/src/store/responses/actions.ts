@@ -84,6 +84,11 @@ export const displayResponseDetail = (shownResponseDetailId: string) => ({
   shownResponseDetailId
 });
 
+export const setPivotBy = (pivotBy: string[]) => ({
+  type: "SET_PIVOT_BY",
+  pivotBy
+});
+
 export const submitNewPayment = ({ sendEmail }) => (dispatch, getState) => {
   dispatch(loadingStart());
   let responsesState: ResponsesState = getState().responses;

@@ -7,14 +7,17 @@ import { filterCaseInsensitive } from "./filters";
 import Modal from "react-responsive-modal";
 import ResponseDetail from "./ResponseDetail";
 import { createHeadersAndDataFromDataOption } from "../util/dataOptionUtil";
+import Form from "react-jsonschema-form";
 
 interface IResponseTableViewProps {
   responses: IResponse[];
   renderedForm: IRenderedForm;
   dataOptionView: IDataOptionView;
   shownResponseDetailId?: string;
+  pivotBy?: string[];
   displayResponseDetail?: (e: string) => void;
   editResponse?: (a: string, b: string, c: string) => void;
+  setPivotBy?: (e: string[]) => void;
 }
 
 export default (props: IResponseTableViewProps) => {
@@ -40,10 +43,27 @@ export default (props: IResponseTableViewProps) => {
       >
         Download CSV
       </button>
-
+      <Form
+        tagName="div"
+        // TODO: maybe allow an array input to pivot by more columns.
+        schema={{
+          title: "Pivot by",
+          type: "string",
+          enum: headers.map(h => h.id)
+        }}
+        uiSchema={{
+          classNames: "col-12 col-sm-6"
+        }}
+        value={(props.pivotBy || [])[0]}
+        onChange={e => props.setPivotBy(e.formData ? [e.formData] : [])}
+      >
+        &nbsp;
+      </Form>
+      {console.log(props.pivotBy)}
       <ReactTable
         data={dataFinal}
         columns={headers}
+        pivotBy={props.pivotBy || []}
         minRows={0}
         filterable
         defaultSorted={[{ id: "DATE_LAST_MODIFIED", desc: true }]}

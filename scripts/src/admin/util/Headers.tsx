@@ -263,7 +263,6 @@ export namespace Headers {
             tagName="div"
           >
             <div className="d-none"></div>
-            {console.log(other)}
           </Form>
         );
         headerObj.filterMethod = filterMethodAllNone;
