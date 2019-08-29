@@ -71,9 +71,16 @@ export default (props: IResponseTableViewProps) => {
         defaultFilterMethod={filterCaseInsensitive}
         getTdProps={(state, rowInfo, column, instance) => {
           return {
-            onClick: e => {
-              if (!column.headerClassName.match(/ccmt-cff-no-click/)) {
+            onClick: (e, handleOriginal) => {
+              // Make sure it's not an aggregated column.
+              if (
+                rowInfo.original &&
+                rowInfo.original.ID &&
+                !column.headerClassName.match(/ccmt-cff-no-click/)
+              ) {
                 props.displayResponseDetail(rowInfo.original.ID);
+              } else {
+                handleOriginal();
               }
             }
           };
