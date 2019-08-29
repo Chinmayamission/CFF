@@ -414,7 +414,7 @@ exports[`renders response table with an undefined group assign 1`] = `
               class="rjsf"
             >
               <div
-                class="form-group field field-undefined"
+                class="form-group field field-string"
               >
                 <select
                   class="form-control"
@@ -1174,7 +1174,7 @@ exports[`renders response table with extra columns from the group 1`] = `
               class="rjsf"
             >
               <div
-                class="form-group field field-undefined"
+                class="form-group field field-string"
               >
                 <select
                   class="form-control"
@@ -1579,7 +1579,7 @@ exports[`renders response table with group assign 1`] = `
               class="rjsf"
             >
               <div
-                class="form-group field field-undefined"
+                class="form-group field field-string"
               >
                 <select
                   class="form-control"
@@ -2095,7 +2095,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
               class="rjsf"
             >
               <div
-                class="form-group field field-undefined"
+                class="form-group field field-string"
               >
                 <select
                   class="form-control"
@@ -3115,7 +3115,7 @@ exports[`responses with unwind data 1`] = `
               class="rjsf"
             >
               <div
-                class="form-group field field-undefined"
+                class="form-group field field-string"
               >
                 <select
                   class="form-control"
@@ -3301,7 +3301,7 @@ exports[`responses with unwind data 1`] = `
               class="rjsf"
             >
               <div
-                class="form-group field field-undefined"
+                class="form-group field field-string"
               >
                 <select
                   class="form-control"

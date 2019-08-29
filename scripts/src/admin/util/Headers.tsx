@@ -223,12 +223,11 @@ export namespace Headers {
     } else {
       const schemaProperty = get(
         schema,
-        dataToSchemaPath(headerName, dereference(schema)),
-        {}
+        dataToSchemaPath(headerName, dereference(schema))
       );
       // Default filter dropdown with enum properties.
       if (
-        schemaProperty !== {} &&
+        schemaProperty &&
         (schemaProperty.oneOf ||
           (isArray(schemaProperty.enum) && schemaProperty.enum.length)) &&
         schemaProperty.type === "string"
