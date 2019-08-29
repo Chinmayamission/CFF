@@ -4,6 +4,7 @@ import { IDataOptionView, IGroupOption } from "../FormEdit/FormEdit.d";
 import { Schema } from "../../form/interfaces";
 import { Object } from "core-js";
 import Form from "react-jsonschema-form";
+import { dereference } from "@jdw/jst";
 import { filterCaseInsensitive } from "../ResponseTable/filters";
 import { dataToSchemaPath } from "../util/SchemaUtil";
 
@@ -220,32 +221,50 @@ export namespace Headers {
         )
       });
     } else {
-      const schemaProperty = get(schema, dataToSchemaPath(headerName, schema));
-      // todo: fix, volunteering, when it's a string array field it shouldn't go through this.
-      // Default filter dropdown with enum properties. (TODO: follow $ref's.)
+      const schemaProperty = get(
+        schema,
+        dataToSchemaPath(headerName, dereference(schema)),
+        {}
+      );
+      // Default filter dropdown with enum properties.
       if (
-        schemaProperty &&
-        isArray(schemaProperty.enum) &&
-        schemaProperty.enum.length &&
+        schemaProperty !== {} &&
+        (schemaProperty.oneOf ||
+          (isArray(schemaProperty.enum) && schemaProperty.enum.length)) &&
         schemaProperty.type === "string"
       ) {
         const enumNames = schemaProperty.enumNames || schemaProperty.enum;
-        headerObj.Filter = ({ filter, onChange }) => (
+        let newSchema = {};
+        if (schemaProperty.enum) {
+          newSchema = {
+            type: "string",
+            enum: [
+              "CFF_FILTER_NONE",
+              "CFF_FILTER_DEFINED",
+              ...schemaProperty.enum
+            ],
+            enumNames: ["None", "Defined", ...enumNames]
+          };
+        } else {
+          newSchema = {
+            type: "string",
+            oneOf: [
+              { const: "CFF_FILTER_NONE", title: "None" },
+              { const: "CFF_FILTER_DEFINED", title: "Defined" },
+              ...schemaProperty.oneOf
+            ]
+          };
+        }
+        headerObj.Filter = ({ filter, onChange, ...other }) => (
           <Form
-            schema={{
-              enum: [
-                "CFF_FILTER_NONE",
-                "CFF_FILTER_DEFINED",
-                ...schemaProperty.enum
-              ],
-              enumNames: ["None", "Defined", ...enumNames]
-            }}
+            schema={newSchema}
             uiSchema={{ "ui:placeholder": "All", "ui:widget": "select" }}
             formData={filter && filter.value}
             onChange={e => onChange(e.formData)}
             tagName="div"
           >
             <div className="d-none"></div>
+            {console.log(other)}
           </Form>
         );
         headerObj.filterMethod = filterMethodAllNone;
