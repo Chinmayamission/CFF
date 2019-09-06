@@ -105,7 +105,23 @@ def response_edit_admin_info(responseId):
 def response_checkin(formId, responseId):
     pass
 
+"""
+Adds a payment. (POST)
+JSON body parameters:
+{
+    # required
+    "amount": 12,
+    "currency": "USD",
+    "id": "id1",
+    "method": "manual_check",
 
+    # not required
+    "date": {"$date": "2019-08-10T00:43:32.291Z"},
+    "sendEmail": true,
+    "notes": "my notes",
+    "emailTemplateId": "id" # id corresponding to the template in formOptions.confirmationEmailTemplates to use when sending the confirmation email.
+}
+"""
 def response_add_payment(responseId):
     from ..main import app
 
@@ -119,6 +135,7 @@ def response_add_payment(responseId):
     id = app.current_request.json_body["id"]
     method = app.current_request.json_body["method"]
     send_email = app.current_request.json_body.get("sendEmail", True)
+    email_template_id = app.current_request.json_body.get("emailTemplateId", None)
     notes = app.current_request.json_body.get("notes", None)
     if notes == "":
         notes = None
@@ -136,6 +153,7 @@ def response_add_payment(responseId):
         date=date,
         send_email=send_email,
         notes=notes,
+        email_template_id=email_template_id
     )
     response.save()
     return {

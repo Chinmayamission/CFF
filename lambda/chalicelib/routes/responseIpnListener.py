@@ -15,6 +15,7 @@ from chalicelib.models import (
 from bson.objectid import ObjectId
 from bson.decimal128 import Decimal128
 from decimal import Decimal
+from pydash.collections import find
 
 # Paypal IPN variables: https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#transaction-and-notification-related-variables
 
@@ -53,6 +54,7 @@ def mark_successful_payment(
     date=None,
     send_email=True,
     notes=None,
+    email_template_id=None
 ):
     if not date:
         date = datetime.datetime.now()
@@ -84,10 +86,20 @@ def mark_successful_payment(
 
     response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
     update_response_paid_status(response)
-    if form.formOptions.confirmationEmailInfo and send_email:
-        email_sent = send_confirmation_email(
-            response, form.formOptions.confirmationEmailInfo
-        )
+
+    # Use the confirmationEmailInfo corresponding to email_template_id, falling back to formOptions.confirmationEmailInfo if none specified / found
+    confirmationEmailInfo = None
+    if send_email:
+        if email_template_id and form.formOptions.confirmationEmailTemplates:
+            matchingConfirmationEmailTemplate = find(form.formOptions.confirmationEmailTemplates, lambda x: x.get("id") == email_template_id)
+            if matchingConfirmationEmailTemplate:
+                confirmationEmailInfo = matchingConfirmationEmailTemplate.get("confirmationEmailInfo")
+        if not confirmationEmailInfo:
+            confirmationEmailInfo = form.formOptions.confirmationEmailInfo
+        if confirmationEmailInfo:
+            email_sent = send_confirmation_email(
+                response, confirmationEmailInfo
+            )
     return response.paid
 
 

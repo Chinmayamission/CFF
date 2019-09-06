@@ -14,10 +14,12 @@ import Headers from "../../util/Headers";
 import { getPaidStatus } from "../../util/dataOptionUtil";
 import { formatPayment } from "../../util/formatPayment";
 import CustomForm from "../../../form/CustomForm";
+import { FormState } from "../../../store/form/types";
 
 interface IValueEditProps extends ResponsesState {
   onChange: (a, b) => void;
   submitNewPayment: (e: any) => void;
+  form: FormState;
 }
 class PaymentHistory extends React.Component<IValueEditProps, {}> {
   formatPayment(total, currency = "USD") {
@@ -121,6 +123,35 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
     ];
     const response = this.props.responseData;
     let data = response.payment_status_detail || [];
+
+    let paymentSchemaProperties: any = {
+      sendEmail: {
+        default: false,
+        type: "boolean",
+        enumNames: ["Yes", "No"],
+        description: "Send confirmation email"
+      }
+    };
+    // TODO: this if statement is a hack to get the tests to work. Remove it.
+    if (this.props.form.renderedForm) {
+      const confirmationEmailTemplates = this.props.form.renderedForm
+        .formOptions.confirmationEmailTemplates;
+      if (confirmationEmailTemplates.length) {
+        paymentSchemaProperties = {
+          ...paymentSchemaProperties,
+          emailTemplateId: {
+            title: "Email Template",
+            default: "",
+            enum: ["", ...confirmationEmailTemplates.map(e => e.id)],
+            enumNames: [
+              "Default",
+              ...confirmationEmailTemplates.map(e => e.displayName || e.id)
+            ]
+          }
+        };
+      }
+    }
+
     return (
       <div className="cff-response-payment-history">
         Status: <strong>{getPaidStatus(response)}</strong>
@@ -151,14 +182,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
         <CustomForm
           schema={{
             type: "object",
-            properties: {
-              sendEmail: {
-                default: false,
-                type: "boolean",
-                enumNames: ["Yes", "No"],
-                description: "Send confirmation email"
-              }
-            }
+            properties: paymentSchemaProperties
           }}
           uiSchema={{
             sendEmail: {}
@@ -175,7 +199,8 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
 }
 
 const mapStateToProps = state => ({
-  ...state.responses
+  ...state.responses,
+  form: state.form
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

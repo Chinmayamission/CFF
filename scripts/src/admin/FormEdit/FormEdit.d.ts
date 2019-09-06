@@ -50,6 +50,7 @@ export interface IFormOptions {
   paymentInfo: IPaymentInfo;
   paymentMethods: IPaymentMethods;
   confirmationEmailInfo: IConfirmationEmailInfo;
+  confirmationEmailTemplates?: IConfirmationEmailTemplate[];
   dataOptions: IDataOptions;
   defaultFormData?: boolean;
   loginRequired?: boolean;
@@ -66,6 +67,13 @@ export interface IRenderedForm {
   _id: { $oid: string };
   cff_permissions?: { [x: string]: string[] };
 }
+
+export interface IConfirmationEmailTemplate {
+  id: string;
+  displayName: string;
+  confirmationEmailInfo: IConfirmationEmailInfo;
+}
+
 export interface IConfirmationEmailInfo {
   toField: string;
   from: string;
