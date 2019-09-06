@@ -1,3 +1,13 @@
+## 3.25.0
+- Add way to select email templates for manual payment entry and define them
+  in `formOptions.confirmationEmailTemplates` (#203)
+- Address autocomplete:
+  - Add `cff:locationType` in `ui:options` to specify the types of locations that show up ("cities" or "addresses")
+  - Allow multiple autocompletes on a page at once
+- Fix padding of oneof widget
+- Form page: In edit mode for admins, change wording of button from "Admin edit response" -> "Edit"
+- Upgrade eslint to fix vulnerabilities
+
 ## 3.24.0
 - Feat: Multiple currency support with `paymentInfo.currencyTemplate` (#181)
 - Chore: Add tests for CCAvenue form submit
