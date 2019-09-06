@@ -7,7 +7,13 @@ import { filterCaseInsensitive } from "./filters";
 import Modal from "react-responsive-modal";
 import ResponseDetail from "./ResponseDetail";
 import { createHeadersAndDataFromDataOption } from "../util/dataOptionUtil";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import { NavLink, Link } from "react-router-dom";
+import {
+  ContextMenu,
+  MenuItem,
+  ContextMenuTrigger,
+  SubMenu
+} from "react-contextmenu";
 
 interface IResponseTableViewProps {
   responses: IResponse[];
@@ -18,24 +24,37 @@ interface IResponseTableViewProps {
   editResponse?: (a: string, b: string, c: string) => void;
 }
 
-function handleClick(e, data) {
-  console.log(data.foo);
+function launchLink(e, data) {
+  //console.log('Edit url ' + data.url);
+  var win = window.open(data.url, "_self");
+  win.focus();
 }
 
-function RenderContextMenu(rowid) {
+function handleClick(e, data) {
+  //console.log('uniqueid =' + data.uniqueId);
+  data.props.displayResponseDetail(data.uniqueId);
+}
+
+function displayResposeDetails(props, uniqueId) {
+  //if (!column.headerClassName.match(/ccmt-cff-no-click/)) {
+  props.displayResponseDetail(uniqueId);
+  // }
+}
+
+/*function RenderContextMenu(rowid) {
   <ContextMenu id={rowid}>
-    <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
+    <MenuItem data={{ foo: 'bar' }} onClick={handleClick}>
       ContextMenu Item 1
     </MenuItem>
-    <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
+    <MenuItem data={{ foo: 'bar' }} onClick={handleClick}>
       ContextMenu Item 2
     </MenuItem>
     <MenuItem divider />
-    <MenuItem data={{ foo: "bar" }} onClick={handleClick}>
+    <MenuItem data={{ foo: 'bar' }} onClick={handleClick}>
       ContextMenu Item 3
     </MenuItem>
   </ContextMenu>;
-}
+}*/
 
 export default (props: IResponseTableViewProps) => {
   let { headers, dataFinal } = createHeadersAndDataFromDataOption(
@@ -60,9 +79,6 @@ export default (props: IResponseTableViewProps) => {
       >
         Download CSV
       </button>
-      <div className="col-sm">
-        Right click on a response to perform an action.
-      </div>
 
       <ReactTable
         data={dataFinal}
@@ -73,15 +89,183 @@ export default (props: IResponseTableViewProps) => {
         defaultFiltered={[{ id: "PAID", value: "all" }]}
         defaultFilterMethod={filterCaseInsensitive}
         TrComponent={(state, rowInfo, column, instance) => {
-          console.log("rowInfo =" + rowInfo);
-          console.log("column =" + column);
-          console.log("instance =" + instance);
+          //console.log('id=' + props.renderedForm._id.$oid);
+          //console.log(props);
+          //console.log(headers[2]);
+          var validId =
+            state.children &&
+            state.children[0] &&
+            state.children[0].props.children.props &&
+            state.children[0].props.children.props.original;
+
+          if (
+            typeof state.className === "undefined" &&
+            state.children[0].props.children[0] != null
+          ) {
+            //console.log('header');
+            return (
+              <div
+                className="row"
+                style={{
+                  padding: 10,
+                  whiteSpace: "nowrap",
+                  borderBottom: "1px solid #aaa",
+                  backgroundColor: "lightblue"
+                }}
+              >
+                <div className="col-sm">
+                  {state.children[0].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[1].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[2].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[3].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[4].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[5].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[6].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[7].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[8].props.children[0].props.children}
+                </div>
+                <div className="col-sm">
+                  {state.children[9].props.children[0].props.children}
+                </div>
+              </div>
+            );
+          }
+
+          if (!validId) {
+            //console.log(headers[2]);
+          }
+          if (validId) {
+            var uniqueId = state.children[0].props.children.props.original.ID;
+            /*var editLink =
+              'http://localhost:8000/v2/forms/' +
+              props.renderedForm._id.$oid +
+              '?responseId=' +
+              uniqueId;*/
+
+            const editLink = `http://${window.location.host}/v2/forms/${props.renderedForm._id.$oid}?responseId=${uniqueId}`;
+            const viewLink = `${editLink}&mode=view`;
+            /*console.log('viewLink ' + viewLink);*/
+            //console.log('editLink ' + editLink);
+
+            /*   console.log(
+              state.children[0].props.children.props.original.AMOUNT_PAID
+            );*/
+            //console.log(state.children[0].props.children.props.original);
+            return (
+              <div>
+                <ContextMenuTrigger id={uniqueId}>
+                  <div
+                    className="row"
+                    style={{
+                      padding: 10,
+                      whiteSpace: "nowrap",
+                      borderBottom: "1px solid #aaa",
+                      backgroundColor: "lightblue"
+                    }}
+                    onClick={() => displayResposeDetails(props, uniqueId)}
+                  >
+                    <div className="col-sm">
+                      {state.children[0].props.children.props.original.PAID}
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original
+                          .AMOUNT_PAID
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original
+                          .contact_name.last
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original
+                          .contact_name.first
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {state.children[0].props.children.props.original.howHeard}
+                    </div>
+
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original.address
+                          .line1
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original.address
+                          .line2
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original.address
+                          .city
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original.address
+                          .state
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original.address
+                          .zipcode
+                      }
+                    </div>
+                    <div className="col-sm">
+                      {
+                        state.children[0].props.children.props.original.address
+                          .email
+                      }
+                    </div>
+                  </div>
+                </ContextMenuTrigger>
+
+                <ContextMenu id={uniqueId}>
+                  <MenuItem data={{ url: viewLink }} onClick={launchLink}>
+                    View
+                  </MenuItem>
+
+                  <MenuItem data={{ url: editLink }} onClick={launchLink}>
+                    Edit
+                  </MenuItem>
+
+                  <MenuItem divider />
+                  <MenuItem
+                    data={{ uniqueId: uniqueId, props: props }}
+                    onClick={handleClick}
+                  >
+                    Inspect
+                  </MenuItem>
+                </ContextMenu>
+              </div>
+            );
+          }
           return null;
         }}
-        /* TrComponent={row => {
-          console.log(row);
-          return null;
-        }}*/
         getTdProps={(state, rowInfo, column, instance) => {
           return {
             onClick: e => {
@@ -92,7 +276,6 @@ export default (props: IResponseTableViewProps) => {
           };
         }}
       />
-
       <Modal
         open={!!props.shownResponseDetailId}
         onClose={() => props.displayResponseDetail(null)}
