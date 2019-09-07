@@ -134,7 +134,6 @@ def parse_ipn_body(ipn_body):
 def response_ipn_listener(responseId):
     from ..main import app, PROD
 
-    # print("RAW BODY", app.current_request.raw_body)
     ipn_body = app.current_request.raw_body.decode()
     VERIFY_URL_PROD = "https://www.paypal.com/cgi-bin/webscr"
     VERIFY_URL_TEST = "https://www.sandbox.paypal.com/cgi-bin/webscr"
