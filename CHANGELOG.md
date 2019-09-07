@@ -1,4 +1,5 @@
 ## Pending
+- Fix: IPN handlers not working with non-ascii characters (#204)
 - Fix bug in which responses table would error when no confirmationEmailTemplates are defined
 
 ## 3.25.0

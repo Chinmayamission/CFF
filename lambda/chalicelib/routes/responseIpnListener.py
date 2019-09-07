@@ -119,18 +119,30 @@ def mark_error_payment(response, message, method_name, full_value):
     raise Exception("IPN ERROR: " + message)
 
 
+def parse_ipn_body(ipn_body):
+    """Parses a paypal IPN body, using the appropriate charset encoded in it.
+    """
+    DEFAULT_CHARSET = "windows-1252" # Default charset for paypal IPN response
+    params = urllib.parse.parse_qsl(ipn_body, encoding=DEFAULT_CHARSET)
+    paramDict = dict(params)
+    # Handle other encodings (utf-8) if it is configured in paypal.
+    if paramDict.get("charset", DEFAULT_CHARSET) != DEFAULT_CHARSET:
+        params = urllib.parse.parse_qsl(ipn_body, encoding=paramDict.get("charset"))
+        paramDict = dict(params)
+    return paramDict
+
 def response_ipn_listener(responseId):
     from ..main import app, PROD
 
-    ipn_body = app.current_request.raw_body.decode("utf-8")
+    # print("RAW BODY", app.current_request.raw_body)
+    ipn_body = app.current_request.raw_body.decode()
     VERIFY_URL_PROD = "https://www.paypal.com/cgi-bin/webscr"
     VERIFY_URL_TEST = "https://www.sandbox.paypal.com/cgi-bin/webscr"
     sandbox = not PROD
     VERIFY_URL = VERIFY_URL_PROD if PROD else VERIFY_URL_TEST
-    params = urllib.parse.parse_qsl(ipn_body)
 
-    # verify payment. should be equal to amount owed.
-    paramDict = dict(params)
+    paramDict = parse_ipn_body(ipn_body)
+
     responseIdFromIpn = paramDict.get("custom", "")
     response = Response.objects.get({"_id": ObjectId(responseId)})
 
@@ -154,15 +166,12 @@ def response_ipn_listener(responseId):
             )
         )
 
-    # Add '_notify-validate' parameter
-    params.append(("cmd", "_notify-validate"))
-
     # Post back to PayPal for validation
     headers = {
         "content-type": "application/x-www-form-urlencoded",
         "host": "www.paypal.com",
     }
-    r = requests.post(VERIFY_URL, params=params, headers=headers, verify=True)
+    r = requests.post(VERIFY_URL + "?cmd=_notify-validate", data=ipn_body, headers=headers, verify=True)
     r.raise_for_status()
 
     # Check return message and take action as needed

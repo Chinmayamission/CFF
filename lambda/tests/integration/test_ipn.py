@@ -1,5 +1,5 @@
 """
-pipenv run python -m unittest tests.integration.test_ipn
+npm test -- tests.integration.test_ipn
 """
 import unittest
 from chalice.config import Config
