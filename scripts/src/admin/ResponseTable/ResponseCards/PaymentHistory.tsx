@@ -136,7 +136,7 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
     if (this.props.form.renderedForm) {
       const confirmationEmailTemplates = this.props.form.renderedForm
         .formOptions.confirmationEmailTemplates;
-      if (confirmationEmailTemplates.length) {
+      if (confirmationEmailTemplates && confirmationEmailTemplates.length) {
         paymentSchemaProperties = {
           ...paymentSchemaProperties,
           emailTemplateId: {

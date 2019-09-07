@@ -1,3 +1,6 @@
+## Pending
+- Fix bug in which responses table would error when no confirmationEmailTemplates are defined
+
 ## 3.25.0
 - Add way to select email templates for manual payment entry and define them
   in `formOptions.confirmationEmailTemplates` (#203)
