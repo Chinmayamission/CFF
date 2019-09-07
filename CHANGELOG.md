@@ -1,4 +1,6 @@
 ## Pending
+- Admin Manual Payment:
+  - Feat: Show confirmation email template dropdown only when "Send confirmation email" is checked
 - Fix: IPN handlers not working with non-ascii characters (#204)
 - Fix bug in which responses table would error when no confirmationEmailTemplates are defined
 

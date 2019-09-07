@@ -124,12 +124,15 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
     const response = this.props.responseData;
     let data = response.payment_status_detail || [];
 
-    let paymentSchemaProperties: any = {
-      sendEmail: {
-        default: false,
-        type: "boolean",
-        enumNames: ["Yes", "No"],
-        description: "Send confirmation email"
+    let paymentSchema: any = {
+      type: "object",
+      properties: {
+        sendEmail: {
+          default: false,
+          type: "boolean",
+          enumNames: ["Yes", "No"],
+          description: "Send confirmation email"
+        }
       }
     };
     // TODO: this if statement is a hack to get the tests to work. Remove it.
@@ -137,16 +140,31 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
       const confirmationEmailTemplates = this.props.form.renderedForm
         .formOptions.confirmationEmailTemplates;
       if (confirmationEmailTemplates && confirmationEmailTemplates.length) {
-        paymentSchemaProperties = {
-          ...paymentSchemaProperties,
-          emailTemplateId: {
-            title: "Email Template",
-            default: "",
-            enum: ["", ...confirmationEmailTemplates.map(e => e.id)],
-            enumNames: [
-              "Default",
-              ...confirmationEmailTemplates.map(e => e.displayName || e.id)
-            ]
+        paymentSchema = {
+          ...paymentSchema,
+          definitions: {
+            emailTemplateId: {
+              title: "Email Template",
+              default: "",
+              enum: ["", ...confirmationEmailTemplates.map(e => e.id)],
+              enumNames: [
+                "Default",
+                ...confirmationEmailTemplates.map(e => e.displayName || e.id)
+              ]
+            }
+          },
+          dependencies: {
+            sendEmail: {
+              oneOf: [
+                { properties: { sendEmail: { const: false } } },
+                {
+                  properties: {
+                    sendEmail: { const: true },
+                    emailTemplateId: { $ref: "#/definitions/emailTemplateId" }
+                  }
+                }
+              ]
+            }
           }
         };
       }
@@ -180,12 +198,10 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
           showPagination={data.length > 5}
         />
         <CustomForm
-          schema={{
-            type: "object",
-            properties: paymentSchemaProperties
-          }}
+          schema={paymentSchema}
           uiSchema={{
-            sendEmail: {}
+            sendEmail: { classNames: "col-12" },
+            emailTemplateId: { classNames: "col-12" }
           }}
           onSubmit={e => this.submitNewPayment(e.formData)}
         >
