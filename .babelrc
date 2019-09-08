@@ -1,3 +1,15 @@
 {
-  "plugins": ["transform-es2015-modules-commonjs","emotion"]
+  "plugins": [
+    "emotion"
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["IE 8"]
+        }
+      }
+    ]
+  ]
 }

@@ -12,7 +12,7 @@ const DEST_URL = FORMBUILDER_URL + "/dist";
 
 module.exports = {
   entry: {
-    app: ["whatwg-fetch", "babel-polyfill", SRC_URL + "/index"]
+    app: ["whatwg-fetch", "@babel/polyfill", SRC_URL + "/index"]
   },
   devServer: {
     port: 8000,
@@ -53,20 +53,7 @@ module.exports = {
         exclude: [/node_modules/, /\.test.tsx?$/],
         use: [
           {
-            loader: "babel-loader",
-            options: {
-              cacheDirectory: true,
-              presets: [
-                [
-                  "env",
-                  {
-                    targets: {
-                      browsers: ["IE 8"]
-                    }
-                  }
-                ]
-              ]
-            }
+            loader: "babel-loader"
           },
           {
             loader: "ts-loader"
