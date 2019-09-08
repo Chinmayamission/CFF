@@ -1,5 +1,6 @@
-import React, { Ref, RefObject } from "react";
-import MonacoEditor from "react-monaco-editor";
+import React, { Suspense, lazy, RefObject } from "react";
+
+const MonacoEditor = lazy(() => import("react-monaco-editor"));
 
 interface IJSONEditorProps {
   data: any;
@@ -18,7 +19,7 @@ const options = {
 class JSONEditor extends React.Component<IJSONEditorProps, any> {
   // private editorElement: any;
   private editor: any;
-  private monaco: RefObject<MonacoEditor>;
+  private monaco: RefObject<any>;
 
   constructor(props: any) {
     super(props);
