@@ -35,9 +35,9 @@ module.exports = {
   },
   plugins: [
     // new HardSourceWebpackPlugin(),
-    // new MiniCssExtractPlugin({
-    //   filename: "[name].[contenthash].css"
-    // }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css"
+    }),
     new webpack.DefinePlugin({
       VERSION: `"${pjson.version}"`
     }),
@@ -62,7 +62,7 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ["style-loader", "css-loader", "sass-loader"] //['style-loader', 'css-loader', 'sass-loader']
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"] //['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.(svg|png|jpg|woff|eot|ttf)$/,
