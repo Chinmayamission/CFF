@@ -2,7 +2,9 @@
 - Admin Manual Payment:
   - Show confirmation email template dropdown only when "Send confirmation email" is checked
   - Create endpoint "responses/{responseId}/email" which sends out a confirmation email / receipt. This can now be accessed by checking the "Send confirmation email" checkbox.
-- Fix: IPN handlers not working with non-ascii characters (#204)
+- IPN handler fixes:
+  - Fix: IPN handlers not working with non-ascii characters (#204)
+  - Fix: don't error when handling certain subscription events ("subscr_signup", "subscr_cancel", "subscr_eot" types) (#197)
 - Fix bug in which responses table would error when no confirmationEmailTemplates are defined
 
 ## 3.25.0

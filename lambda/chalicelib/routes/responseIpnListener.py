@@ -182,8 +182,9 @@ def response_ipn_listener(responseId):
         expected_receiver_email = form.formOptions.paymentMethods["paypal_classic"][
             "business"
         ]
-        if paramDict.get("txn_type", "") == "subscr_signup":
-            # Don't handle subscription signups.
+        if paramDict.get("txn_type", "") in ("subscr_signup", "subscr_cancel", "subscr_eot"):
+            # Don't handle subscription signups, cancels, expiries.
+            # TODO: actually handle these.
             return
         if paramDict["receiver_email"] != expected_receiver_email:
             raise_ipn_error(
