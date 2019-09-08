@@ -50,4 +50,4 @@ As an example use case, we want to be able to either send 1) the entire email or
 
 Then a dropdown will come up during manual payment as follows:
 
-![image](https://user-images.githubusercontent.com/1689183/64395284-87531780-d00e-11e9-865d-4c2414bcf0fb.png)
+![image](https://user-images.githubusercontent.com/1689183/64481611-56045400-d194-11e9-8e45-a3e250d1c78e.png)
