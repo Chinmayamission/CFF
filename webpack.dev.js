@@ -2,12 +2,15 @@ const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const common = require("./webpack.common.js");
 var webpack = require("webpack");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 const MODE = "dev";
 module.exports = merge(common, {
   devtool: "source-map",
   mode: "development",
   plugins: [
+    new BundleAnalyzerPlugin(),
     new webpack.DefinePlugin({
       MODE: `"${MODE}"`,
       ENDPOINT_URL: `"https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"`,
