@@ -5,7 +5,8 @@ import { ResponsesState } from "../../../store/responses/types";
 import "./PaymentHistory.scss";
 import {
   onPaymentStatusDetailChange,
-  submitNewPayment
+  submitNewPayment,
+  sendConfirmationEmail
 } from "../../../store/responses/actions";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,9 +20,20 @@ import { FormState } from "../../../store/form/types";
 interface IValueEditProps extends ResponsesState {
   onChange: (a, b) => void;
   submitNewPayment: (e: any) => void;
+  sendConfirmationEmail: (e: any) => void;
   form: FormState;
 }
-class PaymentHistory extends React.Component<IValueEditProps, {}> {
+class PaymentHistory extends React.Component<
+  IValueEditProps,
+  { formData: any }
+> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      formData: {}
+    };
+  }
+
   formatPayment(total, currency = "USD") {
     if (Intl && Intl.NumberFormat) {
       return Intl.NumberFormat("en-US", {
@@ -203,12 +215,27 @@ class PaymentHistory extends React.Component<IValueEditProps, {}> {
             sendEmail: { classNames: "col-12" },
             emailTemplateId: { classNames: "col-12" }
           }}
-          onSubmit={e => this.submitNewPayment(e.formData)}
+          formData={this.state.formData}
+          onChange={e => this.setState({ formData: e.formData })}
         >
-          <button className="btn btn-sm btn-primary cff-payment-history-btn-add">
-            Add new payment
-          </button>
+          <div />
         </CustomForm>
+        <button
+          className="btn btn-sm btn-primary cff-payment-history-btn-add"
+          onClick={() => this.submitNewPayment(this.state.formData)}
+        >
+          Add new payment
+        </button>
+        {this.state.formData.sendEmail === true && (
+          <button
+            className="btn btn-sm ml-2 cff-payment-history-btn-add"
+            onClick={() =>
+              this.props.sendConfirmationEmail(this.state.formData)
+            }
+          >
+            Send email without adding a payment
+          </button>
+        )}
       </div>
     );
   }
@@ -221,7 +248,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onChange: (a, b) => dispatch(onPaymentStatusDetailChange(a, b)),
-  submitNewPayment: e => dispatch(submitNewPayment(e))
+  submitNewPayment: e => dispatch(submitNewPayment(e)),
+  sendConfirmationEmail: e => dispatch(sendConfirmationEmail(e))
 });
 
 export default connect(

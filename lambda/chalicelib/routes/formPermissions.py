@@ -13,6 +13,7 @@ POSSIBLE_PERMISSIONS = [
     "Responses_Delete",
     "Responses_CheckIn",
     "Responses_AddPayment",
+    "Responses_SendEmail",
     "Forms_Edit",
     "Forms_PermissionsView",
     "Forms_PermissionsEdit",

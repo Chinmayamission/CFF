@@ -86,21 +86,23 @@ def mark_successful_payment(
 
     response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
     update_response_paid_status(response)
+    if send_email:
+        send_email_receipt(response, form.formOptions, email_template_id)
+    return response.paid
 
+def send_email_receipt(response, formOptions, email_template_id=None):
     # Use the confirmationEmailInfo corresponding to email_template_id, falling back to formOptions.confirmationEmailInfo if none specified / found
     confirmationEmailInfo = None
-    if send_email:
-        if email_template_id and form.formOptions.confirmationEmailTemplates:
-            matchingConfirmationEmailTemplate = find(form.formOptions.confirmationEmailTemplates, lambda x: x.get("id") == email_template_id)
-            if matchingConfirmationEmailTemplate:
-                confirmationEmailInfo = matchingConfirmationEmailTemplate.get("confirmationEmailInfo")
-        if not confirmationEmailInfo:
-            confirmationEmailInfo = form.formOptions.confirmationEmailInfo
-        if confirmationEmailInfo:
-            email_sent = send_confirmation_email(
-                response, confirmationEmailInfo
-            )
-    return response.paid
+    if email_template_id and formOptions.confirmationEmailTemplates:
+        matchingConfirmationEmailTemplate = find(formOptions.confirmationEmailTemplates, lambda x: x.get("id") == email_template_id)
+        if matchingConfirmationEmailTemplate:
+            confirmationEmailInfo = matchingConfirmationEmailTemplate.get("confirmationEmailInfo")
+    if not confirmationEmailInfo:
+        confirmationEmailInfo = formOptions.confirmationEmailInfo
+    if confirmationEmailInfo:
+        email_sent = send_confirmation_email(
+            response, confirmationEmailInfo
+        )
 
 
 def mark_error_payment(response, message, method_name, full_value):

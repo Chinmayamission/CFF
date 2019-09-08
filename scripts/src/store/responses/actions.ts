@@ -115,6 +115,35 @@ export const submitNewPayment = ({ sendEmail, emailTemplateId }) => (
     });
 };
 
+export const sendConfirmationEmail = ({ emailTemplateId }) => (
+  dispatch,
+  getState
+) => {
+  dispatch(loadingStart());
+  let responsesState: ResponsesState = getState().responses;
+  return API.post(
+    "CFF",
+    `responses/${responsesState.responseData._id.$oid}/email`,
+    {
+      body: {
+        emailTemplateId
+      }
+    }
+  )
+    .then(e => {
+      if (e.res.success === true) {
+        dispatch(loadingEnd());
+        alert("Email sent.");
+        dispatch(setResponseDetail(e.res.response));
+      }
+    })
+    .catch(e => {
+      dispatch(loadingEnd());
+      console.error(e);
+      alert("Error sending confirmation email. " + e);
+    });
+};
+
 /*
  * Fetches (or searches for) responses.
  */

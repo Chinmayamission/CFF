@@ -20,23 +20,6 @@ class ResponseDetail extends React.Component<
   componentDidMount() {
     this.props.fetchResponseDetail(this.props.responseId);
   }
-  sendConfirmationEmail() {
-    API.post(
-      "CFF",
-      `responses/${this.props.responseId}/sendConfirmationEmail`,
-      {
-        body: {
-          // "paymentMethod": "manualApproval"
-        }
-      }
-    )
-      .then(e => {
-        alert("Confirmation email sent!");
-      })
-      .catch(e => {
-        alert(`Response update failed: ${e}`);
-      });
-  }
   delete() {
     if (
       confirm(
@@ -78,12 +61,6 @@ class ResponseDetail extends React.Component<
           </TabPanel>
 
           <TabPanel>
-            <button
-              className="btn btn-sm btn-primary"
-              onClick={() => this.sendConfirmationEmail()}
-            >
-              Send confirmation email
-            </button>
             <button
               className="btn btn-sm btn-danger"
               onClick={() => this.delete()}
