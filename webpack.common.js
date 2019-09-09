@@ -1,9 +1,6 @@
 const path = require("path");
 var webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var pjson = require("./package.json");
-var HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
@@ -34,10 +31,6 @@ module.exports = {
     filename: "[name].[chunkhash].js"
   },
   plugins: [
-    // new HardSourceWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "[name].[contenthash].css"
-    }),
     new webpack.DefinePlugin({
       VERSION: `"${pjson.version}"`
     }),
@@ -62,7 +55,7 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"] //['style-loader', 'css-loader', 'sass-loader']
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.(svg|png|jpg|woff|eot|ttf)$/,
