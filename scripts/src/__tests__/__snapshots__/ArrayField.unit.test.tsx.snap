@@ -14,8 +14,16 @@ exports[`custom title for one and two 1`] = `
       <div
         class="container-fluid"
       >
-        <span />
-        <div />
+        <div
+          class="row"
+        >
+          <span />
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >
@@ -126,12 +134,20 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
       <div
         class="container-fluid"
       >
-        <h2
-          class="ccmt-cff-form-title"
+        <div
+          class="row"
         >
-          Form
-        </h2>
-        <div />
+          <h2
+            class="ccmt-cff-form-title"
+          >
+            Form
+          </h2>
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >
@@ -161,8 +177,16 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                       <div
                         class="container-fluid"
                       >
-                        <span />
-                        <div />
+                        <div
+                          class="row"
+                        >
+                          <span />
+                        </div>
+                        <div
+                          class="row"
+                        >
+                          <div />
+                        </div>
                         <div
                           class="row"
                         >
@@ -210,8 +234,16 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
                       <div
                         class="container-fluid"
                       >
-                        <span />
-                        <div />
+                        <div
+                          class="row"
+                        >
+                          <span />
+                        </div>
+                        <div
+                          class="row"
+                        >
+                          <div />
+                        </div>
                         <div
                           class="row"
                         >
@@ -276,12 +308,20 @@ exports[`renders regular checkboxes correctly 1`] = `
       <div
         class="container-fluid"
       >
-        <h2
-          class="ccmt-cff-form-title"
+        <div
+          class="row"
         >
-          Form
-        </h2>
-        <div />
+          <h2
+            class="ccmt-cff-form-title"
+          >
+            Form
+          </h2>
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >
@@ -457,12 +497,20 @@ exports[`renders regular object array 1`] = `
       <div
         class="container-fluid"
       >
-        <h2
-          class="ccmt-cff-form-title"
+        <div
+          class="row"
         >
-          Form
-        </h2>
-        <div />
+          <h2
+            class="ccmt-cff-form-title"
+          >
+            Form
+          </h2>
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >
@@ -492,8 +540,16 @@ exports[`renders regular object array 1`] = `
                       <div
                         class="container-fluid"
                       >
-                        <span />
-                        <div />
+                        <div
+                          class="row"
+                        >
+                          <span />
+                        </div>
+                        <div
+                          class="row"
+                        >
+                          <div />
+                        </div>
                         <div
                           class="row"
                         >
@@ -569,8 +625,16 @@ exports[`shows add button when minItems is zero 1`] = `
       <div
         class="container-fluid"
       >
-        <span />
-        <div />
+        <div
+          class="row"
+        >
+          <span />
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >
@@ -631,8 +695,16 @@ exports[`shows one child which can be removed 1`] = `
       <div
         class="container-fluid"
       >
-        <span />
-        <div />
+        <div
+          class="row"
+        >
+          <span />
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >
