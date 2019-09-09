@@ -14,12 +14,20 @@ exports[`renders small text box widget correctly 1`] = `
       <div
         class="container-fluid"
       >
-        <h2
-          class="ccmt-cff-form-title"
+        <div
+          class="row"
         >
-          Form
-        </h2>
-        <div />
+          <h2
+            class="ccmt-cff-form-title"
+          >
+            Form
+          </h2>
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >

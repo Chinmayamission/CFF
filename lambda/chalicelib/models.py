@@ -36,6 +36,7 @@ class User(BaseMongoModel):
 class FormOptions(EmbeddedMongoModel):
     paymentInfo = fields.DictField(blank=True)
     confirmationEmailInfo = fields.DictField(blank=True)
+    confirmationEmailTemplates = fields.ListField(fields.DictField(blank=True), blank=True)
     dataOptions = fields.DictField(blank=True)
     paymentMethods = fields.DictField(blank=True)
     defaultFormData = fields.DictField(blank=True)

@@ -8,7 +8,7 @@ from chalicelib.models import (
 )
 from bson.objectid import ObjectId
 from pydash.objects import get, set_
-from chalicelib.routes.responseIpnListener import mark_successful_payment
+from chalicelib.routes.responseIpnListener import mark_successful_payment, send_email_receipt
 import dateutil
 
 
@@ -105,7 +105,27 @@ def response_edit_admin_info(responseId):
 def response_checkin(formId, responseId):
     pass
 
+def _parse_email_parameters(json_body):
+    email_template_id = json_body.get("emailTemplateId", None)
+    return email_template_id
 
+"""
+Adds a payment. (POST)
+JSON body parameters:
+{
+    # required
+    "amount": 12,
+    "currency": "USD",
+    "id": "id1",
+    "method": "manual_check",
+
+    # not required
+    "date": {"$date": "2019-08-10T00:43:32.291Z"},
+    "sendEmail": true,
+    "notes": "my notes",
+    "emailTemplateId": "id" # id corresponding to the template in formOptions.confirmationEmailTemplates to use when sending the confirmation email.
+}
+"""
 def response_add_payment(responseId):
     from ..main import app
 
@@ -119,6 +139,7 @@ def response_add_payment(responseId):
     id = app.current_request.json_body["id"]
     method = app.current_request.json_body["method"]
     send_email = app.current_request.json_body.get("sendEmail", True)
+    email_template_id = _parse_email_parameters(app.current_request.json_body)
     notes = app.current_request.json_body.get("notes", None)
     if notes == "":
         notes = None
@@ -136,10 +157,31 @@ def response_add_payment(responseId):
         date=date,
         send_email=send_email,
         notes=notes,
+        email_template_id=email_template_id
     )
     response.save()
     return {
         "res": {"success": True, "paid": paid, "response": serialize_model(response)}
+    }
+
+"""
+Sends an email.
+JSON body parameters:
+{
+    # not required
+    "notes": "my notes",
+    "emailTemplateId": "id" # id corresponding to the template in formOptions.confirmationEmailTemplates to use when sending the confirmation email.
+}
+"""
+def response_send_email(responseId):
+    from ..main import app
+    response = Response.objects.get({"_id": ObjectId(responseId)})
+    app.check_permissions(response.form, ["Responses_Edit", "Responses_SendEmail"])
+    email_template_id = _parse_email_parameters(app.current_request.json_body)
+    send_email_receipt(response, response.form.formOptions, email_template_id)
+    response.save()
+    return {
+        "res": {"success": True, "response": serialize_model(response)}
     }
 
 

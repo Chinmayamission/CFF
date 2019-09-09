@@ -378,10 +378,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let formToReturn = (
       <div
         className={
-          "ccmt-cff-Page-FormPage " +
+          (this.props.className || "") +
           (this.state.status == STATUS_FORM_RENDERED
             ? ""
-            : "ccmt-cff-Page-FormPage-readonly")
+            : " ccmt-cff-Page-FormPage-readonly")
         }
       >
         {this.state.formOptions.loginRequired && <Login />}
@@ -490,7 +490,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
                 className="btn btn-primary"
                 onClick={this.goBackToFormPage}
               >
-                Admin edit response
+                Edit
               </button>
             )}
           {formToReturn}

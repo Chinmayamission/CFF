@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import sanitize from "../sanitize";
 import Form from "react-jsonschema-form";
 import "./form.scss";
@@ -18,12 +18,14 @@ import { IPaymentCalcInfo } from "./payment/PaymentCalcTable.d";
 import ExpressionParser from "../common/ExpressionParser";
 import { ConfirmWidget } from "./form_widgets/ConfirmWidget";
 import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget";
-import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
+// import JSONEditorWidget from "./form_widgets/JSONEditorWidget";
 import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioWidget";
 import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
 import AddressAutocompleteField from "./form_widgets/AddressAutocompleteField";
+
+const JSONEditorWidget = lazy(() => import("./form_widgets/JSONEditorWidget"));
 
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;

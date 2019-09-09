@@ -34,8 +34,16 @@ exports[`renders class edit form 1`] = `
                 <div
                   class="container-fluid"
                 >
-                  <span />
-                  <div />
+                  <div
+                    class="row"
+                  >
+                    <span />
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <div />
+                  </div>
                   <div
                     class="row"
                   >

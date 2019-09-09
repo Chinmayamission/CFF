@@ -100,6 +100,7 @@ export interface IFormPageProps {
   loading: boolean;
   fetchRenderedForm: () => void;
   mode?: string;
+  className?: string;
 }
 
 export interface IFormConfirmationPageProps {

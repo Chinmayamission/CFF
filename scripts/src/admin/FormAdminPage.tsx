@@ -7,7 +7,6 @@ import ResponseSummary from "./ResponseSummary/ResponseSummary";
 import FormShare from "./FormShare/FormShare";
 import Loading from "../common/Loading/Loading";
 import "./admin.scss";
-import "open-iconic/font/css/open-iconic-bootstrap.scss";
 import { Route, Switch, Link } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import history from "../history";

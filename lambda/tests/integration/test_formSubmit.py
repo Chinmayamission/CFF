@@ -1010,8 +1010,63 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response["paid"], True)
         self.assertEqual(response["amount_paid"], "0.5")
         self.assertEqual(len(response["email_trail"]), 1)
+    
+    @mock.patch("boto3.client")
+    def test_mark_successful_payment_custom_email_template(self, mock_boto_client):
+        formOptions = {
+            "confirmationEmailTemplates": [
+                {
+                    "id": "template1",
+                    "confirmationEmailInfo": {
+                        "toField": "email",
+                        "subject": "subject 123",
+                        "template": {
+                            "html": "test123"
+                        }
+                    }
+                }
+            ]
+        }
+        self.edit_form(
+            self.formId,
+            {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
+        )
 
-    def test_mark_successful_payment_no_email(self):
+        responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        paid = mark_successful_payment(
+            form=Form.objects.get({"_id": ObjectId(self.formId)}),
+            response=response,
+            full_value={"a": "b", "c": "d"},
+            method_name="unittest_ipn",
+            amount=0.5,
+            currency="USD",
+            id="payment1",
+            email_template_id="template1"
+        )
+        response.save()
+        self.assertEqual(paid, True)
+        response = self.view_response(responseId)
+        response["payment_trail"][0].pop("date")
+        response["payment_trail"][0].pop("date_created")
+        response["payment_trail"][0].pop("date_modified")
+        self.assertEqual(
+            response["payment_trail"],
+            [
+                {
+                    "value": {"a": "b", "c": "d"},
+                    "method": "unittest_ipn",
+                    "status": "SUCCESS",
+                    "id": "payment1",
+                    "_cls": "chalicelib.models.PaymentTrailItem",
+                }
+            ],
+        )
+        self.assertEqual(response["paid"], True)
+        self.assertEqual(response["amount_paid"], "0.5")
+        self.assertEqual(len(response["email_trail"]), 1)
+
+    def test_mark_successful_payment_dont_send_email(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
         response = Response.objects.get({"_id": ObjectId(responseId)})
         paid = mark_successful_payment(

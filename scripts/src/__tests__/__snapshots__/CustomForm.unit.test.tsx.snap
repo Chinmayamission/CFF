@@ -14,12 +14,20 @@ exports[`renders default form without payment 1`] = `
       <div
         class="container-fluid"
       >
-        <h2
-          class="ccmt-cff-form-title"
+        <div
+          class="row"
         >
-          Form
-        </h2>
-        <div />
+          <h2
+            class="ccmt-cff-form-title"
+          >
+            Form
+          </h2>
+        </div>
+        <div
+          class="row"
+        >
+          <div />
+        </div>
         <div
           class="row"
         >
@@ -70,22 +78,30 @@ exports[`renders title and description with html 1`] = `
       <div
         class="container-fluid"
       >
-        <h2
-          class="ccmt-cff-form-title"
+        <div
+          class="row"
         >
-          Form 
-          <img
-            src="test"
-          />
-        </h2>
-        <div>
-          Hello 
-          <b>
-            123
-          </b>
-          <h1>
-            Description
-          </h1>
+          <h2
+            class="ccmt-cff-form-title"
+          >
+            Form 
+            <img
+              src="test"
+            />
+          </h2>
+        </div>
+        <div
+          class="row"
+        >
+          <div>
+            Hello 
+            <b>
+              123
+            </b>
+            <h1>
+              Description
+            </h1>
+          </div>
         </div>
         <div
           class="row"

@@ -11,6 +11,7 @@ Here is a list of form permissions and what each one does:
 |  Responses_Edit  | Edit a Response |
 |  Responses_Delete  | Delete a Response |
 |  Responses_AddPayment  | Add a payment to a response (which could or could not send a confirmation email) |
+|  Responses_SendEmail  | Send a confirmation email (such as a receipt) to a response |
 |  Forms_Edit  | Edit a form |
 |  Forms_PermissionsView  | View permissions for a form |
 |  Forms_PermissionsEdit | Edit permissions for a form |
