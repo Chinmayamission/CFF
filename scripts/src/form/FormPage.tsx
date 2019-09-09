@@ -378,10 +378,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let formToReturn = (
       <div
         className={
-          "ccmt-cff-Page-FormPage " +
-          (this.state.status == STATUS_FORM_RENDERED
+          this.state.status == STATUS_FORM_RENDERED
             ? ""
-            : "ccmt-cff-Page-FormPage-readonly")
+            : "ccmt-cff-Page-FormPage-readonly"
         }
       >
         {this.state.formOptions.loginRequired && <Login />}
