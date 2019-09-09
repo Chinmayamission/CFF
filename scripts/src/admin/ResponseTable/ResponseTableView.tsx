@@ -25,9 +25,10 @@ export default (props: IResponseTableViewProps) => {
     props.editResponse
   );
   return (
-    <div>
+    <>
       <button
         className="btn btn-outline-primary"
+        id="ccmt-cff-downloadCSV"
         onClick={() =>
           downloadCSV(
             headers,
@@ -40,38 +41,39 @@ export default (props: IResponseTableViewProps) => {
       >
         Download CSV
       </button>
-
-      <ReactTable
-        data={dataFinal}
-        columns={headers}
-        minRows={0}
-        filterable
-        defaultSorted={[{ id: "DATE_LAST_MODIFIED", desc: true }]}
-        defaultFiltered={[{ id: "PAID", value: "all" }]}
-        defaultFilterMethod={filterCaseInsensitive}
-        getTdProps={(state, rowInfo, column, instance) => {
-          return {
-            onClick: e => {
-              if (!column.headerClassName.match(/ccmt-cff-no-click/)) {
-                props.displayResponseDetail(rowInfo.original.ID);
+      <div>
+        <ReactTable
+          data={dataFinal}
+          columns={headers}
+          minRows={0}
+          filterable
+          defaultSorted={[{ id: "DATE_LAST_MODIFIED", desc: true }]}
+          defaultFiltered={[{ id: "PAID", value: "all" }]}
+          defaultFilterMethod={filterCaseInsensitive}
+          getTdProps={(state, rowInfo, column, instance) => {
+            return {
+              onClick: e => {
+                if (!column.headerClassName.match(/ccmt-cff-no-click/)) {
+                  props.displayResponseDetail(rowInfo.original.ID);
+                }
               }
-            }
-          };
-        }}
-      />
-      <Modal
-        open={!!props.shownResponseDetailId}
-        onClose={() => props.displayResponseDetail(null)}
-      >
-        <div className="ccmt-cff-Wrapper-Bootstrap">
-          <h5 className="card-title">
-            Response Detail - {props.shownResponseDetailId}
-          </h5>
-          <div className="card-text">
-            <ResponseDetail responseId={props.shownResponseDetailId} />
+            };
+          }}
+        />
+        <Modal
+          open={!!props.shownResponseDetailId}
+          onClose={() => props.displayResponseDetail(null)}
+        >
+          <div className="ccmt-cff-Wrapper-Bootstrap">
+            <h5 className="card-title">
+              Response Detail - {props.shownResponseDetailId}
+            </h5>
+            <div className="card-text">
+              <ResponseDetail responseId={props.shownResponseDetailId} />
+            </div>
           </div>
-        </div>
-      </Modal>
-    </div>
+        </Modal>
+      </div>
+    </>
   );
 };

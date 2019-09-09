@@ -56,15 +56,17 @@ class ResponseTable extends React.Component<
       this.props.push(dataOptions.views[0].id);
     }
     const Nav = () => (
-      <ul className="nav nav-pills">
-        {dataOptions.views.map(e => (
-          <li className="nav-item btn-outline-primary" key={e.id}>
-            <a className="nav-link" onClick={() => this.props.push(e.id)}>
-              {e.displayName}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div id="ccmt-cff-nav">
+        <ul className="nav nav-pills">
+          {dataOptions.views.map(e => (
+            <li className="nav-item btn-outline-primary" key={e.id}>
+              <a className="nav-link" onClick={() => this.props.push(e.id)}>
+                {e.displayName}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     );
     if (!dataOptionView) {
       return (

@@ -1,6 +1,5 @@
 @import "../../form/bootstrap-4.min.scss";
 // todo: don't import bootstrap twice here.
-
 .ReactTable {
     .rt-tbody {
         min-height: 60px;
@@ -16,4 +15,12 @@
             font-weight: bold;
         }
     }
+}
+
+#ccmt-cff-downloadCSV {
+    display: inline;
+}
+
+#ccmt-cff-nav {
+    display: inline-block;
 }
