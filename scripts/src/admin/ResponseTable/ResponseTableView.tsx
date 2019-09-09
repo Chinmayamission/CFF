@@ -25,36 +25,17 @@ interface IResponseTableViewProps {
 }
 
 function launchLink(e, data) {
-  //console.log('Edit url ' + data.url);
   var win = window.open(data.url, "_self");
   win.focus();
 }
 
 function handleClick(e, data) {
-  //console.log('uniqueid =' + data.uniqueId);
   data.props.displayResponseDetail(data.uniqueId);
 }
 
 function displayResposeDetails(props, uniqueId) {
-  //if (!column.headerClassName.match(/ccmt-cff-no-click/)) {
   props.displayResponseDetail(uniqueId);
-  // }
 }
-
-/*function RenderContextMenu(rowid) {
-  <ContextMenu id={rowid}>
-    <MenuItem data={{ foo: 'bar' }} onClick={handleClick}>
-      ContextMenu Item 1
-    </MenuItem>
-    <MenuItem data={{ foo: 'bar' }} onClick={handleClick}>
-      ContextMenu Item 2
-    </MenuItem>
-    <MenuItem divider />
-    <MenuItem data={{ foo: 'bar' }} onClick={handleClick}>
-      ContextMenu Item 3
-    </MenuItem>
-  </ContextMenu>;
-}*/
 
 export default (props: IResponseTableViewProps) => {
   let { headers, dataFinal } = createHeadersAndDataFromDataOption(
@@ -89,9 +70,6 @@ export default (props: IResponseTableViewProps) => {
         defaultFiltered={[{ id: "PAID", value: "all" }]}
         defaultFilterMethod={filterCaseInsensitive}
         TrComponent={(state, rowInfo, column, instance) => {
-          //console.log('id=' + props.renderedForm._id.$oid);
-          //console.log(props);
-          //console.log(headers[2]);
           var validId =
             state.children &&
             state.children[0] &&
@@ -102,7 +80,6 @@ export default (props: IResponseTableViewProps) => {
             typeof state.className === "undefined" &&
             state.children[0].props.children[0] != null
           ) {
-            //console.log('header');
             return (
               <div
                 className="row"
@@ -113,60 +90,21 @@ export default (props: IResponseTableViewProps) => {
                   backgroundColor: "lightblue"
                 }}
               >
-                <div className="col-sm">
-                  {state.children[0].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[1].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[2].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[3].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[4].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[5].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[6].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[7].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[8].props.children[0].props.children}
-                </div>
-                <div className="col-sm">
-                  {state.children[9].props.children[0].props.children}
-                </div>
+                {state.children.map((item, index) => (
+                  <div className="col-sm" key={index}>
+                    {item.props.children[0].props.children}
+                  </div>
+                ))}
               </div>
             );
           }
 
-          if (!validId) {
-            //console.log(headers[2]);
-          }
           if (validId) {
             var uniqueId = state.children[0].props.children.props.original.ID;
-            /*var editLink =
-              'http://localhost:8000/v2/forms/' +
-              props.renderedForm._id.$oid +
-              '?responseId=' +
-              uniqueId;*/
 
             const editLink = `http://${window.location.host}/v2/forms/${props.renderedForm._id.$oid}?responseId=${uniqueId}`;
             const viewLink = `${editLink}&mode=view`;
-            /*console.log('viewLink ' + viewLink);*/
-            //console.log('editLink ' + editLink);
 
-            /*   console.log(
-              state.children[0].props.children.props.original.AMOUNT_PAID
-            );*/
-            //console.log(state.children[0].props.children.props.original);
             return (
               <div>
                 <ContextMenuTrigger id={uniqueId}>
@@ -180,67 +118,11 @@ export default (props: IResponseTableViewProps) => {
                     }}
                     onClick={() => displayResposeDetails(props, uniqueId)}
                   >
-                    <div className="col-sm">
-                      {state.children[0].props.children.props.original.PAID}
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original
-                          .AMOUNT_PAID
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original
-                          .contact_name.last
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original
-                          .contact_name.first
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {state.children[0].props.children.props.original.howHeard}
-                    </div>
-
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original.address
-                          .line1
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original.address
-                          .line2
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original.address
-                          .city
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original.address
-                          .state
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original.address
-                          .zipcode
-                      }
-                    </div>
-                    <div className="col-sm">
-                      {
-                        state.children[0].props.children.props.original.address
-                          .email
-                      }
-                    </div>
+                    {state.children.map((item, index) => (
+                      <div className="col-sm" key={index}>
+                        {item.props.children.props.value}
+                      </div>
+                    ))}
                   </div>
                 </ContextMenuTrigger>
 
