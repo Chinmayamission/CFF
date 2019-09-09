@@ -84,14 +84,21 @@ export const displayResponseDetail = (shownResponseDetailId: string) => ({
   shownResponseDetailId
 });
 
-export const submitNewPayment = ({ sendEmail }) => (dispatch, getState) => {
+export const submitNewPayment = ({ sendEmail, emailTemplateId }) => (
+  dispatch,
+  getState
+) => {
   dispatch(loadingStart());
   let responsesState: ResponsesState = getState().responses;
   return API.post(
     "CFF",
     `responses/${responsesState.responseData._id.$oid}/payment`,
     {
-      body: { ...responsesState.paymentStatusDetailItem, sendEmail }
+      body: {
+        ...responsesState.paymentStatusDetailItem,
+        sendEmail,
+        emailTemplateId
+      }
     }
   )
     .then(e => {
@@ -105,6 +112,35 @@ export const submitNewPayment = ({ sendEmail }) => (dispatch, getState) => {
       dispatch(loadingEnd());
       console.error(e);
       alert("Error submitting new payment. " + e);
+    });
+};
+
+export const sendConfirmationEmail = ({ emailTemplateId }) => (
+  dispatch,
+  getState
+) => {
+  dispatch(loadingStart());
+  let responsesState: ResponsesState = getState().responses;
+  return API.post(
+    "CFF",
+    `responses/${responsesState.responseData._id.$oid}/email`,
+    {
+      body: {
+        emailTemplateId
+      }
+    }
+  )
+    .then(e => {
+      if (e.res.success === true) {
+        dispatch(loadingEnd());
+        alert("Email sent.");
+        dispatch(setResponseDetail(e.res.response));
+      }
+    })
+    .catch(e => {
+      dispatch(loadingEnd());
+      console.error(e);
+      alert("Error sending confirmation email. " + e);
     });
 };
 

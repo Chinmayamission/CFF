@@ -12,6 +12,7 @@ from .responseEdit import (
     response_edit_value,
     response_checkin,
     response_add_payment,
+    response_send_email,
     response_delete,
 )
 from .responseView import response_view

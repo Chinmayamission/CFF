@@ -1,20 +1,3 @@
-@import "../../form/bootstrap-4.min.scss";
-.ccmt-cff-Wrapper-Bootstrap .ccmt-cff-form-list {
-    .ccmt-cff-btn-action {
-        @extend .btn, .btn-sm;
-        &:not([disabled]) {
-            @extend .btn-outline-primary;
-        }
-    }
-    a.active > .ccmt-cff-btn-action {
-        @extend .btn-primary;
-    }
-    .ccmt-cff-form-list-name {
-        max-width: 500px;
-        overflow: auto;
-    }
-}
-
 .react-contextmenu {
     background-color: #fff;
     background-clip: padding-box;

@@ -1,7 +1,6 @@
 import { find, cloneDeep } from "lodash";
 import React from "react";
 import { connect } from "react-redux";
-import "react-table/react-table.css";
 import Loading from "../../common/Loading/Loading";
 import {
   IDataOptions,

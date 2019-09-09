@@ -1,7 +1,6 @@
 import API from "@aws-amplify/api";
 import * as React from "react";
 import ReactTable from "react-table";
-import "react-table/react-table.css";
 import Headers from "../../admin/util/Headers";
 import dataLoadingView from "../util/DataLoadingView";
 

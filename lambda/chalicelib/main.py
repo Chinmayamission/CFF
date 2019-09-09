@@ -223,6 +223,12 @@ app.route(
     "/responses/{responseId}", methods=["GET"], cors=True, authorizer=iamAuthorizer
 )(routes.response_view)
 app.route(
+    "/responses/{responseId}/email",
+    methods=["POST"],
+    cors=True,
+    authorizer=iamAuthorizer,
+)(routes.response_send_email)
+app.route(
     "/responses/{responseId}/payment",
     methods=["POST"],
     cors=True,
@@ -246,9 +252,16 @@ app.route(
     cors=True,
     content_types=["application/x-www-form-urlencoded"],
 )(routes.response_ccavenue_response_handler)
+
+"""This route is soon-to-be deprecated, and currently used only for the manual
+payment payment types to send email from the client side. The route
+"/responses/{responseId}/email" is used to resend confirmation emails from the
+admin interface.
+"""
 app.route("/responses/{responseId}/sendConfirmationEmail", methods=["POST"], cors=True)(
     routes.response_send_confirmation_email
 )
+
 app.route("/confirmSignUp", methods=["GET"], cors=True)(routes.confirm_sign_up)
 
 

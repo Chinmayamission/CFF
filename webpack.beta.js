@@ -4,10 +4,7 @@ const common = require("./webpack.common.js");
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-// const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-var pjson = require("./package.json");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const Critters = require("critters-webpack-plugin");
 
 const DEST_URL = "./scripts/beta";
 
@@ -22,12 +19,6 @@ module.exports = version =>
     },
     plugins: [
       new CleanWebpackPlugin([DEST_URL]),
-      new HtmlWebpackPlugin({
-        title: "Chinmaya Forms Framework - Beta",
-        template: "./scripts/src/index.html",
-        // filename: 'index.html'
-        filename: `index.${version}.html`
-      }),
       new webpack.DefinePlugin({
         MODE: `"${MODE}"`,
         ENDPOINT_URL: `"https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"`,
@@ -35,6 +26,13 @@ module.exports = version =>
         COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`,
         GA_TRACKING_ID: `"UA-28518772-10"`,
         GOOGLE_MAPS_API_KEY: `"AIzaSyBXSzBi9zShKyQQ6QGpZH1zAm17M4g98Hw"`
-      })
+      }),
+      new HtmlWebpackPlugin({
+        title: "Chinmaya Forms Framework - Beta",
+        template: "./scripts/src/index.html",
+        // filename: 'index.html'
+        filename: `index.${version}.html`
+      }),
+      new Critters()
     ]
   });
