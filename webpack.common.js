@@ -2,7 +2,6 @@ const path = require("path");
 var webpack = require("webpack");
 var pjson = require("./package.json");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
-
 const FORMBUILDER_URL = "./scripts";
 const SRC_URL = FORMBUILDER_URL + "/src";
 const DEST_URL = FORMBUILDER_URL + "/dist";

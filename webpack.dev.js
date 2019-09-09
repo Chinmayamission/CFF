@@ -4,6 +4,7 @@ const common = require("./webpack.common.js");
 var webpack = require("webpack");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
+const Critters = require("critters-webpack-plugin");
 
 const MODE = "dev";
 module.exports = merge(common, {
@@ -26,6 +27,7 @@ module.exports = merge(common, {
       title: "Chinmaya Forms Framework - Dev",
       template: "./scripts/src/index.html",
       filename: `index.html`
-    })
+    }),
+    new Critters()
   ]
 });

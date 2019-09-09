@@ -4,9 +4,8 @@ const common = require("./webpack.common.js");
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-// const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 var pjson = require("./package.json");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const Critters = require("critters-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
 const DEST_URL = FORMBUILDER_URL + "/prod";
@@ -34,6 +33,7 @@ module.exports = merge(common, {
       title: "Chinmaya Forms Framework",
       template: "./scripts/src/index.html",
       filename: `index.${pjson.version}.html`
-    })
+    }),
+    new Critters()
   ]
 });
