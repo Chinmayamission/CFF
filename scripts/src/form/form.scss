@@ -9,7 +9,6 @@
 }
 
 .ccmt-cff-Page-FormPage {
-    padding: 15px;
     .popover {
         max-width: 80vw;
     }
@@ -58,13 +57,10 @@
     .checkbox-inline {
         margin-right: 20px;
     }
-    .ccmt-cff-btn-array-add, .ccmt-cff-btn-array-remove {
+    .ccmt-cff-btn-array-add {
         max-width: 200px !important;
         margin-right: 20px;
         margin-bottom: 20px;
-    }
-    .ccmt-cff-btn-array-add {
-        margin-left: 15px;
     }
     .field-object, .field-array {
         &:not([class*="col"]) {
@@ -77,7 +73,7 @@
         }
     }
     .form-group {
-        padding-left: 15px;
+        padding-left: 0px;
         padding-right: 15px;
     }
     .field-array.field-array-of-object {
@@ -147,7 +143,6 @@
         }
     }
     .ccmt-cff-sameAs {
-        margin-left: 20px;
         margin-top: 10px;
     }
     .ccmt-cff-array-sameAs-showFirst {
