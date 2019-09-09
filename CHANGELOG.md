@@ -1,3 +1,6 @@
+## 3.26.1
+- Fix: Add React Table css to all pages
+
 ## 3.26.0
 - Admin Manual Payment:
   - Show confirmation email template dropdown only when "Send confirmation email" is checked
