@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
+import classnames from "classnames";
 import { IResponse } from "../../store/responses/types";
 import { IDataOptionView, IRenderedForm } from "../FormEdit/FormEdit.d";
 import downloadCSV from "./downloadCSV";
@@ -14,6 +15,21 @@ import {
   ContextMenuTrigger,
   SubMenu
 } from "react-contextmenu";
+
+const ResponseContextMenu = ({ id, viewLink, editLink, onInspect }) => (
+  <ContextMenu id={id}>
+    <Link to={viewLink}>
+      <MenuItem>View</MenuItem>
+    </Link>
+
+    <Link to={editLink}>
+      <MenuItem>Edit</MenuItem>
+    </Link>
+
+    <MenuItem divider />
+    <MenuItem onClick={e => onInspect()}>Inspect</MenuItem>
+  </ContextMenu>
+);
 
 interface IResponseTableViewProps {
   responses: IResponse[];
@@ -56,59 +72,17 @@ export default (props: IResponseTableViewProps) => {
         defaultSorted={[{ id: "DATE_LAST_MODIFIED", desc: true }]}
         defaultFiltered={[{ id: "PAID", value: "all" }]}
         defaultFilterMethod={filterCaseInsensitive}
-        TrComponent={(state, rowInfo, column, instance) => {
-          console.log(state, rowInfo, column, instance);
-          var validId =
-            state.children &&
-            state.children[0] &&
-            state.children[0].props.children.props &&
-            state.children[0].props.children.props.original;
-
-          if (
-            typeof state.className === "undefined" &&
-            state.children[0].props.children[0] != null
-          ) {
-            return (
-              <div className={"rt-tr " + state.className} role="row">
-                {state.children}
-              </div>
-            );
-          }
-
-          if (validId) {
-            var uniqueId = state.children[0].props.children.props.original.ID;
-
-            const editLink = `/v2/forms/${props.renderedForm._id.$oid}?responseId=${uniqueId}`;
-            const viewLink = `${editLink}&mode=view`;
-
-            return (
-              <div>
-                <ContextMenuTrigger id={uniqueId}>
-                  <div className={"rt-tr " + state.className} role="row">
-                    {state.children}
-                  </div>
-                </ContextMenuTrigger>
-
-                <ContextMenu id={uniqueId}>
-                  <Link to={viewLink}>
-                    <MenuItem>View</MenuItem>
-                  </Link>
-
-                  <Link to={editLink}>
-                    <MenuItem>Edit</MenuItem>
-                  </Link>
-
-                  <MenuItem divider />
-                  <MenuItem
-                    onClick={e => props.displayResponseDetail(uniqueId)}
-                  >
-                    Inspect
-                  </MenuItem>
-                </ContextMenu>
-              </div>
-            );
-          }
-          return null;
+        TdComponent={({ toggleSort, className, children, ...rest }) => {
+          const id = children.props.row._original.ID;
+          return (
+            <div
+              className={classnames("rt-td", className)}
+              role="gridcell"
+              {...rest}
+            >
+              <ContextMenuTrigger id={id}>{children}</ContextMenuTrigger>
+            </div>
+          );
         }}
         getTdProps={(state, rowInfo, column, instance) => {
           return {
@@ -133,6 +107,18 @@ export default (props: IResponseTableViewProps) => {
           </div>
         </div>
       </Modal>
+      {props.responses.map(response => {
+        const id = response._id.$oid;
+        return (
+          <ResponseContextMenu
+            key={id}
+            id={id}
+            viewLink={`/v2/forms/${props.renderedForm._id.$oid}?responseId=${id}&mode=view`}
+            editLink={`/v2/forms/${props.renderedForm._id.$oid}?responseId=${id}&mode=edit`}
+            onInspect={() => props.displayResponseDetail(id)}
+          />
+        );
+      })}
     </div>
   );
 };
