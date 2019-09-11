@@ -24,19 +24,6 @@ interface IResponseTableViewProps {
   editResponse?: (a: string, b: string, c: string) => void;
 }
 
-function launchLink(e, data) {
-  var win = window.open(data.url, "_self");
-  win.focus();
-}
-
-function handleClick(e, data) {
-  data.props.displayResponseDetail(data.uniqueId);
-}
-
-function displayResposeDetails(props, uniqueId) {
-  props.displayResponseDetail(uniqueId);
-}
-
 export default (props: IResponseTableViewProps) => {
   let { headers, dataFinal } = createHeadersAndDataFromDataOption(
     props.responses,
@@ -70,6 +57,7 @@ export default (props: IResponseTableViewProps) => {
         defaultFiltered={[{ id: "PAID", value: "all" }]}
         defaultFilterMethod={filterCaseInsensitive}
         TrComponent={(state, rowInfo, column, instance) => {
+          console.log(state, rowInfo, column, instance);
           var validId =
             state.children &&
             state.children[0] &&
@@ -81,20 +69,8 @@ export default (props: IResponseTableViewProps) => {
             state.children[0].props.children[0] != null
           ) {
             return (
-              <div
-                className="row"
-                style={{
-                  padding: 10,
-                  whiteSpace: "nowrap",
-                  borderBottom: "1px solid #aaa",
-                  backgroundColor: "lightblue"
-                }}
-              >
-                {state.children.map((item, index) => (
-                  <div className="col-sm" key={index}>
-                    {item.props.children[0].props.children}
-                  </div>
-                ))}
+              <div className={"rt-tr " + state.className} role="row">
+                {state.children}
               </div>
             );
           }
@@ -102,43 +78,29 @@ export default (props: IResponseTableViewProps) => {
           if (validId) {
             var uniqueId = state.children[0].props.children.props.original.ID;
 
-            const editLink = `http://${window.location.host}/v2/forms/${props.renderedForm._id.$oid}?responseId=${uniqueId}`;
+            const editLink = `/v2/forms/${props.renderedForm._id.$oid}?responseId=${uniqueId}`;
             const viewLink = `${editLink}&mode=view`;
 
             return (
               <div>
                 <ContextMenuTrigger id={uniqueId}>
-                  <div
-                    className="row"
-                    style={{
-                      padding: 10,
-                      whiteSpace: "nowrap",
-                      borderBottom: "1px solid #aaa",
-                      backgroundColor: "lightblue"
-                    }}
-                    onClick={() => displayResposeDetails(props, uniqueId)}
-                  >
-                    {state.children.map((item, index) => (
-                      <div className="col-sm" key={index}>
-                        {item.props.children.props.value}
-                      </div>
-                    ))}
+                  <div className={"rt-tr " + state.className} role="row">
+                    {state.children}
                   </div>
                 </ContextMenuTrigger>
 
                 <ContextMenu id={uniqueId}>
-                  <MenuItem data={{ url: viewLink }} onClick={launchLink}>
-                    View
-                  </MenuItem>
+                  <Link to={viewLink}>
+                    <MenuItem>View</MenuItem>
+                  </Link>
 
-                  <MenuItem data={{ url: editLink }} onClick={launchLink}>
-                    Edit
-                  </MenuItem>
+                  <Link to={editLink}>
+                    <MenuItem>Edit</MenuItem>
+                  </Link>
 
                   <MenuItem divider />
                   <MenuItem
-                    data={{ uniqueId: uniqueId, props: props }}
-                    onClick={handleClick}
+                    onClick={e => props.displayResponseDetail(uniqueId)}
                   >
                     Inspect
                   </MenuItem>
