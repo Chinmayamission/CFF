@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import ReactTable from "react-table";
 import { ResponsesState } from "../../../store/responses/types";
 import "./PaymentHistory.scss";
-import "react-table/react-table.css";
 import {
   onPaymentStatusDetailChange,
   submitNewPayment,

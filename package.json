@@ -1,6 +1,6 @@
 {
   "name": "ccmt-cff-client",
-  "version": "3.26.0",
+  "version": "3.26.1",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
@@ -111,7 +111,7 @@
     "jsoneditor": "^5.13.1",
     "juice": "^5.2.0",
     "lodash": "^4.17.15",
-    "lodash-es": "^4.17.8",
+    "lodash-es": "^4.17.14",
     "lodash.get": "^4.4.2",
     "lodash.pick": "^4.4.0",
     "moment": "^2.22.2",

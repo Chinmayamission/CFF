@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import "./app.scss";
 import "open-iconic/font/css/open-iconic-bootstrap.scss";
+import "react-table/react-table.css";
 import Loading from "./common/Loading/Loading";
 import { connect } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
