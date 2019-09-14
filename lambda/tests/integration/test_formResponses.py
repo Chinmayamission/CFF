@@ -47,14 +47,4 @@ class FormResponses(BaseTestCase):
         self.assertEqual(list(body["res"][0].keys()), ["_id"])
 
     def test_response_summary(self):
-        """View aggregate summary of data."""
-        response = self.lg.handle_request(
-            method="GET",
-            headers={"authorization": "auth"},
-            body="",
-            path=f"/forms/{self.formId}/summary",
-        )
-        self.assertEqual(response["statusCode"], 200, response)
-        body = json.loads(response["body"])
-        # self.assertIn('unwindTables', body['res'])
-        # self.assertIn('mainTable', body['res'])
+        pass
