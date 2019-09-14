@@ -237,6 +237,8 @@ def form_response_new(formId):
         response.value = response_data
         response.date_modified = datetime.datetime.now()
         response.paymentInfo = paymentInfo
+        if paymentInfo and "total" in paymentInfo:
+            response.amount_owed_cents = int(100 * paymentInfo["total"])
         response.paid = paid
         if not newResponse:
             response.update_trail.append(
@@ -271,6 +273,7 @@ def form_response_new(formId):
                 "responseId": str(responseId),
                 "paymentInfo": paymentInfo,
                 "paymentMethods": paymentMethods,
+                "amount_owed_cents": response.amount_owed_cents,
             }
         }
     elif not newResponse:
@@ -283,6 +286,8 @@ def form_response_new(formId):
         # }
         response.value = response_data
         response.paymentInfo = paymentInfo
+        if paymentInfo and "total" in paymentInfo:
+            response.amount_owed_cents = int(100 * paymentInfo["total"])
         response.paid = paid
         response.save()
         do_form_post_calc(formId, paymentInfo, paymentMethods, response)
@@ -300,5 +305,6 @@ def form_response_new(formId):
                     "currency": paymentInfo["currency"],
                     "total": float(response.amount_paid or 0),
                 },
+                "amount_owed_cents": response.amount_owed_cents,
             }
         }

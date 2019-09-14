@@ -16,6 +16,7 @@ from chalicelib.models import Form, Response, CCAvenueConfig, serialize_model
 from bson.objectid import ObjectId
 import time
 import mock
+import uuid
 
 ONE_SUBMITRES = {
     "paid": False,
@@ -35,6 +36,7 @@ ONE_SUBMITRES = {
         ],
         "total": 0.5,
     },
+    "amount_owed_cents": 50,
     "paymentMethods": {
         "paypal_classic": {
             "address1": "123",
@@ -266,6 +268,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response["paid"], True)
         self.assertEqual(response["amount_paid"], "0.5")
         self.assertEqual(response["paymentInfo"]["total"], 0.5)
+        self.assertEqual(response["amount_owed_cents"], 50)
 
         new_data = dict(ONE_FORMDATA, children=[{}])
 
@@ -282,6 +285,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response["paid"], False)
         self.assertEqual(response["amount_paid"], "0.5")
         self.assertEqual(response["paymentInfo"]["total"], 25.5)
+        self.assertEqual(response["amount_owed_cents"], 2550)
 
         # Pay response.
         response = Response.objects.get({"_id": ObjectId(responseId)})
@@ -771,6 +775,7 @@ class FormSubmit(BaseTestCase):
                     ],
                     "total": 0.5,
                 },
+                "amount_owed_cents": 50,
                 "paymentMethods": {
                     "paypal_classic": {
                         "address1": "123",
@@ -898,6 +903,7 @@ class FormSubmit(BaseTestCase):
                     ],
                     "total": 0.5,
                 },
+                "amount_owed_cents": 50,
                 "paymentMethods": {
                     "paypal_classic": {
                         "address1": "123",
@@ -1009,6 +1015,7 @@ class FormSubmit(BaseTestCase):
         )
         self.assertEqual(response["paid"], True)
         self.assertEqual(response["amount_paid"], "0.5")
+        self.assertEqual(response["amount_paid_cents"], 50)
         self.assertEqual(len(response["email_trail"]), 1)
     
     @mock.patch("boto3.client")
@@ -1158,9 +1165,9 @@ class FormSubmit(BaseTestCase):
     def test_submit_form_ccavenue(self):
         self.formId = self.create_form()
         access_code = "ACCESSKODE"
-        merchant_id = "123456"
+        merchant_id = str(uuid.uuid4())
         SECRET_working_key = "abcdefgh"
-        CCAvenueConfig(
+        config = CCAvenueConfig(
             access_code=access_code,
             merchant_id=merchant_id,
             SECRET_working_key=SECRET_working_key,
