@@ -3,13 +3,10 @@ import FormEmbed from "./FormEmbed/FormEmbed";
 import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable/ResponseTable";
-import ResponseSummary from "./ResponseSummary/ResponseSummary";
 import FormShare from "./FormShare/FormShare";
 import Loading from "../common/Loading/Loading";
 import "./admin.scss";
-import { Route, Switch, Link } from "react-router-dom";
-import { ConnectedRouter } from "connected-react-router";
-import history from "../history";
+import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Login from "../common/Login/Login";
@@ -150,16 +147,6 @@ function FormPages() {
         render={props => (
           <FormEdit
             formId={props.match.params.formId}
-            key={props.match.params.formId}
-            onError={e => this.onError(e)}
-            {...props}
-          />
-        )}
-      />
-      <Route
-        path="/admin/:formId/summary/"
-        render={props => (
-          <ResponseSummary
             key={props.match.params.formId}
             onError={e => this.onError(e)}
             {...props}
