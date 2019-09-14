@@ -139,3 +139,55 @@ class FormResponses(BaseTestCase):
                 }
             ]
         })
+
+    def test_response_stats_aggregate_group(self):
+        self.formId = self.create_form()
+        self.set_formOptions({
+            "dataOptions": {
+                "views": [
+                    {
+                        "id": "aggregateView",
+                        "type": "stats",
+                        "stats": [
+                            {
+                                "type": "group",
+                                "title": "a",
+                                "queryType": "aggregate",
+                                "queryValue": [
+                                    { "$group": { "_id": "$value.city", "n": { "$sum": 1 } } }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        })
+        self.submit_form(self.formId, {"city": "San Jose"} )
+        self.submit_form(self.formId, {"city": "San Ramon"} )
+        self.submit_form(self.formId, {"city": "San Ramon"} )
+        self.submit_form(self.formId, {"city": "San Francisco"} )
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{self.formId}/responses/?dataOptionView=aggregateView",
+        )
+        self.assertEqual(response["statusCode"], 200, response)
+        body = json.loads(response["body"])
+        self.assertEqual(body["res"], {
+            "stats": [
+                {
+                    "type": "group",
+                    "title": "a",
+                    "queryType": "aggregate",
+                    "queryValue": [
+                        { "$group": { "_id": "$value.city", "n": { "$sum": 1 } } }
+                    ],
+                    "computedQueryValue": [
+                        {"_id": "San Francisco", "n": 1},
+                        {"_id": "San Ramon", "n": 2},
+                        {"_id": "San Jose", "n": 1}
+                    ]
+                }
+            ]
+        })

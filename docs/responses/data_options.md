@@ -37,7 +37,7 @@ To change the title of a column, replace the string in the `columns` array with 
 
 ## Adding a summary view
 You can add a summary view which runs aggregate queries in MongoDB and then shows the results of those queries in the responses table view. To do so, add an object in dataOptions.views such as the following:
-```
+```json
 "views": [{
   "id": "summary",
   "type": "stats",
@@ -61,4 +61,25 @@ You can add a summary view which runs aggregate queries in MongoDB and then show
 }]
 ```
 
+### queryType aggregate
+
 When `queryType` is `aggregate`, the queryValue will be calculated by evaluating the first value of `n` in the result set.
+
+### type = "single"
+
+When type is single, this means that a single value will be shown. The "title" attribute will be the title, and the value will be next to it. Make sure that the aggregate result has a key called "n".
+
+### type = "group"
+
+When type is group, this means that a table of values will be shown. The "title" attribute is the title of the table. For example, you can use the following value as an item in `stats`:
+
+```json
+{
+  "type": "group",
+  "title": "a",
+  "queryType": "aggregate",
+  "queryValue": [
+      { "$group": { "_id": "$value.city", "n": { "$sum": 1 } } }
+  ]
+}
+```

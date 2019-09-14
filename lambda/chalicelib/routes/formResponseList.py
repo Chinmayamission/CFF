@@ -38,6 +38,8 @@ def _calculate_stat(form, stat):
     if stat_type == "single":
         row = next(aggregate_result)
         return row["n"] if row else None
+    elif stat_type == "group":
+        return list(aggregate_result)
     else:
         raise Exception(f"Stat type {stat_type} not supported.")
 
@@ -52,6 +54,19 @@ def _dataOptionView(form, dataOptionViewId):
                 "type": "single",
                 "title": ...,
                 "computedQueryValue": 3
+            }]
+        }
+    }
+    When "type" is "group", computedQueryValue will be a table, e.g.
+    {
+        "res": {
+            "stats": [{
+                "type": "group",
+                "title": ...,
+                "computedQueryValue": [
+                    {"_id": "San Jose", "n": 2},
+                    {"_id": "San Francisco", "n": 3}
+                ]
             }]
         }
     }
