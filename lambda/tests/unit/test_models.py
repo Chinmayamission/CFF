@@ -36,3 +36,10 @@ class FormPermissions(unittest.TestCase):
         self.assertEqual(
             response.to_son().to_dict()["_cls"], "chalicelib.models.Response"
         )
+
+    def test_create_response_with_dollar_and_period(self):
+        oid = ObjectId()
+        response = Response(id=oid, date_created=datetime.datetime.now(), paymentInfo={"$ref": "b", ".ref": "c"})
+        response.save()
+        self.assertEqual(response.id, oid)
+        self.assertEqual(response.paymentInfo, {"$ref": "b", ".ref": "c"})

@@ -31,7 +31,7 @@ six = "==1.11.0"
 typing = "==3.6.4"
 urllib3 = "==1.24.2"
 pymongo = {extras = ["tls"]}
-pymodm = "==0.4.1"
+pymodm = {editable = true,git = "https://github.com/epicfaace/pymodm.git",ref = "ed6489781a86bd0d70c8e59865e7f1d70bffed07"}
 python-jose = "*"
 pycryptodomex = "*"
 pip = "==10"
