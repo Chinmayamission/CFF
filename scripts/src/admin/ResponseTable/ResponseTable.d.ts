@@ -16,7 +16,7 @@ export interface IResponseTableProps extends ResponsesState {
   tableViewName: string;
   form: FormState;
   fetchRenderedForm: (x: string) => Promise<any>;
-  fetchResponses: (x: string) => Promise<any>;
+  fetchResponses: (x: any) => Promise<any>;
   setResponsesSelectedView: (x: string) => any;
   push: (x: string) => void;
   editGroups: (x: any) => any;

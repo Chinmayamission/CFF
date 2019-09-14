@@ -40,6 +40,7 @@ You can add a summary view which runs aggregate queries in MongoDB and then show
 ```json
 "views": [{
   "id": "summary",
+  "displayName": "Summary",
   "type": "stats",
   "stats": [
     {
@@ -48,14 +49,14 @@ You can add a summary view which runs aggregate queries in MongoDB and then show
       "queryType": "aggregate",
       "queryValue": [
         {"$match": {"value.registrationType": "sponsorship"}},
-        { $group: { _id: null, n: { $sum: 1 } } }
+        { "$group": { "_id": null, "n": { "$sum": 1 } } }
       ]
     },
     {
       "type": "single",
       "title": "Total money collected",
       "queryType": "aggregate",
-      "queryValue": [{ $group: { _id: null, n: { $sum: "$amount_paid" } } } )]
+      "queryValue": [{ "$group": { "_id": null, "n": { "$sum": "$amount_paid" } } } ]
     }
   ]
 }]
@@ -76,7 +77,7 @@ When type is group, this means that a table of values will be shown. The "title"
 ```json
 {
   "type": "group",
-  "title": "a",
+  "title": "Aggregate by city",
   "queryType": "aggregate",
   "queryValue": [
       { "$group": { "_id": "$value.city", "n": { "$sum": 1 } } }

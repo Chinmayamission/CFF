@@ -178,7 +178,7 @@ interface IStatsOption {
   queryValue: any;
 
   // Computed by the server when querying the responses endpoint
-  computedQueryValue?: string;
+  computedQueryValue?: number | { _id: string | null; n: number }[];
 }
 
 interface IGroupOption {
