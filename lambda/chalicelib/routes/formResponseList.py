@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 from pydash.objects import get
 from bson.json_util import dumps
 import json
+from chalicelib.util.renameKey import replaceKey
 
 def _all(form):
     responses = Response.objects.all()._collection.find(
@@ -23,7 +24,51 @@ def _all(form):
     )
     return {"res": [r for r in json.loads(dumps(responses))]}
 
-def _dataOption():
+def _calculate_stat(form, stat):
+    query_type = stat["queryType"]
+    aggregate_result = None
+    if query_type == "aggregate":
+        aggregate_result = Response.objects.raw({"form": form.id}).aggregate(
+            *stat["queryValue"]
+        )
+    else:
+        raise Exception(f"Query type {queryType} not supported.")
+    
+    stat_type = stat["type"]
+    if stat_type == "single":
+        row = next(aggregate_result)
+        return row["n"] if row else None
+    else:
+        raise Exception(f"Stat type {stat_type} not supported.")
+
+def _dataOptionView(form, dataOptionViewId):
+    """Return from a data option given a data option ID.
+    This endpoint can be called as such:
+    GET /responses?dataOptionView=aggregate1
+    The response will be a dictionary. The stats key will contain the same objects as the original stats key, but with the key "computedQueryValue" added.
+    {
+        "res": {
+            "stats": [{
+                "type": "single",
+                "title": ...,
+                "computedQueryValue": 3
+            }]
+        }
+    }
+    """
+    dataOptionViewList = filter(lambda x: x["id"] == dataOptionViewId, form.formOptions.dataOptions["views"])
+    try:
+        dataOptionView = next(dataOptionViewList)
+    except StopIteration:
+        raise Exception(f"dataOptionView with id {dataOptionViewId} not found.")
+    if dataOptionView["type"] == "stats":
+        return {
+            "res": {
+                "stats": [dict(stat, computedQueryValue=_calculate_stat(form, stat)) for stat in dataOptionView["stats"]]
+            }
+        }
+    else:
+        raise Exception("dataOptionView type not supported.")
     return {}
 
 def _search(form, query, autocomplete, search_by_id, show_unpaid):
@@ -114,13 +159,16 @@ def form_response_list(formId):
     form = Form.objects.only("formOptions", "cff_permissions").get(
         {"_id": ObjectId(formId)}
     )
+    if form.formOptions and form.formOptions.dataOptions and "views" in form.formOptions.dataOptions:
+        form.formOptions.dataOptions["views"] = replaceKey(replaceKey(form.formOptions.dataOptions["views"], "||", "."), "|", "$")
+
     query_params = app.current_request.query_params or {}
     
     query = query_params.get("query", None)
-    dataOption = query_params.get("dataOption", None)
-    if dataOption:
+    dataOptionView = query_params.get("dataOptionView", None)
+    if dataOptionView:
         app.check_permissions(form, ["Responses_View"])
-        return _dataOption(dataOption)
+        return _dataOptionView(form, dataOptionView)
     elif query:
         app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
         autocomplete = query_params.get("autocomplete", None)

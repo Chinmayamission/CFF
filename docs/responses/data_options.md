@@ -1,6 +1,6 @@
 Data options help manage which columns/views are shown in the response table.
 
-## Getting started
+## Changing the columns
 If you want to change beyond the default view, add the following to `formOptions`:
 
 ```
@@ -34,3 +34,31 @@ To change the title of a column, replace the string in the `columns` array with 
     "email"
   ]
 ```
+
+## Adding a summary view
+You can add a summary view which runs aggregate queries in MongoDB and then shows the results of those queries in the responses table view. To do so, add an object in dataOptions.views such as the following:
+```
+"views": [{
+  "id": "summary",
+  "type": "stats",
+  "stats": [
+    {
+      "type": "single",
+      "title": "Total number of Yajman families",
+      "queryType": "aggregate",
+      "queryValue": [
+        {"$match": {"value.registrationType": "sponsorship"}},
+        { $group: { _id: null, n: { $sum: 1 } } }
+      ]
+    },
+    {
+      "type": "single",
+      "title": "Total money collected",
+      "queryType": "aggregate",
+      "queryValue": [{ $group: { _id: null, n: { $sum: "$amount_paid" } } } )]
+    }
+  ]
+}]
+```
+
+When `queryType` is `aggregate`, the queryValue will be calculated by evaluating the first value of `n` in the result set.

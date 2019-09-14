@@ -46,5 +46,96 @@ class FormResponses(BaseTestCase):
         self.assertTrue(len(body["res"]) > 0, "Response list is empty.")
         self.assertEqual(list(body["res"][0].keys()), ["_id"])
 
-    def test_response_summary(self):
-        pass
+    def test_response_stats_aggregate_count(self):
+        self.set_formOptions({
+            "dataOptions": {
+                "views": [
+                    {
+                        "id": "aggregateView",
+                        "type": "stats",
+                        "stats": [
+                            {
+                                "type": "single",
+                                "title": "a",
+                                "queryType": "aggregate",
+                                "queryValue": [
+                                    {"$match": {"value.registrationType": "sponsorship"}},
+                                    { "$group": { "_id": None, "n": { "$sum": 1 } } }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        })
+        self.submit_form(self.formId, {"registrationType": "sponsorship"} )
+        self.submit_form(self.formId, {"registrationType": "sponsorship"} )
+        self.submit_form(self.formId, {"registrationType": "standard"} )
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{self.formId}/responses/?dataOptionView=aggregateView",
+        )
+        self.assertEqual(response["statusCode"], 200, response)
+        body = json.loads(response["body"])
+        self.assertEqual(body["res"], {
+            "stats": [
+                {
+                    "type": "single",
+                    "title": "a",
+                    "queryType": "aggregate",
+                    "queryValue": [
+                        {"$match": {"value.registrationType": "sponsorship"}},
+                        { "$group": { "_id": None, "n": { "$sum": 1 } } }
+                    ],
+                    "computedQueryValue": 2
+                }
+            ]
+        })
+
+    def test_response_stats_aggregate_sum(self):
+        self.set_formOptions({
+            "dataOptions": {
+                "views": [
+                    {
+                        "id": "aggregateView",
+                        "type": "stats",
+                        "stats": [
+                            {
+                                "type": "single",
+                                "title": "a",
+                                "queryType": "aggregate",
+                                "queryValue": [
+                                    { "$group": { "_id": None, "n": { "$sum": "$value.age" } } }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        })
+        self.submit_form(self.formId, {"age": 4} )
+        self.submit_form(self.formId, {"age": 2} )
+        self.submit_form(self.formId, {"age": 4} )
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{self.formId}/responses/?dataOptionView=aggregateView",
+        )
+        self.assertEqual(response["statusCode"], 200, response)
+        body = json.loads(response["body"])
+        self.assertEqual(body["res"], {
+            "stats": [
+                {
+                    "type": "single",
+                    "title": "a",
+                    "queryType": "aggregate",
+                    "queryValue": [
+                        { "$group": { "_id": None, "n": { "$sum": "$value.age" } } }
+                    ],
+                    "computedQueryValue": 10
+                }
+            ]
+        })
