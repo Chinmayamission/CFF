@@ -1,3 +1,8 @@
+## 3.27.0
+- Add right-click context menu for responses view (#199)
+- Add form summary page (#208)
+  - This also requires a db change that adds the amount_paid_cents and amount_owed_cents fields (lambda/tools/addPaymentFields.py)
+
 ## 3.26.1
 - Fix: Add React Table css to all pages
 
