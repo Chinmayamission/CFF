@@ -8,12 +8,12 @@ Imports responses from v1-type forms (cff.chinmayamission.com - dynamodb) to v2-
 """
 IMPORT HISTORY
 ==============
-earlier - moved responses from academicians' form.
-
+earlier - moved responses from
+"cd37f8f8-35d7-4e58-9811-116158af0a5f", "5c0d505ec440d10001404616" - academicians' form.
 
 9/15/19 - moved responses from
-"736f88ac-d528-41d8-8eba-eb46931b1da6" to 5d7e71bf312b1c0001451596 - 2018 CMTC Color Walk
-"4fd6adfd-d91d-4f76-ab47-2b744f016a01" to 5d7e736c312b1c0001451597 - 2018 CMA Tej
+"736f88ac-d528-41d8-8eba-eb46931b1da6", "5d7e71bf312b1c0001451596" - 2018 CMTC Color Walk
+"4fd6adfd-d91d-4f76-ab47-2b744f016a01", "5d7e736c312b1c0001451597" - 2018 CMA Tej
 "f548443-99da-4340-b825-3f09921b4ad5", "5d7ec75e337efe000147a612" - 2018 JMSM USD
 "e206b290-9067-49f6-9464-1153fc59dc0e", "5d7ec831337efe000147a613" - 2018 JMSM INR
 
@@ -24,7 +24,7 @@ earlier - moved responses from academicians' form.
 
 # todo: add amount_paid column for imported responses.
 # todo: fix date created.
-# todo: add id to paymentstatusdetailitem.
+# todo: add id to paymentstatusdetailitem. This will also let us account for duplicate transactions
 """
 
 import os
