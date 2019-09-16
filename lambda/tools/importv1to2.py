@@ -8,19 +8,23 @@ Imports responses from v1-type forms (cff.chinmayamission.com - dynamodb) to v2-
 """
 IMPORT HISTORY
 ==============
+earlier - moved responses from academicians' form.
+
+
 9/15/19 - moved responses from
-736f88ac-d528-41d8-8eba-eb46931b1da6 to 5d7e71bf312b1c0001451596 - 2018 CMTC Color Walk
-4fd6adfd-d91d-4f76-ab47-2b744f016a01 to 5d7e736c312b1c0001451597 - 2018 CMA Tej
+"736f88ac-d528-41d8-8eba-eb46931b1da6" to 5d7e71bf312b1c0001451596 - 2018 CMTC Color Walk
+"4fd6adfd-d91d-4f76-ab47-2b744f016a01" to 5d7e736c312b1c0001451597 - 2018 CMA Tej
 "f548443-99da-4340-b825-3f09921b4ad5", "5d7ec75e337efe000147a612" - 2018 JMSM USD
 "e206b290-9067-49f6-9464-1153fc59dc0e", "5d7ec831337efe000147a613" - 2018 JMSM INR
 
 "5c243e61-5407-402b-a89b-5190c46d0d05", "5d7eccf103364b000150d43c" - 2018 CMSJ Om Run Individual Sponsorship Form
 "31571110-483c-4b72-b4b8-5b1ce0b9348b", "5d7ece8503364b000150d43d" - 2018 OM Run Main Registration Form
 "ffd0111c-4880-4891-9306-a052b86a4572", "5d7ecf1003364b000150d43e" - 2018 OM Run Premium Sponsorship Form
-
+"e4548443-99da-4340-b825-3f09921b4ac4", "5d7ed0d403364b000150d43f" - 2018 OM Run Training Registration Form
 
 # todo: add amount_paid column for imported responses.
 # todo: fix date created.
+# todo: add id to paymentstatusdetailitem.
 """
 
 import os
@@ -46,7 +50,7 @@ print("MODE", MODE)
 
 table_responses = boto3.resource("dynamodb").Table("cff_prod.responses")
 formIdOld, formIdNew = "", ""
-# formIdOld, formIdNew = "", ""
+formIdOld, formIdNew = "e4548443-99da-4340-b825-3f09921b4ac4", "5d7ed0d403364b000150d43f"
 
 query = table_responses.query(KeyConditionExpression=Key("formId").eq(formIdOld))
 
@@ -60,6 +64,22 @@ class DecimalEncoder(json.JSONEncoder):
 
 for response in query["Items"]:
     response = json.loads(json.dumps(response, cls=DecimalEncoder))
+    if "PAYMENT_HISTORY" not in response and "IPN_STATUS" in response:
+        # really-old-style responses:
+        if response["IPN_STATUS"] != "Completed":
+            print("IPN_STATUS is not 'completed' for " + response["responseId"] + "; must be manually checked afterwards.")
+        elif len(response["IPN_HISTORY"]) > 1:
+            print("Too many IPN_HISTORY values for response " + response["responseId"] + "; must be manually checked afterwards.")
+        for ipn_history_item in response["IPN_HISTORY"]:
+            ipn_history_item["status"] = "Success"
+        response["PAYMENT_HISTORY"] = [{
+            "date": i["date"],
+            "amount": i["value"]["mc_gross"],
+            "currency": i["value"]["mc_currency"],
+            "method": "paypal"
+        } for i in response["IPN_HISTORY"]]
+    PAYMENT_HISTORY = response.get("PAYMENT_HISTORY", [])
+    IPN_HISTORY = response.get("IPN_HISTORY", [])
     res = Response(
         date_created=dateutil.parser.parse(response["date_created"]),
         date_modified=dateutil.parser.parse(response["date_last_modified"]),
@@ -93,7 +113,7 @@ for response in query["Items"]:
                 currency=i["currency"],
                 method="paypal_ipn" if i["method"] == "paypal" else i["method"],
             )
-            for i in response.get("PAYMENT_HISTORY", [])
+            for i in PAYMENT_HISTORY
         ]
         or [],
     )
