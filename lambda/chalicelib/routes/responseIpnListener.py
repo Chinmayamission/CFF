@@ -34,6 +34,8 @@ def update_response_paid_status(response):
         if response.paid:
             response.value = response.pending_update["value"]
             response.paymentInfo = response.pending_update["paymentInfo"]
+            if paymentInfo and "total" in paymentInfo:
+                response.amount_owed_cents = int(100 * paymentInfo["total"])
             response.pending_update = None
             response.update_trail.append(
                 UpdateTrailItem(
@@ -84,7 +86,9 @@ def mark_successful_payment(
         PaymentStatusDetailItem(**payment_status_detail_kwargs)
     )
 
-    response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
+    amount_paid = float(response.amount_paid or 0) + float(amount)
+    response.amount_paid_cents = int(100 * amount_paid)
+    response.amount_paid = str(amount_paid)
     update_response_paid_status(response)
     if send_email:
         send_email_receipt(response, form.formOptions, email_template_id)

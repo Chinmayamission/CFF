@@ -190,9 +190,6 @@ app.route(
     cors=True,
     authorizer=iamAuthorizer,
 )(routes.form_response_export)
-app.route(
-    "/forms/{formId}/summary", methods=["GET"], cors=True, authorizer=iamAuthorizer
-)(routes.form_response_summary)
 # app.route('/responses/{responseId}/checkin', methods=['POST'], cors=True, authorizer=iamAuthorizer)(routes.response_checkin)
 app.route(
     "/forms/{formId}/permissions", methods=["GET"], cors=True, authorizer=iamAuthorizer

@@ -59,12 +59,12 @@ class FormCheckin extends React.Component<
 
   search(search_by_id) {
     if (this.state.searchText) {
-      this.props.fetchResponses(
-        this.props.match.params.formId,
-        this.state.searchText,
-        search_by_id,
-        this.state.showUnpaid
-      );
+      this.props.fetchResponses({
+        formId: this.props.match.params.formId,
+        searchQuery: this.state.searchText,
+        search_by_id: search_by_id,
+        show_unpaid: this.state.showUnpaid
+      });
     }
   }
 
@@ -276,7 +276,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchResponses: (a, b, c, d) => dispatch(fetchResponses(a, b, c, d)),
+  fetchResponses: e => dispatch(fetchResponses(e)),
   editResponse: (a, b, c) => dispatch(editResponse(a, b, c)),
   editResponseBatch: (a, b) => dispatch(editResponseBatch(a, b)),
   fetchRenderedForm: a => dispatch(fetchRenderedForm(a)),

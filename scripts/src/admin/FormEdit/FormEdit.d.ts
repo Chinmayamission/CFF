@@ -132,21 +132,6 @@ export interface ISchemaModifierDBEntry extends IDBEntry {
   id: string;
 }
 export interface IDataOptions {
-  exportRows?: string[];
-  mainTable?: {
-    columnOrder?: string[];
-    aggregateCols?: string[];
-  };
-  checkinTable?: {
-    columnOrder?: string[];
-    aggregateCols?: string[];
-  };
-  unwindTables?: {
-    [columnName: string]: {
-      columnOrder?: string[];
-      aggregateCols?: string[];
-    };
-  }[];
   views: IDataOptionView[];
   groups: IGroupOption[];
   export?: {
@@ -168,14 +153,34 @@ export interface IDataOptions {
   };
 }
 interface IDataOptionView {
+  // Common
   unwindBy?: string;
   displayName: string;
   id: string;
+  type?: string; // "stats" is only type supported now. TODO: allow other types for google sheets export, regular table view, etc, and make this field non-optional.
+
+  // Response table fields
   columns?: (IHeaderOption | string | string[])[];
   groupEdit?: string;
+
+  // Response summary fields
+  stats?: IStatsOption[];
+
+  // Used for google sheets export
   aggregate?: { [x: string]: any }[];
   showCountTotal?: boolean;
 }
+
+interface IStatsOption {
+  type: string; // Supported: "single" or "group"
+  title: string;
+  queryType: string; // Supported: "aggregate"
+  queryValue: any;
+
+  // Computed by the server when querying the responses endpoint
+  computedQueryValue?: number | { _id: string | null; n: number }[];
+}
+
 interface IGroupOption {
   schema: any;
   id: string;

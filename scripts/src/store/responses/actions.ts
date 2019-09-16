@@ -74,6 +74,11 @@ export const setResponses = (responses: IResponse[]) => ({
   responses
 });
 
+export const setStats = stats => ({
+  type: "SET_STATS",
+  stats
+});
+
 export const setResponsesSelectedView = (viewName: string) => ({
   type: "SET_RESPONSES_SELECTED_VIEW",
   viewName
@@ -147,12 +152,12 @@ export const sendConfirmationEmail = ({ emailTemplateId }) => (
 /*
  * Fetches (or searches for) responses.
  */
-export const fetchResponses = (
+export const fetchResponses = ({
   formId,
-  searchQuery = "",
-  search_by_id = false,
-  show_unpaid = false
-) => (dispatch, getState) => {
+  searchQuery,
+  search_by_id,
+  show_unpaid
+}) => (dispatch, getState) => {
   dispatch(loadingStart());
   let queryStringParameters = searchQuery ? { query: searchQuery } : {};
   if (search_by_id) {
@@ -164,6 +169,23 @@ export const fetchResponses = (
   return API.get("CFF", `forms/${formId}/responses`, { queryStringParameters })
     .then(e => {
       dispatch(setResponses(e.res));
+      dispatch(loadingEnd());
+    })
+    .catch(e => {
+      console.error(e);
+      alert("Error fetching form responses. " + e);
+      dispatch(loadingEnd());
+    });
+};
+
+export const fetchStats = ({ formId, dataOptionViewId }) => (
+  dispatch,
+  getState
+) => {
+  const queryStringParameters = { dataOptionView: dataOptionViewId };
+  return API.get("CFF", `forms/${formId}/responses`, { queryStringParameters })
+    .then(e => {
+      dispatch(setStats(e.res.stats));
       dispatch(loadingEnd());
     })
     .catch(e => {

@@ -20,6 +20,7 @@ import "./ResponseTable.scss";
 import { push } from "connected-react-router";
 import GroupEdit from "./GroupEdit";
 import { getOrDefaultDataOptions } from "../util/dataOptionUtil";
+import ResponseStatsView from "./ResponseStatsView";
 
 class ResponseTable extends React.Component<
   IResponseTableProps,
@@ -28,7 +29,9 @@ class ResponseTable extends React.Component<
   componentDidMount() {
     this.props
       .fetchRenderedForm(this.props.match.params.formId)
-      .then(() => this.props.fetchResponses(this.props.match.params.formId));
+      .then(() =>
+        this.props.fetchResponses({ formId: this.props.match.params.formId })
+      );
   }
 
   editGroups(id, e) {
@@ -91,14 +94,22 @@ class ResponseTable extends React.Component<
     return (
       <div>
         <Nav />
-        <ResponseTableView
-          responses={this.props.responses}
-          renderedForm={this.props.form.renderedForm}
-          dataOptionView={dataOptionView}
-          shownResponseDetailId={this.props.shownResponseDetailId}
-          displayResponseDetail={e => this.props.displayResponseDetail(e)}
-          editResponse={(a, b, c) => this.props.editResponse(a, b, c)}
-        />
+        {dataOptionView.type !== "stats" && (
+          <ResponseTableView
+            responses={this.props.responses}
+            renderedForm={this.props.form.renderedForm}
+            dataOptionView={dataOptionView}
+            shownResponseDetailId={this.props.shownResponseDetailId}
+            displayResponseDetail={e => this.props.displayResponseDetail(e)}
+            editResponse={(a, b, c) => this.props.editResponse(a, b, c)}
+          />
+        )}
+        {dataOptionView.type === "stats" && (
+          <ResponseStatsView
+            dataOptionView={dataOptionView}
+            formId={this.props.match.params.formId}
+          />
+        )}
       </div>
     );
   }
@@ -114,7 +125,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchResponses: formId => dispatch(fetchResponses(formId)),
+  fetchResponses: e => dispatch(fetchResponses(e)),
   fetchRenderedForm: formId => dispatch(fetchRenderedForm(formId)),
   setResponsesSelectedView: (e: string) =>
     dispatch(setResponsesSelectedView(e)),

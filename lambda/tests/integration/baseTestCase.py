@@ -83,6 +83,12 @@ class BaseTestCase(unittest.TestCase):
         self.assertEqual(response["statusCode"], 200, response)
         body = json.loads(response["body"])
         return body["res"]
+    
+    def set_formOptions(self, formOptions):
+        self.edit_form(
+            self.formId,
+            {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
+        )
 
     def submit_form(self, formId, formData, responseId=None):
         response = self.lg.handle_request(
