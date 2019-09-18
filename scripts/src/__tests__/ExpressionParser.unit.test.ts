@@ -1,4 +1,5 @@
 import ExpressionParser from "../common/ExpressionParser";
+import lolex from "lolex";
 
 test("dict array to sum dict", () => {
   expect(
@@ -99,5 +100,69 @@ describe("calculate_price", () => {
     expect(
       ExpressionParser.calculate_price("CFF_FULL_a", { a: [1, 2, 3] }, false)
     ).toEqual([1, 2, 3]);
+  });
+
+  describe("cff_createdBetween", () => {
+    test("with date_created specified", () => {
+      expect(
+        ExpressionParser.calculate_price(
+          `cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`,
+          {},
+          true,
+          { date_created: "2019-09-18T16:54:26.238Z" }
+        )
+      ).toEqual(1);
+      expect(
+        ExpressionParser.calculate_price(
+          `cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`,
+          {},
+          true,
+          { date_created: "2019-09-18T16:52:26.238Z" }
+        )
+      ).toEqual(0);
+      expect(
+        ExpressionParser.calculate_price(
+          `cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`,
+          {},
+          true,
+          { date_created: "2019-09-18T18:54:26.238Z" }
+        )
+      ).toEqual(0);
+    });
+    test("with date_created unspecified", () => {
+      let clock;
+      clock = lolex.install({ now: new Date("2019-09-18T16:53:26.238Z") });
+      expect(
+        ExpressionParser.calculate_price(
+          `cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`,
+          {},
+          true,
+          {}
+        )
+      ).toEqual(1);
+      clock.uninstall();
+
+      clock = lolex.install({ now: new Date("2019-09-18T16:52:26.238Z") });
+      expect(
+        ExpressionParser.calculate_price(
+          `cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`,
+          {},
+          true,
+          {}
+        )
+      ).toEqual(0);
+      clock.uninstall();
+
+      clock = lolex.install({ now: new Date("2019-09-18T18:54:26.238Z") });
+      expect(
+        ExpressionParser.calculate_price(
+          `cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`,
+          {},
+          true,
+          {}
+        )
+      ).toEqual(0);
+      clock.uninstall();
+    });
   });
 });

@@ -5,25 +5,9 @@ import moment from "moment";
 const DELIM_VALUE = "ASFASFSDF";
 const SPACE_VALUE = "SDSDGSDFS";
 const DOT_VALUE = "ADKLFJSFL";
-
-const DEFAULT_CONTEXT = {
-  cff_yeardiff: (datestr1, datestr2) => {
-    if (!datestr1 || !datestr2) {
-      return 0;
-    }
-    const d1 = moment(datestr1, "YYYY-MM-DD");
-    const d2 = moment(datestr2, "YYYY-MM-DD");
-    return d1.diff(d2, "years");
-  },
-  cff_countArray: (array, expression) => {
-    if (!array || !isArray(array)) {
-      return 0;
-    }
-    return array.filter(item =>
-      ExpressionParser.calculate_price(expression, item)
-    ).length;
-  }
-};
+const DELIM_VALUE_REGEXP = new RegExp(DELIM_VALUE, "g");
+const SPACE_VALUE_REGEXP = new RegExp(SPACE_VALUE, "g");
+const DOT_VALUE_REGEXP = new RegExp(DOT_VALUE, "g");
 
 const compare = (v, key_value_eq) => {
   return String(v).trim() === String(key_value_eq).trim();
@@ -103,7 +87,17 @@ export namespace ExpressionParser {
       return value || 0;
     }
   }
-  export function calculate_price(expressionString, data, numeric = true) {
+
+  interface IResponseMetadata {
+    date_created?: string;
+  }
+
+  export function calculate_price(
+    expressionString,
+    data,
+    numeric = true,
+    responseMetadata: IResponseMetadata = {}
+  ) {
     // Analogous to the python calculate_price lambda function; parses the expression here.
     // For example, "participants.age * 12"
     // "participants * 12" will use participants' length if it is an array.
@@ -127,6 +121,51 @@ export namespace ExpressionParser {
         escapedVariable
       );
     }
+    const DEFAULT_CONTEXT = {
+      cff_yeardiff: (datestr1, datestr2) => {
+        if (!datestr1 || !datestr2) {
+          return 0;
+        }
+        const d1 = moment(datestr1, "YYYY-MM-DD");
+        const d2 = moment(datestr2, "YYYY-MM-DD");
+        return d1.diff(d2, "years");
+      },
+      cff_countArray: (array, expression) => {
+        if (!array || !isArray(array)) {
+          return 0;
+        }
+        return array.filter(item =>
+          ExpressionParser.calculate_price(
+            expression,
+            item,
+            numeric,
+            responseMetadata
+          )
+        ).length;
+      },
+      cff_createdBetween: (datestr1, datestr2) => {
+        // Required as a workaround because the "." in ".000Z" is replaced by DOT_VALUE,
+        // and ":" is replaced by DELIM_VALUE, in initial parsing.
+        datestr1 = datestr1
+          .replace(DELIM_VALUE_REGEXP, ":")
+          .replace(DOT_VALUE_REGEXP, ".");
+        datestr2 = datestr2
+          .replace(DELIM_VALUE_REGEXP, ":")
+          .replace(DOT_VALUE_REGEXP, ".");
+
+        const date_created = moment(responseMetadata.date_created) || moment();
+        const date1 = moment(datestr1);
+        const date2 = moment(datestr2);
+        console.error(
+          date_created,
+          date1,
+          date2,
+          date_created >= date1,
+          date_created <= date2
+        );
+        return date_created >= date1 && date_created <= date2;
+      }
+    };
     context = { ...context, ...DEFAULT_CONTEXT };
     let price = parser.parse(expressionString).evaluate(context);
     if (!numeric) {
