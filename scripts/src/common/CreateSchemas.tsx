@@ -6,7 +6,12 @@ export default function createSchemas(
   responseData = null
 ) {
   for (let i in specifiedShowFields) {
-    set(data["schema"], i, specifiedShowFields[i]);
+    if (i.startsWith("CFF_uiSchema.")) {
+      let fieldName = i.split("CFF_uiSchema.")[1];
+      set(data["uiSchema"], fieldName, specifiedShowFields[i]);
+    } else {
+      set(data["schema"], i, specifiedShowFields[i]);
+    }
   }
   let defaultFormData = get(data, "formOptions.defaultFormData", {});
   let formOptions = get(data, "formOptions", {});

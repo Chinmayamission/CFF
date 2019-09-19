@@ -3,7 +3,6 @@ import createSchemas from "../common/CreateSchemas";
 it("create schemas normally", () => {
   let data = {
     schema: { a: "b" },
-    schemaModifier: { a2: "b2" },
     formOptions: {
       defaultFormData: { a3: "b3" },
       paymentCalcInfo: { a4: "b4" },
@@ -41,4 +40,37 @@ it("overrides schema with specifiedShowFields", () => {
   expect(createSchemas(data, specifiedShowFields).schema).toEqual(
     expected_schema
   );
+});
+
+it("overrides uiSchema with specifiedShowFields", () => {
+  let schema = {};
+  let uiSchema = {
+    description: {
+      "ui:widget": "textarea"
+    },
+    a: {
+      b: {
+        "ui:widget": "hidden"
+      }
+    }
+  };
+  let data = {
+    schema,
+    uiSchema
+  };
+  let specifiedShowFields = {
+    "CFF_uiSchema.description['ui:widget']": "textarea",
+    "CFF_uiSchema.a.b['ui:widget']": "textarea"
+  };
+  let expected = {
+    description: {
+      "ui:widget": "textarea"
+    },
+    a: {
+      b: {
+        "ui:widget": "textarea"
+      }
+    }
+  };
+  expect(createSchemas(data, specifiedShowFields).uiSchema).toEqual(expected);
 });
