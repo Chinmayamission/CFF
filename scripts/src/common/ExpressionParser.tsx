@@ -12,6 +12,45 @@ const DOT_VALUE_REGEXP = new RegExp(DOT_VALUE, "g");
 const compare = (v, key_value_eq) => {
   return String(v).trim() === String(key_value_eq).trim();
 };
+
+const createDefaultContext = (numeric, responseMetadata) => ({
+  cff_yeardiff: (datestr1, datestr2) => {
+    if (!datestr1 || !datestr2) {
+      return 0;
+    }
+    const d1 = moment(datestr1, "YYYY-MM-DD");
+    const d2 = moment(datestr2, "YYYY-MM-DD");
+    return d1.diff(d2, "years");
+  },
+  cff_countArray: (array, expression) => {
+    if (!array || !isArray(array)) {
+      return 0;
+    }
+    return array.filter(item =>
+      ExpressionParser.calculate_price(
+        expression,
+        item,
+        numeric,
+        responseMetadata
+      )
+    ).length;
+  },
+  cff_createdBetween: (datestr1, datestr2) => {
+    // Required as a workaround because the "." in ".000Z" is replaced by DOT_VALUE,
+    // and ":" is replaced by DELIM_VALUE, in initial parsing.
+    datestr1 = datestr1
+      .replace(DELIM_VALUE_REGEXP, ":")
+      .replace(DOT_VALUE_REGEXP, ".");
+    datestr2 = datestr2
+      .replace(DELIM_VALUE_REGEXP, ":")
+      .replace(DOT_VALUE_REGEXP, ".");
+
+    const date_created = moment(responseMetadata.date_created) || moment();
+    const date1 = moment(datestr1);
+    const date2 = moment(datestr2);
+    return date_created >= date1 && date_created <= date2;
+  }
+});
 export namespace ExpressionParser {
   export function dict_array_to_sum_dict(original, key_value_eq = null) {
     /*
@@ -121,52 +160,10 @@ export namespace ExpressionParser {
         escapedVariable
       );
     }
-    const DEFAULT_CONTEXT = {
-      cff_yeardiff: (datestr1, datestr2) => {
-        if (!datestr1 || !datestr2) {
-          return 0;
-        }
-        const d1 = moment(datestr1, "YYYY-MM-DD");
-        const d2 = moment(datestr2, "YYYY-MM-DD");
-        return d1.diff(d2, "years");
-      },
-      cff_countArray: (array, expression) => {
-        if (!array || !isArray(array)) {
-          return 0;
-        }
-        return array.filter(item =>
-          ExpressionParser.calculate_price(
-            expression,
-            item,
-            numeric,
-            responseMetadata
-          )
-        ).length;
-      },
-      cff_createdBetween: (datestr1, datestr2) => {
-        // Required as a workaround because the "." in ".000Z" is replaced by DOT_VALUE,
-        // and ":" is replaced by DELIM_VALUE, in initial parsing.
-        datestr1 = datestr1
-          .replace(DELIM_VALUE_REGEXP, ":")
-          .replace(DOT_VALUE_REGEXP, ".");
-        datestr2 = datestr2
-          .replace(DELIM_VALUE_REGEXP, ":")
-          .replace(DOT_VALUE_REGEXP, ".");
-
-        const date_created = moment(responseMetadata.date_created) || moment();
-        const date1 = moment(datestr1);
-        const date2 = moment(datestr2);
-        console.error(
-          date_created,
-          date1,
-          date2,
-          date_created >= date1,
-          date_created <= date2
-        );
-        return date_created >= date1 && date_created <= date2;
-      }
+    context = {
+      ...context,
+      ...createDefaultContext(numeric, responseMetadata)
     };
-    context = { ...context, ...DEFAULT_CONTEXT };
     let price = parser.parse(expressionString).evaluate(context);
     if (!numeric) {
       return price;
