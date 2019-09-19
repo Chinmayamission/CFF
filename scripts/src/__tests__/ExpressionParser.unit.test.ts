@@ -109,7 +109,7 @@ describe("calculate_price", () => {
           `cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`,
           {},
           true,
-          { date_created: "2019-09-18T16:54:26.238Z" }
+          { date_created: "2019-09-18T16:53:26.238Z" }
         )
       ).toEqual(1);
       expect(
