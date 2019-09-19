@@ -46,7 +46,7 @@ it("overrides uiSchema with specifiedShowFields", () => {
   let schema = {};
   let uiSchema = {
     description: {
-      "ui:widget": "textarea"
+      "ui:widget": "hidden"
     },
     a: {
       b: {
