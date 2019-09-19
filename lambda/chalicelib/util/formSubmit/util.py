@@ -11,6 +11,9 @@ from datetime import datetime
 DELIM_VALUE = "D34hSK"
 SPACE_VALUE = "ASIDJa"
 DOT_VALUE = "DOTDOT123"
+DELIM_VALUE_REGEX = re.compile(DELIM_VALUE)
+SPACE_VALUE_REGEX = re.compile(SPACE_VALUE)
+DOT_VALUE_REGEX = re.compile(DOT_VALUE)
 
 
 def parse_number_formula(data, variable, numeric=True):
@@ -103,14 +106,14 @@ def deep_access(x, keylist):
     return val
 
 
-def calculate_price(expressionString, data, numeric=True):
+def calculate_price(expressionString, data, numeric=True, responseMetadata={}):
     """Calculates price based on the expression. 
     For example, "participants.age * 12"
     "participants * 12" will use participants' length if it is an array.
     todo: base 64 encode here.
 
     """
-    from .defaultContext import DEFAULT_CONTEXT
+    from .defaultContext import create_default_context
 
     if ":" in expressionString:
         expressionString = expressionString.replace(":", DELIM_VALUE)
@@ -130,7 +133,7 @@ def calculate_price(expressionString, data, numeric=True):
                 data, escapedVariable.replace(DOT_VALUE, ".")
             )
         expressionString = expressionString.replace(variable, escapedVariable)
-    context = dict(context, **DEFAULT_CONTEXT)
+    context = dict(context, **create_default_context(numeric, responseMetadata))
     price = parser.parse(expressionString).evaluate(context)
     if not numeric:
         return price
