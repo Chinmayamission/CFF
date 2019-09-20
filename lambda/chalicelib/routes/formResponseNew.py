@@ -13,7 +13,7 @@ from chalicelib.util.counter import get_counter
 from chalicelib.models import Form, Response, User, UpdateTrailItem, serialize_model
 from bson.objectid import ObjectId
 from pymodm.errors import DoesNotExist
-
+from isodate import datetime_isoformat
 
 def do_form_post_calc(formId, paymentInfo, paymentMethods, response):
     if "description" in paymentInfo and type(paymentInfo["description"]) is str:
@@ -76,6 +76,12 @@ def form_response_new(formId):
         and type(postprocess["patches"]) is list
     ):
         response_data = patch_predicate(response_data, postprocess["patches"])
+    response_metadata = {}
+    if newResponse:
+        pass
+    else:
+        existing_response = Response.objects.get({"_id": responseId})
+        response_metadata["date_created"] = datetime_isoformat(existing_response.date_created)
     counter_value = None
     counter = form.formOptions.counter
     if newResponse and counter and "enabled" in counter and counter["enabled"] == True:
@@ -89,10 +95,10 @@ def form_response_new(formId):
 
     def calc_item_total_to_paymentInfo(paymentInfoItem, paymentInfo):
         paymentInfoItem["amount"] = calculate_price(
-            paymentInfoItem.get("amount", "0"), response_data
+            paymentInfoItem.get("amount", "0"), response_data, True, response_metadata
         )
         paymentInfoItem["quantity"] = calculate_price(
-            paymentInfoItem.get("quantity", "0"), response_data
+            paymentInfoItem.get("quantity", "0"), response_data, True, response_metadata
         )
         paymentInfoItem["total"] = (
             paymentInfoItem["amount"] * paymentInfoItem["quantity"]
@@ -103,11 +109,11 @@ def form_response_new(formId):
             and paymentInfoItem["amount"] * paymentInfoItem["quantity"] != 0
         ):
             slots_maximum = calculate_price(
-                paymentInfoItem.get("couponCodeMaximum", "-1"), response_data
+                paymentInfoItem.get("couponCodeMaximum", "-1"), response_data, True, response_metadata
             )
             if slots_maximum != -1:
                 slots_requested = calculate_price(
-                    paymentInfoItem.get("couponCodeCount", "1"), response_data
+                    paymentInfoItem.get("couponCodeCount", "1"), response_data, True, response_metadata
                 )
                 slots_used = form.couponCodes_used.get(paymentInfoItem["couponCode"], 0)
                 slots_available = slots_maximum - slots_used
@@ -171,10 +177,10 @@ def form_response_new(formId):
     response_data["total"] = float(paymentInfo["total"])
     for paymentInfoItem in paymentInfoItemsInstallment:
         paymentInfoItem["amount"] = calculate_price(
-            paymentInfoItem.get("amount", "0"), response_data
+            paymentInfoItem.get("amount", "0"), response_data, True, response_metadata
         )
         paymentInfoItem["quantity"] = calculate_price(
-            paymentInfoItem.get("quantity", "0"), response_data
+            paymentInfoItem.get("quantity", "0"), response_data, True, response_metadata
         )
         if paymentInfoItem["recurrenceTimes"]:
             paymentInfoItem["total"] = (
@@ -212,7 +218,7 @@ def form_response_new(formId):
             except DoesNotExist:
                 pass
     else:
-        response = Response.objects.get({"_id": responseId})
+        response = existing_response
         response.update_trail.append(
             UpdateTrailItem(
                 old=response.value,

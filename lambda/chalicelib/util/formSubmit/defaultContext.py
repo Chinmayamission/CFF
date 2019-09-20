@@ -3,7 +3,8 @@ import dateutil
 from dateutil.relativedelta import relativedelta
 import re
 from .util import calculate_price, DELIM_VALUE_REGEX, DOT_VALUE_REGEX
-from isodate import parse_duration
+from isodate import parse_duration, parse_datetime
+import pytz
 
 def create_default_context(numeric, formMetadata):
     def cff_yeardiff(datestr1, datestr2):
@@ -62,10 +63,14 @@ def create_default_context(numeric, formMetadata):
             return 0
         datestr1 = re.sub(DOT_VALUE_REGEX, ".", re.sub(DELIM_VALUE_REGEX, ":", datestr1))
         datestr2 = re.sub(DOT_VALUE_REGEX, ".", re.sub(DELIM_VALUE_REGEX, ":", datestr2))
-        d1 = dateutil.parser.parse(datestr1)
-        d2 = dateutil.parser.parse(datestr2)
+        d1 = parse_datetime(datestr1)
+        d2 = parse_datetime(datestr2)
         date_created = formMetadata.get("date_created", None)
-        date_created = dateutil.parser.parse(date_created) if date_created is not None else datetime.now(timezone.utc)
+        date_created = parse_datetime(date_created) if date_created is not None else datetime.now()
+        # Convert date_created from a naive to an aware datetime,
+        # so that it can be compared with the naive datetimems d1 and d2.
+        # PyMongo always stores naive datetimes in UTC, so this is ok.
+        date_created = date_created.replace(tzinfo=pytz.utc)
         return (date_created >= d1) and (date_created <= d2)
 
     DEFAULT_CONTEXT = {
