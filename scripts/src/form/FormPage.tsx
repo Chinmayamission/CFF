@@ -53,7 +53,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       data: null,
       responseId: null,
       ajaxLoading: false,
-      predicate: null
+      predicate: null,
+      responseMetadata: {}
     };
   }
 
@@ -165,11 +166,17 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       });
     }
     if (predicate) {
-      // todo: handle payment info.
+      // TODO: handle payment info.
     }
     return {
       responseId: res && !predicate ? res._id.$oid : null,
       data: res ? res.value : data,
+      responseMetadata:
+        res && res.date_created
+          ? {
+              date_created: res.date_created.$date
+            }
+          : this.state.responseMetadata,
       schema,
       predicate: predicate || (res && res.predicate) // Return either 1) predicate info of a new response that is based on a predicate, or 2) existing predicate info of existing response.
     };
@@ -423,6 +430,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
           formData={this.state.data}
+          // TODO: Just pass in a calculate_price function instead of passing in responseMetadata, etc.
+          responseMetadata={this.state.responseMetadata}
           paymentCalcInfo={this.state.paymentCalcInfo}
           onSubmit={e => this.onSubmit(e)}
           onChange={e => this.onChange(e)}
@@ -460,6 +469,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             responseId={this.state.responseId}
             formId={this.props.formId}
             onPaymentComplete={e => this.onPaymentComplete(e)}
+            responseMetadata={this.state.responseMetadata}
           />
           {!this.state.paymentStarted &&
             get(this.state.formOptions, "responseModificationEnabled", true) ===

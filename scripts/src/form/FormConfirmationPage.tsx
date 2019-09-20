@@ -1,6 +1,5 @@
 import * as React from "react";
 import Payment from "./confirmation/payment";
-import { get, cloneDeep } from "lodash";
 import {
   IFormConfirmationPageProps,
   IFormConfirmationPageState,
@@ -15,7 +14,6 @@ class FormConfirmationPage extends React.Component<
   constructor(props: any) {
     super(props);
     This = this;
-    console.log("Data is ", this.props.data);
     let tableHeaders = [
       {
         Header: "Field",
@@ -39,7 +37,6 @@ class FormConfirmationPage extends React.Component<
         parseFloat(this.props.paymentInfo.total) -
         this.props.paymentInfo_received.total;
     }
-    console.log(paymentInfo_owed);
     this.state = {
       paymentInfo_owed: paymentInfo_owed,
       paid: false,
@@ -76,6 +73,7 @@ class FormConfirmationPage extends React.Component<
           responseId={this.props.responseId}
           formId={this.props.formId}
           formData={this.props.data}
+          responseMetadata={this.props.responseMetadata}
         />
       </div>
     );
