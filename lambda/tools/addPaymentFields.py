@@ -4,8 +4,8 @@ Add amount_owed_cents and amount_paid_cents to all fields.
 """
 import os
 os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
-os.environ["MODE"] = "BETA"
-os.environ["DB_NAME"] = "cff_beta"
+os.environ["MODE"] = "PROD"
+os.environ["DB_NAME"] = "cff_prod"
 os.environ["USER_POOL_ID"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 from chalicelib.models import (
@@ -16,6 +16,8 @@ from chalicelib.models import (
     serialize_model,
 )
 from chalicelib.main import app, MODE
+
+# TODO: check if anyone has amount paid but no payment info (unlikely, but they would have been missed when this script was actually run the first time around.)
 
 
 import dateutil.parser
@@ -41,6 +43,7 @@ for response in responses:
         modified = True
         response.amount_owed_cents = int(100 * paymentInfo["total"])
     if amount_paid:
+        modified = True
         response.amount_paid_cents = int(100 * float(amount_paid))
     if modified:
         response.save()
