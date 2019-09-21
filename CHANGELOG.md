@@ -1,3 +1,7 @@
+## 3.28.0
+- Add cff_createdBetween to restrict payment items by deadline
+- Allow specifiedShowFields to override uiSchema with keys with a CFF_uiSchema prefix
+
 ## 3.27.0
 - Add right-click context menu for responses view (#199)
 - Add form summary page (#208)
