@@ -33,7 +33,7 @@ class FormSubmitDeadline(BaseTestCase):
                         "description": "Early bird discount",
                         "amount": "-0.1 * $total",
                         "quantity": "cff_createdBetween('2019-01-01T00:00:00.000Z', '2019-01-20T00:00:00.000Z')",
-                    }
+                    },
                 ],
             }
         }
@@ -41,36 +41,40 @@ class FormSubmitDeadline(BaseTestCase):
             self.formId,
             {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
         )
-    @freeze_time('2019-01-01T00:00:00.000Z')
+
+    @freeze_time("2019-01-01T00:00:00.000Z")
     def test_submit_form_before_deadline_applies_discount(self):
         responseId, submit_res = self.submit_form(self.formId, {"nationality": "India"})
         self.assertEqual(submit_res["paymentInfo"]["total"], 90)
-    
-    @freeze_time('2019-01-20T00:00:01.000Z')
+
+    @freeze_time("2019-01-20T00:00:01.000Z")
     def test_submit_form_after_deadline_no_discount(self):
         responseId, submit_res = self.submit_form(self.formId, {"nationality": "India"})
         self.assertEqual(submit_res["paymentInfo"]["total"], 100)
 
     def test_submit_form_before_deadline_keeps_discount_after_deadline(self):
-        freezer = freeze_time('2019-01-01T00:00:00.000Z')
+        freezer = freeze_time("2019-01-01T00:00:00.000Z")
         freezer.start()
         responseId, submit_res = self.submit_form(self.formId, {"nationality": "India"})
         self.assertEqual(submit_res["paymentInfo"]["total"], 90)
         freezer.stop()
 
-        freeze = freeze_time('2019-01-20T00:00:01.000Z')
-        _, submit_res = self.submit_form(self.formId, {"nationality": "India"}, responseId)
+        freeze = freeze_time("2019-01-20T00:00:01.000Z")
+        _, submit_res = self.submit_form(
+            self.formId, {"nationality": "India"}, responseId
+        )
         self.assertEqual(submit_res["paymentInfo"]["total"], 90)
+
 
 def test_submit_form_after_deadline_keeps_discount_before_deadline(self):
     # This should never happen (unless you can time travel 😁), but it should
     # still work nevertheless.
-    freezer = freeze_time('2019-01-20T00:00:01.000Z')
+    freezer = freeze_time("2019-01-20T00:00:01.000Z")
     freezer.start()
     responseId, submit_res = self.submit_form(self.formId, {"nationality": "India"})
     self.assertEqual(submit_res["paymentInfo"]["total"], 100)
     freezer.stop()
 
-    freeze = freeze_time('2019-01-01T00:00:00.000Z')
+    freeze = freeze_time("2019-01-01T00:00:00.000Z")
     _, submit_res = self.submit_form(self.formId, {"nationality": "India"}, responseId)
     self.assertEqual(submit_res["paymentInfo"]["total"], 100)

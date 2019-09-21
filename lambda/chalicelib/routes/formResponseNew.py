@@ -15,6 +15,7 @@ from bson.objectid import ObjectId
 from pymodm.errors import DoesNotExist
 from isodate import datetime_isoformat
 
+
 def do_form_post_calc(formId, paymentInfo, paymentMethods, response):
     if "description" in paymentInfo and type(paymentInfo["description"]) is str:
         paymentInfo["description"] = fill_string_from_template(
@@ -33,6 +34,7 @@ def do_form_post_calc(formId, paymentInfo, paymentMethods, response):
             formId, paymentMethods["ccavenue"], response
         )
     # todo: should we save response here?
+
 
 def get_user_or_create_one(userId):
     user = None
@@ -81,7 +83,9 @@ def form_response_new(formId):
         pass
     else:
         existing_response = Response.objects.get({"_id": responseId})
-        response_metadata["date_created"] = datetime_isoformat(existing_response.date_created)
+        response_metadata["date_created"] = datetime_isoformat(
+            existing_response.date_created
+        )
     counter_value = None
     counter = form.formOptions.counter
     if newResponse and counter and "enabled" in counter and counter["enabled"] == True:
@@ -109,11 +113,17 @@ def form_response_new(formId):
             and paymentInfoItem["amount"] * paymentInfoItem["quantity"] != 0
         ):
             slots_maximum = calculate_price(
-                paymentInfoItem.get("couponCodeMaximum", "-1"), response_data, True, response_metadata
+                paymentInfoItem.get("couponCodeMaximum", "-1"),
+                response_data,
+                True,
+                response_metadata,
             )
             if slots_maximum != -1:
                 slots_requested = calculate_price(
-                    paymentInfoItem.get("couponCodeCount", "1"), response_data, True, response_metadata
+                    paymentInfoItem.get("couponCodeCount", "1"),
+                    response_data,
+                    True,
+                    response_metadata,
                 )
                 slots_used = form.couponCodes_used.get(paymentInfoItem["couponCode"], 0)
                 slots_available = slots_maximum - slots_used

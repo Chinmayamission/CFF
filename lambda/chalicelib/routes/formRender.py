@@ -17,8 +17,14 @@ def form_render(formId):
         # Convert __$ref back to $ref.
         if form.schema:
             form.schema = renameKey(form.schema, "__$ref", "$ref")
-        if form.formOptions and form.formOptions.dataOptions and "views" in form.formOptions.dataOptions:
-            form.formOptions.dataOptions["views"] = replaceKey(replaceKey(form.formOptions.dataOptions["views"], "||", "."), "|", "$")
+        if (
+            form.formOptions
+            and form.formOptions.dataOptions
+            and "views" in form.formOptions.dataOptions
+        ):
+            form.formOptions.dataOptions["views"] = replaceKey(
+                replaceKey(form.formOptions.dataOptions["views"], "||", "."), "|", "$"
+            )
     except DoesNotExist:
         raise NotFoundError(f"Form ID not found: {formId}")
     return {"res": serialize_model(form)}

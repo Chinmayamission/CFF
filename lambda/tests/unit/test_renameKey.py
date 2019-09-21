@@ -13,39 +13,21 @@ class TestRenameKey(unittest.TestCase):
             renameKey({"items": [{"$ref": "a"}]}, "$ref", "__$ref"),
             {"items": [{"__$ref": "a"}]},
         )
+
     def test_replace_dict_in_list(self):
-        orig = [
-            {
-                "a": [
-                    {
-                        "b": [
-                            { "$ref": { "_id": None, "n": { "$ref": 1 } } }
-                        ]
-                    }
-                ]
-            }
-        ]
-        new = [
-            {
-                "a": [
-                    {
-                        "b": [
-                            { "__$ref": { "_id": None, "n": { "__$ref": 1 } } }
-                        ]
-                    }
-                ]
-            }
-        ]
+        orig = [{"a": [{"b": [{"$ref": {"_id": None, "n": {"$ref": 1}}}]}]}]
+        new = [{"a": [{"b": [{"__$ref": {"_id": None, "n": {"__$ref": 1}}}]}]}]
         self.assertEqual(renameKey(orig, "$ref", "__$ref"), new)
+
 
 class TestReplaceKey(unittest.TestCase):
     def test_replace_simple(self):
         self.assertEqual(replaceKey({"$ref": "a"}, "$", "|"), {"|ref": "a"})
         self.assertEqual(
-            replaceKey({"items": [{"$ref": "a"}]}, "$", "|"),
-            {"items": [{"|ref": "a"}]},
+            replaceKey({"items": [{"$ref": "a"}]}, "$", "|"), {"items": [{"|ref": "a"}]}
         )
         self.assertEqual(replaceKey({"a.b.c": "a"}, ".", "||"), {"a||b||c": "a"})
+
     def test_replace_dataOptionView(self):
         orig = [
             {
@@ -58,10 +40,10 @@ class TestReplaceKey(unittest.TestCase):
                         "queryType": "aggregate",
                         "queryValue": [
                             {"value.registrationType": "sponsorship"},
-                            { "$group": { "_id": None, "n": { "$sum": 1 } } }
-                        ]
+                            {"$group": {"_id": None, "n": {"$sum": 1}}},
+                        ],
                     }
-                ]
+                ],
             }
         ]
         new = [
@@ -75,10 +57,10 @@ class TestReplaceKey(unittest.TestCase):
                         "queryType": "aggregate",
                         "queryValue": [
                             {"value.registrationType": "sponsorship"},
-                            { "|group": { "_id": None, "n": { "|sum": 1 } } }
-                        ]
+                            {"|group": {"_id": None, "n": {"|sum": 1}}},
+                        ],
                     }
-                ]
+                ],
             }
         ]
         # self.assertEqual(replaceKey(orig[0]["stats"][0]["queryValue"], "$", "|"), new[0]["stats"][0]["queryValue"])

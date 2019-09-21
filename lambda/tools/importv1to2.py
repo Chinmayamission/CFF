@@ -1,5 +1,3 @@
-
-
 """
 npm test -- tools.importv1to2
 Imports responses from v1-type forms (cff.chinmayamission.com - dynamodb) to v2-type forms (forms.chinmayamission.com - cosmosdb)
@@ -50,7 +48,10 @@ print("MODE", MODE)
 
 table_responses = boto3.resource("dynamodb").Table("cff_prod.responses")
 formIdOld, formIdNew = "", ""
-formIdOld, formIdNew = "e4548443-99da-4340-b825-3f09921b4ac4", "5d7ed0d403364b000150d43f"
+formIdOld, formIdNew = (
+    "e4548443-99da-4340-b825-3f09921b4ac4",
+    "5d7ed0d403364b000150d43f",
+)
 
 query = table_responses.query(KeyConditionExpression=Key("formId").eq(formIdOld))
 
@@ -67,17 +68,28 @@ for response in query["Items"]:
     if "PAYMENT_HISTORY" not in response and "IPN_STATUS" in response:
         # really-old-style responses:
         if response["IPN_STATUS"] != "Completed":
-            print("IPN_STATUS is not 'completed' for " + response["responseId"] + "; must be manually checked afterwards.")
+            print(
+                "IPN_STATUS is not 'completed' for "
+                + response["responseId"]
+                + "; must be manually checked afterwards."
+            )
         elif len(response["IPN_HISTORY"]) > 1:
-            print("Too many IPN_HISTORY values for response " + response["responseId"] + "; must be manually checked afterwards.")
+            print(
+                "Too many IPN_HISTORY values for response "
+                + response["responseId"]
+                + "; must be manually checked afterwards."
+            )
         for ipn_history_item in response["IPN_HISTORY"]:
             ipn_history_item["status"] = "Success"
-        response["PAYMENT_HISTORY"] = [{
-            "date": i["date"],
-            "amount": i["value"]["mc_gross"],
-            "currency": i["value"]["mc_currency"],
-            "method": "paypal"
-        } for i in response["IPN_HISTORY"]]
+        response["PAYMENT_HISTORY"] = [
+            {
+                "date": i["date"],
+                "amount": i["value"]["mc_gross"],
+                "currency": i["value"]["mc_currency"],
+                "method": "paypal",
+            }
+            for i in response["IPN_HISTORY"]
+        ]
     PAYMENT_HISTORY = response.get("PAYMENT_HISTORY", [])
     IPN_HISTORY = response.get("IPN_HISTORY", [])
     res = Response(
@@ -94,8 +106,9 @@ for response in query["Items"]:
                 status=i["status"],
                 id=i["value"]["txn_id"],
                 method="paypal_ipn",
-            ) if "txn_id" in i["value"] else
-            PaymentTrailItem(
+            )
+            if "txn_id" in i["value"]
+            else PaymentTrailItem(
                 date=dateutil.parser.parse(i["date"]),
                 value=i["value"],
                 status=i["status"],
@@ -117,6 +130,8 @@ for response in query["Items"]:
         ]
         or [],
     )
-    res.amount_paid = str(float(sum(float(i.amount) for i in res.payment_status_detail)))
+    res.amount_paid = str(
+        float(sum(float(i.amount) for i in res.payment_status_detail))
+    )
     res.save()
     print(res.id)

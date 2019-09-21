@@ -83,7 +83,7 @@ class BaseTestCase(unittest.TestCase):
         self.assertEqual(response["statusCode"], 200, response)
         body = json.loads(response["body"])
         return body["res"]
-    
+
     def set_formOptions(self, formOptions):
         self.edit_form(
             self.formId,

@@ -10,6 +10,7 @@ def renameKey(iterable, oldKey, newKey):
             iterable[i] = renameKey(iterable[i], oldKey, newKey)
     return iterable
 
+
 # Recursively replaces a character in keys.
 def replaceKey(iterable, old, new):
     if type(iterable) is dict:

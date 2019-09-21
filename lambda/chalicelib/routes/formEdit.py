@@ -14,13 +14,19 @@ def form_edit(formId):
     body = pick(
         app.current_request.json_body, ["schema", "uiSchema", "formOptions", "name"]
     )
-    for k, v in body.items(): 
+    for k, v in body.items():
         setattr(form, k, v)
     # Rename $ref properly.
     if form.schema:
         form.schema = renameKey(form.schema, "$ref", "__$ref")
-    if form.formOptions and form.formOptions.dataOptions and "views" in form.formOptions.dataOptions:
-        form.formOptions.dataOptions["views"] = replaceKey(replaceKey(form.formOptions.dataOptions["views"], "$", "|"), ".", "||")
+    if (
+        form.formOptions
+        and form.formOptions.dataOptions
+        and "views" in form.formOptions.dataOptions
+    ):
+        form.formOptions.dataOptions["views"] = replaceKey(
+            replaceKey(form.formOptions.dataOptions["views"], "$", "|"), ".", "||"
+        )
     form.save()
     form = Form.objects.get({"_id": ObjectId(formId)})
     return {"res": {"success": True, "updated_values": serialize_model(form)}}

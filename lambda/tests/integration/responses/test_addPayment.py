@@ -78,10 +78,8 @@ class TestAddPayment(BaseTestCase):
                     "confirmationEmailInfo": {
                         "toField": "email",
                         "subject": "subject 123",
-                        "template": {
-                            "html": "test123"
-                        }
-                    }
+                        "template": {"html": "test123"},
+                    },
                 }
             ]
         }
@@ -95,7 +93,7 @@ class TestAddPayment(BaseTestCase):
             "method": "check",
             "id": "id1",
             "date": {"$date": "2019-08-10T00:43:32.291Z"},
-            "emailTemplateId": "template1"
+            "emailTemplateId": "template1",
         }
         response = self.lg.handle_request(
             method="POST",

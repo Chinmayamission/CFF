@@ -1016,7 +1016,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response["amount_paid"], "0.5")
         self.assertEqual(response["amount_paid_cents"], 50)
         self.assertEqual(len(response["email_trail"]), 1)
-    
+
     @mock.patch("boto3.client")
     def test_mark_successful_payment_custom_email_template(self, mock_boto_client):
         formOptions = {
@@ -1026,10 +1026,8 @@ class FormSubmit(BaseTestCase):
                     "confirmationEmailInfo": {
                         "toField": "email",
                         "subject": "subject 123",
-                        "template": {
-                            "html": "test123"
-                        }
-                    }
+                        "template": {"html": "test123"},
+                    },
                 }
             ]
         }
@@ -1048,7 +1046,7 @@ class FormSubmit(BaseTestCase):
             amount=0.5,
             currency="USD",
             id="payment1",
-            email_template_id="template1"
+            email_template_id="template1",
         )
         response.save()
         self.assertEqual(paid, True)

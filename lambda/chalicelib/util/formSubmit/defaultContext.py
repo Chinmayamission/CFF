@@ -6,6 +6,7 @@ from .util import calculate_price, DELIM_VALUE_REGEX, DOT_VALUE_REGEX
 from isodate import parse_duration, parse_datetime
 import pytz
 
+
 def create_default_context(numeric, formMetadata):
     def cff_yeardiff(datestr1, datestr2):
         if type(datestr1) is not str or type(datestr2) is not str:
@@ -13,7 +14,6 @@ def create_default_context(numeric, formMetadata):
         d1 = datetime.strptime(datestr1, "%Y-%m-%d")
         d2 = datetime.strptime(datestr2, "%Y-%m-%d")
         return relativedelta(d1, d2).years
-
 
     def cff_nthOfNextMonth(datestr, n, maxDayDiff=None):
         """Returns nth day of the next month after datestr.
@@ -27,10 +27,8 @@ def create_default_context(numeric, formMetadata):
             new_date = new_date.replace(month=new_date.month + 1)
         return new_date.strftime("%Y-%m-%d")
 
-
     # def cff_countArray(array, expression):
     #     return len([item for item in array if calculate_price(expression, item)])
-
 
     def cff_countArray(*args):
         # TODO: fix py-expression-eval so that the method signature above is called.
@@ -39,12 +37,16 @@ def create_default_context(numeric, formMetadata):
         expression = array.pop(-1)
         if type(array) is not list:
             return 0
-        return len([item for item in array if calculate_price(expression, item, numeric, formMetadata)])
-
+        return len(
+            [
+                item
+                for item in array
+                if calculate_price(expression, item, numeric, formMetadata)
+            ]
+        )
 
     def cff_today():
         return date.today().strftime("%Y-%m-%d")
-
 
     def cff_addDuration(dt, duration):
         if type(dt) is not str:
@@ -61,12 +63,18 @@ def create_default_context(numeric, formMetadata):
     def cff_createdBetween(datestr1, datestr2):
         if type(datestr1) is not str or type(datestr2) is not str:
             return 0
-        datestr1 = re.sub(DOT_VALUE_REGEX, ".", re.sub(DELIM_VALUE_REGEX, ":", datestr1))
-        datestr2 = re.sub(DOT_VALUE_REGEX, ".", re.sub(DELIM_VALUE_REGEX, ":", datestr2))
+        datestr1 = re.sub(
+            DOT_VALUE_REGEX, ".", re.sub(DELIM_VALUE_REGEX, ":", datestr1)
+        )
+        datestr2 = re.sub(
+            DOT_VALUE_REGEX, ".", re.sub(DELIM_VALUE_REGEX, ":", datestr2)
+        )
         d1 = parse_datetime(datestr1)
         d2 = parse_datetime(datestr2)
         date_created = formMetadata.get("date_created", None)
-        date_created = parse_datetime(date_created) if date_created is not None else datetime.now()
+        date_created = (
+            parse_datetime(date_created) if date_created is not None else datetime.now()
+        )
         # Convert date_created from a naive to an aware datetime,
         # so that it can be compared with the naive datetimems d1 and d2.
         # PyMongo always stores naive datetimes in UTC, so this is ok.

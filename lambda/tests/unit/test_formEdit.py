@@ -52,35 +52,22 @@ class FormEdit(unittest.TestCase):
             "name": "New name",
             "schema": {"$ref": "schema"},
             "formOptions": {
-                "dataOptions": {
-                    "views": [
-                        {
-                            "a": {
-                                "$ref": "hi",
-                                "a.b.c": "hu"
-                            }
-                        }
-                    ]
-                }
-            }
+                "dataOptions": {"views": [{"a": {"$ref": "hi", "a.b.c": "hu"}}]}
+            },
         }
         form_edit(self.formId)
         form = Form.objects.get({"_id": self.formId})
         self.assertEqual(form.name, "New name")
         self.assertEqual(form.schema, {"__$ref": "schema"})
-        self.assertEqual(form.formOptions.dataOptions["views"][0], {
-            "a": {
-                "|ref": "hi",
-                "a||b||c": "hu"
-            }
-        })
+        self.assertEqual(
+            form.formOptions.dataOptions["views"][0],
+            {"a": {"|ref": "hi", "a||b||c": "hu"}},
+        )
         response = form_render(self.formId)
         form = response["res"]
         self.assertEqual(form["name"], "New name")
         self.assertEqual(form["schema"], {"$ref": "schema"})
-        self.assertEqual(form["formOptions"]["dataOptions"]["views"][0], {
-            "a": {
-                "$ref": "hi",
-                "a.b.c": "hu"
-            }
-        })
+        self.assertEqual(
+            form["formOptions"]["dataOptions"]["views"][0],
+            {"a": {"$ref": "hi", "a.b.c": "hu"}},
+        )

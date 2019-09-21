@@ -36,7 +36,9 @@ class User(BaseMongoModel):
 class FormOptions(EmbeddedMongoModel):
     paymentInfo = fields.DictField(blank=True)
     confirmationEmailInfo = fields.DictField(blank=True)
-    confirmationEmailTemplates = fields.ListField(fields.DictField(blank=True), blank=True)
+    confirmationEmailTemplates = fields.ListField(
+        fields.DictField(blank=True), blank=True
+    )
     dataOptions = fields.DictField(blank=True)
     paymentMethods = fields.DictField(blank=True)
     defaultFormData = fields.DictField(blank=True)
@@ -163,7 +165,7 @@ class Response(BaseMongoModel):
     # could supersede the other two fields in storing this info in the future.
     amount_paid_cents = fields.IntegerField(blank=True)
     amount_owed_cents = fields.IntegerField(blank=True)
-    
+
     payment_trail = fields.EmbeddedDocumentListField(
         PaymentTrailItem, blank=True, default=list
     )

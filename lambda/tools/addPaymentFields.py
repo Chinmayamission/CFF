@@ -3,6 +3,7 @@ npm test -- tools.addPaymentFields
 Add amount_owed_cents and amount_paid_cents to all fields.
 """
 import os
+
 os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
 os.environ["MODE"] = "PROD"
 os.environ["DB_NAME"] = "cff_prod"

@@ -6,6 +6,7 @@ from bson.json_util import dumps
 import json
 from chalicelib.util.renameKey import replaceKey
 
+
 def _all(form):
     responses = Response.objects.all()._collection.find(
         {"_cls": "chalicelib.models.Response", "form": form.id},
@@ -24,6 +25,7 @@ def _all(form):
     )
     return {"res": [r for r in json.loads(dumps(responses))]}
 
+
 def _calculate_stat(form, stat):
     query_type = stat["queryType"]
     aggregate_result = None
@@ -33,7 +35,7 @@ def _calculate_stat(form, stat):
         )
     else:
         raise Exception(f"Query type {queryType} not supported.")
-    
+
     stat_type = stat["type"]
     if stat_type == "single":
         row = next(aggregate_result)
@@ -42,6 +44,7 @@ def _calculate_stat(form, stat):
         return list(aggregate_result)
     else:
         raise Exception(f"Stat type {stat_type} not supported.")
+
 
 def _dataOptionView(form, dataOptionViewId):
     """Return from a data option given a data option ID.
@@ -71,7 +74,9 @@ def _dataOptionView(form, dataOptionViewId):
         }
     }
     """
-    dataOptionViewList = filter(lambda x: x["id"] == dataOptionViewId, form.formOptions.dataOptions["views"])
+    dataOptionViewList = filter(
+        lambda x: x["id"] == dataOptionViewId, form.formOptions.dataOptions["views"]
+    )
     try:
         dataOptionView = next(dataOptionViewList)
     except StopIteration:
@@ -79,23 +84,23 @@ def _dataOptionView(form, dataOptionViewId):
     if dataOptionView["type"] == "stats":
         return {
             "res": {
-                "stats": [dict(stat, computedQueryValue=_calculate_stat(form, stat)) for stat in dataOptionView["stats"]]
+                "stats": [
+                    dict(stat, computedQueryValue=_calculate_stat(form, stat))
+                    for stat in dataOptionView["stats"]
+                ]
             }
         }
     else:
         raise Exception("dataOptionView type not supported.")
     return {}
 
+
 def _search(form, query, autocomplete, search_by_id, show_unpaid):
-    search_fields = get(
-        form.formOptions.dataOptions, "search.searchFields", ["_id"]
-    )
+    search_fields = get(form.formOptions.dataOptions, "search.searchFields", ["_id"])
     if search_by_id is not None:
         search_fields = ["_id"]
     result_limit = get(form.formOptions.dataOptions, "search.resultLimit", 10)
-    result_fields = get(
-        form.formOptions.dataOptions, "search.resultFields", ["_id"]
-    )
+    result_fields = get(form.formOptions.dataOptions, "search.resultFields", ["_id"])
     autocomplete_fields = get(
         form.formOptions.dataOptions, "search.autocompleteFields", ["_id"]
     )
@@ -130,10 +135,7 @@ def _search(form, query, autocomplete, search_by_id, show_unpaid):
                         {
                             "value.participants": {
                                 "$elemMatch": {
-                                    subfield: {
-                                        "$regex": "^" + word,
-                                        "$options": "i",
-                                    }
+                                    subfield: {"$regex": "^" + word, "$options": "i"}
                                 }
                             }
                         }
@@ -162,6 +164,7 @@ def _search(form, query, autocomplete, search_by_id, show_unpaid):
     )
     return {"res": [serialize_model(r) for r in responses]}
 
+
 def form_response_list(formId):
     """Show all responses for a particular form.
     Example
@@ -174,11 +177,17 @@ def form_response_list(formId):
     form = Form.objects.only("formOptions", "cff_permissions").get(
         {"_id": ObjectId(formId)}
     )
-    if form.formOptions and form.formOptions.dataOptions and "views" in form.formOptions.dataOptions:
-        form.formOptions.dataOptions["views"] = replaceKey(replaceKey(form.formOptions.dataOptions["views"], "||", "."), "|", "$")
+    if (
+        form.formOptions
+        and form.formOptions.dataOptions
+        and "views" in form.formOptions.dataOptions
+    ):
+        form.formOptions.dataOptions["views"] = replaceKey(
+            replaceKey(form.formOptions.dataOptions["views"], "||", "."), "|", "$"
+        )
 
     query_params = app.current_request.query_params or {}
-    
+
     query = query_params.get("query", None)
     dataOptionView = query_params.get("dataOptionView", None)
     if dataOptionView:
