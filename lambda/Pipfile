@@ -44,6 +44,7 @@ isodate = "*"
 babel = "*"
 dnspython = "*"
 black = "==18.9b0"
+freezegun = "*"
 
 [dev-packages]
 

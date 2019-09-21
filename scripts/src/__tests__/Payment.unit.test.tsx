@@ -1,7 +1,13 @@
 import React from "react";
-import { shallow, mount, render } from "enzyme";
+import { render } from "enzyme";
 import Payment from "../form/confirmation/payment";
 import { calculatePaymentInfo } from "../form/payment/PaymentCalcTable";
+
+const props = {
+  formId: "formId",
+  responseId: "responseId",
+  responseMetadata: {}
+};
 
 it("renders payment table on new response", () => {
   const wrapper = render(
@@ -31,8 +37,7 @@ it("renders payment table on new response", () => {
       paymentMethods={[]}
       onPaymentComplete={e => e}
       onPaymentError={e => e}
-      responseId={"responseId"}
-      formId={"formId"}
+      {...props}
       formData={{}}
     />
   );
@@ -70,8 +75,7 @@ it("renders payment table with currency template", () => {
       paymentMethods={[]}
       onPaymentComplete={e => e}
       onPaymentError={e => e}
-      responseId={"responseId"}
-      formId={"formId"}
+      {...props}
       formData={{ nationality: "India" }}
     />
   );
@@ -108,8 +112,7 @@ it("renders payment table with amount received", () => {
       paymentMethods={[]}
       onPaymentComplete={e => e}
       onPaymentError={e => e}
-      responseId={"responseId"}
-      formId={"formId"}
+      {...props}
       formData={{}}
     />
   );
@@ -146,8 +149,7 @@ it("renders recurring payment table with times", () => {
       paymentMethods={[]}
       onPaymentComplete={e => e}
       onPaymentError={e => e}
-      responseId={"responseId"}
-      formId={"formId"}
+      {...props}
       formData={{}}
     />
   );
@@ -185,8 +187,7 @@ it("renders recurring payment table with end", () => {
       paymentMethods={[]}
       onPaymentComplete={e => e}
       onPaymentError={e => e}
-      responseId={"responseId"}
-      formId={"formId"}
+      {...props}
       formData={{}}
     />
   );
@@ -232,8 +233,7 @@ it("renders installment payment table", () => {
       paymentMethods={[]}
       onPaymentComplete={e => e}
       onPaymentError={e => e}
-      responseId={"responseId"}
-      formId={"formId"}
+      {...props}
       formData={{}}
     />
   );
@@ -261,8 +261,7 @@ it("doesn't render payment table when paymentInfo.items is none", () => {
       paymentMethods={[]}
       onPaymentComplete={e => e}
       onPaymentError={e => e}
-      responseId={"responseId"}
-      formId={"formId"}
+      {...props}
       formData={{}}
     />
   );
@@ -281,7 +280,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
+    expect(calculatePaymentInfo(paymentInfo, formData, {})).toMatchSnapshot();
   });
   it("calculates total items in paymentInfo last", () => {
     let paymentInfo = {
@@ -297,7 +296,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
+    expect(calculatePaymentInfo(paymentInfo, formData, {})).toMatchSnapshot();
   });
   it("doesn't include installments in total calculation", () => {
     let paymentInfo = {
@@ -316,7 +315,7 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
+    expect(calculatePaymentInfo(paymentInfo, formData, {})).toMatchSnapshot();
   });
   it("calculates installments from multiple totals", () => {
     let paymentInfo = {
@@ -343,6 +342,6 @@ describe("calculatePaymentInfo()", () => {
       ]
     };
     let formData = {};
-    expect(calculatePaymentInfo(paymentInfo, formData)).toMatchSnapshot();
+    expect(calculatePaymentInfo(paymentInfo, formData, {})).toMatchSnapshot();
   });
 });

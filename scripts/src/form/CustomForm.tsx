@@ -24,6 +24,7 @@ import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
 import AddressAutocompleteField from "./form_widgets/AddressAutocompleteField";
+import { IResponseMetadata } from "./interfaces";
 
 const JSONEditorWidget = lazy(() => import("./form_widgets/JSONEditorWidget"));
 
@@ -85,9 +86,16 @@ const fields = {
   "cff:addressAutocomplete": AddressAutocompleteField
 };
 
-function validate(formData, errors, validationSchema) {
+function validate(formData, errors, validationSchema, responseMetadata) {
   for (let item of validationSchema) {
-    if (ExpressionParser.calculate_price(item["if"], formData)) {
+    if (
+      ExpressionParser.calculate_price(
+        item["if"],
+        formData,
+        true,
+        responseMetadata
+      )
+    ) {
       errors.addError(item["then"]);
     }
   }
@@ -109,6 +117,7 @@ interface ICustomFormProps {
   children?: any;
   omitExtraData?: boolean;
   tagName?: string;
+  responseMetadata?: IResponseMetadata;
 }
 
 function CustomForm(props: ICustomFormProps) {
@@ -154,7 +163,12 @@ function CustomForm(props: ICustomFormProps) {
         }}
         onSubmit={e => props.onSubmit && props.onSubmit(e)}
         validate={(d, e) =>
-          validate(d, e, get(props.uiSchema, "ui:cff:validate", []))
+          validate(
+            d,
+            e,
+            get(props.uiSchema, "ui:cff:validate", []),
+            props.responseMetadata
+          )
         }
         onError={e => {
           console.error(e);
@@ -174,6 +188,7 @@ function CustomForm(props: ICustomFormProps) {
               props.paymentCalcInfo.items.length > 0 && (
                 <PaymentCalcTable
                   formData={props.formData}
+                  responseMetadata={props.responseMetadata}
                   paymentCalcInfo={props.paymentCalcInfo}
                 />
               )}

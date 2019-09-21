@@ -48,6 +48,7 @@ class Payment extends React.Component<IPaymentProps, any> {
         responseId: this.props.responseId,
         formId: this.props.formId,
         formData: this.props.formData,
+        responseMetadata: this.props.responseMetadata,
         paymentMethodName: paymentMethod
         // todo: get user's entered data.
       };
@@ -57,7 +58,9 @@ class Payment extends React.Component<IPaymentProps, any> {
         props.paymentMethodInfo.cff_show_when &&
         !ExpressionParser.calculate_price(
           props.paymentMethodInfo.cff_show_when,
-          props.formData
+          props.formData,
+          true,
+          props.responseMetadata
         )
       ) {
         return;

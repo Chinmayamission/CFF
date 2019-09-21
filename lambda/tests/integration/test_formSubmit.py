@@ -121,7 +121,6 @@ class FormSubmit(BaseTestCase):
             ],
             "total": 100.0,
         }
-        print(submit_res["paymentInfo"])
         self.assertEqual(submit_res["paymentInfo"], expected_paymentInfo)
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.paymentInfo, expected_paymentInfo)
