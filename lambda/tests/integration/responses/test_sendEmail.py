@@ -35,8 +35,7 @@ class TestSendEmail(BaseTestCase):
 
     @mock.patch("boto3.client")
     def test_empty_body(self, mock_boto_client):
-        body = {
-        }
+        body = {}
         response = self.lg.handle_request(
             method="POST",
             path=f"/responses/{self.responseId}/email",
@@ -57,10 +56,8 @@ class TestSendEmail(BaseTestCase):
                     "confirmationEmailInfo": {
                         "toField": "email",
                         "subject": "subject 123",
-                        "template": {
-                            "html": "test123"
-                        }
-                    }
+                        "template": {"html": "test123"},
+                    },
                 }
             ]
         }
@@ -68,9 +65,7 @@ class TestSendEmail(BaseTestCase):
             self.formId,
             {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
         )
-        body = {
-            "emailTemplateId": "template1"
-        }
+        body = {"emailTemplateId": "template1"}
         response = self.lg.handle_request(
             method="POST",
             path=f"/responses/{self.responseId}/email",

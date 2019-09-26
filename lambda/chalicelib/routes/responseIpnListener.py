@@ -34,6 +34,8 @@ def update_response_paid_status(response):
         if response.paid:
             response.value = response.pending_update["value"]
             response.paymentInfo = response.pending_update["paymentInfo"]
+            if paymentInfo and "total" in paymentInfo:
+                response.amount_owed_cents = int(100 * paymentInfo["total"])
             response.pending_update = None
             response.update_trail.append(
                 UpdateTrailItem(
@@ -54,7 +56,7 @@ def mark_successful_payment(
     date=None,
     send_email=True,
     notes=None,
-    email_template_id=None
+    email_template_id=None,
 ):
     if not date:
         date = datetime.datetime.now()
@@ -84,25 +86,31 @@ def mark_successful_payment(
         PaymentStatusDetailItem(**payment_status_detail_kwargs)
     )
 
-    response.amount_paid = str(float(response.amount_paid or 0) + float(amount))
+    amount_paid = float(response.amount_paid or 0) + float(amount)
+    response.amount_paid_cents = int(100 * amount_paid)
+    response.amount_paid = str(amount_paid)
     update_response_paid_status(response)
     if send_email:
         send_email_receipt(response, form.formOptions, email_template_id)
     return response.paid
 
+
 def send_email_receipt(response, formOptions, email_template_id=None):
     # Use the confirmationEmailInfo corresponding to email_template_id, falling back to formOptions.confirmationEmailInfo if none specified / found
     confirmationEmailInfo = None
     if email_template_id and formOptions.confirmationEmailTemplates:
-        matchingConfirmationEmailTemplate = find(formOptions.confirmationEmailTemplates, lambda x: x.get("id") == email_template_id)
+        matchingConfirmationEmailTemplate = find(
+            formOptions.confirmationEmailTemplates,
+            lambda x: x.get("id") == email_template_id,
+        )
         if matchingConfirmationEmailTemplate:
-            confirmationEmailInfo = matchingConfirmationEmailTemplate.get("confirmationEmailInfo")
+            confirmationEmailInfo = matchingConfirmationEmailTemplate.get(
+                "confirmationEmailInfo"
+            )
     if not confirmationEmailInfo:
         confirmationEmailInfo = formOptions.confirmationEmailInfo
     if confirmationEmailInfo:
-        email_sent = send_confirmation_email(
-            response, confirmationEmailInfo
-        )
+        email_sent = send_confirmation_email(response, confirmationEmailInfo)
 
 
 def mark_error_payment(response, message, method_name, full_value):
@@ -124,7 +132,7 @@ def mark_error_payment(response, message, method_name, full_value):
 def parse_ipn_body(ipn_body):
     """Parses a paypal IPN body, using the appropriate charset encoded in it.
     """
-    DEFAULT_CHARSET = "windows-1252" # Default charset for paypal IPN response
+    DEFAULT_CHARSET = "windows-1252"  # Default charset for paypal IPN response
     params = urllib.parse.parse_qsl(ipn_body, encoding=DEFAULT_CHARSET)
     paramDict = dict(params)
     # Handle other encodings (utf-8) if it is configured in paypal.
@@ -132,6 +140,7 @@ def parse_ipn_body(ipn_body):
         params = urllib.parse.parse_qsl(ipn_body, encoding=paramDict.get("charset"))
         paramDict = dict(params)
     return paramDict
+
 
 def response_ipn_listener(responseId):
     from ..main import app, PROD
@@ -172,7 +181,12 @@ def response_ipn_listener(responseId):
         "content-type": "application/x-www-form-urlencoded",
         "host": "www.paypal.com",
     }
-    r = requests.post(VERIFY_URL + "?cmd=_notify-validate", data=ipn_body, headers=headers, verify=True)
+    r = requests.post(
+        VERIFY_URL + "?cmd=_notify-validate",
+        data=ipn_body,
+        headers=headers,
+        verify=True,
+    )
     r.raise_for_status()
 
     # Check return message and take action as needed
@@ -182,7 +196,11 @@ def response_ipn_listener(responseId):
         expected_receiver_email = form.formOptions.paymentMethods["paypal_classic"][
             "business"
         ]
-        if paramDict.get("txn_type", "") in ("subscr_signup", "subscr_cancel", "subscr_eot"):
+        if paramDict.get("txn_type", "") in (
+            "subscr_signup",
+            "subscr_cancel",
+            "subscr_eot",
+        ):
             # Don't handle subscription signups, cancels, expiries.
             # TODO: actually handle these.
             return

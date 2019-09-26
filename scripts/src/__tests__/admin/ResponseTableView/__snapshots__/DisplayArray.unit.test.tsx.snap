@@ -78,7 +78,11 @@ exports[`displays array value properly 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              Teaching, Dancing
+              <div
+                class="react-contextmenu-wrapper"
+              >
+                Teaching, Dancing
+              </div>
             </div>
           </div>
         </div>
@@ -187,5 +191,51 @@ exports[`displays array value properly 1`] = `
       </div>
     </div>
   </div>
+  <nav
+    class="react-contextmenu"
+    role="menu"
+    style="position:fixed;opacity:0;pointer-events:none"
+    tabindex="-1"
+  >
+    <a
+      href="/v2/forms/?responseId=1232143&mode=view"
+    >
+      <div
+        aria-disabled="false"
+        class="react-contextmenu-item"
+        role="menuitem"
+        tabindex="-1"
+      >
+        View
+      </div>
+    </a>
+    <a
+      href="/v2/forms/?responseId=1232143&mode=edit"
+    >
+      <div
+        aria-disabled="false"
+        class="react-contextmenu-item"
+        role="menuitem"
+        tabindex="-1"
+      >
+        Edit
+      </div>
+    </a>
+    <div
+      aria-disabled="false"
+      aria-orientation="horizontal"
+      class="react-contextmenu-item react-contextmenu-item--divider"
+      role="menuitem"
+      tabindex="-1"
+    />
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      role="menuitem"
+      tabindex="-1"
+    >
+      Inspect
+    </div>
+  </nav>
 </div>
 `;

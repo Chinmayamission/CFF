@@ -14,6 +14,7 @@ const defaultPaymentStatusDetailItem: IPaymentStatusDetailItem = {
 const initialState: ResponsesState = {
   responseData: null,
   responses: null,
+  stats: null,
   paymentStatusDetailItem: defaultPaymentStatusDetailItem,
   selectedView: "main",
   shownResponseDetailId: null
@@ -30,6 +31,11 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         responses: action.responses
+      };
+    case "SET_STATS":
+      return {
+        ...state,
+        stats: action.stats
       };
     case "SET_RESPONSE_DATA":
       return {

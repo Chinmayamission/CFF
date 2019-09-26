@@ -7,7 +7,11 @@ import {
   IPaymentCalcTableState
 } from "./PaymentCalcTable.d";
 
-export function calculatePaymentInfo(paymentCalcInfo, formData) {
+export function calculatePaymentInfo(
+  paymentCalcInfo,
+  formData,
+  responseMetadata
+) {
   let paymentInfoItemsWithTotal = [];
   let paymentInfoItemsInstallment = [];
   let paymentInfo = cloneDeep(paymentCalcInfo);
@@ -26,11 +30,15 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
     }
     paymentInfoItem.amount = ExpressionParser.calculate_price(
       paymentInfoItem.amount,
-      formData
+      formData,
+      true,
+      responseMetadata
     );
     paymentInfoItem.quantity = ExpressionParser.calculate_price(
       paymentInfoItem.quantity,
-      formData
+      formData,
+      true,
+      responseMetadata
     );
     paymentInfoItem.total = paymentInfoItem.amount * paymentInfoItem.quantity;
     paymentInfo["total"] += paymentInfoItem.total;
@@ -40,11 +48,15 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
   for (let paymentInfoItem of paymentInfoItemsWithTotal) {
     paymentInfoItem.amount = ExpressionParser.calculate_price(
       paymentInfoItem.amount,
-      formData
+      formData,
+      true,
+      responseMetadata
     );
     paymentInfoItem.quantity = ExpressionParser.calculate_price(
       paymentInfoItem.quantity,
-      formData
+      formData,
+      true,
+      responseMetadata
     );
     paymentInfoItem.total = paymentInfoItem.amount * paymentInfoItem.quantity;
     paymentInfo["total"] += paymentInfoItem.total;
@@ -53,11 +65,15 @@ export function calculatePaymentInfo(paymentCalcInfo, formData) {
   for (let paymentInfoItem of paymentInfoItemsInstallment) {
     paymentInfoItem.amount = ExpressionParser.calculate_price(
       paymentInfoItem.amount,
-      formData
+      formData,
+      true,
+      responseMetadata
     );
     paymentInfoItem.quantity = ExpressionParser.calculate_price(
       paymentInfoItem.quantity,
-      formData
+      formData,
+      true,
+      responseMetadata
     );
     if (paymentInfoItem.recurrenceTimes) {
       paymentInfoItem.total =
@@ -84,7 +100,8 @@ class PaymentCalcTable extends React.Component<
   render() {
     let paymentInfo = calculatePaymentInfo(
       this.props.paymentCalcInfo,
-      this.props.formData
+      this.props.formData,
+      this.props.responseMetadata
     );
     if (!paymentInfo.items.length) return null;
     return (

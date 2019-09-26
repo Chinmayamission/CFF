@@ -77,6 +77,7 @@ class FormRender(BaseTestCase):
                     "paymentInfo",
                     "value",
                     "modify_link",
+                    "amount_owed_cents",
                 )
             ),
             set(body["res"].keys()),

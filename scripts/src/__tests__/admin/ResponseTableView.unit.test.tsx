@@ -3,10 +3,11 @@ import React from "react";
 import sinon from "sinon";
 import ResponseTableView from "../../admin/ResponseTable/ResponseTableView";
 import { responses, renderedForm } from "./constants";
+import { MemoryRouter } from "react-router-dom";
 
 // it('pushes to default view when no table view name specified', () => {
 //   const spy = sinon.spy();
-//   const wrapper = render(
+//   const wrapper = render_(
 //     <ResponseTableView
 //       responses={responses}
 //       renderedForm={renderedForm}
@@ -15,6 +16,8 @@ import { responses, renderedForm } from "./constants";
 //   );
 //   expect(spy.calledOnceWith("all")).toBe(true);
 // });
+
+const render_ = e => render(<MemoryRouter>{e}</MemoryRouter>);
 
 it("responses with default data", () => {
   const dataOptionView = {
@@ -61,7 +64,7 @@ it("responses with default data", () => {
       }
     ]
   };
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses}
       renderedForm={renderedForm}
@@ -138,7 +141,7 @@ it("responses with unwind data", () => {
       }
     ]
   };
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses}
       renderedForm={renderedForm}
@@ -162,7 +165,7 @@ it("renders response table with group assign", () => {
       { label: "Class", value: "children.class", groupAssign: "class" }
     ]
   };
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses}
       renderedForm={renderedForm}
@@ -193,7 +196,7 @@ it("renders response table with an editSchema specified instead of a group assig
       }
     ]
   };
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses}
       renderedForm={renderedForm}
@@ -219,7 +222,7 @@ it("renders response table with an undefined group assign", () => {
       { label: "Class", value: "children.class", groupAssign: "class" }
     ]
   };
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses}
       renderedForm={renderedForm}
@@ -251,7 +254,7 @@ it("renders response table with extra columns from the group", () => {
       }
     ]
   };
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses}
       renderedForm={renderedForm}
@@ -281,7 +284,7 @@ it("renders response table with default filter", () => {
       }
     ]
   };
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses}
       renderedForm={renderedForm}
@@ -347,7 +350,7 @@ it("renders response table with groups and displaying another model", () => {
     }
   ];
 
-  const wrapper = render(
+  const wrapper = render_(
     <ResponseTableView
       responses={responses_}
       renderedForm={renderedForm}

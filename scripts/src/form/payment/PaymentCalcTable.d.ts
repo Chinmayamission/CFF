@@ -1,7 +1,8 @@
-import { IPaymentInfo, Data } from "../interfaces";
+import { IPaymentInfo, Data, IResponseMetadata } from "../interfaces";
 
 export interface IPaymentCalcTableProps {
   formData: Data;
+  responseMetadata: IResponseMetadata;
   paymentCalcInfo: IPaymentCalcInfo;
 }
 

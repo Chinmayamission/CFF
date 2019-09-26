@@ -2,7 +2,7 @@ from chalicelib.models import Form, Response, serialize_model
 from pymodm.errors import DoesNotExist
 from bson.objectid import ObjectId
 from chalice import NotFoundError
-from chalicelib.util.renameKey import renameKey
+from chalicelib.util.renameKey import renameKey, replaceKey
 from pydash.objects import get
 from chalicelib.util.patch import patch_predicate
 
@@ -17,6 +17,14 @@ def form_render(formId):
         # Convert __$ref back to $ref.
         if form.schema:
             form.schema = renameKey(form.schema, "__$ref", "$ref")
+        if (
+            form.formOptions
+            and form.formOptions.dataOptions
+            and "views" in form.formOptions.dataOptions
+        ):
+            form.formOptions.dataOptions["views"] = replaceKey(
+                replaceKey(form.formOptions.dataOptions["views"], "||", "."), "|", "$"
+            )
     except DoesNotExist:
         raise NotFoundError(f"Form ID not found: {formId}")
     return {"res": serialize_model(form)}

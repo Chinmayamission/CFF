@@ -84,6 +84,7 @@ export interface IFormPageState {
   predicate: {
     id: boolean;
   };
+  responseMetadata: IResponseMetadata;
 }
 
 export interface IFormPageProps {
@@ -108,6 +109,7 @@ export interface IFormConfirmationPageProps {
   schema: Schema;
   uiSchema: UiSchema;
   data: Data;
+  responseMetadata: IResponseMetadata;
   responseId: string;
   formId: string;
   paymentInfo: IPaymentInfo;
@@ -126,6 +128,10 @@ export interface IFormConfirmationPageState {
   paymentInfo_owed: IPaymentInfoReceived;
 }
 
+export interface IResponseMetadata {
+  date_created?: string;
+}
+
 export interface IPaymentProps {
   paymentInfo: IPaymentInfo;
   paymentInfo_owed: IPaymentInfoReceived;
@@ -137,6 +143,7 @@ export interface IPaymentProps {
   responseId: string;
   formId: string;
   formData: Data;
+  responseMetadata: IResponseMetadata;
 }
 
 export interface PaymentOptions {}

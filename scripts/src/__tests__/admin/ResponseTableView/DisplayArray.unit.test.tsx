@@ -1,5 +1,6 @@
 import { render } from "enzyme";
 import React from "react";
+import { MemoryRouter } from "react-router";
 import ResponseTableView from "../../../admin/ResponseTable/ResponseTableView";
 import { createResponseWithValue } from "../constants";
 
@@ -19,17 +20,19 @@ it("displays array value properly", () => {
     uiSchema: null,
     formOptions: null,
     name: "",
-    _id: null
+    _id: { $oid: "" }
   };
   const responses = [
     createResponseWithValue({ volunteer: ["Teaching", "Dancing"] })
   ];
   const wrapper = render(
-    <ResponseTableView
-      responses={responses}
-      renderedForm={renderedForm}
-      dataOptionView={dataOptionView}
-    />
+    <MemoryRouter>
+      <ResponseTableView
+        responses={responses}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    </MemoryRouter>
   );
   expect(wrapper).toMatchSnapshot();
   // expect(wrapper.text()).toContain("Adults Display Name");

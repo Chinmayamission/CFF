@@ -7,7 +7,7 @@ from app import app
 from chalicelib.models import Response, User, Form, FormOptions
 import uuid
 import datetime
-from chalicelib.routes import form_edit, group_edit
+from chalicelib.routes import form_edit, group_edit, form_render
 from unittest.mock import MagicMock
 
 
@@ -46,3 +46,28 @@ class FormEdit(unittest.TestCase):
         form = Form.objects.get({"_id": self.formId})
         self.assertEqual(form.name, "Name")
         self.assertEqual(form.formOptions.dataOptions["groups"], {"new": "new2"})
+
+    def test_form_edit_special_chars(self):
+        app.current_request.json_body = {
+            "name": "New name",
+            "schema": {"$ref": "schema"},
+            "formOptions": {
+                "dataOptions": {"views": [{"a": {"$ref": "hi", "a.b.c": "hu"}}]}
+            },
+        }
+        form_edit(self.formId)
+        form = Form.objects.get({"_id": self.formId})
+        self.assertEqual(form.name, "New name")
+        self.assertEqual(form.schema, {"__$ref": "schema"})
+        self.assertEqual(
+            form.formOptions.dataOptions["views"][0],
+            {"a": {"|ref": "hi", "a||b||c": "hu"}},
+        )
+        response = form_render(self.formId)
+        form = response["res"]
+        self.assertEqual(form["name"], "New name")
+        self.assertEqual(form["schema"], {"$ref": "schema"})
+        self.assertEqual(
+            form["formOptions"]["dataOptions"]["views"][0],
+            {"a": {"$ref": "hi", "a.b.c": "hu"}},
+        )

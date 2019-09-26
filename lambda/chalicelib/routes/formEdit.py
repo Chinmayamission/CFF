@@ -2,7 +2,7 @@ from pydash.objects import pick
 import datetime
 from chalicelib.models import Form, serialize_model
 from bson.objectid import ObjectId
-from chalicelib.util.renameKey import renameKey
+from chalicelib.util.renameKey import renameKey, replaceKey
 from pydash.objects import set_
 
 
@@ -16,9 +16,17 @@ def form_edit(formId):
     )
     for k, v in body.items():
         setattr(form, k, v)
-    # Validate $ref properly.
+    # Rename $ref properly.
     if form.schema:
         form.schema = renameKey(form.schema, "$ref", "__$ref")
+    if (
+        form.formOptions
+        and form.formOptions.dataOptions
+        and "views" in form.formOptions.dataOptions
+    ):
+        form.formOptions.dataOptions["views"] = replaceKey(
+            replaceKey(form.formOptions.dataOptions["views"], "$", "|"), ".", "||"
+        )
     form.save()
     form = Form.objects.get({"_id": ObjectId(formId)})
     return {"res": {"success": True, "updated_values": serialize_model(form)}}
