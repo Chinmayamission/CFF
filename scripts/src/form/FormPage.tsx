@@ -189,8 +189,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       status: STATUS_FORM_PAYMENT_SUCCESS
     });
   }
-  onSubmit(data: { formData: {} }) {
+  onSubmit(data: { formData: {} }, saveOnly) {
     let formData = data.formData;
+    console.log(this.state);
+    console.log(this.state.formOptions.responseSaveEnabled);
     let payload = {
       data: formData,
       modifyLink:
@@ -198,7 +200,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           ? document.referrer
           : window.location.href
     };
-
+    console.log("submit called from FormPage.tsx");
     if (this.state.responseId) {
       payload["responseId"] = this.state.responseId;
     }
@@ -227,10 +229,20 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             throw "Response not formatted correctly: " + JSON.stringify(res);
           }
         }
+        // this.state.schemaMetadata.showConfirmationPage = false;
         if (this.state.schemaMetadata.showConfirmationPage === false) {
           this.setState({
             ajaxLoading: false,
             status: STATUS_FORM_DONE
+            //status: STATUS_FORM_RESPONSE_VIEW
+          });
+          return;
+        }
+        if (saveOnly === true) {
+          console.log("Save good from formPage.tsx");
+          this.setState({
+            ajaxLoading: false,
+            status: STATUS_FORM_RESPONSE_VIEW
           });
           return;
         }
@@ -268,6 +280,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             window.location.pathname +
             "?" +
             queryString.stringify({ ...qs, responseId: res.responseId });
+          console.log("newurl:" + newurl);
           window.history.pushState({ path: newurl }, "", newurl);
         }
 
@@ -430,10 +443,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
           formData={this.state.data}
+          formOptions={this.state.formOptions}
           // TODO: Just pass in a calculate_price function instead of passing in responseMetadata, etc.
           responseMetadata={this.state.responseMetadata}
           paymentCalcInfo={this.state.paymentCalcInfo}
-          onSubmit={e => this.onSubmit(e)}
+          onSubmit={e => this.onSubmit(e, false)}
           onChange={e => this.onChange(e)}
           omitExtraData={get(this.state.formOptions, "omitExtraData", false)}
         />
