@@ -23,6 +23,8 @@ If you want to change beyond the default view, add the following to `formOptions
 
 Note that each item in `views` must have an `id` and (optionally) a `displayName`. The `columns` value describes which columns will show up in this view's table view in the "Responses" tab.
 
+### Columns object
+
 To change the title of a column, replace the string in the `columns` array with an object with keys `label` and `value`. For example:
 
 ```
@@ -33,6 +35,16 @@ To change the title of a column, replace the string in the `columns` array with 
     {"label": "Family ID", "value": "COUNTER"},
     "email"
   ]
+```
+
+The columns object also supports a basic level of aggregation. Right now, we support the `calculateLength` parameter, which when set to true, will show the length of the value in the `value` parameter (whether it is a string or an array). For example, to show the number of participants in a response (if participants is an array of objects), use the following header object:
+
+```
+{
+  "label": "Number of participants",
+  "value": "participants",
+  "calculateLength": true
+}
 ```
 
 ## Adding a summary view

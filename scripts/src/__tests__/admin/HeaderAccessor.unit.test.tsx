@@ -32,6 +32,13 @@ it("accessors with arrays are working properly", () => {
   expect(result).toEqual("12, 44, 73");
 });
 
+it("accessors with arrays and calculateLength should return the length", () => {
+  const result = Headers.headerAccessor(formData, "parents", schema, {
+    calculateLength: true
+  });
+  expect(result).toEqual(3);
+});
+
 it("regular accessors are working properly", () => {
   const result = Headers.headerAccessor(formData, "name.first", schema);
   expect(result).toEqual("John");
@@ -53,6 +60,16 @@ it("multi-property accessors are working properly", () => {
     schema
   );
   expect(result).toEqual("Doe John");
+});
+
+it("multi-property accessors joined together with no space", () => {
+  const result = Headers.headerAccessor(
+    formData,
+    ["name.last", "name.first"],
+    schema,
+    { noSpace: true }
+  );
+  expect(result).toEqual("DoeJohn");
 });
 
 it("multi-property accessors for properties in an array", () => {

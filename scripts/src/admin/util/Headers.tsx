@@ -15,6 +15,8 @@ export interface IHeaderObject {
   filterMethod?: (a, b) => any;
   Filter?: ({ filter, onChange }) => any;
   headerClassName?: string;
+  noSpace?: boolean;
+  calculateLength?: boolean;
 }
 
 export interface IHeaderOption {
@@ -140,14 +142,19 @@ export namespace Headers {
     formData,
     headerName,
     schema = {},
-    noSpace = false
+    headerObj: IHeaderObject | { [x: string]: any } = {}
   ) {
+    const { noSpace, calculateLength } = headerObj;
     if (isArray(headerName)) {
       return headerName
-        .map(e => headerAccessorSingle(formData, e, schema))
+        .map(e => headerAccessor(formData, e, schema, headerObj))
         .join(noSpace ? "" : " ");
     } else {
-      return headerAccessorSingle(formData, headerName, schema);
+      const value = headerAccessorSingle(formData, headerName, schema);
+      if (calculateLength) {
+        return value.length;
+      }
+      return value;
     }
   }
 
@@ -171,7 +178,7 @@ export namespace Headers {
       Header: headerLabel,
       id: headerName,
       accessor: formData =>
-        headerAccessor(formData, headerValue, schema, header.noSpace || false),
+        headerAccessor(formData, headerValue, schema, header),
       Cell: row => formatValue(row.value)
     };
     if (header.editSchema) {
