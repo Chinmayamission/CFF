@@ -200,9 +200,16 @@ def response_ipn_listener(responseId):
             "subscr_signup",
             "subscr_cancel",
             "subscr_eot",
+            "subscr_modify",
+            # "subscr_payment",
+            "subscr_failed",
+            "subscr_eot"
         ):
             # Don't handle subscription signups, cancels, expiries.
             # TODO: actually handle these.
+            raise_ipn_error(
+                "txn_type is not supported and must be manually handled."
+            )
             return
         if paramDict["receiver_email"] != expected_receiver_email:
             raise_ipn_error(
