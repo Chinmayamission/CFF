@@ -197,7 +197,7 @@ def response_ipn_listener(responseId):
             "business"
         ]
         if paramDict.get("txn_type", "") in (
-            # "subscr_signup",
+            "subscr_signup",
             "subscr_cancel",
             "subscr_eot",
             "subscr_modify",
