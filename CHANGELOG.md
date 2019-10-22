@@ -1,3 +1,14 @@
+## 3.29.0
+PayPal IPN fixes:
+- silently append ipn value, don't raise exception, upon ipn error. This way, paypal
+accounts won't get emails saying that "IPN failed"; instead, we handle these errors
+by just logging them in our system and adding them to payment_trail.
+- Append IPN error when receiving IPNs for subscription events (such as subscr_failed, subscr_signup)
+
+UI:
+- Center login text in "Login" screen
+- Allow `calculateLength` attribute in headers for data_options.
+
 ## 3.28.0
 - Add cff_createdBetween to restrict payment items by deadline
 - Allow specifiedShowFields to override uiSchema with keys with a CFF_uiSchema prefix
