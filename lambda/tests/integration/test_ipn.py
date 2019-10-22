@@ -204,8 +204,7 @@ class FormIpn(BaseTestCase):
             },
         ).save()
         ipn_value = f"mc_gross=0.50&protection_eligibility=Eligible&address_status=confirmed&item_number1=Base Registration&payer_id=VE2HLZ5ZKU7BE&address_street=123 ABC Street&payment_date=06:42:00 Jun 30, 2018 PDT&payment_status=Completed&charset=windows-1252&address_zip=30022&first_name=Ashwin&mc_fee=0.31&address_country_code=US&address_name=outplayed apps&notify_version=3.9&custom={responseId}&payer_status=unverified&business=aramaswamis-facilitator@gmail.com&address_country=United States&num_cart_items=1&address_city=Johns creek&verify_sign=AWkT50gtrA0iXnh55b939tXXlAFYAfxG.wdPFrayvThp7Tw1hro.K3JV&payer_email=aramaswamis@gmail.com&txn_id=6TS1068787252245S&payment_type=instant&payer_business_name=outplayed apps&last_name=Ramaswami&address_state=GA&item_name1=Base Registration&receiver_email=aramaswamis-facilitator@gmail.com&payment_fee=0.31&quantity1=1&receiver_id=T4A6C58SP7PP2&txn_type=cart&mc_gross_1=0.50&mc_currency=USD&residence_country=US&test_ipn=1&transaction_subject=&payment_gross=0.50&ipn_track_id=d61ac3d69a842"
-        response = self.send_ipn(responseId, ipn_value, fail=True)
-        self.assertIn("Rejected by PayPal", response)
+        response = self.send_ipn(responseId, ipn_value)
 
         response = self.view_response(responseId)
 
@@ -295,8 +294,8 @@ class FormIpn(BaseTestCase):
             },
         ).save()
         ipn_value = f"mc_gross=0.50&protection_eligibility=Eligible&address_status=confirmed&item_number1=Base Registration&payer_id=VE2HLZ5ZKU7BE&address_street=123 ABC Street&payment_date=06:42:00 Jun 30, 2018 PDT&payment_status=Completed&charset=windows-1252&address_zip=30022&first_name=Ashwin&mc_fee=0.31&address_country_code=US&address_name=outplayed apps&notify_version=3.9&custom={responseId}&payer_status=unverified&business=aramaswamis-facilitator@gmail.com&address_country=United States&num_cart_items=1&address_city=Johns creek&verify_sign=AWkT50gtrA0iXnh55b939tXXlAFYAfxG.wdPFrayvThp7Tw1hro.K3JV&payer_email=aramaswamis@gmail.com&payment_type=instant&payer_business_name=outplayed apps&last_name=Ramaswami&address_state=GA&item_name1=Base Registration&receiver_email=aramaswamis-facilitator@gmail.com&payment_fee=0.31&quantity1=1&receiver_id=T4A6C58SP7PP2&txn_type=cart&mc_gross_1=0.50&mc_currency=USD&residence_country=US&test_ipn=1&transaction_subject=&payment_gross=0.50&ipn_track_id=d61ac3d69a842"
-        response = self.send_ipn(responseId, ipn_value, fail=True)
-        self.assertIn("No IPN transaction ID.", response)
+        response = self.send_ipn(responseId, ipn_value)
+        self.assertEqual(response, "")
 
         response = self.view_response(responseId)
 
@@ -525,7 +524,7 @@ class FormIpn(BaseTestCase):
             },
         ).save()
         ipn_value = f"mc_gross=0.50&protection_eligibility=Eligible&address_status=confirmed&item_number1=Base Registration&payer_id=VE2HLZ5ZKU7BE&address_street=123 ABC Street&payment_date=06:42:00 Jun 30, 2018 PDT&payment_status=Completed&charset=windows-1252&address_zip=30022&first_name=Ashwin&mc_fee=0.31&address_country_code=US&address_name=outplayed apps&notify_version=3.9&custom={responseId}&payer_status=unverified&business=aramaswamis-facilitator@gmail.com&address_country=United States&num_cart_items=1&address_city=Johns creek&verify_sign=AWkT50gtrA0iXnh55b939tXXlAFYAfxG.wdPFrayvThp7Tw1hro.K3JV&payer_email=aramaswamis@gmail.com&payment_type=instant&payer_business_name=outplayed apps&last_name=Ramaswami&address_state=GA&item_name1=Base Registration&receiver_email=aramaswamis-facilitator@gmail.com&payment_fee=0.31&quantity1=1&receiver_id=T4A6C58SP7PP2&txn_type=subscr_failed&mc_gross_1=0.50&mc_currency=USD&residence_country=US&test_ipn=1&transaction_subject=&payment_gross=0.50&ipn_track_id=d61ac3d69a842"
-        response = self.send_ipn(responseId, ipn_value, fail=True)
+        response = self.send_ipn(responseId, ipn_value)
 
         response = self.view_response(responseId)
 

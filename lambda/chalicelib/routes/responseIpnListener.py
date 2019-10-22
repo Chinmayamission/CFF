@@ -167,7 +167,6 @@ def response_ipn_listener(responseId):
             )
         )
         response.save()
-        raise Exception("IPN ERROR: " + message)
 
     if responseId != responseIdFromIpn:
         raise_ipn_error(
@@ -175,6 +174,7 @@ def response_ipn_listener(responseId):
                 responseIdFromIpn, responseId
             )
         )
+        return ""
 
     # Post back to PayPal for validation
     headers = {
@@ -210,16 +210,18 @@ def response_ipn_listener(responseId):
             raise_ipn_error(
                 "txn_type is not supported and must be manually handled."
             )
-            return
+            return ""
         if paramDict["receiver_email"] != expected_receiver_email:
             raise_ipn_error(
                 "Emails do not match. {}, {}".format(
                     paramDict["receiver_email"], expected_receiver_email
                 )
             )
+            return ""
         txn_id = paramDict.get("txn_id", None)
         if not txn_id:
             raise_ipn_error("No IPN transaction ID.")
+            return ""
         if any(
             item.status == "SUCCESS"
             and item.id == txn_id
@@ -227,6 +229,7 @@ def response_ipn_listener(responseId):
             for item in response.payment_trail
         ):
             raise_ipn_error(f"Duplicate IPN transaction ID: {txn_id}")
+            return ""
         # TODO: add check for mc_currency
         if paramDict["payment_status"] == "Completed":
             mark_successful_payment(
@@ -254,6 +257,7 @@ def response_ipn_listener(responseId):
             raise_ipn_error(
                 "Payment_status is not supported. Only Completed and Refunded payment statuses are supported."
             )
+            return ""
         # Has user paid the amount owed? Checks the PENDING_UPDATE for the total amount owed, else the response itself (when not updating).
         # fullyPaid = response["IPN_TOTAL_AMOUNT"] >= response.get("PENDING_UPDATE", response)["paymentInfo"]["total"]
 
@@ -264,7 +268,9 @@ def response_ipn_listener(responseId):
         #     # update it as paid or not.
     elif r.text == "INVALID":
         raise_ipn_error("Rejected by PayPal: {}".format(VERIFY_URL))
+        return ""
     else:
         raise_ipn_error("IPN was neither VERIFIED nor INVALID.")
+        return ""
 
     return ""
