@@ -270,6 +270,10 @@ class TestCalculatePrice(unittest.TestCase):
             calculate_price("cff_nthOfNextMonth('2000-01-31', 7, 1)", {}, False),
             "2000-02-07",
         )
+        self.assertEqual(
+            calculate_price("cff_nthOfNextMonth('2019-11-07', 7, 10)", {}, False),
+            "2019-12-07",
+        )
 
     def test_round_up_next_cent(self):
         price = calculate_price("1/3", {})

@@ -22,9 +22,9 @@ def create_default_context(numeric, formMetadata):
         if type(datestr) is not str or type(n) is not int or n <= 0:
             return None
         date = datetime.strptime(datestr, "%Y-%m-%d")
-        new_date = date.replace(month=date.month + 1, day=n)
-        if maxDayDiff and relativedelta(new_date, date).days < maxDayDiff:
-            new_date = new_date.replace(month=new_date.month + 1)
+        new_date = (date + relativedelta(months=1)).replace(day=n)
+        if maxDayDiff and (new_date - date).days < maxDayDiff:
+            new_date = new_date + relativedelta(months=1)
         return new_date.strftime("%Y-%m-%d")
 
     # def cff_countArray(array, expression):
