@@ -1,4 +1,4 @@
-## 3.29.1
+## 3.30.0
 - Expression parser: fix parsing issue with cff_nthOfNextMonth that results in the wrong dates being calculated
 - Fix js vulnerabilities
 
