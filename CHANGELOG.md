@@ -1,3 +1,7 @@
+## 3.29.1
+- Expression parser: fix parsing issue with cff_nthOfNextMonth that results in the wrong dates being calculated
+- Fix js vulnerabilities
+
 ## 3.29.0
 PayPal IPN fixes:
 - silently append ipn value, don't raise exception, upon ipn error. This way, paypal
