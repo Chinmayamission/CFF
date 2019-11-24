@@ -1,4 +1,4 @@
-## latest version
+## 3.31.0
 - ccavenue sub_account_id integration
 
 ## 3.30.0
