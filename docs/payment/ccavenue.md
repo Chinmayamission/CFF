@@ -2,7 +2,18 @@ Add the following in paymentMethods:
 ```
 "paymentMethods": {
     "ccavenue": {
-        "merchant_id": "..."
+        "merchant_id": "...",
+    }
+}
+```
+
+To use a sub account, add the `sub_account_id` parameter as follows:
+
+```
+"paymentMethods": {
+    "ccavenue": {
+        "merchant_id": "...",
+        "sub_account_id": "..."
     }
 }
 ```

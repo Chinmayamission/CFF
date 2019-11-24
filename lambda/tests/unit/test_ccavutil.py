@@ -1,12 +1,13 @@
 """
 python -m unittest tests.unit.test_ccavutil
 """
-from chalicelib.util.ccavutil import POSSIBLE_PARAMS, encrypt, decrypt
+from chalicelib.util.ccavutil import encrypt, decrypt
 from chalicelib.util.formSubmit.ccavenue import update_ccavenue_hash
+from chalicelib.models import Response, CCAvenueConfig
 import unittest
 
-INPUT_DATA = {"a": "b"}  # {param: "test1231234" for param in POSSIBLE_PARAMS}
-WORKING_KEY = "asdlkjskljasdkljas"  # .encode('latin-1')
+INPUT_DATA = {"a": "b"}
+WORKING_KEY = "asdlkjskljasdkljas"
 
 
 class TestCcavutil(unittest.TestCase):
@@ -19,5 +20,29 @@ class TestCcavutil(unittest.TestCase):
 
 
 class TestCcAvenue(unittest.TestCase):
-    def test_update_ccavenue_hash(self):
-        pass
+    def test_update_ccavenue_hash_with_subaccount(self):
+        """Does changing the subaccount id affect the response?
+        """
+        response = Response(
+            amount_paid=20,
+            paymentInfo={
+                "currency": "INR",
+                "total": "50"
+            }
+        )
+        CCAvenueConfig(
+            access_code="access_code",
+            merchant_id="merchant_id",
+            SECRET_working_key="SECRET_working_key",
+        ).save()
+        ccavenuePaymentMethodInfo1 = update_ccavenue_hash("formId", {"merchant_id": "merchant_id"}, response)
+        ccavenuePaymentMethodInfo2 = update_ccavenue_hash("formId", {"merchant_id": "merchant_id"}, response)
+        ccavenuePaymentMethodInfo3 = update_ccavenue_hash("formId", {"merchant_id": "merchant_id", "sub_account_id": "sub_account_id"}, response)
+        response1 = decrypt(ccavenuePaymentMethodInfo1["encRequest"], "SECRET_working_key")
+        del response1["order_id"]
+        response2 = decrypt(ccavenuePaymentMethodInfo2["encRequest"], "SECRET_working_key")
+        del response2["order_id"]
+        response3 = decrypt(ccavenuePaymentMethodInfo3["encRequest"], "SECRET_working_key")
+        del response3["order_id"]
+        self.assertEqual(response1, response2)
+        self.assertNotEqual(response2, response3)
