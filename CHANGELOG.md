@@ -1,3 +1,6 @@
+## 3.32.0
+- Support `replyTo` attribute in confirmation emails
+
 ## 3.31.0
 - ccavenue sub_account_id integration
 

@@ -11,3 +11,17 @@ dict(serialize_model(response), response=flat)
 ```html
 <div style='width: 100%;background-color: #eee; margin: 10px 0px;'><div style='width: 80%;margin: auto; box-shadow: 1px 1px 4px grey;padding: 10px 30px;background: white;'><img src='https://i.imgur.com/a9jf89X.png' width='100%'><h1>Monthly Activity information form for {{value.month}}/{{value.year}}</h1><br>Hari Om!<br><br>Thank you for Submitting Monthly Activity information<br><br><strong>Centre Name: </strong>{{value.centre}}<br><br>{% if value.feedback %}<strong>Feedback: </strong>{{value.feedback}}{% else %}You will receive another email with feedback from Swamiji.{% endif %}<br><br>In His Service,<br>Webmaster</div></div>
 ```
+
+
+confirmationEmailInfo fields:
+```
+{
+    "cc": "a@b.com",
+    "bcc": "c@b.com",
+    "replyTo": "b@b.com",
+    "subject": "CFF Unit Testing Form\n Confirmation",
+    "toField": "email",
+    "fromName": "Test",
+    "from": "a@b.com"
+}
+```
