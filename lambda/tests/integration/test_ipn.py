@@ -176,6 +176,7 @@ class FormIpn(BaseTestCase):
                     },
                 },
             },
+            ReplyToAddresses=[],
             Source="CMTC <ccmt.dev@gmail.com>",
         )
 
@@ -496,6 +497,7 @@ class FormIpn(BaseTestCase):
                     },
                 },
             },
+            ReplyToAddresses=[],
             Source="CMTC <ccmt.dev@gmail.com>",
         )
     

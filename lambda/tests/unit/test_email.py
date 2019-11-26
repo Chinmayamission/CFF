@@ -33,7 +33,7 @@ CONFIRMATION_EMAIL_INFO_TEMPLATE = {
     "subject": "CFF Unit Testing Form\n Confirmation",
     "toField": "email",
     "fromName": "Test",
-    "from": "ccmt.dev@gmail.com",
+    "from": "ccmt.dev@gmail.com"
 }
 
 # with open(os.path.dirname(os.path.realpath(__file__)) + '/test.html', 'r') as myfile:
@@ -79,6 +79,7 @@ EXPECTED_RES_TEMPLATE = {
     "subject": "CFF Unit Testing Form\n Confirmation",
     "bccEmail": "",
     "ccEmail": "",
+    "replyToEmail": "",
     "msgBody": "<h1>Action Needed:</h1><h2>2018 Jagadeeshwara Mandir Suvarna Mahotsava Yajman Sponsorship Form</h2>Thank you for registration. As per Government of India FCRA guideliness CCMT is required to keep proof of Identity of the donor and hence we request you to send a copy of your passport to CCMT CFO abc.def@chinmayamission.com, copied on this email.<br> <table><tr><th>email</th><td>success@simulator.amazonses.com</td></tr></table><br> <table><tr><th>Name</th><th>Description</th><th>Amount</th><th>Quantity</th></tr> <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></table>",
 }
 
@@ -142,6 +143,18 @@ class TestCreateEmail(unittest.TestCase):
             self.response, CONFIRMATION_EMAIL_INFO_TEMPLATE
         )
         self.assertEqual(res, EXPECTED_RES_TEMPLATE)
+
+    def test_create_email_html_template_with_cc(self):
+        res = create_confirmation_email_dict(
+            self.response, dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, cc="replyto@replyto.com")
+        )
+        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, ccEmail="replyto@replyto.com"))
+
+    def test_create_email_html_template_with_replyto(self):
+        res = create_confirmation_email_dict(
+            self.response, dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, replyTo="replyto@replyto.com")
+        )
+        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, replyToEmail="replyto@replyto.com"))
 
     def test_create_email_html_template_with_undefined(self):
         confirmationEmailInfo = dict(

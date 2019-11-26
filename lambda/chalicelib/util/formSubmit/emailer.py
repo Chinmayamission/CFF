@@ -69,6 +69,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
         subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
         bccEmail=confirmationEmailInfo.get("bcc", ""),
         ccEmail=confirmationEmailInfo.get("cc", ""),
+        replyToEmail=confirmationEmailInfo.get("replyTo", ""),
         msgBody=msgBody,
     )
     return emailOptions
@@ -88,6 +89,7 @@ def send_email(
     fromEmail="webmaster@chinmayamission.com",
     ccEmail="",
     bccEmail="",
+    replyToEmail="",
     fromName="Webmaster",
     subject="Confirmation email",
     msgBody="<h1>Confirmation</h1><br><p>Thank you for registering.</p>",
@@ -107,9 +109,12 @@ def send_email(
         ccEmail = ccEmail.split(",")
     if bccEmail and type(bccEmail) is str:
         bccEmail = bccEmail.split(",")
+    if replyToEmail and type(replyToEmail) is str:
+        replyToEmail = replyToEmail.split(",")
     toEmail = [email for email in toEmail if email] if toEmail else []
     ccEmail = [email for email in ccEmail if email] if ccEmail else []
     bccEmail = [email for email in bccEmail if email] if bccEmail else []
+    replyToEmail = [email for email in replyToEmail if email] if bccEmail else []
 
     try:
         response = client.send_email(
@@ -126,9 +131,7 @@ def send_email(
                     "Html": {"Data": BODY_HTML, "Charset": CHARSET},
                 },
             },
-            # ReplyToAddresses=[
-            #     'string',
-            # ],
+            ReplyToAddresses=replyToEmail,
             # ReturnPath='success@simulator.amazonses.com',
             # SourceArn='string',
             # ReturnPathArn='string',
