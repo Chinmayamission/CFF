@@ -47,6 +47,30 @@ The columns object also supports a basic level of aggregation. Right now, we sup
 }
 ```
 
+To run a custom mongodb aggregate query, do the following. The "n" key of the result will end up showing in the column:
+
+```
+{
+  "label": "Age Group",
+  "queryType": "aggregate",
+  "queryValue": [
+    {
+      "$project": {
+        "n": {
+          "$switch": {
+            "branches": [
+              {"case": {"$lt": ["$age", 18]}, "then": "Child" },
+              {"case": {"$lt": ["$age", 29]}, "then": "CHYK" },
+              {"case": {"$lt": ["$age", 41]}, "then": "Setukari" }
+            ],
+            "default": "Adult"
+          }
+        }
+      }
+  ]
+}
+```
+
 ## Adding a summary view
 You can add a summary view which runs aggregate queries in MongoDB and then shows the results of those queries in the responses table view. To do so, add an object in dataOptions.views such as the following:
 ```json

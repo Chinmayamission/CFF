@@ -1,3 +1,6 @@
+## 3.33.0
+- Allow calculation of displayed fields in response tables. This uses the custom mongodb aggregate queries.
+
 ## 3.32.0
 - Support `replyTo` attribute in confirmation emails
 

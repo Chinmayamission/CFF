@@ -166,3 +166,30 @@ describe("calculate_price", () => {
     });
   });
 });
+
+describe("performMongoQuery", () => {
+  test("run aggregate with case statements", () => {
+    const queryValue = [
+      {
+        $project: {
+          n: {
+            $switch: {
+              branches: [
+                { case: { $lt: ["$age", 18] }, then: "Child" },
+                { case: { $lt: ["$age", 29] }, then: "CHYK" },
+                { case: { $lt: ["$age", 41] }, then: "Setukari" }
+              ],
+              default: "Adult"
+            }
+          }
+        }
+      }
+    ];
+    expect(
+      ExpressionParser.performMongoQuery(
+        { age: 39 },
+        { queryType: "aggregate", queryValue }
+      )
+    ).toEqual("Setukari");
+  });
+});

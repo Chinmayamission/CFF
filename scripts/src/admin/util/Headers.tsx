@@ -6,6 +6,7 @@ import { Object } from "core-js";
 import Form from "react-jsonschema-form";
 import { filterCaseInsensitive } from "../ResponseTable/filters";
 import { dataToSchemaPath } from "../util/SchemaUtil";
+import ExpressionParser from "../../common/ExpressionParser";
 
 export interface IHeaderObject {
   Header: string;
@@ -17,6 +18,8 @@ export interface IHeaderObject {
   headerClassName?: string;
   noSpace?: boolean;
   calculateLength?: boolean;
+  queryType?: boolean;
+  queryValue?: boolean;
 }
 
 export interface IHeaderOption {
@@ -144,12 +147,18 @@ export namespace Headers {
     schema = {},
     headerObj: IHeaderObject | { [x: string]: any } = {}
   ) {
-    const { noSpace, calculateLength } = headerObj;
+    const { noSpace, calculateLength, queryType, queryValue } = headerObj;
     if (isArray(headerName)) {
       return headerName
         .map(e => headerAccessor(formData, e, schema, headerObj))
         .join(noSpace ? "" : " ");
     } else {
+      if (queryType === "aggregate") {
+        return ExpressionParser.performMongoQuery(formData, {
+          queryType,
+          queryValue
+        });
+      }
       const value = headerAccessorSingle(formData, headerName, schema);
       if (calculateLength) {
         return value.length;

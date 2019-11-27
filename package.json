@@ -115,6 +115,7 @@
     "lodash-es": "^4.17.14",
     "lodash.get": "^4.4.2",
     "lodash.pick": "^4.4.0",
+    "mingo": "^2.4.0",
     "moment": "^2.22.2",
     "mongodb": "^3.1.10",
     "nunjucks": "^3.2.0",

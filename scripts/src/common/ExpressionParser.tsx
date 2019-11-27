@@ -1,6 +1,7 @@
 import { Parser } from "expr-eval";
 import { isArray } from "lodash";
 import moment from "moment";
+import mingo from "mingo";
 
 const DELIM_VALUE = "ASFASFSDF";
 const SPACE_VALUE = "SDSDGSDFS";
@@ -169,6 +170,18 @@ export namespace ExpressionParser {
       return price;
     }
     return Math.ceil(price * 100) / 100;
+  }
+
+  export function performMongoQuery(data, { queryType, queryValue }) {
+    if (queryType === "aggregate") {
+      const agg = new mingo.Aggregator(queryValue);
+      const collection = [data];
+      const result = agg.run(collection);
+      if (!result || !result[0] || !result[0]["n"]) {
+        return result;
+      }
+      return result[0]["n"];
+    }
   }
 }
 

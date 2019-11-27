@@ -39,6 +39,20 @@ it("accessors with arrays and calculateLength should return the length", () => {
   expect(result).toEqual(3);
 });
 
+it("accessors with aggregation", () => {
+  const result = Headers.headerAccessor({ age: 30 }, "", schema, {
+    queryType: "aggregate",
+    queryValue: [
+      {
+        $project: {
+          n: "$age"
+        }
+      }
+    ]
+  });
+  expect(result).toEqual(30);
+});
+
 it("regular accessors are working properly", () => {
   const result = Headers.headerAccessor(formData, "name.first", schema);
   expect(result).toEqual("John");
