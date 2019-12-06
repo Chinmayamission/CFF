@@ -500,7 +500,7 @@ class FormIpn(BaseTestCase):
             ReplyToAddresses=[],
             Source="CMTC <ccmt.dev@gmail.com>",
         )
-    
+
     @responses.activate
     def test_ipn_subscr_failed(self):
         responses.add(
@@ -534,9 +534,8 @@ class FormIpn(BaseTestCase):
         self.assertEqual(len(response["payment_trail"]), 1)
         detail_history_one = response["payment_trail"][0]
         detail_history_one.pop("date")
+        self.assertEqual(detail_history_one["status"], "ERROR")
         self.assertEqual(
-            detail_history_one["status"], "ERROR"
-        )
-        self.assertEqual(
-            detail_history_one["id"], "txn_type is not supported and must be manually handled."
+            detail_history_one["id"],
+            "txn_type is not supported and must be manually handled.",
         )

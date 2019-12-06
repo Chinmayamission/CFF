@@ -35,6 +35,6 @@ responses = Response.objects.raw({"form": ObjectId("5c96811ed0443d00011255d5")})
 #   print("res")
 
 for response in responses:
-  response.value["decided"] = "decided"
-  print(response.id)
-  response.save()
+    response.value["decided"] = "decided"
+    print(response.id)
+    response.save()

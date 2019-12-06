@@ -33,7 +33,7 @@ CONFIRMATION_EMAIL_INFO_TEMPLATE = {
     "subject": "CFF Unit Testing Form\n Confirmation",
     "toField": "email",
     "fromName": "Test",
-    "from": "ccmt.dev@gmail.com"
+    "from": "ccmt.dev@gmail.com",
 }
 
 # with open(os.path.dirname(os.path.realpath(__file__)) + '/test.html', 'r') as myfile:
@@ -146,15 +146,21 @@ class TestCreateEmail(unittest.TestCase):
 
     def test_create_email_html_template_with_cc(self):
         res = create_confirmation_email_dict(
-            self.response, dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, cc="replyto@replyto.com")
+            self.response,
+            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, cc="replyto@replyto.com"),
         )
-        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, ccEmail="replyto@replyto.com"))
+        self.assertEqual(
+            res, dict(EXPECTED_RES_TEMPLATE, ccEmail="replyto@replyto.com")
+        )
 
     def test_create_email_html_template_with_replyto(self):
         res = create_confirmation_email_dict(
-            self.response, dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, replyTo="replyto@replyto.com")
+            self.response,
+            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, replyTo="replyto@replyto.com"),
         )
-        self.assertEqual(res, dict(EXPECTED_RES_TEMPLATE, replyToEmail="replyto@replyto.com"))
+        self.assertEqual(
+            res, dict(EXPECTED_RES_TEMPLATE, replyToEmail="replyto@replyto.com")
+        )
 
     def test_create_email_html_template_with_undefined(self):
         confirmationEmailInfo = dict(
