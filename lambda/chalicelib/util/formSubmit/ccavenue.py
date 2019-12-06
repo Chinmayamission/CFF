@@ -1,4 +1,5 @@
 from ..ccavutil import encrypt, decrypt
+from chalicelib.util.formSubmit.emailer import fill_string_from_template
 from pydash.objects import get
 import time
 from bson.objectid import ObjectId
@@ -9,6 +10,10 @@ from chalicelib.models import CCAvenueConfig
 
 def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
     from ...main import app
+
+    def fill_ccavenue_paymentinfo(key):
+        value = ccavenuePaymentMethodInfo.get(key)
+        return fill_string_from_template(response, value) if value else None
 
     merchant_id = ccavenuePaymentMethodInfo["merchant_id"]
 
@@ -33,14 +38,14 @@ def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
         "redirect_url": app.get_url(f"responses/{responseId}/ccavenueResponseHandler"),
         "cancel_url": "http://www.chinmayamission.com",  # todo: fix this.
         "language": "en",
-        "billing_name": ccavenuePaymentMethodInfo.get("billing_name", ""),
-        "billing_address": ccavenuePaymentMethodInfo.get("billing_address", ""),
-        "billing_city": ccavenuePaymentMethodInfo.get("billing_city", ""),
-        "billing_state": ccavenuePaymentMethodInfo.get("billing_state", ""),
-        "billing_zip": ccavenuePaymentMethodInfo.get("billing_zip", ""),
-        "billing_country": ccavenuePaymentMethodInfo.get("billing_country", ""),
-        "billing_tel": ccavenuePaymentMethodInfo.get("billing_tel", ""),
-        "billing_email": ccavenuePaymentMethodInfo.get("billing_email", ""),
+        "billing_name": fill_ccavenue_paymentinfo("billing_name"),
+        "billing_address": fill_ccavenue_paymentinfo("billing_address"),
+        "billing_city": fill_ccavenue_paymentinfo("billing_city"),
+        "billing_state": fill_ccavenue_paymentinfo("billing_state"),
+        "billing_zip": fill_ccavenue_paymentinfo("billing_zip"),
+        "billing_country": fill_ccavenue_paymentinfo("billing_country"),
+        "billing_tel": fill_ccavenue_paymentinfo("billing_tel"),
+        "billing_email": fill_ccavenue_paymentinfo("billing_email"),
         "merchant_param1": formId,
         "merchant_param2": responseId,
         "merchant_param3": get(
