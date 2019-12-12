@@ -30,3 +30,21 @@ in the ui schema:
 ```
 
 This will make a query to https://www.chinmayamission.com/wp-json/gcmw/v1/centres and load the options from there, sort them alphabetically, and then create a widget so that people can select from that list.
+
+You can also only show results that match a schema by specifying `cff:autoPopulateMatchSchema`:
+
+```
+{
+    "ui:field": "cff:autoPopulate",
+    "ui:options": {
+      "cff:autoPopulateEndpoint": "https://www.chinmayamission.com/wp-json/gcmw/v1/centres",
+      "cff:autoPopulateTitleAccessor": "name",
+      "cff:autoPopulateMatchSchema": {
+        "type": "object",
+        "properties": {
+          "Type": {"const": "centre"}
+        }
+      }
+    }
+}
+```

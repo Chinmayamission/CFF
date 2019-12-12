@@ -1,4 +1,5 @@
 import * as React from "react";
+import Ajv from "ajv";
 import { get, sortBy } from "lodash";
 import Loading from "../../common/Loading/Loading";
 import CustomForm from "../CustomForm";
@@ -69,12 +70,20 @@ class AutoPopulateField extends React.Component<any, any> {
       let endpoint = this.props.uiSchema["ui:options"][
         "cff:autoPopulateEndpoint"
       ];
+      let matchSchema = this.props.uiSchema["ui:options"][
+        "cff:autoPopulateMatchSchema"
+      ];
       let results =
         window.sessionStorage &&
         JSON.parse(sessionStorage.getItem(endpoint) || "null");
       if (!results) {
         results = await fetch(endpoint).then(e => e.json());
         sessionStorage.setItem(endpoint, JSON.stringify(results));
+      }
+      if (matchSchema) {
+        let ajv = new Ajv();
+        let validate = ajv.compile(matchSchema);
+        results = results.filter(e => validate(e));
       }
       let newSchema = getSchemaFromResults({
         results,
