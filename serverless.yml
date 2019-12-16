@@ -72,7 +72,7 @@ provider:
 functions:
   sheets:
     handler: scripts/backend/handler.hello
-    timeout: 30
+    timeout: 60
     events:
       - schedule: rate(1 hour)
 

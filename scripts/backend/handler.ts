@@ -73,7 +73,7 @@ interface IDistanceMatrixRow {
   }[];
 }
 
-module.exports.hello = async (event, context) => {
+export const hello = async (event, context) => {
   try {
     var ssm = new AWS.SSM();
     let mongo_conn_str = "";
