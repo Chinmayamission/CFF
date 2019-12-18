@@ -25,6 +25,7 @@ import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
 import AddressAutocompleteField from "./form_widgets/AddressAutocompleteField";
 import { IResponseMetadata } from "./interfaces";
+import { IFormOptions } from "../admin/FormEdit/FormEdit.d";
 
 const JSONEditorWidget = lazy(() => import("./form_widgets/JSONEditorWidget"));
 
@@ -110,7 +111,7 @@ interface ICustomFormProps {
   uiSchema: any;
   formData?: any;
   onChange?: (e) => void;
-  onSubmit?: (e) => void;
+  onSubmit?: (e, boolean) => void;
   showPaymentTable?: boolean;
   paymentCalcInfo?: IPaymentCalcInfo;
   className?: string;
@@ -118,7 +119,16 @@ interface ICustomFormProps {
   omitExtraData?: boolean;
   tagName?: string;
   responseMetadata?: IResponseMetadata;
+  formOptions?: IFormOptions;
+  // saveOnly?: boolean;
 }
+
+/*function handleSave(e, props) {
+  console.log("Save underway.");
+
+  const saveOnly = true;
+  props.onSubmit(e, saveOnly);
+}*/
 
 function CustomForm(props: ICustomFormProps) {
   /* Adds a custom error message for regex validation (especially for phone numbers).
@@ -161,7 +171,7 @@ function CustomForm(props: ICustomFormProps) {
         onChange={e => {
           props.onChange && props.onChange(e);
         }}
-        onSubmit={e => props.onSubmit && props.onSubmit(e)}
+        onSubmit={e => props.onSubmit && props.onSubmit(e, false)}
         validate={(d, e) =>
           validate(
             d,
@@ -194,13 +204,33 @@ function CustomForm(props: ICustomFormProps) {
               )}
           </div>
         )}
-        {!props.children && (
-          <p>
-            <button className="btn btn-info" type="submit">
-              {props.uiSchema["ui:cff:submitButtonText"] || "Submit"}
-            </button>
-          </p>
-        )}
+        <div className="form-inline">
+          {!props.children && (
+            <p>
+              <button
+                style={{ marginRight: "10px" }}
+                className="btn btn-info"
+                type="submit"
+              >
+                {props.uiSchema["ui:cff:submitButtonText"] || "Submit"}
+              </button>
+            </p>
+          )}
+          {!props.children &&
+            get(props.formOptions, "responseSaveEnabled") === true && (
+              <p>
+                <button
+                  className="btn btn-info"
+                  type="button"
+                  onClick={e => {
+                    props.onSubmit(e, true);
+                  }}
+                >
+                  {"Save"}
+                </button>
+              </p>
+            )}
+        </div>
       </Form>
     </div>
   );
