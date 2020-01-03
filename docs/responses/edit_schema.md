@@ -7,7 +7,7 @@ It goes in the `.columns` attribute of an element in `dataOptions.views`:
     "label": "On hold",
     "value": "on_hold",
     "editSchema": {
-        "type": "boolean",
+        "type": "string",
         "enum": ["Yes", "No"],
         "enumNames": ["Yes", "No"]
     }
