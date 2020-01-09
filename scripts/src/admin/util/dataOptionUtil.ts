@@ -8,6 +8,7 @@ import {
   IDataOptionView
 } from "../FormEdit/FormEdit.d";
 import { IResponse } from "scripts/src/store/responses/types";
+import { createResponseMetadata } from "./responseMetadata";
 
 export function getPaidStatus(e) {
   return e.paid === false && parseFloat(e.amount_paid) > 0
@@ -91,7 +92,8 @@ export function createHeadersAndDataFromDataOption(
     AMOUNT_OWED: formatPayment(e.paymentInfo.total, e.paymentInfo.currency),
     AMOUNT_PAID: formatPayment(e.amount_paid, e.paymentInfo.currency),
     admin_info: e.admin_info,
-    COUNTER: e.counter
+    COUNTER: e.counter,
+    responseMetadata: createResponseMetadata(e)
   }));
   headers = Headers.makeHeadersFromDataOption(
     dataOptionView,

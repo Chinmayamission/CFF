@@ -25,7 +25,9 @@ export interface IHeaderObject {
 export interface IHeaderOption {
   label?: string;
   noSpace?: boolean;
-  value: string | (string | { mode: string; value: string })[];
+  value?: string | (string | { mode: string; value: string })[];
+  queryType?: string;
+  queryValue?: string;
   groupAssign?: string;
   groupAssignDisplayPath?: string | string[];
   groupAssignDisplayModel?: string;
@@ -158,6 +160,14 @@ export namespace Headers {
           queryType,
           queryValue
         });
+      } else if (queryType === "expr") {
+        // formData.responseMetadata contains proper metadata -- see function createHeadersAndDataFromDataOption in dataOptionUtil.ts
+        return ExpressionParser.calculate_price(
+          queryValue,
+          formData,
+          false,
+          formData.responseMetadata
+        );
       }
       const value = headerAccessorSingle(formData, headerName, schema);
       if (calculateLength) {

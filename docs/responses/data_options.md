@@ -47,6 +47,16 @@ The columns object also supports a basic level of aggregation. Right now, we sup
 }
 ```
 
+To show the value of a custom expression, set the `queryType` to `expr` and specify the expression value in `queryValue`. For example, this could be useful for showing the amount a user has paid for a particular item by doing a price calculation.
+
+```
+{
+  "label": "Amount paid for registration",
+  "queryType": "expr",
+  "queryValue": "10 * (age < 18) + 15 * (age >= 18)"
+}
+```
+
 To run a custom mongodb aggregate query, do the following. The "n" key of the result will end up showing in the column:
 
 ```

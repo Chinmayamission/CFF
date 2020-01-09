@@ -21,6 +21,7 @@ import {
 import { fetchRenderedForm } from "../store/form/actions";
 import update from "immutability-helper";
 import GoogleFontLoader from "react-google-font-loader";
+import { createResponseMetadata } from "../admin/util/responseMetadata";
 
 const STATUS_FORM_LOADING = 0;
 const STATUS_FORM_RENDERED = 2;
@@ -171,12 +172,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     return {
       responseId: res && !predicate ? res._id.$oid : null,
       data: res ? res.value : data,
-      responseMetadata:
-        res && res.date_created
-          ? {
-              date_created: res.date_created.$date
-            }
-          : this.state.responseMetadata,
+      responseMetadata: res
+        ? createResponseMetadata(res)
+        : this.state.responseMetadata,
       schema,
       predicate: predicate || (res && res.predicate) // Return either 1) predicate info of a new response that is based on a predicate, or 2) existing predicate info of existing response.
     };

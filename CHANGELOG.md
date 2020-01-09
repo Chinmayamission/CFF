@@ -1,3 +1,6 @@
+## 3.34.0
+- Allow for the use of custom expressions in response table headers by specifying the `queryType` to `expr` and the expression value in `queryValue`.
+
 ## 3.33.0
 - Allow calculation of displayed fields in response tables. This uses the custom mongodb aggregate queries.
 

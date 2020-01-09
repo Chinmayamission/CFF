@@ -7,7 +7,7 @@ from isodate import parse_duration, parse_datetime
 import pytz
 
 
-def create_default_context(numeric, formMetadata):
+def create_default_context(numeric, responseMetadata):
     def cff_yeardiff(datestr1, datestr2):
         if type(datestr1) is not str or type(datestr2) is not str:
             return 0
@@ -41,7 +41,7 @@ def create_default_context(numeric, formMetadata):
             [
                 item
                 for item in array
-                if calculate_price(expression, item, numeric, formMetadata)
+                if calculate_price(expression, item, numeric, responseMetadata)
             ]
         )
 
@@ -71,7 +71,7 @@ def create_default_context(numeric, formMetadata):
         )
         d1 = parse_datetime(datestr1)
         d2 = parse_datetime(datestr2)
-        date_created = formMetadata.get("date_created", None)
+        date_created = responseMetadata.get("date_created", None)
         date_created = (
             parse_datetime(date_created) if date_created is not None else datetime.now()
         )

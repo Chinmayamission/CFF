@@ -53,6 +53,14 @@ it("accessors with aggregation", () => {
   expect(result).toEqual(30);
 });
 
+it("accessors with expr queryType can run calculate_price", () => {
+  const result = Headers.headerAccessor({ age: 30 }, "", schema, {
+    queryType: "expr",
+    queryValue: "age + 50"
+  });
+  expect(result).toEqual(80);
+});
+
 it("regular accessors are working properly", () => {
   const result = Headers.headerAccessor(formData, "name.first", schema);
   expect(result).toEqual("John");

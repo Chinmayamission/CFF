@@ -2,7 +2,7 @@ import { render } from "enzyme";
 import React from "react";
 import sinon from "sinon";
 import ResponseTableView from "../../admin/ResponseTable/ResponseTableView";
-import { responses, renderedForm } from "./constants";
+import { responses, renderedForm, createResponseWithValue } from "./constants";
 import { MemoryRouter } from "react-router-dom";
 
 // it('pushes to default view when no table view name specified', () => {
@@ -152,6 +152,62 @@ it("responses with unwind data", () => {
   // expect(wrapper.text()).toContain("Children Display Name");
   expect(wrapper.text()).toContain("Grade");
   expect(wrapper.text()).toContain("mom ram, dad ram");
+});
+
+describe("responses with expr data", () => {
+  it("normal expression", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Age",
+          queryType: "expr",
+          queryValue: "age + 20"
+        }
+      ]
+    };
+    const responses_ = [createResponseWithValue({ age: 500 })];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.text()).toContain("520");
+  });
+  it("expression that uses responseMetadata (i.e. a value that is related to date_created)", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Age",
+          queryType: "expr",
+          queryValue: `500 * cff_createdBetween("2019-09-18T16:53:26.238Z", "2019-09-18T18:53:26.238Z")`
+        }
+      ]
+    };
+    const responses_ = [
+      {
+        ...createResponseWithValue({ age: 500 }),
+        date_created: {
+          $date: "2019-09-18T16:53:26.238Z"
+        }
+      }
+    ];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.text()).toContain("500");
+  });
 });
 
 it("renders response table with group assign", () => {
