@@ -57,6 +57,29 @@ To show the value of a custom expression, set the `queryType` to `expr` and spec
 }
 ```
 
+To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoItemSum` and specify the names of payment info items in `queryValue`. For example, this could be useful for showing the amount a user has paid for multiple items (such as item 1 + item 2 + discount).
+
+```
+{
+  "label": "Amount paid for registration",
+  "queryType": "paymentInfoItemSum",
+  "queryValue": [
+    "Main",
+    "Discount"
+  ]
+}
+```
+
+This would match items in `paymentInfo` with `name` equal to "Main" or "Discount" and sum these values. For example, it would be equal to 49.5 for the following value of paymentInfo:
+
+```
+[
+  {"name": "Main", "amount": 50, "quantity": 1},
+  {"name": "Sub", "amount": 10, "quantity": 1},
+  {"name": "Discount", "amount": -0.5, "quantity": 1}
+]
+```
+
 To run a custom mongodb aggregate query, do the following. The "n" key of the result will end up showing in the column:
 
 ```
