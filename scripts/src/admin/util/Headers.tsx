@@ -180,20 +180,27 @@ export namespace Headers {
         );
       } else if (queryType === "paymentInfoItemPaidSum") {
         let names = queryValue;
-        const {
+        let {
           paymentInfo,
           amount_paid_cents,
+          amount_paid,
           paid
         } = formData.responseMetadata;
         if (!paymentInfo || !paymentInfo.items || !paymentInfo.total) {
           return "";
         }
+        if (!amount_paid_cents) {
+          // Fall back to amount_paid if amount_paid_cents is not defined.
+          amount_paid_cents = (Number(amount_paid) || 0) * 100;
+        }
         let sum = paymentInfo.items
           .filter(({ name }) => names.indexOf(name) > -1)
-          .map(({ total }) => total)
+          .map(({ amount, quantity, total }) =>
+            total !== undefined ? total : amount * quantity
+          ) // Use total attribute, but fall back on amount * quantity if that doesn't exist (only newer versions of CFF included the total attribute)
           .reduce((a, b) => a + b, 0);
         if (!paid) {
-          sum = (sum * (amount_paid_cents / 100.0)) / paymentInfo.total;
+          sum = (amount_paid_cents / 100.0) * (sum / paymentInfo.total);
         }
         return formatPayment(sum, paymentInfo.currency);
       }
@@ -223,7 +230,7 @@ export namespace Headers {
     let headerObj: IHeaderObject = {
       // For react table js:
       Header: headerLabel,
-      id: headerName,
+      id: headerLabel,
       accessor: formData =>
         headerAccessor(formData, headerValue, schema, header),
       Cell: row => formatValue(row.value)

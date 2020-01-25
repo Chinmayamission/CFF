@@ -6,7 +6,7 @@ Array [
     "Cell": [Function],
     "Header": "First Names",
     "accessor": [Function],
-    "id": "parents.name.first",
+    "id": "First Names",
   },
 ]
 `;
@@ -17,13 +17,13 @@ Array [
     "Cell": [Function],
     "Header": "First Names",
     "accessor": [Function],
-    "id": "parents.name.first",
+    "id": "First Names",
   },
   Object {
     "Cell": [Function],
     "Header": "Name.last",
     "accessor": [Function],
-    "id": "name.last",
+    "id": "Name.last",
   },
 ]
 `;
@@ -34,7 +34,7 @@ Array [
     "Cell": [Function],
     "Header": "Names",
     "accessor": [Function],
-    "id": "[object Object], parents.name.first",
+    "id": "Names",
   },
 ]
 `;
@@ -45,7 +45,7 @@ Array [
     "Cell": [Function],
     "Header": "Names",
     "accessor": [Function],
-    "id": "parents.name.last, parents.name.first",
+    "id": "Names",
   },
 ]
 `;
@@ -56,7 +56,7 @@ Array [
     "Cell": [Function],
     "Header": "Names",
     "accessor": [Function],
-    "id": "parents.name.last, parents.name.first",
+    "id": "Names",
   },
 ]
 `;
@@ -93,19 +93,19 @@ Array [
     "Cell": [Function],
     "Header": "Name.first",
     "accessor": [Function],
-    "id": "name.first",
+    "id": "Name.first",
   },
   Object {
     "Cell": [Function],
     "Header": "Name.last",
     "accessor": [Function],
-    "id": "name.last",
+    "id": "Name.last",
   },
   Object {
     "Cell": [Function],
     "Header": "Parents.age",
     "accessor": [Function],
-    "id": "parents.age",
+    "id": "Parents.age",
   },
 ]
 `;
