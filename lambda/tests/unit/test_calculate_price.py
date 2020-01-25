@@ -294,7 +294,7 @@ class TestCalculatePrice(unittest.TestCase):
                 "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
                 {},
                 False,
-                {"date_created": "2019-09-18T16:54:26.238Z"},
+                {"date_created": {"$date": "2019-09-18T16:54:26.238Z"} },
             ),
             1,
         )
@@ -303,7 +303,7 @@ class TestCalculatePrice(unittest.TestCase):
                 "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
                 {},
                 False,
-                {"date_created": "2019-09-18T16:52:26.238Z"},
+                {"date_created": {"$date": "2019-09-18T16:52:26.238Z"} },
             ),
             0,
         )
@@ -312,7 +312,7 @@ class TestCalculatePrice(unittest.TestCase):
                 "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
                 {},
                 False,
-                {"date_created": "2019-09-18T18:54:26.238Z"},
+                {"date_created": {"$date": "2019-09-18T18:54:26.238Z"} },
             ),
             0,
         )

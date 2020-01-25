@@ -27,7 +27,7 @@ export interface IHeaderOption {
   noSpace?: boolean;
   value?: string | (string | { mode: string; value: string })[];
   queryType?: string;
-  queryValue?: string;
+  queryValue?: string | string[];
   groupAssign?: string;
   groupAssignDisplayPath?: string | string[];
   groupAssignDisplayModel?: string;
@@ -53,6 +53,16 @@ const filterMethodAllNone = (filter, row) => {
   return rowValue == filter.value;
 };
 
+function formatPayment(total, currency = "USD") {
+  if (Intl && Intl.NumberFormat) {
+    return Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currency
+    }).format(total);
+  } else {
+    return total + " " + currency;
+  }
+}
 export namespace Headers {
   export function makeHeaderObjsFromKeys(
     keys,
@@ -168,6 +178,24 @@ export namespace Headers {
           false,
           formData.responseMetadata
         );
+      } else if (queryType === "paymentInfoItemPaidSum") {
+        let names = queryValue;
+        const {
+          paymentInfo,
+          amount_paid_cents,
+          paid
+        } = formData.responseMetadata;
+        if (!paymentInfo || !paymentInfo.items || !paymentInfo.total) {
+          return "";
+        }
+        let sum = paymentInfo.items
+          .filter(({ name }) => names.indexOf(name) > -1)
+          .map(({ total }) => total)
+          .reduce((a, b) => a + b, 0);
+        if (!paid) {
+          sum = (sum * (amount_paid_cents / 100.0)) / paymentInfo.total;
+        }
+        return formatPayment(sum, paymentInfo.currency);
       }
       const value = headerAccessorSingle(formData, headerName, schema);
       if (calculateLength) {

@@ -210,6 +210,104 @@ describe("responses with expr data", () => {
   });
 });
 
+describe("responses with queryType=paymentInfoItemPaidSum data", () => {
+  it("should sum up query values", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Age",
+          queryType: "paymentInfoItemPaidSum",
+          queryValue: ["a", "b"]
+        }
+      ]
+    };
+    const responses_ = [
+      createResponseWithValue(
+        { age: 500 },
+        {
+          paid: true,
+          paymentInfo: {
+            items: [
+              {
+                name: "a",
+                total: 10
+              },
+              {
+                name: "b",
+                total: -0.1
+              },
+              {
+                name: "c",
+                total: 30
+              }
+            ],
+            total: 39.9
+          }
+        }
+      )
+    ];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.text()).toContain("$9.90");
+  });
+  it("should handle partial payments when 1/10th of total has been paid", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Age",
+          queryType: "paymentInfoItemPaidSum",
+          queryValue: ["a", "b"]
+        }
+      ]
+    };
+    const responses_ = [
+      createResponseWithValue(
+        { age: 500 },
+        {
+          paid: false,
+          amount_paid_cents: 399,
+          paymentInfo: {
+            items: [
+              {
+                name: "a",
+                total: 10
+              },
+              {
+                name: "b",
+                total: -0.1
+              },
+              {
+                name: "c",
+                total: 30
+              }
+            ],
+            total: 39.9
+          }
+        }
+      )
+    ];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.text()).toContain("$0.99");
+  });
+});
+
 it("renders response table with group assign", () => {
   const dataOptionView = {
     id: "children_class_assign",

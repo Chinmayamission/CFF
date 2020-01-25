@@ -3861,6 +3861,486 @@ exports[`responses with expr data normal expression 1`] = `
 </div>
 `;
 
+exports[`responses with queryType=paymentInfoItemPaidSum data should handle partial payments when 1/10th of total has been paid 1`] = `
+<div>
+  <button
+    class="btn btn-outline-primary"
+  >
+    Download CSV
+  </button>
+  <div
+    class="ReactTable"
+  >
+    <div
+      class="rt-table"
+      role="grid"
+    >
+      <div
+        class="rt-thead -header"
+        style="min-width:100px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Age
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-thead -filters"
+        style="min-width:100px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-tbody"
+        style="min-width:100px"
+      >
+        <div
+          class="rt-tr-group"
+          role="rowgroup"
+        >
+          <div
+            class="rt-tr -odd"
+            role="row"
+          >
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              <div
+                class="react-contextmenu-wrapper"
+              >
+                $0.99
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="pagination-bottom"
+    >
+      <div
+        class="-pagination"
+      >
+        <div
+          class="-previous"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Previous
+          </button>
+        </div>
+        <div
+          class="-center"
+        >
+          <span
+            class="-pageInfo"
+          >
+            Page 
+            <div
+              class="-pageJump"
+            >
+              <input
+                aria-label="jump to page"
+                type="number"
+                value="1"
+              />
+            </div>
+             of 
+            <span
+              class="-totalPages"
+            >
+              1
+            </span>
+          </span>
+          <span
+            class="select-wrap -pageSizeOptions"
+          >
+            <select
+              aria-label="rows per page"
+            >
+              <option
+                value="5"
+              >
+                5 rows
+              </option>
+              <option
+                value="10"
+              >
+                10 rows
+              </option>
+              <option
+                selected=""
+                value="20"
+              >
+                20 rows
+              </option>
+              <option
+                value="25"
+              >
+                25 rows
+              </option>
+              <option
+                value="50"
+              >
+                50 rows
+              </option>
+              <option
+                value="100"
+              >
+                100 rows
+              </option>
+            </select>
+          </span>
+        </div>
+        <div
+          class="-next"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="-loading"
+    >
+      <div
+        class="-loading-inner"
+      >
+        Loading...
+      </div>
+    </div>
+  </div>
+  <nav
+    class="react-contextmenu"
+    role="menu"
+    style="position:fixed;opacity:0;pointer-events:none"
+    tabindex="-1"
+  >
+    <a
+      href="/v2/forms/123?responseId=1232143&mode=view"
+    >
+      <div
+        aria-disabled="false"
+        class="react-contextmenu-item"
+        role="menuitem"
+        tabindex="-1"
+      >
+        View
+      </div>
+    </a>
+    <a
+      href="/v2/forms/123?responseId=1232143&mode=edit"
+    >
+      <div
+        aria-disabled="false"
+        class="react-contextmenu-item"
+        role="menuitem"
+        tabindex="-1"
+      >
+        Edit
+      </div>
+    </a>
+    <div
+      aria-disabled="false"
+      aria-orientation="horizontal"
+      class="react-contextmenu-item react-contextmenu-item--divider"
+      role="menuitem"
+      tabindex="-1"
+    />
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      role="menuitem"
+      tabindex="-1"
+    >
+      Inspect
+    </div>
+  </nav>
+</div>
+`;
+
+exports[`responses with queryType=paymentInfoItemPaidSum data should sum up query values 1`] = `
+<div>
+  <button
+    class="btn btn-outline-primary"
+  >
+    Download CSV
+  </button>
+  <div
+    class="ReactTable"
+  >
+    <div
+      class="rt-table"
+      role="grid"
+    >
+      <div
+        class="rt-thead -header"
+        style="min-width:100px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Age
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-thead -filters"
+        style="min-width:100px"
+      >
+        <div
+          class="rt-tr"
+          role="row"
+        >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="rt-tbody"
+        style="min-width:100px"
+      >
+        <div
+          class="rt-tr-group"
+          role="rowgroup"
+        >
+          <div
+            class="rt-tr -odd"
+            role="row"
+          >
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              <div
+                class="react-contextmenu-wrapper"
+              >
+                $9.90
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="pagination-bottom"
+    >
+      <div
+        class="-pagination"
+      >
+        <div
+          class="-previous"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Previous
+          </button>
+        </div>
+        <div
+          class="-center"
+        >
+          <span
+            class="-pageInfo"
+          >
+            Page 
+            <div
+              class="-pageJump"
+            >
+              <input
+                aria-label="jump to page"
+                type="number"
+                value="1"
+              />
+            </div>
+             of 
+            <span
+              class="-totalPages"
+            >
+              1
+            </span>
+          </span>
+          <span
+            class="select-wrap -pageSizeOptions"
+          >
+            <select
+              aria-label="rows per page"
+            >
+              <option
+                value="5"
+              >
+                5 rows
+              </option>
+              <option
+                value="10"
+              >
+                10 rows
+              </option>
+              <option
+                selected=""
+                value="20"
+              >
+                20 rows
+              </option>
+              <option
+                value="25"
+              >
+                25 rows
+              </option>
+              <option
+                value="50"
+              >
+                50 rows
+              </option>
+              <option
+                value="100"
+              >
+                100 rows
+              </option>
+            </select>
+          </span>
+        </div>
+        <div
+          class="-next"
+        >
+          <button
+            class="-btn"
+            disabled=""
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="-loading"
+    >
+      <div
+        class="-loading-inner"
+      >
+        Loading...
+      </div>
+    </div>
+  </div>
+  <nav
+    class="react-contextmenu"
+    role="menu"
+    style="position:fixed;opacity:0;pointer-events:none"
+    tabindex="-1"
+  >
+    <a
+      href="/v2/forms/123?responseId=1232143&mode=view"
+    >
+      <div
+        aria-disabled="false"
+        class="react-contextmenu-item"
+        role="menuitem"
+        tabindex="-1"
+      >
+        View
+      </div>
+    </a>
+    <a
+      href="/v2/forms/123?responseId=1232143&mode=edit"
+    >
+      <div
+        aria-disabled="false"
+        class="react-contextmenu-item"
+        role="menuitem"
+        tabindex="-1"
+      >
+        Edit
+      </div>
+    </a>
+    <div
+      aria-disabled="false"
+      aria-orientation="horizontal"
+      class="react-contextmenu-item react-contextmenu-item--divider"
+      role="menuitem"
+      tabindex="-1"
+    />
+    <div
+      aria-disabled="false"
+      class="react-contextmenu-item"
+      role="menuitem"
+      tabindex="-1"
+    >
+      Inspect
+    </div>
+  </nav>
+</div>
+`;
+
 exports[`responses with unwind data 1`] = `
 <div>
   <button

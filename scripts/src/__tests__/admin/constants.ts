@@ -373,7 +373,7 @@ export const renderedForm: IRenderedForm = {
   _id: { $oid: "123" }
 };
 
-export function createResponseWithValue(value) {
+export function createResponseWithValue(value, override = {}) {
   return {
     payment_trail: [],
     update_trail: [],
@@ -384,6 +384,7 @@ export function createResponseWithValue(value) {
     _id: { $oid: "1232143" },
     date_created: { $date: "2018-08-13T16:17:22.146Z" },
     date_modified: { $date: "2018-08-13T16:17:22.146Z" },
-    value: value
+    value: value,
+    ...override
   };
 }

@@ -2,6 +2,7 @@ import { Parser } from "expr-eval";
 import { isArray } from "lodash";
 import moment from "moment";
 import mingo from "mingo";
+import { IResponse } from "../store/responses/types";
 
 const DELIM_VALUE = "ASFASFSDF";
 const SPACE_VALUE = "SDSDGSDFS";
@@ -46,7 +47,10 @@ const createDefaultContext = (numeric, responseMetadata) => ({
       .replace(DELIM_VALUE_REGEXP, ":")
       .replace(DOT_VALUE_REGEXP, ".");
 
-    const date_created = moment(responseMetadata.date_created) || moment();
+    const date_created =
+      moment(
+        responseMetadata.date_created && responseMetadata.date_created.$date
+      ) || moment();
     const date1 = moment(datestr1);
     const date2 = moment(datestr2);
     return date_created >= date1 && date_created <= date2;
@@ -129,7 +133,7 @@ export namespace ExpressionParser {
   }
 
   interface IResponseMetadata {
-    date_created?: string;
+    [e: string]: any;
   }
 
   export function calculate_price(

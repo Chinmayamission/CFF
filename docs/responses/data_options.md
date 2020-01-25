@@ -57,12 +57,12 @@ To show the value of a custom expression, set the `queryType` to `expr` and spec
 }
 ```
 
-To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoItemSum` and specify the names of payment info items in `queryValue`. For example, this could be useful for showing the amount a user has paid for multiple items (such as item 1 + item 2 + discount).
+To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoItemPaidSum` and specify the names of payment info items in `queryValue`. For example, this could be useful for showing the amount a user has paid for multiple items (such as item 1 + item 2 + discount).
 
 ```
 {
   "label": "Amount paid for registration",
-  "queryType": "paymentInfoItemSum",
+  "queryType": "paymentInfoItemPaidSum",
   "queryValue": [
     "Main",
     "Discount"
@@ -74,11 +74,13 @@ This would match items in `paymentInfo` with `name` equal to "Main" or "Discount
 
 ```
 [
-  {"name": "Main", "amount": 50, "quantity": 1},
-  {"name": "Sub", "amount": 10, "quantity": 1},
-  {"name": "Discount", "amount": -0.5, "quantity": 1}
+  {"name": "Main", "amount": 50, "quantity": 1, "total": 50},
+  {"name": "Sub", "amount": 10, "quantity": 1, "total": 10},
+  {"name": "Discount", "amount": -0.5, "quantity": 1, "total": -0.5}
 ]
 ```
+
+Note that if `paid` is `false` on the response, using `paymentInfoItemPaidSum` will also cross-check with amount paid. If a payment is partially paid, then it will reduce the final value accordingly. For example, if the initial sum of paymentInfoItems is equal to 49.5, but if the user has only paid 1/3 of the total amount owed (such as through an installment), the final value will be equal to 49.5 / 3 = 16.5.
 
 To run a custom mongodb aggregate query, do the following. The "n" key of the result will end up showing in the column:
 
