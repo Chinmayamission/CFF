@@ -1,5 +1,6 @@
 ## 3.35.0
 - For a response table column, allow for summing up of paid paymentInfo items by specifying the `queryType` to `paymentInfoItemPaidSum`.
+- Fix bug where id's of table headers were not set properly, which could cause a table column accessor bug.
 
 ## 3.34.0
 - Allow for the use of custom expressions in response table headers by specifying the `queryType` to `expr` and the expression value in `queryValue`.
