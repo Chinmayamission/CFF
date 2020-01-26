@@ -7,6 +7,7 @@ import Form from "react-jsonschema-form";
 import { filterCaseInsensitive } from "../ResponseTable/filters";
 import { dataToSchemaPath } from "../util/SchemaUtil";
 import ExpressionParser from "../../common/ExpressionParser";
+import moment from "moment";
 
 export interface IHeaderObject {
   Header: string;
@@ -27,7 +28,9 @@ export interface IHeaderOption {
   noSpace?: boolean;
   value?: string | (string | { mode: string; value: string })[];
   queryType?: string;
-  queryValue?: string | string[];
+  queryValue?:
+    | string
+    | { names?: string[]; startDate?: string; endDate?: string };
   groupAssign?: string;
   groupAssignDisplayPath?: string | string[];
   groupAssignDisplayModel?: string;
@@ -179,19 +182,30 @@ export namespace Headers {
           formData.responseMetadata
         );
       } else if (queryType === "paymentInfoItemPaidSum") {
-        let names = queryValue;
+        let { names, startDate, endDate } = queryValue;
         let {
           paymentInfo,
           amount_paid_cents,
           amount_paid,
-          paid
+          payment_status_detail
         } = formData.responseMetadata;
         if (!paymentInfo || !paymentInfo.items || !paymentInfo.total) {
           return "";
         }
-        if (!amount_paid_cents) {
-          // Fall back to amount_paid if amount_paid_cents is not defined.
-          amount_paid_cents = (Number(amount_paid) || 0) * 100;
+        if (startDate && endDate) {
+          // Dates specified.
+          amount_paid_cents =
+            (payment_status_detail || [])
+              .filter(item =>
+                moment(item.date.$date).isBetween(startDate, endDate)
+              )
+              .map(item => Number(item.amount))
+              .reduce((a, b) => a + b, 0) * 100.0;
+        } else {
+          if (!amount_paid_cents) {
+            // Fall back to amount_paid if amount_paid_cents is not defined.
+            amount_paid_cents = (Number(amount_paid) || 0) * 100;
+          }
         }
         let sum = paymentInfo.items
           .filter(({ name }) => names.indexOf(name) > -1)
@@ -199,7 +213,7 @@ export namespace Headers {
             total !== undefined ? total : amount * quantity
           ) // Use total attribute, but fall back on amount * quantity if that doesn't exist (only newer versions of CFF included the total attribute)
           .reduce((a, b) => a + b, 0);
-        if (!paid) {
+        if (amount_paid_cents <= 100 * paymentInfo.total) {
           sum = (amount_paid_cents / 100.0) * (sum / paymentInfo.total);
         }
         return formatPayment(sum, paymentInfo.currency);

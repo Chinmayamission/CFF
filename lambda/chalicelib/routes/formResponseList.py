@@ -21,6 +21,7 @@ def _all(form):
             "date_modified": 1,
             "paid": 1,
             "counter": 1,
+            "payment_status_detail": 1
         },
     )
     return {"res": [r for r in json.loads(dumps(responses))]}

@@ -219,7 +219,9 @@ describe("responses with queryType=paymentInfoItemPaidSum data", () => {
         {
           label: "Age",
           queryType: "paymentInfoItemPaidSum",
-          queryValue: ["a", "b"]
+          queryValue: {
+            names: ["a", "b"]
+          }
         }
       ]
     };
@@ -258,7 +260,7 @@ describe("responses with queryType=paymentInfoItemPaidSum data", () => {
     expect(wrapper).toMatchSnapshot();
     expect(wrapper.text()).toContain("$9.90");
   });
-  it("should handle partial payments when 1/10th of total has been paid", () => {
+  it("should handle partial payments when 1/10th and 1/2 of total has been paid", () => {
     const dataOptionView = {
       id: "all",
       displayName: "All Responses",
@@ -266,7 +268,9 @@ describe("responses with queryType=paymentInfoItemPaidSum data", () => {
         {
           label: "Age",
           queryType: "paymentInfoItemPaidSum",
-          queryValue: ["a", "b"]
+          queryValue: {
+            names: ["a", "b"]
+          }
         }
       ]
     };
@@ -276,6 +280,81 @@ describe("responses with queryType=paymentInfoItemPaidSum data", () => {
         {
           paid: false,
           amount_paid_cents: 399,
+          paymentInfo: {
+            items: [
+              {
+                name: "a",
+                total: 10
+              },
+              {
+                name: "b",
+                total: -0.1
+              },
+              {
+                name: "c",
+                total: 30
+              }
+            ],
+            total: 39.9
+          }
+        }
+      ),
+      createResponseWithValue(
+        { age: 500 },
+        {
+          paid: false,
+          amount_paid_cents: 111033,
+          paymentInfo: {
+            items: [
+              {
+                name: "a",
+                total: 3400
+              },
+              {
+                name: "b",
+                total: -170
+              },
+              {
+                name: "c",
+                total: 101
+              }
+            ],
+            total: 3331
+          }
+        }
+      )
+    ];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.text()).toContain("$0.99");
+    expect(wrapper.text()).toContain("$1,076.66");
+  });
+  it("should show correct value (not overcompensate) when more than paymentInfo.total has been payed", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Age",
+          queryType: "paymentInfoItemPaidSum",
+          queryValue: {
+            names: ["a", "b"]
+          }
+        }
+      ]
+    };
+    const responses_ = [
+      createResponseWithValue(
+        { age: 500 },
+        {
+          paid: false,
+          amount_paid_cents: 50000,
           paymentInfo: {
             items: [
               {
@@ -304,6 +383,69 @@ describe("responses with queryType=paymentInfoItemPaidSum data", () => {
       />
     );
     expect(wrapper).toMatchSnapshot();
+    expect(wrapper.text()).toContain("$9.9");
+  });
+  it("should filter payments by date when using startDate and endDate", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Age",
+          queryType: "paymentInfoItemPaidSum",
+          queryValue: {
+            names: ["a", "b"],
+            startDate: "2019-01-01T08:00:01.000Z",
+            endDate: "2020-01-01T08:00:00.000Z"
+          }
+        }
+      ]
+    };
+    const responses_ = [
+      createResponseWithValue(
+        { age: 500 },
+        {
+          paid: true,
+          amount_paid_cents: 39900,
+          paymentInfo: {
+            items: [
+              {
+                name: "a",
+                total: 10
+              },
+              {
+                name: "b",
+                total: -0.1
+              },
+              {
+                name: "c",
+                total: 30
+              }
+            ],
+            total: 39.9
+          },
+          payment_status_detail: [
+            {
+              amount: 3.99,
+              date: { $date: "2019-05-01T08:00:00.000Z" }
+            },
+            {
+              amount: 35.91,
+              date: { $date: "2020-05-01T08:00:00.000Z" }
+            }
+          ]
+        }
+      )
+    ];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+    // Should only take the first payment, which is within the 2019 year, as the total amount paid. Thus, it should only give a 1/10th result of the actual amount matched ($9.90).
     expect(wrapper.text()).toContain("$0.99");
   });
 });

@@ -63,10 +63,12 @@ To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoI
 {
   "label": "Amount paid for registration",
   "queryType": "paymentInfoItemPaidSum",
-  "queryValue": [
-    "Main",
-    "Discount"
-  ]
+  "queryValue": {
+    "names": [
+      "Main",
+      "Discount"
+    ]
+  }
 }
 ```
 
@@ -80,7 +82,26 @@ This would match items in `paymentInfo` with `name` equal to "Main" or "Discount
 ]
 ```
 
-Note that if `paid` is `false` on the response, using `paymentInfoItemPaidSum` will also cross-check with amount paid. If a payment is partially paid, then it will reduce the final value accordingly. For example, if the initial sum of paymentInfoItems is equal to 49.5, but if the user has only paid 1/3 of the total amount owed (such as through an installment), the final value will be equal to 49.5 / 3 = 16.5.
+Note that if using `paymentInfoItemPaidSum` will also cross-check with amount paid. If a payment is partially paid, then it will reduce the final value accordingly. For example, if the initial sum of paymentInfoItems is equal to 49.5, but if the user has only paid 1/3 of the total amount owed (such as through an installment), the final value will be equal to 49.5 / 3 = 16.5.
+
+If you want to filter only payments in a particular date range, specify both `startDate` and `endDate` in queryValue. Both should be in UTC. This will decrease the amounts shown proportionally as well.
+
+```
+{
+  "label": "Amount paid for registration",
+  "queryType": "paymentInfoItemPaidSum",
+  "queryValue": {
+    "names": [
+      "Main",
+      "Discount"
+    ],
+    "startDate": "2019-01-01T08:00:01.000Z",
+    "endDate": "2020-01-01T08:00:00.000Z"
+  }
+}
+```
+
+
 
 To run a custom mongodb aggregate query, do the following. The "n" key of the result will end up showing in the column:
 

@@ -1,3 +1,6 @@
+## 4.0.0
+- Add more options to `paymentInfoItemPaidSum`. `queryValue` is now an object including `names`, `startDate`, and `endDate`. The latter two can be used to filter payments that are within a specific time range.
+
 ## 3.35.0
 - For a response table column, allow for summing up of paid paymentInfo items by specifying the `queryType` to `paymentInfoItemPaidSum`.
 - Fix bug where id's of table headers were not set properly, which could cause a table column accessor bug.
