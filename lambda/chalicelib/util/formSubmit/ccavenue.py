@@ -13,7 +13,7 @@ def update_ccavenue_hash(formId, ccavenuePaymentMethodInfo, response):
 
     def fill_ccavenue_paymentinfo(key):
         value = ccavenuePaymentMethodInfo.get(key)
-        return fill_string_from_template(response, value) if value else None
+        return fill_string_from_template(response, value) if value else ""
 
     merchant_id = ccavenuePaymentMethodInfo["merchant_id"]
 
