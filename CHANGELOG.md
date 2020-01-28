@@ -1,3 +1,6 @@
+## 4.0.1
+- Fix: Return "" instead of None if ccavenue key is undefined
+
 ## 4.0.0
 - Add more options to `paymentInfoItemPaidSum`. `queryValue` is now an object including `names`, `startDate`, and `endDate`. The latter two can be used to filter payments that are within a specific time range.
 
