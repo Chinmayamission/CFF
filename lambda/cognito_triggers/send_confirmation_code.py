@@ -10,7 +10,7 @@ import os
 def lambda_handler(event, context):
     if (
         event["userPoolId"] != os.environ["USER_POOL_ID"]
-        or event["triggerSource"] != "CustomMessage_SignUp"
+        or event["triggerSource"] != "CustomMessage_SignUp" and event["triggerSource"] != "CustomMessage_ResendCode"
     ):
         return event
     if event["callerContext"]["clientId"] == os.environ["CHINMAYA_ECHOES_CLIENT_ID"]:
