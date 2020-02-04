@@ -84,8 +84,6 @@
     "@google/maps": "^0.5.5",
     "@redux-beacon/google-analytics-gtag": "^1.0.5",
     "@types/immutability-helper": "^2.6.3",
-    "auth0-js": "^9.6.1",
-    "auth0-lock": "^11.7.2",
     "aws-sdk": "^2.387.0",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",
