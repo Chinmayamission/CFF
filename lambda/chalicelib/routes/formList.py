@@ -7,7 +7,7 @@ def form_list():
 
     userId = app.get_current_user_id()
     forms = Form.objects.raw({f"cff_permissions.{userId}": {"$exists": True}}).only(
-        "name", "cff_permissions", "date_modified", "date_created"
+        "name", "cff_permissions", "date_modified", "date_created", "tags"
     )
     forms = serialize_model(list(forms))
     return {"res": forms}

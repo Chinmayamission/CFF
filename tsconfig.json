@@ -6,6 +6,7 @@
      "noImplicitAny": false,
      "outDir": "./build/",
      "preserveConstEnums": true,
+     "downlevelIteration": true,
      "removeComments": true,
      "target": "ES5",
      "esModuleInterop": true,

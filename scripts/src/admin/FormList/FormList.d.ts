@@ -13,6 +13,8 @@ export interface IFormListItem {
 
 export interface IFormListState {
   highlightedForm: string;
+  query: string;
+  filteredItemIds: string[];
 }
 
 export interface IFormListProps extends IAuthState, IAdminState {
@@ -25,4 +27,5 @@ export interface IFormListProps extends IAuthState, IAdminState {
   data: any;
   loadFormList: () => void;
   createForm: (e?: string) => void;
+  editForm: (i: string, e: any) => void;
 }

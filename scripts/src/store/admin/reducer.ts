@@ -9,7 +9,6 @@ const initialState: IAdminState = {
 const admin: Reducer<any> = (state: any = initialState, action): any => {
   switch (action.type) {
     case "SET_FORM_LIST":
-      console.log(action);
       return {
         ...state,
         formList: action.formList

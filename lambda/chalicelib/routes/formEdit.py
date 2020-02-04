@@ -12,7 +12,8 @@ def form_edit(formId):
     form = Form.objects.get({"_id": ObjectId(formId)})
     app.check_permissions(form, "Forms_Edit")
     body = pick(
-        app.current_request.json_body, ["schema", "uiSchema", "formOptions", "name"]
+        app.current_request.json_body,
+        ["schema", "uiSchema", "formOptions", "name", "tags"],
     )
     for k, v in body.items():
         setattr(form, k, v)

@@ -71,3 +71,15 @@ class FormEdit(unittest.TestCase):
             form["formOptions"]["dataOptions"]["views"][0],
             {"a": {"$ref": "hi", "a.b.c": "hu"}},
         )
+
+    def test_form_edit_tags(self):
+        app.current_request.json_body = {"tags": ["a", "b", "c"]}
+        form_edit(self.formId)
+        form = Form.objects.get({"_id": self.formId})
+        self.assertEqual(form.tags, ["a", "b", "c"])
+
+    def test_form_edit_tags_blank(self):
+        app.current_request.json_body = {"tags": []}
+        form_edit(self.formId)
+        form = Form.objects.get({"_id": self.formId})
+        self.assertEqual(form.tags, [])

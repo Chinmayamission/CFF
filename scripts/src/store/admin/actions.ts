@@ -1,6 +1,8 @@
 import API from "@aws-amplify/api";
 import { IFormListItem } from "../../admin/FormList/FormList.d";
 import { loadingStart, loadingEnd } from "../base/actions";
+import { findIndex } from "lodash";
+import { IAdminState } from "./types";
 
 export const loadFormList = () => (dispatch, getState) => {
   dispatch(loadingStart());
@@ -36,5 +38,28 @@ export const createForm = (formId?: string) => (dispatch, getState) => {
       dispatch(loadingEnd());
       console.error(e);
       alert("Error creating form. " + e);
+    });
+};
+
+export const editForm = (formId: string, body: any) => (dispatch, getState) => {
+  dispatch(loadingStart());
+  const formList = (getState().admin as IAdminState).formList;
+  API.patch("CFF", `forms/${formId}`, {
+    body: body
+  })
+    .then(response => {
+      let res = response.res;
+      if (!(res.success == true && res.updated_values)) {
+        throw "Response not formatted correctly: " + JSON.stringify(res);
+      }
+      const index = findIndex(formList, { _id: { $oid: formId } });
+      formList[index] = res.updated_values;
+      dispatch(setFormList(formList));
+      dispatch(loadingEnd());
+    })
+    .catch(e => {
+      console.error(e);
+      alert("Error: " + e);
+      dispatch(loadingEnd());
     });
 };

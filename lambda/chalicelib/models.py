@@ -73,6 +73,7 @@ class Form(BaseMongoModel):
     date_created = fields.DateTimeField(required=True)
     formType = fields.CharField()  # not used
     version = fields.IntegerField()  # not used
+    tags = fields.ListField(fields.CharField(), blank=True)
 
 
 class Org(BaseMongoModel):

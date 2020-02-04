@@ -1,6 +1,8 @@
 import React from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import FormPageMenu from "../FormPageMenu";
+import CreatableSelect from "react-select/creatable";
+import { isEqual } from "lodash";
 
 function hashCode(str) {
   // java String#hashCode
@@ -22,12 +24,18 @@ export default class extends React.Component<
     highlighted: boolean;
     delete: any;
     createForm: any;
+    allTags: any[];
+    onTagChange: any;
+    hasPermission: any;
   },
   {}
 > {
   shouldComponentUpdate(prevProps) {
-    // Only update when highlight state is changed -- for efficiency.
-    return this.props.highlighted !== prevProps.highlighted;
+    // Only update when highlight state or tags are changed -- for efficiency.
+    return (
+      this.props.highlighted !== prevProps.highlighted ||
+      !isEqual(this.props.form.tags, prevProps.form.tags)
+    );
   }
   render() {
     const {
@@ -35,8 +43,13 @@ export default class extends React.Component<
       highlightForm,
       highlighted,
       delete: delete_,
-      createForm
+      createForm,
+      allTags,
+      onTagChange,
+      hasPermission
     } = this.props;
+    const editingTags = highlighted && hasPermission("Forms_Edit");
+    const tags = form.tags || [];
     return (
       <>
         <ContextMenuTrigger id={form._id.$oid}>
@@ -62,15 +75,32 @@ export default class extends React.Component<
               {new Date(form["date_created"]["$date"]).toLocaleDateString()}
             </div>
             <div className="col-sm">
-              {form["tags"] &&
-                form["tags"].map(tag => (
-                  <div
-                    className="badge badge-secondary"
-                    style={{ backgroundColor: intToRGB(hashCode(tag)) }}
+              {!editingTags &&
+                tags.map(tag => (
+                  <span
+                    className="badge badge-secondary mx-1"
+                    style={
+                      {
+                        // backgroundColor: intToRGB(hashCode(tag))
+                      }
+                    }
                   >
                     {tag}
-                  </div>
+                  </span>
                 ))}
+              {editingTags && (
+                <CreatableSelect
+                  isMulti
+                  placeholder="Select tags"
+                  onChange={e => onTagChange((e || []).map(item => item.value))}
+                  value={tags.map(e => ({ value: e, label: e }))}
+                  options={allTags.map(tag => ({
+                    value: tag,
+                    label: tag,
+                    color: intToRGB(hashCode(tag))
+                  }))}
+                />
+              )}
             </div>
           </div>
         </ContextMenuTrigger>
