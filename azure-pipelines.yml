@@ -54,12 +54,13 @@ stages:
         addToPath: true
         architecture: 'x64'
     - script: |
-        pip install mkdocs==1.1
+        pip install mkdocs==1.1 mkdocs-material==4.6.3
         mkdocs build --clean
       displayName: 'build docs'
 
 - stage: deploy_dev
   dependsOn: test
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
   jobs:
   - job: Deploy
     steps:
