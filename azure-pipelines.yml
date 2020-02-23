@@ -1,45 +1,144 @@
-# Node.js with React
-# Build a Node.js project that uses React.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
-trigger:
-- master
-
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+variables: 
+- group: 'cff-deployment'
 
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.6'
-    addToPath: true
-    architecture: 'x64'
+stages:
+- stage: test
+  jobs:
+  - job: Frontend test
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.6'
+        addToPath: true
+        architecture: 'x64'
+    - script: |
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+        echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+        sudo apt-get update
+        sudo apt-get install -y mongodb-org
+        mkdir data
+        mongod --port=10255 --dbpath=data &
+      workingDirectory: lambda
+      displayName: 'start mongodb and import data'
+    - script: |
+        pip install pipenv
+        pipenv install
+        npm install
+        npm test
+      workingDirectory: lambda
+      displayName: 'install deps, test'
 
-- script: |
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
-    sudo apt-get update
-    sudo apt-get install -y mongodb-org
-    mkdir data
-    mongod --port=10255 --dbpath=data &
-  workingDirectory: lambda
-  displayName: 'start mongodb and import data'
+  - job: Backend test
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+    - script: |
+        npm install
+        npm test
+      displayName: 'install deps, test'
 
-- script: |
-    npm install
-    npm test
-  displayName: 'npm install, test, and build'
+  - job: Build docs
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.6'
+        addToPath: true
+        architecture: 'x64'
+    - script: |
+        pip install mkdocs==1.1
+        mkdocs build --clean
+      displayName: 'build docs'
 
-- script: |
-    pip install pipenv
-    pipenv install
-    npm install
-    npm test
-  workingDirectory: lambda
-  displayName: 'pipenv install, test'
+- stage: deploy-dev
+  dependsOn: test
+  jobs:
+  - job: Deploy
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.6'
+        addToPath: true
+        architecture: 'x64'
+    - script: |
+        pip install pipenv
+        pipenv install
+        npm install
+      workingDirectory: lambda
+      displayName: 'install deps for backend'
+    - script: |
+        npm install
+      displayName: 'install deps for frontend'
+    - script: |
+        npm run deploy
+      workingDirectory: lambda
+      displayName: 'deploy backend'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    - script: |
+        npm run deploy
+      displayName: 'deploy frontend'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+
+- stage: deploy-prod
+  dependsOn: deploy-dev
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+  - job: Deploy
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.6'
+        addToPath: true
+        architecture: 'x64'
+    - script: |
+        pip install pipenv
+        pipenv install
+        npm install
+      workingDirectory: lambda
+      displayName: 'install deps for backend'
+    - script: |
+        npm install
+      displayName: 'install deps for frontend'
+    - script: |
+        pip install mkdocs==1.1
+      displayName: 'install deps for frontend'
+    - script: |
+        npm run deploy-prod
+      workingDirectory: lambda
+      displayName: 'deploy backend'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    - script: |
+        npm run deploy-prod
+      displayName: 'deploy frontend'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    - script: |
+        pip install mkdocs==1.1
+        npm run deploy-docs
+      displayName: 'deploy docs'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)

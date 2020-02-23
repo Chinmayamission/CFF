@@ -8,11 +8,12 @@
     "tdd": "jest --watch",
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --progress --config webpack.beta.js",
-    "deploy": "cross-env CFF_DEPLOY_TO=beta pipenv run python deploy.py",
+    "deploy": "CFF_DEPLOY_TO=beta pipenv run python deploy.py",
     "build-prod": "webpack --progress --config webpack.prod.js",
-    "deploy-prod": "cross-env CFF_DEPLOY_TO=prod pipenv run python deploy.py",
+    "deploy-prod": "CFF_DEPLOY_TO=prod pipenv run python deploy.py",
     "docs": "mkdocs serve",
-    "deploy-docs": "AWS_PROFILE=ashwin-cff-lambda ant build-docs"
+    "build-docs": "mkdocs build --clean",
+    "deploy-docs": "npm run build-docs && aws s3 sync ./site s3://docs.chinmayamission.com/cff --delete --region us-east-1"
   },
   "keywords": [],
   "author": "",
@@ -91,7 +92,6 @@
     "classnames": "^2.2.6",
     "connected-react-router": "^4.3.0",
     "core-js": "^3.2.1",
-    "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "deep-rename-keys": "^0.2.1",
     "diff": "^3.4.0",
