@@ -24,7 +24,7 @@ import hashlib
 import base64
 import re
 
-os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
+os.environ["AWS_PROFILE"] = "default"
 os.environ["MODE"] = "PROD"
 os.environ["DB_NAME"] = "cff_prod"
 os.environ["USER_POOL_ID"] = ""

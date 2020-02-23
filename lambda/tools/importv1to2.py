@@ -34,7 +34,7 @@ from bson.objectid import ObjectId
 from boto3.dynamodb.conditions import Key, Attr
 from decimal import Decimal
 
-os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
+os.environ["AWS_PROFILE"] = "default"
 os.environ["MODE"] = "PROD"
 os.environ["DB_NAME"] = "cff_prod"
 os.environ["USER_POOL_ID"] = "n/a"

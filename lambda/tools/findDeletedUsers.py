@@ -2,7 +2,7 @@ from chalicelib.models import Response, serialize_model
 import app
 
 """
-AWS_PROFILE=ashwin-cff-lambda pipenv run python -m unittest tools.findDeletedUsers
+AWS_PROFILE=default pipenv run python -m unittest tools.findDeletedUsers
 Lowercases users
 """
 import os
@@ -21,7 +21,7 @@ client = boto3.client("cognito-idp")
 # pool = "us-east-1_U9ls8R6E3" # beta
 pool = "us-east-1_kcpcLxLzn"  # prod
 
-# os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
+# os.environ["AWS_PROFILE"] = "default"
 os.environ["MODE"] = "PROD"
 os.environ["USER_POOL_ID"] = pool
 os.environ["COGNITO_CLIENT_ID"] = ""

@@ -1,5 +1,5 @@
 """
-MODE=PROD AWS_PROFILE=ashwin-cff-lambda pipenv run python -m unittest tools.renameField
+MODE=PROD AWS_PROFILE=default pipenv run python -m unittest tools.renameField
 Renames fields
 """
 import os
@@ -12,7 +12,7 @@ from boto3.dynamodb.conditions import Key, Attr
 from decimal import Decimal
 from pydash.arrays import find_index
 
-os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
+os.environ["AWS_PROFILE"] = "default"
 os.environ["MODE"] = "PROD"
 os.environ["DB_NAME"] = "cff_prod"
 os.environ["USER_POOL_ID"] = ""

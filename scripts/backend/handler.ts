@@ -58,7 +58,7 @@ import Headers from "../src/admin/util/Headers";
 import stringHash from "string-hash";
 declare const STAGE: any;
 
-// var credentials = new AWS.SharedIniFileCredentials({ profile: 'ashwin-cff-lambda' });
+// var credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
 // AWS.config.credentials = credentials;
 // AWS.config.update({ region: 'us-east-1' });
 

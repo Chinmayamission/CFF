@@ -9,7 +9,7 @@ import json
 import datetime
 import time
 
-# os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
+# os.environ["AWS_PROFILE"] = "default"
 # os.environ["MODE"] = "PROD"
 
 TEST = True

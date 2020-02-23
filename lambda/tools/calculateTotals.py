@@ -25,7 +25,7 @@ PROD = True
 
 formId = "5c6b9b76780b47000197418f" if PROD else "...."
 
-os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
+os.environ["AWS_PROFILE"] = "default"
 os.environ["MODE"] = "BETA"
 os.environ["DB_NAME"] = "cff_prod" if PROD else "cff_beta"
 os.environ["USER_POOL_ID"] = ""

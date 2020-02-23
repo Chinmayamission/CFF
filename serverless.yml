@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-# AWS_PROFILE=ashwin-cff-lambda
+# AWS_PROFILE=default
 # sls invoke local --function sheets --stage beta
 # sls deploy --stage beta
 

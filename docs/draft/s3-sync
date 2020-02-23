@@ -1,1 +1,1 @@
-aws s3 sync s3://cff-uploads-prod cff-uploads-prod --profile=ashwin-cff-lambda
+aws s3 sync s3://cff-uploads-prod cff-uploads-prod --profile=default

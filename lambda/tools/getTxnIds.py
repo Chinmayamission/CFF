@@ -24,7 +24,7 @@ from pydash.arrays import find_index
 
 PROD = True
 
-os.environ["AWS_PROFILE"] = "ashwin-cff-lambda"
+os.environ["AWS_PROFILE"] = "default"
 os.environ["MODE"] = "PROD"
 os.environ["DB_NAME"] = "cff_prod" if PROD else "cff_beta"
 os.environ["USER_POOL_ID"] = ""
