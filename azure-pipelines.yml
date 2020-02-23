@@ -7,7 +7,7 @@ variables:
 stages:
 - stage: test
   jobs:
-  - job: Frontend test
+  - job: test_frontend
     steps:
     - task: NodeTool@0
       inputs:
@@ -35,7 +35,7 @@ stages:
       workingDirectory: lambda
       displayName: 'install deps, test'
 
-  - job: Backend test
+  - job: test_backend
     steps:
     - task: NodeTool@0
       inputs:
@@ -46,7 +46,7 @@ stages:
         npm test
       displayName: 'install deps, test'
 
-  - job: Build docs
+  - job: test_docs
     steps:
     - task: UsePythonVersion@0
       inputs:
