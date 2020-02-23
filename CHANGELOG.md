@@ -1,3 +1,8 @@
+## 4.1.0
+- Add tag feature: Form editors can now edit tags for each form, and there is also a search bar at the top of the form admin list page. You can search for forms using their names or tags. Note that tags are public!
+- Fix pagination for aggregate group view -- previously, if there were more than 20 items, it would just truncate the table.
+- Fix vulnerabilities and some package cleanup
+
 ## 4.0.1
 - Fix: Return "" instead of None if ccavenue key is undefined
 

@@ -36,6 +36,8 @@ const StatGroup = (props: IStatProps) => {
     _id: "Total",
     n: sumBy(props.stat.computedQueryValue, e => e.n)
   };
+  const data = [...(props.stat.computedQueryValue as any[]), totalRow];
+  const showPagination = data.length > 20;
   return (
     <>
       <h5>{props.stat.title}</h5>
@@ -44,9 +46,9 @@ const StatGroup = (props: IStatProps) => {
           { Header: "Name", accessor: "_id" },
           { Header: "Value", accessor: "n" }
         ]}
-        data={[...(props.stat.computedQueryValue as any[]), totalRow]}
-        minRows={0}
-        showPagination={false}
+        data={data}
+        minRows={showPagination ? 20 : 0} // so it doesn't change size when paginating to a page with less rows
+        showPagination={showPagination}
       />
     </>
   );
