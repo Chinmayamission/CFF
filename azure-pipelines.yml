@@ -58,7 +58,7 @@ stages:
         mkdocs build --clean
       displayName: 'build docs'
 
-- stage: deploy-dev
+- stage: deploy_dev
   dependsOn: test
   jobs:
   - job: Deploy
@@ -95,8 +95,8 @@ stages:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
 
-- stage: deploy-prod
-  dependsOn: deploy-dev
+- stage: deploy_prod
+  dependsOn: deploy_dev
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - job: Deploy
@@ -123,14 +123,14 @@ stages:
         pip install mkdocs==1.1
       displayName: 'install deps for frontend'
     - script: |
-        npm run deploy-prod
+        npm run deploy_prod
       workingDirectory: lambda
       displayName: 'deploy backend'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
     - script: |
-        npm run deploy-prod
+        npm run deploy_prod
       displayName: 'deploy frontend'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
