@@ -58,6 +58,7 @@ class FormOptions(EmbeddedMongoModel):
     adminFields = fields.ListField(blank=True)
     postprocess = fields.DictField(blank=True)
     counter = fields.DictField(blank=True)
+    dashboardOptions = fields.DictField(blank=True)
 
 
 class Form(BaseMongoModel):
