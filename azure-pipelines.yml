@@ -85,18 +85,18 @@ stages:
       displayName: 'install deps for frontend'
     - script: |
         npm run deploy
-      workingDirectory: lambda
-      displayName: 'deploy backend'
+      displayName: 'deploy frontend'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
     - script: |
         npm run deploy
-      displayName: 'deploy frontend'
+      workingDirectory: lambda
+      displayName: 'deploy backend'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
-
+        
 - stage: deploy_prod
   dependsOn: deploy_dev
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
@@ -126,15 +126,15 @@ stages:
         pip install mkdocs==1.1
       displayName: 'install deps for frontend'
     - script: |
-        npm run deploy_prod
-      workingDirectory: lambda
-      displayName: 'deploy backend'
+        npm run deploy-prod
+      displayName: 'deploy frontend'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
     - script: |
-        npm run deploy_prod
-      displayName: 'deploy frontend'
+        npm run deploy-prod
+      workingDirectory: lambda
+      displayName: 'deploy backend'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
