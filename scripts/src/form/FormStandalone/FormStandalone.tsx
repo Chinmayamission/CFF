@@ -19,7 +19,7 @@ class FormStandalone extends React.Component<
       background: null
     };
   }
-  onFormLoad(schema, uiSchema) {
+  onFormLoad({ uiSchema }) {
     let opts: any = {};
     get(uiSchema, "ui:cff:background") &&
       (opts.background = get(uiSchema, "ui:cff:background"));
@@ -37,7 +37,7 @@ class FormStandalone extends React.Component<
             formId={this.props.formId}
             responseId={qs.responseId}
             mode={qs.mode}
-            onFormLoad={(a, b) => this.onFormLoad(a, b)}
+            onFormLoad={e => this.onFormLoad(e)}
             specifiedShowFields={JSON.parse(
               (qs && qs["specifiedShowFields"]) || "{}"
             )}

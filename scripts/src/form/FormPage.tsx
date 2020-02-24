@@ -115,7 +115,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       this.props.specifiedShowFields,
       e => this.handleError(e)
     );
-    let responseState = {};
+    let responseState: any = {};
     if (this.props.responseId || get(formOptions, "loginRequired") === true) {
       responseState = await this.loadResponse({
         data: defaultFormData,
@@ -147,7 +147,15 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         resolve
       )
     );
-    this.props.onFormLoad && this.props.onFormLoad(schema, uiSchema);
+    this.props.onFormLoad &&
+      this.props.onFormLoad({
+        schema,
+        uiSchema,
+        formOptions,
+        cff_permissions,
+        responseId: responseState.responseId,
+        data: responseState.data
+      });
   }
   async loadResponse({ data, schema, formOptions }) {
     let request = this.props.responseId

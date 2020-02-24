@@ -94,7 +94,7 @@ export interface IFormPageProps {
   initialFormData?: any;
   readonly?: boolean;
   specifiedShowFields?: any[];
-  onFormLoad?: (Schema, UiSchema) => void;
+  onFormLoad?: (e: any) => void;
   form_preloaded?: IFormDBEntry;
   logout: () => void;
   auth: IAuthState;

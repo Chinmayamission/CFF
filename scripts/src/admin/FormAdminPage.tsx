@@ -20,6 +20,20 @@ const STATUS_ERROR = 11;
 const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
 
+export const LoginBlurb = () => (
+  <div>
+    <img
+      style={{ maxHeight: 200, marginBottom: 20 }}
+      src={require("../img/logo.png")}
+    />
+    <h3 className="mb-4">
+      Please log in to your <br />
+      <strong>Chinmaya Mission Account</strong>
+      <br />
+    </h3>
+  </div>
+);
+
 class FormAdminPage extends React.Component<
   IFormAdminPageProps,
   IFormAdminPageState
@@ -205,19 +219,7 @@ const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
   return (
     <div>
       <div className="col-12 text-center">
-        {!props.loggedIn && (
-          <div>
-            <img
-              style={{ maxHeight: 200, marginBottom: 20 }}
-              src={require("../img/logo.png")}
-            />
-            <h3 className="mb-4">
-              Please log in to your <br />
-              <strong>Chinmaya Mission Account</strong>
-              <br />
-            </h3>
-          </div>
-        )}
+        {!props.loggedIn && <LoginBlurb />}
         <Login />
       </div>
       <hr />

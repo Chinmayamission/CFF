@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import FormStandalone from "./form/FormStandalone/FormStandalone";
+import FormDashboard from "./form/FormDashboard/FormDashboard";
 import {
   BrowserRouter as Router,
   Route,
@@ -59,6 +60,15 @@ const App = (props: AppProps) => (
             render={props => {
               return (
                 <FormStandalone {...props} formId={props.match.params.formId} />
+              );
+            }}
+          />
+          <Route
+            path="/v2/dashboard/:formId"
+            exact
+            render={props => {
+              return (
+                <FormDashboard {...props} formId={props.match.params.formId} />
               );
             }}
           />
