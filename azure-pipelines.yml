@@ -81,6 +81,7 @@ stages:
       displayName: 'install deps for backend'
     - script: |
         npm install
+        pipenv install
       displayName: 'install deps for frontend'
     - script: |
         npm run deploy
@@ -119,6 +120,7 @@ stages:
       displayName: 'install deps for backend'
     - script: |
         npm install
+        pipenv install
       displayName: 'install deps for frontend'
     - script: |
         pip install mkdocs==1.1
