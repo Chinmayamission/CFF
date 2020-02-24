@@ -21,7 +21,7 @@ const STATUS_ACCESS_DENIED = 21;
 const STATUS_CENTER_LIST = 31;
 
 export const LoginBlurb = () => (
-  <div>
+  <div style={{ textAlign: "center" }}>
     <img
       style={{ maxHeight: 200, marginBottom: 20 }}
       src={require("../img/logo.png")}
