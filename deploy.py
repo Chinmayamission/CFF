@@ -10,9 +10,8 @@ import os
 import subprocess
 import time
 
-AWS_PROFILE_NAME = os.getenv("CFF_AWS_PROFILE_NAME", "default")
-dev = boto3.session.Session(profile_name=AWS_PROFILE_NAME)
-boto3.setup_default_session(profile_name=AWS_PROFILE_NAME)
+dev = boto3.session.Session()
+boto3.setup_default_session()
 client = boto3.client("s3")
 
 with open("package.json") as json_data:
