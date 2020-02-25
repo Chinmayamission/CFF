@@ -22,6 +22,7 @@ import FileInputAndPreviewWidget from "./form_widgets/FileInputAndPreviewWidget"
 import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioWidget";
 import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
+import RemovedWidget from "./form_widgets/RemovedWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
 import AddressAutocompleteField from "./form_widgets/AddressAutocompleteField";
 import { IResponseMetadata } from "./interfaces";
@@ -31,7 +32,7 @@ const JSONEditorWidget = lazy(() => import("./form_widgets/JSONEditorWidget"));
 export const FormattedDescriptionField = ({ id, description }) => {
   if (!description) return null;
   return (
-    <div id={id} className="my-2">
+    <div id={id} className="ccmt-cff-form-description my-2">
       <div dangerouslySetInnerHTML={{ __html: sanitize(description) }} />
     </div>
   );
@@ -74,7 +75,8 @@ const widgets = {
   "cff:jsonEditor": JSONEditorWidget,
   "cff:conditionalHiddenRadio": ConditionalHiddenRadioWidget,
   "cff:infoboxRadio": InfoboxRadioWidget,
-  "cff:infoboxSelect": InfoboxSelectWidget
+  "cff:infoboxSelect": InfoboxSelectWidget,
+  "cff:removed": RemovedWidget
 };
 
 const fields = {
@@ -83,7 +85,8 @@ const fields = {
   "cff:sameAs": SameAsField,
   "cff:autoPopulate": AutoPopulateField,
   "cff:dynamicEnum": DynamicEnumField,
-  "cff:addressAutocomplete": AddressAutocompleteField
+  "cff:addressAutocomplete": AddressAutocompleteField,
+  "cff:removed": RemovedWidget
 };
 
 function validate(formData, errors, validationSchema, responseMetadata) {

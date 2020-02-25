@@ -2,7 +2,8 @@ import { Reducer } from "redux";
 import { FormState } from "./types.d";
 
 const initialState: FormState = {
-  renderedForm: null
+  renderedForm: null,
+  renderedResponse: null
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {
@@ -11,6 +12,11 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
       return {
         ...state,
         renderedForm: action.renderedForm
+      };
+    case "SET_RENDERED_RESPONSE":
+      return {
+        ...state,
+        renderedResponse: action.renderedResponse
       };
     default:
       return state;

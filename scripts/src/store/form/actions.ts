@@ -9,6 +9,11 @@ export const setRenderedForm = (renderedForm: IRenderedForm) => ({
   renderedForm
 });
 
+export const setRenderedResponse = (renderedResponse: any) => ({
+  type: "SET_RENDERED_RESPONSE",
+  renderedResponse
+});
+
 export const fetchRenderedForm = (formId: string) => dispatch => {
   dispatch(loadingStart());
   return FormLoader.getFormAndCreateSchemas("", formId, "", [""], e =>
@@ -17,6 +22,25 @@ export const fetchRenderedForm = (formId: string) => dispatch => {
     dispatch(setRenderedForm(e));
     dispatch(loadingEnd());
   });
+};
+
+export const fetchRenderedResponse = ({
+  formId,
+  responseId = null
+}) => async dispatch => {
+  dispatch(loadingStart());
+  try {
+    const response = await API.get(
+      "CFF",
+      responseId ? `responses/${responseId}` : `forms/${formId}/response`,
+      {}
+    );
+    dispatch(setRenderedResponse(response));
+  } catch (e) {
+    console.error(e);
+    alert("Error" + e);
+  }
+  dispatch(loadingEnd());
 };
 
 export const editForm = (body: any) => (dispatch, getState) => {

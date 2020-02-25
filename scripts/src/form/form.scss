@@ -9,6 +9,9 @@
 }
 
 .ccmt-cff-Page-FormPage {
+    .ccmt-cff-removed {
+        display: none;
+    }
     .popover {
         max-width: 80vw;
     }
@@ -198,4 +201,8 @@
     .form-control {
         @extend .form-control-sm;
     }
+}
+
+.hidden {
+    display: none;
 }

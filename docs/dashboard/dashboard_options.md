@@ -5,14 +5,14 @@ Dashboard options are accessible through the user dashboard view. This is access
 Note that each item in `views` must have a unique `id` and a `displayName`.
 
 ```
-  "dataOptions": {
+  "dashboardOptions": {
     "views": [
       {
         "id": "basic",
         "displayName": "Edit Basic Info",
         "type": "form",
-        "pickSchema": [
-          ""
+        "pickFields": [
+          "contactName"
         ]
       }
     ]

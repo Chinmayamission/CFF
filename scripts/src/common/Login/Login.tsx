@@ -74,6 +74,7 @@ interface ILoginProps extends IAuthState {
   forgotPasswordSubmit: (e) => void;
   setLoginUrl: (e: string) => void;
   loginOptional?: boolean;
+  hideBar?: boolean;
 }
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
@@ -196,15 +197,18 @@ class Login extends React.Component<ILoginProps, {}> {
         </div>
       );
     } else {
+      if (this.props.hideBar) {
+        return null;
+      }
       return (
         <div className="text-left">
-          <Link to="/admin">
+          <a>
             {" "}
             <img
               src={require("../../img/logo.png")}
               style={{ height: 40, marginRight: 20 }}
             />{" "}
-          </Link>
+          </a>
           <div style={{ display: "inline-block", verticalAlign: "middle" }}>
             {/* <strong>Chinmaya Forms Framework</strong><br /> */}
             Welcome, {this.props.user.email}

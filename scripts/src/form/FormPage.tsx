@@ -1,9 +1,8 @@
 import React from "react";
-import Form from "react-jsonschema-form";
 import API from "@aws-amplify/api";
 import queryString from "query-string";
 import sanitize from "../sanitize";
-import { get, set, unset } from "lodash";
+import { get, set, difference, cloneDeep } from "lodash";
 import CustomForm from "./CustomForm";
 import FormConfirmationPage from "./FormConfirmationPage";
 import Loading from "../common/Loading/Loading";
@@ -100,7 +99,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     await new Promise((resolve, reject) =>
       this.setState({ status: STATUS_FORM_LOADING }, resolve)
     );
-    const {
+    let {
       schemaMetadata,
       uiSchema,
       schema,
@@ -108,13 +107,15 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       paymentCalcInfo,
       formOptions,
       cff_permissions
-    } = await FormLoader.getFormAndCreateSchemas(
-      "",
-      this.props.formId,
-      "",
-      this.props.specifiedShowFields,
-      e => this.handleError(e)
-    );
+    } = this.props.renderedForm
+      ? cloneDeep(this.props.renderedForm)
+      : await FormLoader.getFormAndCreateSchemas(
+          "",
+          this.props.formId,
+          "",
+          this.props.specifiedShowFields,
+          e => this.handleError(e)
+        );
     let responseState: any = {};
     if (this.props.responseId || get(formOptions, "loginRequired") === true) {
       responseState = await this.loadResponse({
@@ -125,8 +126,23 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     }
     if (!this.canAdminEdit(cff_permissions)) {
       for (let fieldPath of get(formOptions, "adminFields", [])) {
-        set(uiSchema, `${fieldPath}['ui:widget']`, "hidden");
+        set(uiSchema, `${fieldPath}['ui:widget']`, "cff:removed");
+        set(uiSchema, `${fieldPath}['ui:field']`, "cff:removed");
+        set(uiSchema, `${fieldPath}['classNames']`, "ccmt-cff-removed");
       }
+    }
+    const { pickFields } = this.props;
+    if (pickFields && pickFields.length) {
+      // used in dashboard
+      let uiOrder = uiSchema["ui:order"] || [];
+      let fieldsToHide = difference(uiOrder, pickFields);
+      for (let fieldPath of fieldsToHide) {
+        set(uiSchema, `${fieldPath}['ui:widget']`, "cff:removed");
+        set(uiSchema, `${fieldPath}['ui:field']`, "cff:removed");
+        set(uiSchema, `${fieldPath}['classNames']`, "ccmt-cff-removed");
+      }
+      // TODO FIX
+      // schema = {...schema, title: "", description: ""};
     }
     await new Promise((resolve, reject) =>
       this.setState(
@@ -161,7 +177,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let request = this.props.responseId
       ? API.get("CFF", `responses/${this.props.responseId}`, {})
       : API.get("CFF", `forms/${this.props.formId}/response`, {});
-    const { res, predicate } = await request;
+    const { res, predicate } = this.props.renderedResponse
+      ? cloneDeep(this.props.renderedResponse)
+      : await request;
     if (
       get(formOptions, "loginRequired") === true &&
       get(schema, "properties.email") &&
@@ -319,7 +337,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             }}
           />
           <h2>Please log in or sign up for a new account.</h2>
-          <Login />
+          <Login hideBar={this.props.pickFields} />
         </div>
       );
     }
@@ -397,9 +415,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             : " ccmt-cff-Page-FormPage-readonly")
         }
       >
-        {this.state.formOptions.loginRequired && <Login />}
+        {this.state.formOptions.loginRequired && (
+          <Login hideBar={this.props.pickFields} />
+        )}
         {!this.state.formOptions.loginRequired && (
-          <Login loginOptional={true} />
+          <Login loginOptional={true} hideBar={this.props.pickFields} />
         )}
         {this.state.predicate && !this.state.responseId && (
           <div

@@ -95,13 +95,15 @@ export interface IFormPageProps {
   readonly?: boolean;
   specifiedShowFields?: any[];
   onFormLoad?: (e: any) => void;
-  form_preloaded?: IFormDBEntry;
   logout: () => void;
   auth: IAuthState;
   loading: boolean;
   fetchRenderedForm: () => void;
   mode?: string;
   className?: string;
+  pickFields?: string[];
+  renderedForm?: any; // preloaded
+  renderedResponse?: any; // preloaded
 }
 
 export interface IFormConfirmationPageProps {

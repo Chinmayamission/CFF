@@ -3,14 +3,17 @@ import "./FormDashboard.scss";
 import FormPage from "../../form/FormPage";
 import * as queryString from "query-string";
 import { connect } from "react-redux";
-import { fetchRenderedForm } from "../../store/form/actions";
+import {
+  fetchRenderedForm,
+  fetchRenderedResponse
+} from "../../store/form/actions";
 import Loading from "../../common/Loading/Loading";
 import Login from "../../common/Login/Login";
 import { LoginBlurb } from "../../admin/FormAdminPage";
 import classnames from "classnames";
 
 const Nav = ({ views, onSelect, selectedView }) => (
-  <ul className="nav nav-pills">
+  <ul className="nav nav-pills mt-4">
     {views.map(e => (
       <li className="nav-item btn-outline-primary" key={e.id}>
         <a
@@ -32,7 +35,12 @@ const FormDashboard = props => {
   useEffect(() => {
     props.fetchRenderedForm(formId);
   }, []);
-  const [selectedView, setView] = useState({});
+  useEffect(() => {
+    if (props.auth.loggedIn) {
+      props.fetchRenderedResponse({ formId });
+    }
+  }, [props.auth.loggedIn]);
+  const [selectedView_, setView] = useState(null);
   if (!props.auth.loggedIn) {
     return (
       <>
@@ -41,37 +49,42 @@ const FormDashboard = props => {
       </>
     );
   }
-  if (!form || !form.renderedForm) {
+  if (!form || !form.renderedForm || !form.renderedResponse) {
     return <Loading />;
   }
+  const { renderedForm, renderedResponse } = form;
   const { formOptions } = form.renderedForm;
-  const { dataOptions } = formOptions;
+  let { dashboardOptions } = formOptions;
+  if (!dashboardOptions) {
+    dashboardOptions = {
+      views: []
+    };
+  }
+  let selectedView =
+    selectedView_ ||
+    (dashboardOptions.views.length > 0 ? dashboardOptions.views[0] : {}); // default to first view, if present
   return (
     <div>
       <Login />
       <Nav
-        views={dataOptions.views}
+        views={dashboardOptions.views}
         onSelect={e => setView(e)}
         selectedView={selectedView}
       />
+      {selectedView.type === "form" && (
+        <FormPage
+          key={selectedView.id}
+          formId={formId}
+          mode={"edit"}
+          onFormLoad={e => console.log(e)}
+          pickFields={selectedView.pickFields}
+          renderedForm={renderedForm}
+          renderedResponse={renderedResponse}
+          className="p-4"
+        />
+      )}
     </div>
   );
-  //   return (
-  //     <div className="App ccmt-cff-page-form">
-  //       <div className="container ccmt-cff-paper-outline">
-  //         {/* <FormPage
-  //                     formId={formId}
-  //                     responseId={qs.responseId}
-  //                     mode={"view"}
-  //                     onFormLoad={e => console.log(e)}
-  //                     specifiedShowFields={JSON.parse(
-  //                         (qs && qs["specifiedShowFields"]) || "{}"
-  //                     )}
-  //                     className="p-4"
-  //                 /> */}
-  //       </div>
-  //     </div>
-  //   );
 };
 
 const mapStateToProps = state => ({
@@ -80,7 +93,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchRenderedForm: formId => dispatch(fetchRenderedForm(formId))
+  fetchRenderedForm: formId => dispatch(fetchRenderedForm(formId)),
+  fetchRenderedResponse: formId => dispatch(fetchRenderedResponse(formId))
 });
 
 export default connect(
