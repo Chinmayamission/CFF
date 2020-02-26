@@ -335,7 +335,7 @@ exports[`renders regular checkboxes correctly 1`] = `
               Title interests Tell us about your interests
             </label>
             <div
-              class="my-2"
+              class="ccmt-cff-form-description my-2"
               id="root_interests__description"
             >
               <div>
