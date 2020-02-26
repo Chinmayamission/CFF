@@ -11,7 +11,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '10.x'
+        versionSpec: '12.x'
       displayName: 'Install Node.js'
     - task: UsePythonVersion@0
       inputs:
@@ -39,7 +39,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '10.x'
+        versionSpec: '12.x'
       displayName: 'Install Node.js'
     - script: |
         npm install
@@ -60,13 +60,13 @@ stages:
 
 - stage: deploy_dev
   dependsOn: test
-  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
   - job: Deploy
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '10.x'
+        versionSpec: '12.x'
       displayName: 'Install Node.js'
     - task: UsePythonVersion@0
       inputs:
