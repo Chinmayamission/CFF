@@ -1,3 +1,15 @@
+# Initial setup
+Before a CCAvenue account can be used with CFF, add a manual entry directly in the database with the required fields (this can be done from the Azure Cosmos DB portal).
+```
+{
+    "merchant_id":"...",
+    "SECRET_working_key":"...",
+    "access_code":"...",
+    "_cls":"chalicelib.models.CCAvenueConfig"
+}
+```
+
+# Setup for a single form
 Add the following in paymentMethods:
 ```
 "paymentMethods": {
@@ -7,6 +19,7 @@ Add the following in paymentMethods:
 }
 ```
 
+## Sub account
 To use a sub account, add the `sub_account_id` parameter as follows:
 
 ```
@@ -17,15 +30,3 @@ To use a sub account, add the `sub_account_id` parameter as follows:
     }
 }
 ```
-
-Add a manual entry in the database (from Azure Cosmos DB portal):
-```
-{
-    "merchant_id":"...",
-    "SECRET_working_key":"...",
-    "access_code":"...",
-    "_cls":"chalicelib.models.CCAvenueConfig"
-}
-```
-
-And the CCAvenue integration should then work.
