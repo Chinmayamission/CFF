@@ -1,7 +1,10 @@
 trigger:
+  tags:
+    include:
+    - v*
   branches:
     include:
-    - '*' 
+    - master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -63,15 +66,15 @@ stages:
         mkdocs build --clean
       displayName: 'build docs'
 
-- stage: deploy_dev
+- stage: deploy_prod
   dependsOn: test
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: succeeded()
   jobs:
   - job: Deploy
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '12.x'
+        versionSpec: '10.x'
       displayName: 'Install Node.js'
     - task: UsePythonVersion@0
       inputs:
@@ -89,15 +92,25 @@ stages:
         pipenv install
       displayName: 'install deps for frontend'
     - script: |
-        npm run deploy
+        pip install mkdocs==1.1
+      displayName: 'install deps for frontend'
+    - script: |
+        npm run deploy-prod
       displayName: 'deploy frontend'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
     - script: |
-        npm run deploy
+        npm run deploy-prod
       workingDirectory: lambda
       displayName: 'deploy backend'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    - script: |
+        pip install mkdocs==1.1
+        npm run deploy-docs
+      displayName: 'deploy docs'
       env:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
