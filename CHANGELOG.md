@@ -1,8 +1,11 @@
+## 4.1.2
+update azure pipelines
+
 ## 4.1.1
-Small fixes / dev:
+Small fixes / dev changes:
 - Continuous integration and deployment
 - Use cff:removed widget to hide non-needed fields
-- Begin dashbaord functionality
+- Begin dashboard functionality
 
 ## 4.1.0
 - Add tag feature: Form editors can now edit tags for each form, and there is also a search bar at the top of the form admin list page. You can search for forms using their names or tags. Note that tags are public!
