@@ -89,9 +89,6 @@ stages:
         pipenv install
       displayName: 'install deps for frontend'
     - script: |
-        pip install mkdocs==1.1
-      displayName: 'install deps for frontend'
-    - script: |
         npm run deploy-prod
       displayName: 'deploy frontend'
       env:
@@ -105,7 +102,7 @@ stages:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
     - script: |
-        pip install mkdocs==1.1
+        pip install mkdocs==1.1 mkdocs-material==4.6.3
         npm run deploy-docs
       displayName: 'deploy docs'
       env:
