@@ -31,6 +31,7 @@ npm start
 
 ```
 cd lambda
+pip install pipenv
 pipenv install
 npm test
 ```
