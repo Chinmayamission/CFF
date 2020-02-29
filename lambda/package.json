@@ -14,7 +14,7 @@
     "deploy-prod": "pipenv run chalice deploy --stage prod",
     "test": "DEV_COGNITO_IDENTITY_ID=cm:cognitoUserPool:f31c1cb8-681c-4d3e-9749-d7c074ffd7f6 USER_POOL_ID=us-east-1_U9ls8R6E3 MODE=TEST pipenv run python -m unittest",
     "fixtures": "mongoexport --uri=mongodb://localhost:10255/admin --collection=cff_dev --out=tools/mongoFixtures.json",
-    "import": "mongoimport --uri=mongodb://localhost:10255/admin --collection=cff_dev tools/mongoFixtures.json"
+    "import": "mongoimport --uri=mongodb://localhost:10255/admin --collection=cff_dev --mode=upsert tools/mongoFixtures.json"
   },
   "keywords": [],
   "author": "",

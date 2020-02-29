@@ -94,7 +94,7 @@ class CustomChalice(Chalice):
 ssm = boto3.client("ssm", "us-east-1")
 s3_client = boto3.client("s3", "us-east-1")
 if MODE == "TEST":
-    pymodm.connection.connect("mongodb://localhost:10255/admin")
+    pymodm.connection.connect("mongodb://localhost:10255/test")
 elif MODE == "DEV":
     pymodm.connection.connect("mongodb://localhost:10255/admin")
 elif MODE == "BETA":
