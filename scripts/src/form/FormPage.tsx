@@ -144,6 +144,15 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       // TODO FIX
       // schema = {...schema, title: "", description: ""};
     }
+    let mode = this.props.mode; // can be "view" or "edit"
+    if (
+      responseState.responseId &&
+      formOptions.responseCanViewByLink &&
+      !formOptions.responseCanEditByLink
+    ) {
+      // if loading a view-only response, default to "view" mode
+      mode = "view";
+    }
     await new Promise((resolve, reject) =>
       this.setState(
         {
@@ -151,9 +160,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           uiSchema,
           schema,
           status:
-            this.props.mode === "view"
-              ? STATUS_FORM_RESPONSE_VIEW
-              : STATUS_FORM_RENDERED,
+            mode === "view" ? STATUS_FORM_RESPONSE_VIEW : STATUS_FORM_RENDERED,
           data: defaultFormData,
           paymentCalcInfo,
           formOptions,
@@ -206,7 +213,12 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     };
   }
   goBackToFormPage() {
-    This.setState({ status: STATUS_FORM_RENDERED });
+    This.setState({
+      status: STATUS_FORM_RENDERED,
+      responseId: This.state.formOptions.responseCanEditByLink
+        ? This.state.responseId
+        : null
+    });
   }
   onPaymentComplete(e) {
     this.setState({
@@ -283,7 +295,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         });
 
         // Update query string with the new response id, if form allows anonymous submissions.
-        if (!this.state.formOptions.loginRequired && history.pushState) {
+        if (
+          !this.state.formOptions.loginRequired &&
+          this.state.formOptions.responseCanViewByLink &&
+          history.pushState
+        ) {
           const qs = queryString.parse(window.location.search);
           const newurl =
             window.location.protocol +

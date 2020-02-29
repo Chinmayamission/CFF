@@ -1029,7 +1029,9 @@ class FormSubmit(BaseTestCase):
                         "template": {"html": "test123"},
                     },
                 }
-            ]
+            ],
+            "responseCanViewByLink": True,
+            "responseCanEditByLink": True
         }
         self.edit_form(
             self.formId,

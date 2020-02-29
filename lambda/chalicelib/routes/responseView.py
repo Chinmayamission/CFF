@@ -11,10 +11,12 @@ def response_view(responseId):
 
     try:
         response = Response.objects.get({"_id": ObjectId(responseId)})
-        if True:
-            # if response.user == app.get_current_user_id() or app.check_permissions(response.select_related("form"), ["Responses_View", "Responses_CheckIn"]):
-            return {"success": True, "res": serialize_model(response)}
+        if response.user and response.user.id == app.get_current_user_id():
+            pass # user owns this response
+        elif response.form.formOptions.responseCanViewByLink:
+            pass # can view response by link
         else:
-            raise UnauthorizedError("Unauthorized to access this response.")
+            app.check_permissions(response.form, ["Responses_View"])
+        return {"success": True, "res": serialize_model(response)}
     except DoesNotExist:
         raise NotFoundError(f"Response with ID {responseId} not found")

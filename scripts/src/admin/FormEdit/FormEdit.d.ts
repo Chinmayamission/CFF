@@ -58,6 +58,8 @@ export interface IFormOptions {
   successMessage?: string;
   responseModificationEnabled?: boolean;
   responseSubmissionEnabled?: boolean;
+  responseCanViewByLink?: boolean;
+  responseCanEditByLink?: boolean;
 }
 export interface IRenderedForm {
   schema: { [x: string]: any };

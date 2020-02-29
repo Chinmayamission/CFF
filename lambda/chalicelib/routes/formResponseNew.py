@@ -69,6 +69,11 @@ def form_response_new(formId):
         newResponse = False
 
     form = Form.objects.get({"_id": ObjectId(formId)})
+
+    if not newResponse and not form.formOptions.loginRequired and not form.formOptions.responseCanEditByLink:
+        # if editing by link is disabled, only an admin with Responses_Edit permission can edit this response.
+        app.check_permissions(form, ["Responses_Edit"])
+
     response_data = app.current_request.json_body["data"]
     response_data = process_response_data_images(response_data)
     postprocess = form.formOptions.postprocess
@@ -246,7 +251,7 @@ def form_response_new(formId):
             raise UnauthorizedError(
                 f"Response {response.id} does not belong to form {form.id}; it belongs to form {response.form.id}."
             )
-        if response.user and response.user.id != userId:
+        if response.user and response.user.id != userId and not form.formOptions.responseCanEditByLink:
             app.check_permissions(form, "Responses_Edit")
             # raise UnauthorizedError(f"User {userId} does not own response {response.id} (owner is {response.user.id})")
     if newResponse or (not newResponse and paid):

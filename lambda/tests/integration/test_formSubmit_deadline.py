@@ -35,7 +35,9 @@ class FormSubmitDeadline(BaseTestCase):
                         "quantity": "cff_createdBetween('2019-01-01T00:00:00.000Z', '2019-01-20T00:00:00.000Z')",
                     },
                 ],
-            }
+            },
+            "responseCanViewByLink": True,
+            "responseCanEditByLink": True
         }
         self.edit_form(
             self.formId,

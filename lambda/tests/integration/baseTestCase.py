@@ -115,3 +115,18 @@ class BaseTestCase(unittest.TestCase):
         self.assertEqual(response["statusCode"], 200, response)
         body = json.loads(response["body"])
         return body["res"]
+
+    def set_permissions(self, formId, permissions):
+        body = {
+            "userId": app.get_current_user_id(),
+            "permissions": {p: True for p in permissions} if len(permissions) else {"owner": False},
+        }
+        response = self.lg.handle_request(
+            method="POST",
+            path=f"/forms/{formId}/permissions",
+            headers={"authorization": "auth", "Content-Type": "application/json"},
+            body=json.dumps(body),
+        )
+        self.assertEqual(response["statusCode"], 200, response)
+        body = json.loads(response["body"])
+        return body["res"]

@@ -89,7 +89,7 @@ def response_edit_common(responseId, response_base_path):
         app.check_permissions(response.form, "Responses_AdminInfo_Edit")
     else:
         raise Exception(
-            "response_base_path specified is not valid or you not have permissions to perform the specified action."
+            "response_base_path specified is not valid or you do not have permissions to perform the specified action."
         )
     for item in batch:
         update_response_path(response, item["path"], item["value"], response_base_path)

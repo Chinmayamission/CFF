@@ -66,5 +66,7 @@
   },
   "showConfirmationPage": true,
   "successMessage": "<h1>Form submission success</h1><h2>Academician Form</h2><p>You will receive an email with confirmation shortly. Thank you!</p>",
-  "_cls": "chalicelib.models.FormOptions"
+  "_cls": "chalicelib.models.FormOptions",
+  "responseCanViewByLink": true,
+  "responseCanEditByLink": true
 }

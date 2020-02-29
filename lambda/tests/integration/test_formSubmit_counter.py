@@ -27,7 +27,11 @@ class FormSubmitCounter(BaseTestCase):
             }
         }
         uiSchema = {"a": "b"}
-        formOptions = {"counter": {"enabled": True}}
+        formOptions = {
+            "counter": {"enabled": True},
+            "responseCanViewByLink": True,
+            "responseCanEditByLink": True
+        }
         self.edit_form(
             formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
         )
@@ -144,7 +148,11 @@ class FormSubmitCounter(BaseTestCase):
             }
         }
         uiSchema = {"a": "b"}
-        formOptions = {"counter": {"enabled": True}}
+        formOptions = {
+            "counter": {"enabled": True},
+            "responseCanViewByLink": True,
+            "responseCanEditByLink": True
+        }
         self.edit_form(
             formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
         )
