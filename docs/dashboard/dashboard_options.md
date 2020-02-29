@@ -27,8 +27,8 @@ that displays the response info in the specified template.
 For example:
 ```
 {
-  "id": "basic",
-  "displayName": "Edit Basic Info",
+  "id": "profile",
+  "displayName": "View profile",
   "type": "template",
   "template": {
     "html": {
@@ -40,6 +40,22 @@ For example:
 
 ## form views
 
-The form view shows a subset of a form.
+The form view shows a subset of a form. You can choose which properties to show using the `pickFields` attribute. Optionally, you can override the uiSchema for those particular fields with the `uiSchema` attribute (the `uiSchema` will merge with the existing uiSchema, but replace the values of overlapping keys).
 
-update their names, add family members, update email, change password, see all forms submitted?
+```
+{
+  "id": "subset",
+  "displayName": "Edit Basic Info",
+  "type": "template",
+  "pickFields": [
+    "contactName"
+  ],
+  "uiSchema": {
+    "contactName": {
+      "classNames": "col-12"
+    }
+  }
+}
+```
+
+Right now, we only support top-level fields with `pickFields`.
