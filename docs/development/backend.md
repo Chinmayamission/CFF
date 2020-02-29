@@ -14,10 +14,20 @@ pipenv install
 ```
 
 ## Starting server
-Make sure you are in the `lambda` directory. Then open a terminal and run `npm run mongo`. In another terminal, run `npm start`. You can now go to http://localhost:8001/ to run the API (note: the API requires `Authorization` headers to be set, so it probably won't work unless you call it from Javascript / CFF frontend).
+Make sure you are in the `lambda` directory.
+
+Then open a terminal and run `npm run mongo`. Keep this running.
+
+In another terminal, run `npm run import` to pre-populate the database with the fixtures.
+
+Then run `npm start`.
 
 To run tests, first make sure `npm run mongo` is running in another command prompt window. Then run:
 
 ```
 npm test
 ```
+
+## Updating fixtures
+
+If you want to update the default database import file, run `npm run fixtures` and commit the fixtures to source control.
