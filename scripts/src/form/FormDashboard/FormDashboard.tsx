@@ -12,7 +12,7 @@ import Login from "../../common/Login/Login";
 import { LoginBlurb } from "../../admin/FormAdminPage";
 import classnames from "classnames";
 import { Template } from "../../sanitize";
-import "../form.scss";
+// import "../form.scss";
 
 // Nav pills on top of screen.
 const Nav = ({ views, onSelect, selectedView }) => (
