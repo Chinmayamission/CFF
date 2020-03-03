@@ -67,40 +67,37 @@ stages:
   dependsOn: test
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   jobs:
-  - deployment: deploy_dev
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: NodeTool@0
-            inputs:
-              versionSpec: '12.x'
-            displayName: 'Install Node.js'
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: '3.6'
-              addToPath: true
-              architecture: 'x64'
-          - script: |
-              pip install pipenv
-              pipenv install
-              npm install
-            workingDirectory: lambda
-            displayName: 'install deps for backend'
-          - script: |
-              npm install
-              pipenv install
-            displayName: 'install deps for frontend'
-          - script: |
-              npm run deploy
-            displayName: 'deploy frontend'
-            env:
-              AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
-              AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
-          - script: |
-              npm run deploy
-            workingDirectory: lambda
-            displayName: 'deploy backend'
-            env:
-              AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
-              AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+  - job: Deploy
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '12.x'
+      displayName: 'Install Node.js'
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.6'
+        addToPath: true
+        architecture: 'x64'
+    - script: |
+        pip install pipenv
+        pipenv install
+        npm install
+      workingDirectory: lambda
+      displayName: 'install deps for backend'
+    - script: |
+        npm install
+        pipenv install
+      displayName: 'install deps for frontend'
+    - script: |
+        npm run deploy
+      displayName: 'deploy frontend'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    - script: |
+        npm run deploy
+      workingDirectory: lambda
+      displayName: 'deploy backend'
+      env:
+        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
