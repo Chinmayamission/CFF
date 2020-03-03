@@ -11,7 +11,10 @@ import Loading from "../../common/Loading/Loading";
 import Login from "../../common/Login/Login";
 import { LoginBlurb } from "../../admin/FormAdminPage";
 import classnames from "classnames";
+import { Template } from "../../sanitize";
+import "../form.scss";
 
+// Nav pills on top of screen.
 const Nav = ({ views, onSelect, selectedView }) => (
   <ul className="nav nav-pills mt-4">
     {views.map(e => (
@@ -67,6 +70,9 @@ const FormDashboard = props => {
   return (
     <div>
       <Login />
+      {dashboardOptions.header && (
+        <Template template={dashboardOptions.header} context={{}} />
+      )}
       <Nav
         views={dashboardOptions.views}
         onSelect={e => setView(e)}
@@ -82,6 +88,13 @@ const FormDashboard = props => {
           renderedForm={renderedForm}
           renderedResponse={renderedResponse}
           className="p-4"
+        />
+      )}
+      {selectedView.type === "template" && (
+        <Template
+          key={selectedView.id}
+          template={selectedView.template.html}
+          context={renderedResponse.res}
         />
       )}
     </div>

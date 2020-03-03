@@ -1,20 +1,15 @@
 import * as React from "react";
 import ReactTable from "react-table";
 import RRule from "rrule";
-import nunjucks from "nunjucks";
 import { IPaymentTableProps } from "./PaymentTable.d";
 import { IPaymentInfo } from "../interfaces";
-import sanitize from "../../sanitize";
-
-nunjucks.installJinjaCompat();
+import sanitize, { renderTemplate } from "../../sanitize";
 
 const processCurrency = (paymentInfo, formData) => {
   if (paymentInfo.currencyTemplate) {
-    let currency = sanitize(
-      nunjucks.renderString(paymentInfo.currencyTemplate, {
-        value: formData || {}
-      })
-    );
+    let currency = renderTemplate(paymentInfo.currencyTemplate, {
+      value: formData || {}
+    });
     return { ...paymentInfo, currency };
   }
   return paymentInfo;

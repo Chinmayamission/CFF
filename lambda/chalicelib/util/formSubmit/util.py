@@ -152,7 +152,7 @@ def format_payment(total, currency="USD"):
 
 
 def format_date(datestr):
-    """Formates datestring of form YYYY-MM-DD to a locale-friendly datestring."""
+    """Formats datestring of form YYYY-MM-DD to a locale-friendly datestring."""
     d = datetime.strptime(datestr, "%Y-%m-%d")
     return babel.dates.format_date(d, locale="en")
 

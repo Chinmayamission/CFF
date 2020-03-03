@@ -1,5 +1,15 @@
 Dashboard options are accessible through the user dashboard view. This is accessible through the `/v2/dashboard/formId` link -- for example, https://forms.beta.chinmayamission.com/v2/dashboard/5c99508834513d000161a237/
 
+## Header
+
+To add a dashboard header, you can insert custom HTML in `dashboardOptions.views.header`. The header will be shown above the tabs.
+
+```
+  "dashboardOptions": {
+    "header": "<h1>Welcome to the MSC dashboard!</h1><br />"
+  }
+```
+
 ## Adding tabs to the dashboard
 
 You can add a tab to the dashboard by editing the `views` array. Note that each item in `views` must have a unique `id` and a `displayName`.
