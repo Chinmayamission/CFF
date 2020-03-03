@@ -87,7 +87,6 @@ const FormDashboard = props => {
           pickFields={selectedView.pickFields}
           renderedForm={renderedForm}
           renderedResponse={renderedResponse}
-          className="p-4"
         />
       )}
       {selectedView.type === "template" && (

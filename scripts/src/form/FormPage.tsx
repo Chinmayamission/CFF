@@ -136,6 +136,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       }
     }
     const { pickFields } = this.props;
+    let newSchema = schema;
     if (pickFields && pickFields.length) {
       // used in dashboard
       let uiOrder = uiSchema["ui:order"] || [];
@@ -145,8 +146,8 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         set(uiSchema, `${fieldPath}['ui:field']`, "cff:removed");
         set(uiSchema, `${fieldPath}['classNames']`, "ccmt-cff-removed");
       }
-      // TODO FIX
-      // schema = {...schema, title: "", description: ""};
+      newSchema.title = "";
+      newSchema.description = "";
     }
     let mode = this.props.mode; // can be "view" or "edit"
     if (
@@ -162,7 +163,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         {
           schemaMetadata,
           uiSchema,
-          schema,
+          schema: newSchema,
           status:
             mode === "view" ? STATUS_FORM_RESPONSE_VIEW : STATUS_FORM_RENDERED,
           data: defaultFormData,
@@ -176,7 +177,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     );
     this.props.onFormLoad &&
       this.props.onFormLoad({
-        schema,
+        schema: newSchema,
         uiSchema,
         formOptions,
         cff_permissions,
