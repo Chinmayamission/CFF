@@ -31,13 +31,14 @@ const Nav = ({ views, onSelect, selectedView }) => (
 
 const FormDashboard = props => {
   const { form, formId } = props;
-  // let qs = queryString.parse(props.location.search);
+  let qs = queryString.parse(props.location.search);
   useEffect(() => {
     props.fetchRenderedForm(formId);
   }, []);
   useEffect(() => {
     if (props.auth.loggedIn) {
-      props.fetchRenderedResponse({ formId });
+      // dashboard available to logged-in users only, for now.
+      props.fetchRenderedResponse({ formId, responseId: qs.responseId });
     }
   }, [props.auth.loggedIn]);
   const [selectedView_, setView] = useState(null);

@@ -117,7 +117,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           e => this.handleError(e)
         );
     let responseState: any = {};
-    if (this.props.responseId || get(formOptions, "loginRequired") === true) {
+    if (
+      this.props.responseId ||
+      this.props.renderedResponse ||
+      get(formOptions, "loginRequired") === true
+    ) {
       responseState = await this.loadResponse({
         data: defaultFormData,
         schema,
