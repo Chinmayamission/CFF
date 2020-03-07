@@ -347,10 +347,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   renderForm() {
     if (this.state.hasError) {
       return (
-        <div>
+        <div className="py-2">
           <h1>Unexpected Error</h1>
-          <p>There was an error rendering the form. Please try again later.</p>
-          <code>{this.state.errorMessage}</code>
+          <p>
+            There was an error loading this form. Please try again later, or
+            contact webmaster@chinmayamission.com.
+          </p>
+          <p>{this.state.errorMessage}</p>
         </div>
       );
     }
@@ -402,15 +405,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       get(this.state.formOptions, "responseSubmissionEnabled", true) === false
     ) {
       return (
-        <div>
+        <div className="py-2">
           <h1>Submissions Closed</h1>
-          <p>
-            Submissions are closed for the form:{" "}
-            {htmlToText.fromString(
-              get(this.state.schema, "title", "CFF Form"),
-              { ignoreImage: true, ignoreHref: true }
-            )}
-          </p>
+          <p>Submissions are closed for this form.</p>
         </div>
       );
     }
@@ -423,15 +420,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       !this.canAdminEdit(this.state.cff_permissions)
     ) {
       return (
-        <div>
+        <div className="py-2">
           <h1>Response Modifications Closed</h1>
-          <p>
-            Response modifications are closed for the form:{" "}
-            {htmlToText.fromString(
-              get(this.state.schema, "title", "CFF Form"),
-              { ignoreImage: true, ignoreHref: true }
-            )}
-          </p>
+          <p>Response modifications are closed for this form.</p>
         </div>
       );
     }
