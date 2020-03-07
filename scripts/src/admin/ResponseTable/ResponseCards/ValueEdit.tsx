@@ -40,7 +40,7 @@ class ValueEdit extends React.Component<IValueEditProps, {}> {
         displayObjectSize={false}
         displayDataTypes={false}
         onEdit={e => this.onEdit(e)}
-        onAdd={false}
+        onAdd={e => true} // Don't do anything, as key will actually make a server request in onEdit.
         onDelete={false}
         enableClipboard={false}
         collapsed={1}

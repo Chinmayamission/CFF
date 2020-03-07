@@ -76,7 +76,7 @@ class ResponseDetail extends React.Component<
               onEdit={false}
               onAdd={false}
               onDelete={false}
-              collapsed={0}
+              collapsed={1}
               style={{ fontFamily: "Arial, sans-serif", marginLeft: "30px" }}
             />
           </TabPanel>
