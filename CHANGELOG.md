@@ -1,3 +1,12 @@
+## 5.0.0
+- By default, responses are no longer viewable / editable
+  - Added responseCanViewByLink and responseCanEditByLink in formOptions to control this setting. Also made handling of form submission authorization more consistent.
+- Add CI/CD for automatic deployment
+- Fix backend files for local setup
+- Dashboard functionality - support "template" and "form" pages
+- Admin: allow adding keys when editing a response
+- Add `submitOptions`, which is passed in when calling the form submit endpoint. Setting `submitOptions.sendEmail` to `false` allows form submission without sending a confirmation email (not visible to user yet)
+
 ## 4.1.2-4.1.5
 update and test azure pipelines
 
