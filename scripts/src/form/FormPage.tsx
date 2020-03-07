@@ -122,11 +122,19 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       this.props.renderedResponse ||
       get(formOptions, "loginRequired") === true
     ) {
-      responseState = await this.loadResponse({
-        data: defaultFormData,
-        schema,
-        formOptions
-      });
+      try {
+        responseState = await this.loadResponse({
+          data: defaultFormData,
+          schema,
+          formOptions
+        });
+      } catch (e) {
+        console.error(e);
+        responseState = {
+          hasError: true,
+          errorMessage: "Error loading response."
+        };
+      }
     }
     if (!this.canAdminEdit(cff_permissions)) {
       for (let fieldPath of get(formOptions, "adminFields", [])) {
