@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import sanitize from "../sanitize";
 import Form from "react-jsonschema-form";
 import "./form.scss";
@@ -108,12 +108,32 @@ function validate(formData, errors, validationSchema, responseMetadata) {
   return errors;
 }
 
+const submitOptionsSchema = {
+  type: "object",
+  title: "",
+  description: "",
+  properties: {
+    sendEmail: {
+      title: "Send confirmation email",
+      description: "Send a confirmation email on submit.",
+      type: "boolean",
+      default: true
+    }
+  }
+};
+
+const submitOptionsUiSchema = {
+  sendEmail: {
+    "ui:widget": "select"
+  }
+};
+
 interface ICustomFormProps {
   schema: any;
   uiSchema: any;
   formData?: any;
   onChange?: (e) => void;
-  onSubmit?: (e) => void;
+  onSubmit?: (e, f?) => void;
   showPaymentTable?: boolean;
   paymentCalcInfo?: IPaymentCalcInfo;
   className?: string;
@@ -121,9 +141,11 @@ interface ICustomFormProps {
   omitExtraData?: boolean;
   tagName?: string;
   responseMetadata?: IResponseMetadata;
+  showSubmitOptions?: boolean;
 }
 
 function CustomForm(props: ICustomFormProps) {
+  const [submitOptions, setSubmitOptions] = useState({});
   /* Adds a custom error message for regex validation (especially for phone numbers).
    */
   function transformErrors(errors) {
@@ -164,7 +186,7 @@ function CustomForm(props: ICustomFormProps) {
         onChange={e => {
           props.onChange && props.onChange(e);
         }}
-        onSubmit={e => props.onSubmit && props.onSubmit(e)}
+        onSubmit={e => props.onSubmit && props.onSubmit(e, submitOptions)}
         validate={(d, e) =>
           validate(
             d,
@@ -184,6 +206,21 @@ function CustomForm(props: ICustomFormProps) {
         liveOmit={props.omitExtraData}
       >
         {props.children}
+        {!props.children && props.showSubmitOptions && (
+          <div className="mb-2" style={{ display: "none" }}>
+            {/* don't show this for now. todo: find a more user-intuitive way to show this for admins. */}
+            <h3>Submit options</h3>
+            <div>(this is only visible for admins)</div>
+            <CustomForm
+              schema={submitOptionsSchema}
+              uiSchema={submitOptionsUiSchema}
+              formData={submitOptions}
+              onChange={e => setSubmitOptions(e.formData)}
+            >
+              &nbsp;
+            </CustomForm>
+          </div>
+        )}
         {!props.children && props.showPaymentTable && (
           <div>
             {props.paymentCalcInfo &&
@@ -198,11 +235,11 @@ function CustomForm(props: ICustomFormProps) {
           </div>
         )}
         {!props.children && (
-          <p>
+          <div>
             <button className="btn btn-info" type="submit">
               {props.uiSchema["ui:cff:submitButtonText"] || "Submit"}
             </button>
-          </p>
+          </div>
         )}
       </Form>
     </div>

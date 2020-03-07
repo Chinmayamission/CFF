@@ -90,12 +90,15 @@ class BaseTestCase(unittest.TestCase):
             {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
         )
 
-    def submit_form(self, formId, formData, responseId=None):
+    def submit_form(self, formId, formData, responseId=None, submitOptions=None):
+        body = {"data": formData, "responseId": responseId}
+        if submitOptions is not None:
+            body["submitOptions"] = submitOptions
         response = self.lg.handle_request(
             method="POST",
             path=f"/forms/{formId}",
             headers={"authorization": "auth", "Content-Type": "application/json"},
-            body=json.dumps({"data": formData, "responseId": responseId}),
+            body=json.dumps(body),
         )
         self.assertEqual(response["statusCode"], 200, response)
         body = json.loads(response["body"])

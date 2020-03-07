@@ -238,10 +238,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       status: STATUS_FORM_PAYMENT_SUCCESS
     });
   }
-  onSubmit(data: { formData: {} }) {
+  onSubmit(data: { formData: {} }, submitOptions) {
     let formData = data.formData;
     let payload = {
       data: formData,
+      submitOptions,
       modifyLink:
         window.location != window.parent.location
           ? document.referrer
@@ -473,13 +474,16 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             this.state.status == STATUS_FORM_RENDERED ||
             this.state.formOptions.paymentInfo.showPaymentTable === false
           }
+          showSubmitOptions={
+            this.canAdminEdit(this.state.cff_permissions) ? true : false
+          }
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}
           formData={this.state.data}
           // TODO: Just pass in a calculate_price function instead of passing in responseMetadata, etc.
           responseMetadata={this.state.responseMetadata}
           paymentCalcInfo={this.state.paymentCalcInfo}
-          onSubmit={e => this.onSubmit(e)}
+          onSubmit={(e, f) => this.onSubmit(e, f)}
           onChange={e => this.onChange(e)}
           omitExtraData={get(this.state.formOptions, "omitExtraData", false)}
         />

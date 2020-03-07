@@ -52,7 +52,10 @@ def form_response_new(formId):
     {
         "data": formData,
         "modifyLink": "...",
-        "responseId"?: "asdsadasd"
+        "responseId"?: "asdsadasd",
+        "submitOptions"?: {
+            "sendEmail": false
+        }
     }
     If responseId is defined, it is an update.
     Otherwise, it is an existing submission.
@@ -61,6 +64,8 @@ def form_response_new(formId):
 
     email_sent = False
     responseId = app.current_request.json_body.get("responseId", None)
+    submitOptions = app.current_request.json_body.get("submitOptions", {})
+    send_email = submitOptions.get("sendEmail", True)
     if not responseId:
         responseId = ObjectId()
         newResponse = True
@@ -267,21 +272,22 @@ def form_response_new(formId):
                     date=datetime.datetime.now(), update_type="apply_update"
                 )
             )
-        if (
-            paid and confirmationEmailInfo
-        ):  # If total amount is zero (user uses coupon code to get for free)
-            send_confirmation_email(response, confirmationEmailInfo)
-            email_sent = True
-        # todo: fix this, should auto_email come even if not paid?
-        if (
-            "auto_email" in paymentMethods
-            and get(paymentMethods, "auto_email.enabled", True) == True
-            and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict)
-        ):
-            send_confirmation_email(
-                response, get(paymentMethods, "auto_email.confirmationEmailInfo")
-            )
-            email_sent = True
+        if send_email:
+            if (
+                paid and confirmationEmailInfo
+            ):  # If total amount is zero (user uses coupon code to get for free)
+                send_confirmation_email(response, confirmationEmailInfo)
+                email_sent = True
+            # todo: fix this, should auto_email come even if not paid?
+            if (
+                "auto_email" in paymentMethods
+                and get(paymentMethods, "auto_email.enabled", True) == True
+                and type(get(paymentMethods, "autoEmail.confirmationEmailInfo") is dict)
+            ):
+                send_confirmation_email(
+                    response, get(paymentMethods, "auto_email.confirmationEmailInfo")
+                )
+                email_sent = True
         response.save()
         do_form_post_calc(formId, paymentInfo, paymentMethods, response)
         return {
