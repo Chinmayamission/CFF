@@ -33,7 +33,9 @@ print("MODE", MODE)
 responses = Response.objects.raw({"form": ObjectId("5c96811ed0443d00011255d5")})
 
 MAP = {
-    "Sanjose": "San Jose"
+    "Pittsburgh Pa": "Pittsburgh",
+    "Cm Pittsburgh": "Pittsburgh",
+    "Trinidad And Tobago": "Trinidad",
 }
 
 for response in responses:
@@ -41,7 +43,15 @@ for response in responses:
         continue
     old_center = response.value["center"]
     center = old_center
-    center = center.replace(", CA", "").replace(" CA", "").strip().title().replace("  "," ").replace("Chinmaya Mission ", "").replace("Chinmaya ", "")
+    center = (
+        center.replace(", CA", "")
+        .replace(" CA", "")
+        .strip()
+        .title()
+        .replace("  ", " ")
+        .replace("Chinmaya Mission ", "")
+        .replace("Chinmaya ", "")
+    )
     if center in MAP:
         center = MAP[center]
     center = center.strip()

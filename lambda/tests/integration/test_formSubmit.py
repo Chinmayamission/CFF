@@ -1031,7 +1031,7 @@ class FormSubmit(BaseTestCase):
                 }
             ],
             "responseCanViewByLink": True,
-            "responseCanEditByLink": True
+            "responseCanEditByLink": True,
         }
         self.edit_form(
             self.formId,

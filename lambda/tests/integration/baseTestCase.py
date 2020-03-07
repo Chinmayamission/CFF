@@ -122,7 +122,9 @@ class BaseTestCase(unittest.TestCase):
     def set_permissions(self, formId, permissions):
         body = {
             "userId": app.get_current_user_id(),
-            "permissions": {p: True for p in permissions} if len(permissions) else {"owner": False},
+            "permissions": {p: True for p in permissions}
+            if len(permissions)
+            else {"owner": False},
         }
         response = self.lg.handle_request(
             method="POST",

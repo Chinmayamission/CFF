@@ -30,7 +30,7 @@ class FormSubmitCounter(BaseTestCase):
         formOptions = {
             "counter": {"enabled": True},
             "responseCanViewByLink": True,
-            "responseCanEditByLink": True
+            "responseCanEditByLink": True,
         }
         self.edit_form(
             formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
@@ -151,7 +151,7 @@ class FormSubmitCounter(BaseTestCase):
         formOptions = {
             "counter": {"enabled": True},
             "responseCanViewByLink": True,
-            "responseCanEditByLink": True
+            "responseCanEditByLink": True,
         }
         self.edit_form(
             formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}

@@ -17,6 +17,7 @@ import time
 import mock
 import uuid
 
+
 class FormSubmitAuth(BaseTestCase):
     def view(self, responseId, auth=True):
         return self.lg.handle_request(
@@ -25,6 +26,7 @@ class FormSubmitAuth(BaseTestCase):
             headers={"authorization": "auth" if auth else "none"},
             body="",
         )
+
     def view_loginRequired(self, formId, auth=True):
         # used for loginRequired, to get corresponding response for form.
         return self.lg.handle_request(
@@ -33,22 +35,21 @@ class FormSubmitAuth(BaseTestCase):
             headers={"authorization": "auth" if auth else "none"},
             body="",
         )
+
     def edit(self, formId, responseId, auth=True):
         return self.lg.handle_request(
             method="POST",
             path=f"/forms/{formId}",
-            headers={"authorization": "auth" if auth else "none", "Content-Type": "application/json"},
+            headers={
+                "authorization": "auth" if auth else "none",
+                "Content-Type": "application/json",
+            },
             body=json.dumps({"data": {"a": "B"}, "responseId": responseId}),
         )
+
     def test_default_cannot_view_edit_response_with_link(self):
         formId = self.create_form()
-        self.edit_form(
-            formId,
-            {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"}
-            }
-        )
+        self.edit_form(formId, {"schema": {"a": "B"}, "uiSchema": {"a": "B"}})
         self.set_permissions(formId, [])
         responseId, _ = self.submit_form(formId, {"a": "B"})
         response = self.view(responseId)
@@ -56,18 +57,16 @@ class FormSubmitAuth(BaseTestCase):
 
         response = self.edit(formId, responseId)
         self.assertEqual(response["statusCode"], 401, response)
-    
+
     def test_canViewByLink(self):
         formId = self.create_form()
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
-                "formOptions": {
-                    "responseCanViewByLink": True
-                }
-            }
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {"responseCanViewByLink": True},
+            },
         )
         self.set_permissions(formId, [])
         responseId, _ = self.submit_form(formId, {"a": "B"})
@@ -82,12 +81,10 @@ class FormSubmitAuth(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
-                "formOptions": {
-                    "responseCanEditByLink": True
-                }
-            }
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {"responseCanEditByLink": True},
+            },
         )
         self.set_permissions(formId, [])
         responseId, _ = self.submit_form(formId, {"a": "B"})
@@ -102,13 +99,13 @@ class FormSubmitAuth(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
                 "formOptions": {
                     "responseCanViewByLink": True,
-                    "responseCanEditByLink": True
-                }
-            }
+                    "responseCanEditByLink": True,
+                },
+            },
         )
         self.set_permissions(formId, [])
         responseId, _ = self.submit_form(formId, {"a": "B"})
@@ -120,13 +117,7 @@ class FormSubmitAuth(BaseTestCase):
 
     def test_default_admin_can_view_edit(self):
         formId = self.create_form()
-        self.edit_form(
-            formId,
-            {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"}
-            }
-        )
+        self.edit_form(formId, {"schema": {"a": "B"}, "uiSchema": {"a": "B"}})
         self.set_permissions(formId, ["Responses_View", "Responses_Edit"])
 
         responseId, _ = self.submit_form(formId, {"a": "B"})
@@ -142,16 +133,14 @@ class FormSubmitAuth(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
-                "formOptions": {
-                    "loginRequired": True
-                }
-            }
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {"loginRequired": True},
+            },
         )
         self.set_permissions(formId, [])
         responseId, _ = self.submit_form(formId, {"a": "B"})
-        
+
         response = self.view_loginRequired(formId)
         self.assertEqual(response["statusCode"], 200, response)
         self.assertNotEqual(json.loads(response["body"])["res"], None)
@@ -167,12 +156,10 @@ class FormSubmitAuth(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
-                "formOptions": {
-                    "loginRequired": True
-                }
-            }
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {"loginRequired": True},
+            },
         )
         self.set_permissions(formId, [])
         responseId, _ = self.submit_form(formId, {"a": "B"})
@@ -199,12 +186,10 @@ class FormSubmitAuth(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
-                "formOptions": {
-                    "loginRequired": True
-                }
-            }
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {"loginRequired": True},
+            },
         )
         self.set_permissions(formId, ["Responses_View", "Responses_Edit"])
         responseId, _ = self.submit_form(formId, {"a": "B"})
@@ -231,14 +216,14 @@ class FormSubmitAuth(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
                 "formOptions": {
                     "loginRequired": True,
                     "responseCanViewByLink": True,
-                    "responseCanEditByLink": True
-                }
-            }
+                    "responseCanEditByLink": True,
+                },
+            },
         )
         self.set_permissions(formId, [])
         responseId, _ = self.submit_form(formId, {"a": "B"})

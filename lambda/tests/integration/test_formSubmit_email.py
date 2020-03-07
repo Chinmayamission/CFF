@@ -14,6 +14,7 @@ import time
 import mock
 import uuid
 
+
 class FormSubmitEmail(BaseTestCase):
     @mock.patch("boto3.client")
     def test_submit_notpaid_no_email(self, mock_boto_client):
@@ -21,26 +22,33 @@ class FormSubmitEmail(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
                 "formOptions": {
                     "paymentInfo": {
                         "currency": "USD",
                         "items": [
-                            {"name": "a", "description": "a", "amount": "1", "quantity": "1"}
-                        ]
+                            {
+                                "name": "a",
+                                "description": "a",
+                                "amount": "1",
+                                "quantity": "1",
+                            }
+                        ],
                     },
-                    "confirmationEmailInfo": {
-                        "toField": "email"
-                    }
-                }
-            }
+                    "confirmationEmailInfo": {"toField": "email"},
+                },
+            },
         )
-        responseId, submit_res = self.submit_form(formId, {"email": "success@simulator.amazonses.com"})
+        responseId, submit_res = self.submit_form(
+            formId, {"email": "success@simulator.amazonses.com"}
+        )
         self.assertEqual(submit_res["paid"], False)
         self.assertEqual(submit_res["email_sent"], False)
 
-        _, submit_res = self.submit_form(formId, {"email": "success@simulator.amazonses.com"}, responseId=responseId)
+        _, submit_res = self.submit_form(
+            formId, {"email": "success@simulator.amazonses.com"}, responseId=responseId
+        )
         self.assertEqual(submit_res["paid"], False)
         self.assertEqual(submit_res["email_sent"], False)
 
@@ -50,30 +58,42 @@ class FormSubmitEmail(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
                 "formOptions": {
                     "paymentInfo": {
                         "currency": "USD",
                         "items": [
-                            {"name": "a", "description": "a", "amount": "0", "quantity": "0"}
-                        ]
+                            {
+                                "name": "a",
+                                "description": "a",
+                                "amount": "0",
+                                "quantity": "0",
+                            }
+                        ],
                     },
-                    "confirmationEmailInfo": {
-                        "toField": "email"
-                    }
-                }
-            }
+                    "confirmationEmailInfo": {"toField": "email"},
+                },
+            },
         )
-        responseId, submit_res = self.submit_form(formId, {"email": "success@simulator.amazonses.com"})
+        responseId, submit_res = self.submit_form(
+            formId, {"email": "success@simulator.amazonses.com"}
+        )
         self.assertEqual(submit_res["paid"], True)
         self.assertEqual(submit_res["email_sent"], True)
 
-        _, submit_res = self.submit_form(formId, {"email": "success@simulator.amazonses.com"}, responseId=responseId)
+        _, submit_res = self.submit_form(
+            formId, {"email": "success@simulator.amazonses.com"}, responseId=responseId
+        )
         self.assertEqual(submit_res["paid"], True)
         self.assertEqual(submit_res["email_sent"], True)
 
-        _, submit_res = self.submit_form(formId, {"email": "success@simulator.amazonses.com"}, responseId=responseId, submitOptions={"sendEmail": True})
+        _, submit_res = self.submit_form(
+            formId,
+            {"email": "success@simulator.amazonses.com"},
+            responseId=responseId,
+            submitOptions={"sendEmail": True},
+        )
         self.assertEqual(submit_res["paid"], True)
         self.assertEqual(submit_res["email_sent"], True)
 
@@ -82,25 +102,37 @@ class FormSubmitEmail(BaseTestCase):
         self.edit_form(
             formId,
             {
-                "schema": {"a":"B"},
-                "uiSchema": {"a":"B"},
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
                 "formOptions": {
                     "paymentInfo": {
                         "currency": "USD",
                         "items": [
-                            {"name": "a", "description": "a", "amount": "0", "quantity": "0"}
-                        ]
+                            {
+                                "name": "a",
+                                "description": "a",
+                                "amount": "0",
+                                "quantity": "0",
+                            }
+                        ],
                     },
-                    "confirmationEmailInfo": {
-                        "toField": "email"
-                    }
-                }
-            }
+                    "confirmationEmailInfo": {"toField": "email"},
+                },
+            },
         )
-        responseId, submit_res = self.submit_form(formId, {"email": "success@simulator.amazonses.com"}, submitOptions={"sendEmail": False})
+        responseId, submit_res = self.submit_form(
+            formId,
+            {"email": "success@simulator.amazonses.com"},
+            submitOptions={"sendEmail": False},
+        )
         self.assertEqual(submit_res["paid"], True)
         self.assertEqual(submit_res["email_sent"], False)
 
-        _, submit_res = self.submit_form(formId, {"email": "success@simulator.amazonses.com"}, responseId=responseId, submitOptions={"sendEmail": False})
+        _, submit_res = self.submit_form(
+            formId,
+            {"email": "success@simulator.amazonses.com"},
+            responseId=responseId,
+            submitOptions={"sendEmail": False},
+        )
         self.assertEqual(submit_res["paid"], True)
         self.assertEqual(submit_res["email_sent"], False)
