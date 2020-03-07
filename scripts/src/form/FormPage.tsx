@@ -160,10 +160,10 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let mode = this.props.mode; // can be "view" or "edit"
     if (
       responseState.responseId &&
-      formOptions.responseCanViewByLink &&
-      !formOptions.responseCanEditByLink
+      !formOptions.responseCanEditByLink &&
+      !this.canAdminEdit(cff_permissions)
     ) {
-      // if loading a view-only response, default to "view" mode
+      // if loading a view-only response, default to "view" mode (unless user is an admin)
       mode = "view";
     }
     await new Promise((resolve, reject) =>
