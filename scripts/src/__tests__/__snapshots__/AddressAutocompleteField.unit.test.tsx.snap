@@ -25,14 +25,14 @@ exports[`AddressAutocompleteField renders autocomplete properly 1`] = `
         />
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;

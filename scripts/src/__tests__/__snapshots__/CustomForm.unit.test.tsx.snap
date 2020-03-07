@@ -52,14 +52,14 @@ exports[`renders default form without payment 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;
@@ -127,14 +127,14 @@ exports[`renders title and description with html 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;

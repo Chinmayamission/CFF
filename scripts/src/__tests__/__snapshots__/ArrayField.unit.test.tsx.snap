@@ -108,14 +108,14 @@ exports[`custom title for one and two 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;
@@ -282,14 +282,14 @@ exports[`renders object array with expand to maximum (two parents) 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;
@@ -471,14 +471,14 @@ exports[`renders regular checkboxes correctly 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;
@@ -599,14 +599,14 @@ exports[`renders regular object array 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;
@@ -669,14 +669,14 @@ exports[`shows add button when minItems is zero 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;
@@ -774,14 +774,14 @@ exports[`shows one child which can be removed 1`] = `
         </div>
       </div>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;

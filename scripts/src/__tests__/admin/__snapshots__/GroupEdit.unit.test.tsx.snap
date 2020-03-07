@@ -138,14 +138,14 @@ exports[`renders class edit form 1`] = `
         </div>
       </fieldset>
     </div>
-    <p>
+    <div>
       <button
         class="btn btn-info"
         type="submit"
       >
         Submit
       </button>
-    </p>
+    </div>
   </form>
 </div>
 `;
