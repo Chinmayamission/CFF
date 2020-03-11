@@ -84,7 +84,12 @@ export default (props: IResponseTableViewProps) => {
       <Modal
         open={!!props.shownResponseDetailId}
         onClose={() => props.displayResponseDetail(null)}
-        styles={{ modal: { width: "100%", minHeight: "100%" } }}
+        styles={{
+          modal:
+            props.shownResponseDetailMode === "inspect"
+              ? { width: "100%", minHeight: "100%" }
+              : { width: "100%", height: "100%" }
+        }}
       >
         {props.shownResponseDetailMode === "inspect" &&
           props.shownResponseDetailId && (
