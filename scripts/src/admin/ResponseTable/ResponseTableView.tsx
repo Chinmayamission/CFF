@@ -80,20 +80,11 @@ export default (props: IResponseTableViewProps) => {
         defaultSorted={[{ id: "DATE_LAST_MODIFIED", desc: true }]}
         defaultFiltered={[{ id: "PAID", value: "all" }]}
         defaultFilterMethod={filterCaseInsensitive}
-        // TdComponent={({ toggleSort, className, children, ...rest }) => {
-        //   return (
-        //     <div
-        //       className={classnames("rt-td", className)}
-        //       role="gridcell"
-        //       {...rest}
-        //     >{children}</div>
-        //   );
-        // }}
       />
       <Modal
         open={!!props.shownResponseDetailId}
         onClose={() => props.displayResponseDetail(null)}
-        styles={{ modal: { width: "100%", height: "100%" } }}
+        styles={{ modal: { width: "100%", minHeight: "100%" } }}
       >
         {props.shownResponseDetailMode === "inspect" &&
           props.shownResponseDetailId && (
