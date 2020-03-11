@@ -6,6 +6,30 @@ import UserRow from "./UserRow";
 import { IFormShareProps } from "./FormShare.d";
 import { IFormShareState } from "./FormShare.d";
 
+const EmbedShortcode = ({ formId }) => {
+  const [showCode, setShowCode] = React.useState(false);
+  return (
+    <>
+      <a
+        href="#"
+        onClick={e => {
+          e.preventDefault();
+          setShowCode(!showCode);
+        }}
+      >
+        Show embed code
+      </a>
+      {showCode && (
+        <code className="d-block mt-2">
+          &lt;iframe frameborder="0" style="width: 100%; height: 100vh" src="
+          {`${window.location.protocol}//${window.location.host}/v2/forms/${formId}`}
+          "&gt; &lt;/iframe&gt;
+        </code>
+      )}
+    </>
+  );
+};
+
 class FormShare extends React.Component<IFormShareProps, IFormShareState> {
   constructor(props: any) {
     super(props);
@@ -65,6 +89,7 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
   }
 
   render() {
+    const { formId } = this.props.match.params;
     return (
       <div className="">
         <div className="">
@@ -125,6 +150,8 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
             </tbody>
           </table>
         </div>
+        <hr className="my-3" />
+        <EmbedShortcode formId={formId} />
       </div>
     );
   }

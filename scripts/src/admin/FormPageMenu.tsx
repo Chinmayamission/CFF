@@ -36,7 +36,6 @@ function FormPageMenu({
     <div>
       <Item icon="oi oi-pencil" text="Edit" to={`/admin/${formId}/edit/`} />
       <Item icon="oi oi-document" text="View" to={`/v2/forms/${formId}/`} />
-      <Item icon="oi oi-document" text="Embed" to={`/admin/${formId}/embed/`} />
       <Item
         icon="oi oi-document"
         text="Responses"

@@ -1,5 +1,4 @@
 import * as React from "react";
-import FormEmbed from "./FormEmbed/FormEmbed";
 import FormList from "./FormList/FormList";
 import FormEdit from "./FormEdit/FormEdit";
 import ResponseTable from "./ResponseTable/ResponseTable";
@@ -143,16 +142,6 @@ function FormPages() {
             key={props.match.params.formId}
             onError={e => this.onError(e)}
             {...props}
-          />
-        )}
-      />
-      <Route
-        path="/admin/:formId/embed/"
-        render={props => (
-          <FormEmbed
-            form={null}
-            formId={props.match.params.formId}
-            onError={e => this.onError(e)}
           />
         )}
       />
