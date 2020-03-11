@@ -1,6 +1,6 @@
 Babel==2.7.0
 beautifulsoup4==4.6.0
-boto3==1.9.183
+boto3==1.9.201
 certifi==2018.1.18
 chardet==3.0.4
 cssutils==1.0.2
@@ -12,7 +12,7 @@ isodate==0.6.0
 Jinja2==2.10.1
 jsonpatch==1.23
 jsonpointer==2.0
-MarkupSafe==1.0
+MarkupSafe==1.1.1
 py-expression-eval==0.3.9
 pycryptodomex==3.6.4
 pydash==4.5.0
