@@ -84,9 +84,13 @@ export const setResponsesSelectedView = (viewName: string) => ({
   viewName
 });
 
-export const displayResponseDetail = (shownResponseDetailId: string) => ({
+export const displayResponseDetail = (
+  shownResponseDetailId: string,
+  shownResponseDetailMode: string = "inspect"
+) => ({
   type: "DISPLAY_RESPONSE_DETAIL",
-  shownResponseDetailId
+  shownResponseDetailId,
+  shownResponseDetailMode
 });
 
 export const submitNewPayment = ({ sendEmail, emailTemplateId }) => (

@@ -7,6 +7,7 @@ export interface ResponsesState {
   stats: any;
   selectedView: string;
   shownResponseDetailId: string;
+  shownResponseDetailMode: string;
 }
 
 export interface IResponse {

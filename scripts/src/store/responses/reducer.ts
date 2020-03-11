@@ -17,7 +17,8 @@ const initialState: ResponsesState = {
   stats: null,
   paymentStatusDetailItem: defaultPaymentStatusDetailItem,
   selectedView: "main",
-  shownResponseDetailId: null
+  shownResponseDetailId: null,
+  shownResponseDetailMode: null
 };
 
 const form: Reducer<any> = (state: any = initialState, action): any => {
@@ -25,7 +26,8 @@ const form: Reducer<any> = (state: any = initialState, action): any => {
     case "DISPLAY_RESPONSE_DETAIL":
       return {
         ...state,
-        shownResponseDetailId: action.shownResponseDetailId
+        shownResponseDetailId: action.shownResponseDetailId,
+        shownResponseDetailMode: action.shownResponseDetailMode
       };
     case "SET_RESPONSES":
       return {

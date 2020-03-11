@@ -100,7 +100,10 @@ class ResponseTable extends React.Component<
             renderedForm={this.props.form.renderedForm}
             dataOptionView={dataOptionView}
             shownResponseDetailId={this.props.shownResponseDetailId}
-            displayResponseDetail={e => this.props.displayResponseDetail(e)}
+            shownResponseDetailMode={this.props.shownResponseDetailMode}
+            displayResponseDetail={(e, f) =>
+              this.props.displayResponseDetail(e, f)
+            }
             editResponse={(a, b, c) => this.props.editResponse(a, b, c)}
           />
         )}
@@ -131,7 +134,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setResponsesSelectedView(e)),
   push: (e: string) => dispatch(push(`./${e}`)),
   editGroups: (e: any) => dispatch(editGroups(e)),
-  displayResponseDetail: (e: string) => dispatch(displayResponseDetail(e)),
+  displayResponseDetail: (e: string, f: string) =>
+    dispatch(displayResponseDetail(e, f)),
   editResponse: (a, b, c) => dispatch(editResponse(a, b, c))
 });
 

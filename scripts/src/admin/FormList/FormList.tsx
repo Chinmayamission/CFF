@@ -129,7 +129,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
               />
               <datalist id="ccmt-cff-form-search-datalist">
                 {allTags.map(tag => (
-                  <option value={tag} />
+                  <option key={tag} value={tag} />
                 ))}
               </datalist>
               <span className="input-group-append">

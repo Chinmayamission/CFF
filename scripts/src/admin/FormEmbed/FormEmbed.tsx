@@ -2,6 +2,7 @@ import * as React from "react";
 import Modal from "react-responsive-modal";
 import "./FormEmbed.scss";
 import { IFormEmbedProps, IFormEmbedState } from "./FormEmbed.d";
+import queryString from "query-string";
 
 class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
   constructor(props: any) {
@@ -51,12 +52,26 @@ class FormEdit extends React.Component<IFormEmbedProps, IFormEmbedState> {
   }
 }
 
-function Embed(props) {
+export function Embed(props: {
+  formId: string;
+  responseId?: string;
+  mode?: string;
+}) {
+  let params: any = {};
+  if (props.responseId) {
+    params.responseId = props.responseId;
+  }
+  if (props.mode) {
+    params.mode = props.mode;
+  }
+  const url = `${window.location.protocol}//${window.location.host}/v2/forms/${
+    props.formId
+  }?${queryString.stringify(params)}`;
   return (
     <iframe
       frameBorder="0"
       style={{ width: "100%", height: "100%" }}
-      src={`${window.location.protocol}//${window.location.host}/v2/forms/${props.formId}`}
+      src={url}
     ></iframe>
   );
 }
