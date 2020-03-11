@@ -25,7 +25,7 @@ exports[`renders response table with an editSchema specified instead of a group 
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -65,7 +65,7 @@ exports[`renders response table with an editSchema specified instead of a group 
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -145,7 +145,7 @@ exports[`renders response table with an editSchema specified instead of a group 
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -226,7 +226,7 @@ exports[`renders response table with an editSchema specified instead of a group 
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -429,7 +429,7 @@ exports[`renders response table with an undefined group assign 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -499,7 +499,7 @@ exports[`renders response table with an undefined group assign 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -700,7 +700,7 @@ exports[`renders response table with an undefined group assign 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -791,7 +791,7 @@ exports[`renders response table with an undefined group assign 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -1004,7 +1004,7 @@ exports[`renders response table with default filter 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -1044,7 +1044,7 @@ exports[`renders response table with default filter 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -1076,7 +1076,7 @@ exports[`renders response table with default filter 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -1153,7 +1153,7 @@ exports[`renders response table with default filter 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -1352,7 +1352,7 @@ exports[`renders response table with extra columns from the group 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -1437,7 +1437,7 @@ exports[`renders response table with extra columns from the group 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -1601,7 +1601,7 @@ exports[`renders response table with extra columns from the group 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -1670,7 +1670,7 @@ exports[`renders response table with extra columns from the group 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -1861,7 +1861,7 @@ exports[`renders response table with group assign 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -1931,7 +1931,7 @@ exports[`renders response table with group assign 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -2132,7 +2132,7 @@ exports[`renders response table with group assign 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -2223,7 +2223,7 @@ exports[`renders response table with group assign 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -2436,7 +2436,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -2536,7 +2536,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -2706,7 +2706,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -2778,7 +2778,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -2976,7 +2976,7 @@ exports[`responses with default data 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -3121,7 +3121,7 @@ exports[`responses with default data 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -3243,7 +3243,7 @@ exports[`responses with default data 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -3462,7 +3462,7 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -3502,7 +3502,7 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -3540,7 +3540,7 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -3710,7 +3710,7 @@ exports[`responses with expr data normal expression 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -3750,7 +3750,7 @@ exports[`responses with expr data normal expression 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -3788,7 +3788,7 @@ exports[`responses with expr data normal expression 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -3958,7 +3958,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -3998,7 +3998,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -4036,7 +4036,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -4206,7 +4206,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -4246,7 +4246,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -4284,7 +4284,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -4332,7 +4332,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -4502,7 +4502,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -4542,7 +4542,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -4580,7 +4580,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -4750,7 +4750,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -4790,7 +4790,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -4828,7 +4828,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -4998,7 +4998,7 @@ exports[`responses with unwind data 1`] = `
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <div
@@ -5203,7 +5203,7 @@ exports[`responses with unwind data 1`] = `
           <div
             class="rt-th"
             role="columnheader"
-            style="flex:100 0 auto;width:100px"
+            style="flex:100 0 auto;width:100px;max-width:100px"
             tabindex="-1"
           >
             <input
@@ -5547,7 +5547,7 @@ exports[`responses with unwind data 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"
@@ -5672,7 +5672,7 @@ exports[`responses with unwind data 1`] = `
             <div
               class="rt-td"
               role="gridcell"
-              style="flex:100 0 auto;width:100px"
+              style="flex:100 0 auto;width:100px;max-width:100px"
             >
               <div
                 class="ccmt-cff-response-action-buttons"

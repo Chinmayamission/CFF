@@ -47,6 +47,7 @@ export default (props: IResponseTableViewProps) => {
     id: "cff_actions",
     Header: "Actions",
     accessor: e => e.ID,
+    width: 100,
     Cell: ({ value }) => (
       <ResponseActionButtons
         onView={() => props.displayResponseDetail(value, "view")}
