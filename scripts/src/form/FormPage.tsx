@@ -346,6 +346,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     );
   }
   renderForm() {
+    const hideBar = this.props.pickFields
+      ? this.props.pickFields.length > 0
+      : false;
     if (this.state.hasError) {
       return (
         <div className="py-2">
@@ -370,7 +373,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             }}
           />
           <h2>Please log in or sign up for a new account.</h2>
-          <Login hideBar={this.props.pickFields} />
+          <Login hideBar={hideBar} />
         </div>
       );
     }
@@ -436,11 +439,9 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             : " ccmt-cff-Page-FormPage-readonly")
         }
       >
-        {this.state.formOptions.loginRequired && (
-          <Login hideBar={this.props.pickFields} />
-        )}
+        {this.state.formOptions.loginRequired && <Login hideBar={hideBar} />}
         {!this.state.formOptions.loginRequired && (
-          <Login loginOptional={true} hideBar={this.props.pickFields} />
+          <Login loginOptional={true} hideBar={hideBar} />
         )}
         {this.state.predicate && !this.state.responseId && (
           <div

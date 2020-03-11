@@ -31,3 +31,11 @@ npm test
 ## Updating fixtures
 
 If you want to update the default database import file, run `npm run fixtures` and commit the fixtures to source control.
+
+## Running prod code locally
+
+Notes:
+
+```bash
+cd ../.. && npm run build && cd scripts/beta && cp index.undefined.html index.html && serve -s
+```
