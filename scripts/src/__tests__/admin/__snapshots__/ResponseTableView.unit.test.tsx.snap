@@ -16,12 +16,27 @@ exports[`renders response table with an editSchema specified instead of a group 
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th ccmt-cff-no-click rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -41,12 +56,24 @@ exports[`renders response table with an editSchema specified instead of a group 
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
           <div
             class="rt-th ccmt-cff-no-click"
             role="columnheader"
@@ -105,7 +132,7 @@ exports[`renders response table with an editSchema specified instead of a group 
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -121,42 +148,69 @@ exports[`renders response table with an editSchema specified instead of a group 
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
+              >
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              <div
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      value="v1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        value="v1"
-                      >
-                        AAA
-                      </option>
-                      <option
-                        value="v2"
-                      >
-                        BBB
-                      </option>
-                      <option
-                        value="v3"
-                      >
-                        CCC
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      AAA
+                    </option>
+                    <option
+                      value="v2"
+                    >
+                      BBB
+                    </option>
+                    <option
+                      value="v3"
+                    >
+                      CCC
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -175,42 +229,69 @@ exports[`renders response table with an editSchema specified instead of a group 
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
+              >
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              <div
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      value="v1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        value="v1"
-                      >
-                        AAA
-                      </option>
-                      <option
-                        value="v2"
-                      >
-                        BBB
-                      </option>
-                      <option
-                        value="v3"
-                      >
-                        CCC
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      AAA
+                    </option>
+                    <option
+                      value="v2"
+                    >
+                      BBB
+                    </option>
+                    <option
+                      value="v3"
+                    >
+                      CCC
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -320,52 +401,6 @@ exports[`renders response table with an editSchema specified instead of a group 
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -385,12 +420,27 @@ exports[`renders response table with an undefined group assign 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:300px"
+        style="min-width:400px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -440,12 +490,24 @@ exports[`renders response table with an undefined group assign 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:300px"
+        style="min-width:400px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
           <div
             class="rt-th"
             role="columnheader"
@@ -625,7 +687,7 @@ exports[`renders response table with an undefined group assign 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:300px"
+        style="min-width:400px"
       >
         <div
           class="rt-tr-group"
@@ -641,9 +703,29 @@ exports[`renders response table with an undefined group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash2 ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -651,11 +733,14 @@ exports[`renders response table with an undefined group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Toddler
-              </div>
+              ash2 ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Toddler
             </div>
             <div
               class="rt-td"
@@ -663,38 +748,34 @@ exports[`renders response table with an undefined group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      value="CLASS1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        value="CLASS1"
-                      >
-                        Class Name One
-                      </option>
-                      <option
-                        selected=""
-                        value="CLASS2"
-                      >
-                        Class Name Two
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      Class Name One
+                    </option>
+                    <option
+                      selected=""
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -713,9 +794,29 @@ exports[`renders response table with an undefined group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -723,11 +824,14 @@ exports[`renders response table with an undefined group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Pre K
-              </div>
+              ash ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Pre K
             </div>
             <div
               class="rt-td"
@@ -735,38 +839,34 @@ exports[`renders response table with an undefined group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      selected=""
+                      value="CLASS1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        selected=""
-                        value="CLASS1"
-                      >
-                        Class Name One
-                      </option>
-                      <option
-                        value="CLASS2"
-                      >
-                        Class Name Two
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      Class Name One
+                    </option>
+                    <option
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -876,52 +976,6 @@ exports[`renders response table with an undefined group assign 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -941,12 +995,27 @@ exports[`renders response table with default filter 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th ccmt-cff-no-click rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -966,12 +1035,24 @@ exports[`renders response table with default filter 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
           <div
             class="rt-th ccmt-cff-no-click"
             role="columnheader"
@@ -982,7 +1063,7 @@ exports[`renders response table with default filter 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -998,38 +1079,65 @@ exports[`renders response table with default filter 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
+              >
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              <div
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      value="CLASS1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        value="CLASS1"
-                      >
-                        Class Name One
-                      </option>
-                      <option
-                        selected=""
-                        value="CLASS2"
-                      >
-                        Class Name Two
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      Class Name One
+                    </option>
+                    <option
+                      selected=""
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -1048,38 +1156,65 @@ exports[`renders response table with default filter 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
+              >
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              <div
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      selected=""
+                      value="CLASS1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        selected=""
-                        value="CLASS1"
-                      >
-                        Class Name One
-                      </option>
-                      <option
-                        value="CLASS2"
-                      >
-                        Class Name Two
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      Class Name One
+                    </option>
+                    <option
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -1189,52 +1324,6 @@ exports[`renders response table with default filter 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -1254,12 +1343,27 @@ exports[`renders response table with extra columns from the group 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:400px"
+        style="min-width:500px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -1324,12 +1428,24 @@ exports[`renders response table with extra columns from the group 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:400px"
+        style="min-width:500px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
           <div
             class="rt-th"
             role="columnheader"
@@ -1472,7 +1588,7 @@ exports[`renders response table with extra columns from the group 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:400px"
+        style="min-width:500px"
       >
         <div
           class="rt-tr-group"
@@ -1488,9 +1604,29 @@ exports[`renders response table with extra columns from the group 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash2 ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -1498,33 +1634,28 @@ exports[`renders response table with extra columns from the group 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Toddler
-              </div>
+              ash2 ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Class Name Two
-              </div>
+              Toddler
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Class Room Two
-              </div>
+              Class Name Two
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Room Two
             </div>
           </div>
         </div>
@@ -1542,9 +1673,29 @@ exports[`renders response table with extra columns from the group 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -1552,33 +1703,28 @@ exports[`renders response table with extra columns from the group 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Pre K
-              </div>
+              ash ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Class Name One
-              </div>
+              Pre K
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Class Room One
-              </div>
+              Class Name One
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Class Room One
             </div>
           </div>
         </div>
@@ -1687,52 +1833,6 @@ exports[`renders response table with extra columns from the group 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -1752,12 +1852,27 @@ exports[`renders response table with group assign 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:300px"
+        style="min-width:400px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -1807,12 +1922,24 @@ exports[`renders response table with group assign 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:300px"
+        style="min-width:400px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
           <div
             class="rt-th"
             role="columnheader"
@@ -1992,7 +2119,7 @@ exports[`renders response table with group assign 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:300px"
+        style="min-width:400px"
       >
         <div
           class="rt-tr-group"
@@ -2008,9 +2135,29 @@ exports[`renders response table with group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash2 ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -2018,11 +2165,14 @@ exports[`renders response table with group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Toddler
-              </div>
+              ash2 ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Toddler
             </div>
             <div
               class="rt-td"
@@ -2030,38 +2180,34 @@ exports[`renders response table with group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      value="CLASS1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        value="CLASS1"
-                      >
-                        Class Name One
-                      </option>
-                      <option
-                        selected=""
-                        value="CLASS2"
-                      >
-                        Class Name Two
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      Class Name One
+                    </option>
+                    <option
+                      selected=""
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -2080,9 +2226,29 @@ exports[`renders response table with group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -2090,11 +2256,14 @@ exports[`renders response table with group assign 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Pre K
-              </div>
+              ash ram
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Pre K
             </div>
             <div
               class="rt-td"
@@ -2102,38 +2271,34 @@ exports[`renders response table with group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="rjsf"
               >
                 <div
-                  class="rjsf"
+                  class="form-group field field-string"
                 >
-                  <div
-                    class="form-group field field-string"
+                  <select
+                    class="form-control"
+                    id="root"
                   >
-                    <select
-                      class="form-control"
-                      id="root"
+                    <option
+                      value=""
+                    />
+                    <option
+                      selected=""
+                      value="CLASS1"
                     >
-                      <option
-                        value=""
-                      />
-                      <option
-                        selected=""
-                        value="CLASS1"
-                      >
-                        Class Name One
-                      </option>
-                      <option
-                        value="CLASS2"
-                      >
-                        Class Name Two
-                      </option>
-                    </select>
-                  </div>
-                  <div
-                    class="d-none"
-                  />
+                      Class Name One
+                    </option>
+                    <option
+                      value="CLASS2"
+                    >
+                      Class Name Two
+                    </option>
+                  </select>
                 </div>
+                <div
+                  class="d-none"
+                />
               </div>
             </div>
           </div>
@@ -2243,52 +2408,6 @@ exports[`renders response table with group assign 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -2308,12 +2427,27 @@ exports[`renders response table with groups and displaying another model 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:500px"
+        style="min-width:600px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -2393,12 +2527,24 @@ exports[`renders response table with groups and displaying another model 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:500px"
+        style="min-width:600px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
           <div
             class="rt-th"
             role="columnheader"
@@ -2547,7 +2693,7 @@ exports[`renders response table with groups and displaying another model 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:500px"
+        style="min-width:600px"
       >
         <div
           class="rt-tr-group"
@@ -2563,9 +2709,29 @@ exports[`renders response table with groups and displaying another model 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash2 ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -2573,41 +2739,32 @@ exports[`renders response table with groups and displaying another model 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Toddler
-              </div>
+              ash2 ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Class Name Two
-              </div>
+              Toddler
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              />
+              Class Name Two
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
-            >
-              <div
-                class="react-contextmenu-wrapper"
-              />
-            </div>
+            />
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            />
           </div>
         </div>
         <div
@@ -2624,9 +2781,29 @@ exports[`renders response table with groups and displaying another model 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -2634,44 +2811,35 @@ exports[`renders response table with groups and displaying another model 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Pre K
-              </div>
+              ash ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Class Name One
-              </div>
+              Pre K
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                TeacherClass1First TeacherClass1Last
-              </div>
+              Class Name One
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                teacherclass1first@m.com
-              </div>
+              TeacherClass1First TeacherClass1Last
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              teacherclass1first@m.com
             </div>
           </div>
         </div>
@@ -2780,98 +2948,6 @@ exports[`renders response table with groups and displaying another model 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -2891,12 +2967,27 @@ exports[`responses with default data 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:800px"
+        style="min-width:900px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -3021,7 +3112,7 @@ exports[`responses with default data 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:800px"
+        style="min-width:900px"
       >
         <div
           class="rt-tr"
@@ -3123,11 +3214,23 @@ exports[`responses with default data 1`] = `
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:800px"
+        style="min-width:900px"
       >
         <div
           class="rt-tr-group"
@@ -3143,9 +3246,29 @@ exports[`responses with default data 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                mom ram, dad ram
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -3153,77 +3276,56 @@ exports[`responses with default data 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                1231234311 1231231233, 1231231233
-              </div>
+              mom ram, dad ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                mom@chinmayamission.com, dad@chinmayamission.com
-              </div>
+              1231234311 1231231233, 1231231233
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                123 abc st  johns creek GA 30022
-              </div>
+              mom@chinmayamission.com, dad@chinmayamission.com
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                ash, ash2
-              </div>
+              123 abc st  johns creek GA 30022
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                NO
-              </div>
+              ash, ash2
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                $510.00
-              </div>
+              NO
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                $100.00
-              </div>
+              $510.00
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              $100.00
             </div>
           </div>
         </div>
@@ -3332,52 +3434,6 @@ exports[`responses with default data 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -3397,12 +3453,27 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -3422,7 +3493,7 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
@@ -3440,11 +3511,23 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -3460,10 +3543,37 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                500
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              500
             </div>
           </div>
         </div>
@@ -3572,52 +3682,6 @@ exports[`responses with expr data expression that uses responseMetadata (i.e. a 
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -3637,12 +3701,27 @@ exports[`responses with expr data normal expression 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -3662,7 +3741,7 @@ exports[`responses with expr data normal expression 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
@@ -3680,11 +3759,23 @@ exports[`responses with expr data normal expression 1`] = `
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -3700,10 +3791,37 @@ exports[`responses with expr data normal expression 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                520
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              520
             </div>
           </div>
         </div>
@@ -3812,52 +3930,6 @@ exports[`responses with expr data normal expression 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -3877,12 +3949,27 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -3902,7 +3989,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
@@ -3920,11 +4007,23 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -3940,10 +4039,37 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                $0.99
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              $0.99
             </div>
           </div>
         </div>
@@ -4052,52 +4178,6 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should filter paym
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -4117,12 +4197,27 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -4142,7 +4237,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
@@ -4160,11 +4255,23 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -4180,10 +4287,37 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                $1,076.66
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              $1,076.66
             </div>
           </div>
         </div>
@@ -4201,10 +4335,37 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                $0.99
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              $0.99
             </div>
           </div>
         </div>
@@ -4313,98 +4474,6 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should handle part
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -4424,12 +4493,27 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -4449,7 +4533,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
@@ -4467,11 +4551,23 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -4487,10 +4583,37 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                $9.90
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              $9.90
             </div>
           </div>
         </div>
@@ -4599,52 +4722,6 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should show correc
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -4664,12 +4741,27 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -4689,7 +4781,7 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
@@ -4707,11 +4799,23 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -4727,10 +4831,37 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                $9.90
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              $9.90
             </div>
           </div>
         </div>
@@ -4839,52 +4970,6 @@ exports[`responses with queryType=paymentInfoItemPaidSum data should sum up quer
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
 
@@ -4904,12 +4989,27 @@ exports[`responses with unwind data 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:1200px"
+        style="min-width:1300px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -5094,12 +5194,24 @@ exports[`responses with unwind data 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:1200px"
+        style="min-width:1300px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
           <div
             class="rt-th"
             role="columnheader"
@@ -5422,7 +5534,7 @@ exports[`responses with unwind data 1`] = `
       </div>
       <div
         class="rt-tbody"
-        style="min-width:1200px"
+        style="min-width:1300px"
       >
         <div
           class="rt-tr-group"
@@ -5438,9 +5550,29 @@ exports[`responses with unwind data 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash2
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -5448,121 +5580,84 @@ exports[`responses with unwind data 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                ram
-              </div>
+              ash2
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                M
-              </div>
+              ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                9301-01-14
-              </div>
+              M
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Toddler
-              </div>
+              9301-01-14
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                sib@chinmayamission.com
-              </div>
+              Toddler
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                onions and garlic
-              </div>
+              sib@chinmayamission.com
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                mom ram, dad ram
-              </div>
+              onions and garlic
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                1231234311 1231231233, 1231231233
-              </div>
+              mom ram, dad ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                mom@chinmayamission.com, dad@chinmayamission.com
-              </div>
+              1231234311 1231231233, 1231231233
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                123 abc st  johns creek GA 30022
-              </div>
+              mom@chinmayamission.com, dad@chinmayamission.com
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Art activity, Dance, Teaching, Dance, Technology, Cooking, Event organization
-              </div>
+              123 abc st  johns creek GA 30022
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Art activity, Dance, Teaching, Dance, Technology, Cooking, Event organization
             </div>
           </div>
         </div>
@@ -5580,9 +5675,29 @@ exports[`responses with unwind data 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                ash
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
             </div>
             <div
@@ -5590,117 +5705,80 @@ exports[`responses with unwind data 1`] = `
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                ram
-              </div>
+              ash
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                M
-              </div>
+              ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                1996-07-12
-              </div>
+              M
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Pre K
-              </div>
+              1996-07-12
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              />
+              Pre K
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            />
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            />
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              mom ram, dad ram
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              />
+              1231234311 1231231233, 1231231233
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                mom ram, dad ram
-              </div>
+              mom@chinmayamission.com, dad@chinmayamission.com
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                1231234311 1231231233, 1231231233
-              </div>
+              123 abc st  johns creek GA 30022
             </div>
             <div
               class="rt-td"
               role="gridcell"
               style="flex:100 0 auto;width:100px"
             >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                mom@chinmayamission.com, dad@chinmayamission.com
-              </div>
-            </div>
-            <div
-              class="rt-td"
-              role="gridcell"
-              style="flex:100 0 auto;width:100px"
-            >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                123 abc st  johns creek GA 30022
-              </div>
-            </div>
-            <div
-              class="rt-td"
-              role="gridcell"
-              style="flex:100 0 auto;width:100px"
-            >
-              <div
-                class="react-contextmenu-wrapper"
-              >
-                Art activity, Dance, Teaching, Dance, Technology, Cooking, Event organization
-              </div>
+              Art activity, Dance, Teaching, Dance, Technology, Cooking, Event organization
             </div>
           </div>
         </div>
@@ -5809,51 +5887,5 @@ exports[`responses with unwind data 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/123?responseId=5b70ea7a5692f86efe9202bf&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;

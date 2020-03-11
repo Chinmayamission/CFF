@@ -16,12 +16,27 @@ exports[`displays array value properly 1`] = `
     >
       <div
         class="rt-thead -header"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
           role="row"
         >
+          <div
+            class="rt-th rt-resizable-header -cursor-pointer"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <div
+              class="rt-resizable-header-content"
+            >
+              Actions
+            </div>
+            <div
+              class="rt-resizer"
+            />
+          </div>
           <div
             class="rt-th rt-resizable-header -cursor-pointer"
             role="columnheader"
@@ -41,7 +56,7 @@ exports[`displays array value properly 1`] = `
       </div>
       <div
         class="rt-thead -filters"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr"
@@ -59,11 +74,23 @@ exports[`displays array value properly 1`] = `
               value=""
             />
           </div>
+          <div
+            class="rt-th"
+            role="columnheader"
+            style="flex:100 0 auto;width:100px"
+            tabindex="-1"
+          >
+            <input
+              style="width:100%"
+              type="text"
+              value=""
+            />
+          </div>
         </div>
       </div>
       <div
         class="rt-tbody"
-        style="min-width:100px"
+        style="min-width:200px"
       >
         <div
           class="rt-tr-group"
@@ -79,10 +106,37 @@ exports[`displays array value properly 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="react-contextmenu-wrapper"
+                class="ccmt-cff-response-action-buttons"
               >
-                Teaching, Dancing
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-document"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-pencil"
+                  />
+                </button>
+                <button
+                  class="btn btn-sm btn-link"
+                >
+                  <span
+                    class="oi oi-code"
+                  />
+                </button>
               </div>
+            </div>
+            <div
+              class="rt-td"
+              role="gridcell"
+              style="flex:100 0 auto;width:100px"
+            >
+              Teaching, Dancing
             </div>
           </div>
         </div>
@@ -191,51 +245,5 @@ exports[`displays array value properly 1`] = `
       </div>
     </div>
   </div>
-  <nav
-    class="react-contextmenu"
-    role="menu"
-    style="position:fixed;opacity:0;pointer-events:none"
-    tabindex="-1"
-  >
-    <a
-      href="/v2/forms/?responseId=1232143&mode=view"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        View
-      </div>
-    </a>
-    <a
-      href="/v2/forms/?responseId=1232143&mode=edit"
-    >
-      <div
-        aria-disabled="false"
-        class="react-contextmenu-item"
-        role="menuitem"
-        tabindex="-1"
-      >
-        Edit
-      </div>
-    </a>
-    <div
-      aria-disabled="false"
-      aria-orientation="horizontal"
-      class="react-contextmenu-item react-contextmenu-item--divider"
-      role="menuitem"
-      tabindex="-1"
-    />
-    <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
-      role="menuitem"
-      tabindex="-1"
-    >
-      Inspect
-    </div>
-  </nav>
 </div>
 `;
