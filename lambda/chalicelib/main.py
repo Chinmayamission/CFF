@@ -18,7 +18,6 @@ from pymodm.errors import DoesNotExist
 import pymodm
 from chalicelib.util.jwt import get_claims
 from chalicelib.models import User
-from chalicelib import routes
 
 MODE = os.getenv("MODE", "DEV")
 print("MODE IS " + MODE)
@@ -93,20 +92,41 @@ class CustomChalice(Chalice):
 
 ssm = boto3.client("ssm", "us-east-1")
 s3_client = boto3.client("s3", "us-east-1")
+MONGO_CONN_STR = None
+SMTP_USERNAME = None
+SMTP_PASSWORD = None
 if MODE == "TEST":
     pymodm.connection.connect("mongodb://localhost:10255/test")
 elif MODE == "DEV":
-    pymodm.connection.connect("mongodb://localhost:10255/admin")
+    MONGO_CONN_STR = os.getenv("MONGO_CONN_STR", "mongodb://localhost:10255/admin")
+    SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+    pymodm.connection.connect()
 elif MODE == "BETA":
-    mongo_conn_str = ssm.get_parameter(
+    MONGO_CONN_STR = ssm.get_parameter(
         Name="CFF_ATLAS_CONN_STR_WRITE_BETA", WithDecryption=True
     )["Parameter"]["Value"]
-    pymodm.connection.connect(mongo_conn_str)
+    SMTP_USERNAME = ssm.get_parameter(
+        Name="CFF_SMTP_USERNAME_BETA", WithDecryption=True
+    )["Parameter"]["Value"]
+    SMTP_PASSWORD = ssm.get_parameter(
+        Name="CFF_SMTP_PASSWORD_BETA", WithDecryption=True
+    )["Parameter"]["Value"]
+    pymodm.connection.connect(MONGO_CONN_STR)
 elif MODE == "PROD":
-    mongo_conn_str = ssm.get_parameter(
+    MONGO_CONN_STR = ssm.get_parameter(
         Name="CFF_COSMOS_CONN_STR_WRITE_PROD", WithDecryption=True
     )["Parameter"]["Value"]
-    pymodm.connection.connect(mongo_conn_str)
+    SMTP_USERNAME = ssm.get_parameter(
+        Name="CFF_SMTP_USERNAME_PROD", WithDecryption=True
+    )["Parameter"]["Value"]
+    SMTP_PASSWORD = ssm.get_parameter(
+        Name="CFF_SMTP_PASSWORD_PROD", WithDecryption=True
+    )["Parameter"]["Value"]
+    pymodm.connection.connect(MONGO_CONN_STR)
+
+SMTP_HOST = "email-smtp.us-east-1.amazonaws.com"
+SMTP_PORT = 587
 
 app = CustomChalice(app_name="ccmt-cff-rest-api")
 if MODE != "PROD":
@@ -150,19 +170,8 @@ def iamAuthorizer(auth_request):
     )
 
 
-"""
-# Home page
-http http://localhost:8000/forms/ "Authorization: allow"
 
-# Get form
-http http://localhost:8000/forms/e4548443-99da-4340-b825-3f09921b4bc5 "Authorization: allow"
-
-http https://ewnywds4u7.execute-api.us-east-1.amazonaws.com/api/forms/ "Authorization: allow"
-"""
-
-# app.route('/centers', methods=['GET', 'POST'], cors=True, authorizer=iamAuthorizer)(routes.center_list)
-# app.route('/centers/{centerId}/forms', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.form_list)
-# app.route('/centers/{centerId}/schemas', methods=['GET'], cors=True, authorizer=iamAuthorizer)(routes.schema_list)
+from chalicelib import routes
 app.route("/forms", methods=["GET"], cors=True, authorizer=iamAuthorizer)(
     routes.form_list
 )

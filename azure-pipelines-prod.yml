@@ -36,6 +36,7 @@ stages:
         pip install pipenv
         pipenv install
         npm install
+        npm run install-deps
         npm test
       workingDirectory: lambda
       displayName: 'install deps, test'
@@ -82,6 +83,7 @@ stages:
         pip install pipenv
         pipenv install
         npm install
+        npm run install-deps
       workingDirectory: lambda
       displayName: 'install deps for backend'
     - script: |

@@ -12,20 +12,11 @@
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "ses:SendEmail",
-        "ses:SendRawEmail"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
       "Action": "ssm:GetParameter",
       "Resource": [
-          "arn:aws:ssm:*:*:parameter/CFF_COSMOS_CONN_STR_WRITE_PROD"
+          "arn:aws:ssm:*:*:parameter/CFF_COSMOS_CONN_STR_WRITE_PROD",
+          "arn:aws:ssm:*:*:parameter/CFF_SMTP_USERNAME_PROD",
+          "arn:aws:ssm:*:*:parameter/CFF_SMTP_PASSWORD_PROD"
       ]
     },
     {

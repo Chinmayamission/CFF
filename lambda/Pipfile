@@ -45,6 +45,7 @@ babel = "*"
 dnspython = "*"
 black = "==18.9b0"
 freezegun = "*"
+pdfkit = "*"
 
 [dev-packages]
 

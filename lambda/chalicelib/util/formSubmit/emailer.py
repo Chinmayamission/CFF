@@ -1,9 +1,5 @@
-import os
-import boto3
-from botocore.exceptions import ClientError
-
-# import bleach
 import html2text
+import os
 from pynliner import Pynliner
 from .util import (
     format_paymentInfo,
@@ -16,8 +12,17 @@ from pydash.objects import get
 import logging
 from jinja2 import Environment, Undefined
 import flatdict
+from chalicelib.main import SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT
 from chalicelib.models import serialize_model, EmailTrailItem
+from chalicelib.util.pdf_generator import convert_html_to_pdf
 import datetime
+import smtplib
+
+import email.utils
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 
 
 class SilentUndefined(Undefined):
@@ -62,6 +67,17 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     if type(toField) is not list:
         toField = [toField]
 
+    # pre-process attachment templates
+    attachments = [
+        {
+            "fileName": item.get("fileName", "attachment.pdf"),
+            "contents": convert_html_to_pdf(
+                fill_string_from_template(response, item["template"]["html"])
+            ),
+        }
+        for item in confirmationEmailInfo.get("attachments", [])
+    ]
+
     emailOptions = dict(
         toEmail=[get(response.value, i) for i in toField],
         fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
@@ -71,6 +87,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
         ccEmail=confirmationEmailInfo.get("cc", ""),
         replyToEmail=confirmationEmailInfo.get("replyTo", ""),
         msgBody=msgBody,
+        attachments=attachments,
     )
     return emailOptions
 
@@ -85,23 +102,19 @@ def email_to_html_text(msgBody):
 
 
 def send_email(
-    toEmail="success@simulator.amazonses.com",
-    fromEmail="webmaster@chinmayamission.com",
-    ccEmail="",
-    bccEmail="",
-    replyToEmail="",
-    fromName="Webmaster",
-    subject="Confirmation email",
-    msgBody="<h1>Confirmation</h1><br><p>Thank you for registering.</p>",
+    toEmail,
+    fromEmail,
+    ccEmail,
+    bccEmail,
+    replyToEmail,
+    fromName,
+    subject,
+    msgBody,
+    attachments,
 ):
 
     # Todo: make sure sender is verified with Amazon SES.
-    SENDER = "{} <{}>".format(fromName, fromEmail)
-    AWS_REGION = "us-east-1"
     BODY_TEXT, BODY_HTML = email_to_html_text(msgBody)
-    # The character encoding for the email.
-    CHARSET = "utf-8"
-    client = boto3.client("ses", region_name=AWS_REGION)
 
     if toEmail and type(toEmail) is str:
         toEmail = toEmail.split(",")
@@ -115,42 +128,50 @@ def send_email(
     ccEmail = [email for email in ccEmail if email] if ccEmail else []
     bccEmail = [email for email in bccEmail if email] if bccEmail else []
     replyToEmail = [email for email in replyToEmail if email] if replyToEmail else []
+    toEmail = ",".join(toEmail)
+    ccEmail = ",".join(ccEmail)
+    bccEmail = ",".join(bccEmail)
+    replyToEmail = ",".join(replyToEmail)
+
+    # Create message container - the correct MIME type is multipart/alternative.
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = email.utils.formataddr((fromName, fromEmail))
+    msg["To"] = toEmail
+    msg["Cc"] = ccEmail
+    msg["Bcc"] = bccEmail
+    msg["Reply-To"] = replyToEmail
+
+    # Record the MIME types of both parts - text/plain and text/html.
+    part1 = MIMEText(BODY_TEXT, "plain")
+    part2 = MIMEText(BODY_HTML, "html")
+
+    # Attach parts into message container.
+    # According to RFC 2046, the last part of a multipart message, in this case
+    # the HTML message, is best and preferred.
+    msg.attach(part1)
+    msg.attach(part2)
+
+    for item in attachments:
+        part = MIMEBase("application", "octet-stream")
+        filename = item["fileName"]
+        part.set_payload(item["contents"])
+        encoders.encode_base64(part)
+        part.add_header("Content-Disposition", f"attachment; filename= {filename}")
+        msg.attach(part)
 
     try:
-        response = client.send_email(
-            Source=SENDER,
-            Destination={
-                "ToAddresses": toEmail,
-                "CcAddresses": ccEmail,
-                "BccAddresses": bccEmail,
-            },
-            Message={
-                "Subject": {"Data": subject, "Charset": CHARSET},
-                "Body": {
-                    "Text": {"Data": BODY_TEXT, "Charset": CHARSET},
-                    "Html": {"Data": BODY_HTML, "Charset": CHARSET},
-                },
-            },
-            ReplyToAddresses=replyToEmail,
-            # ReturnPath='success@simulator.amazonses.com',
-            # SourceArn='string',
-            # ReturnPathArn='string',
-            # Tags=[
-            #     {
-            #         'Name': 'string',
-            #         'Value': 'string'
-            #     },
-            # ],
-            # ConfigurationSetName='string'
-        )
+        server = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(SMTP_USERNAME, SMTP_PASSWORD)
+        server.send_message(msg)
+        server.close()
     # Display an error if something goes wrong.
-    except ClientError as e:
-        print(
-            "Error sending email to {}. Error message: {}".format(
-                toEmail, e.response["Error"]["Message"]
-            )
-        )
-        raise
+    except Exception as e:
+        print("Error sending email to {}.".format(toEmail))
+        raise e
     else:
         pass
 

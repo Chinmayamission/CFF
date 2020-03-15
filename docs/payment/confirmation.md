@@ -27,7 +27,26 @@ Modify your response here: {{view_link}}.
 
 Here is a sample view link: http://localhost:8000/v2/forms/5b3f8b7a978a860001e276c3/?responseId=5b3f8daf978a860001e276c5&mode=view
 
-# Confirmation email templates.
+## Add attachments
+
+To add attachments to an email, you can add an array to `confirmationEmailInfo.attachments`. Each item in the array defines a HTML template that is rendered and then converted to PDF. You can add multiple attachments to an email, each with a different template.
+
+```json
+{
+    "confirmationEmailInfo": {
+        "attachments": [
+            {
+                "fileName": "receipt.pdf",
+                "template": {
+                    "html": "receipt template <h1>test</h1>"
+                }
+            }
+        ]
+    }
+}
+```
+
+## Confirmation email templates.
 You can define confirmation email templates in `formOptions.confirmationEmailTemplates`. These are currently accessible when an admin enters in a manual payment, during which they can select which template they would want to use.
 
 As an example use case, we want to be able to either send 1) the entire email or 2) just a receipt with the payment table when we do so.

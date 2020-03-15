@@ -39,3 +39,15 @@ Notes:
 ```bash
 cd ../.. && npm run build && cd scripts/beta && cp index.undefined.html index.html && serve -s
 ```
+
+## Setting up PDF code
+
+PDF generation only works on Linux. To get this to work, first run the following:
+
+```bash
+cd lambda
+npm run install-deps
+```
+
+This will add the `wkhtmltopdf` binary to `chalicelib/bin` so that it is available for `python-pdfkit`.
+This step is automatically run before deployment.
