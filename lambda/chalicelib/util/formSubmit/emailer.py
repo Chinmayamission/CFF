@@ -12,7 +12,7 @@ from pydash.objects import get
 import logging
 from jinja2 import Environment, Undefined
 import flatdict
-from chalicelib.main import SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT
+from chalicelib.config import SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT
 from chalicelib.models import serialize_model, EmailTrailItem
 from chalicelib.util.pdf_generator import convert_html_to_pdf
 import datetime

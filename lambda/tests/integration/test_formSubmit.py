@@ -236,8 +236,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response["value"], expected_data)
         self.assertEqual(response["paid"], False)
 
-    @mock.patch("boto3.client")
-    def test_submit_form_update_unpaid_to_paid(self, mock_boto_client):
+    def test_submit_form_update_unpaid_to_paid(self):
         """Submit form."""
         responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA)
         self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
@@ -981,8 +980,7 @@ class FormSubmit(BaseTestCase):
             ],
         )
 
-    @mock.patch("boto3.client")
-    def test_mark_successful_payment(self, mock_boto_client):
+    def test_mark_successful_payment(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
         response = Response.objects.get({"_id": ObjectId(responseId)})
         paid = mark_successful_payment(
@@ -1017,8 +1015,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response["amount_paid_cents"], 50)
         self.assertEqual(len(response["email_trail"]), 1)
 
-    @mock.patch("boto3.client")
-    def test_mark_successful_payment_custom_email_template(self, mock_boto_client):
+    def test_mark_successful_payment_custom_email_template(self):
         formOptions = {
             "confirmationEmailTemplates": [
                 {
@@ -1107,8 +1104,7 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(response["amount_paid"], "0.5")
         self.assertTrue("email_trail" not in response)
 
-    @mock.patch("boto3.client")
-    def test_mark_successful_payment_2(self, mock_boto_client):
+    def test_mark_successful_payment_2(self):
         responseId, _ = self.submit_form(self.formId, ONE_FORMDATA)
         response = Response.objects.get({"_id": ObjectId(responseId)})
         paid = mark_successful_payment(

@@ -33,8 +33,7 @@ class TestSendEmail(BaseTestCase):
         )
         self.responseId, submit_res = self.submit_form(self.formId, {"item": "data"})
 
-    @mock.patch("boto3.client")
-    def test_empty_body(self, mock_boto_client):
+    def test_empty_body(self):
         body = {}
         response = self.lg.handle_request(
             method="POST",
@@ -47,8 +46,7 @@ class TestSendEmail(BaseTestCase):
         self.assertEqual(len(body["res"]["response"]["email_trail"]), 1)
         self.assertTrue("payment_trail" not in body["res"]["response"])
 
-    @mock.patch("boto3.client")
-    def test_custom_email_template(self, mock_boto_client):
+    def test_custom_email_template(self):
         formOptions = {
             "confirmationEmailTemplates": [
                 {

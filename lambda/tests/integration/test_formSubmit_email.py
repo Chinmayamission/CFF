@@ -16,8 +16,7 @@ import uuid
 
 
 class FormSubmitEmail(BaseTestCase):
-    @mock.patch("boto3.client")
-    def test_submit_notpaid_no_email(self, mock_boto_client):
+    def test_submit_notpaid_no_email(self):
         formId = self.create_form()
         self.edit_form(
             formId,
@@ -52,8 +51,7 @@ class FormSubmitEmail(BaseTestCase):
         self.assertEqual(submit_res["paid"], False)
         self.assertEqual(submit_res["email_sent"], False)
 
-    @mock.patch("boto3.client")
-    def test_submit_paid_send_email(self, mock_boto_client):
+    def test_submit_paid_send_email(self):
         formId = self.create_form()
         self.edit_form(
             formId,

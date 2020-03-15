@@ -8,7 +8,7 @@ import os
 
 
 def upload_image_to_s3(image):
-    from chalicelib.main import s3_client, S3_UPLOADS_BUCKET_NAME
+    from chalicelib.config import s3_client, S3_UPLOADS_BUCKET_NAME
 
     if image.startswith("data:"):
         content_type = re.findall("^data:([^;]+);", image)[0]

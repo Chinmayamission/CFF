@@ -1,4 +1,3 @@
-import boto3
 from chalice import (
     Chalice,
     AuthResponse,
@@ -14,18 +13,11 @@ import re
 import uuid
 import logging
 from pymodm.errors import DoesNotExist
-
 import pymodm
+
 from chalicelib.util.jwt import get_claims
 from chalicelib.models import User
-
-MODE = os.getenv("MODE", "DEV")
-print("MODE IS " + MODE)
-USER_POOL_ID = os.getenv("USER_POOL_ID")
-COGNITO_CLIENT_ID = os.getenv("COGNITO_CLIENT_ID")
-S3_UPLOADS_BUCKET_NAME = os.getenv("S3_UPLOADS_BUCKET_NAME")
-# app = None
-PROD = True if MODE == "PROD" else False
+from chalicelib.config import *
 
 
 class CustomChalice(Chalice):
@@ -90,48 +82,7 @@ class CustomChalice(Chalice):
             return False
 
 
-ssm = boto3.client("ssm", "us-east-1")
-s3_client = boto3.client("s3", "us-east-1")
-MONGO_CONN_STR = None
-SMTP_USERNAME = None
-SMTP_PASSWORD = None
-if MODE == "TEST":
-    pymodm.connection.connect("mongodb://localhost:10255/test")
-elif MODE == "DEV":
-    # Load environment variables from `.env` file
-    from dotenv import load_dotenv
-
-    load_dotenv()
-
-    MONGO_CONN_STR = os.getenv("MONGO_CONN_STR", "mongodb://localhost:10255/admin")
-    SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
-    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
-    pymodm.connection.connect(MONGO_CONN_STR)
-elif MODE == "BETA":
-    MONGO_CONN_STR = ssm.get_parameter(
-        Name="CFF_ATLAS_CONN_STR_WRITE_BETA", WithDecryption=True
-    )["Parameter"]["Value"]
-    SMTP_USERNAME = ssm.get_parameter(
-        Name="CFF_SMTP_USERNAME_BETA", WithDecryption=True
-    )["Parameter"]["Value"]
-    SMTP_PASSWORD = ssm.get_parameter(
-        Name="CFF_SMTP_PASSWORD_BETA", WithDecryption=True
-    )["Parameter"]["Value"]
-    pymodm.connection.connect(MONGO_CONN_STR)
-elif MODE == "PROD":
-    MONGO_CONN_STR = ssm.get_parameter(
-        Name="CFF_COSMOS_CONN_STR_WRITE_PROD", WithDecryption=True
-    )["Parameter"]["Value"]
-    SMTP_USERNAME = ssm.get_parameter(
-        Name="CFF_SMTP_USERNAME_PROD", WithDecryption=True
-    )["Parameter"]["Value"]
-    SMTP_PASSWORD = ssm.get_parameter(
-        Name="CFF_SMTP_PASSWORD_PROD", WithDecryption=True
-    )["Parameter"]["Value"]
-    pymodm.connection.connect(MONGO_CONN_STR)
-
-SMTP_HOST = "email-smtp.us-east-1.amazonaws.com"
-SMTP_PORT = 587
+pymodm.connection.connect(MONGO_CONN_STR)
 
 app = CustomChalice(app_name="ccmt-cff-rest-api")
 if MODE != "PROD":

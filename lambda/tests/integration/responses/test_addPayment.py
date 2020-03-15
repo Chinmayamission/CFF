@@ -33,8 +33,7 @@ class TestAddPayment(BaseTestCase):
         )
         self.responseId, submit_res = self.submit_form(self.formId, {"item": "data"})
 
-    @mock.patch("boto3.client")
-    def test_add_payment(self, mock_boto_client):
+    def test_add_payment(self):
         body = {
             "amount": 1,
             "currency": "USD",
@@ -69,8 +68,7 @@ class TestAddPayment(BaseTestCase):
         )
         self.assertEqual(len(body["res"]["response"]["email_trail"]), 1)
 
-    @mock.patch("boto3.client")
-    def test_add_payment_custom_email_template(self, mock_boto_client):
+    def test_add_payment_custom_email_template(self):
         formOptions = {
             "confirmationEmailTemplates": [
                 {
@@ -122,8 +120,7 @@ class TestAddPayment(BaseTestCase):
         )
         self.assertEqual(len(body["res"]["response"]["email_trail"]), 1)
 
-    @mock.patch("boto3.client")
-    def test_add_payment_dont_send_email(self, mock_boto_client):
+    def test_add_payment_dont_send_email(self):
         body = {
             "sendEmail": False,
             "amount": 1,
@@ -159,8 +156,7 @@ class TestAddPayment(BaseTestCase):
         )
         self.assertTrue("email_trail" not in body["res"]["response"])
 
-    @mock.patch("boto3.client")
-    def test_add_payment_with_notes(self, mock_boto_client):
+    def test_add_payment_with_notes(self):
         body = {
             "sendEmail": False,
             "notes": "Notes 123",

@@ -2,7 +2,7 @@ import boto3
 import json
 import os
 import json
-from moto import mock_s3, mock_cognitoidp
+from unittest.mock import MagicMock
 
 AWS_REGION = "us-east-1"
 os.environ["MODE"] = "TEST"
@@ -422,3 +422,32 @@ ONE_FORMDATA = load_file("formData.json")
 
 
 _ = None  # dummy
+
+# monkey-patch smtplib. originally from http://www.psychicorigami.com/2007/09/20/monkey-patching-pythons-smtp-lib-for-unit-testing/
+class DummySMTP(object):
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
+        global smtp
+        smtp = self
+
+    def login(self, username, password):
+        self.username = username
+        self.password = password
+
+    send_message = MagicMock()
+
+    def ehlo(self):
+        pass
+
+    def starttls(self):
+        pass
+
+    def close(self):
+        self.has_quit = True
+
+
+# this is the actual monkey patch (simply replacing one class with another)
+import smtplib
+
+smtplib.SMTP = DummySMTP

@@ -22,7 +22,7 @@ POSSIBLE_PERMISSIONS = [
 
 
 def list_all_users(userIds):
-    from ..main import USER_POOL_ID
+    from chalicelib.config import USER_POOL_ID
 
     user_lookup = {}
     client = boto3.client("cognito-idp", region_name="us-east-1")
@@ -58,7 +58,7 @@ def list_all_users(userIds):
 
 
 def get_user_by_email(email):
-    from ..main import USER_POOL_ID
+    from chalicelib.config import USER_POOL_ID
 
     client = boto3.client("cognito-idp", region_name="us-east-1")
     response = client.list_users(
