@@ -55,3 +55,4 @@ site
 dump/
 
 notes.txt
+.env

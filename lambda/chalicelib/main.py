@@ -98,10 +98,15 @@ SMTP_PASSWORD = None
 if MODE == "TEST":
     pymodm.connection.connect("mongodb://localhost:10255/test")
 elif MODE == "DEV":
+    # Load environment variables from `.env` file
+    from dotenv import load_dotenv
+
+    load_dotenv()
+
     MONGO_CONN_STR = os.getenv("MONGO_CONN_STR", "mongodb://localhost:10255/admin")
     SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
     SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
-    pymodm.connection.connect()
+    pymodm.connection.connect(MONGO_CONN_STR)
 elif MODE == "BETA":
     MONGO_CONN_STR = ssm.get_parameter(
         Name="CFF_ATLAS_CONN_STR_WRITE_BETA", WithDecryption=True
@@ -170,8 +175,8 @@ def iamAuthorizer(auth_request):
     )
 
 
-
 from chalicelib import routes
+
 app.route("/forms", methods=["GET"], cors=True, authorizer=iamAuthorizer)(
     routes.form_list
 )

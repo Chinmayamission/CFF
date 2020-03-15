@@ -51,3 +51,13 @@ npm run install-deps
 
 This will add the `wkhtmltopdf` binary to `chalicelib/bin` so that it is available for `python-pdfkit`.
 This step is automatically run before deployment.
+
+## Setting up email sending on development
+
+To set up local email settings (or to configure the local mongodb url), you need to configure SMTP credentials through a `.env` file. Run:
+
+```bash
+cp sample.env .env
+```
+
+Then edit `.env` and enter in the appropriate SMTP credentials.
