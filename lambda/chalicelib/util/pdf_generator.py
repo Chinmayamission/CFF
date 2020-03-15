@@ -3,7 +3,7 @@ import os
 from io import BytesIO
 from chalicelib.config import MODE
 
-TEMP_PDF_FILENAME = os.path.abspath(os.path.join(__file__, "../../../tmp.pdf"))
+TEMP_PDF_FILENAME = "/tmp/output.pdf"
 
 
 def convert_html_to_pdf(source):
