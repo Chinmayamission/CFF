@@ -6,7 +6,7 @@ from chalicelib.util.pdf_generator import convert_html_to_pdf
 
 
 class TestPdf(unittest.TestCase):
-    pass
-    # def test_generate_pdf(self):
-    #     body = "<div style='background: yellow'>hello world <h1>hu!2</h1><script>document.write('hee!')</script><div>"
-    #     convert_html_to_pdf(body)
+    def test_generate_pdf(self):
+        body = "<div style='background: yellow'>hello world <h1>hu!2</h1><script>document.write('hee!')</script><div>"
+        result = convert_html_to_pdf(body)
+        self.assertTrue(len(result) > 0)
