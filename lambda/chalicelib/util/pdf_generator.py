@@ -11,7 +11,7 @@ def convert_html_to_pdf(source):
     """
     config = pdfkit.configuration(
         wkhtmltopdf="vendor/wkhtmltopdf"
-        if MODE == "DEV"
+        if MODE in ("DEV", "TEST")
         else "wkhtmltopdf"  # vendor/ directory gets moved to working directory after chalice deployment
     )
     pdfkit.from_string(source, TEMP_PDF_FILENAME, configuration=config)
