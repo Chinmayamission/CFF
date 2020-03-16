@@ -1,3 +1,11 @@
+## 5.1.0
+- Admin: make view/edit/inspect for responses show as icons and pop up as modals
+- Admin: remove FormEmbed page and add it to the FormShare page
+- Admin: Fix issue with user dashboard failing on prod
+- Allow adding PDF attachments to confirmation emails.
+  - As part of this, rewrote email sending code to require SMTP credentials to do so.
+  - Use .env file for local SMTP sending config in development
+
 ## 5.0.0
 - By default, responses are no longer viewable / editable
   - Added responseCanViewByLink and responseCanEditByLink in formOptions to control this setting. Also made handling of form submission authorization more consistent.
