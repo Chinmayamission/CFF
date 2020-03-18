@@ -52,7 +52,7 @@ For example:
 
 The form view shows a subset of a form. You can choose which properties to show using the `pickFields` attribute. Optionally, you can override the uiSchema for those particular fields with the `uiSchema` attribute (the `uiSchema` will merge with the existing uiSchema, but replace the values of overlapping keys).
 
-```
+```json
 {
   "id": "subset",
   "displayName": "Edit Basic Info",
@@ -69,3 +69,20 @@ The form view shows a subset of a form. You can choose which properties to show 
 ```
 
 Right now, we only support top-level fields with `pickFields`.
+
+### disallow modification of existing items in arrays
+
+You can disallow modification of existing items in an array (but still allow adding additional items) by adding the following to `specifiedShowFields` to modify the uiSchema:
+
+```json
+{
+  "id": "subset",
+  "displayName": "Edit Basic Info",
+  "type": "template",
+  "pickFields": [
+    "participants"
+  ],
+  "specifiedShowFields": {
+    "CFF_uiSchema.participants['ui:cff:disableModifExistingItems']": true
+  }
+}
