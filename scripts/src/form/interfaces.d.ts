@@ -104,6 +104,7 @@ export interface IFormPageProps {
   pickFields?: string[];
   renderedForm?: any; // preloaded
   renderedResponse?: any; // preloaded
+  extraUiSchema?: any;
 }
 
 export interface IFormConfirmationPageProps {

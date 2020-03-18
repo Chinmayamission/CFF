@@ -178,7 +178,7 @@
         padding: 0;*/
     }
     position: relative;
-    > .ccmt-cff-Page-FormPage > form:after {
+    &:after {
         width: 100%;
         height: 100%;
         content: " ";

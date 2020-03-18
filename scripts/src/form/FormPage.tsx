@@ -143,7 +143,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
         set(uiSchema, `${fieldPath}['classNames']`, "ccmt-cff-removed");
       }
     }
-    const { pickFields } = this.props;
+    const { pickFields, extraUiSchema } = this.props;
     let newSchema = schema;
     if (pickFields && pickFields.length) {
       // used in dashboard
@@ -156,6 +156,18 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       }
       newSchema.title = "";
       newSchema.description = "";
+    }
+    // merge specified uiSchema values into uiSchema (only works for top-level fields now).
+    if (extraUiSchema) {
+      for (let key in extraUiSchema) {
+        uiSchema = {
+          ...uiSchema,
+          [key]: {
+            ...(uiSchema[key] || {}),
+            ...extraUiSchema[key]
+          }
+        };
+      }
     }
     let mode = this.props.mode; // can be "view" or "edit"
     if (

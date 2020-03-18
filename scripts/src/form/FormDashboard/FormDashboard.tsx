@@ -56,7 +56,7 @@ const FormDashboard = props => {
   if (!form || !form.renderedForm || !form.renderedResponse) {
     return <Loading />;
   }
-  const { renderedForm, renderedResponse } = form;
+  let { renderedForm, renderedResponse } = form;
   const { formOptions } = form.renderedForm;
   let { dashboardOptions } = formOptions;
   if (!dashboardOptions) {
@@ -67,6 +67,7 @@ const FormDashboard = props => {
   let selectedView =
     selectedView_ ||
     (dashboardOptions.views.length > 0 ? dashboardOptions.views[0] : {}); // default to first view, if present
+
   return (
     <div>
       <Login />
@@ -84,9 +85,8 @@ const FormDashboard = props => {
           formId={formId}
           mode={"edit"}
           onFormLoad={e => console.log(e)}
-          pickFields={selectedView.pickFields}
-          renderedForm={renderedForm}
-          renderedResponse={renderedResponse}
+          pickFields={selectedView.pickFields || []}
+          extraUiSchema={selectedView.uiSchema || {}}
         />
       )}
       {selectedView.type === "template" && (

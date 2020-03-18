@@ -1,8 +1,7 @@
 import React from "react";
 import "./ArrayFieldTemplate.scss";
 import CustomForm, { FormattedDescriptionField } from "../CustomForm";
-import { get } from "lodash";
-import Infobox from "../components/Infobox";
+import classnames from "classnames";
 
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
   if (!title) {
@@ -26,7 +25,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
-      numItems: 0
+      initialNumItems: this.props.items ? this.props.items.length : 0
     };
   }
   onNumItemsChange(e) {
@@ -37,15 +36,31 @@ class ArrayFieldTemplate extends React.Component<any, any> {
         this.props.onAddClick({ preventDefault: () => null });
       }
     } else if (newValue < oldValue) {
+      const disableModifExistingItems = this.props.uiSchema[
+        "ui:cff:disableModifExistingItems"
+      ];
+      if (disableModifExistingItems) {
+        // Don't allow removing items when disableModifExistingItems is true.
+        return;
+      }
       for (let i = oldValue - 1; i >= newValue; i--) {
         this.props.items[i].onDropIndexClick(i)();
       }
     }
+    this.setState({ numItems: newValue });
   }
   renderNumItems() {
     const min = this.props.schema.minItems || 0;
     const max = this.props.schema.maxItems || 999;
     const range = Array.from(Array(max - min + 1).keys()).map(e => e + min);
+    let enumDisabled = [];
+    const disableModifExistingItems = this.props.uiSchema[
+      "ui:cff:disableModifExistingItems"
+    ];
+    if (disableModifExistingItems) {
+      // Don't allow removing items when disableModifExistingItems is true.
+      enumDisabled = range.filter(i => i < this.state.initialNumItems);
+    }
     return (
       <CustomForm
         tagName="div"
@@ -65,6 +80,7 @@ class ArrayFieldTemplate extends React.Component<any, any> {
         }}
         uiSchema={{
           "ui:widget": "cff:infoboxSelect",
+          "ui:enumDisabled": enumDisabled,
           classNames: "ccmt-cff-array-numitems-select"
         }}
         onChange={({ formData }) => this.onNumItemsChange(formData)}
@@ -74,6 +90,9 @@ class ArrayFieldTemplate extends React.Component<any, any> {
     );
   }
   render() {
+    const disableModifExistingItems = this.props.uiSchema[
+      "ui:cff:disableModifExistingItems"
+    ];
     return (
       <fieldset className={this.props.className}>
         {this.props.uiSchema["ui:cff:showArrayNumItems"] === true && (
@@ -102,14 +121,18 @@ class ArrayFieldTemplate extends React.Component<any, any> {
             />
           </div>
         )}
-
         <div
           className="array-item-list"
           key={`array-item-list-${this.props.idSchema.$id}`}
         >
           {this.props.items.map((element, i) => (
             <div className="row" key={i}>
-              <div className="col-12 ccmt-cff-array-item-container">
+              <div
+                className={classnames("col-12 ccmt-cff-array-item-container", {
+                  "ccmt-cff-Page-FormPage-readonly":
+                    disableModifExistingItems && i < this.state.initialNumItems
+                })}
+              >
                 {/*<div className="ccmt-cff-array-row-number">{i + 1}.</div>*/}
                 {this.props.uiSchema["ui:cff:arrayItemTitles"] &&
                   this.props.uiSchema["ui:cff:arrayItemTitles"][i] && (
