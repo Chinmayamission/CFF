@@ -72,7 +72,7 @@ Right now, we only support top-level fields with `pickFields`.
 
 ### disallow modification of existing items in arrays
 
-You can disallow modification of existing items in an array (but still allow adding additional items) by adding the following to `specifiedShowFields` to modify the uiSchema:
+You can disallow modification of existing items in an array (but still allow adding additional items) by adding the `uiSchema` attribute to modify the uiSchema:
 
 ```json
 {
@@ -82,7 +82,9 @@ You can disallow modification of existing items in an array (but still allow add
   "pickFields": [
     "participants"
   ],
-  "specifiedShowFields": {
-    "CFF_uiSchema.participants['ui:cff:disableModifExistingItems']": true
+  "uiSchema": {
+    "participants": {
+      "ui:cff:disableModifExistingItems": true
+    }
   }
 }
