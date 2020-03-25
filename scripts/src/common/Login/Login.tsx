@@ -15,7 +15,6 @@ import {
 import AuthPageNavButton from "./AuthPageNavButton";
 import { IAuthState } from "../../store/auth/types";
 import { setLoginUrl } from "../../store/auth/actions";
-import { Link } from "react-router-dom";
 
 const mapStateToProps = state => ({
   ...state.auth

@@ -4,6 +4,7 @@ from .formCreate import form_create
 from .formEdit import form_edit, group_edit
 from .formDelete import form_delete
 from .formRender import form_render, form_render_response
+from .formUserLookup import form_user_lookup
 from .formResponseExport import form_response_export
 from .formResponseList import form_response_list
 from .responseEdit import (

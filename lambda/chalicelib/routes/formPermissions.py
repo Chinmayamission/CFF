@@ -2,6 +2,7 @@ from chalicelib.models import Form, serialize_model
 from bson.objectid import ObjectId
 from pydash.arrays import union
 import boto3
+import uuid
 
 POSSIBLE_PERMISSIONS = [
     "owner",
@@ -21,11 +22,12 @@ POSSIBLE_PERMISSIONS = [
 ]  # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
 
 
-def list_all_users(userIds):
-    from chalicelib.config import USER_POOL_ID
+from chalicelib.config import USER_POOL_ID
 
+client = boto3.client("cognito-idp", region_name="us-east-1")
+
+def list_all_users(userIds):
     user_lookup = {}
-    client = boto3.client("cognito-idp", region_name="us-east-1")
     for userIdFull in userIds:
         if "cm:cognitoUserPool:" in userIdFull:
             try:
@@ -56,11 +58,30 @@ def list_all_users(userIds):
             }
     return user_lookup
 
+def resend_confirmation_code(userId):
+    response = client.resend_confirmation_code(
+        UserPoolId=USER_POOL_ID,
+        Username=userId
+    )
+
+def create_user(email):
+    userId = str(uuid.uuid4())
+    response = client.admin_create_user(
+        UserPoolId=USER_POOL_ID,
+        Username=userId,
+        Attributes=[
+            {'Name': 'website', 'Value': ''},
+            {'Name': 'sub', 'Value' userId},
+            {'Name': 'email', 'Value': email},
+            {'Name': 'name', 'Value': 'User'}
+        ],
+        TemporaryPassword=str(uuid.uuid4())
+    )
+    # User is now in FORCE_CHANGE_PASSWORD state
+    return userId
+
 
 def get_user_by_email(email):
-    from chalicelib.config import USER_POOL_ID
-
-    client = boto3.client("cognito-idp", region_name="us-east-1")
     response = client.list_users(
         UserPoolId=USER_POOL_ID,
         AttributesToGet=["sub"],
@@ -69,7 +90,9 @@ def get_user_by_email(email):
     )
     if len(response["Users"]) == 0:
         return None
-    return response["Users"][0]["Username"]
+    
+    # 'UserStatus': 'UNCONFIRMED'|'CONFIRMED'|'ARCHIVED'|'COMPROMISED'|'UNKNOWN'|'RESET_REQUIRED'|'FORCE_CHANGE_PASSWORD',
+    return response["Users"][0]["Username"], response["Users"][0]["UserStatus"] == "CONFIRMED"
 
 
 def form_get_permissions(formId):
@@ -130,7 +153,7 @@ def form_edit_permissions(formId):
     if not userId:
         if not email:
             raise Exception("Either userId or email must be specified.")
-        userId = get_user_by_email(email.strip())
+        userId, _ = get_user_by_email(email.strip())
         if not userId:
             raise Exception("User not found for specified email.")
         userId = "cm:cognitoUserPool:" + userId

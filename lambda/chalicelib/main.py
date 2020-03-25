@@ -169,6 +169,9 @@ app.route("/forms/{formId}", methods=["GET"], cors=True, authorizer=iamAuthorize
 app.route(
     "/forms/{formId}/response", methods=["GET"], cors=True, authorizer=iamAuthorizer
 )(routes.form_render_response)
+app.route(
+    "/forms/{formId}/user_lookup", methods=["POST"], cors=True, authorizer=iamAuthorizer
+)(routes.form_user_lookup)
 app.route("/forms/{formId}", methods=["POST"], cors=True, authorizer=iamAuthorizer)(
     routes.form_response_new
 )
