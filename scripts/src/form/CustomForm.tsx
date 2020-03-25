@@ -206,21 +206,6 @@ function CustomForm(props: ICustomFormProps) {
         liveOmit={props.omitExtraData}
       >
         {props.children}
-        {!props.children && props.showSubmitOptions && (
-          <div className="mb-2" style={{ display: "none" }}>
-            {/* don't show this for now. todo: find a more user-intuitive way to show this for admins. */}
-            <h3>Submit options</h3>
-            <div>(this is only visible for admins)</div>
-            <CustomForm
-              schema={submitOptionsSchema}
-              uiSchema={submitOptionsUiSchema}
-              formData={submitOptions}
-              onChange={e => setSubmitOptions(e.formData)}
-            >
-              &nbsp;
-            </CustomForm>
-          </div>
-        )}
         {!props.children && props.showPaymentTable && (
           <div>
             {props.paymentCalcInfo &&
@@ -239,6 +224,23 @@ function CustomForm(props: ICustomFormProps) {
             <button className="btn btn-info" type="submit">
               {props.uiSchema["ui:cff:submitButtonText"] || "Submit"}
             </button>
+          </div>
+        )}
+        {!props.children && props.showSubmitOptions && (
+          <div className="mt-4 card">
+            <div className="card-header">
+              <strong>Submit options (for admins only)</strong>
+            </div>
+            <div className="card-body">
+              <CustomForm
+                schema={submitOptionsSchema}
+                uiSchema={submitOptionsUiSchema}
+                formData={submitOptions}
+                onChange={e => setSubmitOptions(e.formData)}
+              >
+                &nbsp;
+              </CustomForm>
+            </div>
           </div>
         )}
       </Form>
