@@ -1,3 +1,6 @@
+## 5.3.0
+- Store a hashed version of responseListApiKey for security (`hashlib.sha512("apikey".encode()).hexdigest()`)
+
 ## 5.2.0
 - Admin: show submit options when viewing an existing form (#231)
 - Add formOptions.responseListApiKey for anonymous access to responses

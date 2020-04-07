@@ -1,6 +1,7 @@
 """
 pipenv run python -m unittest tests.integration.test_formResponses
 """
+import hashlib
 import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
@@ -54,12 +55,16 @@ class FormResponses(BaseTestCase):
 
     def test_form_responses_list_anon_with_responseListApiKey_pass(self):
         formId = self.create_form()
+        apiKey = "abcdefg"
+
         self.edit_form(
             formId,
             {
                 "schema": {"a": "B"},
                 "uiSchema": {"a": "B"},
-                "formOptions": {"responseListApiKey": "abcdefg"},
+                "formOptions": {
+                    "responseListApiKey": hashlib.sha512(apiKey.encode()).hexdigest()
+                },
             },
         )
         self.set_permissions(formId, [])

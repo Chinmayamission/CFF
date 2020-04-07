@@ -5,6 +5,7 @@ from pydash.objects import get
 from bson.json_util import dumps
 import json
 from chalicelib.util.renameKey import replaceKey
+import hashlib
 
 
 def _all(form):
@@ -193,7 +194,12 @@ def form_response_list(formId):
     dataOptionView = query_params.get("dataOptionView", None)
     apiKey = query_params.get("apiKey", None)
     skip_perm_check = False
-    if form.formOptions.responseListApiKey and form.formOptions.responseListApiKey == apiKey:
+    if (
+        form.formOptions.responseListApiKey
+        and apiKey
+        and form.formOptions.responseListApiKey
+        == hashlib.sha512(apiKey.encode()).hexdigest()
+    ):
         skip_perm_check = True
     if dataOptionView:
         app.check_permissions(form, ["Responses_View"])
