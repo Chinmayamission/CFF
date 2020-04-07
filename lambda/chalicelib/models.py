@@ -60,6 +60,7 @@ class FormOptions(EmbeddedMongoModel):
     postprocess = fields.DictField(blank=True)
     counter = fields.DictField(blank=True)
     dashboardOptions = fields.DictField(blank=True)
+    responseListApiKey = fields.CharField(blank=True)
 
 
 class Form(BaseMongoModel):

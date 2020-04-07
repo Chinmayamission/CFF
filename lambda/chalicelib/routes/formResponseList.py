@@ -191,6 +191,10 @@ def form_response_list(formId):
 
     query = query_params.get("query", None)
     dataOptionView = query_params.get("dataOptionView", None)
+    apiKey = query_params.get("apiKey", None)
+    skip_perm_check = False
+    if form.formOptions.responseListApiKey and form.formOptions.responseListApiKey == apiKey:
+        skip_perm_check = True
     if dataOptionView:
         app.check_permissions(form, ["Responses_View"])
         return _dataOptionView(form, dataOptionView)
@@ -201,5 +205,6 @@ def form_response_list(formId):
         show_unpaid = query_params.get("show_unpaid", None)
         return _search(form, query, autocomplete, search_by_id, show_unpaid)
     else:
-        app.check_permissions(form, ["Responses_View"])
+        if not skip_perm_check:
+            app.check_permissions(form, ["Responses_View"])
         return _all(form)

@@ -33,6 +33,58 @@ class FormResponses(BaseTestCase):
         body = json.loads(response["body"])
         self.assertTrue(len(body["res"]) > 0, "Response list is empty.")
 
+    def test_form_responses_list_anon_failed(self):
+        formId = self.create_form()
+        self.edit_form(
+            formId,
+            {
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                # "formOptions": {"a": "b"},
+            },
+        )
+        self.set_permissions(formId, [])
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+
+    def test_form_responses_list_anon_with_responseListApiKey_pass(self):
+        formId = self.create_form()
+        self.edit_form(
+            formId,
+            {
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {"responseListApiKey": "abcdefg"},
+            },
+        )
+        self.set_permissions(formId, [])
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?apiKey=bcd",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?apiKey=abcdefg",
+        )
+        self.assertEqual(response["statusCode"], 200, response)
+
     def test_form_responses_search(self):
         """Search the response list."""
         response = self.lg.handle_request(
