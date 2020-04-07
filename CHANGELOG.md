@@ -1,3 +1,8 @@
+## 5.2.0
+- Admin: show submit options when viewing an existing form (#231)
+- Add formOptions.responseListApiKey for anonymous access to responses
+- Support `ui:cff:disableModifExistingItems` for arrays
+
 ## 5.1.0
 - Admin: make view/edit/inspect for responses show as icons and pop up as modals
 - Admin: remove FormEmbed page and add it to the FormShare page
@@ -1085,4 +1090,3 @@ Show all other fields upon unwinding in response table.
 ## 1.0.12
 1/16/2018
 fix csv issue; better array display in mobile
-
