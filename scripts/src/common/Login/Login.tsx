@@ -15,7 +15,6 @@ import {
 import AuthPageNavButton from "./AuthPageNavButton";
 import { IAuthState } from "../../store/auth/types";
 import { setLoginUrl } from "../../store/auth/actions";
-import { Link } from "react-router-dom";
 
 const mapStateToProps = state => ({
   ...state.auth
@@ -75,6 +74,7 @@ interface ILoginProps extends IAuthState {
   setLoginUrl: (e: string) => void;
   loginOptional?: boolean;
   hideBar?: boolean;
+  linkToHome?: boolean;
 }
 class Login extends React.Component<ILoginProps, {}> {
   componentDidMount() {
@@ -200,14 +200,23 @@ class Login extends React.Component<ILoginProps, {}> {
       if (this.props.hideBar) {
         return null;
       }
+      const Logo = () => (
+        <img
+          src={require("../../img/logo.png")}
+          style={{ height: 40, marginRight: 20 }}
+        />
+      );
       return (
         <div className="text-left">
           <a>
             {" "}
-            <img
-              src={require("../../img/logo.png")}
-              style={{ height: 40, marginRight: 20 }}
-            />{" "}
+            {this.props.linkToHome ? (
+              <a href="/">
+                <Logo />
+              </a>
+            ) : (
+              <Logo />
+            )}
           </a>
           <div style={{ display: "inline-block", verticalAlign: "middle" }}>
             {/* <strong>Chinmaya Forms Framework</strong><br /> */}

@@ -209,7 +209,7 @@ const FormAdminPageWrapper = (props: IFormAdminPageWrapperProps) => {
     <div>
       <div className="col-12 text-center">
         {!props.loggedIn && <LoginBlurb />}
-        <Login />
+        <Login linkToHome />
       </div>
       <hr />
       {props.loggedIn && <FormAdminPage />}
