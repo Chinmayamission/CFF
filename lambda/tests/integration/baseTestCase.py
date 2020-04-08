@@ -17,6 +17,7 @@ class BaseTestCase(unittest.TestCase):
     def tearDown(self):
         if hasattr(self, "formId"):
             self.delete_form(self.formId)
+        Org.objects.delete()
 
     def create_form(self, should_create_org=True):
         if should_create_org:

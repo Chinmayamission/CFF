@@ -27,6 +27,11 @@ class FormCreate(unittest.TestCase):
         app.current_request = MagicMock()
         app.current_request.context = {"authorizer": {"id": "userid"}}
         create_org(app.get_current_user_id())
+        super(FormCreate, self).setUp()
+
+    def tearDown(self):
+        Org.objects.delete()
+        super(FormCreate, self).tearDown()
 
     def test_form_create_blank(self):
         app.current_request.json_body = {
