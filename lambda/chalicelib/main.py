@@ -16,7 +16,7 @@ from pymodm.errors import DoesNotExist
 import pymodm
 
 from chalicelib.util.jwt import get_claims
-from chalicelib.models import User
+from chalicelib.models import User, Org
 from chalicelib.config import *
 
 
@@ -57,7 +57,8 @@ class CustomChalice(Chalice):
         return current_user_perms
 
     def check_permissions(self, model, actions):
-        result = self.check_permissions_return(model, actions)
+        # Check to see if either , or user is a superuser
+        result = self.check_permissions_return(model, actions) or self.is_superuser()
         if result == True:
             return True
         if result == False:
@@ -67,6 +68,20 @@ class CustomChalice(Chalice):
                     id, actions
                 )
             )
+
+    def get_org(self):
+        # todo: multiple orgs?
+        try:
+            org = Org.objects.get({})
+        except DoesNotExist:
+            raise UnauthorizedError("Organization does not exist.")
+        return org
+
+    def check_permissions_org(self, actions):
+        return self.check_permissions(self.get_org(), actions)
+
+    def is_superuser(self):
+        return self.check_permissions_return(self.get_org(), [])
 
     def check_permissions_return(self, model, actions):
         if type(actions) is str:

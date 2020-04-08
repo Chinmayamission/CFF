@@ -6,7 +6,13 @@ def form_list():
     from ..main import app
 
     userId = app.get_current_user_id()
-    forms = Form.objects.raw({f"cff_permissions.{userId}": {"$exists": True}}).only(
+
+    # Get all forms for superusers
+    query = (
+        {} if app.is_superuser() else {f"cff_permissions.{userId}": {"$exists": True}}
+    )
+
+    forms = Form.objects.raw(query).only(
         "name", "cff_permissions", "date_modified", "date_created", "tags"
     )
     forms = serialize_model(list(forms))

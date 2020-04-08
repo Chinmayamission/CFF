@@ -43,7 +43,8 @@ List of permissions that can be applied to an organization:
 
 | Name      | Description |
 | ----------- | ----------- |
-|  Forms_Create  | All permissions |
+|  owner         | All permissions (superuser) |
+|  Orgs_FormsCreate  | Can create forms |
 
 Planned (TBD) permissions:
 
