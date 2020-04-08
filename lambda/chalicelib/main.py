@@ -177,6 +177,12 @@ app.route(
 app.route(
     "/forms/{formId}/permissions", methods=["POST"], cors=True, authorizer=iamAuthorizer
 )(routes.form_edit_permissions)
+app.route(
+    "/orgs/{orgId}/permissions", methods=["GET"], cors=True, authorizer=iamAuthorizer
+)(routes.org_get_permissions)
+app.route(
+    "/orgs/{orgId}/permissions", methods=["POST"], cors=True, authorizer=iamAuthorizer
+)(routes.org_edit_permissions)
 
 app.route("/forms/{formId}", methods=["GET"], cors=True, authorizer=iamAuthorizer)(
     routes.form_render

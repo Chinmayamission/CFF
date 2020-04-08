@@ -5,13 +5,14 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
-import "./FormNew.scss";
-import { IFormNewProps } from "./FormNew.d";
+import { Link } from "react-router-dom";
+import "./FormManage.scss";
+import { IFormManageProps } from "./FormManage.d";
 import { createForm } from "../../store/admin/actions";
 import { connect } from "react-redux";
 
-class FormNew extends React.Component<
-  IFormNewProps,
+class FormManage extends React.Component<
+  IFormManageProps,
   { dropdownOpen: boolean }
 > {
   constructor(props: any) {
@@ -29,11 +30,18 @@ class FormNew extends React.Component<
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
-        <DropdownToggle caret>Create form</DropdownToggle>
+        <DropdownToggle caret>Manage</DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={() => this.props.createForm()}>
-            Blank
+            Create form
           </DropdownItem>
+          <Link to={`/admin/org/org1/share/`} >
+          <DropdownItem>
+            
+              Manage org
+            
+          </DropdownItem>
+          </Link>
           {/* <DropdownItem>Balavihar</DropdownItem>
           <DropdownItem>Camp Registration</DropdownItem>
           <DropdownItem>Walkathon</DropdownItem> */}
@@ -54,4 +62,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FormNew);
+)(FormManage);

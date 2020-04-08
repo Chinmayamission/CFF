@@ -178,6 +178,17 @@ function FormPages() {
           />
         )}
       />
+      <Route
+        path="/admin/org/:orgId/share/"
+        render={props => (
+          <FormShare
+            org={true}
+            key={props.match.params.formId}
+            onError={e => this.onError(e)}
+            {...props}
+          />
+        )}
+      />
     </Switch>
   );
 }

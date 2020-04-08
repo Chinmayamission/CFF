@@ -2,7 +2,7 @@ import React from "react";
 import API from "@aws-amplify/api";
 import { isArray, find, debounce } from "lodash";
 import "./FormList.scss";
-import FormNew from "../FormNew/FormNew";
+import FormManage from "../FormManage/FormManage";
 import { connect } from "react-redux";
 import { IFormListProps, IFormListState, IFormListItem } from "./FormList.d";
 import { loadFormList, createForm, editForm } from "../../store/admin/actions";
@@ -142,7 +142,7 @@ class FormList extends React.Component<IFormListProps, IFormListState> {
           <div className="col-sm d-none d-sm-block">&nbsp;</div>
           <div className="col-sm d-none d-sm-block">&nbsp;</div>
           <div className="col-sm">
-            <FormNew onError={this.props.onError} />
+            <FormManage onError={this.props.onError} />
           </div>
         </div>
         {filteredFormList && filteredFormList.length == 0 && "No forms found."}

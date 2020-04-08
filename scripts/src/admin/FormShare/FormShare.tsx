@@ -6,6 +6,12 @@ import UserRow from "./UserRow";
 import { IFormShareProps } from "./FormShare.d";
 import { IFormShareState } from "./FormShare.d";
 
+const getPermissionsEndpoint = props => {
+  return props.org
+    ? `orgs/${props.match.params.orgId}/permissions`
+    : `forms/${props.match.params.formId}/permissions`;
+};
+
 const EmbedShortcode = ({ formId }) => {
   const [showCode, setShowCode] = React.useState(false);
   return (
@@ -48,16 +54,12 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
       newPermissionsObject[permission] = true;
     }
     try {
-      let response = await API.post(
-        "CFF",
-        `forms/${this.props.match.params.formId}/permissions`,
-        {
-          body: {
-            userId: userId,
-            permissions: newPermissionsObject
-          }
+      let response = await API.post("CFF", getPermissionsEndpoint(this.props), {
+        body: {
+          userId: userId,
+          permissions: newPermissionsObject
         }
-      );
+      });
       this.setState({ permissions: response.res.permissions });
     } catch (e) {
       alert("There was an error doing this action.");
@@ -67,16 +69,12 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
 
   async addUser() {
     try {
-      let response = await API.post(
-        "CFF",
-        `forms/${this.props.match.params.formId}/permissions`,
-        {
-          body: {
-            email: this.state.newUserEmail,
-            permissions: {}
-          }
+      let response = await API.post("CFF", getPermissionsEndpoint(this.props), {
+        body: {
+          email: this.state.newUserEmail,
+          permissions: {}
         }
-      );
+      });
       this.setState({
         newUserEmail: "",
         permissions: response.res.permissions,
@@ -89,7 +87,6 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
   }
 
   render() {
-    const { formId } = this.props.match.params;
     return (
       <div className="">
         <div className="">
@@ -150,13 +147,17 @@ class FormShare extends React.Component<IFormShareProps, IFormShareState> {
             </tbody>
           </table>
         </div>
-        <hr className="my-3" />
-        <EmbedShortcode formId={formId} />
+        {!this.props.org && (
+          <>
+            <hr className="my-3" />
+            <EmbedShortcode formId={this.props.match.params.formId} />
+          </>
+        )}
       </div>
     );
   }
 }
 
 export default dataLoadingView(FormShare, props => {
-  return API.get("CFF", `forms/${props.match.params.formId}/permissions`, {});
+  return API.get("CFF", getPermissionsEndpoint(props), {});
 });

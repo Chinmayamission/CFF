@@ -3,6 +3,7 @@ import { ISharedFormAdminPageProps } from "../admin";
 export interface IFormShareProps extends ISharedFormAdminPageProps {
   data: any;
   refreshData: () => any;
+  org?: boolean;
 }
 
 export interface IFormShareState {

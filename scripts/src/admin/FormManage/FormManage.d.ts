@@ -1,5 +1,5 @@
 import { IAdminState } from "scripts/src/store/admin/types";
 
-export interface IFormNewProps extends IAdminState {
+export interface IFormManageProps extends IAdminState {
   createForm: (x?: string) => void;
 }
