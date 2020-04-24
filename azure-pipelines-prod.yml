@@ -65,8 +65,8 @@ stages:
       displayName: 'build docs'
 
 - stage: deploy_prod
-  dependsOn: test
-  condition: succeeded()
+  # dependsOn: test
+  # condition: succeeded()
   jobs:
   - job: Deploy
     steps:
