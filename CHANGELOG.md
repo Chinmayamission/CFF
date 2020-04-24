@@ -1,3 +1,8 @@
+## 5.4.0
+- Link logo on navbar to home on admin page
+- Give superuser access to list all forms and have all permissions
+- Allow editing of org permissions by superuser
+
 ## 5.3.0
 - Store a hashed version of responseListApiKey for security (`hashlib.sha512("apikey".encode()).hexdigest()`)
 
