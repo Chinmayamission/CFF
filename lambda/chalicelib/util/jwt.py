@@ -51,9 +51,7 @@ def get_claims(
     decoded_signature = base64url_decode(encoded_signature.encode("utf-8"))
     # verify the signature
     if not public_key.verify(message.encode("utf8"), decoded_signature):
-        print("Signature verification failed")
         return False
-    print("Signature successfully verified")
     # since we passed the verification, we can now safely
     # use the unverified claims
     claims = jwt.get_unverified_claims(token)
