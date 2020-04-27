@@ -203,7 +203,6 @@ def response_ipn_listener(responseId):
             "subscr_modify",
             # "subscr_payment",
             "subscr_failed",
-            "subscr_eot",
         ):
             # Don't handle subscription signups, cancels, expiries.
             # TODO: actually handle these.
