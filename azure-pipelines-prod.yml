@@ -65,8 +65,8 @@ stages:
       displayName: 'build docs'
 
 - stage: deploy_prod
-  dependsOn: test
-  condition: succeeded()
+  # dependsOn: test
+  # condition: succeeded()
   jobs:
   - job: Deploy
     steps:
@@ -86,16 +86,16 @@ stages:
         npm run install-deps
       workingDirectory: lambda
       displayName: 'install deps for backend'
-    - script: |
-        npm install
-        pipenv install
-      displayName: 'install deps for frontend'
-    - script: |
-        npm run deploy-prod
-      displayName: 'deploy frontend'
-      env:
-        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
-        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    # - script: |
+    #     npm install
+    #     pipenv install
+    #   displayName: 'install deps for frontend'
+    # - script: |
+    #     npm run deploy-prod
+    #   displayName: 'deploy frontend'
+    #   env:
+    #     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    #     AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
     - script: |
         npm run deploy-prod
       workingDirectory: lambda
