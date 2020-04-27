@@ -79,7 +79,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     ]
 
     emailOptions = dict(
-        toEmail=[get(response.value, i) for i in toField],
+        toEmail=[get(response.value, i, i) for i in toField],
         fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
         fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
         subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
