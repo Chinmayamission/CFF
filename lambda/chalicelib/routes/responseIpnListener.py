@@ -157,6 +157,7 @@ def response_ipn_listener(responseId):
     response = Response.objects.get({"_id": ObjectId(responseId)})
 
     def raise_ipn_error(message):
+        print(f"IPN error, message {message}, paramDict {paramDict}")
         response.payment_trail.append(
             PaymentTrailItem(
                 value=paramDict,
