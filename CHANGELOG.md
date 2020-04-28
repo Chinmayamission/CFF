@@ -1,3 +1,7 @@
+## 5.5.0
+- Confirmation emails - allow toField to be equal to an actual email address, rather than just a field used in the form.
+- Backend: remove some unncessary logs
+
 ## 5.4.0
 - Link logo on navbar to home on admin page
 - Give superuser access to list all forms and have all permissions
