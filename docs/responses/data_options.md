@@ -176,3 +176,43 @@ When type is group, this means that a table of values will be shown. The "title"
   ]
 }
 ```
+
+## Provide anonymous access
+
+To provide anonymous access to all responses in a form, use the `formOptions.responseListApiKey` parameter. To generate the api key value to set, use this code in Python:
+
+```bash
+import uuid
+import hashlib
+api_key = str(uuid.uuid4())
+encoded_api_key = hashlib.sha512(api_key.encode()).hexdigest()
+print("api key is ", api_key, "encoded api key is ", encoded_api_key)
+```
+
+Then provide the api key to the user using the form, and set `formOptions.responseListApiKey` to the encoded api key.
+
+```bash
+{
+  "responseListApiKey": "[encoded api key]"
+}
+```
+
+Then, someone can access the form responses by calling https://drcfbob84gx1k.cloudfront.net/v2/forms/[formId]/responses?apiKey=[apiKey].
+
+### Use api key per dataOptionView
+
+If you want to give anonymous access only to a particular dataOptionView (so that, for example, you only publicly expose certains stats), set the `apiKey` value in the dataOptionView.
+
+```bash
+"dataOptions": {
+  "views": [
+    {
+      "id": "testview",
+      "name": "test view",
+      "apiKey": "[encoded api key]"
+    }
+  ]
+}
+```
+
+Then, someone can access the form responses by calling https://drcfbob84gx1k.cloudfront.net/v2/forms/[formId]/responses?dataOptionView=[dataOptionViewId]&apiKey=[apiKey].
