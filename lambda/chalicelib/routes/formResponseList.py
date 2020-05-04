@@ -48,8 +48,8 @@ def _calculate_stat(form, stat):
         raise Exception(f"Stat type {stat_type} not supported.")
 
 
-def _dataOptionView(form, dataOptionViewId):
-    """Return from a data option given a data option ID.
+def _dataOptionView(form, dataOptionView):
+    """Return from a data option given a data option view.
     This endpoint can be called as such:
     GET /responses?dataOptionView=aggregate1
     The response will be a dictionary. The stats key will contain the same objects as the original stats key, but with the key "computedQueryValue" added.
@@ -76,13 +76,6 @@ def _dataOptionView(form, dataOptionViewId):
         }
     }
     """
-    dataOptionViewList = filter(
-        lambda x: x["id"] == dataOptionViewId, form.formOptions.dataOptions["views"]
-    )
-    try:
-        dataOptionView = next(dataOptionViewList)
-    except StopIteration:
-        raise Exception(f"dataOptionView with id {dataOptionViewId} not found.")
     if dataOptionView["type"] == "stats":
         return {
             "res": {
@@ -191,7 +184,7 @@ def form_response_list(formId):
     query_params = app.current_request.query_params or {}
 
     query = query_params.get("query", None)
-    dataOptionView = query_params.get("dataOptionView", None)
+    dataOptionViewId = query_params.get("dataOptionView", None)
     apiKey = query_params.get("apiKey", None)
     skip_perm_check = False
     if (
@@ -201,8 +194,23 @@ def form_response_list(formId):
         == hashlib.sha512(apiKey.encode()).hexdigest()
     ):
         skip_perm_check = True
-    if dataOptionView:
-        app.check_permissions(form, ["Responses_View"])
+    if dataOptionViewId:
+        dataOptionViewList = filter(
+            lambda x: x["id"] == dataOptionViewId, form.formOptions.dataOptions["views"]
+        )
+        try:
+            dataOptionView = next(dataOptionViewList)
+        except StopIteration:
+            raise Exception(f"dataOptionView with id {dataOptionViewId} not found.")
+        if (
+            "apiKey" in dataOptionView
+            and apiKey
+            and dataOptionView["apiKey"]
+            == hashlib.sha512(apiKey.encode()).hexdigest()
+        ):
+            skip_perm_check = True
+        if not skip_perm_check:
+            app.check_permissions(form, ["Responses_View"])
         return _dataOptionView(form, dataOptionView)
     elif query:
         app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])

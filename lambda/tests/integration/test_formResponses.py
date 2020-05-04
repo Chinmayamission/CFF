@@ -278,3 +278,87 @@ class FormResponses(BaseTestCase):
         #     },
         # )
         # self.assertTrue("computedQueryValue" in body["res"]["stats"])
+
+    def test_form_responses_stat_anon_with_apiKey_pass(self):
+        formId = self.create_form()
+        apiKey = "abcdefg"
+
+        self.edit_form(
+            formId,
+            {
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions":             {
+                "dataOptions": {
+                    "views": [
+                        {
+                            "id": "aggregateView",
+                            "type": "stats",
+                            "apiKey": hashlib.sha512(apiKey.encode()).hexdigest(),
+                            "stats": [
+                                {
+                                    "type": "single",
+                                    "title": "a",
+                                    "queryType": "aggregate",
+                                    "queryValue": [
+                                        {
+                                            "$match": {
+                                                "value.registrationType": "sponsorship"
+                                            }
+                                        },
+                                        {"$group": {"_id": None, "n": {"$sum": 1}}},
+                                    ],
+                                }
+                            ],
+                        }
+                    ]
+                }
+            }
+            },
+        )
+        self.submit_form(formId, {"registrationType": "sponsorship"})
+        self.submit_form(formId, {"registrationType": "sponsorship"})
+        self.submit_form(formId, {"registrationType": "standard"})
+        self.set_permissions(formId, [])
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?apiKey=bcd",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?apiKey=abcdefg",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?dataOptionView=aggregateView",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?apiKey=bcd&dataOptionView=aggregateView",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?apiKey=abcdefg&dataOptionView=aggregateView",
+        )
+        self.assertEqual(response["statusCode"], 200, response)
