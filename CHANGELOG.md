@@ -1,3 +1,7 @@
+## 5.6.0
+- Allow anonymous access to response dataOptionView using apiKey parameter
+- Fix width of form titles to be full width
+
 ## 5.5.0
 - Confirmation emails - allow toField to be equal to an actual email address, rather than just a field used in the form.
 - Backend: remove some unncessary logs
