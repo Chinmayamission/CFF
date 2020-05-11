@@ -197,7 +197,11 @@ Then provide the api key to the user using the form, and set `formOptions.respon
 }
 ```
 
-Then, someone can access the form responses by calling https://drcfbob84gx1k.cloudfront.net/v2/forms/[formId]/responses?apiKey=[apiKey].
+Then, someone can access the form responses by calling https://drcfbob84gx1k.cloudfront.net/v2/forms/[formId]/responses?apiKey=[apiKey]. Sample JS code (note that a dummy value must be included in the `Authorization` header):
+
+```
+fetch("https://drcfbob84gx1k.cloudfront.net/v2/forms/.../responses?dataOptionView=summary&apiKey=...", {headers: {"Authorization": "a"}});
+```
 
 ### Use api key per dataOptionView
 
