@@ -18,7 +18,8 @@ env.addFilter("format_date", datestr => {
 });
 
 const opts = {
-  ADD_TAGS: ["iframe"] // Allow iframes to pass sanitization
+  ADD_TAGS: ["iframe"], // Allow iframes to pass sanitization
+  removeStyleTags: false
 };
 const sanitize = (e: any) => DOMPurify.sanitize(juice(e || ""), opts);
 
