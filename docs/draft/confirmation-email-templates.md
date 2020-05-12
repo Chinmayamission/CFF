@@ -25,3 +25,5 @@ confirmationEmailInfo fields:
     "from": "a@b.com"
 }
 ```
+
+You can also use the `to` property to send email to a hardcoded email (such as email1@chinmayamission.com) instead of a specified field.

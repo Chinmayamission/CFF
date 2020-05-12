@@ -154,6 +154,25 @@ class TestCreateEmail(unittest.TestCase):
             res, dict(EXPECTED_RES_TEMPLATE, ccEmail="replyto@replyto.com")
         )
 
+    def test_create_email_html_template_with_hardcoded_to(self):
+        res = create_confirmation_email_dict(
+            self.response,
+            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, to=["email1@chinmayamission.com", "email2@chinmayamission.com", "email3@chinmayamission.com"]),
+        )
+        self.assertEqual(
+            res["toEmail"], ["success@simulator.amazonses.com", "email1@chinmayamission.com", "email2@chinmayamission.com", "email3@chinmayamission.com"]
+        )
+
+    def test_create_email_html_template_with_invalid_toField(self):
+        res = create_confirmation_email_dict(
+            self.response,
+            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, toField=["email", "invalidpath"]),
+        )
+        self.assertEqual(
+            res["toEmail"], ["success@simulator.amazonses.com"]
+        )
+
+
     def test_create_email_html_template_with_replyto(self):
         res = create_confirmation_email_dict(
             self.response,

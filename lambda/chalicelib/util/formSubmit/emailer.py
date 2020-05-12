@@ -63,10 +63,16 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     msgBody = fill_string_from_template(response, templateText)
     addCSS = False
 
-    toField = confirmationEmailInfo["toField"]
+    toField = confirmationEmailInfo.get("toField", [])
     if type(toField) is not list:
         toField = [toField]
-
+    to = confirmationEmailInfo.get("to", [])
+    if type(to) is not list:
+        to = [to]
+    
+    toEmails = [get(response.value, i) for i in toField] + [i for i in to]
+    toEmails = [email for email in toEmails if email]
+    
     # pre-process attachment templates
     attachments = [
         {
@@ -79,7 +85,7 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     ]
 
     emailOptions = dict(
-        toEmail=[get(response.value, i, i) for i in toField],
+        toEmail=toEmails,
         fromEmail=confirmationEmailInfo.get("from", "webmaster@chinmayamission.com"),
         fromName=confirmationEmailInfo.get("fromName", "Webmaster"),
         subject=confirmationEmailInfo.get("subject", "Confirmation Email"),
