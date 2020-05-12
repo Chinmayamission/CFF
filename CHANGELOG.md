@@ -1,3 +1,11 @@
+## upcoming
+- Fix: don't remove style tags when using juice. This allows us to specify media queries in `<style>` tags.
+
+## 6.0.0
+- confirmationEmailInfo: support `to` property to send to a hardcoded email address. This will break existing forms that have toField equal to an actual email addresses (rather than just the field name that corresponds to the email); such forms will need to specify this hardcoded email in the `to` property instead.
+- Allow running mongodb locally to work on mac
+- Add docker-compose for quick mongodb setup
+
 ## 5.6.0
 - Allow anonymous access to response dataOptionView using apiKey parameter
 - Fix width of form titles to be full width
