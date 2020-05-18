@@ -3,7 +3,7 @@ import { filter, assign, get, cloneDeep, find, isArray } from "lodash";
 import { IDataOptionView, IGroupOption } from "../FormEdit/FormEdit.d";
 import { Schema } from "../../form/interfaces";
 import { Object } from "core-js";
-import Form from "react-jsonschema-form";
+import Form from "@rjsf/core";
 import { filterCaseInsensitive } from "../ResponseTable/filters";
 import { dataToSchemaPath } from "../util/SchemaUtil";
 import ExpressionParser from "../../common/ExpressionParser";

@@ -1,7 +1,5 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import sanitize from "../../sanitize";
-import TitleField from "react-jsonschema-form";
 
 function CheckboxWidget(props) {
   const {
