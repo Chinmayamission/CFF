@@ -21,6 +21,7 @@ export interface IHeaderObject {
   calculateLength?: boolean;
   queryType?: boolean;
   queryValue?: boolean;
+  sortMethod?: (a, b) => any;
 }
 
 export interface IHeaderOption {
@@ -249,6 +250,14 @@ export namespace Headers {
         headerAccessor(formData, headerValue, schema, header),
       Cell: row => formatValue(row.value)
     };
+    // Fix sorting of dates by converting them to numeric values when they are compared.
+    if (
+      headerLabel === "DATE_LAST_MODIFIED" ||
+      headerLabel === "DATE_CREATED"
+    ) {
+      headerObj.sortMethod = (a, b) =>
+        new Date(a).getTime() - new Date(b).getTime();
+    }
     if (header.editSchema) {
       renderGroupSelect(
         null,
