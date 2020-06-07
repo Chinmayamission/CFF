@@ -56,11 +56,6 @@ import {
 import { get, find, findIndex, maxBy, minBy, set } from "lodash";
 import Headers from "../src/admin/util/Headers";
 import stringHash from "string-hash";
-declare const STAGE: any;
-
-// var credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
-// AWS.config.credentials = credentials;
-// AWS.config.update({ region: 'us-east-1' });
 
 interface ISheet {
   properties: { sheetId: number; title: string; index: number };
@@ -79,24 +74,20 @@ export const hello = async (event, context) => {
     let mongo_conn_str = "";
     let google_key: any = "";
     let maps_api_key = "";
-    if (STAGE === "dev") {
-      // todo: set to local.
-      mongo_conn_str = "";
-      google_key = "";
-      maps_api_key = "";
-    } else {
-      mongo_conn_str = (await ssm
-        .getParameter({ Name: process.env.mongoConnStr, WithDecryption: true })
-        .promise()).Parameter.Value;
-      google_key = (await ssm
-        .getParameter({ Name: process.env.googleKey, WithDecryption: true })
-        .promise()).Parameter.Value;
-      maps_api_key = (await ssm
-        .getParameter({ Name: process.env.mapsApiKey, WithDecryption: true })
-        .promise()).Parameter.Value;
-    }
+    mongo_conn_str = (await ssm
+      .getParameter({ Name: process.env.mongoConnStr, WithDecryption: true })
+      .promise()).Parameter.Value;
+    google_key = (await ssm
+      .getParameter({ Name: process.env.googleKey, WithDecryption: true })
+      .promise()).Parameter.Value;
+    maps_api_key = (await ssm
+      .getParameter({ Name: process.env.mapsApiKey, WithDecryption: true })
+      .promise()).Parameter.Value;
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
-    let db = await MongoClient.connect(mongo_conn_str);
+    console.error(mongo_conn_str);
+    let db = await MongoClient.connect(mongo_conn_str, {
+      useNewUrlParser: true
+    });
     let coll = db.db("cm").collection(process.env.mongoCollectionName);
 
     google_key = JSON.parse(google_key);

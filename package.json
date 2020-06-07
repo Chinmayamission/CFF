@@ -13,7 +13,8 @@
     "deploy-prod": "CFF_DEPLOY_TO=prod pipenv run python deploy.py",
     "docs": "mkdocs serve",
     "build-docs": "mkdocs build --clean",
-    "deploy-docs": "npm run build-docs && aws s3 sync ./site s3://docs.chinmayamission.com/cff --delete --region us-east-1"
+    "deploy-docs": "npm run build-docs && aws s3 sync ./site s3://docs.chinmayamission.com/cff --delete --region us-east-1",
+    "start-gs": "googleKey=CFF_GOOGLE_SHEETS_KEY_BETA mapsApiKey=CFF_MAPS_API_KEY_BETA mongoCollectionName=cff_beta mongoConnStr=CFF_ATLAS_CONN_STR_WRITE_BETA ts-node scripts/backend/local-run.ts"
   },
   "keywords": [],
   "author": "",
@@ -69,6 +70,7 @@
     "sinon": "^6.1.3",
     "ts-jest": "^24.0.2",
     "ts-loader": "^4.1.0",
+    "ts-node": "^8.10.2",
     "tsify": "^3.0.4",
     "typescript": "^3.6.2",
     "uglifyjs-webpack-plugin": "^1.2.3",
