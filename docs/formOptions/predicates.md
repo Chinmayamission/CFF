@@ -1,5 +1,7 @@
 You can add form "predicates". This feature is used in order to import data from a previous year's iteration of the form. Use cases for this feature include:
+
 - CMA Marietta used CFF for 2018 Balavihar Registration, and wants to do the same for 2019 Balavihar Registration. However, they would like for existing users' data to be imported, and for the grades to be bumped up one level.
+
 - Sometimes some users might have made automatic "recurring payments" (such as Parivar) in the past through a previous form, which should automatically give them credit for the current year so they don't have to pay for it.
 
 CFF supports a limited version of this through `formOptions.predicate` property.
