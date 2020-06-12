@@ -4,8 +4,8 @@ theme:
   features:
     - tabs
   palette:
-    primary: light blue
-    accent: cyan
+    primary: white
+    accent: deep purple
   logo: ./img/logo.png
   favicon: ./img/logo.png
   font:
