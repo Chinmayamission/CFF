@@ -1,10 +1,5 @@
- **Beta forms site:** [https://forms.beta.chinmayamission.com/admin/](https://forms.beta.chinmayamission.com/admin/)
+# Form management
 
- **Learning links:** If you need help to understand forms development / React Development you can go to these links:
-
-[https://react-jsonschema-form.readthedocs.io/en/latest/](https://react-jsonschema-form.readthedocs.io/en/latest/)
-
-[https://reacttraining.com/](https://reacttraining.com/)
 ##Form creation options##
 1. **Create/Duplicate a form:** Use this option to create a new Form. If your form is going to be similar to one of the forms that were already created, you can use the  "Duplicate" button to duplicate the form and rename
 ![image](https://user-images.githubusercontent.com/29865785/54937377-ab0c2080-4efa-11e9-93c4-2134a9fe88f2.png)

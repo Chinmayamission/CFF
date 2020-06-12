@@ -1,43 +1,74 @@
 site_name: Chinmaya Forms Framework
 theme:
   name: 'material'
-  
+  features:
+    - instant
+    - tabs
+  palette:
+    primary: light blue
+    accent: cyan
+  logo: ./img/logo.png
+  favicon: ./img/logo.png
+  font:
+    text: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif
+    # code: Ubuntu Mono
+
+markdown_extensions:
+  - admonition
+  - codehilite
+
+extra_css:
+  - main.css
+
+repo_name: epicfaace/CFF
+repo_url: https://github.com/epicfaace/CFF
+
 nav:
+  - Home: index.md
   - Form Management:
-      Quickstart: mgmt/forms-setup.md
-      Sharing: mgmt/share.md
-      Duplicating a form: mgmt/duplicating-a-form.md
-      Data Options: responses/data_options.md
-      Edit Schema: responses/edit_schema.md
-  - Form Customization:
-      Learn JSON Schema: http://json-schema.org/learn/getting-started-step-by-step.html
-      Validation: schema/validate.md
-      Custom Fields:
-        Auto Populate: schema/fields/auto-populate.md
-        Dynamic Enum: schema/fields/dynamic-enum.md
-        Same As: schema/fields/same-as.md
-        Address Autocomplete: schema/fields/addressAutocompleteField.md
-      Custom Widgets:
-        Infobox Radio / Select: schema/widgets/infoboxRadioWidget.md
-      Arrays: schema/arrays.md
-      Omit Extra Data: schema/omitExtraData.md
-  - Payment Integration:
-      Confirmation Email: payment/confirmation.md
-      Payment Expressions: payment/expressions.md
-      Message Customization: payment/messages.md
-      Payment Table: payment/payment-table.md
-      Recurring Payments: payment/recurring.md
-      Check Payments: payment/check.md
-      CCAvenue: payment/ccavenue.md
-      Currency: payment/currency.md
-  - Other Form Options:
-      Closing Submissions: formOptions/closing-submissions.md
-      Response Counter: formOptions/counter.md
-      Postprocess: formOptions/postprocess.md
-      Predicates: formOptions/predicates.md
-      Dashboard Options: dashboard/dashboard_options.md
+      Introduction: mgmt/forms-setup.md
+      Sharing reference: mgmt/share.md
+  - Editing a form:
+    - Introduction: editing/introduction.md
+    - Schema:
+        Introduction: schema/introduction.md
+        Learn JSON Schema: http://json-schema.org/learn/getting-started-step-by-step.html
+        Validation: schema/validate.md
+        Arrays: schema/arrays.md
+        Omit Extra Data: schema/omitExtraData.md
+    - uiSchema:
+        Introduction: uischema/introduction.md
+        Custom Fields:
+          Auto Populate: schema/fields/auto-populate.md
+          Dynamic Enum: schema/fields/dynamic-enum.md
+          Same As: schema/fields/same-as.md
+          Address Autocomplete: schema/fields/addressAutocompleteField.md
+        Custom Widgets:
+          Infobox Radio / Select: schema/widgets/infoboxRadioWidget.md
+    - FormOptions:
+        Introduction: formOptions/introduction.md
+        Confirmation Emails: payment/confirmation.md
+        Payment Integration:
+          Introduction: payment/introduction.md
+          Payment Expressions: payment/expressions.md
+          Message Customization: payment/messages.md
+          Payment Table: payment/payment-table.md
+          Recurring Payments: payment/recurring.md
+          Supported Payment Methods:
+            Check Payments: payment/check.md
+            CCAvenue: payment/ccavenue.md
+          Currency: payment/currency.md
+        Closing Submissions: formOptions/closing-submissions.md
+        Response Counter: formOptions/counter.md
+        Postprocess form data: formOptions/postprocess.md
+        Import data with predicates: formOptions/predicates.md
+        Configure response view with data options:
+          Data Options: responses/data_options.md
+          Create a dashboard: dashboard/dashboard_options.md
+          Edit Schema: responses/edit_schema.md
   - Using the API:
       API Quickstart: api/api-quickstart.md
   - Development on CFF:
+      Introduction: development/introduction.md
       Using Git and GitHub: development/git.md
-      Backend setup: development/backend.md
+      Backend setup notes: development/backend.md

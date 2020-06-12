@@ -6,7 +6,7 @@ Click on "Create form" to create a form (note: you must get approval from one of
 
 Form Options
 
-```
+```json
 {
   "paymentInfo": {
     "items": [],
