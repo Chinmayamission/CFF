@@ -4,6 +4,7 @@ USAGE:
 
 in the schema:
 
+```json
 {
   "type": "object",
   "properties": {
@@ -16,10 +17,11 @@ in the schema:
     "country": {"type": "string"}
   }
 }
+```
 
 in the ui schema:
 
-```
+```json
 {
     "ui:field": "cff:autoPopulate",
     "ui:options": {
@@ -33,7 +35,7 @@ This will make a query to https://www.chinmayamission.com/wp-json/gcmw/v1/centre
 
 You can also only show results that match a schema by specifying `cff:autoPopulateMatchSchema`:
 
-```
+```json
 {
     "ui:field": "cff:autoPopulate",
     "ui:options": {

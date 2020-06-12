@@ -32,19 +32,18 @@ nav:
     - Introduction: editing/introduction.md
     - Schema:
         Introduction: schema/introduction.md
-        Learn JSON Schema: http://json-schema.org/learn/getting-started-step-by-step.html
-        Validation: schema/validate.md
-        Arrays: schema/arrays.md
-        Omit Extra Data: schema/omitExtraData.md
+        Sample Schemas: schema/sample-schemas.md
     - uiSchema:
         Introduction: uischema/introduction.md
         Custom Fields:
-          Auto Populate: schema/fields/auto-populate.md
-          Dynamic Enum: schema/fields/dynamic-enum.md
-          Same As: schema/fields/same-as.md
-          Address Autocomplete: schema/fields/addressAutocompleteField.md
+          Auto Populate: uischema/fields/auto-populate.md
+          Dynamic Enum: uischema/fields/dynamic-enum.md
+          Same As: uischema/fields/same-as.md
+          Address Autocomplete: uischema/fields/addressAutocompleteField.md
         Custom Widgets:
-          Infobox Radio / Select: schema/widgets/infoboxRadioWidget.md
+          Infobox Radio / Select: uischema/widgets/infoboxRadioWidget.md
+        Custom Validation: uischema/validate.md
+        Arrays: uischema/arrays.md
     - FormOptions:
         Introduction: formOptions/introduction.md
         Confirmation Emails: payment/confirmation.md
@@ -66,6 +65,7 @@ nav:
           Data Options: responses/data_options.md
           Create a dashboard: dashboard/dashboard_options.md
           Edit Schema: responses/edit_schema.md
+        Omit Extra Data: formOptions/omitExtraData.md
   - Using the API:
       API Quickstart: api/api-quickstart.md
   - Development on CFF:

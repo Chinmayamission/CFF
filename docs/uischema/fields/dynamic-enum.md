@@ -4,6 +4,7 @@ USAGE:
 
 Imagine you have an array of centres that you would like people to enter in in the form, in the `centres` key. However, you have another spot in the form, the `location` field, which you would like to show a select box with dynamically populated options based on the centres you chose. In the schema:
 
+```json
 {
   "centres": {
       "type": "array",
@@ -17,10 +18,11 @@ Imagine you have an array of centres that you would like people to enter in in t
   },
   "location": {"type": "string"}
 }
+```
 
 in the ui schema:
 
-```
+```json
 {
     "location": {
         "ui:field": "cff:dynamicEnum",

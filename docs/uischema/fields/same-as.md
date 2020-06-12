@@ -3,7 +3,7 @@ This will render a checkbox saying something like, "same as first participant's 
 USAGE: 
 in the ui schema:
 
-```
+```json
 {
     "ui:field": "cff:sameAs",
     "ui:options": {
@@ -15,7 +15,7 @@ in the ui schema:
 
 If you want an array to show sameAs only for the first one, add the following to the uiSchema in the array:
 
-```
+```json
 {
     "classNames": "ccmt-cff-array-sameAs-showFirst"
 }
