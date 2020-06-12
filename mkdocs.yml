@@ -2,7 +2,6 @@ site_name: Chinmaya Forms Framework
 theme:
   name: 'material'
   features:
-    - instant
     - tabs
   palette:
     primary: light blue
