@@ -26,7 +26,8 @@ nav:
   - Home: index.md
   - Form Management:
       Introduction: mgmt/forms-setup.md
-      Sharing reference: mgmt/share.md
+      Managing responses: mgmt/responses.md
+      Permissions and sharing: mgmt/share.md
   - Editing a form:
     - Introduction: editing/introduction.md
     - Schema:
