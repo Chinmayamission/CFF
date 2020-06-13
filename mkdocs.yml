@@ -27,16 +27,16 @@ repo_url: https://github.com/epicfaace/CFF
 nav:
   - Home: index.md
   - Form Management:
-      Introduction: mgmt/forms-setup.md
+      Overview: mgmt/forms-setup.md
       Managing responses: mgmt/responses.md
       Permissions and sharing: mgmt/share.md
   - Form Editing:
-    - Introduction: editing/introduction.md
+    - Overview: editing/introduction.md
     - Schema:
-        Introduction: schema/introduction.md
+        Overview: schema/introduction.md
         Sample Schemas: schema/sample-schemas.md
     - uiSchema:
-        Introduction: uischema/introduction.md
+        Overview: uischema/introduction.md
         Custom Fields:
           Auto Populate: uischema/fields/auto-populate.md
           Dynamic Enum: uischema/fields/dynamic-enum.md
@@ -47,13 +47,15 @@ nav:
         Custom Validation: uischema/validate.md
         Arrays: uischema/arrays.md
     - FormOptions:
-        Introduction: formOptions/introduction.md
+        Overview: formOptions/introduction.md
         Confirmation Emails:
-          Introduction: payment/confirmation.md
+          Overview: payment/confirmation.md
           Sample templates: payment/confirmation-templates.md
-          Jinja2 template reference: payment/confirmation-jinja.md
+          Making your own templates: payment/confirmation-jinja.md
+          Adding attachments: payment/confirmation-attachments.md
+          Custom confirmationEmailInfo templates: payment/confirmation-custom-templates.md
         Payment Integration:
-          Introduction: payment/introduction.md
+          Overview: payment/introduction.md
           Payment Expressions: payment/expressions.md
           Message Customization: payment/messages.md
           Payment Table: payment/payment-table.md
@@ -74,6 +76,6 @@ nav:
   - Using the API:
       API Quickstart: api/api-quickstart.md
   - Development on CFF:
-      Introduction: development/introduction.md
+      Overview: development/introduction.md
       Using Git and GitHub: development/git.md
       Backend setup notes: development/backend.md
