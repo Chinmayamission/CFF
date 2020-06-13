@@ -1,6 +1,6 @@
 # Confirmation emails
 
-Confirmation emails can be sent for each form response. They can be enabled and configured with the `formOptions.confirmationEmailInfo` property
+Confirmation emails can be sent for each form response. They can be enabled and configured with the `formOptions.confirmationEmailInfo` property.
 
 !!! note
     By default, confirmation emails are not sent unless the user has paid. This means that, by default, if

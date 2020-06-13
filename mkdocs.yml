@@ -31,12 +31,12 @@ nav:
       Managing responses: mgmt/responses.md
       Permissions and sharing: mgmt/share.md
   - Form Editing:
-    - Overview: editing/introduction.md
+    - Overview: editing/overview.md
     - Schema:
-        Overview: schema/introduction.md
+        Overview: schema/overview.md
         Sample Schemas: schema/sample-schemas.md
     - uiSchema:
-        Overview: uischema/introduction.md
+        Overview: uischema/overview.md
         Custom Fields:
           Auto Populate: uischema/fields/auto-populate.md
           Dynamic Enum: uischema/fields/dynamic-enum.md
@@ -47,23 +47,24 @@ nav:
         Custom Validation: uischema/validate.md
         Arrays: uischema/arrays.md
     - FormOptions:
-        Overview: formOptions/introduction.md
+        Overview: formOptions/overview.md
         Confirmation Emails:
-          Overview: payment/confirmation.md
-          Sample templates: payment/confirmation-templates.md
-          Making your own templates: payment/confirmation-jinja.md
-          Adding attachments: payment/confirmation-attachments.md
-          Custom confirmationEmailInfo templates: payment/confirmation-custom-templates.md
+          Overview: payment/confirmation/overview.md
+          Sample templates: payment/confirmation/confirmation-templates.md
+          Making your own templates: payment/confirmation/confirmation-jinja.md
+          Adding attachments: payment/confirmation/confirmation-attachments.md
+          Custom confirmationEmailInfo templates: payment/confirmation/confirmation-custom-templates.md
         Payment Integration:
-          Overview: payment/introduction.md
-          Payment Expressions: payment/expressions.md
+          Overview: payment/overview.md
+          Payment Info:
+            Overview: payment/paymentInfo/overview.md
+            Payment Expressions: payment/paymentInfo/expressions.md
+            Recurring Payments: payment/paymentInfo/recurring.md
+          Payment Methods:
+            Overview: payment/paymentMethods/overview.md
+            Check Payments: payment/paymentMethods/check.md
+            CCAvenue: payment/paymentMethods/ccavenue.md
           Message Customization: payment/messages.md
-          Payment Table: payment/payment-table.md
-          Recurring Payments: payment/recurring.md
-          Supported Payment Methods:
-            Check Payments: payment/check.md
-            CCAvenue: payment/ccavenue.md
-          Currency: payment/currency.md
         Closing Submissions: formOptions/closing-submissions.md
         Response Counter: formOptions/counter.md
         Postprocess form data: formOptions/postprocess.md
@@ -76,6 +77,6 @@ nav:
   - Using the API:
       API Quickstart: api/api-quickstart.md
   - Development on CFF:
-      Overview: development/introduction.md
+      Overview: development/overview.md
       Using Git and GitHub: development/git.md
       Backend setup notes: development/backend.md
