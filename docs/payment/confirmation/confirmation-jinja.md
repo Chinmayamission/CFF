@@ -37,6 +37,8 @@ The resulting view link will be equal to `{CFF_URL}/{formId}?responseId={respons
     The edit link will only work if both `formOptions.responseCanViewByLink` and `formOptions.responseCanEditByLink` are set to true; both are set to false by default for security reasons.
 
 
+<!-- TODO: document other custom variables -- such as id? -->
+
 ## Custom filters
 
 Jinja2 has a [filters](https://jinja.palletsprojects.com/en/2.11.x/templates/#filters) feature that allows you to apply certain functions to context variables within the template. In addition to the [built-in filters](https://jinja.palletsprojects.com/en/2.11.x/templates/#builtin-filters), CFF also supports the following custom filters:

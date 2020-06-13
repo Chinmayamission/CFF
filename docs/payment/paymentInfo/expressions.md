@@ -165,6 +165,8 @@ Another example:
 
 Note that in this case, we are able to use the `[key]:[value]` syntax to see if a particular form data value is equal to a given string. Here, we are charging 100 if the participant is from India, but 1000 if the participant is not from India.
 
+<!-- TODO: document custom variables and functions such as $total -->
+
 ## Custom functions
 
 CFF has defined some custom functions, all of which start with `cff_` , that can also be used in payment expressions:

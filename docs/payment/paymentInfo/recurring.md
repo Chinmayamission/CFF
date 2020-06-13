@@ -1,19 +1,21 @@
 To do recurring payments, include an item with `recurrenceDuration` in `paymentInfo.items`. This is currently implemented using [PayPal's Recurring Payments API](https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/#recurring-payment-variables).
 
-```
-    paymentInfo: {
-      currency: "USD",
-      items: [
-        {
-          name: "Name",
-          description: "Description",
-          amount: 40,
-          quantity: 1,
-          recurrenceDuration: "1M",
-          recurrenceTimes: "12"
-        }
-      ]
-    },
+```json
+{
+  "paymentInfo": {
+    "currency": "USD",
+    "items": [
+      {
+        "name": "Name",
+        "description": "Description",
+        "amount": 40,
+        "quantity": 1,
+        "recurrenceDuration": "1M",
+        "recurrenceTimes": "12"
+      }
+    ]
+  }
+}
 ```
 
 `recurrenceDuration` (required) describes how often the recurring payment happens. It is in the format `[#][D|W|M|Y]`. For example, `1M` means "every month."
@@ -22,10 +24,10 @@ To do recurring payments, include an item with `recurrenceDuration` in `paymentI
 
 Note that if a recurring payment item is included in `paymentInfo.items` (defined as an item with a `recurrenceDuration`) and has an `amount * quantity` greater than zero, then when the user goes to PayPal checkout, they will only see the option to pay their recurring payment (not any other options in the cart).
 
-## Payment installation pattern
+## Payment installments pattern
 Here is a sample configuration that describes how to allow a user to make payment installments:
 
-```
+```json
 [
     {
         "name": "Regular registration",

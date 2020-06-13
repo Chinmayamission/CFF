@@ -62,14 +62,15 @@ nav:
             Recurring Payments: payment/paymentInfo/recurring.md
           Payment Methods:
             Overview: payment/paymentMethods/overview.md
-            Check Payments: payment/paymentMethods/check.md
+            PayPal: payment/paymentMethods/paypal.md
             CCAvenue: payment/paymentMethods/ccavenue.md
+            Manual Approval: payment/paymentMethods/manual-approval.md
           Message Customization: payment/messages.md
         Closing Submissions: formOptions/closing-submissions.md
         Response Counter: formOptions/counter.md
         Postprocess form data: formOptions/postprocess.md
         Import data with predicates: formOptions/predicates.md
-        Configure response view with data options:
+        Response Reporting:
           Data Options: responses/data_options.md
           Create a dashboard: dashboard/dashboard_options.md
           Edit Schema: responses/edit_schema.md

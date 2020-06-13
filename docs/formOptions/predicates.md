@@ -1,4 +1,4 @@
-You can add form "predicates". This feature is used in order to import data from a previous year's iteration of the form. Use cases for this feature include:
+The form predicates feature allows you to import data from responses in another form. Use cases for this feature include:
 
 - CMA Marietta used CFF for 2018 Balavihar Registration, and wants to do the same for 2019 Balavihar Registration. However, they would like for existing users' data to be imported, and for the grades to be bumped up one level.
 
@@ -17,18 +17,33 @@ Just add the following to `formOptions`:
 }
 ```
 
-`predicate.formId` - Form ID that counts as the predicate. By default, the response that is owned by the current user is loaded; so this feature is currently only supported for `loginRequired` forms. In the future, it could be possible to support matching by email, etc.
+The `formId` is the ID of the "predicate form", the form from which data needs to be imported. By default, the response that is owned by the current user from the predicate form is loaded; so this feature is currently only supported for forms that have `loginRequired` to true.
 
-Note that the backend endpoint (`/forms/{formId}/response`) only searches for predicates that are already paid; so unpaid predicates will not be found and sent back from this endpoint.
+!!! note
+    Only responses that have status equal to `PAID` will be imported from a predicate; if the user has an unpaid response in the predicate form, it will not be imported.
 
 You will also need to add the following to the predicate form's `formOptions`:
+
 ```json
 "successor": {
-    "formId": "[form id of the successor]"
+    "formId": "[form id of the current from]"
 }
 ```
 
 This is required as a security precuation, so that any form cannot claim an arbitrary form as a "predicate" and thus access its data.
+
+## Customizing warning text
+By default, when a new response is created with a predicate, the following warning shows up at the top of the page:
+
+![imported warning](img/imported warning.png)
+
+To customize this text, edit the `predicate.warningText` property.
+
+```json
+"predicate": {
+    "warningText": "<b>Warning:</b> you are submitting a form based old information from a predicate form."
+}
+```
 
 ## Applying patches
 Sometimes you may want to modify the data to apply patches, such as promoting children up a grade. This is how you do so:
@@ -42,12 +57,14 @@ Sometimes you may want to modify the data to apply patches, such as promoting ch
 }
 ```
 
-`predicate.patches` - A list of patches to apply to the response. All the patches get sequentially applied to the form data. Above is an example of a "walk" patch, which will transform each "grade" and walk it up by 1 (A -> B, B -> C, otherwise will stay the same). The "unwind" parameter applies this patch to every element in the `participants` array.
+`predicate.patches` - A list of patches to apply to the response. All the patches get sequentially applied to the form data.
 
-### Other examples of patches:
+Above is an example of a "walk" patch, which will transform each "grade" and walk it up by 1 (A -> B, B -> C, otherwise will stay the same). The "unwind" parameter applies this patch to every element in the `participants` array.
+
+### Other examples of patches
 
 Sets the value at the `returning_family` path to `true`.
-```
+```json
 {
     "type": "patch",
     "value": [
@@ -57,7 +74,7 @@ Sets the value at the `returning_family` path to `true`.
 ```
 
 Removes the `grade` property for all objects in the array `children`.
-```
+```json
 {
     "type": "patch",
     "unwind": "/children",
@@ -66,6 +83,9 @@ Removes the `grade` property for all objects in the array `children`.
     ]
 }
 ```
+
+<!--
+This is still an idea, not an actual feature yet.
 
 ## Propagating paid status for recurring payments
 In this use case, imagine that people signed up for Balavihar in 2019 and did recurring payments. You want those *previous* recurring payments, if they are still active, to allow for a certain discount (such as a % off, or giving free,) this year as well.
@@ -99,15 +119,4 @@ We need to store RECURRING_ACTIVE on both the predicate and current response, up
     ]
 }
 ```
-
-## Customizing warning text
-By default, when a new response is created with a predicate, the following shows up:
-
-[insert image here]
-
-To customize this text, edit the `predicates.warningText` property:
-```json
-"predicate": {
-    "warningText": "<b>Warning:</b> you are submitting a form based old information from a predicate form."
-}
-```
+-->

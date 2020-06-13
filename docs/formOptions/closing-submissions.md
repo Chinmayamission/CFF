@@ -1,10 +1,12 @@
-Add the following to formOptions: (both these attributes default to `true`):
+To close submissions, set the following values in formOptions to false: (both these attributes default to `true`):
 
-```
+```json
+{
   "responseSubmissionEnabled": false,
   "responseModificationEnabled": false
+}
 ```
 
-And then you will get messages like this:
+The user will then, upon viewing the form, see a message like this:
 
-![image](https://user-images.githubusercontent.com/1689183/55754040-9fdbe900-5a00-11e9-95f1-5ede2abfb0f7.png)
+![form closed](img/form closed.png)
