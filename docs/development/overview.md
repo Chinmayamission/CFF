@@ -1,5 +1,6 @@
+# Getting started with CFF development
 
-### Install prerequisites
+## Install prerequisites
 
 To run CFF locally, you first need to install the following prerequisites:
 
@@ -8,7 +9,7 @@ To run CFF locally, you first need to install the following prerequisites:
 - [Python 3.6+](https://www.python.org/downloads/)
 - [MongoDB](https://docs.mongodb.com/manual/installation/)
 
-### Clone code
+## Clone code
 
 The first step is to clone the git repository with the latest code locally. This repository contains both frontend and backend code.
 
@@ -17,7 +18,7 @@ git clone https://github.com/epicfaace/CFF.git
 cd CFF
 ```
 
-#### Directory structure
+### Directory structure
 - `docs` - contains documentation files
 
 - `scripts/src` - contains frontend React code
@@ -30,7 +31,7 @@ cd CFF
 
 - `lambda/tests` - contains REST API tests
 
-### Develop frontend
+## Develop frontend
 
 To develop on the frontend, you can run the following commands from the `CFF` directory:
 
@@ -45,7 +46,7 @@ By default, the frontend will use the beta deployed API as the backend, so there
 
 You can open [http://localhost:8080](http://localhost:8080) to view a live-reloading version of CFF in your own browser.
 
-### Develop backend
+## Develop backend
 
 To develop on the REST API, go to the `lambda` directory. We use `pipenv` to manage dependencies.
 
@@ -69,7 +70,7 @@ Most of work done on the backend can be verified by re-running the tests. To run
 1. Run `npm run mongo` in one terminal so that a local database is running.
 1. Run `npm test` in another terminal.
 
-### Develop docs
+## Develop docs
 
 To develop the docs locally, first install `mkdocs` and the `mkdocs-material` theme:
 
@@ -79,3 +80,7 @@ mkdocs serve
 ```
 
 Running this command will serve the docs at [http://localhost:8000](http://localhost:8000) in your browser.
+
+## Contribution process
+
+For the general contribution process, see the [Contribution process](contributing.md) section.
