@@ -1,6 +1,6 @@
 Address autocomplete field - shows a textbox which allows a user to type in an address, with suggestions from the Google Maps API. Once the user selects the location, it will auto-fill the textboxes for line 1, line 2, etc.
 
-Usage:
+## Usage
 
 Schema:
 

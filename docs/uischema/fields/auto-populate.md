@@ -1,6 +1,6 @@
 Auto populate allows fetching data from an asynchronous endpoint.
 
-USAGE: 
+## Usage 
 
 in the schema:
 

@@ -1,6 +1,4 @@
-Arrays
-
-# Customizing buttons
+## Customizing buttons
 You can change the add button text and remove button text as follows:
 
 ```json
@@ -20,11 +18,11 @@ You can remove the add buttons this way:
 }
 ```
 
-# Showing a "number of items" field
+## Showing a "number of items" field
 
 You can create a "number of items" field so that the user enters in the number of items in an array (as opposed to clicking on buttons to add/remove). First, add this in the uiSchema to the array element:
 
-```
+```json
   "participants": {
     "ui:cff:showArrayNumItems": true
   },
@@ -38,7 +36,7 @@ It will have a dropdown from `minItems` and `maxItems`, both defined in the sche
 
 You can also define the title (instead of "Number of participants" with the following option):
 
-```
+```json
   "participants": {
     "ui:cff:showArrayNumItems": true,
     "ui:cff:arrayNumItemsTitle": "Enter the number of elements in the array"

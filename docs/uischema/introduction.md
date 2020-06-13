@@ -2,7 +2,7 @@ The uiSchema is used to configure the look and feel of the form. The format of t
 
 All uiSchema options supported by react-jsonschema-form are also supported here. We also have additional widgets and options; all these options are prefixed by `cff:`.
 
-## List of custom uiSchema configuration options
+## Custom configuration options
 
 | Name      | Description | Example Usage |
 | ----------- | ----------- | ------------------- |
@@ -18,6 +18,28 @@ All uiSchema options supported by react-jsonschema-form are also supported here.
 |  ui:cff:showAddButton  | Set on array fields. If set to false, the add button is hidden. | `{"ui:cff:showAddButton": false }` |
 |  ui:cff:background  | Set on the root schema. Can be set to a color, e.g. `#ff0000`, or anything that the CSS [`background`](https://developer.mozilla.org/en-US/docs/Web/CSS/background) property accepts. If set, overrides the default background of the form. | `{"ui:cff:background": "white" }` |
 
-## List of custom uiSchema widgets and fields
+## Custom widgets
 
-Coming soon
+| Name      | Description | Example Usage |
+| ----------- | ----------- | ------------------- |
+|  cff:smallTextbox  | Small textbox | `{"ui:widget": "cff:smallTextbox"}` |
+|  cff:money  | Money widget | `{"ui:widget": "cff:money"}` |
+|  cff:couponCode  | Coupon code | `{"ui:widget": "cff:couponCode"}` |
+|  cff:confirm  | Copies a textbox to give a "confirm" widget. Useful for, example, creating "email" and "confirm email" fields.  | `{"ui:widget": "cff:confirm"}` |
+|  cff:jsonEditor  | JSON editor | `{"ui:widget": "cff:jsonEditor"}` |
+|  cff:conditionalHiddenRadio  | Radio widget, but hides if `schema.readOnly` or `schema.const` are true | `{"ui:widget": "cff:conditionalHiddenRadio"}` |
+|  cff:infoboxRadio  | Shows a red "i" sign next to the label right before a radio widget. Hovering on the "i" shows an infobox, whose contents are equal to `schema["cff:radioDescription"]`. | `{"ui:widget": "cff:infoboxRadio"}` |
+|  cff:infoboxSelect  | Shows a red "i" sign next to the label right before a select widget. Hovering on the "i" shows an infobox, whose contents are equal to `schema["cff:radioDescription"]`. | `{"ui:widget": "cff:infoboxSelect"}` |
+|  cff:removed  | Renders null (this is different from the `hidden` widget, which just renders an `<input type="hidden" />` tag) | `{"ui:widget": "cff:removed"}` |
+
+## Custom fields
+
+Unlike widgets, which only work on base types (non-objects or arrays), fields can work on object types as well.
+
+| Name      | Description | Example Usage |
+| ----------- | ----------- | ------------------- |
+|  cff:sameAs  | Shows a checkbox before the field that says "same as" another field. When this checkbox is checked, the data from the other field will be copied into this field. | `{"ui:field": "cff:sameAs", "ui:cff:sameAsFieldName": "first name", "ui:cff:sameAsFieldPath": "name.first"}` |
+|  cff:autoPopulate  | Makes a query to a HTTP endpoint to fetch enum options, which are then used to populate the results of the current field. | `{"ui:field": "cff:autoPopulate", "ui:cff:autoPopulateEndpoint": "https://www.chinmayamission.com/wp-json/gcmw/v1/centres", "ui:cff:autoPopulateTitleAccessor": "name"}` |
+|  cff:dynamicEnum  | Fetches a set of enum options based on form data. The path of the specified form data comes from `ui:cff:dynamicEnumDataAccessor`. | `{"ui:field": "cff:dynamicEnum", "ui:cff:dynamicEnumDataAccessor": "names" }` |
+|  cff:addressAutocomplete  | Shows a textbox where the user can type a location, with suggestions from the Google Maps API. | `{"ui:field": "cff:addressAutocomplete"}` |
+|  cff:removed  | Renders null | `{"ui:field": "cff:removed"}` |

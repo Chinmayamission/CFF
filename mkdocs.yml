@@ -15,6 +15,8 @@ theme:
 markdown_extensions:
   - admonition
   - codehilite
+  - toc:
+      permalink: true
 
 extra_css:
   - main.css
@@ -28,7 +30,7 @@ nav:
       Introduction: mgmt/forms-setup.md
       Managing responses: mgmt/responses.md
       Permissions and sharing: mgmt/share.md
-  - Editing a form:
+  - Form Editing:
     - Introduction: editing/introduction.md
     - Schema:
         Introduction: schema/introduction.md
@@ -46,7 +48,10 @@ nav:
         Arrays: uischema/arrays.md
     - FormOptions:
         Introduction: formOptions/introduction.md
-        Confirmation Emails: payment/confirmation.md
+        Confirmation Emails:
+          Introduction: payment/confirmation.md
+          Sample templates: payment/confirmation-templates.md
+          Jinja2 template reference: payment/confirmation-jinja.md
         Payment Integration:
           Introduction: payment/introduction.md
           Payment Expressions: payment/expressions.md

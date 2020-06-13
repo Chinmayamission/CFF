@@ -1,6 +1,6 @@
 The dynamic enum field allows for the enum options of a field to be populated dynamically from the data in another form.
 
-USAGE: 
+## Usage 
 
 Imagine you have an array of centres that you would like people to enter in in the form, in the `centres` key. However, you have another spot in the form, the `location` field, which you would like to show a select box with dynamically populated options based on the centres you chose. In the schema:
 

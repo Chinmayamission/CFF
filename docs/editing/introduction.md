@@ -1,4 +1,4 @@
-# Editing a form
+# Form Editing
 
 All forms can be configured using JSON configuration options. You can edit three things in a form:
 
