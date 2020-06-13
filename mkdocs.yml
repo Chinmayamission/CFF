@@ -81,5 +81,6 @@ nav:
   - Development on CFF:
       Overview: development/overview.md
       Contribution process: development/contributing.md
+      Architecture: development/architecture.md
       Backend setup notes: development/backend.md
       Deployment: development/deploy.md
