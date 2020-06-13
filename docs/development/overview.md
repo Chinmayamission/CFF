@@ -74,7 +74,7 @@ Most of work done on the backend can be verified by re-running the tests. To run
 To develop the docs locally, first install `mkdocs` and the `mkdocs-material` theme:
 
 ```bash
-pip install mkdocs==1.1 mkdocs-material==4.6.3
+pip install -r requirements-docs.txt
 mkdocs serve
 ```
 
