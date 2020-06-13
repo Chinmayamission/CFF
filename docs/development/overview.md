@@ -79,34 +79,3 @@ mkdocs serve
 ```
 
 Running this command will serve the docs at [http://localhost:8000](http://localhost:8000) in your browser.
-
-
-## Deployment
-
-### Deploy to beta
-
-Beta deployment is automatically done via Azure Pipelines whenever a commit is pushed to the `master` branch. Our beta environment is hosted at [https://forms.beta.chinmayamission.com](https://forms.beta.chinmayamission.com).
-
-Manual steps for deployment:
-
-```bash
-npm run deploy
-sls deploy --stage beta
-cd lambda
-npm run deploy
-npm run deploy-docs
-```
-
-### Deploy to prod
-
-Production deployment is automatically done via Azure Pipelines whenever a new version of CFF is released (when a new tag is pushed to `master`). Our production environment is hosted at [https://forms.chinmayamission.com](https://forms.chinmayamission.com).
-
-Manual steps for deployment:
-
-```bash
-npm run deploy-prod
-sls deploy --stage prod
-cd lambda
-npm run deploy-prod
-npm run deploy-docs
-```

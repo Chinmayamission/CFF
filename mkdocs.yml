@@ -80,5 +80,6 @@ nav:
       API Quickstart: api/api-quickstart.md
   - Development on CFF:
       Overview: development/overview.md
-      Using Git and GitHub: development/git.md
+      Contribution process: development/contributing.md
       Backend setup notes: development/backend.md
+      Deployment: development/deploy.md

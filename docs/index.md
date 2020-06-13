@@ -16,6 +16,17 @@ CFF has been used for events such as:
 - Information Collection Forms
 - Donation Forms
 
+## Documentation structure
+
+- [**Form Management**](mgmt/forms-setup) - how to share forms and manage responses as a form admin.
+
+- [**Form Editing**](editing/overview) - how to configure and edit forms by modifying the JSON options for a form.
+
+- [**Using the API**](api/api-quickstart) - information about integrating with the CFF REST API to use data in your own apps
+
+- [**Development on CFF**](development/overview) - information about development on the CFF codebase, contributing guidelines, and setup instructions
+
+
 ## Useful links
 
 - GitHub repository: [https://github.com/epicfaace](https://github.com/epicfaace)
