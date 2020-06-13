@@ -71,8 +71,9 @@ nav:
         Postprocess form data: formOptions/postprocess.md
         Import data with predicates: formOptions/predicates.md
         Response Reporting:
-          Data Options: responses/data_options.md
-          Create a dashboard: dashboard/dashboard_options.md
+          Overview: responses/overview.md
+          Customize Response Table: responses/table.md
+          Create a dashboard: responses/dashboard_options.md
           Edit Schema: responses/edit_schema.md
         Omit Extra Data: formOptions/omitExtraData.md
   - Using the API:

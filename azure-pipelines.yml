@@ -60,7 +60,7 @@ stages:
         addToPath: true
         architecture: 'x64'
     - script: |
-        pip install mkdocs==1.1 mkdocs-material==4.6.3
+        pip install -r requirements-docs.txt
         mkdocs build --clean
       displayName: 'build docs'
 
@@ -104,7 +104,7 @@ stages:
         AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
         AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
     - script: |
-        pip install mkdocs==1.1 mkdocs-material==4.6.3
+        pip install -r requirements-docs.txt
         npm run deploy-docs
       displayName: 'deploy docs'
       env:
