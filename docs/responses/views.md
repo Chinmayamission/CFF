@@ -1,7 +1,15 @@
-Data options help manage which columns/views are shown in the response table.
+The `dataOptions.views` attribute helps control which tabs show up on the response table.
+
+## Default view
+
+By default, only a single tab is shown, and it contains the following fields:
+
+- The following fields: `"ID", "PAID", "AMOUNT_PAID", "DATE_CREATED"`
+- All object fields, recursively traversed, of the actual response value
 
 ## Changing the columns
-If you want to change beyond the default view, add the following to `formOptions`:
+
+If you want to override the default view, add a view to `formOptions`.
 
 ```
   "dataOptions": {
@@ -21,25 +29,55 @@ If you want to change beyond the default view, add the following to `formOptions
   }
 ```
 
-Note that each item in `views` must have an `id` and (optionally) a `displayName`. The `columns` value describes which columns will show up in this view's table view in the "Responses" tab.
+Note that each item in `views` must have a unique `id` and (optionally) a `displayName`. The `columns` value describes which columns will show up in this view's table view in the "Responses" tab.
 
-### Columns object
+### Possible columns
 
-To change the title of a column, replace the string in the `columns` array with an object with keys `label` and `value`. For example:
+The possible columns include:
 
-```
+- Any valid accessor of the form data. This accessor is passed to lodash's `get` function, so it can be equal to a nested value such as `name.first` or `parent.age`.
+
+- `ID` - a string value of the response id
+
+- `PAID` - a string value describing the response's paid status. Equal to "PAID", "NOT PAID", or "PARTLY PAID".
+
+- `DATE_CREATED` - a formatted string of the date the response was created.
+
+- `DATE_LAST_MODIFIED` - a formatted string of the date the response was last modified.
+
+- `AMOUNT_OWED` - a formatted string of how much money is owed. Technically, this is equal to `paymentInfo.total` formatted with `paymentInfo.currency`.
+
+- `AMOUNT_OWED` - a formatted string of how much money has been paid. Technically, this is equal to `amount_paid` formatted with `paymentInfo.currency`.
+
+- `admin_info` - the admin_info of the response.
+
+- `COUNTER` - the response's counter. See [Response Counter](../formOptions/counter.md) for more information.
+
+### Custom column display names
+
+Each entry in the `columns` array can be specified either as a string or a column object. Specify the entry as a column object if you would like to have a custom title for the column. The `label` key of the column denotes its display name, while the `value` key denotes the actual value accessor for that column. For example:
+
+```json
+{
   "columns": [
     "ID",
     "DATE_LAST_MODIFIED",
     "DATE_CREATED",
-    {"label": "Family ID", "value": "COUNTER"},
+    { "label": "Family ID", "value": "COUNTER" },
     "email"
   ]
+}
 ```
 
-The columns object also supports a basic level of aggregation. Right now, we support the `calculateLength` parameter, which when set to true, will show the length of the value in the `value` parameter (whether it is a string or an array). For example, to show the number of participants in a response (if participants is an array of objects), use the following header object:
+### Column aggregation
 
-```
+The columns object also supports a basic level of aggregation.
+
+#### Calculate length
+
+When the `calculateLength` parameter is set to true, the header object will show the length of the value in the `value` parameter (whether it is a string or an array). For example, to show the number of participants in a response (if participants is an array of objects), use the following header object:
+
+```json
 {
   "label": "Number of participants",
   "value": "participants",
@@ -47,9 +85,11 @@ The columns object also supports a basic level of aggregation. Right now, we sup
 }
 ```
 
+#### Custom expressions
+
 To show the value of a custom expression, set the `queryType` to `expr` and specify the expression value in `queryValue`. For example, this could be useful for showing the amount a user has paid for a particular item by doing a price calculation.
 
-```
+```json
 {
   "label": "Amount paid for registration",
   "queryType": "expr",
@@ -57,9 +97,11 @@ To show the value of a custom expression, set the `queryType` to `expr` and spec
 }
 ```
 
+#### Aggregate specific items from paymentInfo
+
 To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoItemPaidSum` and specify the names of payment info items in `queryValue`. For example, this could be useful for showing the amount a user has paid for multiple items (such as item 1 + item 2 + discount).
 
-```
+```json
 {
   "label": "Amount paid for registration",
   "queryType": "paymentInfoItemPaidSum",
@@ -74,7 +116,7 @@ To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoI
 
 This would match items in `paymentInfo` with `name` equal to "Main" or "Discount" and sum these values. For example, it would be equal to 49.5 for the following value of paymentInfo:
 
-```
+```json
 [
   {"name": "Main", "amount": 50, "quantity": 1, "total": 50},
   {"name": "Sub", "amount": 10, "quantity": 1, "total": 10},
@@ -82,11 +124,11 @@ This would match items in `paymentInfo` with `name` equal to "Main" or "Discount
 ]
 ```
 
-Note that if using `paymentInfoItemPaidSum` will also cross-check with amount paid. If a payment is partially paid, then it will reduce the final value accordingly. For example, if the initial sum of paymentInfoItems is equal to 49.5, but if the user has only paid 1/3 of the total amount owed (such as through an installment), the final value will be equal to 49.5 / 3 = 16.5.
+Note that if using `paymentInfoItemPaidSum` will also cross-check with amount paid. If a payment is partly paid, then it will reduce the final value accordingly. For example, if the initial sum of paymentInfoItems is equal to 49.5, but if the user has only paid 1/3 of the total amount owed (such as through an installment), the final value will be equal to 49.5 / 3 = 16.5.
 
 If you want to filter only payments in a particular date range, specify both `startDate` and `endDate` in queryValue. Both should be in UTC. This will decrease the amounts shown proportionally as well.
 
-```
+```json
 {
   "label": "Amount paid for registration",
   "queryType": "paymentInfoItemPaidSum",
@@ -101,11 +143,11 @@ If you want to filter only payments in a particular date range, specify both `st
 }
 ```
 
+#### Custom MongoDB aggregation query
 
+To run a custom mongodb aggregate query, set `queryType` to `aggregate` as in the below example. The "n" key of the result will end up showing in the column:
 
-To run a custom mongodb aggregate query, do the following. The "n" key of the result will end up showing in the column:
-
-```
+```json
 {
   "label": "Age Group",
   "queryType": "aggregate",
@@ -123,6 +165,7 @@ To run a custom mongodb aggregate query, do the following. The "n" key of the re
           }
         }
       }
+    }
   ]
 }
 ```
@@ -177,46 +220,6 @@ When type is group, this means that a table of values will be shown. The "title"
 }
 ```
 
-## Provide anonymous access
+## Configuring access
 
-To provide anonymous access to all responses in a form, use the `formOptions.responseListApiKey` parameter. To generate the api key value to set, use this code in Python:
-
-```bash
-import uuid
-import hashlib
-api_key = str(uuid.uuid4())
-encoded_api_key = hashlib.sha512(api_key.encode()).hexdigest()
-print("api key is ", api_key, "encoded api key is ", encoded_api_key)
-```
-
-Then provide the api key to the user using the form, and set `formOptions.responseListApiKey` to the encoded api key.
-
-```bash
-{
-  "responseListApiKey": "[encoded api key]"
-}
-```
-
-Then, someone can access the form responses by calling https://drcfbob84gx1k.cloudfront.net/v2/forms/[formId]/responses?apiKey=[apiKey]. Sample JS code (note that a dummy value must be included in the `Authorization` header):
-
-```
-fetch("https://drcfbob84gx1k.cloudfront.net/v2/forms/.../responses?dataOptionView=summary&apiKey=...", {headers: {"Authorization": "a"}});
-```
-
-### Use api key per dataOptionView
-
-If you want to give anonymous access only to a particular dataOptionView (so that, for example, you only publicly expose certains stats), set the `apiKey` value in the dataOptionView.
-
-```bash
-"dataOptions": {
-  "views": [
-    {
-      "id": "testview",
-      "name": "test view",
-      "apiKey": "[encoded api key]"
-    }
-  ]
-}
-```
-
-Then, someone can access the form responses by calling https://drcfbob84gx1k.cloudfront.net/v2/forms/[formId]/responses?dataOptionView=[dataOptionViewId]&apiKey=[apiKey].
+You can provision API keys for each view in `dataOptions` in order to provide different levels of anonymous access to them. For more information, see [Response Access](../api/response-access.md).

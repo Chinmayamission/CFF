@@ -17,7 +17,7 @@ Here is the structure of the `dataOptions` object (all root fields are optional)
 }
 ```
 
-The **views** field is used to control which views show up.
+The **views** field is used to control which tabs show up in the admin responses view.
 
 The **groups** field is used to define groups (such as classes) that individual responses can be assigned to.
 

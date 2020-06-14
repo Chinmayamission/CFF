@@ -52,4 +52,4 @@ When setting `installment` to true, this will make sure that this particular pay
 ## Tracking recurring payment status
 We currently do not have a way to track whether a user has cancelled their subscription. This is a todo. Each time the payment comes in, the AMOUNT_PAID increases.
 
-Confirmation emails are sent when recurring payments are received, even if PAID is not true (if the user is still PARTIALLY PAID).
+Confirmation emails are sent when recurring payments are received, even if PAID is not true (if the user is still PARTLY PAID).

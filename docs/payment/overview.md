@@ -58,5 +58,5 @@ Let us walk through the process of filling out the form now.
 1. Finally, the user is redirected to PayPal, where they can complete their payment.
 1. Note that the admin responses view of the user response, before the payment is complete, will show a "NOT PAID" for the response:
 ![not paid](img/not paid.png)
-1. But when the payment from PayPal goes in, a confirmation email will be sent to the user, and the user's status will change to "PAID" (or "PARTIALLY PAID", if the user has not paid the entire amount owed):
+1. But when the payment from PayPal goes in, a confirmation email will be sent to the user, and the user's status will change to "PAID" (or "PARTLY PAID", if the user has not paid the entire amount owed):
 ![paid](img/paid.png)
