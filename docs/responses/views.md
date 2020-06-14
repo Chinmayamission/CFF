@@ -7,11 +7,14 @@ By default, only a single tab is shown, and it contains the following fields:
 * The following fields: `"ID", "PAID", "AMOUNT_PAID", "DATE_CREATED"` 
 * All object fields, recursively traversed, of the actual response value
 
+![default view](img/default view.png)
+
 ## Changing the columns
 
-If you want to override the default view, add a view to `formOptions` .
+If you want to override the default view, add an entry to `formOptions.dataOptions.views` .
 
-``` 
+```json
+{
   "dataOptions": {
     "views": [
       {
@@ -27,9 +30,16 @@ If you want to override the default view, add a view to `formOptions` .
       }
     ]
   }
+}
 ```
 
 Note that each item in `views` must have a unique `id` and (optionally) a `displayName` . The `columns` value describes which columns will show up in this view's table view in the "Responses" tab.
+
+If the `views` array has multiple items in it, this will cause multiple tabs to show up in the Responses view. This is useful so that an admin can see different views of data based on what they are interested in; and this feature is needed in order to properly show nested JSON data in two-dimensional table views.
+
+Here is an example of how the tabs rendered by multiple views look like:
+
+![multiple views](img/multiple views.png)
 
 ### Possible columns
 
@@ -55,7 +65,9 @@ The possible columns include:
 
 ### Custom column display names
 
-Each entry in the `columns` array can be specified either as a string or a column object. Specify the entry as a column object if you would like to have a custom title for the column. The `label` key of the column denotes its display name, while the `value` key denotes the actual value accessor for that column. For example:
+Each entry in the `columns` array can be specified either as a string or a column object. Specify the entry as a column object if you would like to have a custom title for the column.
+
+The `label` key of the column denotes its display name, while the `value` key denotes the actual value accessor for that column. For example:
 
 ``` json
 {
@@ -69,9 +81,82 @@ Each entry in the `columns` array can be specified either as a string or a colum
 }
 ```
 
-### Column aggregation
+The above example creates a column whose display name is "Family ID", but whose value will actually be equal to the `COUNTER` field of the response.
 
-The columns object also supports a basic level of aggregation.
+### Unwinding data
+
+Unwinding data allows you to take an array field from each response and display each item in the array field as a separate row. This is especially important for cases such as the following:
+
+* Each response contains a list of participants for a walkathon, and you want a view with one row per participant
+* Each response represents a Balavihar registration for an entire family, and you want a view with a list of all adults and a view with a list of all children
+
+To unwind data, specify the path to unwind by in the `unwindBy` property of the view. When specifying custom columns, you can use the same notation as for non-unwound views to specify column accessors. In each unwound response, however, the unwound path (that previously pointed to the array) will now point to a single array item.
+
+For example, this view:
+
+```json
+{
+  "id": "adults",
+  "displayName": "Adults",
+  "unwindBy": "parents",
+  "columns": [
+    {
+      "label": "First Name",
+      "value": "parents.name.first"
+    },
+    {
+      "label": "Last Name",
+      "value": "parents.name.last"
+    },
+    {
+      "label": "Gender",
+      "value": "parents.gender"
+    },
+    {
+      "label": "Mobile Phone",
+      "value": "parents.phone"
+    },
+    {
+      "label": "Home Phone",
+      "value": "home_phone"
+    },
+    {
+      "label": "Email",
+      "value": "parents.email"
+    }
+  ]
+}
+```
+
+would properly display information for form responses that are structured like this:
+
+```json
+{
+  "home_phone": "...",
+  "parents": [
+    {
+      "name": {
+        "first": "...",
+        "last": "..."
+      },
+      "gender" "...",
+      "email": "..."
+    },
+    {
+      "name": {
+        "first": "...",
+        "last": "..."
+      },
+      "gender" "...",
+      "email": "..."
+    }
+  ]
+}
+```
+
+### Column calculations
+
+The columns object also supports a basic level of calculations. This is used if you want a column to show more than just the value of a single field, but rather a custom calculation of the existing data.
 
 #### Calculate length
 
@@ -85,9 +170,9 @@ When the `calculateLength` parameter is set to true, the header object will show
 }
 ```
 
-#### Custom expressions
+#### Payment expressions
 
-To show the value of a custom expression, set the `queryType` to `expr` and specify the expression value in `queryValue` . For example, this could be useful for showing the amount a user has paid for a particular item by doing a price calculation.
+To show the value of a payment expression, set the `queryType` to `expr` and specify the expression value in `queryValue` . For example, this could be useful for showing the amount a user has paid for a particular item by doing a price calculation.
 
 ``` json
 {
@@ -124,7 +209,7 @@ This would match items in `paymentInfo` with `name` equal to "Main" or "Discount
 ]
 ```
 
-Note that if using `paymentInfoItemPaidSum` will also cross-check with amount paid. If a payment is partly paid, then it will reduce the final value accordingly. For example, if the initial sum of paymentInfoItems is equal to 49.5, but if the user has only paid 1/3 of the total amount owed (such as through an installment), the final value will be equal to 49.5 / 3 = 16.5.
+Note that using `paymentInfoItemPaidSum` will also cross-check with amount paid. If a payment is partly paid, then it will reduce the final value accordingly. For example, if the initial sum of paymentInfoItems is equal to 49.5, but if the user has only paid 1/3 of the total amount owed (such as through an installment), the final value will be equal to 49.5 / 3 = 16.5.
 
 If you want to filter only payments in a particular date range, specify both `startDate` and `endDate` in queryValue. Both should be in UTC. This will decrease the amounts shown proportionally as well.
 
@@ -170,9 +255,12 @@ To run a custom mongodb aggregate query, set `queryType` to `aggregate` as in th
 }
 ```
 
+!!! note
+    Note that this aggregation will only be applied to a single response. If you want to aggregate multiple responses to get overall statistics, see [Adding a summary view](#Adding a summary view).
+
 ## Adding a summary view
 
-You can add a summary view which runs aggregate queries in MongoDB and then shows the results of those queries in the responses table view. To do so, add an object in dataOptions.views such as the following:
+You can add a summary view which runs aggregate queries in MongoDB and then shows the results of those queries in the responses table view. To do so, add an object in `dataOptions.views` with `type` equal to `stats`. Here is an example:
 
 ``` json
 "views": [{
@@ -199,17 +287,26 @@ You can add a summary view which runs aggregate queries in MongoDB and then show
 }]
 ```
 
+The above configuration would then create a summary view that looks like the following:
+
+![summary view](img/summary view.png)
+
+
 ### queryType aggregate
 
 When `queryType` is `aggregate` , the queryValue will be calculated by evaluating the first value of `n` in the result set.
 
+This is the only supported `queryType` value as of now.
+
 ### type = "single"
 
-When type is single, this means that a single value will be shown. The "title" attribute will be the title, and the value will be next to it. Make sure that the aggregate result has a key called "n".
+When type is "single", this means that a single value will be shown. The "title" attribute will be the title, and the value will be next to it. Make sure that the aggregate result has a key called "n".
+
+The above image shows examples of how `type = "single"` stats look like.
 
 ### type = "group"
 
-When type is group, this means that a table of values will be shown. The "title" attribute is the title of the table. For example, you can use the following value as an item in `stats` :
+When type is "group", this means that a table of values will be shown. The "title" attribute is the title of the table. For example, you can use the following value as an item in `stats` :
 
 ``` json
 {
@@ -221,6 +318,10 @@ When type is group, this means that a table of values will be shown. The "title"
   ]
 }
 ```
+
+The above example might render a table that looks like the following:
+
+![stats group](img/stats group.png)
 
 ## Configuring access
 

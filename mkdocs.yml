@@ -25,7 +25,8 @@ repo_name: epicfaace/CFF
 repo_url: https://github.com/epicfaace/CFF
 
 nav:
-  - Home: index.md
+  - Home:
+      Introduction: index.md
   - Form Management:
       Overview: mgmt/forms-setup.md
       Managing responses: mgmt/responses.md
@@ -66,19 +67,20 @@ nav:
             CCAvenue: payment/paymentMethods/ccavenue.md
             Manual Approval: payment/paymentMethods/manual-approval.md
           Message Customization: payment/messages.md
-        Closing Submissions: formOptions/closing-submissions.md
-        Response Counter: formOptions/counter.md
-        Postprocess form data: formOptions/postprocess.md
-        Import data with predicates: formOptions/predicates.md
         Response Reporting:
           Overview: responses/overview.md
           Response Views: responses/views.md
           Create a dashboard: responses/dashboard_options.md
           Edit Schema: responses/edit_schema.md
+        Closing Submissions: formOptions/closing-submissions.md
+        Response Counter: formOptions/counter.md
+        Postprocess form data: formOptions/postprocess.md
+        Import data with predicates: formOptions/predicates.md
         Omit Extra Data: formOptions/omitExtraData.md
   - Using the API:
       API Quickstart: api/api-quickstart.md
       Response Access: api/response-access.md
+      Use Cases: api/use-cases.md
   - Development on CFF:
       Overview: development/overview.md
       Contribution process: development/contributing.md

@@ -1,3 +1,6 @@
+!!! warning
+    This feature is still under active development and not complete.
+
 Dashboard options are accessible through the user dashboard view. This is accessible through the `/v2/dashboard/formId` link -- for example, https://forms.beta.chinmayamission.com/v2/dashboard/5c99508834513d000161a237/
 
 ## Header
@@ -29,7 +32,7 @@ You can add a tab to the dashboard by editing the `views` array. Note that each 
   }
 ```
 
-### template views
+### Template views
 
 The simplest type of view is a template -- this is a HTML template
 that displays the response info in the specified template.
@@ -48,7 +51,7 @@ For example:
 }
 ```
 
-## form views
+## Form views
 
 The form view shows a subset of a form. You can choose which properties to show using the `pickFields` attribute. Optionally, you can override the uiSchema for those particular fields with the `uiSchema` attribute (the `uiSchema` will merge with the existing uiSchema, but replace the values of overlapping keys).
 
@@ -70,9 +73,9 @@ The form view shows a subset of a form. You can choose which properties to show 
 
 Right now, we only support top-level fields with `pickFields`.
 
-### disallow modification of existing items in arrays
+### Disallow modification of existing items in arrays
 
-You can disallow modification of existing items in an array (but still allow adding additional items) by adding the `uiSchema` attribute to modify the uiSchema:
+You can disallow modification of existing items in an array (but still allow adding additional items) by adding the following `uiSchema` attribute to modify the uiSchema:
 
 ```json
 {
@@ -88,3 +91,4 @@ You can disallow modification of existing items in an array (but still allow add
     }
   }
 }
+```

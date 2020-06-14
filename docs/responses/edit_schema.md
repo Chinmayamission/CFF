@@ -15,3 +15,7 @@ It goes in the `.columns` attribute of an element in `dataOptions.views`:
 ```
 
 It *must* include both `enum` and `enumNames`.
+
+Here is how such a column would look like:
+
+![edit schema](img/edit schema.png)

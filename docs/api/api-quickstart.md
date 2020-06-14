@@ -4,6 +4,14 @@ Make sure you include the `Authorization` header to all requests. The `Authoriza
 
 The list of examples on this page are not exhaustive; for a full list of available API routes, see [lambda/chalicelib/main.py](https://github.com/epicfaace/CFF/blob/master/lambda/chalicelib/main.py).
 
+## API endpoints
+
+The regular API endpoint for production is [https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com](https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com).
+
+The regular API endpoint for beta is [https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com](https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com).
+
+If you are frequently doing a resource-intensive response fetching / aggregation query, we would encourage that you use the CloudFront endpoint instead of the regular API endpoint for production. This endpoint automatically has a caching layer that will make it faster to use our API and reduce load on our servers: [https://drcfbob84gx1k.cloudfront.net](https://drcfbob84gx1k.cloudfront.net).
+
 ## Creating a new response
 
 Request:

@@ -16,6 +16,17 @@ CFF has been used for events such as:
 - Information Collection Forms
 - Donation Forms
 
+<!--
+
+## Who uses CFF?
+
+- [Chinmaya Mission San Jose](http://cmsj.org/)
+- [Chinmaya Ramdoot](http://bbnj.chinmayamission.com/)
+- [CCMT](http://www.chinmayamission.com/)
+- [Chinmaya Mission Alpharetta](https://www.chinmayamissionalpharetta.org/)
+
+-->
+
 ## Documentation structure
 
 - [**Form Management**](mgmt/forms-setup) - how to share forms and manage responses as a form admin.
