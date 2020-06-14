@@ -13,7 +13,7 @@ To run CFF locally, you first need to install the following prerequisites:
 
 The first step is to clone the git repository with the latest code locally. This repository contains both frontend and backend code.
 
-```
+```bash
 git clone https://github.com/epicfaace/CFF.git
 cd CFF
 ```
@@ -35,7 +35,7 @@ cd CFF
 
 To develop on the frontend, you can run the following commands from the `CFF` directory:
 
-```
+```bash
 npm install
 npm start
 ```
@@ -50,7 +50,7 @@ You can open [http://localhost:8080](http://localhost:8080) to view a live-reloa
 
 To develop on the REST API, go to the `lambda` directory. We use `pipenv` to manage dependencies.
 
-```
+```bash
 cd lambda
 pip install pipenv
 pipenv install

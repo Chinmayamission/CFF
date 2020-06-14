@@ -77,6 +77,7 @@ nav:
         Postprocess form data: formOptions/postprocess.md
         Import data with predicates: formOptions/predicates.md
         Omit Extra Data: formOptions/omitExtraData.md
+        Theme: formOptions/theme.md
   - Using the API:
       API Quickstart: api/api-quickstart.md
       Response Access: api/response-access.md
