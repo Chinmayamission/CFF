@@ -4,14 +4,14 @@ The `dataOptions.views` attribute helps control which tabs show up on the respon
 
 By default, only a single tab is shown, and it contains the following fields:
 
-- The following fields: `"ID", "PAID", "AMOUNT_PAID", "DATE_CREATED"`
-- All object fields, recursively traversed, of the actual response value
+* The following fields: `"ID", "PAID", "AMOUNT_PAID", "DATE_CREATED"` 
+* All object fields, recursively traversed, of the actual response value
 
 ## Changing the columns
 
-If you want to override the default view, add a view to `formOptions`.
+If you want to override the default view, add a view to `formOptions` .
 
-```
+``` 
   "dataOptions": {
     "views": [
       {
@@ -29,35 +29,35 @@ If you want to override the default view, add a view to `formOptions`.
   }
 ```
 
-Note that each item in `views` must have a unique `id` and (optionally) a `displayName`. The `columns` value describes which columns will show up in this view's table view in the "Responses" tab.
+Note that each item in `views` must have a unique `id` and (optionally) a `displayName` . The `columns` value describes which columns will show up in this view's table view in the "Responses" tab.
 
 ### Possible columns
 
 The possible columns include:
 
-- Any valid accessor of the form data. This accessor is passed to lodash's `get` function, so it can be equal to a nested value such as `name.first` or `parent.age`.
+* Any valid accessor of the form data. This accessor is passed to lodash's `get` function, so it can be equal to a nested value such as `name.first` or `parent.age` .
 
-- `ID` - a string value of the response id
+* `ID` - a string value of the response id
 
-- `PAID` - a string value describing the response's paid status. Equal to "PAID", "NOT PAID", or "PARTLY PAID".
+* `PAID` - a string value describing the response's paid status. Equal to "PAID", "NOT PAID", or "PARTLY PAID".
 
-- `DATE_CREATED` - a formatted string of the date the response was created.
+* `DATE_CREATED` - a formatted string of the date the response was created.
 
-- `DATE_LAST_MODIFIED` - a formatted string of the date the response was last modified.
+* `DATE_LAST_MODIFIED` - a formatted string of the date the response was last modified.
 
-- `AMOUNT_OWED` - a formatted string of how much money is owed. Technically, this is equal to `paymentInfo.total` formatted with `paymentInfo.currency`.
+* `AMOUNT_OWED` - a formatted string of how much money is owed. Technically, this is equal to `paymentInfo.total` formatted with `paymentInfo.currency` .
 
-- `AMOUNT_OWED` - a formatted string of how much money has been paid. Technically, this is equal to `amount_paid` formatted with `paymentInfo.currency`.
+* `AMOUNT_OWED` - a formatted string of how much money has been paid. Technically, this is equal to `amount_paid` formatted with `paymentInfo.currency` .
 
-- `admin_info` - the admin_info of the response.
+* `admin_info` - the admin_info of the response.
 
-- `COUNTER` - the response's counter. See [Response Counter](../formOptions/counter.md) for more information.
+* `COUNTER` - the response's counter. See [Response Counter](../formOptions/counter.md) for more information.
 
 ### Custom column display names
 
 Each entry in the `columns` array can be specified either as a string or a column object. Specify the entry as a column object if you would like to have a custom title for the column. The `label` key of the column denotes its display name, while the `value` key denotes the actual value accessor for that column. For example:
 
-```json
+``` json
 {
   "columns": [
     "ID",
@@ -77,7 +77,7 @@ The columns object also supports a basic level of aggregation.
 
 When the `calculateLength` parameter is set to true, the header object will show the length of the value in the `value` parameter (whether it is a string or an array). For example, to show the number of participants in a response (if participants is an array of objects), use the following header object:
 
-```json
+``` json
 {
   "label": "Number of participants",
   "value": "participants",
@@ -87,9 +87,9 @@ When the `calculateLength` parameter is set to true, the header object will show
 
 #### Custom expressions
 
-To show the value of a custom expression, set the `queryType` to `expr` and specify the expression value in `queryValue`. For example, this could be useful for showing the amount a user has paid for a particular item by doing a price calculation.
+To show the value of a custom expression, set the `queryType` to `expr` and specify the expression value in `queryValue` . For example, this could be useful for showing the amount a user has paid for a particular item by doing a price calculation.
 
-```json
+``` json
 {
   "label": "Amount paid for registration",
   "queryType": "expr",
@@ -99,9 +99,9 @@ To show the value of a custom expression, set the `queryType` to `expr` and spec
 
 #### Aggregate specific items from paymentInfo
 
-To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoItemPaidSum` and specify the names of payment info items in `queryValue`. For example, this could be useful for showing the amount a user has paid for multiple items (such as item 1 + item 2 + discount).
+To add up matching values in `paymentInfo` . set the `queryType` to `paymentInfoItemPaidSum` and specify the names of payment info items in `queryValue` . For example, this could be useful for showing the amount a user has paid for multiple items (such as item 1 + item 2 + discount).
 
-```json
+``` json
 {
   "label": "Amount paid for registration",
   "queryType": "paymentInfoItemPaidSum",
@@ -116,7 +116,7 @@ To add up matching values in `paymentInfo`. set the `queryType` to `paymentInfoI
 
 This would match items in `paymentInfo` with `name` equal to "Main" or "Discount" and sum these values. For example, it would be equal to 49.5 for the following value of paymentInfo:
 
-```json
+``` json
 [
   {"name": "Main", "amount": 50, "quantity": 1, "total": 50},
   {"name": "Sub", "amount": 10, "quantity": 1, "total": 10},
@@ -128,7 +128,7 @@ Note that if using `paymentInfoItemPaidSum` will also cross-check with amount pa
 
 If you want to filter only payments in a particular date range, specify both `startDate` and `endDate` in queryValue. Both should be in UTC. This will decrease the amounts shown proportionally as well.
 
-```json
+``` json
 {
   "label": "Amount paid for registration",
   "queryType": "paymentInfoItemPaidSum",
@@ -147,7 +147,7 @@ If you want to filter only payments in a particular date range, specify both `st
 
 To run a custom mongodb aggregate query, set `queryType` to `aggregate` as in the below example. The "n" key of the result will end up showing in the column:
 
-```json
+``` json
 {
   "label": "Age Group",
   "queryType": "aggregate",
@@ -171,8 +171,10 @@ To run a custom mongodb aggregate query, set `queryType` to `aggregate` as in th
 ```
 
 ## Adding a summary view
+
 You can add a summary view which runs aggregate queries in MongoDB and then shows the results of those queries in the responses table view. To do so, add an object in dataOptions.views such as the following:
-```json
+
+``` json
 "views": [{
   "id": "summary",
   "displayName": "Summary",
@@ -199,7 +201,7 @@ You can add a summary view which runs aggregate queries in MongoDB and then show
 
 ### queryType aggregate
 
-When `queryType` is `aggregate`, the queryValue will be calculated by evaluating the first value of `n` in the result set.
+When `queryType` is `aggregate` , the queryValue will be calculated by evaluating the first value of `n` in the result set.
 
 ### type = "single"
 
@@ -207,9 +209,9 @@ When type is single, this means that a single value will be shown. The "title" a
 
 ### type = "group"
 
-When type is group, this means that a table of values will be shown. The "title" attribute is the title of the table. For example, you can use the following value as an item in `stats`:
+When type is group, this means that a table of values will be shown. The "title" attribute is the title of the table. For example, you can use the following value as an item in `stats` :
 
-```json
+``` json
 {
   "type": "group",
   "title": "Aggregate by city",
