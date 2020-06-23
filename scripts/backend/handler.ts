@@ -84,7 +84,6 @@ export const hello = async (event, context) => {
       .getParameter({ Name: process.env.mapsApiKey, WithDecryption: true })
       .promise()).Parameter.Value;
     mongo_conn_str = mongo_conn_str.replace("==", "%3D%3D");
-    console.error(mongo_conn_str);
     let db = await MongoClient.connect(mongo_conn_str, {
       useNewUrlParser: true
     });
@@ -112,13 +111,15 @@ export const hello = async (event, context) => {
     });
 
     const createSpreadsheet = async title => {
-      const response = await promisify(sheets.spreadsheets.create)({
-        resource: {
-          properties: {
-            title: title
+      const response = await promisify(sheets.spreadsheets.create.bind(sheets))(
+        {
+          resource: {
+            properties: {
+              title: title
+            }
           }
         }
-      });
+      );
       const spreadsheetId = response.data.spreadsheetId;
       await promisify(drive.permissions.create)({
         fileId: spreadsheetId,
@@ -258,7 +259,9 @@ export const hello = async (event, context) => {
             }
           );
         }
-        const spreadsheet = await promisify(sheets.spreadsheets.get)({
+        const spreadsheet = await promisify(
+          sheets.spreadsheets.get.bind(sheets)
+        )({
           spreadsheetId
         });
         const existingSheets: ISheet[] = spreadsheet.data.sheets;
@@ -396,7 +399,9 @@ export const hello = async (event, context) => {
         if (requests.length === 0) {
           continue;
         }
-        let response = await promisify(sheets.spreadsheets.batchUpdate)({
+        let response = await promisify(
+          sheets.spreadsheets.batchUpdate.bind(sheets)
+        )({
           spreadsheetId,
           resource: {
             requests
@@ -419,7 +424,9 @@ export const hello = async (event, context) => {
         if (requests.length === 0) {
           continue;
         }
-        response = await promisify(sheets.spreadsheets.batchUpdate)({
+        response = await promisify(
+          sheets.spreadsheets.batchUpdate.bind(sheets)
+        )({
           spreadsheetId,
           resource: {
             requests
