@@ -77,8 +77,8 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.36.1",
     "webpack-bundle-analyzer": "^3.4.1",
-    "webpack-cli": "^3.3.0",
-    "webpack-dev-server": "^3.7.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
@@ -120,7 +120,7 @@
     "mingo": "^2.4.0",
     "moment": "^2.22.2",
     "mongodb": "^3.1.10",
-    "nunjucks": "^3.2.0",
+    "nunjucks": "^3.2.1",
     "open-iconic": "^1.1.1",
     "papaparse": "^4.6.0",
     "query-string": "^5.1.1",
