@@ -72,6 +72,7 @@ nav:
           Response Views: responses/views.md
           Create a dashboard: responses/dashboard_options.md
           Edit Schema: responses/edit_schema.md
+        Login and Accounts: formOptions/login-accounts.md
         Closing Submissions: formOptions/closing-submissions.md
         Response Counter: formOptions/counter.md
         Postprocess form data: formOptions/postprocess.md
