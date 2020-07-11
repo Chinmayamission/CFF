@@ -240,9 +240,13 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   goBackToFormPage() {
     This.setState({
       status: STATUS_FORM_RENDERED,
-      responseId: This.state.formOptions.responseCanEditByLink
-        ? This.state.responseId
-        : null
+      // Don't set response id if we have an anonymous-response form
+      // that cannot be edited by link.
+      responseId:
+        !This.state.loginRequired &&
+        !This.state.formOptions.responseCanEditByLink
+          ? This.state.responseId
+          : null
     });
   }
   onPaymentComplete(e) {
