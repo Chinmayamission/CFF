@@ -157,29 +157,33 @@ class TestCreateEmail(unittest.TestCase):
     def test_create_email_html_template_with_hardcoded_to(self):
         res = create_confirmation_email_dict(
             self.response,
-            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, to=["email1@chinmayamission.com", "email2@chinmayamission.com", "email3@chinmayamission.com"]),
+            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, to=[
+                 "email1@chinmayamission.com", "email2@chinmayamission.com", "email3@chinmayamission.com"]),
         )
         self.assertEqual(
-            res["toEmail"], ["success@simulator.amazonses.com", "email1@chinmayamission.com", "email2@chinmayamission.com", "email3@chinmayamission.com"]
+            res["toEmail"], ["success@simulator.amazonses.com", "email1@chinmayamission.com",
+                             "email2@chinmayamission.com", "email3@chinmayamission.com"]
         )
 
     def test_create_email_html_template_with_invalid_toField(self):
         res = create_confirmation_email_dict(
             self.response,
-            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, toField=["email", "invalidpath"]),
+            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE,
+                 toField=["email", "invalidpath"]),
         )
         self.assertEqual(
             res["toEmail"], ["success@simulator.amazonses.com"]
         )
 
-
     def test_create_email_html_template_with_replyto(self):
         res = create_confirmation_email_dict(
             self.response,
-            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE, replyTo="replyto@replyto.com"),
+            dict(CONFIRMATION_EMAIL_INFO_TEMPLATE,
+                 replyTo="replyto@replyto.com"),
         )
         self.assertEqual(
-            res, dict(EXPECTED_RES_TEMPLATE, replyToEmail="replyto@replyto.com")
+            res, dict(EXPECTED_RES_TEMPLATE,
+                      replyToEmail="replyto@replyto.com")
         )
 
     def test_create_email_html_template_with_undefined(self):
@@ -187,7 +191,8 @@ class TestCreateEmail(unittest.TestCase):
             CONFIRMATION_EMAIL_INFO_TEMPLATE,
             template={"html": "Hello world. {{undef}}{{undef.undef}}Hohoho."},
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
         self.assertEqual(
             res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. Hohoho.")
         )
@@ -199,9 +204,11 @@ class TestCreateEmail(unittest.TestCase):
                 "html": "Hello world. {{paymentInfo.total | format_payment(paymentInfo.currency)}} Hohoho."
             },
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
         self.assertEqual(
-            res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world. $500.00 Hohoho.")
+            res, dict(EXPECTED_RES_TEMPLATE,
+                      msgBody="Hello world. $500.00 Hohoho.")
         )
 
     def test_create_email_html_template_format_payment_filter_with_undefined(self):
@@ -211,7 +218,8 @@ class TestCreateEmail(unittest.TestCase):
                 "html": "Hello world. {{ahuahu.total | format_payment(ahiahi.currency)}} Hohoho."
             },
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
         self.assertEqual(
             res, dict(EXPECTED_RES_TEMPLATE, msgBody="Hello world.  Hohoho.")
         )
@@ -222,7 +230,8 @@ class TestCreateEmail(unittest.TestCase):
         confirmationEmailInfo = dict(
             CONFIRMATION_EMAIL_INFO_TEMPLATE, template={"html": template}
         )
-        res = create_confirmation_email_dict(self.response, confirmationEmailInfo)
+        res = create_confirmation_email_dict(
+            self.response, confirmationEmailInfo)
 
     def test_create_email_html_template_format_payment_parents_family(self):
         pass
@@ -235,7 +244,66 @@ class TestCreateEmail(unittest.TestCase):
     def test_template_format_date(self):
         self.assertEqual(
             fill_string_from_template(
-                Response(value={"date": "2000-10-10"}), "{{value.date | format_date}}"
+                Response(value={"date": "2000-10-10"}
+                         ), "{{value.date | format_date}}"
             ),
             "Oct 10, 2000",
+        )
+
+    def test_template_detect_refund(self):
+        """This template can detect a full refund -- it means that a user has been
+        issued a full refund and their amount paid is equal to zero.
+        """
+        template = """
+{% set amount_paid = amount_paid | float %}
+{% set full_refund = namespace(status=False) %}
+{% for item in paymentInfo['items'] %}
+    {% if item.total < 0 and amount_paid == 0 %}
+        {% set full_refund.status = True %}
+    {% endif %}
+{% endfor %}""".replace("\n", "").replace("    ", "") + "{{ full_refund.status }}"
+        self.assertEqual(
+            fill_string_from_template(
+                Response(
+                    amount_paid="0.0",
+                    paymentInfo={
+                        "items": [
+                            {
+                                "total": -100
+                            }
+                        ]
+                    }
+                ), template
+            ),
+            "True",
+        )
+        self.assertEqual(
+            fill_string_from_template(
+                Response(
+                    amount_paid="0.1",
+                    paymentInfo={
+                        "items": [
+                            {
+                                "total": -100
+                            }
+                        ]
+                    }
+                ), template
+            ),
+            "False",
+        )
+        self.assertEqual(
+            fill_string_from_template(
+                Response(
+                    amount_paid="0.0",
+                    paymentInfo={
+                        "items": [
+                            {
+                                "total": 100
+                            }
+                        ]
+                    }
+                ), template
+            ),
+            "False",
         )
