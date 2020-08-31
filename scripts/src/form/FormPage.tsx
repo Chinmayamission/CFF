@@ -172,6 +172,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
     let mode = this.props.mode; // can be "view" or "edit"
     if (
       responseState.responseId &&
+      !formOptions.loginRequired &&
       !formOptions.responseCanEditByLink &&
       !this.canAdminEdit(cff_permissions)
     ) {
