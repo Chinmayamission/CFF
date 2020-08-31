@@ -1,6 +1,15 @@
 ## upcoming
 - Fix: don't remove style tags when using juice. This allows us to specify media queries in `<style>` tags.
 
+## 6.0.2
+- Fix: allow users to edit loginRequired forms
+- Fix: hide submit button on confirmation page
+- build(deps): bump lodash from 4.17.15 to 4.17.19 (#239)
+- build(deps): bump elliptic from 6.5.0 to 6.5.3 (#241) 
+
+## 6.0.1
+- Fix issue: "Go back and edit responses" link does not work on loginRequired forms (#237)
+
 ## 6.0.0
 - confirmationEmailInfo: support `to` property to send to a hardcoded email address. This will break existing forms that have toField equal to an actual email addresses (rather than just the field name that corresponds to the email); such forms will need to specify this hardcoded email in the `to` property instead.
 - Allow running mongodb locally to work on mac
