@@ -10,6 +10,8 @@ import os
 import subprocess
 import time
 
+print("AWS_ACCESS_KEY_ID", os.getenv("AWS_ACCESS_KEY_ID")[:5])
+
 client = boto3.client("s3")
 
 with open("package.json") as json_data:
