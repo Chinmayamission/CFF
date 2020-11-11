@@ -52,7 +52,7 @@ jobs:
         working-directory: lambda
   deploy_dev:
     runs-on: ubuntu-latest
-    # needs: [test_frontend, test_backend]
+    needs: [test_frontend, test_backend]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
