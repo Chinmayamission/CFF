@@ -64,7 +64,8 @@ jobs:
         with:
           python-version: 3.6
       - run: npm ci
-      - run: pip install pipenv && pipenv install && npm run install-deps && npm run deploy
+      - run: pip install chalice==1.7.0
+      - run: chalice deploy --stage beta
         working-directory: lambda
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
@@ -89,7 +90,8 @@ jobs:
         with:
           python-version: 3.6
       - run: npm ci
-      - run: pip install pipenv && pipenv install && npm run install-deps && npm run deploy-prod
+      - run: pip install chalice==1.7.0
+      - run: chalice deploy --stage prod
         working-directory: lambda
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
