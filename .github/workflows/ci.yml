@@ -36,6 +36,12 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.6
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pipenv
+          key: pip-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            pip-
       - run: |
           sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
           echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
@@ -71,8 +77,8 @@ jobs:
             nodeModules-
       - uses: actions/cache@v2
         with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('**/requirements.txt') }}
+          path: ~/.cache/pipenv
+          key: pip-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             pip-
       - run: npm ci
@@ -110,8 +116,8 @@ jobs:
             nodeModules-
       - uses: actions/cache@v2
         with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('**/requirements.txt') }}
+          path: ~/.cache/pipenv
+          key: pip-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             pip-
       - run: npm ci
