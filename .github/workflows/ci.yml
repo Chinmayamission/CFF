@@ -65,6 +65,7 @@ jobs:
           python-version: 3.6
       - run: npm ci
       - run: pip install chalice==1.7.0
+      - run: pip install -r requirements.txt
       - run: chalice deploy --stage beta
         working-directory: lambda
         env:
@@ -91,6 +92,7 @@ jobs:
           python-version: 3.6
       - run: npm ci
       - run: pip install chalice==1.7.0
+      - run: pip install -r requirements.txt
       - run: chalice deploy --stage prod
         working-directory: lambda
         env:
