@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 14.x
       - name: Use cached node_modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: nodeModules-${{ hashFiles('**/package-lock.json') }}
@@ -63,6 +63,18 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.6
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            nodeModules-
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            pip-
       - run: npm ci
       - run: pip install chalice==1.7.0
       - run: pip install -r requirements.txt
@@ -90,6 +102,18 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.6
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            nodeModules-
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            pip-
       - run: npm ci
       - run: pip install chalice==1.7.0
       - run: pip install -r requirements.txt
