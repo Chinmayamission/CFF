@@ -1,4 +1,4 @@
-## upcoming
+## 6.0.3
 - Fix: don't remove style tags when using juice. This allows us to specify media queries in `<style>` tags.
 
 ## 6.0.2
