@@ -5,7 +5,7 @@ on:
   pull_request:
   create:
     tags:
-      - v*
+      - 'v*'
 
 jobs:
   test_frontend:
