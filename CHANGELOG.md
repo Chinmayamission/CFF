@@ -1,4 +1,4 @@
-## Unreleased
+## 6.1.0
 - Allow searching to be performed with API keys (see docs/api/search-guide.md)
 
 ## 6.0.3
