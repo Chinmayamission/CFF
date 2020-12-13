@@ -213,7 +213,8 @@ def form_response_list(formId):
             app.check_permissions(form, ["Responses_View"])
         return _dataOptionView(form, dataOptionView)
     elif query:
-        app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
+        if not skip_perm_check:
+            app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
         autocomplete = query_params.get("autocomplete", None)
         search_by_id = query_params.get("search_by_id", None)
         show_unpaid = query_params.get("show_unpaid", None)

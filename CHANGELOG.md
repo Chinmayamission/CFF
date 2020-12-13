@@ -1,3 +1,6 @@
+## Unreleased
+- Allow searching to be performed with API keys (see docs/api/search-guide.md)
+
 ## 6.0.3
 - Fix: don't remove style tags when using juice. This allows us to specify media queries in `<style>` tags.
 

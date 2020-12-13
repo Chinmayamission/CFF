@@ -82,6 +82,7 @@ nav:
   - Using the API:
       API Quickstart: api/api-quickstart.md
       Response Access: api/response-access.md
+      Search Guide: api/search-guide.md
       Use Cases: api/use-cases.md
   - Development on CFF:
       Overview: development/overview.md
