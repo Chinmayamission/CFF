@@ -31,3 +31,6 @@ Finally, add "comments" to the `ui:order` attribute of the `uiSchema` as well:
 ```
 
 An admin can then view / edit a particular response from the response list, and they will see the "comments" field.
+
+!!! warning
+    Admin fields are only hidden to the user on the frontend. However, there is currently no backend check that prevents regular users from modifying this field. Thus, don't store any sensitive information in these fields, as this is a security flaw that allows any users to change this field with a specially crafted user request. It is always possible for non-admins to modify these fields.

@@ -77,6 +77,7 @@ nav:
         Response Counter: formOptions/counter.md
         Postprocess form data: formOptions/postprocess.md
         Import data with predicates: formOptions/predicates.md
+        Admin fields: formOptions/admin-fields.md
         Omit Extra Data: formOptions/omitExtraData.md
         Theme: formOptions/theme.md
   - Using the API:
