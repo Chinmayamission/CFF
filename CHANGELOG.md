@@ -1,3 +1,6 @@
+## 6.1.1
+- Fix: request compressed version of responses API, to get around 6 MB lambda response body size limit
+
 ## 6.1.0
 - Allow searching to be performed with API keys (see docs/api/search-guide.md)
 
