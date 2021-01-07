@@ -12,7 +12,7 @@ from boto3.dynamodb.conditions import Key, Attr
 from decimal import Decimal
 from pydash.arrays import find_index
 
-os.environ["AWS_PROFILE"] = "default"
+os.environ["AWS_PROFILE"] = "cff"
 os.environ["MODE"] = "PROD"
 os.environ["DB_NAME"] = "cff_prod"
 os.environ["USER_POOL_ID"] = ""
@@ -26,15 +26,21 @@ from chalicelib.models import (
     serialize_model,
 )
 from chalicelib.main import app, MODE
+from chalicelib.routes.formResponseList import _search
 
 print("MODE", MODE)
 
-responses = Response.objects.raw({"form": ObjectId("5c96811ed0443d00011255d5")})
-# print(len(responses))
-# for response in responses:
-#   print("res")
+import time
 
-for response in responses:
-    response.value["decided"] = "decided"
-    print(response.id)
-    response.save()
+start = time.time()
+form = Form.objects.only("formOptions", "cff_permissions").get(
+        {"_id": ObjectId("...")}
+)
+results = _search(form, "test", None, None, None)
+print(time.time() - start)
+print(results)
+
+# for response in responses:
+#     response.value["decided"] = "decided"
+#     print(response.id)
+#     response.save()
