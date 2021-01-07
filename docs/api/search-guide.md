@@ -43,10 +43,13 @@ Note that you must prepend fields in the form data with `value.` -- for example,
     "search": {
         "searchFields": ["value.email"],
         "resultFields": ["value.name", "value.email"],
-        "resultLimit": 1
+        "resultLimit": 1,
+        "exactMatch": true
     }
 }
 ```
+
+Note that setting `exactMatch` to true can significantly speed up query performance by requiring that the specified field(s) match exactly the given query. By default, the fields are searched with a regex that ensure that the specified fields only *begin with* the given query.
 
 ## Performing the search
 

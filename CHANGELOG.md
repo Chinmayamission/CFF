@@ -1,3 +1,9 @@
+## 6.2.0
+- Response search: Add `formOptions.search.exactMatch` option, which when set to true, ensures that the search query must match a given one of the fields to return a result. This can significantly speed up searching and is useful with large data sets or when the search query matches exactly (such as an email address).
+- Response search: Order results in order of date_created, descending, by default. Previously, results were unordered.
+## 6.1.2
+No changes
+
 ## 6.1.1
 - Fix: request compressed version of responses API, to get around 6 MB lambda response body size limit
 
