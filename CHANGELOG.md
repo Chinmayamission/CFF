@@ -1,3 +1,7 @@
+## 6.3.0
+- Responses table view: Allow groupEdit to be a text box (not just a select box). This means that admins can now enter arbitrary values from the response view by clicking the "edit" button in a specific cell (see https://github.com/Chinmayamission/CFF/pull/252).
+- Responses table view: By default, sort responses by date created instead of date modified.
+
 ## 6.2.0
 - Response search: Add `formOptions.search.exactMatch` option, which when set to true, ensures that the search query must match a given one of the fields to return a result. This can significantly speed up searching and is useful with large data sets or when the search query matches exactly (such as an email address).
 - Response search: Order results in order of date_created, descending, by default. Previously, results were unordered.
