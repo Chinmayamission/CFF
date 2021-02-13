@@ -8,6 +8,7 @@ import { filterCaseInsensitive } from "../ResponseTable/filters";
 import { dataToSchemaPath } from "../util/SchemaUtil";
 import ExpressionParser from "../../common/ExpressionParser";
 import moment from "moment";
+import CustomForm from "../../form/CustomForm";
 
 export interface IHeaderObject {
   Header: string;
@@ -395,11 +396,16 @@ export namespace Headers {
           .map(e => formatValue(e))
       };
     }
+    const hasEnum = !!selectSchema.enum;
     headerObj.headerClassName = "ccmt-cff-no-click";
     headerObj.Cell = row => (
-      <Form
+      <CustomForm
         schema={selectSchema}
-        uiSchema={{ "ui:widget": "select" }}
+        uiSchema={
+          hasEnum
+            ? { "ui:widget": "select" }
+            : { "ui:widget": "cff:submitInputGroup" }
+        }
         formData={row.value}
         onChange={e => {
           if (typeof e.formData === "undefined") return;
@@ -412,16 +418,24 @@ export namespace Headers {
         }}
         tagName="div"
       >
-        <div className="d-none"></div>
-      </Form>
+        <></>
+      </CustomForm>
     );
     headerObj.filterMethod = filterMethodAllNone;
     let selectSchemaFilter = cloneDeep(selectSchema);
-    selectSchemaFilter.enum.unshift("CFF_FILTER_NONE");
-    selectSchemaFilter.enumNames.unshift("None");
-    selectSchemaFilter.enum.unshift("CFF_FILTER_DEFINED");
-    selectSchemaFilter.enumNames.unshift("Defined");
+    if (selectSchemaFilter.enum) {
+      selectSchemaFilter.enum.unshift("CFF_FILTER_NONE");
+      selectSchemaFilter.enum.unshift("CFF_FILTER_DEFINED");
+    }
+    if (selectSchemaFilter.enumNames) {
+      selectSchemaFilter.enumNames.unshift("None");
+      selectSchemaFilter.enumNames.unshift("Defined");
+    }
     headerObj.Filter = ({ filter, onChange }) => {
+      if (!hasEnum) {
+        // No filter if there is no select schema
+        return null;
+      }
       if (!filter && headerOption.defaultFilter) {
         class Loader extends React.Component {
           componentDidMount() {

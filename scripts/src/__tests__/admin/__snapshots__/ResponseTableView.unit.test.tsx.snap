@@ -179,38 +179,40 @@ exports[`renders response table with an editSchema specified instead of a group 
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      value="v1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      AAA
-                    </option>
-                    <option
-                      value="v2"
-                    >
-                      BBB
-                    </option>
-                    <option
-                      value="v3"
-                    >
-                      CCC
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        value="v1"
+                      >
+                        AAA
+                      </option>
+                      <option
+                        value="v2"
+                      >
+                        BBB
+                      </option>
+                      <option
+                        value="v3"
+                      >
+                        CCC
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
@@ -260,38 +262,40 @@ exports[`renders response table with an editSchema specified instead of a group 
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      value="v1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      AAA
-                    </option>
-                    <option
-                      value="v2"
-                    >
-                      BBB
-                    </option>
-                    <option
-                      value="v3"
-                    >
-                      CCC
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        value="v1"
+                      >
+                        AAA
+                      </option>
+                      <option
+                        value="v2"
+                      >
+                        BBB
+                      </option>
+                      <option
+                        value="v3"
+                      >
+                        CCC
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
@@ -748,34 +752,36 @@ exports[`renders response table with an undefined group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      value="CLASS1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      Class Name One
-                    </option>
-                    <option
-                      selected=""
-                      value="CLASS2"
-                    >
-                      Class Name Two
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        value="CLASS1"
+                      >
+                        Class Name One
+                      </option>
+                      <option
+                        selected=""
+                        value="CLASS2"
+                      >
+                        Class Name Two
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
@@ -839,34 +845,36 @@ exports[`renders response table with an undefined group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      selected=""
-                      value="CLASS1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      Class Name One
-                    </option>
-                    <option
-                      value="CLASS2"
-                    >
-                      Class Name Two
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        selected=""
+                        value="CLASS1"
+                      >
+                        Class Name One
+                      </option>
+                      <option
+                        value="CLASS2"
+                      >
+                        Class Name Two
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
@@ -1110,34 +1118,36 @@ exports[`renders response table with default filter 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      value="CLASS1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      Class Name One
-                    </option>
-                    <option
-                      selected=""
-                      value="CLASS2"
-                    >
-                      Class Name Two
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        value="CLASS1"
+                      >
+                        Class Name One
+                      </option>
+                      <option
+                        selected=""
+                        value="CLASS2"
+                      >
+                        Class Name Two
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
@@ -1187,34 +1197,36 @@ exports[`renders response table with default filter 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      selected=""
-                      value="CLASS1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      Class Name One
-                    </option>
-                    <option
-                      value="CLASS2"
-                    >
-                      Class Name Two
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        selected=""
+                        value="CLASS1"
+                      >
+                        Class Name One
+                      </option>
+                      <option
+                        value="CLASS2"
+                      >
+                        Class Name Two
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
@@ -2180,34 +2192,36 @@ exports[`renders response table with group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      value="CLASS1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      Class Name One
-                    </option>
-                    <option
-                      selected=""
-                      value="CLASS2"
-                    >
-                      Class Name Two
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        value="CLASS1"
+                      >
+                        Class Name One
+                      </option>
+                      <option
+                        selected=""
+                        value="CLASS2"
+                      >
+                        Class Name Two
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
@@ -2271,34 +2285,36 @@ exports[`renders response table with group assign 1`] = `
               style="flex:100 0 auto;width:100px"
             >
               <div
-                class="rjsf"
+                class="ccmt-cff-Page-FormPage"
               >
                 <div
-                  class="form-group field field-string"
+                  autocomplete="false"
+                  class="rjsf"
                 >
-                  <select
-                    class="form-control"
-                    id="root"
+                  <div
+                    class="form-group field field-string"
                   >
-                    <option
-                      value=""
-                    />
-                    <option
-                      selected=""
-                      value="CLASS1"
+                    <select
+                      class="form-control"
+                      id="root"
                     >
-                      Class Name One
-                    </option>
-                    <option
-                      value="CLASS2"
-                    >
-                      Class Name Two
-                    </option>
-                  </select>
+                      <option
+                        value=""
+                      />
+                      <option
+                        selected=""
+                        value="CLASS1"
+                      >
+                        Class Name One
+                      </option>
+                      <option
+                        value="CLASS2"
+                      >
+                        Class Name Two
+                      </option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  class="d-none"
-                />
               </div>
             </div>
           </div>
