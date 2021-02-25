@@ -40,8 +40,11 @@ def _calculate_stat(form, stat):
 
     stat_type = stat["type"]
     if stat_type == "single":
-        row = next(aggregate_result)
-        return row["n"] if row else None
+        try:
+            row = next(aggregate_result)
+            return row["n"] if row else None
+        except StopIteration:
+            return None
     elif stat_type == "group":
         return list(aggregate_result)
     else:

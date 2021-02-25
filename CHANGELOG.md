@@ -1,3 +1,6 @@
+## 6.3.1
+- Fix: don't crash backend when summary view has no results; just return None instead
+
 ## 6.3.0
 - Responses table view: Allow groupEdit to be a text box (not just a select box). This means that admins can now enter arbitrary values from the response view by clicking the "edit" button in a specific cell (see https://github.com/Chinmayamission/CFF/pull/252).
 - Responses table view: By default, sort responses by date created instead of date modified.
