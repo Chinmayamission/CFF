@@ -21,7 +21,7 @@ module.exports = merge(common, {
       USER_POOL_ID: `"us-east-1_U9ls8R6E3"`,
       COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`,
       GA_TRACKING_ID: `""`,
-      GOOGLE_MAPS_API_KEY: `"AIzaSyBXSzBi9zShKyQQ6QGpZH1zAm17M4g98Hw"`
+      GOOGLE_MAPS_API_KEY: `"AIzaSyCkFt0z9cCfaXt6INQGnhXLF7wossqNYUE"`
     }),
     new HtmlWebpackPlugin({
       title: "Chinmaya Forms Framework - Dev",
