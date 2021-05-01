@@ -26,7 +26,7 @@ The PayPal classic integration integrates using the PayPal Web API. Once the use
 The only field that is required is `business` -- this is the email of the PayPal account that will receive the money from the form payments.
 
 !!! note
-    Make sure IPNs are not turned off your PayPal account. The integration should work by default, but if it doesn't work, that might be a reason things are not working properly.
+    Make sure [IPNs are not turned off](https://www.paypal.com/us/smarthelp/article/how-do-i-stop-receiving-instant-payment-notifications-(ipns)-faq426) on your PayPal account. The integration should work by default, but if it doesn't work, that might be a reason things are not working properly.
 
 !!! warning
     By default, PayPal accounts are configured such that they do not allow guest payments -- meaning that users will need to sign up for an account in order to check out. If you would like to enable guest payments, you must turn this setting on in your account: see [Enable guest payments](https://developer.paypal.com/docs/integration/direct/payments/guest-payments/).
