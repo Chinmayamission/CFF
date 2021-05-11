@@ -44,7 +44,7 @@ You need to run `npm install` only once (or whenever dependencies are updated in
 
 By default, the frontend will use the beta deployed API as the backend, so there's no need to run the backend when developing the frontend locally.
 
-You can open [http://localhost:8080](http://localhost:8080) to view a live-reloading version of CFF in your own browser.
+You can open [http://localhost:8000](http://localhost:8000) to view a live-reloading version of CFF in your own browser.
 
 ## Develop backend
 
