@@ -71,7 +71,7 @@ jobs:
         working-directory: lambda
       - run: |
           pip install pipenv
-          pipenv install
+          pipenv install --python 3.6
           npm run install-deps
           npm test
         working-directory: lambda
@@ -100,8 +100,8 @@ jobs:
           key: pip-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             pip-
-      - run: npm ci && pip install pipenv && pipenv install
-      - run: pipenv install
+      - run: npm ci && pip install pipenv && pipenv install --python 3.6
+      - run: pipenv install --python 3.6
         working-directory: lambda
       - run: npm run deploy
         working-directory: lambda
@@ -167,8 +167,8 @@ jobs:
           key: pip-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             pip-
-      - run: npm ci && pip install pipenv && pipenv install
-      - run: pipenv install
+      - run: npm ci && pip install pipenv && pipenv install --python 3.6
+      - run: pipenv install --python 3.6
         working-directory: lambda
       - run: npm run deploy-prod
         working-directory: lambda
