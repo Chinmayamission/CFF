@@ -21,8 +21,8 @@ markdown_extensions:
 extra_css:
   - main.css
 
-repo_name: epicfaace/CFF
-repo_url: https://github.com/epicfaace/CFF
+repo_name: Chinmayamission/CFF
+repo_url: https://github.com/Chinmayamission/CFF
 
 nav:
   - Home:
