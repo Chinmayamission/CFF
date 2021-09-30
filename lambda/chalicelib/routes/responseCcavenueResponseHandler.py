@@ -35,7 +35,7 @@ def response_ccavenue_response_handler(responseId):
             "ccavenue",
             {},
         )
-    
+
     res = dict(parse_qsl(app.current_request.raw_body.decode("utf-8")))
     paramDict = decrypt(res["encResp"], config.SECRET_working_key)
     if (
