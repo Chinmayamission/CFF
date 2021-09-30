@@ -21,7 +21,7 @@ class TestCcavenueResponseHandler(BaseTestCase):
             self.formId,
             {
                 "schema": ONE_SCHEMA,
-                "uiSchema": ONE_UISCHEMA
+                "uiSchema": ONE_UISCHEMA,
                 "formOptions": dict(ONE_FORMOPTIONS, paymentMethods={"ccavenue": {"merchant_id": "mid123" } })
             },
         )
