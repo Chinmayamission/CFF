@@ -5,9 +5,34 @@ Deployment is automatically done via Azure Pipelines. However, if you need to de
 - the AWS CLI. Make sure you configure the CLI with AWS credentials that have access to the AWS production environment.
 - the Serverless framework. You can do `npm i -g serverless` to install it.
 
-## Deploy to beta
+## Automatic deployment
 
-Beta deployment is automatically done via Azure Pipelines whenever a commit is pushed to the `master` branch. Our beta environment is hosted at [https://forms.beta.chinmayamission.com](https://forms.beta.chinmayamission.com).
+### Beta
+
+Beta deployment is automatically done via GitHub Actions whenever a commit is pushed to the `master` branch. Our beta environment is hosted at [https://forms.beta.chinmayamission.com](https://forms.beta.chinmayamission.com).
+
+To deploy to beta, either merge a PR into master or push a commit to master to trigger the GitHub Actions pipeline.
+
+### Prod
+
+Production deployment is automatically done via Github Actions whenever a new version of CFF is released (when a new tag is pushed to `master`). Our production environment is hosted at [https://forms.chinmayamission.com](https://forms.chinmayamission.com).
+
+To deploy to prod, run the following:
+
+```
+git pull origin master
+npm version patch
+git push --tags origin master
+```
+
+If the version is major / minor, you can run `npm run major` or `npm run minor`. Follow the guidelines from [semver](https://semver.org/) to determine which type of version bump this should be.
+
+
+## Manual deployment steps
+
+Follow these steps in case GitHub Actions is not working.
+
+### Beta
 
 Manual steps for deployment:
 
@@ -23,11 +48,8 @@ cd lambda
 npm run deploy
 ```
 
-## Deploy to prod
+### Prod
 
-Production deployment is automatically done via Azure Pipelines whenever a new version of CFF is released (when a new tag is pushed to `master`). Our production environment is hosted at [https://forms.chinmayamission.com](https://forms.chinmayamission.com).
-
-Manual steps for deployment:
 
 ```bash
 # Deploy documentation
