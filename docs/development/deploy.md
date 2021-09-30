@@ -17,7 +17,7 @@ To deploy to beta, either merge a PR into master or push a commit to master to t
 
 Production deployment is automatically done via Github Actions whenever a new version of CFF is released (when a new tag is pushed to `master`). Our production environment is hosted at [https://forms.chinmayamission.com](https://forms.chinmayamission.com).
 
-To deploy to prod, run the following:
+To deploy to prod, first update `CHANGELOG.md` with the latest changes. Then run the following:
 
 ```
 git checkout master
@@ -27,6 +27,8 @@ git push --tags origin master
 ```
 
 If the version is major / minor, you can run `npm run major` or `npm run minor`. Follow the guidelines from [semver](https://semver.org/) to determine which type of version bump this should be.
+
+Finally, create a new release on the latest tagged version (such as `v6.0.0`) from this webpage: https://github.com/Chinmayamission/CFF/releases. This will start the GitHub Actions pipeline to release the latest version to prod.
 
 
 ## Manual deployment steps
