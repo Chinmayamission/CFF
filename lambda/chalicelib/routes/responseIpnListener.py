@@ -119,8 +119,8 @@ def mark_error_payment(response, message, method_name, full_value):
             value=full_value,
             status="ERROR",
             date=datetime.datetime.now(),
-            date_created=date,
-            date_modified=date,
+            date_created=datetime.datetime.now(),
+            date_modified=datetime.datetime.now(),
             method=method_name,
             id=message,
         )
