@@ -8,9 +8,24 @@ import json
 from .constants import FORM_ID
 from app import app
 from tests.integration.baseTestCase import BaseTestCase
+from chalicelib.models import Response, PaymentStatusDetailItem
+import datetime
+from bson.objectid import ObjectId
 
 
 class TestCcavenueResponseHandler(BaseTestCase):
+    def setUp(self):
+        super(FormIpn, self).setUp()
+        self.formId = self.create_form()
+        self.edit_form(
+            self.formId,
+            {
+                "schema": {},
+                "uiSchema": {},
+                "formOptions": {"paymentMethods": {"ccavenue": {"merchant_id": "mid123" } } },
+            },
+        )
+
     @unittest.skip(
         "Need to refactor this in order to create the particular response already."
     )
@@ -31,3 +46,48 @@ class TestCcavenueResponseHandler(BaseTestCase):
     def test_decrypt_success(self):
         # asd
         pass
+
+    def make_request(self, responseId, body, fail=False):
+        response = self.lg.handle_request(
+            method="POST",
+            path=f"/responses/{responseId}/ccavenueResponseHandler",
+            headers={
+                "authorization": "auth",
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body=body,
+        )
+        if fail:
+            self.assertEqual(response["statusCode"], 500)
+        else:
+            self.assertEqual(response["statusCode"], 200)
+        return response["body"]
+
+    def test_invalid_merchant_id(self):
+        responseId = str(ObjectId())
+        response = Response(
+            id=ObjectId(responseId),
+            form=self.formId,
+            date_modified=datetime.datetime.now(),
+            date_created=datetime.datetime.now(),
+            value={"a": "b", "email": "success@simulator.amazonses.com"},
+            paymentInfo={
+                "total": 0.5,
+                "currency": "USD",
+                "items": [
+                    {"name": "a", "description": "b", "amount": 0.25, "quantity": 1},
+                    {"name": "a2", "description": "b2", "amount": 0.25, "quantity": 1},
+                ],
+            },
+        ).save()
+        self.make_request(responseId, "")
+
+        response = self.view_response(responseId)
+
+        detail_payment_one = response["payment_status_detail"][0]
+        detail_payment_one.pop("date")
+        detail_payment_one.pop("date_created")
+        detail_payment_one.pop("date_modified")
+        self.assertEqual(detail_payment_one["status"], "ERROR")
+        self.assertEqual(detail_payment_one["id"], "CCAvenue config not found for merchant id: mid123")
+    
