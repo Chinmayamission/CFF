@@ -20,9 +20,6 @@ from .responseIpnListener import mark_successful_payment, mark_error_payment
 
 def response_ccavenue_response_handler(responseId):
     from ..main import app
-
-    res = dict(parse_qsl(app.current_request.raw_body.decode("utf-8")))
-    paramDict = decrypt(res["encResp"], config.SECRET_working_key)
   
     response = Response.objects.get({"_id": ObjectId(responseId)})
     form = Form.objects.only("formOptions").get({"_id": response.form.id})
@@ -36,9 +33,11 @@ def response_ccavenue_response_handler(responseId):
             response,
             f"CCAvenue config not found for merchant id: {merchant_id}.",
             "ccavenue",
-            paramDict,
+            {},
         )
-
+    
+    res = dict(parse_qsl(app.current_request.raw_body.decode("utf-8")))
+    paramDict = decrypt(res["encResp"], config.SECRET_working_key)
     if (
         paramDict["merchant_param1"] != formId
         or paramDict["merchant_param2"] != responseId
