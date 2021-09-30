@@ -10,6 +10,7 @@ from decimal import Decimal
 from pydash.objects import get
 from chalicelib.models import Form, Response, CCAvenueConfig, serialize_model
 from bson.objectid import ObjectId
+from pymodm.errors import DoesNotExist
 from .responseIpnListener import mark_successful_payment, mark_error_payment
 
 """
@@ -25,8 +26,9 @@ def response_ccavenue_response_handler(responseId):
     formId = str(form.id)
 
     merchant_id = form.formOptions.paymentMethods["ccavenue"]["merchant_id"]
-    config = CCAvenueConfig.objects.get({"merchant_id": merchant_id})
-    if not config:
+    try:
+        config = CCAvenueConfig.objects.get({"merchant_id": merchant_id})
+    except DoesNotExist:
         mark_error_payment(
             response,
             f"CCAvenue config not found for merchant id: {merchant_id}.",
