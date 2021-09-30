@@ -59,6 +59,7 @@ class TestCcavenueResponseHandler(BaseTestCase):
         )
         if fail:
             self.assertEqual(response["statusCode"], 500)
+            print("BODY", response["body"])
         else:
             self.assertEqual(response["statusCode"], 200, response)
         return response["body"]
