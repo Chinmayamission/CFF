@@ -25,9 +25,6 @@ def response_ccavenue_response_handler(responseId):
     form = Form.objects.only("formOptions").get({"_id": response.form.id})
     formId = str(form.id)
 
-    res = dict(parse_qsl(app.current_request.raw_body.decode("utf-8")))
-    paramDict = decrypt(res["encResp"], config.SECRET_working_key)
-
     merchant_id = form.formOptions.paymentMethods["ccavenue"]["merchant_id"]
     try:
         config = CCAvenueConfig.objects.get({"merchant_id": merchant_id})
@@ -36,9 +33,11 @@ def response_ccavenue_response_handler(responseId):
             response,
             f"CCAvenue config not found for merchant id: {merchant_id}.",
             "ccavenue",
-            paramDict,
+            {"raw_body": app.current_request.raw_body.decode("utf-8")}
         )
 
+    res = dict(parse_qsl(app.current_request.raw_body.decode("utf-8")))
+    paramDict = decrypt(res["encResp"], config.SECRET_working_key)
     if (
         paramDict["merchant_param1"] != formId
         or paramDict["merchant_param2"] != responseId
