@@ -60,7 +60,7 @@ class TestCcavenueResponseHandler(BaseTestCase):
         if fail:
             self.assertEqual(response["statusCode"], 500)
         else:
-            self.assertEqual(response["statusCode"], 200)
+            self.assertEqual(response["statusCode"], 200, response)
         return response["body"]
 
     def test_invalid_merchant_id(self):
@@ -80,7 +80,7 @@ class TestCcavenueResponseHandler(BaseTestCase):
                 ],
             },
         ).save()
-        self.make_request(responseId, "")
+        self.make_request(responseId, "", fail=True)
 
         response = self.view_response(responseId)
 
