@@ -15,7 +15,7 @@ from bson.objectid import ObjectId
 
 class TestCcavenueResponseHandler(BaseTestCase):
     def setUp(self):
-        super(FormIpn, self).setUp()
+        super(TestCcavenueResponseHandler, self).setUp()
         self.formId = self.create_form()
         self.edit_form(
             self.formId,
