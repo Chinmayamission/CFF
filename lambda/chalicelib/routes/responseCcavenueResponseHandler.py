@@ -20,7 +20,7 @@ from .responseIpnListener import mark_successful_payment, mark_error_payment
 
 def response_ccavenue_response_handler(responseId):
     from ..main import app
-  
+
     response = Response.objects.get({"_id": ObjectId(responseId)})
     form = Form.objects.only("formOptions").get({"_id": response.form.id})
     formId = str(form.id)
