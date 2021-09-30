@@ -56,3 +56,5 @@ dump/
 
 notes.txt
 .env
+
+venv
