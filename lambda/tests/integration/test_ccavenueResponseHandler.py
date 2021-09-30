@@ -5,7 +5,7 @@ import unittest
 from chalice.config import Config
 from chalice.local import LocalGateway
 import json
-from .constants import FORM_ID
+from .constants import FORM_ID, ONE_SCHEMA, ONE_UISCHEMA, ONE_FORMOPTIONS
 from app import app
 from tests.integration.baseTestCase import BaseTestCase
 from chalicelib.models import Response, PaymentStatusDetailItem
@@ -20,9 +20,9 @@ class TestCcavenueResponseHandler(BaseTestCase):
         self.edit_form(
             self.formId,
             {
-                "schema": {},
-                "uiSchema": {},
-                "formOptions": {"paymentMethods": {"ccavenue": {"merchant_id": "mid123" } } },
+                "schema": ONE_SCHEMA,
+                "uiSchema": ONE_UISCHEMA
+                "formOptions": dict(ONE_FORMOPTIONS, paymentMethods={"ccavenue": {"merchant_id": "mid123" } })
             },
         )
 
