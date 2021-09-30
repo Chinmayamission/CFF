@@ -1,3 +1,7 @@
+## 6.3.2
+- Fix: Changed Google Maps API Key for production (#254) 
+- Fix: Fix IPN error payment logic for CCAvenue (#274)
+
 ## 6.3.1
 - Fix: don't crash backend when summary view has no results; just return None instead
 
