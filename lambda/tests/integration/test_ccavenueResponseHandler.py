@@ -84,7 +84,7 @@ class TestCcavenueResponseHandler(BaseTestCase):
 
         response = self.view_response(responseId)
 
-        detail_payment_one = response["payment_status_detail"][0]
+        detail_payment_one = response["payment_trail"][0]
         detail_payment_one.pop("date")
         detail_payment_one.pop("date_created")
         detail_payment_one.pop("date_modified")
