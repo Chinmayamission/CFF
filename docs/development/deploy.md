@@ -20,6 +20,7 @@ Production deployment is automatically done via Github Actions whenever a new ve
 To deploy to prod, run the following:
 
 ```
+git checkout master
 git pull origin master
 npm version patch
 git push --tags origin master
