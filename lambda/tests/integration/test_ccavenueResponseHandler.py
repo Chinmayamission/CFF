@@ -91,5 +91,5 @@ class TestCcavenueResponseHandler(BaseTestCase):
         detail_payment_one.pop("date_created")
         detail_payment_one.pop("date_modified")
         self.assertEqual(detail_payment_one["status"], "ERROR")
-        self.assertEqual(detail_payment_one["id"], "CCAvenue config not found for merchant id: mid123")
+        self.assertEqual(detail_payment_one["id"], "CCAvenue config not found for merchant id: mid123.")
     
