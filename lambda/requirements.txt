@@ -1,4 +1,4 @@
-Babel==2.7.0
+Babel==2.9.1
 beautifulsoup4==4.6.0
 boto3==1.9.201
 certifi==2018.1.18
@@ -23,6 +23,6 @@ python-dotenv==0.12.0
 pynliner==0.8.0
 python-jose==3.0.0
 pytz==2018.3
-requests==2.20.0
+requests==2.26.0
 shortuuid==0.5.0
-urllib3==1.24.2
+urllib3==1.25.10
