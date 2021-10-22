@@ -75,6 +75,8 @@ jobs:
           npm run install-deps
           npm test
         working-directory: lambda
+      - run: pip install -r requirements.txt
+        working-directory: lambda
   deploy_dev:
     runs-on: ubuntu-latest
     needs: [test_frontend, test_backend]
