@@ -3,7 +3,7 @@ npm test -- tests.unit.test_calculate_price
 """
 from chalicelib.util.formSubmit.util import calculate_price
 import unittest
-import mock
+from unittest import mock
 from datetime import date
 from freezegun import freeze_time
 

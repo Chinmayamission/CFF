@@ -17,7 +17,7 @@ from app import app
 import uuid
 import os
 import boto3
-import mock
+from unittest import mock
 from unittest.mock import MagicMock, PropertyMock
 from tests.integration.baseTestCase import BaseTestCase
 
