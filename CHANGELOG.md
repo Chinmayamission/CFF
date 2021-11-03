@@ -1,3 +1,8 @@
+## 6.3.3
+* build(deps): bump url-parse from 1.4.7 to 1.5.3 by @dependabot in https://github.com/Chinmayamission/CFF/pull/275
+* Upgrade dependencies to fix vulnerability in babel by @epicfaace in https://github.com/Chinmayamission/CFF/pull/277
+* build(deps): bump mkdocs from 1.1 to 1.2.3 by @dependabot in https://github.com/Chinmayamission/CFF/pull/278
+
 ## 6.3.2
 - Fix: Changed Google Maps API Key for production (#254) 
 - Fix: Fix IPN error payment logic for CCAvenue (#274)
