@@ -39,9 +39,9 @@ class FormEdit extends React.Component<IFormEditProps, IFormEditState> {
     } else {
       state[path] = data;
     }
-    state.changeFromEditor = changeFromEditor;
-    state.hasError = false;
-    state.errorMessage = "";
+    (state as any).changeFromEditor = changeFromEditor;
+    (state as any).hasError = false;
+    (state as any).errorMessage = "";
     this.setState(state);
   }
   onJSONError(path, message) {

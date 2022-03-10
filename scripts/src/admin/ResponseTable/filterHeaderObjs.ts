@@ -16,7 +16,7 @@ function filterHeaderObjs(headerObjsOrig, dataOption) {
       let colName = dataOption.columnOrder[i];
       let index = findIndex(
         headerObjs,
-        e => e.id.toLowerCase() == colName.toLowerCase()
+        (e: any) => e.id.toLowerCase() == colName.toLowerCase()
       );
       if (index != -1) {
         columnsAtFront.push(headerObjs.splice(index, 1)[0]);
