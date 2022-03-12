@@ -398,7 +398,7 @@ export namespace Headers {
     const hasEnum = !!selectSchema.enum;
     headerObj.headerClassName = "ccmt-cff-no-click";
     headerObj.Cell = row => {
-      const CustomForm: React.ElementType = require("../../form/CustomForm");
+      const CustomForm = require("../../form/CustomForm").default;
       return (
         <CustomForm
           schema={selectSchema}
