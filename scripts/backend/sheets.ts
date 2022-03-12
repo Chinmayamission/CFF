@@ -138,7 +138,7 @@ export const sheets = async (event, context) => {
         _cls: "chalicelib.models.Form",
         "formOptions.dataOptions.export": { $exists: true }
       })
-      .sort({ date_modified: -1 })
+      .sort({ date_modified: +1 }) // sort from least recently modified to most recently modified.
       .toArray();
     for (let form of forms) {
       const dataOptions = getOrDefaultDataOptions(form);
