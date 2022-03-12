@@ -129,7 +129,7 @@ export const sheets = async (event, context) => {
           allowFileDiscovery: false
         }
       });
-      console.log("Created new spreadsheet: ", response.data.spreadsheetUrl);
+      console.log("\tCreated new spreadsheet: ", response.data.spreadsheetUrl);
       return spreadsheetId;
     };
 
@@ -138,6 +138,7 @@ export const sheets = async (event, context) => {
         _cls: "chalicelib.models.Form",
         "formOptions.dataOptions.export": { $exists: true }
       })
+      .sort({ date_modified: -1 })
       .toArray();
     for (let form of forms) {
       const dataOptions = getOrDefaultDataOptions(form);
@@ -150,7 +151,7 @@ export const sheets = async (event, context) => {
         if (googleSheetsDataOption.type !== "google_sheets") {
           continue;
         }
-        console.log("form", form.name, form._id);
+        console.log("Handling form:", form.name, "with id:", form._id);
         let filter = get(googleSheetsDataOption, "filter", {});
         let responses = await coll
           .find({
@@ -419,6 +420,7 @@ export const sheets = async (event, context) => {
           // todo: error handling/logging here.
           throw response;
         }
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
         // Sheets to delete request -- must be done separately.
         requests = [];
@@ -444,7 +446,9 @@ export const sheets = async (event, context) => {
           // todo: error handling/logging here.
           throw response;
         }
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
       }
+      await new Promise((resolve, reject) => setTimeout(resolve, 500));
     }
 
     return {

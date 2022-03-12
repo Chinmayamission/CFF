@@ -72,9 +72,10 @@ provider:
 functions:
   sheets:
     handler: scripts/backend/sheets.sheets
-    timeout: 60
+    timeout: 900
     events:
       - schedule: rate(1 hour)
+    reservedConcurrency: 1
 
 custom:
   webpack:
