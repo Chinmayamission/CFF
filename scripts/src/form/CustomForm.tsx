@@ -177,12 +177,12 @@ function CustomForm(props: ICustomFormProps) {
         schema={props.schema}
         uiSchema={props.uiSchema}
         formData={props.formData}
-        widgets={widgets}
-        fields={fields}
+        widgets={widgets as any}
+        fields={fields as any}
         autocomplete={props.uiSchema["ui:cff:autocomplete"] ? "true" : "false"}
         noHtml5Validate={false}
         // FieldTemplate={CustomFieldTemplate}
-        ArrayFieldTemplate={ArrayFieldTemplate}
+        ArrayFieldTemplate={ArrayFieldTemplate as any}
         ObjectFieldTemplate={ObjectFieldTemplate}
         transformErrors={transformErrors}
         onChange={e => {

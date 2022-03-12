@@ -317,14 +317,16 @@ export namespace Headers {
         const enumNames = schemaProperty.enumNames || schemaProperty.enum;
         headerObj.Filter = ({ filter, onChange }) => (
           <Form
-            schema={{
-              enum: [
-                "CFF_FILTER_NONE",
-                "CFF_FILTER_DEFINED",
-                ...schemaProperty.enum
-              ],
-              enumNames: ["None", "Defined", ...enumNames]
-            }}
+            schema={
+              {
+                enum: [
+                  "CFF_FILTER_NONE",
+                  "CFF_FILTER_DEFINED",
+                  ...schemaProperty.enum
+                ],
+                enumNames: ["None", "Defined", ...enumNames]
+              } as any
+            } // https://github.com/rjsf-team/react-jsonschema-form/issues/2761
             uiSchema={{ "ui:placeholder": "All", "ui:widget": "select" }}
             formData={filter && filter.value}
             onChange={e => onChange(e.formData)}
