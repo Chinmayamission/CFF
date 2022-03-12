@@ -10,8 +10,6 @@ import os
 import subprocess
 import time
 
-dev = boto3.session.Session()
-boto3.setup_default_session()
 client = boto3.client("s3")
 
 with open("package.json") as json_data:

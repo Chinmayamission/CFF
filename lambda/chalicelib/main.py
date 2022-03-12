@@ -18,6 +18,8 @@ import pymodm
 from chalicelib.util.jwt import get_claims
 from chalicelib.models import User, Org
 from chalicelib.config import *
+import binascii
+import zlib
 
 
 class CustomChalice(Chalice):
@@ -143,6 +145,17 @@ def iamAuthorizer(auth_request):
 
 from chalicelib import routes
 
+def compress(func):
+    """Compress a JSON response as hex if specified by setting ?compress=1.
+    """
+    def wrapper(*args, **kwargs):
+        query_params = app.current_request.query_params or {}
+        result = func(*args, **kwargs)
+        if query_params.get("compress", "0") == "1":
+            return binascii.hexlify(zlib.compress(json.dumps(result).encode())).decode()
+        return result
+    return wrapper
+
 app.route("/forms", methods=["GET"], cors=True, authorizer=iamAuthorizer)(
     routes.form_list
 )
@@ -160,7 +173,7 @@ app.route(
 )(routes.group_edit)
 app.route(
     "/forms/{formId}/responses", methods=["GET"], cors=True, authorizer=iamAuthorizer
-)(routes.form_response_list)
+)(compress(routes.form_response_list))
 # form response edit
 
 # todo use export in client side.

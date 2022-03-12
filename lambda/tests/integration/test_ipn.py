@@ -13,7 +13,7 @@ import datetime
 from bson.objectid import ObjectId
 from .constants import ONE_SCHEMA, ONE_UISCHEMA, ONE_FORMOPTIONS, ONE_FORMDATA
 import responses
-import mock
+from unittest import mock
 from unittest.mock import MagicMock, PropertyMock
 
 

@@ -27,7 +27,7 @@ service: ccmt-cff-backend-js # NOTE: update this with your service name
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12.x
 
 # you can overwrite defaults here
 #  stage: dev

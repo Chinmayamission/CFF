@@ -2,6 +2,7 @@ import API from "@aws-amplify/api";
 import { ResponsesState, IResponse } from "./types";
 import { findIndex, cloneDeep } from "lodash";
 import { loadingStart, loadingEnd } from "../base/actions";
+import pako from "pako";
 
 export const editResponse = (responseId: string, path: string, value: any) => (
   dispatch,
@@ -170,9 +171,19 @@ export const fetchResponses = ({
   if (show_unpaid) {
     queryStringParameters["show_unpaid"] = "1";
   }
-  return API.get("CFF", `forms/${formId}/responses`, { queryStringParameters })
+
+  // We request a compressed, hexadecimal-encoded version of the response, which we can then uncompress later.
+  // This is used to get around AWS Lambda's 6 MB response body size limit.
+  queryStringParameters["compress"] = "1";
+  return API.get("CFF", `forms/${formId}/responses`, {
+    queryStringParameters,
+    responseType: "text"
+  })
     .then(e => {
-      dispatch(setResponses(e.res));
+      const { res } = JSON.parse(
+        pako.inflate(Uint8Array.from(Buffer.from(e, "hex")), { to: "string" })
+      );
+      dispatch(setResponses(res));
       dispatch(loadingEnd());
     })
     .catch(e => {

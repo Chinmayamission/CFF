@@ -1,43 +1,93 @@
 site_name: Chinmaya Forms Framework
 theme:
   name: 'material'
-  
+  features:
+    - tabs
+  palette:
+    primary: white
+    accent: deep purple
+  logo: ./img/logo.png
+  favicon: ./img/logo.png
+  font:
+    text: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, Arial, sans-serif
+    # code: Ubuntu Mono
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+
+extra_css:
+  - main.css
+
+repo_name: Chinmayamission/CFF
+repo_url: https://github.com/Chinmayamission/CFF
+
 nav:
+  - Home:
+      Introduction: index.md
   - Form Management:
-      Quickstart: mgmt/forms-setup.md
-      Sharing: mgmt/share.md
-      Duplicating a form: mgmt/duplicating-a-form.md
-      Data Options: responses/data_options.md
-      Edit Schema: responses/edit_schema.md
-  - Form Customization:
-      Learn JSON Schema: http://json-schema.org/learn/getting-started-step-by-step.html
-      Validation: schema/validate.md
-      Custom Fields:
-        Auto Populate: schema/fields/auto-populate.md
-        Dynamic Enum: schema/fields/dynamic-enum.md
-        Same As: schema/fields/same-as.md
-        Address Autocomplete: schema/fields/addressAutocompleteField.md
-      Custom Widgets:
-        Infobox Radio / Select: schema/widgets/infoboxRadioWidget.md
-      Arrays: schema/arrays.md
-      Omit Extra Data: schema/omitExtraData.md
-  - Payment Integration:
-      Confirmation Email: payment/confirmation.md
-      Payment Expressions: payment/expressions.md
-      Message Customization: payment/messages.md
-      Payment Table: payment/payment-table.md
-      Recurring Payments: payment/recurring.md
-      Check Payments: payment/check.md
-      CCAvenue: payment/ccavenue.md
-      Currency: payment/currency.md
-  - Other Form Options:
-      Closing Submissions: formOptions/closing-submissions.md
-      Response Counter: formOptions/counter.md
-      Postprocess: formOptions/postprocess.md
-      Predicates: formOptions/predicates.md
-      Dashboard Options: dashboard/dashboard_options.md
+      Overview: mgmt/forms-setup.md
+      Managing responses: mgmt/responses.md
+      Permissions and sharing: mgmt/share.md
+  - Form Editing:
+    - Overview: editing/overview.md
+    - Schema:
+        Overview: schema/overview.md
+        Sample Schemas: schema/sample-schemas.md
+    - uiSchema:
+        Overview: uischema/overview.md
+        Custom Fields:
+          Auto Populate: uischema/fields/auto-populate.md
+          Dynamic Enum: uischema/fields/dynamic-enum.md
+          Same As: uischema/fields/same-as.md
+          Address Autocomplete: uischema/fields/addressAutocompleteField.md
+        Custom Widgets:
+          Infobox Radio / Select: uischema/widgets/infoboxRadioWidget.md
+        Custom Validation: uischema/validate.md
+        Arrays: uischema/arrays.md
+    - FormOptions:
+        Overview: formOptions/overview.md
+        Confirmation Emails:
+          Overview: payment/confirmation/overview.md
+          Sample templates: payment/confirmation/confirmation-templates.md
+          Making your own templates: payment/confirmation/confirmation-jinja.md
+          Adding attachments: payment/confirmation/confirmation-attachments.md
+          Custom confirmationEmailInfo templates: payment/confirmation/confirmation-custom-templates.md
+        Payment Integration:
+          Overview: payment/overview.md
+          Payment Info:
+            Overview: payment/paymentInfo/overview.md
+            Payment Expressions: payment/paymentInfo/expressions.md
+            Recurring Payments: payment/paymentInfo/recurring.md
+          Payment Methods:
+            Overview: payment/paymentMethods/overview.md
+            PayPal: payment/paymentMethods/paypal.md
+            CCAvenue: payment/paymentMethods/ccavenue.md
+            Manual Approval: payment/paymentMethods/manual-approval.md
+          Message Customization: payment/messages.md
+        Response Reporting:
+          Overview: responses/overview.md
+          Response Views: responses/views.md
+          Create a dashboard: responses/dashboard_options.md
+          Edit Schema: responses/edit_schema.md
+        Login and Accounts: formOptions/login-accounts.md
+        Closing Submissions: formOptions/closing-submissions.md
+        Response Counter: formOptions/counter.md
+        Postprocess form data: formOptions/postprocess.md
+        Import data with predicates: formOptions/predicates.md
+        Admin fields: formOptions/admin-fields.md
+        Omit Extra Data: formOptions/omitExtraData.md
+        Theme: formOptions/theme.md
   - Using the API:
       API Quickstart: api/api-quickstart.md
+      Response Access: api/response-access.md
+      Search Guide: api/search-guide.md
+      Use Cases: api/use-cases.md
   - Development on CFF:
-      Using Git and GitHub: development/git.md
-      Backend setup: development/backend.md
+      Overview: development/overview.md
+      Contribution process: development/contributing.md
+      Architecture: development/architecture.md
+      Backend setup notes: development/backend.md
+      Deployment: development/deploy.md

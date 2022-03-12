@@ -1,13 +1,15 @@
 In the "Share" tab, you can enter an email address to share it with someone and also assign them permissions.
 
+![form share](img/form share.png)
+
+## List of permissions
+
 Here is a list of form permissions and what each one does:
 
 | Name      | Description |
 | ----------- | ----------- |
 |  owner  | All permissions |
 |  Responses_View  | View Responses |
-|  Responses_Export  | Export Responses as CSV (not implemented yet) |
-|  Responses_ViewSummary  | View Response Summary (not implemented yet) |
 |  Responses_Edit  | Edit a Response |
 |  Responses_Delete  | Delete a Response |
 |  Responses_AddPayment  | Add a payment to a response (which could or could not send a confirmation email) |
@@ -22,12 +24,15 @@ TBD / upcoming permissions:
 | ----------- | ----------- |
 |  Responses_AdminInfo_Edit | Edit a Response's AdminInfo |
 |  Responses_CheckIn  | View response list, edit response values ending in ".checkin" |
+|  Responses_Export  | Export Responses as CSV (not implemented on the client side yet) |
+|  Responses_ViewSummary  | View Response Summary (not implemented yet) |
 
 ## Organizations
 Organizations are a feature that allow you to restrict which users can perform certain tasks, which are not tied to a particular form. For example, you may want to restrict users from creating forms.
 
 To do that, add an entry in the database with the following structure:
-```
+
+```json
 {
     "_cls": "chalicelib.models.Org",
     "name": "CCMT",

@@ -18,10 +18,13 @@ env.addFilter("format_date", datestr => {
 });
 
 const opts = {
-  ADD_TAGS: ["iframe"], // Allow iframes to pass sanitization
+  ADD_TAGS: ["iframe"] // Allow iframes to pass sanitization
+};
+const juiceOpts = {
   removeStyleTags: false
 };
-const sanitize = (e: any) => DOMPurify.sanitize(juice(e || ""), opts);
+const sanitize = (e: any) =>
+  DOMPurify.sanitize(juice(e || "", juiceOpts), opts);
 
 export const renderTemplate = (template, context) => {
   return sanitize(env.renderString(template, context));

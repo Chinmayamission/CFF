@@ -6,7 +6,7 @@ from bson.json_util import dumps
 import json
 from chalicelib.util.renameKey import replaceKey
 import hashlib
-
+import pymongo
 
 def _all(form):
     responses = Response.objects.all()._collection.find(
@@ -40,8 +40,11 @@ def _calculate_stat(form, stat):
 
     stat_type = stat["type"]
     if stat_type == "single":
-        row = next(aggregate_result)
-        return row["n"] if row else None
+        try:
+            row = next(aggregate_result)
+            return row["n"] if row else None
+        except StopIteration:
+            return None
     elif stat_type == "group":
         return list(aggregate_result)
     else:
@@ -96,6 +99,7 @@ def _search(form, query, autocomplete, search_by_id, show_unpaid):
         search_fields = ["_id"]
     result_limit = get(form.formOptions.dataOptions, "search.resultLimit", 10)
     result_fields = get(form.formOptions.dataOptions, "search.resultFields", ["_id"])
+    exact_match = get(form.formOptions.dataOptions, "search.exactMatch", False)
     autocomplete_fields = get(
         form.formOptions.dataOptions, "search.autocompleteFields", ["_id"]
     )
@@ -130,14 +134,14 @@ def _search(form, query, autocomplete, search_by_id, show_unpaid):
                         {
                             "value.participants": {
                                 "$elemMatch": {
-                                    subfield: {"$regex": "^" + word, "$options": "i"}
+                                    subfield: word if exact_match else {"$regex": "^" + word, "$options": "i"}
                                 }
                             }
                         }
                     )
                 else:
                     mongo_query["$or"].append(
-                        {field: {"$regex": "^" + word, "$options": "i"}}
+                        {field: word if exact_match else {"$regex": "^" + word, "$options": "i"}}
                     )
     mongo_query["form"] = form.id
     if len(mongo_query["$or"]) == 0:
@@ -155,8 +159,9 @@ def _search(form, query, autocomplete, search_by_id, show_unpaid):
         for field in result_fields:
             projection[field] = 1
     responses = (
-        Response.objects.raw(mongo_query).limit(result_limit).project(projection)
+        Response.objects.raw(mongo_query).limit(result_limit).project(projection).order_by([("date_created", pymongo.DESCENDING)])
     )
+    print(mongo_query)
     return {"res": [serialize_model(r) for r in responses]}
 
 
@@ -213,7 +218,8 @@ def form_response_list(formId):
             app.check_permissions(form, ["Responses_View"])
         return _dataOptionView(form, dataOptionView)
     elif query:
-        app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
+        if not skip_perm_check:
+            app.check_permissions(form, ["Responses_View", "Responses_CheckIn"])
         autocomplete = query_params.get("autocomplete", None)
         search_by_id = query_params.get("search_by_id", None)
         show_unpaid = query_params.get("show_unpaid", None)

@@ -78,7 +78,7 @@ export default (props: IResponseTableViewProps) => {
         columns={[actionsHeader, ...headers]}
         minRows={0}
         filterable
-        defaultSorted={[{ id: "DATE_LAST_MODIFIED", desc: true }]}
+        defaultSorted={[{ id: "DATE_CREATED", desc: true }]}
         defaultFiltered={[{ id: "PAID", value: "all" }]}
         defaultFilterMethod={filterCaseInsensitive}
       />

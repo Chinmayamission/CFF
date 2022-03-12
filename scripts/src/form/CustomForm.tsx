@@ -23,6 +23,7 @@ import ConditionalHiddenRadioWidget from "./form_widgets/ConditionalHiddenRadioW
 import InfoboxRadioWidget from "./form_widgets/InfoboxRadioWidget";
 import InfoboxSelectWidget from "./form_widgets/InfoboxSelectWidget";
 import RemovedWidget from "./form_widgets/RemovedWidget";
+import SubmitInputGroupWidget from "./form_widgets/SubmitInputGroupWidget";
 import DynamicEnumField from "./form_widgets/DynamicEnumField";
 import AddressAutocompleteField from "./form_widgets/AddressAutocompleteField";
 import { IResponseMetadata } from "./interfaces";
@@ -76,7 +77,8 @@ const widgets = {
   "cff:conditionalHiddenRadio": ConditionalHiddenRadioWidget,
   "cff:infoboxRadio": InfoboxRadioWidget,
   "cff:infoboxSelect": InfoboxSelectWidget,
-  "cff:removed": RemovedWidget
+  "cff:removed": RemovedWidget,
+  "cff:submitInputGroup": SubmitInputGroupWidget
 };
 
 const fields = {

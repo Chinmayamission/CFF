@@ -1,4 +1,4 @@
-## Chinmaya Mission Forms Framework
+# Chinmaya Forms Framework
 
 Chinmaya Forms Framework (CFF) is a system that allows for management of forms, accounts, and payment integration. With CFF, you can:
 
@@ -16,43 +16,46 @@ CFF has been used for events such as:
 - Information Collection Forms
 - Donation Forms
 
-Check it out at [https://forms.chinmayamission.com/](https://forms.chinmayamission.com/).
+<!--
 
-# Quickstart (development)
+## Who uses CFF?
 
-## Run frontend locally
+- [Chinmaya Mission San Jose](http://cmsj.org/)
+- [Chinmaya Ramdoot](http://bbnj.chinmayamission.com/)
+- [CCMT](http://www.chinmayamission.com/)
+- [Chinmaya Mission Alpharetta](https://www.chinmayamissionalpharetta.org/)
 
-```
-npm i
-npm start
-```
+-->
 
-## Run backend tests locally
+## Documentation structure
 
-```
-cd lambda
-pip install pipenv
-pipenv install
-npm test
-```
+- [**Form Management**](mgmt/forms-setup) - how to share forms and manage responses as a form admin.
 
-## Deploy to beta
-Beta environment: https://forms.beta.chinmayamission.com
+- [**Form Editing**](editing/overview) - how to configure and edit forms by modifying the JSON options for a form.
 
-```
-npm run deploy
-sls deploy --stage beta
-cd lambda
-npm run deploy-prod
-```
+- [**Using the API**](api/api-quickstart) - information about integrating with the CFF REST API to use data in your own apps
 
-## Deploy to prod
-Prod environment: https://forms.chinmayamission.com
+- [**Development on CFF**](development/overview) - information about development on the CFF codebase, contributing guidelines, and setup instructions
 
-```
-npm run deploy-prod
-sls deploy --stage prod
-cd lambda
-npm run deploy-prod
-npm run deploy-docs
-```
+
+## Useful links
+
+- GitHub repository: [https://github.com/epicfaace](https://github.com/epicfaace)
+
+- Documentation site: [http://docs.chinmayamission.com/cff/](http://docs.chinmayamission.com/cff/)
+
+- Production instance: [https://forms.chinmayamission.com](https://forms.chinmayamission.com)
+
+- Beta instance: [https://forms.beta.chinmayamission.com](https://forms.beta.chinmayamission.com)
+
+## Development
+
+See [Development on CFF](development/introduction.md) for more information.
+
+## Learning links
+
+If you need help to understand forms development / React development you can go to these links:
+
+[https://react-jsonschema-form.readthedocs.io/en/latest/](https://react-jsonschema-form.readthedocs.io/en/latest/)
+
+[https://reacttraining.com/](https://reacttraining.com/)

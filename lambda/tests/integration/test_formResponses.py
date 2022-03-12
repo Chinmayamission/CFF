@@ -12,7 +12,8 @@ from tests.integration.baseTestCase import BaseTestCase
 from chalicelib.models import Response, Form
 from bson.objectid import ObjectId
 from unittest.mock import MagicMock
-
+import zlib
+import binascii
 
 class FormResponses(BaseTestCase):
     def setUp(self):
@@ -32,6 +33,18 @@ class FormResponses(BaseTestCase):
         )
         self.assertEqual(response["statusCode"], 200, response)
         body = json.loads(response["body"])
+        self.assertTrue(len(body["res"]) > 0, "Response list is empty.")
+
+    def test_form_responses_list_compressed(self):
+        """View the entire response list, but compressed."""
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{self.formId}/responses/?compress=1",
+        )
+        self.assertEqual(response["statusCode"], 200, response)
+        body = json.loads(zlib.decompress(binascii.unhexlify(response["body"])))
         self.assertTrue(len(body["res"]) > 0, "Response list is empty.")
 
     def test_form_responses_list_anon_failed(self):
@@ -102,6 +115,45 @@ class FormResponses(BaseTestCase):
         body = json.loads(response["body"])
         self.assertTrue(len(body["res"]) > 0, "Response list is empty.")
         self.assertEqual(list(body["res"][0].keys()), ["_id"])
+
+    def test_form_responses_search_anon_with_responseListApiKey_pass(self):
+        """Searching the response list should pass with an API key."""
+        formId = self.create_form()
+        apiKey = "abcdefg"
+
+        self.edit_form(
+            formId,
+            {
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {
+                    "responseListApiKey": hashlib.sha512(apiKey.encode()).hexdigest()
+                },
+            },
+        )
+        self.set_permissions(formId, [])
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?query=test",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?query=test&apiKey=bcd",
+        )
+        self.assertEqual(response["statusCode"], 401, response)
+        response = self.lg.handle_request(
+            method="GET",
+            headers={"authorization": "auth"},
+            body="",
+            path=f"/forms/{formId}/responses/?query=test&apiKey=abcdefg",
+        )
+        self.assertEqual(response["statusCode"], 200, response)
+
 
     def test_response_stats_aggregate_count(self):
         self.set_formOptions(
