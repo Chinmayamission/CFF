@@ -1,7 +1,11 @@
 import * as React from "react";
 import { find, get, sumBy } from "lodash";
 import { connect } from "react-redux";
-import { IPaypalClassicProps, IPaypalClassicState } from "../interfaces";
+import {
+  IPaymentInfoItem,
+  IPaypalClassicProps,
+  IPaypalClassicState
+} from "../interfaces";
 
 /* Example Usage:
 
@@ -82,7 +86,10 @@ class PaypalClassic extends React.Component<
           : 0),
       recurrence: null
     };
-    let recurring_item = find(items, e => e["recurrenceDuration"]);
+    let recurring_item = find(
+      items,
+      e => e["recurrenceDuration"]
+    ) as IPaymentInfoItem;
     if (recurring_item) {
       items = [];
       let [expr, time, units] = /(\d*)([DWMY])/.exec(

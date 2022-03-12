@@ -34,7 +34,7 @@ const StatSingle = (props: IStatProps) => (
 const StatGroup = (props: IStatProps) => {
   const totalRow = {
     _id: "Total",
-    n: sumBy(props.stat.computedQueryValue, e => e.n)
+    n: sumBy(props.stat.computedQueryValue as any, (e: any) => e.n)
   };
   const data = [...(props.stat.computedQueryValue as any[]), totalRow];
   const showPagination = data.length > 20;

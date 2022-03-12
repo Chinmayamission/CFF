@@ -8,7 +8,6 @@ import { filterCaseInsensitive } from "../ResponseTable/filters";
 import { dataToSchemaPath } from "../util/SchemaUtil";
 import ExpressionParser from "../../common/ExpressionParser";
 import moment from "moment";
-import CustomForm from "../../form/CustomForm";
 
 export interface IHeaderObject {
   Header: string;
@@ -398,29 +397,32 @@ export namespace Headers {
     }
     const hasEnum = !!selectSchema.enum;
     headerObj.headerClassName = "ccmt-cff-no-click";
-    headerObj.Cell = row => (
-      <CustomForm
-        schema={selectSchema}
-        uiSchema={
-          hasEnum
-            ? { "ui:widget": "select" }
-            : { "ui:widget": "cff:submitInputGroup" }
-        }
-        formData={row.value}
-        onChange={e => {
-          if (typeof e.formData === "undefined") return;
-          let path = headerObj.id; // children.class
-          if (row.original.CFF_UNWIND_BY) {
-            path = path.replace(row.original.CFF_UNWIND_BY + ".", ""); // class
-            path = `${row.original.CFF_UNWIND_ACCESSOR}.${path}`; // children.0.class
+    headerObj.Cell = row => {
+      const CustomForm = require("../../form/CustomForm").default;
+      return (
+        <CustomForm
+          schema={selectSchema}
+          uiSchema={
+            hasEnum
+              ? { "ui:widget": "select" }
+              : { "ui:widget": "cff:submitInputGroup" }
           }
-          editResponse(row.original.ID, path, e.formData);
-        }}
-        tagName="div"
-      >
-        <></>
-      </CustomForm>
-    );
+          formData={row.value}
+          onChange={e => {
+            if (typeof e.formData === "undefined") return;
+            let path = headerObj.id; // children.class
+            if (row.original.CFF_UNWIND_BY) {
+              path = path.replace(row.original.CFF_UNWIND_BY + ".", ""); // class
+              path = `${row.original.CFF_UNWIND_ACCESSOR}.${path}`; // children.0.class
+            }
+            editResponse(row.original.ID, path, e.formData);
+          }}
+          tagName="div"
+        >
+          <></>
+        </CustomForm>
+      );
+    };
     headerObj.filterMethod = filterMethodAllNone;
     let selectSchemaFilter = cloneDeep(selectSchema);
     if (selectSchemaFilter.enum) {

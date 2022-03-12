@@ -68,7 +68,7 @@ interface IDistanceMatrixRow {
   }[];
 }
 
-export const hello = async (event, context) => {
+export const sheets = async (event, context) => {
   try {
     var ssm = new AWS.SSM();
     let mongo_conn_str = "";
@@ -121,7 +121,7 @@ export const hello = async (event, context) => {
         }
       );
       const spreadsheetId = response.data.spreadsheetId;
-      await promisify(drive.permissions.create)({
+      await promisify(drive.permissions.create.bind(drive))({
         fileId: spreadsheetId,
         resource: {
           role: "reader",
@@ -129,16 +129,7 @@ export const hello = async (event, context) => {
           allowFileDiscovery: false
         }
       });
-      // await promisify(drive.permissions.create)({
-      //   "fileId": spreadsheetId,
-      //   "transferOwnership": true,
-      //   "resource": {
-      //     "role": "owner",
-      //     "type": "user",
-      //     "emailAddress": "ccmt.dev@gmail.com"
-      //   }
-      // });
-      console.log(response.data.spreadsheetUrl);
+      console.log("\tCreated new spreadsheet: ", response.data.spreadsheetUrl);
       return spreadsheetId;
     };
 
@@ -147,6 +138,7 @@ export const hello = async (event, context) => {
         _cls: "chalicelib.models.Form",
         "formOptions.dataOptions.export": { $exists: true }
       })
+      .sort({ date_modified: +1 }) // sort from least recently modified to most recently modified.
       .toArray();
     for (let form of forms) {
       const dataOptions = getOrDefaultDataOptions(form);
@@ -159,6 +151,7 @@ export const hello = async (event, context) => {
         if (googleSheetsDataOption.type !== "google_sheets") {
           continue;
         }
+        console.log("Handling form:", form.name, "with id:", form._id);
         let filter = get(googleSheetsDataOption, "filter", {});
         let responses = await coll
           .find({
@@ -198,56 +191,73 @@ export const hello = async (event, context) => {
             }
           }
         }
-        if (googleSheetsDataOption.enableNearestLocation) {
-          const locations =
-            googleSheetsDataOption.nearestLocationOptions.locations;
-          extraHeaders.push({
-            Header: "Nearest Location",
-            accessor: e => get(e, "admin_info.nearest_location", "")
-          });
-          // const addressAccessor = googleSheetsDataOption.nearestLocationOptions.addressAccessor;
-          let responsesToCalculate = responses.filter(
-            response => !get(response, "admin_info.nearest_location")
-          );
+        // Disabled for now because we no longer are using the Distance Matrix API.
+        // if (googleSheetsDataOption.enableNearestLocation) {
+        //   const locations =
+        //     googleSheetsDataOption.nearestLocationOptions.locations;
+        //   extraHeaders.push({
+        //     Header: "Nearest Location",
+        //     accessor: e => get(e, "admin_info.nearest_location", "")
+        //   });
+        //   // const addressAccessor = googleSheetsDataOption.nearestLocationOptions.addressAccessor;
+        //   let responsesToCalculate = responses.filter(
+        //     response => !get(response, "admin_info.nearest_location")
+        //   );
 
-          // Todo: Google limits to 100 elements -- find a better way to do it in batch rather than each one individually https://developers.google.com/maps/documentation/javascript/distancematrix#usage_limits_and_requirements
-          let distanceRows: IDistanceMatrixRow[] = [];
-          for (let response of responsesToCalculate) {
-            let results = await googleMapsClient
-              .distanceMatrix({
-                origins: [
-                  `${response.value.address.line1} ${response.value.address.city} ${response.value.address.state} ${response.value.address.zipcode}`
-                ],
-                destinations: locations.map(e => [e.latitude, e.longitude])
-              })
-              .asPromise();
-            distanceRows.push(results.json.rows[0]);
-          }
+        //   // Todo: Google limits to 100 elements -- find a better way to do it in batch rather than each one individually https://developers.google.com/maps/documentation/javascript/distancematrix#usage_limits_and_requirements
+        //   let distanceRows: IDistanceMatrixRow[] = [];
+        //   for (let response of responsesToCalculate) {
+        //     let results = await googleMapsClient
+        //       .distanceMatrix({
+        //         origins: [
+        //           `${response.value.address.line1} ${response.value.address.city} ${response.value.address.state} ${response.value.address.zipcode}`
+        //         ],
+        //         destinations: locations.map(e => [e.latitude, e.longitude])
+        //       })
+        //       .asPromise();
+        //     distanceRows.push(results.json.rows[0]);
+        //   }
 
-          for (const i in responsesToCalculate) {
-            const distanceRow: IDistanceMatrixRow = distanceRows[i];
-            let response = responsesToCalculate[i];
-            const nearestLocation = minBy(distanceRow.elements, e =>
-              get(e, "duration.value", Number.MAX_SAFE_INTEGER)
-            );
-            if (nearestLocation.status !== "OK") {
-              // Status is OK or NOT_FOUND.
-              continue;
-            }
-            const nearestLocationIndex = distanceRow.elements.indexOf(
-              nearestLocation
-            );
-            const nearestLocationName = locations[nearestLocationIndex].name;
-            console.log(nearestLocationName);
-            set(response, "admin_info.nearest_location", nearestLocationName);
-            await coll.updateOne(
-              { _id: response._id },
-              { $set: { "admin_info.nearest_location": nearestLocationName } }
-            );
-          }
-        }
+        //   for (const i in responsesToCalculate) {
+        //     const distanceRow: IDistanceMatrixRow = distanceRows[i];
+        //     let response = responsesToCalculate[i];
+        //     const nearestLocation = minBy(distanceRow.elements, e =>
+        //       get(e, "duration.value", Number.MAX_SAFE_INTEGER)
+        //     );
+        //     if (nearestLocation.status !== "OK") {
+        //       // Status is OK or NOT_FOUND.
+        //       continue;
+        //     }
+        //     const nearestLocationIndex = distanceRow.elements.indexOf(
+        //       nearestLocation
+        //     );
+        //     const nearestLocationName = locations[nearestLocationIndex].name;
+        //     console.log(nearestLocationName);
+        //     set(response, "admin_info.nearest_location", nearestLocationName);
+        //     await coll.updateOne(
+        //       { _id: response._id },
+        //       { $set: { "admin_info.nearest_location": nearestLocationName } }
+        //     );
+        //   }
+        // }
 
         let spreadsheetId = googleSheetsDataOption.spreadsheetId;
+        let spreadsheet;
+        if (spreadsheetId) {
+          try {
+            spreadsheet = await promisify(sheets.spreadsheets.get.bind(sheets))(
+              {
+                spreadsheetId
+              }
+            );
+          } catch (e) {
+            if (e.message.indexOf("not found") > -1) {
+              spreadsheetId = null;
+            } else {
+              throw e;
+            }
+          }
+        }
         if (!spreadsheetId) {
           spreadsheetId = await createSpreadsheet(`CFF Export - ${form.name}`);
           await coll.updateOne(
@@ -258,12 +268,11 @@ export const hello = async (event, context) => {
               }
             }
           );
+          spreadsheet = await promisify(sheets.spreadsheets.get.bind(sheets))({
+            spreadsheetId
+          });
         }
-        const spreadsheet = await promisify(
-          sheets.spreadsheets.get.bind(sheets)
-        )({
-          spreadsheetId
-        });
+
         const existingSheets: ISheet[] = spreadsheet.data.sheets;
 
         let requests = [];
@@ -411,6 +420,7 @@ export const hello = async (event, context) => {
           // todo: error handling/logging here.
           throw response;
         }
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
         // Sheets to delete request -- must be done separately.
         requests = [];
@@ -436,7 +446,9 @@ export const hello = async (event, context) => {
           // todo: error handling/logging here.
           throw response;
         }
+        await new Promise((resolve, reject) => setTimeout(resolve, 2000));
       }
+      await new Promise((resolve, reject) => setTimeout(resolve, 500));
     }
 
     return {

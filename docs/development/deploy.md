@@ -45,7 +45,7 @@ npm run deploy-docs
 # Deploy frontend
 npm run deploy
 # Deploy Google Sheets lambda function
-sls deploy --stage beta
+npm run deploy-sheets
 cd lambda
 # Deploy REST API lambda functions
 npm run deploy
@@ -60,7 +60,7 @@ npm run deploy-docs
 # Deploy frontend
 npm run deploy-prod
 # Deploy Google Sheets lambda function
-sls deploy --stage prod
+npm run deploy-prod-sheets
 cd lambda
 # Deploy REST API lambda functions
 npm run deploy-prod
@@ -73,3 +73,14 @@ Here are some production logs that are useful to check on:
 - The lambda execution logs, which contain all Python logs / exceptions from the REST API, are available at [https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/$252Faws$252Flambda$252Fccmt-cff-api-v2-prod](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/$252Faws$252Flambda$252Fccmt-cff-api-v2-prod)
 - The API Gateway execution logs, which contains request and response bodies for every HTTP request, are available at [https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/API-Gateway-Execution-Logs_xpqeqfjgwd$252Fv2](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/API-Gateway-Execution-Logs_xpqeqfjgwd$252Fv2)
     - These logs are good for debugging issues such as "500 Errors" or IPN errors.
+
+## Deployment infrastructure details
+
+### Google Sheets
+
+Google Sheets syncing of form responses is done with the following service accounts:
+
+cff-beta@ccmt-accounts.iam.gserviceaccount.com - credentials stored in the SSM variable `CFF_GOOGLE_SHEETS_KEY_BETA`
+cff-prod@ccmt-accounts.iam.gserviceaccount.com - credentials stored in the SSM variable `CFF_GOOGLE_SHEETS_KEY_PROD`
+
+These service accounts are stored in the `ccmt-accounts` GCP project, which itops.ccmt@chinmayamission.com has access to.

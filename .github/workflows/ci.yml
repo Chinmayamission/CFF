@@ -25,6 +25,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - run: npm test
+      - run: npm run build
+      - run: npm run build-sheets
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
   test_docs:
     runs-on: ubuntu-latest
     steps:
@@ -112,11 +116,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
       
-      - run: npm run deploy
+      - run: npm run deploy && npm run deploy-sheets
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
+          NODE_OPTIONS: --max_old_space_size=8192
  
   deploy_docs:
     runs-on: ubuntu-latest
@@ -179,9 +184,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
       
-      - run: npm run deploy-prod
+      - run: npm run deploy && npm run deploy-prod-sheets
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
+          NODE_OPTIONS: --max_old_space_size=8192
         
