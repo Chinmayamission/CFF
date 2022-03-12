@@ -15,6 +15,7 @@ module.exports = {
       languages: ["json", "html"]
     })
   ],
+  externals: ["fsevents"],
   module: {
     rules: [
       {
