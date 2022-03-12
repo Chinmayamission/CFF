@@ -45,7 +45,7 @@ npm run deploy-docs
 # Deploy frontend
 npm run deploy
 # Deploy Google Sheets lambda function
-npm run deploy-sheets-lambda
+npm run deploy-sheets
 cd lambda
 # Deploy REST API lambda functions
 npm run deploy
@@ -60,7 +60,7 @@ npm run deploy-docs
 # Deploy frontend
 npm run deploy-prod
 # Deploy Google Sheets lambda function
-npm run deploy-prod-sheets-lambda
+npm run deploy-prod-sheets
 cd lambda
 # Deploy REST API lambda functions
 npm run deploy-prod
