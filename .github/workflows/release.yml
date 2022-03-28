@@ -1,0 +1,46 @@
+name: Test
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy_prod:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            nodeModules-
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pipenv
+          key: pip-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            pip-
+      - run: npm ci && pip install pipenv && pipenv install --python 3.6
+      - run: pipenv install --python 3.6
+        working-directory: lambda
+      - run: npm run deploy-prod
+        working-directory: lambda
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+      
+      - run: npm run deploy && npm run deploy-prod-sheets
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+          NODE_OPTIONS: --max_old_space_size=8192
+        
