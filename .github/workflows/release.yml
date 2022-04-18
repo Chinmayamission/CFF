@@ -11,10 +11,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - name: Set up Python 3.6
+      - name: Set up Python 3.9
         uses: actions/setup-python@v1
         with:
-          python-version: 3.6
+          python-version: 3.9
       - uses: actions/cache@v2
         with:
           path: node_modules
@@ -27,8 +27,8 @@ jobs:
           key: pip-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             pip-
-      - run: npm ci && pip install pipenv && pipenv install --python 3.6
-      - run: pipenv install --python 3.6
+      - run: npm ci && pip install pipenv && pipenv install
+      - run: pipenv install
         working-directory: lambda
       - run: npm run deploy-prod
         working-directory: lambda

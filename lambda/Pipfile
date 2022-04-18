@@ -18,7 +18,7 @@ jinja2 = "==2.10.1"
 jmespath = "==0.9.3"
 markupsafe = "==1.1.1"
 py-expression-eval = "==0.3.9"
-pydash = "==4.5.0"
+pydash = "==5.1.0"
 pynliner = "==0.8.0"
 python-dateutil = "==2.7.0"
 pytz = "==2018.3"
@@ -28,7 +28,7 @@ six = "==1.11.0"
 typing = "==3.6.4"
 urllib3 = "==1.25.10"
 pymongo = {extras = ["tls"]}
-pymodm = "==0.4.1"
+pymodm = "==0.4.3"
 python-jose = "*"
 pycryptodomex = "*"
 pip = "==10"
@@ -48,4 +48,4 @@ python-dotenv = "*"
 [dev-packages]
 
 [requires]
-python_version = "3"
+python_version = "3.9"
