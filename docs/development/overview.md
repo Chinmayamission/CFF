@@ -6,7 +6,7 @@ To run CFF locally, you first need to install the following prerequisites:
 
 - [Git](https://git-scm.com/downloads)
 - [Node js](https://nodejs.org/en/download/)
-- [Python 3.6+](https://www.python.org/downloads/)
+- [Python 3.9+](https://www.python.org/downloads/)
 - [MongoDB](https://docs.mongodb.com/manual/installation/)
 
 ## Clone code
