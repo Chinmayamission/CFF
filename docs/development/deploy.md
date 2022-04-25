@@ -73,6 +73,9 @@ Here are some production logs that are useful to check on:
 - The lambda execution logs, which contain all Python logs / exceptions from the REST API, are available at [https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/$252Faws$252Flambda$252Fccmt-cff-api-v2-prod](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/$252Faws$252Flambda$252Fccmt-cff-api-v2-prod)
 - The API Gateway execution logs, which contains request and response bodies for every HTTP request, are available at [https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/API-Gateway-Execution-Logs_xpqeqfjgwd$252Fv2](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/API-Gateway-Execution-Logs_xpqeqfjgwd$252Fv2)
     - These logs are good for debugging issues such as "500 Errors" or IPN errors.
+- For beta:
+    - Lambda execution logs: [https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/$252Faws$252Flambda$252Fccmt-cff-api-v2-beta](https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/$252Faws$252Flambda$252Fccmt-cff-api-v2-beta)
+    - API Gateway execution logs: [https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/API-Gateway-Execution-Logs_5fd3dqj2dc$252Fv2](https://us-east-1.console.aws.amazon.com/cloudwatch/home?region=us-east-1#logsV2:log-groups/log-group/API-Gateway-Execution-Logs_5fd3dqj2dc$252Fv2)
 
 ## Deployment infrastructure details
 
