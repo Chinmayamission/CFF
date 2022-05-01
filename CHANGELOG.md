@@ -1,3 +1,22 @@
+## 7.0.0
+
+* Use CI to deploy google sheets lambda scripts by @epicfaace in https://github.com/Chinmayamission/CFF/pull/288
+* Trim login emails by @epicfaace in https://github.com/Chinmayamission/CFF/pull/291
+* Fix prod release pipeline by @epicfaace in https://github.com/Chinmayamission/CFF/pull/294
+* Fix #292 by upgrading chalice by @epicfaace in https://github.com/Chinmayamission/CFF/pull/293
+* Upgrade to python 3.9 by @epicfaace in https://github.com/Chinmayamission/CFF/pull/298
+
+* build(deps): bump aws-sdk from 2.425.0 to 2.814.0 by @dependabot in https://github.com/Chinmayamission/CFF/pull/279
+* build(deps): bump ws from 5.2.2 to 5.2.3 by @dependabot in https://github.com/Chinmayamission/CFF/pull/282
+* build(deps): bump ua-parser-js from 0.7.19 to 0.7.31 by @dependabot in https://github.com/Chinmayamission/CFF/pull/281
+* build(deps): bump color-string from 1.5.3 to 1.6.0 by @dependabot in https://github.com/Chinmayamission/CFF/pull/280
+* build(deps): bump url-parse from 1.5.3 to 1.5.10 by @dependabot in https://github.com/Chinmayamission/CFF/pull/285
+* build(deps): bump y18n from 4.0.0 to 4.0.3 by @dependabot in https://github.com/Chinmayamission/CFF/pull/286
+* build(deps): bump async from 2.6.2 to 2.6.4 by @dependabot in https://github.com/Chinmayamission/CFF/pull/300
+* build(deps): bump bson from 1.1.1 to 1.1.6 by @dependabot in https://github.com/Chinmayamission/CFF/pull/261
+* build(deps): bump lodash from 4.17.19 to 4.17.21 by @dependabot in https://github.com/Chinmayamission/CFF/pull/258
+
+
 ## 6.3.3
 * build(deps): bump url-parse from 1.4.7 to 1.5.3 by @dependabot in https://github.com/Chinmayamission/CFF/pull/275
 * Upgrade dependencies to fix vulnerability in babel by @epicfaace in https://github.com/Chinmayamission/CFF/pull/277
