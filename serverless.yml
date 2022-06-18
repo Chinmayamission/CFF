@@ -15,6 +15,7 @@
 # sls invoke local --function sheets --stage beta
 # sls deploy --stage beta
 
+# sls invoke local --function sheets --stage prod
 # sls deploy --stage prod
 # Run it once:
 # sls invoke --function sheets --stage prod
@@ -70,10 +71,11 @@ provider:
 
 functions:
   sheets:
-    handler: scripts/backend/handler.hello
-    timeout: 60
+    handler: scripts/backend/sheets.sheets
+    timeout: 900
     events:
       - schedule: rate(1 hour)
+    reservedConcurrency: 1
 
 custom:
   webpack:

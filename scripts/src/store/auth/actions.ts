@@ -133,7 +133,7 @@ export const setLoginUrl = (loginUrl: string) => ({
 export function signIn(data) {
   return dispatch => {
     dispatch(loadingStart());
-    Auth.signIn(data.email.toLowerCase(), data.password)
+    Auth.signIn(data.email.toLowerCase().trim(), data.password)
       .then(() => localStorage.removeItem("jwt"))
       .then(() => dispatch(checkLoginStatus()))
       .catch(e => dispatch(onAuthError(e.message)))
@@ -149,10 +149,10 @@ export function signUp(data) {
     }
     dispatch(loadingStart());
     Auth.signUp({
-      username: data.email.toLowerCase(),
+      username: data.email.toLowerCase().trim(),
       password: data.password,
       attributes: {
-        email: data.email.toLowerCase(),
+        email: data.email.toLowerCase().trim(),
         name: "User",
         website: (getState().auth as IAuthState).loginUrl // Link for confirmation email
       }
