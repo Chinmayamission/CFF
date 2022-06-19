@@ -1,5 +1,4 @@
 import React from "react";
-const FileWidget = require("@rjsf/core/lib/components/widgets/FileWidget");
 
 /*
 From https://github.com/TreeHacks/application-portal-frontend/blob/4d5c542498499c18bba1d0e3cfded0ff50964464/src/FormPage/FormPage.tsx#L64
@@ -40,6 +39,7 @@ const FilePreviewWidget = props => {
 
 const FileInputAndPreviewWidget = props => {
   const output = [];
+  const { FileWidget } = props.registry;
 
   if (props.value) {
     output.push(
