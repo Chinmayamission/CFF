@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Form from "react-jsonschema-form";
+import Form from "@rjsf/core";
 import "./SubmitInputGroupWidget.scss";
 
 export default ({ schema, uiSchema, value, onChange, id }) => {

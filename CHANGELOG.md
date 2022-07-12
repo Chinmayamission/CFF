@@ -1,3 +1,7 @@
+## 7.1.0
+
+* Upgrade react-jsonschema-form to 4.2.0
+
 ## 7.0.0
 
 * Use CI to deploy google sheets lambda scripts by @epicfaace in https://github.com/Chinmayamission/CFF/pull/288
