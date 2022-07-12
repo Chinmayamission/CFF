@@ -5,7 +5,6 @@ from chalicelib.util.formSubmit.util import calculate_price
 import unittest
 from unittest import mock
 from datetime import date
-from freezegun import freeze_time
 
 
 class TestCalculatePrice(unittest.TestCase):
@@ -209,6 +208,11 @@ class TestCalculatePrice(unittest.TestCase):
         expression = "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")"
         self.assertEqual(calculate_price(expression, data), 0)
 
+    def test_countarray_multiple(self):
+        data = {"children": [{"grade": "7"}, {"grade": "5"}], "paymentMethod": "check"}
+        expression = "(cff_countArray(CFF_FULL_children,\"grade != 'prek' \") >= 2)*$paymentMethod:check * (cff_countArray(CFF_FULL_children,\"grade != 'prek' \")-1)"
+        self.assertEqual(calculate_price(expression, data), 1)
+
     @unittest.skip("Testing")
     def test_today(self):
         with mock.patch("datetime.date") as mock_date:
@@ -293,7 +297,7 @@ class TestCalculatePrice(unittest.TestCase):
             calculate_price(
                 "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
                 {},
-                False,
+                True,
                 {"date_created": "2019-09-18T16:54:26.238Z"},
             ),
             1,
@@ -302,7 +306,7 @@ class TestCalculatePrice(unittest.TestCase):
             calculate_price(
                 "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
                 {},
-                False,
+                True,
                 {"date_created": "2019-09-18T16:52:26.238Z"},
             ),
             0,
@@ -311,50 +315,11 @@ class TestCalculatePrice(unittest.TestCase):
             calculate_price(
                 "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
                 {},
-                False,
+                True,
                 {"date_created": "2019-09-18T18:54:26.238Z"},
             ),
             0,
         )
-        # When date_created is unspecified
-        freezer = freeze_time("2019-09-18T16:54:26.238Z")
-        freezer.start()
-        self.assertEqual(
-            calculate_price(
-                "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
-                {},
-                False,
-                {},
-            ),
-            1,
-        )
-        freezer.stop()
-
-        freezer = freeze_time("2019-09-18T16:52:26.238Z")
-        freezer.start()
-        self.assertEqual(
-            calculate_price(
-                "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
-                {},
-                False,
-                {},
-            ),
-            0,
-        )
-        freezer.stop()
-
-        freezer = freeze_time("2019-09-18T18:54:26.238Z")
-        freezer.start()
-        self.assertEqual(
-            calculate_price(
-                "cff_createdBetween('2019-09-18T16:53:26.238Z', '2019-09-18T18:53:26.238Z')",
-                {},
-                False,
-                {},
-            ),
-            0,
-        )
-        freezer.stop()
 
     @unittest.skip("not implemented yet")
     def test_arbitrary_strings(self):

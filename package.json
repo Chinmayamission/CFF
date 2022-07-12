@@ -9,6 +9,7 @@
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --progress --config webpack.beta.js",
     "build-sheets": "serverless package --stage beta",
+    "build-expressionparser": "webpack --progress --config webpack.expressionparser.js",
     "deploy": "CFF_DEPLOY_TO=beta pipenv run python deploy.py",
     "deploy-sheets": "serverless deploy --stage beta",
     "build-prod": "webpack --progress --config webpack.prod.js",
@@ -55,7 +56,7 @@
     "html-webpack-plugin": "^3.0.6",
     "husky": "^3.0.0",
     "jest": "^24.5.0",
-    "lint-staged": "^9.1.0",
+    "lint-staged": "^10.5.4",
     "lodash.assign": "^4.2.0",
     "mini-css-extract-plugin": "^0.4.0",
     "mockdate": "^2.0.3",
@@ -207,8 +208,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --quiet --fix",
-      "git add"
+      "eslint --quiet --fix"
     ]
   }
 }
