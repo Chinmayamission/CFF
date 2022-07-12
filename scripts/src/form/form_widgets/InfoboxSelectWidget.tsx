@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 // From RJSF -- todo: add a patch to RJSF which allows us to customize this, rather than using a custom widget
-import { asNumber, guessType } from "react-jsonschema-form/lib/utils";
+import { utils } from "@rjsf/core";
 import Infobox from "../components/Infobox";
 import { get } from "lodash";
 
+const { asNumber, guessType } = utils;
 const nums = new Set(["number", "integer"]);
 
 /**

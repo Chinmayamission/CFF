@@ -3,7 +3,7 @@ import { filter, assign, get, cloneDeep, find, isArray } from "lodash";
 import { IDataOptionView, IGroupOption } from "../FormEdit/FormEdit.d";
 import { Schema } from "../../form/interfaces";
 import { Object } from "core-js";
-import Form from "react-jsonschema-form";
+import Form from "@rjsf/core";
 import { filterCaseInsensitive } from "../ResponseTable/filters";
 import { dataToSchemaPath } from "../util/SchemaUtil";
 import ExpressionParser from "../../common/ExpressionParser";
@@ -316,14 +316,16 @@ export namespace Headers {
         const enumNames = schemaProperty.enumNames || schemaProperty.enum;
         headerObj.Filter = ({ filter, onChange }) => (
           <Form
-            schema={{
-              enum: [
-                "CFF_FILTER_NONE",
-                "CFF_FILTER_DEFINED",
-                ...schemaProperty.enum
-              ],
-              enumNames: ["None", "Defined", ...enumNames]
-            }}
+            schema={
+              {
+                enum: [
+                  "CFF_FILTER_NONE",
+                  "CFF_FILTER_DEFINED",
+                  ...schemaProperty.enum
+                ],
+                enumNames: ["None", "Defined", ...enumNames]
+              } as any
+            } // https://github.com/rjsf-team/react-jsonschema-form/issues/2761
             uiSchema={{ "ui:placeholder": "All", "ui:widget": "select" }}
             formData={filter && filter.value}
             onChange={e => onChange(e.formData)}
