@@ -27,7 +27,7 @@ jobs:
           key: pip-${{ hashFiles('**/Pipfile.lock') }}
           restore-keys: |
             pip-
-      - run: npm ci && pip install pipenv && pipenv install
+      - run: npm ci && npm run build-expressionparser && pip install pipenv && pipenv install
       - run: pipenv install
         working-directory: lambda
       - run: npm run deploy-prod

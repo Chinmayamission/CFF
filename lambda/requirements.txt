@@ -14,7 +14,6 @@ jsonpatch==1.23
 jsonpointer==2.0
 MarkupSafe==1.1.1
 pdfkit==0.6.1
-py-expression-eval==0.3.9
 pycryptodomex==3.14.1
 pydash==5.1.0
 pymodm==0.4.3

@@ -1,12 +1,17 @@
-from py_expression_eval import Parser
+from asyncio.subprocess import PIPE
+import json
+import subprocess
+import tempfile
 import flatdict
 import re
+import os
 from collections import defaultdict
 from pydash.objects import get
 from math import ceil
 import copy
 import babel.dates
 from datetime import datetime
+from pathlib import Path
 
 DELIM_VALUE = "D34hSK"
 SPACE_VALUE = "ASIDJa"
@@ -113,31 +118,31 @@ def calculate_price(expressionString, data, numeric=True, responseMetadata={}):
     todo: base 64 encode here.
 
     """
-    from .defaultContext import create_default_context
-
-    if ":" in expressionString:
-        expressionString = expressionString.replace(":", DELIM_VALUE)
-    expressionString = expressionString.replace("$", "")
-    parser = Parser()
-    expr = parser.parse(expressionString)
-    context = {}
-    for variable in expr.variables():
-        escapedVariable = variable.replace(".", DOT_VALUE)
-        if escapedVariable.startswith("CFF_FULL_"):
-            _, actual_variable = escapedVariable.split("CFF_FULL_")
-            context[escapedVariable] = parse_number_formula(
-                data, actual_variable.replace(DOT_VALUE, "."), False
+    # Call the javascript expressionparser code.
+    input_data = {
+        "expressionString": expressionString,
+        "data": data,
+        "numeric": numeric,
+        "responseMetadata": responseMetadata,
+    }
+    with tempfile.NamedTemporaryFile(mode="w+") as f:
+        json.dump(input_data, f)
+        f.flush()
+        try:
+            proc = subprocess.run(
+                ["node", "ExpressionParser-backend-entrypoint.js", "calculate-price", f.name],
+                check=True,
+                stdout=PIPE,
+                stderr=PIPE,
+                cwd=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../dist")),
             )
-        else:
-            context[escapedVariable] = parse_number_formula(
-                data, escapedVariable.replace(DOT_VALUE, ".")
-            )
-        expressionString = expressionString.replace(variable, escapedVariable)
-    context = dict(context, **create_default_context(numeric, responseMetadata))
-    price = parser.parse(expressionString).evaluate(context)
-    if not numeric:
-        return price
-    return ceil(float(price) * 100) / 100
+            _, result_path = proc.stdout.strip().decode().split("Result Path: ", 1)
+            with open(result_path) as rf:
+                output = json.load(rf)
+            os.remove(result_path)
+            return output
+        except subprocess.CalledProcessError as e:
+            raise Exception("Call to calculate-price failed: " + e.stderr.decode())
 
 
 def format_payment(total, currency="USD"):

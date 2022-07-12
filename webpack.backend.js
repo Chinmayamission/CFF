@@ -1,3 +1,4 @@
+// Bundles code required to deploy AWS lambda Google Sheets sync function.
 const slsw = require("serverless-webpack");
 const webpack = require("webpack");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");

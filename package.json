@@ -9,6 +9,7 @@
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack --progress --config webpack.beta.js",
     "build-sheets": "serverless package --stage beta",
+    "build-expressionparser": "webpack --progress --config webpack.expressionparser.js",
     "deploy": "CFF_DEPLOY_TO=beta pipenv run python deploy.py",
     "deploy-sheets": "serverless deploy --stage beta",
     "build-prod": "webpack --progress --config webpack.prod.js",
@@ -207,8 +208,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
-      "eslint --quiet --fix",
-      "git add"
+      "eslint --quiet --fix"
     ]
   }
 }
