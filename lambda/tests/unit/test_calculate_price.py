@@ -182,7 +182,7 @@ class TestCalculatePrice(unittest.TestCase):
             "offerings": {"onetimeofferings": ["panchamritaabhisheka", "ganapatihoma"]}
         }
         price = calculate_price("$offerings.onetimeofferings:ganapatihoma", data)
-        self.assertEqual(price, 3)
+        self.assertEqual(price, 1.0)
 
     def test_yeardiff_calc(self):
         data = {"dob": "1999-01-02"}
