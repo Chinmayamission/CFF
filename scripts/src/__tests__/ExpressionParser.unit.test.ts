@@ -50,6 +50,18 @@ describe("calculate_price", () => {
       )
     ).toEqual(2);
   });
+  test("array count equality of items", () => {
+    expect(
+      ExpressionParser.calculate_price(
+        "$offerings.onetimeofferings:ganapatihoma",
+        {
+          offerings: {
+            onetimeofferings: ["panchamritaabhisheka", "ganapatihoma"]
+          }
+        }
+      )
+    ).toEqual(1);
+  });
   test("array calculations with multiple, repeated subtraction", () => {
     expect(
       ExpressionParser.calculate_price(

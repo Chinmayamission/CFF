@@ -177,6 +177,13 @@ class TestCalculatePrice(unittest.TestCase):
         )
         self.assertEqual(price, 3)
 
+    def test_array_count_equality_of_items(self):
+        data = {
+            "offerings": {"onetimeofferings": ["panchamritaabhisheka", "ganapatihoma"]}
+        }
+        price = calculate_price("$offerings.onetimeofferings:ganapatihoma", data)
+        self.assertEqual(price, 1.0)
+
     def test_yeardiff_calc(self):
         data = {"dob": "1999-01-02"}
         price = calculate_price("cff_yeardiff('2019-09-01', dob)", data)
