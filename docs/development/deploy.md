@@ -87,3 +87,13 @@ cff-beta@ccmt-accounts.iam.gserviceaccount.com - credentials stored in the SSM v
 cff-prod@ccmt-accounts.iam.gserviceaccount.com - credentials stored in the SSM variable `CFF_GOOGLE_SHEETS_KEY_PROD`
 
 These service accounts are stored in the `ccmt-accounts` GCP project, which itops.ccmt@chinmayamission.com has access to.
+
+## Troubleshooting steps
+
+### Verify email
+
+Sometimes, if a user's email is unverified, they may not be able to reset their password and they may get an error, "Cannot reset password for the user as there is no registered/verified email or phone_number." To fix this, you should manually verify their email address by running:
+
+```bash
+aws cognito-idp admin-update-user-attributes --user-pool-id us-east-1_kcpcLxLzn --username [cognito user id] --user-attributes Name="email_verified",Value="true"
+```
