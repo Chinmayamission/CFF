@@ -694,6 +694,56 @@ class FormSubmit(BaseTestCase):
         )
         self.delete_form(formId)
 
+    def test_submit_form_postprocess(self):
+        formId = self.create_form()
+        schema = {"type": "object"}
+        uiSchema = {"a": "b"}
+        formOptions = {
+            "postprocess": {
+                "patches": [
+                    {
+                        "type": "patch",
+                        "value": [
+                            {"op": "remove", "path": "/membership_type_previous"}
+                        ],
+                    },
+                    {
+                        "type": "patch",
+                        "value": [
+                            {"op": "test", "path": "/parivar_active", "value": True},
+                            {
+                                "op": "copy",
+                                "from": "/membership_type",
+                                "path": "/membership_type_previous",
+                            },
+                        ],
+                    },
+                ]
+            }
+        }
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
+
+        responseId, submit_res = self.submit_form(
+            formId,
+            {
+                "parivar_active": True,
+                "membership_type_previous": "none",
+                "membership_type": "parivar_yearly",
+            },
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(
+            submit_res["value"],
+            {
+                "parivar_active": True,
+                "membership_type_previous": "parivar_yearly",
+                "membership_type": "parivar_yearly",
+            },
+        )
+        self.delete_form(formId)
+
     def test_submit_form_paymentInfo_description_template(self):
         formId = self.create_form()
         schema = {
