@@ -482,3 +482,46 @@ class FormIpn(BaseTestCase):
             detail_history_one["id"],
             "txn_type is not supported and must be manually handled.",
         )
+
+    @responses.activate
+    def test_ipn_subscr_signup(self):
+        responses.add(
+            responses.POST,
+            "https://www.sandbox.paypal.com/cgi-bin/webscr",
+            body="VERIFIED",
+            status=200,
+        )
+        responseId = str(ObjectId())
+        response = Response(
+            id=ObjectId(responseId),
+            form=self.formId,
+            date_modified=datetime.datetime.now(),
+            date_created=datetime.datetime.now(),
+            value={"a": "b", "email": "success@simulator.amazonses.com"},
+            paymentInfo={
+                "total": 0.5,
+                "currency": "USD",
+                "items": [
+                    {"name": "a", "description": "b", "amount": 0.25, "quantity": 1},
+                    {"name": "a2", "description": "b2", "amount": 0.25, "quantity": 1},
+                ],
+            },
+        ).save()
+        ipn_value = f"txn_type=subscr_signup&subscr_id=I-XXX&last_name=Last&residence_country=US&mc_currency=USD&item_name=Parivar Yearly&business=aramaswamis-facilitator@gmail.com&amount3=1200.00&recurring=1&address_street=XXX&verify_sign=A5-XXX-XXX&payer_status=verified&payer_email=XXX@gmail.com&address_status=confirmed&first_name=XXX&receiver_email=aramaswamis-facilitator@gmail.com&address_country_code=US&payer_id=XXX&address_city=XXX&reattempt=1&address_state=XX&subscr_date=06:07:42 Sep 10, 2022 PDT&address_zip=XXX&custom={responseId}&charset=windows-1252&notify_version=3.9&period3=1 Y&address_country=United States&mc_amount3=1200.00&address_name=XXX XXX&ipn_track_id=XXXX"
+        response = self.send_ipn(responseId, ipn_value)
+
+        response = self.view_response(responseId)
+
+        self.assertTrue("payment_status_detail" not in response)
+        self.assertEqual(len(response["payment_trail"]), 1)
+        detail_history_one = response["payment_trail"][0]
+        detail_history_one.pop("date")
+        self.assertEqual(detail_history_one["status"], "SUCCESS")
+        self.assertEqual(
+            detail_history_one["id"],
+            "subscr_signup",
+        )
+        self.assertEqual(
+            detail_history_one["value"]["custom"],
+            responseId,
+        )
