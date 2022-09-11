@@ -507,7 +507,7 @@ class FormIpn(BaseTestCase):
                 ],
             },
         ).save()
-        ipn_value = f"txn_type=subscr_signup&subscr_id=I-XXX&last_name=Last&residence_country=US&mc_currency=USD&item_name=Parivar Yearly&business=XXX@gmail.com&amount3=1200.00&recurring=1&address_street=XXX&verify_sign=A5-XXX-XXX&payer_status=verified&payer_email=XXX@gmail.com&address_status=confirmed&first_name=XXX&receiver_email=XXX@gmail.com&address_country_code=US&payer_id=XXX&address_city=XXX&reattempt=1&address_state=XX&subscr_date=06:07:42 Sep 10, 2022 PDT&address_zip=XXX&custom={responseId}&charset=windows-1252&notify_version=3.9&period3=1 Y&address_country=United States&mc_amount3=1200.00&address_name=XXX XXX&ipn_track_id=XXXX"
+        ipn_value = f"txn_type=subscr_signup&subscr_id=I-XXX&last_name=Last&residence_country=US&mc_currency=USD&item_name=Parivar Yearly&business=aramaswamis-facilitator@gmail.com&amount3=1200.00&recurring=1&address_street=XXX&verify_sign=A5-XXX-XXX&payer_status=verified&payer_email=XXX@gmail.com&address_status=confirmed&first_name=XXX&receiver_email=aramaswamis-facilitator@gmail.com&address_country_code=US&payer_id=XXX&address_city=XXX&reattempt=1&address_state=XX&subscr_date=06:07:42 Sep 10, 2022 PDT&address_zip=XXX&custom={responseId}&charset=windows-1252&notify_version=3.9&period3=1 Y&address_country=United States&mc_amount3=1200.00&address_name=XXX XXX&ipn_track_id=XXXX"
         response = self.send_ipn(responseId, ipn_value)
 
         response = self.view_response(responseId)
