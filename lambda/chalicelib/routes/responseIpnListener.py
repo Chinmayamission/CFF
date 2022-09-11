@@ -197,15 +197,15 @@ def response_ipn_listener(responseId):
         expected_receiver_email = form.formOptions.paymentMethods["paypal_classic"][
             "business"
         ]
-        if paramDict.get("txn_type", "") in (
-            "subscr_signup",
+        txn_type = paramDict.get("txn_type", "")
+        if txn_type in (
             "subscr_cancel",
             "subscr_eot",
             "subscr_modify",
             # "subscr_payment",
             "subscr_failed",
         ):
-            # Don't handle subscription signups, cancels, expiries.
+            # Don't handle subscription cancels, expiries.
             # TODO: actually handle these.
             raise_ipn_error("txn_type is not supported and must be manually handled.")
             return ""
@@ -215,6 +215,21 @@ def response_ipn_listener(responseId):
                     paramDict["receiver_email"], expected_receiver_email
                 )
             )
+            return ""
+        if txn_type == "subscr_signup":
+            # If signing up for a new subscription, just record it.
+            response.payment_trail.append(
+                PaymentTrailItem(
+                    value=paramDict,
+                    status="SUCCESS",
+                    date=datetime.datetime.now(),
+                    date_created=datetime.datetime.now(),
+                    date_modified=datetime.datetime.now(),
+                    method="paypal_ipn",
+                    id="subscr_signup",
+                )
+            )
+            response.save()
             return ""
         txn_id = paramDict.get("txn_id", None)
         if not txn_id:
