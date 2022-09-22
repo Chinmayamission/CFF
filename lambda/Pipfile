@@ -31,7 +31,7 @@ pymongo = {extras = ["tls"]}
 pymodm = "==0.4.3"
 python-jose = "*"
 pycryptodomex = "*"
-pip = "==10"
+pip = "==21.1"
 jsonpatch = "*"
 moto = "*"
 mongomock = {editable = true,git = "https://github.com/mongomock/mongomock.git"}
