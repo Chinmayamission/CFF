@@ -1,3 +1,7 @@
+## 7.1.1
+
+* Handle subscr_signup changes in paypal ipn handler (https://github.com/Chinmayamission/CFF/pull/309)
+
 ## 7.1.0
 
 * Upgrade react-jsonschema-form to 4.2.0
