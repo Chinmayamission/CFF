@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 "beautifulsoup4" = "==4.6.0"
 blinker = "==1.4"
-certifi = "==2018.1.18"
+certifi = "==2022.12.7"
 chalice = "==1.26.6"
 chardet = "==3.0.4"
 cssutils = "==1.0.2"
