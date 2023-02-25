@@ -94,11 +94,11 @@ class FormSubmit(BaseTestCase):
         self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
         self.assertIn("paymentMethods", submit_res)
-
-        """View response."""
+        
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        self.assertEqual(response.modify_link, f"http://modify?responseId={responseId}")
         response = self.view_response(responseId)
         self.assertEqual(response["value"], ONE_FORMDATA)
-        self.assertEqual(response["modify_link"], f"http://modify?responseId={responseId}")
 
 
     def test_submit_form_modify_link_configured(self):
@@ -119,10 +119,10 @@ class FormSubmit(BaseTestCase):
             self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
             self.assertIn("paymentMethods", submit_res)
 
-            """View response."""
+            response = Response.objects.get({"_id": ObjectId(responseId)})
+            self.assertEqual(response.modify_link, f"http://modify2?responseId={responseId}")
             response = self.view_response(responseId)
             self.assertEqual(response["value"], ONE_FORMDATA)
-            self.assertEqual(response["modify_link"], f"http://modify2?responseId={responseId}")
 
 
     def test_submit_form_currencyTemplate(self):
