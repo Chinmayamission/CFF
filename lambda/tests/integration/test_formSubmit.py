@@ -87,6 +87,44 @@ class FormSubmit(BaseTestCase):
         response = self.view_response(responseId)
         self.assertEqual(response["value"], ONE_FORMDATA)
 
+
+    def test_submit_form_modify_link_custom(self):
+        """Submitting a form and specifying modifyLink should save that link to the response."""
+        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA, extra_body={"modifyLink": "http://modify"})
+        self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
+        self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
+        self.assertIn("paymentMethods", submit_res)
+
+        """View response."""
+        response = self.view_response(responseId)
+        self.assertEqual(response["value"], ONE_FORMDATA)
+        self.assertEqual(response["modify_link"], f"http://modify?responseId={responseId}")
+
+
+    def test_submit_form_modify_link_configured(self):
+        """Submitting a form that already has formOptions.modifyLink configured should use that link as the response."""
+        formId = self.create_form()
+        self.edit_form(
+            formId,
+            {
+                "schema": ONE_SCHEMA,
+                "uiSchema": ONE_UISCHEMA,
+                "formOptions": dict(ONE_FORMOPTIONS, modifyLink="http://modify2"),
+            },
+        )
+
+        for eb in [{"modifyLink": "http://modify3"}, {}]:
+            responseId, submit_res = self.submit_form(formId, ONE_FORMDATA, extra_body=eb)
+            self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
+            self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
+            self.assertIn("paymentMethods", submit_res)
+
+            """View response."""
+            response = self.view_response(responseId)
+            self.assertEqual(response["value"], ONE_FORMDATA)
+            self.assertEqual(response["modify_link"], f"http://modify2?responseId={responseId}")
+
+
     def test_submit_form_currencyTemplate(self):
         formOptions = {
             "paymentInfo": {
