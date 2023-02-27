@@ -1,3 +1,7 @@
+## 7.2.0
+
+* Allow configuring `formOptions.modifyLink`
+
 ## 7.1.1
 
 * Handle subscr_signup changes in paypal ipn handler (https://github.com/Chinmayamission/CFF/pull/309)
