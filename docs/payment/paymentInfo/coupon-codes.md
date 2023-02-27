@@ -1,4 +1,4 @@
-Coupon codes are specified in `paymentInfo.items`.
+Coupon codes need to be specified both in the field (a string field that inputs a coupon code) and also a specification in `paymentInfo.items`. Note that these codes are not secure, as anyone could figure out the code by looking at the schema.
 
 Regular coupon code called CODE for 80% off the total price:
 ```

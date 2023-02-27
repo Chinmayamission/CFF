@@ -61,6 +61,7 @@ nav:
             Overview: payment/paymentInfo/overview.md
             Payment Expressions: payment/paymentInfo/expressions.md
             Recurring Payments: payment/paymentInfo/recurring.md
+            Coupon Codes: payment/paymentInfo/coupon-codes.md
           Payment Methods:
             Overview: payment/paymentMethods/overview.md
             PayPal: payment/paymentMethods/paypal.md
