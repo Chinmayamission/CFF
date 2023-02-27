@@ -96,7 +96,7 @@ class FormSubmit(BaseTestCase):
         self.assertIn("paymentMethods", submit_res)
         
         response = Response.objects.get({"_id": ObjectId(responseId)})
-        self.assertEqual(response.modifyLink, f"http://modify?responseId={responseId}")
+        self.assertEqual(response.modify_link, f"http://modify?responseId={responseId}")
         response = self.view_response(responseId)
         self.assertEqual(response["value"], ONE_FORMDATA)
 
@@ -120,7 +120,7 @@ class FormSubmit(BaseTestCase):
             self.assertIn("paymentMethods", submit_res)
 
             response = Response.objects.get({"_id": ObjectId(responseId)})
-            self.assertEqual(response.modifyLink, f"http://modify2?responseId={responseId}")
+            self.assertEqual(response.modify_link, f"http://modify2?responseId={responseId}")
             response = self.view_response(responseId)
             self.assertEqual(response["value"], ONE_FORMDATA)
 
