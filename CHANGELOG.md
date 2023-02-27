@@ -1,6 +1,6 @@
 ## 7.2.0
 
-* Allow configuring `formOptions.modifyLink`
+* Allow configuring the link to modify responses by specifying `formOptions.modifyLink`.
 
 ## 7.1.1
 
