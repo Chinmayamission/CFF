@@ -61,6 +61,9 @@ class FormOptions(EmbeddedMongoModel):
     counter = fields.DictField(blank=True)
     dashboardOptions = fields.DictField(blank=True)
     responseListApiKey = fields.CharField(blank=True)
+    # Link that the user can use to make modifications to the form. Should be set especially
+    # if the form is hosted on a custom domain (such as an iframe).
+    modifyLink = fields.CharField(blank=True)
 
 
 class Form(BaseMongoModel):
