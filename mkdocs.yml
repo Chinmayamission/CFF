@@ -80,6 +80,7 @@ nav:
         Admin fields: formOptions/admin-fields.md
         Omit Extra Data: formOptions/omitExtraData.md
         Theme: formOptions/theme.md
+        Modify Link: formOptions/modifyLink.md
   - Using the API:
       API Quickstart: api/api-quickstart.md
       Response Access: api/response-access.md
