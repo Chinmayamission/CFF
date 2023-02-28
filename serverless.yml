@@ -11,20 +11,21 @@
 #
 # Happy Coding!
 
-# AWS_PROFILE=default
-# sls invoke local --function sheets --stage beta
-# sls deploy --stage beta
+# export AWS_PROFILE=cff
+# npx sls invoke local --function sheets --stage beta
+# npx sls deploy --stage beta
 
-# sls invoke local --function sheets --stage prod
-# sls deploy --stage prod
+# npx sls invoke local --function sheets --stage prod
+# npx sls deploy --stage prod
 # Run it once:
-# sls invoke --function sheets --stage prod
+# npx sls invoke --function sheets --stage prod
+# npx sls logs --function sheets --stage prod
 
 service: ccmt-cff-backend-js # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
-# frameworkVersion: "=X.X.X"
+frameworkVersion: "=2.72.3"
 
 provider:
   name: aws
