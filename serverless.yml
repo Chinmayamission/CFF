@@ -29,7 +29,7 @@ frameworkVersion: "=2.72.3"
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
 
 # you can overwrite defaults here
 #  stage: dev
@@ -75,7 +75,7 @@ functions:
     handler: scripts/backend/sheets.sheets
     timeout: 900
     events:
-      - schedule: rate(1 hour)
+      - schedule: rate(20 minutes)
     reservedConcurrency: 1
 
 custom:

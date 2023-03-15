@@ -68,6 +68,9 @@ interface IDistanceMatrixRow {
   }[];
 }
 
+// lastFormProcessedDateModified is stored as a global variable, and marks where the script should start when looking for forms. Since the script cannot go through all forms without timing out, keeping track of lastFormProcessedDateModified allows the script to resume where it stopped when it times out on a particular form.
+let lastFormProcessedDateModified = new Date(0);
+
 export const sheets = async (event, context) => {
   try {
     var ssm = new AWS.SSM();
@@ -133,10 +136,14 @@ export const sheets = async (event, context) => {
       return spreadsheetId;
     };
 
+    console.log(
+      `Searching for forms created since lastFormProcessedDateModified: ${lastFormProcessedDateModified}`
+    );
     let forms = await coll
       .find({
         _cls: "chalicelib.models.Form",
-        "formOptions.dataOptions.export": { $exists: true }
+        "formOptions.dataOptions.export": { $exists: true },
+        date_modified: { $gte: lastFormProcessedDateModified }
       })
       .sort({ date_modified: +1 }) // sort from least recently modified to most recently modified.
       .toArray();
@@ -151,7 +158,14 @@ export const sheets = async (event, context) => {
         if (googleSheetsDataOption.type !== "google_sheets") {
           continue;
         }
-        console.log("Handling form:", form.name, "with id:", form._id);
+        console.log(
+          "Handling form:",
+          form.name,
+          "with id:",
+          form._id,
+          "date modified",
+          form.date_modified
+        );
         let filter = get(googleSheetsDataOption, "filter", {});
         let responses = await coll
           .find({
@@ -448,9 +462,13 @@ export const sheets = async (event, context) => {
         }
         await new Promise((resolve, reject) => setTimeout(resolve, 2000));
       }
+      // Form finished
+      lastFormProcessedDateModified = form.date_modified;
       await new Promise((resolve, reject) => setTimeout(resolve, 500));
     }
-
+    // If we got here so far without the function timing out, reset lastFormProcessedDateModified to zero so that we can start over again in the next function invocation.
+    // eslint-disable-next-line require-atomic-updates
+    lastFormProcessedDateModified = new Date(0);
     return {
       message: "Go! Google sheets sync completed successfully.",
       input: event,
