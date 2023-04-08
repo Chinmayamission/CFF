@@ -73,9 +73,9 @@ provider:
 functions:
   sheets:
     handler: scripts/backend/sheets.sheets
-    timeout: 900
+    timeout: 60
     events:
-      - schedule: rate(20 minutes)
+      - schedule: rate(3 hours)
     reservedConcurrency: 1
 
 custom:
