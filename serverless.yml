@@ -13,10 +13,10 @@
 
 # export AWS_PROFILE=cff
 # npx sls invoke local --function sheets --stage beta
-# npx sls deploy --stage beta
+# npm run deploy-sheets
 
 # npx sls invoke local --function sheets --stage prod
-# npx sls deploy --stage prod
+# npm run deploy-prod-sheets
 # Run it once:
 # npx sls invoke --function sheets --stage prod
 # npx sls logs --function sheets --stage prod

@@ -1,3 +1,7 @@
+## 7.2.1
+
+* Sheets sync function: upgrade to node 14, adjust timeout / rate, only run sheets script for om run for now
+
 ## 7.2.0
 
 * Allow configuring the link to modify responses by specifying `formOptions.modifyLink`.
