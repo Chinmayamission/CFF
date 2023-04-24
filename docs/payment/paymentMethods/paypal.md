@@ -32,3 +32,11 @@ The only field that is required is `business` -- this is the email of the PayPal
     By default, PayPal accounts are configured such that they do not allow guest payments -- meaning that users will need to sign up for an account in order to check out. If you would like to enable guest payments, you must turn this setting on in your account: see [Enable guest payments](https://developer.paypal.com/docs/integration/direct/payments/guest-payments/).
 
 The other fields are all optional. Note that some of the fields (such as `first_name` and `last_name`), if set, need to be set to payment expressions. This way, they will be dynamically set based on form data. This is used to prefill the guest checkout information fields for users who do use guest checkout to pay with PayPal.
+
+## Troubleshooting
+
+If IPNs are not working on PayPal, try going to:
+
+- https://www.paypal.com/merchantnotification/ipn/history to check IPN history
+
+- https://www.paypal.com/merchantnotification/ipn/preference to enable IPNs
