@@ -20,6 +20,7 @@ exports[`AddressAutocompleteField renders autocomplete properly 1`] = `
           Form
         </label>
         <input
+          autocomplete="new-password"
           class="form-control"
           type="text"
         />
