@@ -1,4 +1,5 @@
 import React from "react";
+import { getDistance, findNearest } from "geolib";
 import { Helmet } from "react-helmet";
 import { get, find } from "lodash";
 import CustomForm from "../CustomForm";
@@ -8,6 +9,68 @@ declare const google: any;
 
 // Uses from https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
 // TODO: bias towards location as shown in the link above.
+
+const abbr = state =>
+  ({
+    Alabama: "AL",
+    Alaska: "AK",
+    Arizona: "AZ",
+    Arkansas: "AR",
+    California: "CA",
+    Colorado: "CO",
+    Connecticut: "CT",
+    Delaware: "DE",
+    Florida: "FL",
+    Georgia: "GA",
+    Hawaii: "HI",
+    Idaho: "ID",
+    Illinois: "IL",
+    Indiana: "IN",
+    Iowa: "IA",
+    Kansas: "KS",
+    Kentucky: "KY",
+    Louisiana: "LA",
+    Maine: "ME",
+    Maryland: "MD",
+    Massachusetts: "MA",
+    Michigan: "MI",
+    Minnesota: "MN",
+    Mississippi: "MS",
+    Missouri: "MO",
+    Montana: "MT",
+    Nebraska: "NE",
+    Nevada: "NV",
+    "New Hampshire": "NH",
+    "New Jersey": "NJ",
+    "New Mexico": "NM",
+    "New York": "NY",
+    "North Carolina": "NC",
+    "North Dakota": "ND",
+    Ohio: "OH",
+    Oklahoma: "OK",
+    Oregon: "OR",
+    Pennsylvania: "PA",
+    "Rhode Island": "RI",
+    "South Carolina": "SC",
+    "South Dakota": "SD",
+    Tennessee: "TN",
+    Texas: "TX",
+    Utah: "UT",
+    Vermont: "VT",
+    Virginia: "VA",
+    Washington: "WA",
+    "West Virginia": "WV",
+    Wisconsin: "WI",
+    Wyoming: "WY"
+  }[state] || state);
+
+interface IDistanceMatrixRow {
+  elements: {
+    distance: { text: string; value: number };
+    duration: { text: string; value: number };
+    status: string;
+  }[];
+}
 
 interface IPlaceResult {
   address_components: {
@@ -46,7 +109,7 @@ function parsePlace(place: IPlaceResult) {
   return {
     line1: [parts.street_number, parts.route].filter(e => e).join(" "),
     city: parts.locality,
-    state: parts.administrative_area_level_1,
+    state: abbr(parts.administrative_area_level_1),
     country: parts.country,
     zipcode: parts.postal_code
   };
@@ -66,7 +129,7 @@ export default class extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.ref = React.createRef();
-    this.state = { addressEntered: false };
+    this.state = { addressEntered: false, readOnly: false };
   }
 
   async componentDidMount() {
@@ -97,18 +160,72 @@ export default class extends React.Component<any, any> {
     this.autocomplete = new google.maps.places.Autocomplete(this.ref.current, {
       types: locationType === "cities" ? ["(cities)"] : ["address"]
     });
-    this.autocomplete.setFields(["address_component"]);
+    this.autocomplete.setFields(["address_component", "geometry"]);
     this.autocomplete.addListener("place_changed", () => this.fillInAddress());
   }
 
-  fillInAddress() {
-    const { onChange } = this.props;
-    let address = parsePlace(this.autocomplete.getPlace());
-    onChange(address);
+  async onChange(
+    value,
+    opts: {
+      calculateDistance?: boolean;
+      latitude?: number;
+      longitude?: number;
+    } = {}
+  ) {
+    const uiOptions = this.props.uiSchema["ui:options"] || {};
+
+    // Only calculate distance on blur, or when user enters in a new address in the autocomplete field (only then will opts.calculateDistance be set to true).
+    if (uiOptions["cff:locationDistance"] && opts.calculateDistance) {
+      const { locations } = uiOptions["cff:locationDistance"];
+      // value
+      const placeLocation = { latitude: null, longitude: null };
+      if (opts.latitude && opts.longitude) {
+        // We already got latitude and longitude (from Google Places API result from fillInAddress)
+        placeLocation.latitude = opts.latitude;
+        placeLocation.longitude = opts.longitude;
+      } else {
+        // Geocode address (this happens when address was entered manually).
+        const geocoder = new google.maps.Geocoder();
+        const results = await new Promise((resolve, reject) =>
+          geocoder.geocode(
+            { address: createAddressString(value) },
+            (results, status) =>
+              status === "OK" ? resolve(results) : reject(status)
+          )
+        );
+        placeLocation.latitude = results[0].geometry.location.lat();
+        placeLocation.longitude = results[0].geometry.location.lng();
+
+        // Sync autocomplete text with current value
+        this.ref.current.value = createAddressString(value);
+      }
+      // Find closest location
+      const filtered = locations
+        .filter(l => l.lat && l.lng)
+        .map(loc => ({
+          ...loc,
+          latitude: Number(loc.lat),
+          longitude: Number(loc.lng)
+        }));
+      const closestLocation = findNearest(placeLocation, filtered);
+      let distance = getDistance(placeLocation, closestLocation); // in meters
+      console.log("Closest location is: ", closestLocation, distance);
+      value = { ...value, distance };
+    }
+    this.props.onChange(value);
+  }
+
+  async fillInAddress() {
+    const place = this.autocomplete.getPlace();
+    this.onChange(parsePlace(place), {
+      calculateDistance: true,
+      latitude: place.geometry.location.lat(),
+      longitude: place.geometry.location.lng()
+    });
   }
 
   render() {
-    const { formContext, formData, onChange } = this.props;
+    const { formData } = this.props;
     let {
       "ui:field": field,
       "ui:title": uiSchemaTitle,
@@ -132,8 +249,14 @@ export default class extends React.Component<any, any> {
             type="text"
             className="form-control"
             placeholder={uiSchema["ui:placeholder"]}
+            autoComplete="new-password"
+            // Override autoComplete feature (which is set to "off" by Google Maps, which shows suggestions so we don't want that)
+            onFocus={e =>
+              this.ref.current.setAttribute("autocomplete", "new-password")
+            }
             onChange={e => this.setState({ addressEntered: true })}
             ref={this.ref}
+            readOnly={this.state.readOnly}
           />
         </div>
         {this.state.addressEntered && (
@@ -145,7 +268,8 @@ export default class extends React.Component<any, any> {
             className={
               "ccmt-cff-Page-SubFormPage ccmt-cff-Page-SubFormPage-AddressAutocomplete"
             }
-            onChange={e => onChange(e.formData)}
+            onChange={e => this.onChange(e.formData)}
+            onBlur={e => this.onChange(formData, { calculateDistance: true })}
           >
             &nbsp;
           </CustomForm>

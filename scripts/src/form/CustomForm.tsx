@@ -136,6 +136,7 @@ interface ICustomFormProps {
   formData?: any;
   onChange?: (e) => void;
   onSubmit?: (e, f?) => void;
+  onBlur?: (e) => void;
   showPaymentTable?: boolean;
   paymentCalcInfo?: IPaymentCalcInfo;
   className?: string;
@@ -165,6 +166,8 @@ function CustomForm(props: ICustomFormProps) {
       return error;
     });
   }
+
+  console.log("formData", props.formData);
 
   return (
     <div
@@ -206,6 +209,7 @@ function CustomForm(props: ICustomFormProps) {
         formContext={{ formData: props.formData }}
         omitExtraData={props.omitExtraData}
         liveOmit={props.omitExtraData}
+        onBlur={props.onBlur}
       >
         {props.children}
         {!props.children && props.showPaymentTable && (
