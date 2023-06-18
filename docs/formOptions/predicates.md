@@ -41,7 +41,7 @@ To customize this text, edit the `predicate.warningText` property.
 
 ```json
 "predicate": {
-    "warningText": "<b>Warning:</b> you are submitting a form based old information from a predicate form."
+    "warningText": "<b>Warning:</b> you are submitting a form based on old information from a predicate form."
 }
 ```
 

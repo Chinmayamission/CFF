@@ -38,6 +38,8 @@ The subpages within this section explain more about how to use and configure eac
 |  [ccavenue](./ccavenue.md)  | CCAvenue integration |
 |  [manual_approval](./manual-approval.md)  | Manual approval payment integration |
 |  [manual_approval_2](./manual-approval.md)  | A secondary manual approval payment integration |
+|  [redirect](./redirect.md)  | Redirects to a new page |
+
 
 ## Conditionally handling multiple payment methods
 

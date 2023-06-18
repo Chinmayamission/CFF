@@ -41,6 +41,7 @@ class FormStandalone extends React.Component<
             specifiedShowFields={JSON.parse(
               (qs && qs["specifiedShowFields"]) || "{}"
             )}
+            initialFormData={JSON.parse((qs && qs["initialFormData"]) || "{}")}
             className="p-4"
           />
         </div>

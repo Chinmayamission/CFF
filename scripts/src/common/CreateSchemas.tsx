@@ -2,6 +2,7 @@ import { get, set } from "lodash";
 export default function createSchemas(
   data,
   specifiedShowFields = {},
+  initialFormData = {},
   responseId = null,
   responseData = null
 ) {
@@ -16,6 +17,9 @@ export default function createSchemas(
   let defaultFormData = get(data, "formOptions.defaultFormData", {});
   let formOptions = get(data, "formOptions", {});
   let schema = data["schema"];
+  for (let i in initialFormData) {
+    set(defaultFormData, i, initialFormData[i]);
+  }
   return {
     schemaMetadata: formOptions,
     uiSchema: data["uiSchema"],

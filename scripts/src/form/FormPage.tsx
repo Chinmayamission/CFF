@@ -114,6 +114,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           this.props.formId,
           "",
           this.props.specifiedShowFields,
+          this.props.initialFormData,
           e => this.handleError(e)
         );
     let responseState: any = {};

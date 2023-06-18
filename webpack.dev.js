@@ -14,12 +14,15 @@ module.exports = merge(common, {
     new BundleAnalyzerPlugin(),
     new webpack.DefinePlugin({
       MODE: `"${MODE}"`,
-      ENDPOINT_URL: `"https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"`,
-      // ENDPOINT_URL: `"http://localhost:8001/"`,
-      // USER_POOL_ID: `"us-east-1_kcpcLxLzn"`,
-      // COGNITO_CLIENT_ID: `"77mcm1k9ll2ge68806h5kncfus"`
-      USER_POOL_ID: `"us-east-1_U9ls8R6E3"`,
-      COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`,
+      // ENDPOINT_URL: `"https://5fd3dqj2dc.execute-api.us-east-1.amazonaws.com/v2/"`,
+      // // ENDPOINT_URL: `"http://localhost:8001/"`,
+      // // USER_POOL_ID: `"us-east-1_kcpcLxLzn"`,
+      // // COGNITO_CLIENT_ID: `"77mcm1k9ll2ge68806h5kncfus"`
+      // USER_POOL_ID: `"us-east-1_U9ls8R6E3"`,
+      // COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`,
+      ENDPOINT_URL: `"https://xpqeqfjgwd.execute-api.us-east-1.amazonaws.com/v2/"`,
+      USER_POOL_ID: `"us-east-1_kcpcLxLzn"`,
+      COGNITO_CLIENT_ID: `"77mcm1k9ll2ge68806h5kncfus"`,
       GA_TRACKING_ID: `""`,
       GOOGLE_MAPS_API_KEY: `"AIzaSyAIJZv8VKMaV_ckEPGtQ48CZiI5z5E1rCw"`
     }),

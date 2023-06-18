@@ -91,9 +91,9 @@ export interface IFormPageProps {
   // extends FormState
   formId?: any;
   responseId?: string;
-  initialFormData?: any;
   readonly?: boolean;
-  specifiedShowFields?: any[];
+  specifiedShowFields?: any;
+  initialFormData?: any;
   onFormLoad?: (e: any) => void;
   logout: () => void;
   auth: IAuthState;

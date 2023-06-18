@@ -1,3 +1,8 @@
+# 7.3.0
+
+* Support `initialFormData` query string to populate initial form data when viewing forms.
+* Support `redirect` payment method, which redirects to a new form.
+
 ## 7.2.1
 
 * Sheets sync function: upgrade to node 14, adjust timeout / rate, only run sheets script for om run for now

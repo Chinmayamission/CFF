@@ -74,3 +74,19 @@ it("overrides uiSchema with specifiedShowFields", () => {
   };
   expect(createSchemas(data, specifiedShowFields).uiSchema).toEqual(expected);
 });
+
+it("overrides formData with initialFormData", () => {
+  let data = {
+    schema: {},
+    formOptions: {
+      defaultFormData: { grade: 5 }
+    }
+  };
+  let initialFormData = {
+    age: 5
+  };
+  expect(createSchemas(data, {}, initialFormData).defaultFormData).toEqual({
+    age: 5,
+    grade: 5
+  });
+});

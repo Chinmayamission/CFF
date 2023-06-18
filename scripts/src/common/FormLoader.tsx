@@ -22,6 +22,7 @@ export namespace FormLoader {
     formId,
     authKey,
     specifiedShowFields,
+    initialFormData,
     handleError
   ) {
     return this.getForm(apiEndpoint, formId, { authKey: authKey })
@@ -29,6 +30,7 @@ export namespace FormLoader {
         createSchemas(
           e.res,
           specifiedShowFields,
+          initialFormData,
           e.responseId,
           e.response && e.response.value
         )
