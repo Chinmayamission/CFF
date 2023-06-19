@@ -16,7 +16,7 @@ export const setRenderedResponse = (renderedResponse: any) => ({
 
 export const fetchRenderedForm = (formId: string) => dispatch => {
   dispatch(loadingStart());
-  return FormLoader.getFormAndCreateSchemas("", formId, "", [""], e =>
+  return FormLoader.getFormAndCreateSchemas("", formId, "", {}, {}, e =>
     alert("Error" + e)
   ).then(e => {
     dispatch(setRenderedForm(e));

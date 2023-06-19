@@ -3,6 +3,8 @@ import PaymentTable from "./PaymentTable";
 import PaypalClassic from "./PaypalClassic";
 import CCAvenue from "./CCAvenue";
 import ManualApproval from "./ManualApproval";
+import Redirect from "./Redirect";
+import Text from "./Text";
 import sanitize from "../../sanitize";
 import ExpressionParser from "../../common/ExpressionParser";
 import { IPaymentProps, IPaymentInfo } from "../interfaces";
@@ -11,8 +13,13 @@ let Components = {
   paypal_classic: PaypalClassic,
   ccavenue: CCAvenue,
   manual_approval: ManualApproval,
-  manual_approval_2: ManualApproval
+  manual_approval_2: ManualApproval,
+  redirect: Redirect,
+  text: Text
 };
+
+// Payment methods that are always shown, even if the user has fully paid.
+const PAYMENT_METHODS_ALWAYS_SHOWN = ["redirect", "text"];
 
 class Payment extends React.Component<IPaymentProps, any> {
   constructor(props: any) {
@@ -23,9 +30,17 @@ class Payment extends React.Component<IPaymentProps, any> {
     };
   }
 
-  getPaymentMethods() {
+  getPaymentMethods(fullyPaid) {
     let paymentMethods = Object.keys(this.props.paymentMethods);
     return paymentMethods.map(paymentMethod => {
+      // If fullyPaid is true, only gets payment methods that apply regardless of whether
+      // one has fully paid (in this case, the "redirect" payment method).
+      if (
+        fullyPaid &&
+        PAYMENT_METHODS_ALWAYS_SHOWN.indexOf(paymentMethod) === -1
+      )
+        return;
+
       var MyComponent = Components[paymentMethod];
       if (!MyComponent) return;
 
@@ -96,9 +111,21 @@ class Payment extends React.Component<IPaymentProps, any> {
     if (!this.props.paymentMethods) {
       return "";
     }
+    if (
+      (!this.props.paymentInfo_owed ||
+        this.props.paymentInfo_owed.total === 0) &&
+      (!this.props.paymentInfo ||
+        !this.props.paymentInfo.items ||
+        this.props.paymentInfo.items.length === 0) &&
+      (!this.props.paymentInfo_received ||
+        this.props.paymentInfo_owed.total === 0)
+    ) {
+      // No payment involved, so just render manual payment buttons.
+      return <>{this.getPaymentMethods(false)}</>;
+    }
     return (
       <div>
-        <h1 className="text-center my-2">
+        <h1 className="text-center my-2 p-4">
           {this.props.paymentInfo.paymentInfoTableTitle || "Payment"}
         </h1>
         <div>
@@ -161,15 +188,18 @@ class Payment extends React.Component<IPaymentProps, any> {
                   }}
                 />
               )}
-              {this.getPaymentMethods()}
+              {this.getPaymentMethods(true)}
             </div>
           )}
-          {this.props.paymentInfo_owed.total == 0 && (
-            <div className="alert alert-info">
-              We have already received your payment. No additional payment
-              necessary -- you will receive a confirmation email shortly about
-              your update.
-            </div>
+          {this.props.paymentInfo_owed.total === 0 && (
+            <>
+              <div className="alert alert-info">
+                We have already received your payment. No additional payment
+                necessary -- you will receive a confirmation email shortly about
+                your update.
+              </div>
+              {this.getPaymentMethods(false)}
+            </>
           )}
         </div>
       </div>

@@ -269,6 +269,41 @@ it("doesn't render payment table when paymentInfo.items is none", () => {
   expect(wrapper.text()).not.toContain("Description");
 });
 
+it("renders redirect and text payment methods when paymentInfo.items is none", () => {
+  const wrapper = render(
+    <Payment
+      onPaymentStarted={e => e}
+      paymentInfo={{
+        currency: "USD",
+        total: 12,
+        items: []
+      }}
+      paymentInfo_owed={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentInfo_received={{
+        currency: "USD",
+        total: 0
+      }}
+      paymentMethods={{
+        redirect: {
+          payButtonText: "Redirect"
+        },
+        text: {
+          text: "Test text, hello world"
+        }
+      }}
+      onPaymentComplete={e => e}
+      onPaymentError={e => e}
+      {...props}
+      formData={{}}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.text()).toContain("Test text, hello world");
+});
+
 describe("calculatePaymentInfo()", () => {
   it("calculates simple paymentInfo", () => {
     let paymentInfo = {
