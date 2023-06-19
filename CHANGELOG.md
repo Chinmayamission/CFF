@@ -1,3 +1,7 @@
+## 7.3.1
+
+* Fix bug where paymentMethods were not showing properly.
+
 ## 7.3.0
 
 * Support `initialFormData` query string to populate initial form data when viewing forms.

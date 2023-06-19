@@ -121,7 +121,7 @@ class Payment extends React.Component<IPaymentProps, any> {
         this.props.paymentInfo_owed.total === 0)
     ) {
       // No payment involved, so just render manual payment buttons.
-      return <>{this.getPaymentMethods(false)}</>;
+      return <>{this.getPaymentMethods(true)}</>;
     }
     return (
       <div>
@@ -188,7 +188,7 @@ class Payment extends React.Component<IPaymentProps, any> {
                   }}
                 />
               )}
-              {this.getPaymentMethods(true)}
+              {this.getPaymentMethods(false)}
             </div>
           )}
           {this.props.paymentInfo_owed.total === 0 && (
@@ -198,7 +198,7 @@ class Payment extends React.Component<IPaymentProps, any> {
                 necessary -- you will receive a confirmation email shortly about
                 your update.
               </div>
-              {this.getPaymentMethods(false)}
+              {this.getPaymentMethods(true)}
             </>
           )}
         </div>
