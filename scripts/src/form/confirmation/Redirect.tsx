@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useEffect, useCallback } from "react";
 import queryString from "query-string";
-import { set } from "lodash";
+import { initial, set } from "lodash";
+import Loading from "../../common/Loading/Loading";
 
 const Redirect = ({ paymentMethodInfo, formData, push }) => {
   const doRedirect = useCallback(() => {
@@ -9,13 +10,17 @@ const Redirect = ({ paymentMethodInfo, formData, push }) => {
     if (paymentMethodInfo.specifiedShowFields) {
       params.specifiedShowFields = paymentMethodInfo.specifiedShowFields;
     }
-    if (paymentMethodInfo.initialFormDataKeys) {
-      let initialFormData: any = {};
-      for (let key of paymentMethodInfo.initialFormDataKeys) {
-        set(initialFormData, key, formData[key]);
-      }
-      params.initialFormData = JSON.stringify(initialFormData);
+    let initialFormDataKeys;
+    try {
+      initialFormDataKeys = JSON.parse(paymentMethodInfo.initialFormDataKeys);
+    } catch (e) {
+      initialFormDataKeys = [];
     }
+    let initialFormData: any = {};
+    for (let key of initialFormDataKeys) {
+      set(initialFormData, key, formData[key]);
+    }
+    params.initialFormData = JSON.stringify(initialFormData);
     let url = `${window.location.protocol}//${window.location.host}/v2/forms/${
       paymentMethodInfo.formId
     }?${queryString.stringify(params)}`;
@@ -30,6 +35,7 @@ const Redirect = ({ paymentMethodInfo, formData, push }) => {
 
   return (
     <div>
+      {paymentMethodInfo.skipConfirmationPage && <Loading />}
       <input
         type="submit"
         className="btn btn-primary"
