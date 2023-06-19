@@ -83,28 +83,12 @@ Object {
 }
 `;
 
-exports[`doesn't render payment table when paymentInfo.items is none 1`] = `
-<div>
-  <h1
-    class="text-center my-2"
-  >
-    Payment
-  </h1>
-  <div />
-  <div>
-    <div
-      class="alert alert-info"
-    >
-      We have already received your payment. No additional payment necessary -- you will receive a confirmation email shortly about your update.
-    </div>
-  </div>
-</div>
-`;
+exports[`doesn't render payment table when paymentInfo.items is none 1`] = `null`;
 
 exports[`renders installment payment table 1`] = `
 <div>
   <h1
-    class="text-center my-2"
+    class="text-center my-2 p-4"
   >
     Payment
   </h1>
@@ -326,7 +310,7 @@ exports[`renders installment payment table 1`] = `
 exports[`renders payment table on new response 1`] = `
 <div>
   <h1
-    class="text-center my-2"
+    class="text-center my-2 p-4"
   >
     Payment
   </h1>
@@ -505,7 +489,7 @@ exports[`renders payment table on new response 1`] = `
 exports[`renders payment table with amount received 1`] = `
 <div>
   <h1
-    class="text-center my-2"
+    class="text-center my-2 p-4"
   >
     Payment
   </h1>
@@ -701,7 +685,7 @@ exports[`renders payment table with amount received 1`] = `
 exports[`renders payment table with currency template 1`] = `
 <div>
   <h1
-    class="text-center my-2"
+    class="text-center my-2 p-4"
   >
     Payment
   </h1>
@@ -880,7 +864,7 @@ exports[`renders payment table with currency template 1`] = `
 exports[`renders recurring payment table with end 1`] = `
 <div>
   <h1
-    class="text-center my-2"
+    class="text-center my-2 p-4"
   >
     Payment
   </h1>
@@ -1059,7 +1043,7 @@ exports[`renders recurring payment table with end 1`] = `
 exports[`renders recurring payment table with times 1`] = `
 <div>
   <h1
-    class="text-center my-2"
+    class="text-center my-2 p-4"
   >
     Payment
   </h1>
@@ -1233,4 +1217,29 @@ exports[`renders recurring payment table with times 1`] = `
     </div>
   </div>
 </div>
+`;
+
+exports[`renders redirect and text payment methods when paymentInfo.items is none 1`] = `
+Array [
+  <div
+    class="col-12 col-sm-6 p-4"
+    style="margin:0 auto"
+  >
+    <div>
+      <input
+        class="btn btn-primary"
+        type="submit"
+        value="Redirect"
+      />
+    </div>
+  </div>,
+  <div
+    class="col-12 col-sm-6 p-4"
+    style="margin:0 auto"
+  >
+    <div>
+      Test text, hello world
+    </div>
+  </div>,
+]
 `;

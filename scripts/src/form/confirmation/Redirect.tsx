@@ -2,16 +2,12 @@ import * as React from "react";
 import { useEffect, useCallback } from "react";
 import queryString from "query-string";
 import { set } from "lodash";
-import { connect } from "react-redux";
-import { push } from "connected-react-router";
 
 const Redirect = ({ paymentMethodInfo, formData, push }) => {
   const doRedirect = useCallback(() => {
     let params: any = {};
     if (paymentMethodInfo.specifiedShowFields) {
-      params.specifiedShowFields = JSON.stringify(
-        paymentMethodInfo.specifiedShowFields
-      );
+      params.specifiedShowFields = paymentMethodInfo.specifiedShowFields;
     }
     if (paymentMethodInfo.initialFormDataKeys) {
       let initialFormData: any = {};
@@ -20,10 +16,10 @@ const Redirect = ({ paymentMethodInfo, formData, push }) => {
       }
       params.initialFormData = JSON.stringify(initialFormData);
     }
-    let url = `/v2/forms/${paymentMethodInfo.formId}?${queryString.stringify(
-      params
-    )}`;
-    push(url);
+    let url = `${window.location.protocol}//${window.location.host}/v2/forms/${
+      paymentMethodInfo.formId
+    }?${queryString.stringify(params)}`;
+    window.location.href = url;
   }, [paymentMethodInfo, formData]);
 
   useEffect(() => {
@@ -44,13 +40,4 @@ const Redirect = ({ paymentMethodInfo, formData, push }) => {
   );
 };
 
-const mapStateToProps = state => {};
-
-const mapDispatchToProps = dispatch => ({
-  push: (e: string) => dispatch(push(`./${e}`))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Redirect);
+export default Redirect;

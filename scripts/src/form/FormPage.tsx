@@ -543,7 +543,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
           {!this.state.paymentStarted &&
             get(this.state.formOptions, "responseModificationEnabled", true) ===
               true && (
-              <div className="mt-4">
+              <div className="p-4">
                 You can also{" "}
                 <a
                   href="#"

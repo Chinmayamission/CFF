@@ -10,12 +10,8 @@ Here is a sample configuration:
     "payButtonText": "Continue",
     "skipConfirmationPage": true,
     "formId": "644aedc97bff0cc53b9212ae",
-    "initialFormDataKeys": [
-        "address"
-    ],
-    "specifiedShowFields": {
-        "CFF_uiSchema.address['ui:readonly']": true
-    }
+    "initialFormDataKeys": "[\"address\"]",
+    "specifiedShowFields": "{\"CFF_uiSchema.address['ui:readonly']\": true}"
   }
 }
 ```
@@ -26,9 +22,9 @@ Here is a sample configuration:
 
 `formId`: Form ID to redirect to
 
-`initialFormDataKeys`: If set, the form will be populated with an object that consists of the specified form data keys from the current form data. Specify a list of paths (which will be passed to lodash get) -- so each path should be in dot notation (e.g., `address` or `address.line1`). Note that this form data will show up in the next form URL though, through the `initialFormData` query string. See section below for more details.
+`initialFormDataKeys`: If set, the form will be populated with an object that consists of the specified form data keys from the current form data. Specify a JSON-stringified list of paths (which will be passed to lodash get) -- so each path should be in dot notation (e.g., `address` or `address.line1`). Note that this form data will show up in the next form URL though, through the `initialFormData` query string. See section below for more details.
 
-`specifiedShowFields`: If set, the form's schema will be augmented with the given object. The keys should be a list of paths to set (lodash paths) and the values should be the values to set. The schema to be augmented also shows up in the next form URL. See section below for more details.
+`specifiedShowFields`: If set, the form's schema will be augmented with the given JSON-stringified representation of an object. The keys should be a list of paths to set (lodash paths) and the values should be the values to set. The schema to be augmented also shows up in the next form URL. See section below for more details.
 
 ### Conditionally redirect
 

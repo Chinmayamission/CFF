@@ -2,6 +2,7 @@
 
 * Support `initialFormData` query string to populate initial form data when viewing forms.
 * Support `redirect` payment method, which redirects to a new form.
+* Support `text` payment method, which shows some text.
 
 ## 7.2.1
 
