@@ -1,3 +1,7 @@
+## 7.4.0
+
+* Address Autocomplete Field: Support storing the top N closest locations in form data using the `saveNClosestLocations` option.
+
 ## 7.3.1
 
 * Fix bug where paymentMethods were not showing properly.

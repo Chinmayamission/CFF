@@ -70,7 +70,7 @@ You may want to calculate distances between the entered address and the location
 }
 ```
 
-Then, in the uiSchema, pass a list of locations along with their associated latitude, longitudes, :
+Then, in the uiSchema, pass a list of locations along with their associated latitude, longitudes:
 
 ```json
 {
@@ -87,6 +87,9 @@ Then, in the uiSchema, pass a list of locations along with their associated lati
                 "lat": "38.8977",
                 "lng": "-77.0365"
             }
+        },
+        "distance": {
+            "ui:widget": "hidden"
         }
     }
 }
@@ -129,3 +132,58 @@ Finally, when you enter your address, it will calculate the distance and then sa
     }
 }
 ```
+
+## Get top N closest locations
+
+You can have the N closest locations saved to the data by adding in a `closestLocations` key.
+
+```json
+{
+    "address": {
+        "type": "object",
+        "properties": {
+            "line1": {"type": "string"},
+            "line2": {"type": "string"},
+            "city": {"type": "string"},
+            "state": {"type": "string"},
+            "zipcode": {"type": "string"},
+            "country": {"type": "string"},
+            "closestLocations": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+        },
+        "distance": {
+            "ui:widget": "hidden"
+        },
+        "closestLocations": {
+            "ui:widget": "hidden"
+        }
+    }
+}
+```
+
+Then, in the uiSchema, pass a list of locations along with their associated latitude, longitudes, and other data you might want to be passed into the form data. Also set the `saveNClosestLocations` prop:
+
+```json
+{
+    "address": {
+        "ui:field": "cff:addressAutocomplete",
+        "ui:options": {
+        "cff:locationDistance": {
+            "saveNClosestLocations": 5,
+            "locations": [
+            {
+                "lat": "38.8977",
+                "lng": "77.0365",
+                "street1": "123 ABC Street"
+            },
+            {
+                "lat": "38.8977",
+                "lng": "-77.0365",
+                "street1": "124 ABC Street"
+            }
+        }
+    }
+}
+
+```
+
+Finally, when you enter your address, it will calculate the distance and then save it in the `distance` field, and save the 5 closest locations to `closestLocation` (or whatever number is set in `saveNClosestLocations`).

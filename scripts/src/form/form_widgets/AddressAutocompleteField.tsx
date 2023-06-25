@@ -1,5 +1,5 @@
 import React from "react";
-import { getDistance, findNearest } from "geolib";
+import { getDistance, orderByDistance } from "geolib";
 import { Helmet } from "react-helmet";
 import { get, find } from "lodash";
 import CustomForm from "../CustomForm";
@@ -63,14 +63,6 @@ const abbr = state =>
     Wisconsin: "WI",
     Wyoming: "WY"
   }[state] || state);
-
-interface IDistanceMatrixRow {
-  elements: {
-    distance: { text: string; value: number };
-    duration: { text: string; value: number };
-    status: string;
-  }[];
-}
 
 interface IPlaceResult {
   address_components: {
@@ -176,7 +168,9 @@ export default class extends React.Component<any, any> {
 
     // Only calculate distance on blur, or when user enters in a new address in the autocomplete field (only then will opts.calculateDistance be set to true).
     if (uiOptions["cff:locationDistance"] && opts.calculateDistance) {
-      const { locations } = uiOptions["cff:locationDistance"];
+      const { locations, saveNClosestLocations } = uiOptions[
+        "cff:locationDistance"
+      ];
       // value
       const placeLocation = { latitude: null, longitude: null };
       if (opts.latitude && opts.longitude) {
@@ -207,10 +201,15 @@ export default class extends React.Component<any, any> {
           latitude: Number(loc.lat),
           longitude: Number(loc.lng)
         }));
-      const closestLocation = findNearest(placeLocation, filtered);
+      const ordered = orderByDistance(placeLocation, filtered);
+
+      const closestLocation = ordered[0];
       let distance = getDistance(placeLocation, closestLocation); // in meters
-      console.log("Closest location is: ", closestLocation, distance);
-      value = { ...value, distance };
+      const closestLocations = saveNClosestLocations
+        ? ordered.slice(0, saveNClosestLocations)
+        : undefined;
+      value = { ...value, distance, closestLocations };
+      console.log("Closest location is: ", closestLocation, distance, value);
     }
     this.props.onChange(value);
   }
