@@ -1,3 +1,8 @@
+## 7.4.1
+
+* Fix bug: Allow `redirect`'s form data keys to be lodash dot paths.
+* Allow HTML to be input in `text` payment method; and don't show a blue alert background by default.
+
 ## 7.4.0
 
 * Address Autocomplete Field: Support storing the top N closest locations in form data using the `saveNClosestLocations` option.

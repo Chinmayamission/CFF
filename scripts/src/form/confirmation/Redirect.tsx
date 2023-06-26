@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useCallback } from "react";
 import queryString from "query-string";
-import { initial, set } from "lodash";
+import { get, set } from "lodash";
 import Loading from "../../common/Loading/Loading";
 
 const Redirect = ({ paymentMethodInfo, formData, push }) => {
@@ -18,7 +18,7 @@ const Redirect = ({ paymentMethodInfo, formData, push }) => {
     }
     let initialFormData: any = {};
     for (let key of initialFormDataKeys) {
-      set(initialFormData, key, formData[key]);
+      set(initialFormData, key, get(formData, key));
     }
     params.initialFormData = JSON.stringify(initialFormData);
     let url = `${window.location.protocol}//${window.location.host}/v2/forms/${

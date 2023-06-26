@@ -1,7 +1,12 @@
 import * as React from "react";
+import sanitize from "../../sanitize";
 
 const Text = ({ paymentMethodInfo }) => {
-  return <div className="alert alert-info">{paymentMethodInfo.text}</div>;
+  return (
+    <div
+      dangerouslySetInnerHTML={{ __html: sanitize(paymentMethodInfo.text) }}
+    />
+  );
 };
 
 export default Text;

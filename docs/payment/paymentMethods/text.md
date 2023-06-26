@@ -12,4 +12,4 @@ Here is a sample configuration:
 }
 ```
 
-`text`: Text that shows up on the payment screen
+`text`: Text that shows up on the payment screen. Can also be HTML.
