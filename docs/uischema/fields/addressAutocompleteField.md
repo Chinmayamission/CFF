@@ -186,4 +186,4 @@ Then, in the uiSchema, pass a list of locations along with their associated lati
 
 ```
 
-Finally, when you enter your address, it will calculate the distance and then save it in the `distance` field, and save the 5 closest locations to `closestLocation` (or whatever number is set in `saveNClosestLocations`).
+Finally, when you enter your address, it will calculate the distance (in meters) and then save it in the `distance` field, and save the 5 closest locations to `closestLocations` (or whatever number is set in `saveNClosestLocations`). Each element in `closestLocations` will also have a `distance` key with the specific distance of that location.

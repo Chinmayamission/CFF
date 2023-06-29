@@ -1,3 +1,7 @@
+## 7.4.2
+
+* Address Autocomplete Field: Store `distance` key in closest locations when using the `saveNClosestLocations` option.
+
 ## 7.4.1
 
 * Fix bug: Allow `redirect`'s form data keys to be lodash dot paths.

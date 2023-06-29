@@ -206,7 +206,12 @@ export default class extends React.Component<any, any> {
       const closestLocation = ordered[0];
       let distance = getDistance(placeLocation, closestLocation); // in meters
       const closestLocations = saveNClosestLocations
-        ? ordered.slice(0, saveNClosestLocations)
+        ? ordered
+            .slice(0, saveNClosestLocations)
+            .map(location => ({
+              ...location,
+              distance: getDistance(placeLocation, location)
+            })) // Add "distance" key to each closest location
         : undefined;
       value = { ...value, distance, closestLocations };
       console.log("Closest location is: ", closestLocation, distance, value);
