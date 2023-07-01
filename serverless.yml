@@ -73,7 +73,7 @@ provider:
 functions:
   sheets:
     handler: scripts/backend/sheets.sheets
-    timeout: 60
+    timeout: 180
     events:
       - schedule: rate(3 hours)
     reservedConcurrency: 1
