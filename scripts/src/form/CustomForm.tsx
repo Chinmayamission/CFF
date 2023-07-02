@@ -145,10 +145,13 @@ interface ICustomFormProps {
   tagName?: keyof JSX.IntrinsicElements;
   responseMetadata?: IResponseMetadata;
   showSubmitOptions?: boolean;
+  defaultSubmitOptions?: any;
 }
 
 function CustomForm(props: ICustomFormProps) {
-  const [submitOptions, setSubmitOptions] = useState({});
+  const [submitOptions, setSubmitOptions] = useState(
+    props.defaultSubmitOptions || {}
+  );
   /* Adds a custom error message for regex validation (especially for phone numbers).
    */
   function transformErrors(errors) {

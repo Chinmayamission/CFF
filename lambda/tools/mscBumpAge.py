@@ -22,30 +22,12 @@ os.environ["USER_POOL_ID"] = ""
 os.environ["COGNITO_CLIENT_ID"] = ""
 
 from chalicelib.main import app, MODE
-from chalicelib.models import (
-    Response,
-    Form,
-)
+from chalicelib.models import Response, Form
 
 
-grades = [
-    "KG and below",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12"
-]
+grades = ["KG and below", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
-responses = Response.objects.raw(
-    {"form": ObjectId("5c96811ed0443d00011255d5")})
+responses = Response.objects.raw({"form": ObjectId("5c96811ed0443d00011255d5")})
 # print(len(responses))
 # for response in responses:
 #   print("res")

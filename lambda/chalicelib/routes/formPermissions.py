@@ -19,11 +19,8 @@ POSSIBLE_PERMISSIONS = {
         "Forms_PermissionsView",
         "Forms_PermissionsEdit",
     ],
-    "Org": [
-        "owner",
-        "Orgs_FormsCreate",
-    ]
-  }  # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
+    "Org": ["owner", "Orgs_FormsCreate"],
+}  # "Form_PermissionsView", "Form_PermissionsEdit", "Forms_List", "Schemas_List", "SchemaModifiers_Edit"]
 
 
 def list_all_users(userIds):
@@ -79,6 +76,7 @@ def get_user_by_email(email):
 
 def _model_get_permissions(model, model_name):
     from ..main import app
+
     userIds = model.cff_permissions.keys()
     user_lookup = list_all_users(userIds)
     return {
@@ -89,8 +87,10 @@ def _model_get_permissions(model, model_name):
         }
     }
 
+
 def _model_edit_permissions(model, model_name):
     from ..main import app
+
     permissions = app.current_request.json_body["permissions"]
     userId = app.current_request.json_body.get("userId", None)
     email = app.current_request.json_body.get("email", None)
@@ -130,6 +130,7 @@ def _model_edit_permissions(model, model_name):
         response["res"]["userLookup"] = list_all_users([userId])
     return response
 
+
 def form_get_permissions(formId):
     """
   Get form permission user ID's and resolve them into name & email.
@@ -138,12 +139,14 @@ def form_get_permissions(formId):
   ?mine=1 -- only get my permission names (for logged in user) - requires no auth except for being logged in. (This is currently not used).
   """
     from ..main import app
+
     form = Form.objects.only("cff_permissions").get({"_id": ObjectId(formId)})
     if app.current_request.query_params and "mine" in app.current_request.query_params:
         permissions = app.get_user_permissions(app.get_current_user_id(), form)
         return {"res": {"permissions": permissions}}
     app.check_permissions(form, "Forms_PermissionsView")
     return _model_get_permissions(form, "Form")
+
 
 def form_edit_permissions(formId):
     """Set form permissions of a particular user to an array.
@@ -160,16 +163,20 @@ def form_edit_permissions(formId):
     app.check_permissions(form, "Forms_PermissionsEdit")
     return _model_edit_permissions(form, "Form")
 
+
 def org_get_permissions(orgId):
     """Just like form_get_permissions."""
     from ..main import app
+
     org = app.get_org()
     app.check_permissions(org, [])
     return _model_get_permissions(org, "Org")
 
+
 def org_edit_permissions(orgId):
     """Just like form_edit_permissions."""
     from ..main import app
+
     org = app.get_org()
     app.check_permissions(org, [])
     return _model_edit_permissions(org, "Org")

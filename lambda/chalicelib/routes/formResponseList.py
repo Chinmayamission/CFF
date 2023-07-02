@@ -8,6 +8,7 @@ from chalicelib.util.renameKey import replaceKey
 import hashlib
 import pymongo
 
+
 def _all(form):
     responses = Response.objects.all()._collection.find(
         {"_cls": "chalicelib.models.Response", "form": form.id},
@@ -134,14 +135,20 @@ def _search(form, query, autocomplete, search_by_id, show_unpaid):
                         {
                             "value.participants": {
                                 "$elemMatch": {
-                                    subfield: word if exact_match else {"$regex": "^" + word, "$options": "i"}
+                                    subfield: word
+                                    if exact_match
+                                    else {"$regex": "^" + word, "$options": "i"}
                                 }
                             }
                         }
                     )
                 else:
                     mongo_query["$or"].append(
-                        {field: word if exact_match else {"$regex": "^" + word, "$options": "i"}}
+                        {
+                            field: word
+                            if exact_match
+                            else {"$regex": "^" + word, "$options": "i"}
+                        }
                     )
     mongo_query["form"] = form.id
     if len(mongo_query["$or"]) == 0:
@@ -159,7 +166,10 @@ def _search(form, query, autocomplete, search_by_id, show_unpaid):
         for field in result_fields:
             projection[field] = 1
     responses = (
-        Response.objects.raw(mongo_query).limit(result_limit).project(projection).order_by([("date_created", pymongo.DESCENDING)])
+        Response.objects.raw(mongo_query)
+        .limit(result_limit)
+        .project(projection)
+        .order_by([("date_created", pymongo.DESCENDING)])
     )
     print(mongo_query)
     return {"res": [serialize_model(r) for r in responses]}
@@ -210,8 +220,7 @@ def form_response_list(formId):
         if (
             "apiKey" in dataOptionView
             and apiKey
-            and dataOptionView["apiKey"]
-            == hashlib.sha512(apiKey.encode()).hexdigest()
+            and dataOptionView["apiKey"] == hashlib.sha512(apiKey.encode()).hexdigest()
         ):
             skip_perm_check = True
         if not skip_perm_check:

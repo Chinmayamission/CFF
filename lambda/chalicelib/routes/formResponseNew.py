@@ -104,7 +104,11 @@ def form_response_new(formId):
     counter = form.formOptions.counter
     if newResponse and counter and "enabled" in counter and counter["enabled"] == True:
         counter_value = get_counter(formId)
-    modify_link = getattr(form.formOptions, "modifyLink", "") or app.current_request.json_body.get("modifyLink") or ""
+    modify_link = (
+        getattr(form.formOptions, "modifyLink", "")
+        or app.current_request.json_body.get("modifyLink")
+        or ""
+    )
     paymentInfo = form.formOptions.paymentInfo
     confirmationEmailInfo = form.formOptions.confirmationEmailInfo
     paymentMethods = fill_paymentMethods_with_data(
@@ -267,6 +271,10 @@ def form_response_new(formId):
         ):
             app.check_permissions(form, "Responses_Edit")
             # raise UnauthorizedError(f"User {userId} does not own response {response.id} (owner is {response.user.id})")
+
+    if type(send_email) is str:
+        send_email = calculate_price(send_email, response_data, True, response_metadata)
+
     if newResponse or (not newResponse and paid):
         response.value = response_data
         response.date_modified = datetime.datetime.now()

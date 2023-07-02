@@ -15,6 +15,7 @@ from unittest.mock import MagicMock
 import zlib
 import binascii
 
+
 class FormResponses(BaseTestCase):
     def setUp(self):
         super(FormResponses, self).setUp()
@@ -153,7 +154,6 @@ class FormResponses(BaseTestCase):
             path=f"/forms/{formId}/responses/?query=test&apiKey=abcdefg",
         )
         self.assertEqual(response["statusCode"], 200, response)
-
 
     def test_response_stats_aggregate_count(self):
         self.set_formOptions(
@@ -340,32 +340,32 @@ class FormResponses(BaseTestCase):
             {
                 "schema": {"a": "B"},
                 "uiSchema": {"a": "B"},
-                "formOptions":             {
-                "dataOptions": {
-                    "views": [
-                        {
-                            "id": "aggregateView",
-                            "type": "stats",
-                            "apiKey": hashlib.sha512(apiKey.encode()).hexdigest(),
-                            "stats": [
-                                {
-                                    "type": "single",
-                                    "title": "a",
-                                    "queryType": "aggregate",
-                                    "queryValue": [
-                                        {
-                                            "$match": {
-                                                "value.registrationType": "sponsorship"
-                                            }
-                                        },
-                                        {"$group": {"_id": None, "n": {"$sum": 1}}},
-                                    ],
-                                }
-                            ],
-                        }
-                    ]
-                }
-            }
+                "formOptions": {
+                    "dataOptions": {
+                        "views": [
+                            {
+                                "id": "aggregateView",
+                                "type": "stats",
+                                "apiKey": hashlib.sha512(apiKey.encode()).hexdigest(),
+                                "stats": [
+                                    {
+                                        "type": "single",
+                                        "title": "a",
+                                        "queryType": "aggregate",
+                                        "queryValue": [
+                                            {
+                                                "$match": {
+                                                    "value.registrationType": "sponsorship"
+                                                }
+                                            },
+                                            {"$group": {"_id": None, "n": {"$sum": 1}}},
+                                        ],
+                                    }
+                                ],
+                            }
+                        ]
+                    }
+                },
             },
         )
         self.submit_form(formId, {"registrationType": "sponsorship"})
