@@ -168,7 +168,7 @@ class FormSubmitEmail(BaseTestCase):
 
         _, submit_res = self.submit_form(
             formId,
-            {"email": "success@simulator.amazonses.com"},
+            {"email": "success@simulator.amazonses.com", "age": 10},
             responseId=responseId,
             submitOptions={"sendEmail": "age > 10"},
         )
@@ -177,7 +177,7 @@ class FormSubmitEmail(BaseTestCase):
 
         _, submit_res = self.submit_form(
             formId,
-            {"email": "success@simulator.amazonses.com"},
+            {"email": "success@simulator.amazonses.com", "age": 10},
             responseId=responseId,
             submitOptions={"sendEmail": "age == 10"},
         )
