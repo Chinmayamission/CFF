@@ -64,6 +64,8 @@ class FormOptions(EmbeddedMongoModel):
     # Link that the user can use to make modifications to the form. Should be set especially
     # if the form is hosted on a custom domain (such as an iframe).
     modifyLink = fields.CharField(blank=True)
+    # If set, submitOptions is set to this value by default.
+    defaultSubmitOptions = fields.DictField(blank=True)
 
 
 class Form(BaseMongoModel):

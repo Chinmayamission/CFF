@@ -87,19 +87,19 @@ class FormSubmit(BaseTestCase):
         response = self.view_response(responseId)
         self.assertEqual(response["value"], ONE_FORMDATA)
 
-
     def test_submit_form_modify_link_custom(self):
         """Submitting a form and specifying modifyLink should save that link to the response."""
-        responseId, submit_res = self.submit_form(self.formId, ONE_FORMDATA, extra_body={"modifyLink": "http://modify"})
+        responseId, submit_res = self.submit_form(
+            self.formId, ONE_FORMDATA, extra_body={"modifyLink": "http://modify"}
+        )
         self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
         self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
         self.assertIn("paymentMethods", submit_res)
-        
+
         response = Response.objects.get({"_id": ObjectId(responseId)})
         self.assertEqual(response.modify_link, f"http://modify?responseId={responseId}")
         response = self.view_response(responseId)
         self.assertEqual(response["value"], ONE_FORMDATA)
-
 
     def test_submit_form_modify_link_configured(self):
         """Submitting a form that already has formOptions.modifyLink configured should use that link as the response."""
@@ -114,16 +114,19 @@ class FormSubmit(BaseTestCase):
         )
 
         for eb in [{"modifyLink": "http://modify3"}, {}]:
-            responseId, submit_res = self.submit_form(formId, ONE_FORMDATA, extra_body=eb)
+            responseId, submit_res = self.submit_form(
+                formId, ONE_FORMDATA, extra_body=eb
+            )
             self.assertEqual(submit_res.pop("value"), ONE_FORMDATA)
             self.assertEqual(submit_res, ONE_SUBMITRES, submit_res)
             self.assertIn("paymentMethods", submit_res)
 
             response = Response.objects.get({"_id": ObjectId(responseId)})
-            self.assertEqual(response.modify_link, f"http://modify2?responseId={responseId}")
+            self.assertEqual(
+                response.modify_link, f"http://modify2?responseId={responseId}"
+            )
             response = self.view_response(responseId)
             self.assertEqual(response["value"], ONE_FORMDATA)
-
 
     def test_submit_form_currencyTemplate(self):
         formOptions = {

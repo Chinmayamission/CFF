@@ -1,3 +1,8 @@
+## 7.5.0
+
+* Hide `submitOptions` for admins as it was confusing.
+* Allow disabling email sending on form submit with `defaultSubmitOptions`, and allow this to be conditional.
+
 ## 7.4.2
 
 * Address Autocomplete Field: Store `distance` key in closest locations when using the `saveNClosestLocations` option.

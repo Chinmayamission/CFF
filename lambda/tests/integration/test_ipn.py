@@ -517,11 +517,5 @@ class FormIpn(BaseTestCase):
         detail_history_one = response["payment_trail"][0]
         detail_history_one.pop("date")
         self.assertEqual(detail_history_one["status"], "SUCCESS")
-        self.assertEqual(
-            detail_history_one["id"],
-            "subscr_signup",
-        )
-        self.assertEqual(
-            detail_history_one["value"]["custom"],
-            responseId,
-        )
+        self.assertEqual(detail_history_one["id"], "subscr_signup")
+        self.assertEqual(detail_history_one["value"]["custom"], responseId)

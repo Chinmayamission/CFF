@@ -134,3 +134,52 @@ class FormSubmitEmail(BaseTestCase):
         )
         self.assertEqual(submit_res["paid"], True)
         self.assertEqual(submit_res["email_sent"], False)
+
+    def test_submit_paid_disable_send_email_conditional_sendEmail(self):
+        formId = self.create_form()
+        self.edit_form(
+            formId,
+            {
+                "schema": {"a": "B"},
+                "uiSchema": {"a": "B"},
+                "formOptions": {
+                    "paymentInfo": {
+                        "currency": "USD",
+                        "items": [
+                            {
+                                "name": "a",
+                                "description": "a",
+                                "amount": "0",
+                                "quantity": "0",
+                            }
+                        ],
+                    },
+                    "confirmationEmailInfo": {"toField": "email"},
+                },
+            },
+        )
+        responseId, submit_res = self.submit_form(
+            formId,
+            {"email": "success@simulator.amazonses.com", "age": 10},
+            submitOptions={"sendEmail": "age > 10"},
+        )
+        self.assertEqual(submit_res["paid"], True)
+        self.assertEqual(submit_res["email_sent"], False)
+
+        _, submit_res = self.submit_form(
+            formId,
+            {"email": "success@simulator.amazonses.com", "age": 10},
+            responseId=responseId,
+            submitOptions={"sendEmail": "age > 10"},
+        )
+        self.assertEqual(submit_res["paid"], True)
+        self.assertEqual(submit_res["email_sent"], False)
+
+        _, submit_res = self.submit_form(
+            formId,
+            {"email": "success@simulator.amazonses.com", "age": 10},
+            responseId=responseId,
+            submitOptions={"sendEmail": "age == 10"},
+        )
+        self.assertEqual(submit_res["paid"], True)
+        self.assertEqual(submit_res["email_sent"], True)

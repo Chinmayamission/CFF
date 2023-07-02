@@ -33,7 +33,7 @@ def response_ccavenue_response_handler(responseId):
             response,
             f"CCAvenue config not found for merchant id: {merchant_id}.",
             "ccavenue",
-            {"raw_body": app.current_request.raw_body.decode("utf-8")}
+            {"raw_body": app.current_request.raw_body.decode("utf-8")},
         )
 
     res = dict(parse_qsl(app.current_request.raw_body.decode("utf-8")))

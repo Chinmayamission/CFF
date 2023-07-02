@@ -1237,9 +1237,7 @@ Array [
     class="col-12 col-sm-6 p-4"
     style="margin:0 auto"
   >
-    <div
-      class="alert alert-info"
-    >
+    <div>
       Test text, hello world
     </div>
   </div>,

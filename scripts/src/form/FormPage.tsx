@@ -494,7 +494,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
             this.state.formOptions.paymentInfo.showPaymentTable === false
           }
           showSubmitOptions={
-            this.canAdminEdit(this.state.cff_permissions) ? true : false
+            false
+            // this.canAdminEdit(this.state.cff_permissions) ? true : false
+          }
+          defaultSubmitOptions={
+            this.state.formOptions.defaultSubmitOptions || {}
           }
           schema={this.state.schema}
           uiSchema={this.state.uiSchema}

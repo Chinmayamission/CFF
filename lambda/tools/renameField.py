@@ -33,9 +33,7 @@ print("MODE", MODE)
 import time
 
 start = time.time()
-form = Form.objects.only("formOptions", "cff_permissions").get(
-        {"_id": ObjectId("...")}
-)
+form = Form.objects.only("formOptions", "cff_permissions").get({"_id": ObjectId("...")})
 results = _search(form, "test", None, None, None)
 print(time.time() - start)
 print(results)

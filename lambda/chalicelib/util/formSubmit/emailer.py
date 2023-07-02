@@ -69,10 +69,10 @@ def create_confirmation_email_dict(response, confirmationEmailInfo):
     to = confirmationEmailInfo.get("to", [])
     if type(to) is not list:
         to = [to]
-    
+
     toEmails = [get(response.value, i) for i in toField] + [i for i in to]
     toEmails = [email for email in toEmails if email]
-    
+
     # pre-process attachment templates
     attachments = [
         {

@@ -91,7 +91,9 @@ class BaseTestCase(unittest.TestCase):
             {"schema": {"a": "B"}, "uiSchema": {"a": "B"}, "formOptions": formOptions},
         )
 
-    def submit_form(self, formId, formData, responseId=None, submitOptions=None, extra_body={}):
+    def submit_form(
+        self, formId, formData, responseId=None, submitOptions=None, extra_body={}
+    ):
         body = {"data": formData, "responseId": responseId, **extra_body}
         if submitOptions is not None:
             body["submitOptions"] = submitOptions

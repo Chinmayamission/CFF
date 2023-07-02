@@ -72,3 +72,26 @@ Confirmation email body text is set through `confirmationEmailInfo.template.html
 See [Sample templates](confirmation-templates.md) for some sample templates that may fit your needs with a little tweaking.
 
 See [Making your own templates](confirmation-jinja.md) for a more complete list of features offered by CFF for creating your own template.
+
+## Disabling email sending with defaultSubmitOptions
+
+If you want to disable sending emails, you should set `formOptions.defaultSubmitOptions.sendEmail` to `false`.
+
+```json
+{
+    "defaultSubmitOptions": {
+        "sendEmail": false
+    }
+}
+```
+
+You can also conditionally sending emails by including a string with a payment expression in `sendEmail`. For example, to only send emails if `age > 10`, you can do the following:
+
+
+```json
+{
+    "defaultSubmitOptions": {
+        "sendEmail": "age > 10"
+    }
+}
+```
