@@ -514,19 +514,34 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
       </div>
     );
     if (this.state.status === STATUS_FORM_CONFIRMATION) {
+      const confirmationPageTitle = get(
+        this.state.formOptions,
+        "messages.confirmationPageTitle",
+        "Confirmation Page"
+      );
+      const confirmationPageNoticeTop = get(
+        this.state.formOptions,
+        "messages.confirmationPageNoticeTop",
+        "Please scroll down and review your registration details in order to continue."
+      );
+      const readOnlyFormLocation = get(
+        this.state.formOptions,
+        "theme.confirmationPage.readOnlyFormLocation",
+        ""
+      );
       return (
         <div>
           {!this.state.paymentStarted && (
             <div>
-              <h1 className="text-center">Confirmation Page</h1>
-              <div className="alert alert-warning">
-                {get(
-                  this.state.formOptions,
-                  "messages.confirmationPageNoticeTop",
-                  "Please scroll down and review your registration details in order to continue."
-                )}
-              </div>
-              {formToReturn}
+              {confirmationPageTitle && (
+                <h1 className="text-center">{confirmationPageTitle}</h1>
+              )}
+              {confirmationPageNoticeTop && (
+                <div className="alert alert-warning">
+                  {confirmationPageNoticeTop}
+                </div>
+              )}
+              {readOnlyFormLocation !== "bottom" && formToReturn}
             </div>
           )}
           <FormConfirmationPage
@@ -561,6 +576,7 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
                 if you would like to do so.
               </div>
             )}
+          {readOnlyFormLocation === "bottom" && formToReturn}
         </div>
       );
     }
@@ -585,6 +601,11 @@ class FormPage extends React.Component<IFormPageProps, IFormPageState> {
   render() {
     return (
       <div style={get(this.state.formOptions, "theme.style.root", {})}>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: get(this.state.formOptions, "theme.style.rootRaw", "")
+          }}
+        />
         <GoogleFontLoader
           fonts={get(this.state.formOptions, "theme.fonts", [])}
         />

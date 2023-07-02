@@ -1,8 +1,12 @@
 `formOptions.messages` can be used to override certain default messages. Here are the supported messages:
 
+## Modify title at top of confirmation page
+
+`formOptions.messages.confirmationPageTitle` - used to override the title at the confirmation page, by default "Confirmation Page".
+
 ## Modify message at top of confirmation page
 
-`formOptions.messages.confirmationPageNoticeTop` - used to override the message at the top, which is by default, "Please scroll down and review your registration details in order to continue."
+`formOptions.messages.confirmationPageNoticeTop` - used to override the message at the top with the yellow background, which is by default, "Please scroll down and review your registration details in order to continue."
 
 ## Modify text before payment buttons
 

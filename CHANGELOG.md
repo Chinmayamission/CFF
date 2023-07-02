@@ -2,6 +2,8 @@
 
 * Hide `submitOptions` for admins as it was confusing.
 * Allow disabling email sending on form submit with `defaultSubmitOptions`, and allow this to be conditional.
+* Support `formOptions.theme.rootRaw` property to inject arbitrary CSS into a form inside a `<style>` tag.
+* Support `formOptions.messages.confirmationPageTitle` property to replace title on the confirmation page.
 
 ## 7.4.2
 
