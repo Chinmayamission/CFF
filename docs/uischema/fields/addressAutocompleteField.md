@@ -187,3 +187,21 @@ Then, in the uiSchema, pass a list of locations along with their associated lati
 ```
 
 Finally, when you enter your address, it will calculate the distance (in meters) and then save it in the `distance` field, and save the 5 closest locations to `closestLocations` (or whatever number is set in `saveNClosestLocations`). Each element in `closestLocations` will also have a `distance` key with the specific distance of that location.
+
+You can specify `closestLocationsFilter` to run a custom filter on the locations returned. The final list of locations will only have locations that pass this filter. The value of `closestLocationsFilter` should be a JSON Schema. For example, to filter out locations to only include locations that are shorter than 72420 meters (45 miles) away:
+
+```json
+{
+        ...
+        "cff:locationDistance": {
+            "saveNClosestLocations": 5,
+            "closestLocationsFilter": {
+                "properties": {
+                    "distance": {
+                        "maximum": 72420
+                    }
+                }
+            }
+        ...
+}
+```

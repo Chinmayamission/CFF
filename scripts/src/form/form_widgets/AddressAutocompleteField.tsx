@@ -1,4 +1,5 @@
 import React from "react";
+import Ajv from "ajv";
 import { getDistance, orderByDistance } from "geolib";
 import { Helmet } from "react-helmet";
 import { get, find } from "lodash";
@@ -168,9 +169,11 @@ export default class extends React.Component<any, any> {
 
     // Only calculate distance on blur, or when user enters in a new address in the autocomplete field (only then will opts.calculateDistance be set to true).
     if (uiOptions["cff:locationDistance"] && opts.calculateDistance) {
-      const { locations, saveNClosestLocations } = uiOptions[
-        "cff:locationDistance"
-      ];
+      const {
+        locations,
+        saveNClosestLocations,
+        closestLocationsFilter
+      } = uiOptions["cff:locationDistance"];
       // value
       const placeLocation = { latitude: null, longitude: null };
       if (opts.latitude && opts.longitude) {
@@ -205,14 +208,17 @@ export default class extends React.Component<any, any> {
 
       const closestLocation = ordered[0];
       let distance = getDistance(placeLocation, closestLocation); // in meters
-      const closestLocations = saveNClosestLocations
-        ? ordered
-            .slice(0, saveNClosestLocations)
-            .map(location => ({
-              ...location,
-              distance: getDistance(placeLocation, location)
-            })) // Add "distance" key to each closest location
+      let closestLocations = saveNClosestLocations
+        ? ordered.slice(0, saveNClosestLocations).map(location => ({
+            ...location,
+            distance: getDistance(placeLocation, location)
+          })) // Add "distance" key to each closest location
         : undefined;
+      if (closestLocations && closestLocationsFilter) {
+        let ajv = new Ajv();
+        let validate = ajv.compile(closestLocationsFilter);
+        closestLocations = closestLocations.filter(e => validate(e));
+      }
       value = { ...value, distance, closestLocations };
       console.log("Closest location is: ", closestLocation, distance, value);
     }
