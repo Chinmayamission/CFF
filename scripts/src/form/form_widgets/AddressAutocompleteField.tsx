@@ -82,12 +82,14 @@ function parsePlace(place: IPlaceResult) {
    * administrative_area_level_1 (state)
    * country
    * postal_code
+   * See https://developers.google.com/maps/documentation/places/web-service/supported_types
    */
   console.log(place);
   let parts = {
     street_number: null,
     route: null,
     locality: null,
+    postal_town: null,
     administrative_area_level_1: null,
     country: null,
     postal_code: null
@@ -101,7 +103,7 @@ function parsePlace(place: IPlaceResult) {
   }
   return {
     line1: [parts.street_number, parts.route].filter(e => e).join(" "),
-    city: parts.locality,
+    city: parts.locality || parts.postal_town,
     state: abbr(parts.administrative_area_level_1),
     country: parts.country,
     zipcode: parts.postal_code

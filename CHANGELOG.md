@@ -1,6 +1,7 @@
 ## 7.6.0
 
 * Address Autocomplete Field: Add `closestLocationsFilter` option to allow filtering closest locations before they are saved to the form data.
+* Address Autocomplete Field: Fix logic so it works for UK-based addresses.
 
 ## 7.5.0
 
