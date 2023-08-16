@@ -170,8 +170,6 @@ function CustomForm(props: ICustomFormProps) {
     });
   }
 
-  console.log("formData", props.formData);
-
   return (
     <div
       className={`ccmt-cff-Page-FormPage${

@@ -190,7 +190,7 @@ export namespace Headers {
           amount_paid,
           payment_status_detail
         } = formData.responseMetadata;
-        if (!paymentInfo || !paymentInfo.items || !paymentInfo.total) {
+        if (!paymentInfo || !paymentInfo.items) {
           return "";
         }
         if (startDate && endDate) {
@@ -214,7 +214,8 @@ export namespace Headers {
             total !== undefined ? total : amount * quantity
           ) // Use total attribute, but fall back on amount * quantity if that doesn't exist (only newer versions of CFF included the total attribute)
           .reduce((a, b) => a + b, 0);
-        if (amount_paid_cents <= 100 * paymentInfo.total) {
+        // If payment is partial, proportionally reduce payments by the amount paid.
+        if (amount_paid_cents < 100 * paymentInfo.total) {
           sum = (amount_paid_cents / 100.0) * (sum / paymentInfo.total);
         }
         return formatPayment(sum, paymentInfo.currency);

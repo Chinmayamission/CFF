@@ -1,3 +1,7 @@
+## 7.7.1
+
+* Fix bug where `paymentInfoItemPaidSum` doesn't work when total amount paid is zero (for example, because of coupon codes).
+
 ## 7.6.0
 
 * Address Autocomplete Field: Add `closestLocationsFilter` option to allow filtering closest locations before they are saved to the form data.

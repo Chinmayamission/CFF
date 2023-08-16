@@ -260,6 +260,59 @@ describe("responses with queryType=paymentInfoItemPaidSum data", () => {
     expect(wrapper).toMatchSnapshot();
     expect(wrapper.text()).toContain("$9.90");
   });
+  it("should sum up query values - 2", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Subtotal",
+          queryType: "paymentInfoItemPaidSum",
+          queryValue: {
+            names: [
+              "Mela only",
+              "5K (includes Mela)",
+              "10K (includes Mela)",
+              "Half Marathon (includes Mela)",
+              "Customized Bib Name",
+              "Donation to CMSJ",
+              "Pre-pay for parking",
+              "Number of unlimited ride tickets"
+            ]
+          }
+        }
+      ]
+    };
+    const responses_ = [
+      createResponseWithValue(
+        { age: 500 },
+        {
+          paid: false,
+          paymentInfo: {
+            currency: "USD",
+            items: [
+              {
+                name: "5K (includes Mela)",
+                description: "5K",
+                amount: 45,
+                quantity: 1,
+                total: 45
+              }
+            ],
+            total: 45
+          }
+        }
+      )
+    ];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    expect(wrapper.text()).toContain("$45.00");
+  });
   it("should handle partial payments when 1/10th and 1/2 of total has been paid", () => {
     const dataOptionView = {
       id: "all",
@@ -334,6 +387,55 @@ describe("responses with queryType=paymentInfoItemPaidSum data", () => {
     expect(wrapper).toMatchSnapshot();
     expect(wrapper.text()).toContain("$0.99");
     expect(wrapper.text()).toContain("$1,076.66");
+  });
+  it("should sum up values with coupon code", () => {
+    const dataOptionView = {
+      id: "all",
+      displayName: "All Responses",
+      columns: [
+        {
+          label: "Age",
+          queryType: "paymentInfoItemPaidSum",
+          queryValue: {
+            names: ["a", "b"]
+          }
+        }
+      ]
+    };
+    const responses_ = [
+      createResponseWithValue(
+        { age: 500 },
+        {
+          paid: true,
+          paymentInfo: {
+            items: [
+              {
+                name: "a",
+                total: -10
+              },
+              {
+                name: "b",
+                total: -0.1
+              },
+              {
+                name: "c",
+                total: 10.1
+              }
+            ],
+            total: 0
+          }
+        }
+      )
+    ];
+    const wrapper = render_(
+      <ResponseTableView
+        responses={responses_}
+        renderedForm={renderedForm}
+        dataOptionView={dataOptionView}
+      />
+    );
+    // expect(wrapper).toMatchSnapshot();
+    expect(wrapper.text()).toContain("-$10.10");
   });
   it("should show correct value (not overcompensate) when more than paymentInfo.total has been payed", () => {
     const dataOptionView = {

@@ -213,7 +213,7 @@ Note that using `paymentInfoItemPaidSum` will also cross-check with amount paid.
 
 If you want to filter only payments in a particular date range, specify both `startDate` and `endDate` in queryValue. Both should be in UTC. This will decrease the amounts shown proportionally as well.
 
-``` json
+```json
 {
   "label": "Amount paid for registration",
   "queryType": "paymentInfoItemPaidSum",
