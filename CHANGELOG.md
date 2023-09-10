@@ -1,3 +1,7 @@
+## 7.7.2
+
+* Remove currency validation in payment status detail, so that other currencies can be used.
+
 ## 7.7.1
 
 * Fix bug where `paymentInfoItemPaidSum` doesn't work when total amount paid is zero (for example, because of coupon codes).

@@ -7,7 +7,7 @@ import pymodm
 from bson.json_util import dumps, RELAXED_JSON_OPTIONS, DatetimeRepresentation
 import json
 
-currency_field = fields.CharField(required=True, choices=("USD", "INR"))
+currency_field = fields.CharField(required=True)
 money_field = fields.CharField(required=True)
 
 
