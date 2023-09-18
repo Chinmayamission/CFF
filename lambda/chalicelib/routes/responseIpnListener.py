@@ -171,15 +171,15 @@ def response_ipn_listener(responseId):
         send_email(
             toEmail="aramaswamis@gmail.com",
             fromEmail="webmaster@chinmayamission.com",
-            ccEmail=None,
-            bccEmail=None,
-            replyToEmail=None,
+            ccEmail=[],
+            bccEmail=[],
+            replyToEmail=[],
             fromName="Webmaster",
             subject="CFF IPN Error",
             msgBody=f"""
             IPN error, message {message}, paramDict {paramDict}
             """,
-            attachments=None,
+            attachments=[],
         )
 
     if responseId != responseIdFromIpn:
