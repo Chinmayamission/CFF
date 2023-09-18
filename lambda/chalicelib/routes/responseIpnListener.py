@@ -3,7 +3,7 @@ import requests
 import urllib
 from decimal import Decimal
 from botocore.exceptions import ClientError
-from ..util.formSubmit.emailer import send_confirmation_email
+from ..util.formSubmit.emailer import send_confirmation_email, send_email
 from chalicelib.models import (
     PaymentTrailItem,
     UpdateTrailItem,
@@ -168,6 +168,19 @@ def response_ipn_listener(responseId):
             )
         )
         response.save()
+        send_email(
+            toEmail="aramaswamis@gmail.com",
+            fromEmail="webmaster@chinmayamission.com",
+            ccEmail=[],
+            bccEmail=[],
+            replyToEmail=[],
+            fromName="Webmaster",
+            subject="CFF IPN Error",
+            msgBody=f"""
+            IPN error, message {message}, paramDict {paramDict}
+            """,
+            attachments=[],
+        )
 
     if responseId != responseIdFromIpn:
         raise_ipn_error(
