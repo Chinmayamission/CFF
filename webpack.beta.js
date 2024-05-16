@@ -25,7 +25,7 @@ module.exports = version =>
         USER_POOL_ID: `"us-east-1_U9ls8R6E3"`,
         COGNITO_CLIENT_ID: `"2511g7rmn8p70losdlh9gi9j0"`,
         GA_TRACKING_ID: `"UA-28518772-10"`,
-        GOOGLE_MAPS_API_KEY: `"AIzaSyAIJZv8VKMaV_ckEPGtQ48CZiI5z5E1rCw"`
+        GOOGLE_MAPS_API_KEY: `"AIzaSyDF985J8RetSG8UHOBfs3qgC71GVHPitxw"`
       }),
       new HtmlWebpackPlugin({
         title: "Chinmaya Forms Framework - Beta",
