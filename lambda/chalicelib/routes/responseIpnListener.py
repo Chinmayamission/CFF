@@ -222,7 +222,7 @@ def response_ipn_listener(responseId):
             # TODO: actually handle these.
             raise_ipn_error("txn_type is not supported and must be manually handled.")
             return ""
-        if paramDict["receiver_email"] != expected_receiver_email:
+        if paramDict["receiver_email"].lower() != expected_receiver_email.lower():
             raise_ipn_error(
                 "Emails do not match. {}, {}".format(
                     paramDict["receiver_email"], expected_receiver_email
