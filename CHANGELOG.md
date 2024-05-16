@@ -1,3 +1,7 @@
+## 7.6.5
+
+* Update Maps API Key
+
 ## 7.6.4
 
 * Remove currency validation in payment status detail, so that other currencies can be used.
