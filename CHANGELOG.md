@@ -1,3 +1,7 @@
+## 7.6.7
+
+* Update Maps API Key
+
 ## 7.6.6
 
 * Update Maps API Key
