@@ -21,6 +21,24 @@ function ArrayFieldDescription({ DescriptionField, idSchema, description }) {
   return <DescriptionField id={id} description={description} />;
 }
 
+function waitForCondition(conditionFn, interval = 100, timeout = 5000) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+
+    function checkCondition() {
+      if (conditionFn()) {
+        resolve();
+      } else if (Date.now() - startTime >= timeout) {
+        reject(new Error("Condition not met within timeout period."));
+      } else {
+        setTimeout(checkCondition, interval);
+      }
+    }
+
+    checkCondition();
+  });
+}
+
 class ArrayFieldTemplate extends React.Component<any, any> {
   constructor(props) {
     super(props);
@@ -28,12 +46,14 @@ class ArrayFieldTemplate extends React.Component<any, any> {
       initialNumItems: this.props.items ? this.props.items.length : 0
     };
   }
-  onNumItemsChange(e) {
+  async onNumItemsChange(e) {
+    console.log(e);
     const newValue = parseInt(e);
     const oldValue = this.props.items ? this.props.items.length : 0;
     if (newValue > oldValue) {
       for (let i = oldValue + 1; i <= newValue; i++) {
         this.props.onAddClick({ preventDefault: () => null });
+        await waitForCondition(() => this.props.items.length === i);
       }
     } else if (newValue < oldValue) {
       const disableModifExistingItems = this.props.uiSchema[

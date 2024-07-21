@@ -1,3 +1,7 @@
+## 7.6.8
+
+* Fix bug where "Number Of Attendees" dropdown wasn't working properly
+
 ## 7.6.7
 
 * Update Maps API Key
