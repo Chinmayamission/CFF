@@ -82,10 +82,11 @@ class PaymentTable extends React.Component<IPaymentTableProps, any> {
         style: numericColStyle,
         accessor: d =>
           d.recurrenceDuration
-            ? formatRecurrence(d)
-              ? " " + formatRecurrence(d)
-              : ""
-            : d.quantity
+            ? ""
+            : // ? formatRecurrence(d)
+              //   ? " " + formatRecurrence(d)
+              //   : ""
+              d.quantity
       },
       {
         Header: "Total",
