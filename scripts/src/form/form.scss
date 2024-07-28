@@ -76,6 +76,10 @@
             flex: 1;
         }
     }
+
+    .field.col-12 {
+        padding-left: 0;
+    }
     .form-group {
         padding-left: 0px;
         padding-right: 15px;
@@ -86,6 +90,7 @@
     }
     .ccmt-cff-array-item-container {
         position: relative;
+        margin-bottom: 20px;
         .ccmt-cff-array-close-button {
             position: absolute;
             top: 10px;
