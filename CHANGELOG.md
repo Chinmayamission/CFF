@@ -1,3 +1,8 @@
+## 7.7.0
+
+* Allow "meta" tags in successMessage and other places
+* Don't show quantity for recurrences in payment table
+
 ## 7.6.8
 
 * Fix bug where "Number Of Attendees" dropdown wasn't working properly
