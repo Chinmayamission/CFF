@@ -271,9 +271,7 @@ exports[`renders installment payment table 1`] = `
                     class="rt-td"
                     role="gridcell"
                     style="text-align:right;flex:100 0 auto;width:100px"
-                  >
-                     every month for 10 times
-                  </div>
+                  />
                   <div
                     class="rt-td"
                     role="gridcell"
@@ -1002,9 +1000,7 @@ exports[`renders recurring payment table with end 1`] = `
                     class="rt-td"
                     role="gridcell"
                     style="text-align:right;flex:100 0 auto;width:100px"
-                  >
-                     every month for 10 times
-                  </div>
+                  />
                   <div
                     class="rt-td"
                     role="gridcell"
@@ -1181,9 +1177,7 @@ exports[`renders recurring payment table with times 1`] = `
                     class="rt-td"
                     role="gridcell"
                     style="text-align:right;flex:100 0 auto;width:100px"
-                  >
-                     every month
-                  </div>
+                  />
                   <div
                     class="rt-td"
                     role="gridcell"
