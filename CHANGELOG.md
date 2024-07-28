@@ -1,3 +1,7 @@
+## 7.1.1
+
+* Fix form spacing, snapshots
+
 ## 7.7.0
 
 * Allow "meta" tags in successMessage and other places
