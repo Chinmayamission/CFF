@@ -96,6 +96,7 @@ class FormResponseCounter(MongoModel):
   """
 
     counter = fields.IntegerField()
+    key = fields.CharField()
     form = fields.ReferenceField(Form, on_delete=fields.ReferenceField.CASCADE)
 
     class Meta:

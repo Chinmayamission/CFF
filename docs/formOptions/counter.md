@@ -20,3 +20,16 @@ To add the counter to the response table, enter `COUNTER` in the header value an
 
 ## Adding a counter to a confirmation email
 To add a counter to the confirmation email (or any jinja template), just use `{{counter}}` to display it.
+
+## Resetting counter
+
+To reset a counter, set the `key` field to some string:
+
+```json
+{
+    "counter": {
+        "enabled": true,
+        "key": "new-key"
+    }
+}
+```

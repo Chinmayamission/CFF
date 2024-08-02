@@ -1,3 +1,8 @@
+## 7.2.0
+
+* Fix radio button spacing
+* Support `key` field for counter, so that counter can be reset.
+
 ## 7.1.1
 
 * Fix form spacing, snapshots

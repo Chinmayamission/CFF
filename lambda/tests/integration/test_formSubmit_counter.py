@@ -181,3 +181,71 @@ class FormSubmitCounter(BaseTestCase):
         self.assertEqual(counter.counter, 2)
 
         self.delete_form(formId)
+
+    def test_submit_form_counter_already_exists_with_key(self):
+        formId = self.create_form()
+        schema = {
+            "properties": {
+                "custom": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}},
+            }
+        }
+        uiSchema = {"a": "b"}
+        formOptions = {
+            "counter": {"enabled": True, "key": "test"},
+            "responseCanViewByLink": True,
+            "responseCanEditByLink": True,
+        }
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
+
+        FormResponseCounter(form=ObjectId(formId), counter=1, key="test").save()
+
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        self.assertEqual(response.counter, 2)
+
+        counter = FormResponseCounter.objects.get({"form": ObjectId(formId)})
+        self.assertEqual(counter.counter, 2)
+
+        self.delete_form(formId)
+
+    def test_submit_form_counter_already_exists_with_diff_key(self):
+        formId = self.create_form()
+        schema = {
+            "properties": {
+                "custom": {"type": "string"},
+                "participants": {"type": "array", "items": {"type": "string"}},
+            }
+        }
+        uiSchema = {"a": "b"}
+        formOptions = {
+            "counter": {"enabled": True, "key": "test"},
+            "responseCanViewByLink": True,
+            "responseCanEditByLink": True,
+        }
+        self.edit_form(
+            formId, {"schema": schema, "uiSchema": uiSchema, "formOptions": formOptions}
+        )
+
+        FormResponseCounter(form=ObjectId(formId), counter=1).save()
+
+        responseId, submit_res = self.submit_form(
+            formId, {"participants": ["a", "b", "c"]}
+        )
+        self.assertEqual(submit_res["success"], True)
+        self.assertEqual(submit_res["value"], {"participants": ["a", "b", "c"]})
+
+        response = Response.objects.get({"_id": ObjectId(responseId)})
+        self.assertEqual(response.counter, 1)
+
+        counter = FormResponseCounter.objects.get({"form": ObjectId(formId), "key": "test"})
+        self.assertEqual(counter.counter, 1)
+
+        self.delete_form(formId)

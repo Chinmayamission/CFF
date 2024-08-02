@@ -103,7 +103,7 @@ def form_response_new(formId):
     counter_value = None
     counter = form.formOptions.counter
     if newResponse and counter and "enabled" in counter and counter["enabled"] == True:
-        counter_value = get_counter(formId)
+        counter_value = get_counter(formId, counter.get("key", None))
     modify_link = (
         getattr(form.formOptions, "modifyLink", "")
         or app.current_request.json_body.get("modifyLink")
