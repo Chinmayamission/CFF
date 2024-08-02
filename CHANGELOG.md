@@ -1,6 +1,6 @@
 ## 7.8.0
 
-* Fix radio button spacing
+* Fix inline radio button spacing
 * Support `key` field for counter, so that counter can be reset.
 
 ## 7.7.1
