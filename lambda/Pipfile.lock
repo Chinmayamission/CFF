@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b07c9837ab64f9641ea19b34610186d4ff3b34cecda3199cabc866e09b9273fb"
+            "sha256": "7878a7bd5cbdf9867c7a845f24569f74f135365affb0e730c04725c95767fbac"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -73,19 +73,19 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:5bfcced1a30597b06b3426024c7a9220526882e8fc2dd255f03b9389b5ad8623",
-                "sha256:aee98e60c7d2ce1396a3beaf47f8ff749e64804cbdaed8e19d4338a6f628f2dc"
+                "sha256:d141f18d0ec63bc89e0f3d24f269b4f2e18377f1c5e39c56152d4cfd8e6c6ff7",
+                "sha256:da672d9133852dbb36ce9cd156dffcb28a2dc098af1731791ab614969a34f9f5"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.24.76"
+            "version": "==1.24.78"
         },
         "botocore": {
             "hashes": [
-                "sha256:0d4a67801e5a4be4cd84795320ad9fb8c315ed1e7a63e1191b2b3f7a7171d43c",
-                "sha256:b5c32922eba727a466f171dcc281f309d2a313e2f6dc592d43044caad96de338"
+                "sha256:b45ae0680699ce100386ac1478e03fd3f29ef22d6bfb5a19169ffee6e67c5293",
+                "sha256:fc2ffdafce66c051c69ae6ac50599d6da11e84371c704ae9b7cf9e2742a4dc77"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==1.27.76"
+            "version": "==1.27.78"
         },
         "certifi": {
             "hashes": [
@@ -437,11 +437,11 @@
         },
         "pip": {
             "hashes": [
-                "sha256:86a60a96d85e329962a9e6f6af612cbc11106293dbc83f119802b5bee9874cf3",
-                "sha256:f05a3eeea64bce94e85cc6671d679473d66288a4d37c3fcf983584954096b34f"
+                "sha256:a810bf07c3723a28621c29abe8e34429fa082c337f89aea9a795865416b66d3e",
+                "sha256:ea9f2668484893e90149fd5a6124e04651ffedd67203a8aaf030d31406b937a4"
             ],
             "index": "pypi",
-            "version": "==10"
+            "version": "==21.1"
         },
         "py-expression-eval": {
             "hashes": [
