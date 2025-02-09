@@ -1,3 +1,8 @@
+
+## 7.8.2
+
+* Fix bug where sheets script was not working for nested keys with "$" in them.
+
 ## 7.8.1
 
 * Only run sheets script for om run / MSC forms for now

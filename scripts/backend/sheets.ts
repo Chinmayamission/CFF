@@ -71,6 +71,22 @@ interface IDistanceMatrixRow {
 // lastFormProcessedDateModified is stored as a global variable, and marks where the script should start when looking for forms. Since the script cannot go through all forms without timing out, keeping track of lastFormProcessedDateModified allows the script to resume where it stopped when it times out on a particular form.
 let lastFormProcessedDateModified = new Date(0);
 
+function replaceKey(iterable: any, old: string, new_: string): any {
+  if (iterable && typeof iterable === "object") {
+    if (Array.isArray(iterable)) {
+      return iterable.map(item => replaceKey(item, old, new_));
+    } else {
+      const newObj: any = {};
+      for (const key of Object.keys(iterable)) {
+        const newKey = key.replace(old, new_);
+        newObj[newKey] = replaceKey(iterable[key], old, new_);
+      }
+      return newObj;
+    }
+  }
+  return iterable;
+}
+
 export const sheets = async (event, context) => {
   try {
     var ssm = new AWS.SSM();
@@ -147,13 +163,20 @@ export const sheets = async (event, context) => {
         "formOptions.dataOptions.export": { $exists: true },
         date_modified: { $gte: lastFormProcessedDateModified }
       })
-      .sort({ date_modified: +1 }) // sort from least recently modified to most recently modified.
+      .sort({ date_modified: -1 }) // sort from most recently modified to least recently modified.
       .toArray();
     for (let form of forms) {
-      const dataOptions = getOrDefaultDataOptions(form);
+      let dataOptions = getOrDefaultDataOptions(form);
       if (!dataOptions.export) {
         continue;
       }
+
+      // Transform all views at once before processing
+      dataOptions = {
+        ...dataOptions,
+        views: replaceKey(replaceKey(dataOptions.views, "|", "$"), "||", ".")
+      };
+
       for (let googleSheetsDataOptionIndex in dataOptions.export) {
         let googleSheetsDataOption =
           dataOptions.export[googleSheetsDataOptionIndex];
@@ -308,11 +331,6 @@ export const sheets = async (event, context) => {
           let responsesToUse = responses;
           if (dataOptionView.aggregate) {
             let cacheKey = JSON.stringify(dataOptionView.aggregate);
-            let aggregateQuery = dataOptionView.aggregate.map(obj =>
-              renameKeys(obj, key =>
-                key.replace(/\|\|/g, ".").replace(/\|/g, "$")
-              )
-            );
             if (queryCache[cacheKey]) {
               responsesToUse = queryCache[cacheKey];
             } else {
@@ -324,7 +342,7 @@ export const sheets = async (event, context) => {
                       form: form._id
                     }
                   },
-                  ...aggregateQuery
+                  ...dataOptionView.aggregate
                 ])
                 .toArray();
               queryCache[cacheKey] = responsesToUse;
@@ -339,7 +357,7 @@ export const sheets = async (event, context) => {
               });
             }
             // Debug
-            // console.log(JSON.stringify(aggregateQuery), responsesToUse);
+            // console.log(JSON.stringify(dataOptionView.aggregate), responsesToUse);
           }
           if (responsesToUse.length === 0) {
             continue;
