@@ -139,10 +139,10 @@ export const sheets = async (event, context) => {
     console.log(
       `Searching for forms created since lastFormProcessedDateModified: ${lastFormProcessedDateModified}`
     );
-    // Only run script on Om Run forms for now.
+    // Only run script on Om Run or MSC forms for now.
     let forms = await coll
       .find({
-        name: { $regex: ".*Om Run.*" },
+        name: { $regex: ".*(Om Run|MSC).*" },
         _cls: "chalicelib.models.Form",
         "formOptions.dataOptions.export": { $exists: true },
         date_modified: { $gte: lastFormProcessedDateModified }

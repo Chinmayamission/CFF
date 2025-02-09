@@ -1,3 +1,7 @@
+## 7.8.1
+
+* Only run sheets script for om run / MSC forms for now
+
 ## 7.8.0
 
 * Fix inline radio button spacing
