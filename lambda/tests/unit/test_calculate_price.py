@@ -216,6 +216,22 @@ class TestCalculatePrice(unittest.TestCase):
         expression = "cff_countArray(CFF_FULL_participants, \"cff_yeardiff('2019-09-01', dob) > 2\")"
         self.assertEqual(calculate_price(expression, data), 0)
 
+    def test_countarray_multiple(self):
+        data = {
+            "children": [
+                {
+                    "grade": "7"
+                },
+                {
+                    "grade": "5"
+                }
+            ],
+            "paymentMethod": "check"
+        }
+        expression = "(cff_countArray(CFF_FULL_children,\"grade != 'prek' \") >= 2)*$paymentMethod:check * (cff_countArray(CFF_FULL_children,\"grade != 'prek' \")-1)"
+        self.assertEqual(calculate_price(expression, data), 1)
+
+
     @unittest.skip("Testing")
     def test_today(self):
         with mock.patch("datetime.date") as mock_date:
