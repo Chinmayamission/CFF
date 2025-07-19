@@ -110,6 +110,7 @@ export const sheets = async (event, context) => {
 
     google_key = JSON.parse(google_key);
     // let gapi = await google.client.load(google_key);
+    console.log("google_key", google_key);
     let jwtClient = new google.auth.JWT(
       google_key.client_email,
       null,

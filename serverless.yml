@@ -31,11 +31,11 @@ provider:
   name: aws
   runtime: nodejs14.x
 
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  # you can overwrite defaults here
+  #  stage: dev
+  #  region: us-east-1
 
-# you can add statements to the Lambda function's IAM Role here
+  # you can add statements to the Lambda function's IAM Role here
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -45,15 +45,15 @@ provider:
         - "arn:aws:ssm:*:*:parameter/${self:custom.googleKey.${opt:stage}}"
         - "arn:aws:ssm:*:*:parameter/${self:custom.mapsApiKey.${opt:stage}}"
 
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
+  #    - Effect: "Allow"
+  #      Action:
+  #        - "s3:PutObject"
+  #      Resource:
+  #        Fn::Join:
+  #          - ""
+  #          - - "arn:aws:s3:::"
+  #            - "Ref" : "ServerlessDeploymentBucket"
+  #            - "/*"
 
   environment:
     mongoConnStr: ${self:custom.mongoConnStr.${opt:stage}}
@@ -75,7 +75,7 @@ functions:
     handler: scripts/backend/sheets.sheets
     timeout: 180
     events:
-      - schedule: rate(3 hours)
+      - schedule: rate(10 minutes)
     reservedConcurrency: 1
 
 custom:
@@ -88,7 +88,7 @@ custom:
   googleKey:
     dev: none
     beta: CFF_GOOGLE_SHEETS_KEY_BETA
-    prod: CFF_GOOGLE_SHEETS_KEY_PROD  
+    prod: CFF_GOOGLE_SHEETS_KEY_PROD
   mapsApiKey:
     dev: none
     beta: CFF_MAPS_API_KEY_BETA
@@ -96,13 +96,12 @@ custom:
   mongoCollectionName:
     dev: cff_dev
     beta: cff_beta
-    prod: cff_prod  
+    prod: cff_prod
 
 plugins:
   - serverless-webpack
   - serverless-offline
   # - serverless-plugin-typescript
-
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
