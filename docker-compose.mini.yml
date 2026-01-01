@@ -1,0 +1,39 @@
+services:
+  # MongoDB for local development (uncomment if needed)
+  # mongodb:
+  #   image: mongo:6
+  #   container_name: cff-mongodb
+  #   ports:
+  #     - "127.0.0.1:27017:27017"
+  #   volumes:
+  #     - mongo-data:/data/db
+  #   healthcheck:
+  #     test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+  # CFF Application (frontend + backend)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_POOL_ID: ${USER_POOL_ID:-}
+        COGNITO_CLIENT_ID: ${COGNITO_CLIENT_ID:-}
+        GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
+        BUILD_MODE: dev
+    container_name: cff-app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.mini
+    # depends_on:
+    #   mongodb:
+    #     condition: service_healthy
+    restart: unless-stopped
+
+# Uncomment if using local MongoDB
+# volumes:
+#   mongo-data:
+#     driver: local

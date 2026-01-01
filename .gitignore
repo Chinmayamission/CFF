@@ -56,5 +56,10 @@ dump/
 
 notes.txt
 .env
+.env.mini
 
 venv
+
+output/cache
+output
+output-debug
