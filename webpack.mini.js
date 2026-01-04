@@ -12,7 +12,7 @@ const DEST_URL = FORMBUILDER_URL + "/dist";
 
 // Mini build for Docker/Railway deployment
 // Environment variables are passed at build time
-const MODE = process.env.BUILD_MODE || "dev";
+const MODE = process.env.MODE || "dev";
 const USER_POOL_ID = process.env.USER_POOL_ID || "";
 const COGNITO_CLIENT_ID = process.env.COGNITO_CLIENT_ID || "";
 const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY || "";

@@ -97,7 +97,7 @@ railway open
 | `USER_POOL_ID` | Yes | AWS Cognito User Pool ID |
 | `COGNITO_CLIENT_ID` | Yes | AWS Cognito App Client ID |
 | `MONGO_CONN_STR` | Yes | MongoDB connection string |
-| `MODE` | No | `DEV`, `BETA`, or `PROD` (default: `DEV`) |
+| `MODE` | No | `DEV`, `BETA`, or `PROD` (default: `PROD`) |
 | `GOOGLE_MAPS_API_KEY` | No | For address autocomplete |
 | `SMTP_USERNAME` | No | For sending emails |
 | `SMTP_PASSWORD` | No | For sending emails |

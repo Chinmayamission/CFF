@@ -21,13 +21,13 @@ COPY .babelrc tsconfig.json ./
 ARG USER_POOL_ID=""
 ARG COGNITO_CLIENT_ID=""
 ARG GOOGLE_MAPS_API_KEY=""
-ARG BUILD_MODE="dev"
+ARG MODE="prod"
 
 # Build frontend
 ENV USER_POOL_ID=${USER_POOL_ID}
 ENV COGNITO_CLIENT_ID=${COGNITO_CLIENT_ID}
 ENV GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
-ENV BUILD_MODE=${BUILD_MODE}
+ENV MODE=${MODE}
 
 # NODE_OPTIONS needed for webpack compatibility with Node 18's OpenSSL 3.0
 RUN NODE_OPTIONS=--openssl-legacy-provider npm run build-mini
