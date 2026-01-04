@@ -4,7 +4,6 @@ const common = require("./webpack.common.js");
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-var pjson = require("./package.json");
 const Critters = require("critters-webpack-plugin");
 
 const FORMBUILDER_URL = "./scripts";
@@ -22,7 +21,7 @@ module.exports = merge(common, {
   output: {
     path: path.resolve(DEST_URL),
     publicPath: "/",
-    filename: `cff.[name].${pjson.version}.js`
+    filename: `cff.[name].[contenthash].js`
   },
   plugins: [
     new CleanWebpackPlugin([DEST_URL]),
