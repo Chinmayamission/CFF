@@ -58,7 +58,6 @@ COPY lambda/ ./lambda/
 COPY --from=frontend-builder /app/scripts/dist ./static/
 
 # Environment variables (can be overridden at runtime)
-ENV MODE=DEV
 ENV STATIC_DIR=/app/static
 ENV PYTHONPATH=/app
 ENV PORT=8000
