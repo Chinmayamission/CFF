@@ -8,7 +8,7 @@ function CCAvenue(props: ICCAvenueProps) {
     <form
       method="post"
       action={
-        MODE !== "prod"
+        MODE.toLowerCase() !== "prod"
           ? "https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction"
           : "https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction"
       }

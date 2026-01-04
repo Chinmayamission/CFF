@@ -43,7 +43,7 @@ class PaypalClassic extends React.Component<
     let items = props.paymentInfo.items.filter(e => e.amount * e.quantity > 0);
     let state: IPaypalClassicState = {
       form_url:
-        MODE != "prod"
+        MODE.toLowerCase() != "prod"
           ? "https://www.sandbox.paypal.com/cgi-bin/webscr"
           : "https://www.paypal.com/cgi-bin/webscr",
       custom: this.props.responseId,
