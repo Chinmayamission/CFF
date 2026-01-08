@@ -15,6 +15,12 @@ const MODE = process.env.MODE || "dev";
 const USER_POOL_ID = process.env.USER_POOL_ID || "";
 const COGNITO_CLIENT_ID = process.env.COGNITO_CLIENT_ID || "";
 const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY || "";
+// Public URL for external callbacks (PayPal IPN, etc.) - must be full URL with trailing slash
+const PUBLIC_API_URL = process.env.PUBLIC_API_URL || "";
+
+if (!MODE || !USER_POOL_ID || !COGNITO_CLIENT_ID || !GOOGLE_MAPS_API_KEY || !PUBLIC_API_URL) {
+  throw new Error("MODE, USER_POOL_ID, COGNITO_CLIENT_ID, GOOGLE_MAPS_API_KEY, and PUBLIC_API_URL are required");
+}
 
 module.exports = merge(common, {
   mode: "production",
@@ -27,8 +33,8 @@ module.exports = merge(common, {
     new CleanWebpackPlugin([DEST_URL]),
     new webpack.DefinePlugin({
       MODE: `"${MODE}"`,
-      // API is served from same origin under /api/ path
-      ENDPOINT_URL: `"/api/"`,
+      // API is served from same origin under /api/ path, or full URL for external callbacks
+      ENDPOINT_URL: `"${PUBLIC_API_URL}"`,
       USER_POOL_ID: `"${USER_POOL_ID}"`,
       COGNITO_CLIENT_ID: `"${COGNITO_CLIENT_ID}"`,
       GA_TRACKING_ID: `""`,

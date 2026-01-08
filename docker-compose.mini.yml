@@ -22,7 +22,8 @@ services:
         USER_POOL_ID: ${USER_POOL_ID:-}
         COGNITO_CLIENT_ID: ${COGNITO_CLIENT_ID:-}
         GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
-        MODE: ${MODE:-dev}
+        MODE: ${MODE:-prod}
+        PUBLIC_API_URL: ${PUBLIC_API_URL:-}
     container_name: cff-app
     ports:
       - "8000:8000"

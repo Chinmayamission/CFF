@@ -28,16 +28,12 @@ class CustomChalice(Chalice):
     def get_url(self, path=""):
         if os.getenv("UNIT_TEST") == "TRUE":
             return f"dummy://{path}"
-        headers = self.current_request.headers
-        stage = self.current_request.context.get("stage", "")
-        if stage:
-            stage += "/"
-        return "%s://%s/%s%s" % (
-            headers.get("x-forwarded-proto", "http"),
-            headers["host"],
-            stage,
-            path,
-        )
+        
+        # Use PUBLIC_API_URL (needed for security - prevents host header injection)
+        public_api_url = os.getenv("PUBLIC_API_URL")
+        # Ensure trailing slash consistency
+        base_url = public_api_url.rstrip("/")
+        return f"{base_url}/{path}"
 
     def get_current_user_id(self):
         """Get current user id."""

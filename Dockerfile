@@ -22,12 +22,16 @@ ARG USER_POOL_ID=""
 ARG COGNITO_CLIENT_ID=""
 ARG GOOGLE_MAPS_API_KEY=""
 ARG MODE="prod"
+# PUBLIC_API_URL must be the full URL for external callbacks (PayPal IPN)
+# e.g., https://forms.chinmayamission.com/api/
+ARG PUBLIC_API_URL=""
 
 # Build frontend
 ENV USER_POOL_ID=${USER_POOL_ID}
 ENV COGNITO_CLIENT_ID=${COGNITO_CLIENT_ID}
 ENV GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
 ENV MODE=${MODE}
+ENV PUBLIC_API_URL=${PUBLIC_API_URL}
 
 # NODE_OPTIONS needed for webpack compatibility with Node 18's OpenSSL 3.0
 RUN NODE_OPTIONS=--openssl-legacy-provider npm run build-mini
