@@ -12,11 +12,11 @@ from pydash.objects import get
 import logging
 from jinja2 import Environment, Undefined
 import flatdict
-from chalicelib.config import SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT
+from chalicelib.config import SES_AWS_ACCESS_KEY_ID, SES_AWS_SECRET_ACCESS_KEY, SES_AWS_REGION
 from chalicelib.models import serialize_model, EmailTrailItem
 from chalicelib.util.pdf_generator import convert_html_to_pdf
 import datetime
-import smtplib
+import boto3
 
 import email.utils
 from email.mime.multipart import MIMEMultipart
@@ -167,19 +167,20 @@ def send_email(
         msg.attach(part)
 
     try:
-        server = smtplib.SMTP(SMTP_HOST, SMTP_PORT)
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
-        server.login(SMTP_USERNAME, SMTP_PASSWORD)
-        server.send_message(msg)
-        server.close()
-    # Display an error if something goes wrong.
+        ses_client = boto3.client(
+            "ses",
+            region_name=SES_AWS_REGION,
+            aws_access_key_id=SES_AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=SES_AWS_SECRET_ACCESS_KEY,
+        )
+        ses_client.send_raw_email(
+            Source=msg["From"],
+            Destinations=[addr.strip() for addr in (toEmail + "," + ccEmail + "," + bccEmail).split(",") if addr.strip()],
+            RawMessage={"Data": msg.as_string()},
+        )
     except Exception as e:
         print("Error sending email to {}.".format(toEmail))
         raise e
-    else:
-        pass
 
 
 def send_confirmation_email(response, confirmationEmailInfo):

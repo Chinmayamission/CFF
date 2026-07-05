@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+
+# Node
+node_modules
+
+# Python
+venv
+__pycache__
+*.pyc
+.pytest_cache
+
+# Build outputs
+scripts/dist
+scripts/prod
+scripts/beta
+.serverless
+.webpack
+.build
+
+# IDE
+.idea
+.vscode
+*.sublime-*
+
+# Docs
+site
+docs
+
+# Environment files (build args should be used instead)
+.env
+.env.*
+!.env.mini.example
+
+# Keep these config files
+!.babelrc
+!tsconfig.json
+
+# Misc
+*.log
+*.md
+!README-MINI.md
+dump
+output
+output-debug
