@@ -104,7 +104,7 @@
     "core-js": "^3.2.1",
     "css-loader": "^2.1.1",
     "deep-rename-keys": "^0.2.1",
-    "diff": "^3.4.0",
+    "diff": "^8.0.3",
     "difflet": "^1.0.1",
     "dompurify": "^2.0.17",
     "expr-eval": "^1.2.3",
