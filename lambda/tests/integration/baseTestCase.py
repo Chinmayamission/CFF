@@ -1,5 +1,6 @@
 import unittest
 import json
+from unittest import mock
 from app import app
 from chalice.config import Config
 from chalice.local import LocalGateway
@@ -9,6 +10,14 @@ from pymodm.errors import DoesNotExist
 
 class BaseTestCase(unittest.TestCase):
     def setUp(self):
+        # Mock SES so tests don't require real AWS credentials. Patches only the
+        # boto3 reference in the emailer module's namespace, leaving other AWS
+        # clients (e.g. cognito) untouched.
+        self._ses_patcher = mock.patch(
+            "chalicelib.util.formSubmit.emailer.boto3"
+        )
+        self._ses_patcher.start()
+        self.addCleanup(self._ses_patcher.stop)
         with open(".chalice/config.json") as file:
             self.lg = LocalGateway(
                 app, Config(chalice_stage="dev", config_from_disk=json.load(file))
