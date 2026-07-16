@@ -11,8 +11,8 @@ jobs:
   test_frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 14.x
       - name: Use cached node_modules
@@ -32,14 +32,14 @@ jobs:
   test_docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 14.x
       - name: Set up Python 3.9
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: "3.9"
       - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
@@ -51,14 +51,14 @@ jobs:
   test_backend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 14.x
       - name: Set up Python 3.9
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: "3.9"
       - uses: actions/cache@v4
         with:
           path: ~/.cache/pipenv
@@ -83,14 +83,14 @@ jobs:
     needs: [test_frontend, test_backend]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 14.x
       - name: Set up Python 3.9
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: "3.9"
       - uses: actions/cache@v4
         with:
           path: node_modules
@@ -125,14 +125,14 @@ jobs:
     needs: [test_docs]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 14.x
       - name: Set up Python 3.9
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: "3.9"
       - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
