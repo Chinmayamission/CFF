@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { setResponseDetail } from "../../store/responses/actions";
 import PaymentHistory from "./ResponseCards/PaymentHistory";
 import { fetchResponseDetail } from "../../store/responses/actions";
+import CounterEdit from "./ResponseCards/CounterEdit";
 
 class ResponseDetail extends React.Component<
   IResponseDetailProps,
@@ -69,16 +70,19 @@ class ResponseDetail extends React.Component<
             </button>
           </TabPanel>
           <TabPanel>
-            <ReactJson
-              src={this.props.responseData}
-              displayObjectSize={false}
-              displayDataTypes={false}
-              onEdit={false}
-              onAdd={false}
-              onDelete={false}
-              collapsed={1}
-              style={{ fontFamily: "Arial, sans-serif", marginLeft: "30px" }}
-            />
+            <CounterEdit />
+            <div className="mt-4">
+              <ReactJson
+                src={this.props.responseData}
+                displayObjectSize={false}
+                displayDataTypes={false}
+                onEdit={false}
+                onAdd={false}
+                onDelete={false}
+                collapsed={1}
+                style={{ fontFamily: "Arial, sans-serif", marginLeft: "30px" }}
+              />
+            </div>
           </TabPanel>
         </Tabs>
       </div>

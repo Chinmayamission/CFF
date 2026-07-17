@@ -78,21 +78,62 @@ def response_edit_common(responseId, response_base_path):
     batch = app.current_request.json_body.get("batch", None)
     if batch is None:
         batch = [{"path": path, "value": value}]
-    if response_base_path == "value":
-        if all(item["path"].endswith(".checkin") for item in batch):
-            app.check_permissions(
-                response.form, ["Responses_CheckIn", "Responses_Edit"]
+    
+    # Check if we're editing top-level fields like 'counter'
+    top_level_fields = ["counter"]
+    has_top_level_fields = any(item["path"] in top_level_fields for item in batch)
+    
+    if has_top_level_fields:
+        # For top-level fields, require edit permission
+        app.check_permissions(response.form, "Responses_Edit")
+        
+        # Filter out top-level fields to handle separately
+        top_level_batch = [item for item in batch if item["path"] in top_level_fields]
+        remaining_batch = [item for item in batch if item["path"] not in top_level_fields]
+        
+        # Handle top-level fields
+        for item in top_level_batch:
+            field_name = item["path"]
+            field_value = item["value"]
+            existing_value = getattr(response, field_name)
+            
+            # Update the field
+            setattr(response, field_name, field_value)
+            
+            # Add to update trail
+            response.update_trail.append(
+                UpdateTrailItem(
+                    path=field_name,
+                    old_value=str(existing_value) if existing_value is not None else "",
+                    new_value=str(field_value),
+                    date=datetime.datetime.now(),
+                    user=app.get_current_user_id(),
+                    response_base_path="",  # Empty for top-level fields
+                )
             )
+        
+        # Update batch to only include remaining fields
+        batch = remaining_batch
+    
+    # Handle regular path-based fields as before
+    if batch:  # Only process if there are remaining items
+        if response_base_path == "value":
+            if all(item["path"].endswith(".checkin") for item in batch):
+                app.check_permissions(
+                    response.form, ["Responses_CheckIn", "Responses_Edit"]
+                )
+            else:
+                app.check_permissions(response.form, "Responses_Edit")
+        elif response_base_path == "admin_info":
+            app.check_permissions(response.form, "Responses_AdminInfo_Edit")
         else:
-            app.check_permissions(response.form, "Responses_Edit")
-    elif response_base_path == "admin_info":
-        app.check_permissions(response.form, "Responses_AdminInfo_Edit")
-    else:
-        raise Exception(
-            "response_base_path specified is not valid or you do not have permissions to perform the specified action."
-        )
-    for item in batch:
-        update_response_path(response, item["path"], item["value"], response_base_path)
+            raise Exception(
+                "response_base_path specified is not valid or you do not have permissions to perform the specified action."
+            )
+        
+        for item in batch:
+            update_response_path(response, item["path"], item["value"], response_base_path)
+    
     response.save()
     return {"res": {"success": True, "response": serialize_model(response)}}
 
